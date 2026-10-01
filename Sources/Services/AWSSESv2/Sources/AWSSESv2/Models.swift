@@ -1498,6 +1498,35 @@ extension SESv2ClientTypes {
     }
 }
 
+extension SESv2ClientTypes {
+
+    /// The filter key to use when listing configuration sets. This can be one of the following:
+    ///
+    /// * CONFIGURATION_SET_NAME_CONTAINS – Filter by a substring of the configuration set name.
+    public enum ConfigurationSetFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case configurationSetNameContains
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationSetFilterKey] {
+            return [
+                .configurationSetNameContains
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configurationSetNameContains: return "CONFIGURATION_SET_NAME_CONTAINS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// If there is already an ongoing account details update under review.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -7136,6 +7165,45 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
+    /// The filter key to use when listing email identities. This can be one of the following:
+    ///
+    /// * IDENTITY_NAME_CONTAINS – Filter by a substring of the identity name.
+    ///
+    /// * IDENTITY_TYPE – Filter by identity type.
+    ///
+    /// * VERIFICATION_STATUS – Filter by verification status.
+    public enum IdentityFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case identityNameContains
+        case identityType
+        case verificationStatus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IdentityFilterKey] {
+            return [
+                .identityNameContains,
+                .identityType,
+                .verificationStatus
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .identityNameContains: return "IDENTITY_NAME_CONTAINS"
+            case .identityType: return "IDENTITY_TYPE"
+            case .verificationStatus: return "VERIFICATION_STATUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
     /// Information about an email identity.
     public struct IdentityInfo: Swift.Sendable {
         /// The address or domain of the identity.
@@ -7269,15 +7337,19 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
 
 /// A request to obtain a list of configuration sets for your Amazon SES account in the current Amazon Web Services Region.
 public struct ListConfigurationSetsInput: Swift.Sendable {
+    /// An object that contains filters to apply when listing configuration sets. You can filter by configuration set name.
+    public var filter: [Swift.String: Swift.String]?
     /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     public var pageSize: Swift.Int?
 
     public init(
+        filter: [Swift.String: Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     ) {
+        self.filter = filter
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -7553,15 +7625,19 @@ public struct ListDomainDeliverabilityCampaignsOutput: Swift.Sendable {
 
 /// A request to list all of the email identities associated with your Amazon Web Services account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
 public struct ListEmailIdentitiesInput: Swift.Sendable {
+    /// An object that contains filters to apply when listing email identities. You can filter by identity name, identity type, or verification status.
+    public var filter: [Swift.String: Swift.String]?
     /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
     public var pageSize: Swift.Int?
 
     public init(
+        filter: [Swift.String: Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     ) {
+        self.filter = filter
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -8386,17 +8462,55 @@ public struct ListTenantResourcesOutput: Swift.Sendable {
     }
 }
 
+extension SESv2ClientTypes {
+
+    /// The filter key to use when listing tenants. This can be one of the following:
+    ///
+    /// * TENANT_NAME_CONTAINS – Filter by a substring of the tenant name.
+    ///
+    /// * SENDING_STATUS – Filter by sending status.
+    public enum ListTenantsFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sendingStatus
+        case tenantNameContains
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListTenantsFilterKey] {
+            return [
+                .sendingStatus,
+                .tenantNameContains
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sendingStatus: return "SENDING_STATUS"
+            case .tenantNameContains: return "TENANT_NAME_CONTAINS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Represents a request to list all tenants associated with your account in the current Amazon Web Services Region.
 public struct ListTenantsInput: Swift.Sendable {
+    /// An object that contains filters to apply when listing tenants. You can filter by tenant name or sending status.
+    public var filter: [Swift.String: Swift.String]?
     /// A token returned from a previous call to ListTenants to indicate the position in the list of tenants.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
     public var pageSize: Swift.Int?
 
     public init(
+        filter: [Swift.String: Swift.String]? = nil,
         nextToken: Swift.String? = nil,
         pageSize: Swift.Int? = nil
     ) {
+        self.filter = filter
         self.nextToken = nextToken
         self.pageSize = pageSize
     }
@@ -8408,6 +8522,14 @@ extension SESv2ClientTypes {
     public struct TenantInfo: Swift.Sendable {
         /// The date and time when the tenant was created.
         public var createdTimestamp: Foundation.Date?
+        /// The sending status for a reputation entity. This can be one of the following:
+        ///
+        /// * ENABLED – Sending is allowed for this entity.
+        ///
+        /// * DISABLED – Sending is prevented for this entity.
+        ///
+        /// * REINSTATED – Sending is allowed even if there are active reputation findings.
+        public var sendingStatus: SESv2ClientTypes.SendingStatus?
         /// The Amazon Resource Name (ARN) of the tenant.
         public var tenantArn: Swift.String?
         /// A unique identifier for the tenant.
@@ -8417,11 +8539,13 @@ extension SESv2ClientTypes {
 
         public init(
             createdTimestamp: Foundation.Date? = nil,
+            sendingStatus: SESv2ClientTypes.SendingStatus? = nil,
             tenantArn: Swift.String? = nil,
             tenantId: Swift.String? = nil,
             tenantName: Swift.String? = nil
         ) {
             self.createdTimestamp = createdTimestamp
+            self.sendingStatus = sendingStatus
             self.tenantArn = tenantArn
             self.tenantId = tenantId
             self.tenantName = tenantName
@@ -10230,23 +10354,7 @@ extension GetTenantInput {
 extension ListConfigurationSetsInput {
 
     static func urlPathProvider(_ value: ListConfigurationSetsInput) -> Swift.String? {
-        return "/v2/email/configuration-sets"
-    }
-}
-
-extension ListConfigurationSetsInput {
-
-    static func queryItemProvider(_ value: ListConfigurationSetsInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        if let nextToken = value.nextToken {
-            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let pageSize = value.pageSize {
-            let pageSizeQueryItem = Smithy.URIQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        return items
+        return "/v2/email/list-configuration-sets"
     }
 }
 
@@ -10393,23 +10501,7 @@ extension ListDomainDeliverabilityCampaignsInput {
 extension ListEmailIdentitiesInput {
 
     static func urlPathProvider(_ value: ListEmailIdentitiesInput) -> Swift.String? {
-        return "/v2/email/identities"
-    }
-}
-
-extension ListEmailIdentitiesInput {
-
-    static func queryItemProvider(_ value: ListEmailIdentitiesInput) throws -> [Smithy.URIQueryItem] {
-        var items = [Smithy.URIQueryItem]()
-        if let nextToken = value.nextToken {
-            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
-            items.append(nextTokenQueryItem)
-        }
-        if let pageSize = value.pageSize {
-            let pageSizeQueryItem = Smithy.URIQueryItem(name: "PageSize".urlPercentEncoding(), value: Swift.String(pageSize).urlPercentEncoding())
-            items.append(pageSizeQueryItem)
-        }
-        return items
+        return "/v2/email/list-identities"
     }
 }
 
@@ -11178,11 +11270,31 @@ extension GetTenantInput {
     }
 }
 
+extension ListConfigurationSetsInput {
+
+    static func write(value: ListConfigurationSetsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
 extension ListContactsInput {
 
     static func write(value: ListContactsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filter"].write(value.filter, with: SESv2ClientTypes.ListContactsFilter.write(value:to:))
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
+extension ListEmailIdentitiesInput {
+
+    static func write(value: ListEmailIdentitiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["NextToken"].write(value.nextToken)
         try writer["PageSize"].write(value.pageSize)
     }
@@ -11264,6 +11376,7 @@ extension ListTenantsInput {
 
     static func write(value: ListTenantsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["NextToken"].write(value.nextToken)
         try writer["PageSize"].write(value.pageSize)
     }
@@ -16421,6 +16534,7 @@ extension SESv2ClientTypes.TenantInfo {
         value.tenantId = try reader["TenantId"].readIfPresent()
         value.tenantArn = try reader["TenantArn"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sendingStatus = try reader["SendingStatus"].readIfPresent()
         return value
     }
 }

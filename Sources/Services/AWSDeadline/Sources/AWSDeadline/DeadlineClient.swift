@@ -8454,7 +8454,7 @@ extension DeadlineClient {
 
     /// Performs the `UpdateFleet` operation on the `Deadline` service.
     ///
-    /// Updates a fleet.
+    /// Updates a fleet. Workers that are running when you call UpdateFleet keep the instance type and capabilities that they launched with until they scale in. Deadline Cloud can schedule jobs that you submit after the update on these existing workers, so the new configuration might not take effect immediately. To make sure that all workers use the new configuration, set maxWorkerCount to 0, use the ListWorkers operation to confirm that the fleet has no workers, and then restore maxWorkerCount.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///

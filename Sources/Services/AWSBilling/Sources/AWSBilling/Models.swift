@@ -1567,7 +1567,7 @@ public struct GetEnterpriseSupportChargeSummaryOutput: Swift.Sendable {
     /// The start date of the billing period.
     /// This member is required.
     public var billingPeriodStartDate: Foundation.Date?
-    /// When true, the Support charge amount is estimated. When false, the Support charge amount is finalized.
+    /// Specifies whether the Support charge amount is estimated. When false, the charge amount is finalized.
     /// This member is required.
     public var isEstimated: Swift.Bool?
     /// The payer account ID that is authorized to view Enterprise Support data for all accounts in its Support profile.
@@ -2047,14 +2047,305 @@ public struct ListBillingViewSegmentsOutput: Swift.Sendable {
     }
 }
 
+/// Contains the billing month and optional filters used to retrieve Business Support charges broken down by linked account.
+public struct ListBusinessSupportAccountChargesInput: Swift.Sendable {
+    /// The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.
+    public var accountId: Swift.String?
+    /// The billing month to retrieve Business Support charges for, in YYYY-MM format. You can request the current month (charges will be estimated) or a past month (charges will be finalized).
+    /// This member is required.
+    public var billingMonth: Swift.String?
+    /// The maximum number of results to return per page. Default is 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        billingMonth: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.billingMonth = billingMonth
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A discount applied to a Business Support account charge, including the discount amount, percentage, type, and source.
+    public struct BusinessSupportDiscount: Swift.Sendable {
+        /// The discount amount applied to the Business Support charge. This value is negative, representing a reduction in the charge.
+        public var discountAmount: Swift.String?
+        /// The discount percentage applied to the Business Support charge, expressed as a decimal (for example, 0.12 for a 12% discount).
+        public var discountPercentage: Swift.String?
+        /// The source or program through which the discount was applied.
+        public var discountSource: Swift.String?
+        /// The type of discount applied. Valid values: Distributor_Discount (a discount applied through a distributor arrangement), SPP_Discount (a discount applied through the Solution Provider Program).
+        public var discountType: Swift.String?
+
+        public init(
+            discountAmount: Swift.String? = nil,
+            discountPercentage: Swift.String? = nil,
+            discountSource: Swift.String? = nil,
+            discountType: Swift.String? = nil
+        ) {
+            self.discountAmount = discountAmount
+            self.discountPercentage = discountPercentage
+            self.discountSource = discountSource
+            self.discountType = discountType
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A service-level spend entry contributing to Business Support eligible spend.
+    public struct BusinessSupportServiceSpend: Swift.Sendable {
+        /// The Support-eligible spend amount for this service.
+        /// This member is required.
+        public var chargeAmount: Swift.String?
+        /// The name of the Amazon Web Services service contributing to the Support-eligible spend.
+        /// This member is required.
+        public var contributingService: Swift.String?
+        /// The ISO 4217 currency code for the charge amount (for example, USD).
+        /// This member is required.
+        public var currency: Swift.String?
+        /// A human-readable description of the service spend entry.
+        public var description: Swift.String?
+        /// The type of the line item. Valid values: Usage.
+        /// This member is required.
+        public var itemType: Swift.String?
+
+        public init(
+            chargeAmount: Swift.String? = nil,
+            contributingService: Swift.String? = nil,
+            currency: Swift.String? = nil,
+            description: Swift.String? = nil,
+            itemType: Swift.String? = nil
+        ) {
+            self.chargeAmount = chargeAmount
+            self.contributingService = contributingService
+            self.currency = currency
+            self.description = description
+            self.itemType = itemType
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A tier-level charge within a Business Support pricing plan. Business Support uses tiered pricing where different percentage rates apply to different ranges of Support-eligible spend.
+    public struct BusinessSupportTierCharge: Swift.Sendable {
+        /// The end date of the charge period for this tier charge.
+        public var chargePeriodEndDate: Foundation.Date?
+        /// The start date of the charge period for this tier charge.
+        public var chargePeriodStartDate: Foundation.Date?
+        /// The Business Support charge amount calculated for this pricing tier.
+        /// This member is required.
+        public var tierCharge: Swift.String?
+        /// A human-readable description of the pricing tier, including the spend range and percentage rate applied.
+        /// This member is required.
+        public var tierDescription: Swift.String?
+        /// The percentage rate applied to Support-eligible spend within this pricing tier.
+        /// This member is required.
+        public var tierRate: Swift.String?
+        /// The amount of Support-eligible spend that falls within this pricing tier.
+        /// This member is required.
+        public var usageSlice: Swift.String?
+
+        public init(
+            chargePeriodEndDate: Foundation.Date? = nil,
+            chargePeriodStartDate: Foundation.Date? = nil,
+            tierCharge: Swift.String? = nil,
+            tierDescription: Swift.String? = nil,
+            tierRate: Swift.String? = nil,
+            usageSlice: Swift.String? = nil
+        ) {
+            self.chargePeriodEndDate = chargePeriodEndDate
+            self.chargePeriodStartDate = chargePeriodStartDate
+            self.tierCharge = tierCharge
+            self.tierDescription = tierDescription
+            self.tierRate = tierRate
+            self.usageSlice = usageSlice
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// Business Support charges for a linked account.
+    public struct BusinessSupportAccountCharge: Swift.Sendable {
+        /// The linked account ID.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The discount applied to the Business Support charge for this account, if any. This field is absent when no discount applies.
+        public var supportDiscount: BillingClientTypes.BusinessSupportDiscount?
+        /// The Support-eligible spend broken down by contributing service for this account.
+        public var supportEligibleSpendByService: [BillingClientTypes.BusinessSupportServiceSpend]?
+        /// The Support plan name for this account. Valid values: AWSSupportBusiness (Business Support plan), AWSSupportDeveloper (Developer Support plan), AWSSupportEssential (Basic Support plan).
+        /// This member is required.
+        public var supportPlanName: Swift.String?
+        /// The tier-level charges that make up the total Business Support charge for this account. Each tier represents a spend range with its own rate.
+        public var tierCharges: [BillingClientTypes.BusinessSupportTierCharge]?
+        /// The total Business Support charge amount for this account in the billing month.
+        /// This member is required.
+        public var totalCharge: Swift.String?
+        /// The total Support-eligible spend used as the basis for calculating the Business Support charge for this account.
+        /// This member is required.
+        public var totalUsageBasis: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            supportDiscount: BillingClientTypes.BusinessSupportDiscount? = nil,
+            supportEligibleSpendByService: [BillingClientTypes.BusinessSupportServiceSpend]? = nil,
+            supportPlanName: Swift.String? = nil,
+            tierCharges: [BillingClientTypes.BusinessSupportTierCharge]? = nil,
+            totalCharge: Swift.String? = nil,
+            totalUsageBasis: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.supportDiscount = supportDiscount
+            self.supportEligibleSpendByService = supportEligibleSpendByService
+            self.supportPlanName = supportPlanName
+            self.tierCharges = tierCharges
+            self.totalCharge = totalCharge
+            self.totalUsageBasis = totalUsageBasis
+        }
+    }
+}
+
+/// Contains the Business Support charges broken down by linked account for the specified billing month, along with account and spend totals.
+public struct ListBusinessSupportAccountChargesOutput: Swift.Sendable {
+    /// The list of Business Support charges per linked account.
+    /// This member is required.
+    public var accountCharges: [BillingClientTypes.BusinessSupportAccountCharge]?
+    /// The total number of linked accounts with Business Support charges in the billing month.
+    /// This member is required.
+    public var accountCount: Swift.Int?
+    /// The billing month for the returned charges, in YYYY-MM format.
+    /// This member is required.
+    public var billingMonth: Swift.String?
+    /// Specifies whether the Support charge amount is estimated. When false, the charge amount is finalized.
+    /// This member is required.
+    public var isEstimated: Swift.Bool?
+    /// The pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The total Business Support charge amount for all accounts in the billing month.
+    /// This member is required.
+    public var totalSupportCharge: Swift.String?
+    /// The total Support-eligible spend from all accounts in the billing month. This includes eligible spend from usage of Amazon Web Services.
+    /// This member is required.
+    public var totalSupportEligibleSpend: Swift.String?
+
+    public init(
+        accountCharges: [BillingClientTypes.BusinessSupportAccountCharge]? = nil,
+        accountCount: Swift.Int? = nil,
+        billingMonth: Swift.String? = nil,
+        isEstimated: Swift.Bool? = nil,
+        nextToken: Swift.String? = nil,
+        totalSupportCharge: Swift.String? = nil,
+        totalSupportEligibleSpend: Swift.String? = nil
+    ) {
+        self.accountCharges = accountCharges
+        self.accountCount = accountCount
+        self.billingMonth = billingMonth
+        self.isEstimated = isEstimated
+        self.nextToken = nextToken
+        self.totalSupportCharge = totalSupportCharge
+        self.totalSupportEligibleSpend = totalSupportEligibleSpend
+    }
+}
+
+/// Contains the optional filters used to retrieve the history of Business Support subscription contracts across accounts.
+public struct ListBusinessSupportSubscriptionHistoryInput: Swift.Sendable {
+    /// The account ID to filter results to a specific account. If you don't specify a value, the response includes subscription history for all accounts.
+    public var accountId: Swift.String?
+    /// The billing month to retrieve subscription contracts for, in YYYY-MM format. If you don't specify a value, defaults to the current month.
+    public var billingMonth: Swift.String?
+    /// The end date to filter subscription contracts to.
+    public var endDate: Foundation.Date?
+    /// The maximum number of results to return per page. Default is 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The start date to filter subscription contracts from.
+    public var startDate: Foundation.Date?
+
+    public init(
+        accountId: Swift.String? = nil,
+        billingMonth: Swift.String? = nil,
+        endDate: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startDate: Foundation.Date? = nil
+    ) {
+        self.accountId = accountId
+        self.billingMonth = billingMonth
+        self.endDate = endDate
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startDate = startDate
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A Business Support subscription contract for an account.
+    public struct BusinessSupportSubscriptionContract: Swift.Sendable {
+        /// The account ID associated with this subscription contract.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The end date of the subscription contract.
+        /// This member is required.
+        public var contractEndDate: Foundation.Date?
+        /// The start date of the subscription contract.
+        /// This member is required.
+        public var contractStartDate: Foundation.Date?
+        /// The name of the Support plan for this subscription contract. Valid values: AWSSupportBusiness (Business Support plan), AWSSupportDeveloper (Developer Support plan), AWSSupportEssential (Basic Support plan).
+        /// This member is required.
+        public var planName: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            contractEndDate: Foundation.Date? = nil,
+            contractStartDate: Foundation.Date? = nil,
+            planName: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.contractEndDate = contractEndDate
+            self.contractStartDate = contractStartDate
+            self.planName = planName
+        }
+    }
+}
+
+/// Contains the list of Business Support subscription contracts that match the request filters.
+public struct ListBusinessSupportSubscriptionHistoryOutput: Swift.Sendable {
+    /// The pagination token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of Business Support subscription contracts.
+    /// This member is required.
+    public var subscriptionContracts: [BillingClientTypes.BusinessSupportSubscriptionContract]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        subscriptionContracts: [BillingClientTypes.BusinessSupportSubscriptionContract]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.subscriptionContracts = subscriptionContracts
+    }
+}
+
 /// The request structure for ListEnterpriseSupportLinkedAccountCharges.
 public struct ListEnterpriseSupportLinkedAccountChargesInput: Swift.Sendable {
-    /// An optional linked account ID to filter results to a specific account.
+    /// The linked account ID to filter results to a specific account. If you don't specify a value, the response includes charges for all linked accounts.
     public var accountId: Swift.String?
     /// The billing month in YYYY-MM format. This must be a month in the past.
     /// This member is required.
     public var billingMonth: Swift.String?
-    /// The maximum number of results to return per page.
+    /// The maximum number of results to return per page. Default is 100.
     public var maxResults: Swift.Int?
     /// The pagination token for the next page of results.
     public var nextToken: Swift.String?

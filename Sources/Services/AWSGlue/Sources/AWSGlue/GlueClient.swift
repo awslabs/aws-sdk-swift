@@ -706,6 +706,7 @@ extension GlueClient {
     ///
     /// __Possible Exceptions:__
     /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
@@ -860,6 +861,7 @@ extension GlueClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `InternalServiceException` : An internal service error occurred.
     /// - `InvalidInputException` : The input provided was not valid.
@@ -937,6 +939,7 @@ extension GlueClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.
@@ -2167,6 +2170,7 @@ extension GlueClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
     /// - `EntityNotFoundException` : A specified entity does not exist
     /// - `GlueEncryptionException` : An encryption operation failed.
     /// - `InternalServiceException` : An internal service error occurred.

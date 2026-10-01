@@ -1523,14 +1523,52 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// Model configuration for a Mantle foundation model.
+    public struct MantleFoundationModelModelConfiguration: Swift.Sendable {
+        /// The ARN of the Mantle foundation model.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// The Amazon Bedrock project ID used for billing and usage attribution. If you don't specify a value, the service uses the default project.
+        public var projectId: Swift.String?
+
+        public init(
+            modelArn: Swift.String? = nil,
+            projectId: Swift.String? = nil
+        ) {
+            self.modelArn = modelArn
+            self.projectId = projectId
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// Configuration for a Mantle foundation model.
+    public struct MantleFoundationModelConfiguration: Swift.Sendable {
+        /// The model configuration containing the model ARN and project ID.
+        /// This member is required.
+        public var modelConfiguration: BedrockAgentRuntimeClientTypes.MantleFoundationModelModelConfiguration?
+
+        public init(
+            modelConfiguration: BedrockAgentRuntimeClientTypes.MantleFoundationModelModelConfiguration? = nil
+        ) {
+            self.modelConfiguration = modelConfiguration
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// The type of foundation model configuration.
     public enum FoundationModelConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bedrockFoundationModel
+        case mantleFoundationModel
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FoundationModelConfigurationType] {
             return [
-                .bedrockFoundationModel
+                .bedrockFoundationModel,
+                .mantleFoundationModel
             ]
         }
 
@@ -1542,6 +1580,7 @@ extension BedrockAgentRuntimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bedrockFoundationModel: return "BEDROCK_FOUNDATION_MODEL"
+            case .mantleFoundationModel: return "MANTLE_FOUNDATION_MODEL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1554,15 +1593,19 @@ extension BedrockAgentRuntimeClientTypes {
     public struct FoundationModelConfiguration: Swift.Sendable {
         /// The Bedrock foundation model configuration.
         public var bedrockFoundationModelConfiguration: BedrockAgentRuntimeClientTypes.BedrockFoundationModelConfiguration?
+        /// The Mantle foundation model configuration.
+        public var mantleFoundationModelConfiguration: BedrockAgentRuntimeClientTypes.MantleFoundationModelConfiguration?
         /// The type of foundation model configuration.
         /// This member is required.
         public var type: BedrockAgentRuntimeClientTypes.FoundationModelConfigurationType?
 
         public init(
             bedrockFoundationModelConfiguration: BedrockAgentRuntimeClientTypes.BedrockFoundationModelConfiguration? = nil,
+            mantleFoundationModelConfiguration: BedrockAgentRuntimeClientTypes.MantleFoundationModelConfiguration? = nil,
             type: BedrockAgentRuntimeClientTypes.FoundationModelConfigurationType? = nil
         ) {
             self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.mantleFoundationModelConfiguration = mantleFoundationModelConfiguration
             self.type = type
         }
     }
@@ -15767,6 +15810,7 @@ extension BedrockAgentRuntimeClientTypes.FoundationModelConfiguration {
     static func write(value: BedrockAgentRuntimeClientTypes.FoundationModelConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["bedrockFoundationModelConfiguration"].write(value.bedrockFoundationModelConfiguration, with: BedrockAgentRuntimeClientTypes.BedrockFoundationModelConfiguration.write(value:to:))
+        try writer["mantleFoundationModelConfiguration"].write(value.mantleFoundationModelConfiguration, with: BedrockAgentRuntimeClientTypes.MantleFoundationModelConfiguration.write(value:to:))
         try writer["type"].write(value.type)
     }
 }
@@ -16550,6 +16594,23 @@ extension BedrockAgentRuntimeClientTypes.ManagedSearchRerankingConfiguration {
         guard let value else { return }
         try writer["bedrockRerankingConfiguration"].write(value.bedrockRerankingConfiguration, with: BedrockAgentRuntimeClientTypes.ManagedSearchBedrockRerankingConfiguration.write(value:to:))
         try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.MantleFoundationModelConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.MantleFoundationModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelConfiguration"].write(value.modelConfiguration, with: BedrockAgentRuntimeClientTypes.MantleFoundationModelModelConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.MantleFoundationModelModelConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.MantleFoundationModelModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["modelArn"].write(value.modelArn)
+        try writer["projectId"].write(value.projectId)
     }
 }
 

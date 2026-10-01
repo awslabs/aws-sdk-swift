@@ -330,19 +330,31 @@ extension Inspector2ClientTypes {
         public var critical: Swift.Int?
         /// The total count of high severity findings.
         public var high: Swift.Int?
+        /// The total count of informational severity findings.
+        public var informational: Swift.Int?
+        /// The total count of low severity findings.
+        public var low: Swift.Int?
         /// The total count of medium severity findings.
         public var medium: Swift.Int?
+        /// The total count of untriaged findings.
+        public var untriaged: Swift.Int?
 
         public init(
             all: Swift.Int? = nil,
             critical: Swift.Int? = nil,
             high: Swift.Int? = nil,
-            medium: Swift.Int? = nil
+            informational: Swift.Int? = nil,
+            low: Swift.Int? = nil,
+            medium: Swift.Int? = nil,
+            untriaged: Swift.Int? = nil
         ) {
             self.all = all
             self.critical = critical
             self.high = high
+            self.informational = informational
+            self.low = low
             self.medium = medium
+            self.untriaged = untriaged
         }
     }
 }
@@ -3353,6 +3365,7 @@ extension Inspector2ClientTypes {
         case dotnet10
         case dotnet6
         case dotnet7
+        case dotnet8
         case go1X
         case java11
         case java17
@@ -3365,15 +3378,20 @@ extension Inspector2ClientTypes {
         case nodejs14X
         case nodejs16X
         case nodejs18X
+        case nodejs20X
         case nodejs22X
         case nodejs24X
         case python310
         case python311
+        case python312
+        case python313
+        case python314
         case python37
         case python38
         case python39
         case ruby27
         case ruby32
+        case ruby33
         case unsupported
         case sdkUnknown(Swift.String)
 
@@ -3383,6 +3401,7 @@ extension Inspector2ClientTypes {
                 .dotnet10,
                 .dotnet6,
                 .dotnet7,
+                .dotnet8,
                 .go1X,
                 .java11,
                 .java17,
@@ -3395,15 +3414,20 @@ extension Inspector2ClientTypes {
                 .nodejs14X,
                 .nodejs16X,
                 .nodejs18X,
+                .nodejs20X,
                 .nodejs22X,
                 .nodejs24X,
                 .python310,
                 .python311,
+                .python312,
+                .python313,
+                .python314,
                 .python37,
                 .python38,
                 .python39,
                 .ruby27,
                 .ruby32,
+                .ruby33,
                 .unsupported
             ]
         }
@@ -3419,6 +3443,7 @@ extension Inspector2ClientTypes {
             case .dotnet10: return "DOTNET_10"
             case .dotnet6: return "DOTNET_6"
             case .dotnet7: return "DOTNET_7"
+            case .dotnet8: return "DOTNET_8"
             case .go1X: return "GO_1_X"
             case .java11: return "JAVA_11"
             case .java17: return "JAVA_17"
@@ -3431,15 +3456,20 @@ extension Inspector2ClientTypes {
             case .nodejs14X: return "NODEJS_14_X"
             case .nodejs16X: return "NODEJS_16_X"
             case .nodejs18X: return "NODEJS_18_X"
+            case .nodejs20X: return "NODEJS_20_X"
             case .nodejs22X: return "NODEJS_22_X"
             case .nodejs24X: return "NODEJS_24_X"
             case .python310: return "PYTHON_3_10"
             case .python311: return "PYTHON_3_11"
+            case .python312: return "PYTHON_3_12"
+            case .python313: return "PYTHON_3_13"
+            case .python314: return "PYTHON_3_14"
             case .python37: return "PYTHON_3_7"
             case .python38: return "PYTHON_3_8"
             case .python39: return "PYTHON_3_9"
             case .ruby27: return "RUBY_2_7"
             case .ruby32: return "RUBY_3_2"
+            case .ruby33: return "RUBY_3_3"
             case .unsupported: return "UNSUPPORTED"
             case let .sdkUnknown(s): return s
             }
@@ -21061,6 +21091,9 @@ extension Inspector2ClientTypes.SeverityCounts {
         value.medium = try reader["medium"].readIfPresent()
         value.high = try reader["high"].readIfPresent()
         value.critical = try reader["critical"].readIfPresent()
+        value.low = try reader["low"].readIfPresent()
+        value.informational = try reader["informational"].readIfPresent()
+        value.untriaged = try reader["untriaged"].readIfPresent()
         return value
     }
 }

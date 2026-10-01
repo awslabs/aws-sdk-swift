@@ -4689,7 +4689,7 @@ extension SESv2Client {
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     public func listConfigurationSets(input: ListConfigurationSetsInput) async throws -> ListConfigurationSetsOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listConfigurationSets")
                       .withUnsignedPayloadTrait(value: false)
@@ -4711,7 +4711,9 @@ extension SESv2Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>(ListConfigurationSetsInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>(ListConfigurationSetsInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListConfigurationSetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationSetsOutput>(ListConfigurationSetsOutput.httpOutput(from:), ListConfigurationSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationSetsInput, ListConfigurationSetsOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -5177,7 +5179,7 @@ extension SESv2Client {
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     public func listEmailIdentities(input: ListEmailIdentitiesInput) async throws -> ListEmailIdentitiesOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "listEmailIdentities")
                       .withUnsignedPayloadTrait(value: false)
@@ -5199,7 +5201,9 @@ extension SESv2Client {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(ListEmailIdentitiesInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>())
-        builder.serialize(ClientRuntime.QueryItemMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(ListEmailIdentitiesInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListEmailIdentitiesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEmailIdentitiesOutput>(ListEmailIdentitiesOutput.httpOutput(from:), ListEmailIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEmailIdentitiesInput, ListEmailIdentitiesOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

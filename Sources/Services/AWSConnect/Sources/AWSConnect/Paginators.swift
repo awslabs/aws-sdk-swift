@@ -750,6 +750,38 @@ extension PaginatorSequence where OperationStackInput == ListEntitySecurityProfi
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListEvaluationFormAIVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEvaluationFormAIVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEvaluationFormAIVersionsOutput`
+    public func listEvaluationFormAIVersionsPaginated(input: ListEvaluationFormAIVersionsInput) -> ClientRuntime.PaginatorSequence<ListEvaluationFormAIVersionsInput, ListEvaluationFormAIVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEvaluationFormAIVersionsInput, ListEvaluationFormAIVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEvaluationFormAIVersions(input:))
+    }
+}
+
+extension ListEvaluationFormAIVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEvaluationFormAIVersionsInput {
+        return ListEvaluationFormAIVersionsInput(
+            contactInteractionType: self.contactInteractionType,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEvaluationFormAIVersionsInput, OperationStackOutput == ListEvaluationFormAIVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEvaluationFormAIVersionsPaginated`
+    /// to access the nested member `[ConnectClientTypes.EvaluationFormAIVersionSummary]`
+    /// - Returns: `[ConnectClientTypes.EvaluationFormAIVersionSummary]`
+    public func aiVersionSummaries() async throws -> [ConnectClientTypes.EvaluationFormAIVersionSummary] {
+        return try await self.asyncCompactMap { item in item.aiVersionSummaries }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListEvaluationFormsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -1307,6 +1307,114 @@ extension SecurityAgentClientTypes.Assets: Swift.CustomDebugStringConvertible {
 
 extension SecurityAgentClientTypes {
 
+    /// Connection details for an Azure DevOps integration.
+    public struct AzureDevOpsIntegrationInput: Swift.Sendable {
+        /// The OAuth 2.0 authorization code returned to your redirect URL after the connection is authorized.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The name of the Azure DevOps organization to connect, for example my-org.
+        /// This member is required.
+        public var organizationName: Swift.String?
+        /// The CSRF state value returned by InitiateProviderRegistration and echoed back on the authorization redirect.
+        /// This member is required.
+        public var state: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            organizationName: Swift.String? = nil,
+            state: Swift.String? = nil
+        ) {
+            self.code = code
+            self.organizationName = organizationName
+            self.state = state
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Metadata for an integrated Azure DevOps repository.
+    public struct AzureDevOpsRepositoryMetadata: Swift.Sendable {
+        /// Defines the visibility level of provider resources. PRIVATE indicates restricted access, while PUBLIC indicates open access.
+        public var accessType: SecurityAgentClientTypes.AccessType?
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Azure DevOps organization that owns the repository.
+        /// This member is required.
+        public var organization: Swift.String?
+        /// The name of the Azure DevOps project that contains the repository.
+        public var project: Swift.String?
+        /// The GUID of the Azure DevOps project that contains the repository.
+        public var projectId: Swift.String?
+        /// Provider Id of the resource e.g. GitHub repository id, etc.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+
+        public init(
+            accessType: SecurityAgentClientTypes.AccessType? = nil,
+            name: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            project: Swift.String? = nil,
+            projectId: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil
+        ) {
+            self.accessType = accessType
+            self.name = name
+            self.organization = organization
+            self.project = project
+            self.projectId = projectId
+            self.providerResourceId = providerResourceId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// An Azure DevOps repository integrated as a resource.
+    public struct AzureDevOpsRepositoryResource: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Azure DevOps organization that owns the repository.
+        /// This member is required.
+        public var organization: Swift.String?
+        /// The name of the Azure DevOps project that contains the repository.
+        public var project: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            organization: Swift.String? = nil,
+            project: Swift.String? = nil
+        ) {
+            self.name = name
+            self.organization = organization
+            self.project = project
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Capabilities for an integrated Azure DevOps repository.
+    public struct AzureDevOpsResourceCapabilities: Swift.Sendable {
+        /// Whether to post code review comments on pull requests.
+        public var leaveComments: Swift.Bool?
+        /// Whether to create pull requests with automated fixes.
+        public var remediateCode: Swift.Bool?
+
+        public init(
+            leaveComments: Swift.Bool? = nil,
+            remediateCode: Swift.Bool? = nil
+        ) {
+            self.leaveComments = leaveComments
+            self.remediateCode = remediateCode
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Contains information about a successfully created security requirement.
     public struct BatchCreateSecurityRequirementResult: Swift.Sendable {
         /// The date and time the security requirement was created, in UTC format.
@@ -1567,6 +1675,21 @@ public struct BatchDeletePentestsInput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.pentestIds = pentestIds
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The configuration that enables a pentest to run as part of a CI/CD pipeline, scoped to the code changes in each pipeline run.
+    public struct CiCdConfiguration: Swift.Sendable {
+        /// Whether CI/CD pentesting is enabled for this pentest.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
     }
 }
 
@@ -2185,6 +2308,8 @@ extension SecurityAgentClientTypes {
         /// The assets included in the pentest.
         /// This member is required.
         public var assets: SecurityAgentClientTypes.Assets?
+        /// The CI/CD pentesting configuration for this pentest. Present when the pentest is set up to run from a CI/CD pipeline.
+        public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
         /// Strategy for cleaning up resources after pentest job completion.
         public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
         /// The code remediation strategy for the pentest.
@@ -2221,6 +2346,7 @@ extension SecurityAgentClientTypes {
         public init(
             agentSpaceId: Swift.String? = nil,
             assets: SecurityAgentClientTypes.Assets? = nil,
+            cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
             cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
             codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
             createdAt: Foundation.Date? = nil,
@@ -2239,6 +2365,7 @@ extension SecurityAgentClientTypes {
         ) {
             self.agentSpaceId = agentSpaceId
             self.assets = assets
+            self.cicdConfiguration = cicdConfiguration
             self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
@@ -3464,6 +3591,8 @@ extension SecurityAgentClientTypes {
 
     /// The type of pentest job execution.
     public enum JobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A CI/CD pentest job that tests only the code changes in a single pipeline run, as determined by the scope changes supplied when the job is started.
+        case cicd
         /// A full pentest job that executes all phases including scanning, managed execution, and guided exploration.
         case full
         /// A targeted revalidation job that retests specific findings to determine whether they are still exploitable.
@@ -3472,6 +3601,7 @@ extension SecurityAgentClientTypes {
 
         public static var allCases: [JobType] {
             return [
+                .cicd,
                 .full,
                 .revalidation
             ]
@@ -3484,10 +3614,102 @@ extension SecurityAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cicd: return "CICD"
             case .full: return "FULL"
             case .revalidation: return "REVALIDATION"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A code change in a CI/CD pipeline run that defines what a CI/CD pentest job tests. Each scope change identifies an integrated repository and the commit range for the change.
+    public struct ScopeChange: Swift.Sendable {
+        /// The commit SHA that the change is compared against. When omitted, the change is evaluated against the head commit alone.
+        public var baseCommitSha: Swift.String?
+        /// The commit SHA at the tip of the change to be tested.
+        /// This member is required.
+        public var headCommitSha: Swift.String?
+        /// The identifier of the integration for the source-code provider that hosts the repository.
+        /// This member is required.
+        public var integrationId: Swift.String?
+        /// The provider-specific identifier of the repository the change belongs to.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+        /// The identifier of the CI/CD pipeline run that triggered this pentest job.
+        public var triggerRunId: Swift.String?
+
+        public init(
+            baseCommitSha: Swift.String? = nil,
+            headCommitSha: Swift.String? = nil,
+            integrationId: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil,
+            triggerRunId: Swift.String? = nil
+        ) {
+            self.baseCommitSha = baseCommitSha
+            self.headCommitSha = headCommitSha
+            self.integrationId = integrationId
+            self.providerResourceId = providerResourceId
+            self.triggerRunId = triggerRunId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The scoping decision for a CI/CD pentest job, indicating whether the supplied code changes are tested.
+    public enum ScopeDecision: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The code changes are in scope and are tested by the pentest job.
+        case inScope
+        /// The code changes are out of scope and are not tested. No pentest is run for the changes.
+        case scopedOut
+        /// The code changes could not be conclusively scoped because of a conflict in the scoping inputs.
+        case scopeConflict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopeDecision] {
+            return [
+                .inScope,
+                .scopedOut,
+                .scopeConflict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inScope: return "IN_SCOPE"
+            case .scopedOut: return "SCOPED_OUT"
+            case .scopeConflict: return "SCOPE_CONFLICT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The outcome of scoping a CI/CD pentest job's code changes, including the decision and the reason for it.
+    public struct ScopeResult: Swift.Sendable {
+        /// The scoping decision for the job's code changes.
+        /// This member is required.
+        public var decision: SecurityAgentClientTypes.ScopeDecision?
+        /// A human-readable explanation of the scoping decision.
+        /// This member is required.
+        public var reason: Swift.String?
+
+        public init(
+            decision: SecurityAgentClientTypes.ScopeDecision? = nil,
+            reason: Swift.String? = nil
+        ) {
+            self.decision = decision
+            self.reason = reason
         }
     }
 }
@@ -3500,6 +3722,8 @@ extension SecurityAgentClientTypes {
         public var actors: [SecurityAgentClientTypes.Actor]?
         /// The list of domains allowed during the pentest job.
         public var allowedDomains: [SecurityAgentClientTypes.Endpoint]?
+        /// The configuration that enables a pentest to run as part of a CI/CD pipeline, scoped to the code changes in each pipeline run.
+        public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
         /// Strategy for cleaning up resources after pentest job completion.
         public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
         /// The code remediation strategy for the pentest job.
@@ -3522,7 +3746,7 @@ extension SecurityAgentClientTypes {
         public var executionContext: [SecurityAgentClientTypes.ExecutionContext]?
         /// The list of integrated repositories associated with the pentest job.
         public var integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]?
-        /// The type of the pentest job. Valid values are FULL and REVALIDATION.
+        /// The type of the pentest job. Valid values are FULL, REVALIDATION, and CICD.
         public var jobType: SecurityAgentClientTypes.JobType?
         /// The CloudWatch Logs configuration for the pentest job.
         public var logConfig: SecurityAgentClientTypes.CloudWatchLog?
@@ -3538,6 +3762,12 @@ extension SecurityAgentClientTypes {
         public var pentestJobId: Swift.String?
         /// The destination for publishing scan reports to an integrated document provider.
         public var reportDestination: SecurityAgentClientTypes.ReportDestination?
+        /// The URL to view this pentest job's findings report in the console.
+        public var reportUrl: Swift.String?
+        /// The code changes that defined the scope of this CI/CD pentest job. Present only for jobs of type CICD.
+        public var scopeChanges: [SecurityAgentClientTypes.ScopeChange]?
+        /// The scoping outcome for this CI/CD pentest job. Present only for jobs of type CICD.
+        public var scopeResult: SecurityAgentClientTypes.ScopeResult?
         /// The list of finding identifiers selected for revalidation. Present only when jobType is REVALIDATION.
         public var selectedFindingIds: [Swift.String]?
         /// The IAM service role used for the pentest job.
@@ -3560,6 +3790,7 @@ extension SecurityAgentClientTypes {
         public init(
             actors: [SecurityAgentClientTypes.Actor]? = nil,
             allowedDomains: [SecurityAgentClientTypes.Endpoint]? = nil,
+            cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
             cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
             codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
             createdAt: Foundation.Date? = nil,
@@ -3579,6 +3810,9 @@ extension SecurityAgentClientTypes {
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
             reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
+            reportUrl: Swift.String? = nil,
+            scopeChanges: [SecurityAgentClientTypes.ScopeChange]? = nil,
+            scopeResult: SecurityAgentClientTypes.ScopeResult? = nil,
             selectedFindingIds: [Swift.String]? = nil,
             serviceRole: Swift.String? = nil,
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
@@ -3591,6 +3825,7 @@ extension SecurityAgentClientTypes {
         ) {
             self.actors = actors
             self.allowedDomains = allowedDomains
+            self.cicdConfiguration = cicdConfiguration
             self.cleanUpStrategy = cleanUpStrategy
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
@@ -3610,6 +3845,9 @@ extension SecurityAgentClientTypes {
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
             self.reportDestination = reportDestination
+            self.reportUrl = reportUrl
+            self.scopeChanges = scopeChanges
+            self.scopeResult = scopeResult
             self.selectedFindingIds = selectedFindingIds
             self.serviceRole = serviceRole
             self.sourceCode = sourceCode
@@ -3625,7 +3863,7 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes.PentestJob: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
+        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 /// Output for the BatchGetPentestJobs operation.
@@ -4776,6 +5014,32 @@ public struct BatchUpdateSecurityRequirementsOutput: Swift.Sendable {
 
 extension SecurityAgentClientTypes {
 
+    /// Connection details for a self-managed Bitbucket Data Center integration.
+    public struct BitbucketDataCenterIntegrationInput: Swift.Sendable {
+        /// The OAuth 2.0 authorization code returned to your redirect URL after the connection is authorized.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The CSRF state value returned by InitiateProviderRegistration and echoed back on the authorization redirect.
+        /// This member is required.
+        public var state: Swift.String?
+        /// The HTTPS URL of your Bitbucket Data Center instance, for example https://bitbucket.example.com.
+        /// This member is required.
+        public var targetUrl: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            state: Swift.String? = nil,
+            targetUrl: Swift.String? = nil
+        ) {
+            self.code = code
+            self.state = state
+            self.targetUrl = targetUrl
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// The configuration for creating a Bitbucket integration.
     public struct BitbucketIntegrationInput: Swift.Sendable {
         /// The OAuth 2.0 authorization code returned from the consent redirect.
@@ -5342,6 +5606,10 @@ extension SecurityAgentClientTypes {
         case bitbucket(SecurityAgentClientTypes.BitbucketIntegrationInput)
         /// The configuration for a Confluence integration.
         case confluence(SecurityAgentClientTypes.ConfluenceIntegrationInput)
+        /// The Azure DevOps-specific input for creating an integration.
+        case azuredevops(SecurityAgentClientTypes.AzureDevOpsIntegrationInput)
+        /// The Bitbucket Data Center-specific input for creating an integration.
+        case bitbucketdatacenter(SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5350,6 +5618,7 @@ extension SecurityAgentClientTypes {
 
     /// Third-party provider type.
     public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azureDevops
         case bitbucket
         case confluence
         case github
@@ -5358,6 +5627,7 @@ extension SecurityAgentClientTypes {
 
         public static var allCases: [Provider] {
             return [
+                .azureDevops,
                 .bitbucket,
                 .confluence,
                 .github,
@@ -5372,6 +5642,7 @@ extension SecurityAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .azureDevops: return "AZURE_DEVOPS"
             case .bitbucket: return "BITBUCKET"
             case .confluence: return "CONFLUENCE"
             case .github: return "GITHUB"
@@ -5393,7 +5664,7 @@ public struct CreateIntegrationInput: Swift.Sendable {
     public var kmsKeyId: Swift.String?
     /// The name of an active private connection used to reach a self-hosted provider instance over private networking. Specify this when the instance is not publicly reachable.
     public var privateConnectionName: Swift.String?
-    /// The integration provider. Currently, only GITHUB is supported.
+    /// The integration provider.
     /// This member is required.
     public var provider: SecurityAgentClientTypes.Provider?
     /// The tags to associate with the integration.
@@ -5554,6 +5825,8 @@ public struct CreatePentestInput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The assets to include in the pentest, such as endpoints, actors, documents, and source code.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The CI/CD pentesting configuration to apply to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The code remediation strategy for the pentest. Valid values are AUTOMATIC and DISABLED.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
     /// A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -5581,6 +5854,7 @@ public struct CreatePentestInput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
@@ -5595,6 +5869,7 @@ public struct CreatePentestInput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.codeRemediationStrategy = codeRemediationStrategy
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
@@ -5615,6 +5890,8 @@ public struct CreatePentestOutput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The assets included in the pentest.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The CI/CD pentesting configuration applied to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The date and time the pentest was created, in UTC format.
     public var createdAt: Foundation.Date?
     /// The list of risk types excluded from the pentest.
@@ -5637,6 +5914,7 @@ public struct CreatePentestOutput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
@@ -5649,6 +5927,7 @@ public struct CreatePentestOutput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.createdAt = createdAt
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
@@ -6843,6 +7122,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var providerType: SecurityAgentClientTypes.ProviderType?
     /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
     public var targetUrl: Swift.String?
+    /// The payload URL of the integration's webhook, once it has been created. The signing secret is never returned on a read.
+    public var webhookUrl: Swift.String?
 
     public init(
         displayName: Swift.String? = nil,
@@ -6852,7 +7133,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
         privateConnectionName: Swift.String? = nil,
         provider: SecurityAgentClientTypes.Provider? = nil,
         providerType: SecurityAgentClientTypes.ProviderType? = nil,
-        targetUrl: Swift.String? = nil
+        targetUrl: Swift.String? = nil,
+        webhookUrl: Swift.String? = nil
     ) {
         self.displayName = displayName
         self.installationId = installationId
@@ -6862,6 +7144,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         self.provider = provider
         self.providerType = providerType
         self.targetUrl = targetUrl
+        self.webhookUrl = webhookUrl
     }
 }
 
@@ -7248,15 +7531,36 @@ public struct ImportSecurityRequirementsOutput: Swift.Sendable {
 }
 
 public struct InitiateProviderRegistrationInput: Swift.Sendable {
-    /// The provider to initiate registration with. Currently, only GITHUB is supported.
+    /// The client ID of the OAuth application registered on your self-managed provider instance.
+    public var clientId: Swift.String?
+    /// The client secret of the OAuth application registered on your self-managed provider instance.
+    public var clientSecret: Swift.String?
+    /// The name of the organization to connect.
+    public var organizationName: Swift.String?
+    /// The provider to initiate registration with.
     /// This member is required.
     public var provider: SecurityAgentClientTypes.Provider?
+    /// The HTTPS URL of a self-managed provider instance. Omit for SaaS providers.
+    public var targetUrl: Swift.String?
 
     public init(
-        provider: SecurityAgentClientTypes.Provider? = nil
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        organizationName: Swift.String? = nil,
+        provider: SecurityAgentClientTypes.Provider? = nil,
+        targetUrl: Swift.String? = nil
     ) {
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.organizationName = organizationName
         self.provider = provider
+        self.targetUrl = targetUrl
     }
+}
+
+extension InitiateProviderRegistrationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InitiateProviderRegistrationInput(clientId: \(Swift.String(describing: clientId)), organizationName: \(Swift.String(describing: organizationName)), provider: \(Swift.String(describing: provider)), targetUrl: \(Swift.String(describing: targetUrl)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 public struct InitiateProviderRegistrationOutput: Swift.Sendable {
@@ -7288,6 +7592,8 @@ extension SecurityAgentClientTypes {
         case bitbucketrepository(SecurityAgentClientTypes.BitbucketRepositoryResource)
         /// A Confluence document (page) integrated as a resource.
         case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentResource)
+        /// The Azure DevOps repository resource information.
+        case azuredevopsrepository(SecurityAgentClientTypes.AzureDevOpsRepositoryResource)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7304,6 +7610,8 @@ extension SecurityAgentClientTypes {
         case bitbucket(SecurityAgentClientTypes.BitbucketResourceCapabilities)
         /// Capabilities for an integrated Confluence space.
         case confluence(SecurityAgentClientTypes.ConfluenceResourceCapabilities)
+        /// The Azure DevOps-specific resource capabilities.
+        case azuredevops(SecurityAgentClientTypes.AzureDevOpsResourceCapabilities)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7340,6 +7648,8 @@ extension SecurityAgentClientTypes {
         case bitbucketrepository(SecurityAgentClientTypes.BitbucketRepositoryMetadata)
         /// Metadata for an integrated Confluence document.
         case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentMetadata)
+        /// The Azure DevOps repository metadata.
+        case azuredevopsrepository(SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7423,6 +7733,8 @@ extension SecurityAgentClientTypes {
         public var providerType: SecurityAgentClientTypes.ProviderType?
         /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
         public var targetUrl: Swift.String?
+        /// The payload URL of the integration's webhook, once it has been created. The signing secret is never returned on a read.
+        public var webhookUrl: Swift.String?
 
         public init(
             displayName: Swift.String? = nil,
@@ -7431,7 +7743,8 @@ extension SecurityAgentClientTypes {
             privateConnectionName: Swift.String? = nil,
             provider: SecurityAgentClientTypes.Provider? = nil,
             providerType: SecurityAgentClientTypes.ProviderType? = nil,
-            targetUrl: Swift.String? = nil
+            targetUrl: Swift.String? = nil,
+            webhookUrl: Swift.String? = nil
         ) {
             self.displayName = displayName
             self.installationId = installationId
@@ -7440,6 +7753,7 @@ extension SecurityAgentClientTypes {
             self.provider = provider
             self.providerType = providerType
             self.targetUrl = targetUrl
+            self.webhookUrl = webhookUrl
         }
     }
 }
@@ -7458,6 +7772,82 @@ public struct ListIntegrationsOutput: Swift.Sendable {
         self.integrationSummaries = integrationSummaries
         self.nextToken = nextToken
     }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The action to perform on an integration's webhook.
+    public enum WebhookAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Create the webhook if one does not already exist. Returns the payload URL and the signing secret.
+        case createIfAbsent
+        /// Generate a new signing secret for the existing webhook, keeping the same payload URL. Returns the new secret.
+        case rotate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WebhookAction] {
+            return [
+                .createIfAbsent,
+                .rotate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createIfAbsent: return "CREATE_IF_ABSENT"
+            case .rotate: return "ROTATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Input for creating or rotating an integration's webhook.
+public struct UpdateIntegrationInput: Swift.Sendable {
+    /// The ID of the integration whose webhook you want to create or rotate.
+    /// This member is required.
+    public var integrationId: Swift.String?
+    /// The action to perform on the integration's webhook.
+    /// This member is required.
+    public var webhookAction: SecurityAgentClientTypes.WebhookAction?
+
+    public init(
+        integrationId: Swift.String? = nil,
+        webhookAction: SecurityAgentClientTypes.WebhookAction? = nil
+    ) {
+        self.integrationId = integrationId
+        self.webhookAction = webhookAction
+    }
+}
+
+/// Output for the UpdateIntegration operation.
+public struct UpdateIntegrationOutput: Swift.Sendable {
+    /// The ID of the integration.
+    /// This member is required.
+    public var integrationId: Swift.String?
+    /// The HMAC signing secret for the webhook. Returned only once, in this response; it is never returned again.
+    public var secret: Swift.String?
+    /// The payload URL to configure on your provider instance. Returned when a webhook is created; unchanged by a rotate.
+    public var webhookUrl: Swift.String?
+
+    public init(
+        integrationId: Swift.String? = nil,
+        secret: Swift.String? = nil,
+        webhookUrl: Swift.String? = nil
+    ) {
+        self.integrationId = integrationId
+        self.secret = secret
+        self.webhookUrl = webhookUrl
+    }
+}
+
+extension UpdateIntegrationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateIntegrationOutput(integrationId: \(Swift.String(describing: integrationId)), webhookUrl: \(Swift.String(describing: webhookUrl)), secret: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListActorMessagesInput: Swift.Sendable {
@@ -8028,6 +8418,8 @@ public struct ListPentestJobsForPentestInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// Filters the returned pentest jobs to only those of the specified job type.
+    public var jobType: SecurityAgentClientTypes.JobType?
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
@@ -8038,11 +8430,13 @@ public struct ListPentestJobsForPentestInput: Swift.Sendable {
 
     public init(
         agentSpaceId: Swift.String? = nil,
+        jobType: SecurityAgentClientTypes.JobType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pentestId: Swift.String? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.jobType = jobType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pentestId = pentestId
@@ -8055,12 +8449,16 @@ extension SecurityAgentClientTypes {
     public struct PentestJobSummary: Swift.Sendable {
         /// The date and time the pentest job was created, in UTC format.
         public var createdAt: Foundation.Date?
+        /// The type of the pentest job. Valid values are FULL, REVALIDATION, and CICD.
+        public var jobType: SecurityAgentClientTypes.JobType?
         /// The unique identifier of the pentest associated with the job.
         /// This member is required.
         public var pentestId: Swift.String?
         /// The unique identifier of the pentest job.
         /// This member is required.
         public var pentestJobId: Swift.String?
+        /// The URL to view this pentest job's findings report in the console.
+        public var reportUrl: Swift.String?
         /// The current status of the pentest job.
         public var status: SecurityAgentClientTypes.JobStatus?
         /// The title of the pentest job.
@@ -8070,15 +8468,19 @@ extension SecurityAgentClientTypes {
 
         public init(
             createdAt: Foundation.Date? = nil,
+            jobType: SecurityAgentClientTypes.JobType? = nil,
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
+            reportUrl: Swift.String? = nil,
             status: SecurityAgentClientTypes.JobStatus? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
+            self.jobType = jobType
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
+            self.reportUrl = reportUrl
             self.status = status
             self.title = title
             self.updatedAt = updatedAt
@@ -9178,11 +9580,13 @@ public struct StartPentestJobInput: Swift.Sendable {
     /// The unique identifier of the agent space.
     /// This member is required.
     public var agentSpaceId: Swift.String?
-    /// The type of pentest job to start. Valid values are FULL and REVALIDATION. When set to REVALIDATION, the selectedFindingIds parameter is required.
+    /// The type of pentest job to start. Valid values are FULL, REVALIDATION, and CICD. When set to REVALIDATION, the selectedFindingIds parameter is required. When set to CICD, the scopeChanges parameter defines the code changes to test.
     public var jobType: SecurityAgentClientTypes.JobType?
     /// The unique identifier of the pentest to start a job for.
     /// This member is required.
     public var pentestId: Swift.String?
+    /// The code changes that define the scope of a CI/CD pentest job. Provide this when starting a job with jobType CICD to test only the changes in the current pipeline run.
+    public var scopeChanges: [SecurityAgentClientTypes.ScopeChange]?
     /// The list of finding identifiers to revalidate. Required when jobType is REVALIDATION. Each finding must belong to the same agent space and pentest.
     public var selectedFindingIds: [Swift.String]?
 
@@ -9190,11 +9594,13 @@ public struct StartPentestJobInput: Swift.Sendable {
         agentSpaceId: Swift.String? = nil,
         jobType: SecurityAgentClientTypes.JobType? = nil,
         pentestId: Swift.String? = nil,
+        scopeChanges: [SecurityAgentClientTypes.ScopeChange]? = nil,
         selectedFindingIds: [Swift.String]? = nil
     ) {
         self.agentSpaceId = agentSpaceId
         self.jobType = jobType
         self.pentestId = pentestId
+        self.scopeChanges = scopeChanges
         self.selectedFindingIds = selectedFindingIds
     }
 }
@@ -9676,6 +10082,8 @@ public struct UpdatePentestInput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The updated assets for the pentest.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The updated CI/CD pentesting configuration to apply to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The updated code remediation strategy for the pentest.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
     /// The updated list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -9705,6 +10113,7 @@ public struct UpdatePentestInput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
@@ -9720,6 +10129,7 @@ public struct UpdatePentestInput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.codeRemediationStrategy = codeRemediationStrategy
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
@@ -9741,6 +10151,8 @@ public struct UpdatePentestOutput: Swift.Sendable {
     public var agentSpaceId: Swift.String?
     /// The assets included in the pentest.
     public var assets: SecurityAgentClientTypes.Assets?
+    /// The CI/CD pentesting configuration applied to the pentest.
+    public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
     /// The date and time the pentest was created, in UTC format.
     public var createdAt: Foundation.Date?
     /// The list of risk types excluded from the pentest.
@@ -9763,6 +10175,7 @@ public struct UpdatePentestOutput: Swift.Sendable {
     public init(
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
+        cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
         logConfig: SecurityAgentClientTypes.CloudWatchLog? = nil,
@@ -9775,6 +10188,7 @@ public struct UpdatePentestOutput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
+        self.cicdConfiguration = cicdConfiguration
         self.createdAt = createdAt
         self.excludeRiskTypes = excludeRiskTypes
         self.logConfig = logConfig
@@ -10730,6 +11144,13 @@ extension UpdateIntegratedResourcesInput {
     }
 }
 
+extension UpdateIntegrationInput {
+
+    static func urlPathProvider(_ value: UpdateIntegrationInput) -> Swift.String? {
+        return "/UpdateIntegration"
+    }
+}
+
 extension UpdatePentestInput {
 
     static func urlPathProvider(_ value: UpdatePentestInput) -> Swift.String? {
@@ -11050,6 +11471,7 @@ extension CreatePentestInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["cicdConfiguration"].write(value.cicdConfiguration, with: SecurityAgentClientTypes.CiCdConfiguration.write(value:to:))
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11256,7 +11678,11 @@ extension InitiateProviderRegistrationInput {
 
     static func write(value: InitiateProviderRegistrationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["organizationName"].write(value.organizationName)
         try writer["provider"].write(value.provider)
+        try writer["targetUrl"].write(value.targetUrl)
     }
 }
 
@@ -11402,6 +11828,7 @@ extension ListPentestJobsForPentestInput {
     static func write(value: ListPentestJobsForPentestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["jobType"].write(value.jobType)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["pentestId"].write(value.pentestId)
@@ -11540,6 +11967,7 @@ extension StartPentestJobInput {
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["jobType"].write(value.jobType)
         try writer["pentestId"].write(value.pentestId)
+        try writer["scopeChanges"].writeList(value.scopeChanges, memberWritingClosure: SecurityAgentClientTypes.ScopeChange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["selectedFindingIds"].writeList(value.selectedFindingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -11657,12 +12085,22 @@ extension UpdateIntegratedResourcesInput {
     }
 }
 
+extension UpdateIntegrationInput {
+
+    static func write(value: UpdateIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationId"].write(value.integrationId)
+        try writer["webhookAction"].write(value.webhookAction)
+    }
+}
+
 extension UpdatePentestInput {
 
     static func write(value: UpdatePentestInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
+        try writer["cicdConfiguration"].write(value.cicdConfiguration, with: SecurityAgentClientTypes.CiCdConfiguration.write(value:to:))
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12122,6 +12560,7 @@ extension CreatePentestOutput {
         var value = CreatePentestOutput()
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
         value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.excludeRiskTypes = try reader["excludeRiskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
@@ -12394,6 +12833,7 @@ extension GetIntegrationOutput {
         value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
         value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
         value.targetUrl = try reader["targetUrl"].readIfPresent()
+        value.webhookUrl = try reader["webhookUrl"].readIfPresent()
         return value
     }
 }
@@ -12921,6 +13361,20 @@ extension UpdateIntegratedResourcesOutput {
     }
 }
 
+extension UpdateIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateIntegrationOutput()
+        value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
+        value.secret = try reader["secret"].readIfPresent()
+        value.webhookUrl = try reader["webhookUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdatePentestOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePentestOutput {
@@ -12930,6 +13384,7 @@ extension UpdatePentestOutput {
         var value = UpdatePentestOutput()
         value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
         value.assets = try reader["assets"].readIfPresent(with: SecurityAgentClientTypes.Assets.read(from:))
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.excludeRiskTypes = try reader["excludeRiskTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.RiskType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfig = try reader["logConfig"].readIfPresent(with: SecurityAgentClientTypes.CloudWatchLog.read(from:))
@@ -14330,6 +14785,25 @@ enum UpdateIntegratedResourcesOutputError {
     }
 }
 
+enum UpdateIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdatePentestOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14712,6 +15186,58 @@ extension SecurityAgentClientTypes.AWSResources {
     }
 }
 
+extension SecurityAgentClientTypes.AzureDevOpsIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.AzureDevOpsIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["organizationName"].write(value.organizationName)
+        try writer["state"].write(value.state)
+    }
+}
+
+extension SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.organization = try reader["organization"].readIfPresent() ?? ""
+        value.project = try reader["project"].readIfPresent()
+        value.projectId = try reader["projectId"].readIfPresent()
+        value.accessType = try reader["accessType"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.AzureDevOpsRepositoryResource {
+
+    static func write(value: SecurityAgentClientTypes.AzureDevOpsRepositoryResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["organization"].write(value.organization)
+        try writer["project"].write(value.project)
+    }
+}
+
+extension SecurityAgentClientTypes.AzureDevOpsResourceCapabilities {
+
+    static func write(value: SecurityAgentClientTypes.AzureDevOpsResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["leaveComments"].write(value.leaveComments)
+        try writer["remediateCode"].write(value.remediateCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.AzureDevOpsResourceCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.AzureDevOpsResourceCapabilities()
+        value.leaveComments = try reader["leaveComments"].readIfPresent()
+        value.remediateCode = try reader["remediateCode"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.BatchCreateSecurityRequirementResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchCreateSecurityRequirementResult {
@@ -14755,6 +15281,16 @@ extension SecurityAgentClientTypes.BatchSecurityRequirementError {
         value.code = try reader["code"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["state"].write(value.state)
+        try writer["targetUrl"].write(value.targetUrl)
     }
 }
 
@@ -14847,6 +15383,21 @@ extension SecurityAgentClientTypes.Category {
         var value = SecurityAgentClientTypes.Category()
         value.name = try reader["name"].readIfPresent()
         value.isPrimary = try reader["isPrimary"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.CiCdConfiguration {
+
+    static func write(value: SecurityAgentClientTypes.CiCdConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.CiCdConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.CiCdConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
 }
@@ -15492,6 +16043,8 @@ extension SecurityAgentClientTypes.IntegratedResource {
     static func write(value: SecurityAgentClientTypes.IntegratedResource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azuredevopsrepository(azuredevopsrepository):
+                try writer["azureDevOpsRepository"].write(azuredevopsrepository, with: SecurityAgentClientTypes.AzureDevOpsRepositoryResource.write(value:to:))
             case let .bitbucketrepository(bitbucketrepository):
                 try writer["bitbucketRepository"].write(bitbucketrepository, with: SecurityAgentClientTypes.BitbucketRepositoryResource.write(value:to:))
             case let .confluencedocument(confluencedocument):
@@ -15529,6 +16082,8 @@ extension SecurityAgentClientTypes.IntegratedResourceMetadata {
                 return .bitbucketrepository(try reader["bitbucketRepository"].read(with: SecurityAgentClientTypes.BitbucketRepositoryMetadata.read(from:)))
             case "confluenceDocument":
                 return .confluencedocument(try reader["confluenceDocument"].read(with: SecurityAgentClientTypes.ConfluenceDocumentMetadata.read(from:)))
+            case "azureDevOpsRepository":
+                return .azuredevopsrepository(try reader["azureDevOpsRepository"].read(with: SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15573,6 +16128,7 @@ extension SecurityAgentClientTypes.IntegrationSummary {
         value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.targetUrl = try reader["targetUrl"].readIfPresent()
+        value.webhookUrl = try reader["webhookUrl"].readIfPresent()
         value.privateConnectionName = try reader["privateConnectionName"].readIfPresent()
         return value
     }
@@ -15711,6 +16267,7 @@ extension SecurityAgentClientTypes.Pentest {
         value.maxTaskHours = try reader["maxTaskHours"].readIfPresent()
         value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15750,6 +16307,10 @@ extension SecurityAgentClientTypes.PentestJob {
         value.jobType = try reader["jobType"].readIfPresent()
         value.selectedFindingIds = try reader["selectedFindingIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
+        value.reportUrl = try reader["reportUrl"].readIfPresent()
+        value.scopeResult = try reader["scopeResult"].readIfPresent(with: SecurityAgentClientTypes.ScopeResult.read(from:))
+        value.scopeChanges = try reader["scopeChanges"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ScopeChange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -15767,6 +16328,8 @@ extension SecurityAgentClientTypes.PentestJobSummary {
         value.status = try reader["status"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobType = try reader["jobType"].readIfPresent()
+        value.reportUrl = try reader["reportUrl"].readIfPresent()
         return value
     }
 }
@@ -15825,8 +16388,12 @@ extension SecurityAgentClientTypes.ProviderInput {
     static func write(value: SecurityAgentClientTypes.ProviderInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azuredevops(azuredevops):
+                try writer["azureDevOps"].write(azuredevops, with: SecurityAgentClientTypes.AzureDevOpsIntegrationInput.write(value:to:))
             case let .bitbucket(bitbucket):
                 try writer["bitbucket"].write(bitbucket, with: SecurityAgentClientTypes.BitbucketIntegrationInput.write(value:to:))
+            case let .bitbucketdatacenter(bitbucketdatacenter):
+                try writer["bitbucketDataCenter"].write(bitbucketdatacenter, with: SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput.write(value:to:))
             case let .confluence(confluence):
                 try writer["confluence"].write(confluence, with: SecurityAgentClientTypes.ConfluenceIntegrationInput.write(value:to:))
             case let .github(github):
@@ -15844,6 +16411,8 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
     static func write(value: SecurityAgentClientTypes.ProviderResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .azuredevops(azuredevops):
+                try writer["azureDevOps"].write(azuredevops, with: SecurityAgentClientTypes.AzureDevOpsResourceCapabilities.write(value:to:))
             case let .bitbucket(bitbucket):
                 try writer["bitbucket"].write(bitbucket, with: SecurityAgentClientTypes.BitbucketResourceCapabilities.write(value:to:))
             case let .confluence(confluence):
@@ -15869,6 +16438,8 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
                 return .bitbucket(try reader["bitbucket"].read(with: SecurityAgentClientTypes.BitbucketResourceCapabilities.read(from:)))
             case "confluence":
                 return .confluence(try reader["confluence"].read(with: SecurityAgentClientTypes.ConfluenceResourceCapabilities.read(from:)))
+            case "azureDevOps":
+                return .azuredevops(try reader["azureDevOps"].read(with: SecurityAgentClientTypes.AzureDevOpsResourceCapabilities.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -15921,6 +16492,40 @@ extension SecurityAgentClientTypes.ReportFilters {
         value.taskStatuses = try reader["taskStatuses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.TaskExecutionStatus>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.annotationNotes = try reader["annotationNotes"].readIfPresent()
         value.complianceReport = try reader["complianceReport"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ScopeChange {
+
+    static func write(value: SecurityAgentClientTypes.ScopeChange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["baseCommitSha"].write(value.baseCommitSha)
+        try writer["headCommitSha"].write(value.headCommitSha)
+        try writer["integrationId"].write(value.integrationId)
+        try writer["providerResourceId"].write(value.providerResourceId)
+        try writer["triggerRunId"].write(value.triggerRunId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ScopeChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ScopeChange()
+        value.integrationId = try reader["integrationId"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.baseCommitSha = try reader["baseCommitSha"].readIfPresent()
+        value.headCommitSha = try reader["headCommitSha"].readIfPresent() ?? ""
+        value.triggerRunId = try reader["triggerRunId"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ScopeResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ScopeResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ScopeResult()
+        value.decision = try reader["decision"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent() ?? ""
         return value
     }
 }

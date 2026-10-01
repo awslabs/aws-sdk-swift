@@ -11389,6 +11389,35 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum CapacityReservationLaunchStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case launchable
+        case unlaunchable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationLaunchStatus] {
+            return [
+                .launchable,
+                .unlaunchable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .launchable: return "launchable"
+            case .unlaunchable: return "unlaunchable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum CapacityReservationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityBlock
         case `default`
@@ -11545,6 +11574,12 @@ extension EC2ClientTypes {
         public var interruptibleCapacityAllocation: EC2ClientTypes.InterruptibleCapacityAllocation?
         /// Information about the interruption configuration and association with the source reservation for interruptible Capacity Reservations.
         public var interruptionInfo: EC2ClientTypes.InterruptionInfo?
+        /// Only supported for UltraServers. Indicates whether you can launch instances into the Capacity Reservation. A Capacity Reservation can have the following launch statuses:
+        ///
+        /// * launchable - You can launch instances into the Capacity Reservation.
+        ///
+        /// * unlaunchable - You can't launch instances into the Capacity Reservation. For example, the Capacity Reservation is not active.
+        public var launchStatus: EC2ClientTypes.CapacityReservationLaunchStatus?
         /// The start date that you originally requested for the Capacity Reservation, in the ISO8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ). This value doesn't change when you push out the start date.
         public var originalStartDate: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation was created.
@@ -11622,6 +11657,7 @@ extension EC2ClientTypes {
             interruptible: Swift.Bool? = nil,
             interruptibleCapacityAllocation: EC2ClientTypes.InterruptibleCapacityAllocation? = nil,
             interruptionInfo: EC2ClientTypes.InterruptionInfo? = nil,
+            launchStatus: EC2ClientTypes.CapacityReservationLaunchStatus? = nil,
             originalStartDate: Foundation.Date? = nil,
             outpostArn: Swift.String? = nil,
             ownerId: Swift.String? = nil,
@@ -11658,6 +11694,7 @@ extension EC2ClientTypes {
             self.interruptible = interruptible
             self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
             self.interruptionInfo = interruptionInfo
+            self.launchStatus = launchStatus
             self.originalStartDate = originalStartDate
             self.outpostArn = outpostArn
             self.ownerId = ownerId
@@ -16898,15 +16935,99 @@ extension EC2ClientTypes {
         public var cloudwatchLogStream: Swift.String?
         /// Indicates whether connection logging is enabled.
         public var enabled: Swift.Bool?
+        /// Specifies whether to include the authorization policy evaluation context in the connection logs for the Client VPN endpoint.
+        public var includeAuthorizationPolicyContext: Swift.Bool?
 
         public init(
             cloudwatchLogGroup: Swift.String? = nil,
             cloudwatchLogStream: Swift.String? = nil,
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            includeAuthorizationPolicyContext: Swift.Bool? = nil
         ) {
             self.cloudwatchLogGroup = cloudwatchLogGroup
             self.cloudwatchLogStream = cloudwatchLogStream
             self.enabled = enabled
+            self.includeAuthorizationPolicyContext = includeAuthorizationPolicyContext
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum ClientVpnDeviceTrustProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crowdstrike
+        case jamf
+        case jumpcloud
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientVpnDeviceTrustProviderType] {
+            return [
+                .crowdstrike,
+                .jamf,
+                .jumpcloud
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crowdstrike: return "crowdstrike"
+            case .jamf: return "jamf"
+            case .jumpcloud: return "jumpcloud"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a device trust provider to configure for a Client VPN endpoint.
+    public struct ClientVpnTrustProviderRequest: Swift.Sendable {
+        /// The URL of the public signing key that is used to verify the identity token issued by the device trust provider.
+        public var publicSigningKeyUrl: Swift.String?
+        /// The tenant ID associated with your device trust provider account.
+        public var tenantId: Swift.String?
+        /// The type of the device trust provider. Possible values include:
+        ///
+        /// * crowdstrike - CrowdStrike device trust provider.
+        ///
+        /// * jamf - Jamf device trust provider.
+        ///
+        /// * jumpcloud - JumpCloud device trust provider.
+        public var trustProviderType: EC2ClientTypes.ClientVpnDeviceTrustProviderType?
+
+        public init(
+            publicSigningKeyUrl: Swift.String? = nil,
+            tenantId: Swift.String? = nil,
+            trustProviderType: EC2ClientTypes.ClientVpnDeviceTrustProviderType? = nil
+        ) {
+            self.publicSigningKeyUrl = publicSigningKeyUrl
+            self.tenantId = tenantId
+            self.trustProviderType = trustProviderType
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the device posture options for a Client VPN endpoint. Device posture options specify the device trust providers that the endpoint uses to evaluate the security posture of connecting devices.
+    public struct DevicePostureOptions: Swift.Sendable {
+        /// Indicates whether device posture evaluation is enabled for the Client VPN endpoint. Specify false to disable device posture, which clears the configured device trust providers.
+        public var enabled: Swift.Bool?
+        /// The device trust providers to configure for the Client VPN endpoint.
+        public var trustProviders: [EC2ClientTypes.ClientVpnTrustProviderRequest]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            trustProviders: [EC2ClientTypes.ClientVpnTrustProviderRequest]? = nil
+        ) {
+            self.enabled = enabled
+            self.trustProviders = trustProviders
         }
     }
 }
@@ -17083,6 +17204,8 @@ public struct CreateClientVpnEndpointInput: Swift.Sendable {
     public var connectionLogOptions: EC2ClientTypes.ConnectionLogOptions?
     /// A brief description of the Client VPN endpoint.
     public var description: Swift.String?
+    /// The device posture options for the Client VPN endpoint. Use this parameter to specify the device trust providers that the endpoint uses to evaluate the security posture of connecting devices.
+    public var devicePostureOptions: EC2ClientTypes.DevicePostureOptions?
     /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
     public var disconnectOnSessionTimeout: Swift.Bool?
     /// Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can have up to two DNS servers. If no DNS server is specified, the DNS address configured on the device is used for the DNS server.
@@ -17124,6 +17247,7 @@ public struct CreateClientVpnEndpointInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         connectionLogOptions: EC2ClientTypes.ConnectionLogOptions? = nil,
         description: Swift.String? = nil,
+        devicePostureOptions: EC2ClientTypes.DevicePostureOptions? = nil,
         disconnectOnSessionTimeout: Swift.Bool? = nil,
         dnsServers: [Swift.String]? = nil,
         dryRun: Swift.Bool? = nil,
@@ -17148,6 +17272,7 @@ public struct CreateClientVpnEndpointInput: Swift.Sendable {
         self.clientToken = clientToken
         self.connectionLogOptions = connectionLogOptions
         self.description = description
+        self.devicePostureOptions = devicePostureOptions
         self.disconnectOnSessionTimeout = disconnectOnSessionTimeout
         self.dnsServers = dnsServers
         self.dryRun = dryRun
@@ -23031,6 +23156,7 @@ extension EC2ClientTypes {
         case apnic
         case arin
         case lacnic
+        case nicbr
         case ripe
         case sdkUnknown(Swift.String)
 
@@ -23039,6 +23165,7 @@ extension EC2ClientTypes {
                 .apnic,
                 .arin,
                 .lacnic,
+                .nicbr,
                 .ripe
             ]
         }
@@ -23053,6 +23180,7 @@ extension EC2ClientTypes {
             case .apnic: return "apnic"
             case .arin: return "arin"
             case .lacnic: return "lacnic"
+            case .nicbr: return "nicbr"
             case .ripe: return "ripe"
             case let .sdkUnknown(s): return s
             }
@@ -23115,6 +23243,9 @@ extension EC2ClientTypes {
         case deleteComplete
         case deleteFailed
         case deleteInProgress
+        case disableComplete
+        case disableFailed
+        case disableInProgress
         case enableComplete
         case enableFailed
         case enableInProgress
@@ -23128,6 +23259,9 @@ extension EC2ClientTypes {
                 .deleteComplete,
                 .deleteFailed,
                 .deleteInProgress,
+                .disableComplete,
+                .disableFailed,
+                .disableInProgress,
                 .enableComplete,
                 .enableFailed,
                 .enableInProgress,
@@ -23147,6 +23281,9 @@ extension EC2ClientTypes {
             case .deleteComplete: return "delete-complete"
             case .deleteFailed: return "delete-failed"
             case .deleteInProgress: return "delete-in-progress"
+            case .disableComplete: return "disable-complete"
+            case .disableFailed: return "disable-failed"
+            case .disableInProgress: return "disable-in-progress"
             case .enableComplete: return "enable-complete"
             case .enableFailed: return "enable-failed"
             case .enableInProgress: return "enable-in-progress"
@@ -38028,11 +38165,18 @@ public struct CreateVpcEndpointInput: Swift.Sendable {
     public var policyDocument: Swift.String?
     /// (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use [ModifyVpcAttribute] to set the VPC attributes.
     public var privateDnsEnabled: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of a resource configuration that will be associated with the VPC endpoint of type resource.
+    /// (Resource and Tunnel endpoints only) The Amazon Resource Name (ARN) of a resource configuration associated with the VPC endpoint. The type of resource configuration depends on the endpoint type:
+    ///
+    /// * For a Resource endpoint, you can specify a resource configuration that is of type SINGLE, GROUP, or ARN. To reach a resource that belongs to a group, specify the parent GROUP resource configuration.
+    ///
+    /// * For a Tunnel endpoint, you can specify a resource configuration that is of type CIDR.
+    ///
+    ///
+    /// For more information about the types of resource configurations, see [Types of resource configurations](https://docs.aws.amazon.com/vpc/latest/privatelink/resource-configuration.html) in the Amazon Web Services PrivateLink User Guide. This request fails if a VPC endpoint owned by a different Amazon Web Services account already exists on a resource gateway that is enabled for ResourceGatewayCharges payer responsibility.
     public var resourceConfigurationArn: Swift.String?
     /// (Gateway endpoint) The route table IDs.
     public var routeTableIds: [Swift.String]?
-    /// (Interface endpoint) The IDs of the security groups to associate with the endpoint network interfaces. If this parameter is not specified, we use the default security group for the VPC.
+    /// (Interface, Resource, ServiceNetwork, and Tunnel endpoints only) The IDs of the security groups to associate with the endpoint network interfaces. If this parameter is not specified, we use the default security group for the VPC.
     public var securityGroupIds: [Swift.String]?
     /// The name of the endpoint service.
     public var serviceName: Swift.String?
@@ -38042,11 +38186,11 @@ public struct CreateVpcEndpointInput: Swift.Sendable {
     public var serviceRegion: Swift.String?
     /// The subnet configurations for the endpoint.
     public var subnetConfigurations: [EC2ClientTypes.SubnetConfiguration]?
-    /// (Interface and Gateway Load Balancer endpoints) The IDs of the subnets in which to create endpoint network interfaces. For a Gateway Load Balancer endpoint, you can specify only one subnet.
+    /// (Interface, Gateway Load Balancer endpoints, Resource, ServiceNetwork, and Tunnel endpoints only) The IDs of the subnets in which to create endpoint network interfaces. For a Gateway Load Balancer endpoint, you can specify only one subnet. For a Tunnel endpoint, the subnets must be in the Availability Zones of the resource gateway associated with the shared resource configuration. An endpoint network interface is created only in an Availability Zone that the resource gateway is also in.
     public var subnetIds: [Swift.String]?
     /// The tags to associate with the endpoint.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
-    /// The type of endpoint. Default: Gateway
+    /// The type of endpoint. For more information about the types of VPC endpoints, see [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html#concepts-vpc-endpoints) in the Amazon Web Services PrivateLink User Guide. Default: Gateway
     public var vpcEndpointType: EC2ClientTypes.VpcEndpointType?
     /// The ID of the VPC.
     /// This member is required.
@@ -38344,7 +38488,7 @@ extension EC2ClientTypes {
         public var dnsOptions: EC2ClientTypes.DnsOptions?
         /// Reason for the failure.
         public var failureReason: Swift.String?
-        /// (Interface endpoint) Information about the security groups that are associated with the network interface.
+        /// (Interface, Resource, ServiceNetwork, and Tunnel endpoints only) Information about the security groups that are associated with the network interface.
         public var groups: [EC2ClientTypes.SecurityGroupIdentifier]?
         /// The IP address type for the endpoint.
         public var ipAddressType: EC2ClientTypes.IpAddressType?
@@ -38354,7 +38498,7 @@ extension EC2ClientTypes {
         public var ipv6Prefixes: [EC2ClientTypes.SubnetIpPrefixes]?
         /// The last error that occurred for endpoint.
         public var lastError: EC2ClientTypes.LastError?
-        /// (Interface endpoint) The network interfaces for the endpoint.
+        /// (Interface, Gateway Load Balancer endpoints, Resource, ServiceNetwork, and Tunnel endpoints only) The network interfaces for the endpoint.
         public var networkInterfaceIds: [Swift.String]?
         /// The ID of the Amazon Web Services account that owns the endpoint.
         public var ownerId: Swift.String?
@@ -38378,13 +38522,13 @@ extension EC2ClientTypes {
         public var serviceRegion: Swift.String?
         /// The state of the endpoint.
         public var state: EC2ClientTypes.State?
-        /// (Interface endpoint) The subnets for the endpoint.
+        /// (Interface, Gateway Load Balancer endpoints, Resource, ServiceNetwork, and Tunnel endpoints only) The subnets for the endpoint.
         public var subnetIds: [Swift.String]?
         /// The tags assigned to the endpoint.
         public var tags: [EC2ClientTypes.Tag]?
         /// The ID of the endpoint.
         public var vpcEndpointId: Swift.String?
-        /// The type of endpoint.
+        /// The type of endpoint. For more information about the types of VPC endpoints, see [VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/concepts.html#concepts-vpc-endpoints) in the Amazon Web Services PrivateLink User Guide.
         public var vpcEndpointType: EC2ClientTypes.VpcEndpointType?
         /// The ID of the VPC to which the endpoint is associated.
         public var vpcId: Swift.String?
@@ -40324,6 +40468,82 @@ public struct DeleteClientVpnEndpointOutput: Swift.Sendable {
 
     public init(
         status: EC2ClientTypes.ClientVpnEndpointStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+public struct DeleteClientVpnEndpointAuthorizationPolicyInput: Swift.Sendable {
+    /// The ID of the Client VPN endpoint.
+    /// This member is required.
+    public var clientVpnEndpointId: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        clientVpnEndpointId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
+    ) {
+        self.clientVpnEndpointId = clientVpnEndpointId
+        self.dryRun = dryRun
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the state of an authorization policy for a Client VPN endpoint. Possible states include:
+    ///
+    /// * creating - The authorization policy is being created.
+    ///
+    /// * updating - The authorization policy is being updated.
+    ///
+    /// * active - The authorization policy has been applied to the Client VPN endpoint.
+    ///
+    /// * failed - The authorization policy could not be applied to the Client VPN endpoint.
+    ///
+    /// * deleting - The authorization policy is being deleted.
+    public enum ClientVpnAuthorizationPolicyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientVpnAuthorizationPolicyStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .creating: return "creating"
+            case .deleting: return "deleting"
+            case .failed: return "failed"
+            case .updating: return "updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteClientVpnEndpointAuthorizationPolicyOutput: Swift.Sendable {
+    /// The current state of the authorization policy.
+    public var status: EC2ClientTypes.ClientVpnAuthorizationPolicyStatus?
+
+    public init(
+        status: EC2ClientTypes.ClientVpnAuthorizationPolicyStatus? = nil
     ) {
         self.status = status
     }
@@ -46742,6 +46962,8 @@ extension EC2ClientTypes {
 
     /// Describes a client connection.
     public struct ClientVpnConnection: Swift.Sendable {
+        /// The date and time the authorization policy was last evaluated for the client connection, if applicable.
+        public var authorizationPolicyLastEvaluatedTime: Swift.String?
         /// The IP address of the client.
         public var clientIp: Swift.String?
         /// The IPv6 address assigned to the client connection when using a dual-stack Client VPN endpoint. This field is only populated when the endpoint is configured for dual-stack addressing, and the client is using IPv6 for connectivity.
@@ -46774,6 +46996,7 @@ extension EC2ClientTypes {
         public var username: Swift.String?
 
         public init(
+            authorizationPolicyLastEvaluatedTime: Swift.String? = nil,
             clientIp: Swift.String? = nil,
             clientIpv6Address: Swift.String? = nil,
             clientVpnEndpointId: Swift.String? = nil,
@@ -46790,6 +47013,7 @@ extension EC2ClientTypes {
             timestamp: Swift.String? = nil,
             username: Swift.String? = nil
         ) {
+            self.authorizationPolicyLastEvaluatedTime = authorizationPolicyLastEvaluatedTime
             self.clientIp = clientIp
             self.clientIpv6Address = clientIpv6Address
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -47091,15 +47315,63 @@ extension EC2ClientTypes {
         public var cloudwatchLogStream: Swift.String?
         /// Indicates whether client connection logging is enabled for the Client VPN endpoint.
         public var enabled: Swift.Bool?
+        /// Specifies whether the authorization policy evaluation context is included in the connection logs for the Client VPN endpoint.
+        public var includeAuthorizationPolicyContext: Swift.Bool?
 
         public init(
             cloudwatchLogGroup: Swift.String? = nil,
             cloudwatchLogStream: Swift.String? = nil,
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            includeAuthorizationPolicyContext: Swift.Bool? = nil
         ) {
             self.cloudwatchLogGroup = cloudwatchLogGroup
             self.cloudwatchLogStream = cloudwatchLogStream
             self.enabled = enabled
+            self.includeAuthorizationPolicyContext = includeAuthorizationPolicyContext
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Information about a device trust provider configured for a Client VPN endpoint.
+    public struct ClientVpnTrustProvider: Swift.Sendable {
+        /// The URL of the public signing key that is used to verify the identity token issued by the device trust provider.
+        public var publicSigningKeyUrl: Swift.String?
+        /// The tenant ID associated with your device trust provider account.
+        public var tenantId: Swift.String?
+        /// The type of the device trust provider. Possible values include:
+        ///
+        /// * crowdstrike - CrowdStrike device trust provider.
+        ///
+        /// * jamf - Jamf device trust provider.
+        ///
+        /// * jumpcloud - JumpCloud device trust provider.
+        public var trustProviderType: EC2ClientTypes.ClientVpnDeviceTrustProviderType?
+
+        public init(
+            publicSigningKeyUrl: Swift.String? = nil,
+            tenantId: Swift.String? = nil,
+            trustProviderType: EC2ClientTypes.ClientVpnDeviceTrustProviderType? = nil
+        ) {
+            self.publicSigningKeyUrl = publicSigningKeyUrl
+            self.tenantId = tenantId
+            self.trustProviderType = trustProviderType
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Information about the device posture options for a Client VPN endpoint.
+    public struct DevicePostureResponseOptions: Swift.Sendable {
+        /// The device trust providers configured for the Client VPN endpoint.
+        public var trustProviders: [EC2ClientTypes.ClientVpnTrustProvider]?
+
+        public init(
+            trustProviders: [EC2ClientTypes.ClientVpnTrustProvider]? = nil
+        ) {
+            self.trustProviders = trustProviders
         }
     }
 }
@@ -47184,6 +47456,8 @@ extension EC2ClientTypes {
         public var deletionTime: Swift.String?
         /// A brief description of the endpoint.
         public var description: Swift.String?
+        /// The device trust providers configured for the Client VPN endpoint, if applicable.
+        public var devicePostureOptions: EC2ClientTypes.DevicePostureResponseOptions?
         /// Indicates whether the client VPN session is disconnected after the maximum sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
         public var disconnectOnSessionTimeout: Swift.Bool?
         /// The DNS name to be used by clients when connecting to the Client VPN endpoint.
@@ -47231,6 +47505,7 @@ extension EC2ClientTypes {
             creationTime: Swift.String? = nil,
             deletionTime: Swift.String? = nil,
             description: Swift.String? = nil,
+            devicePostureOptions: EC2ClientTypes.DevicePostureResponseOptions? = nil,
             disconnectOnSessionTimeout: Swift.Bool? = nil,
             dnsName: Swift.String? = nil,
             dnsServers: [Swift.String]? = nil,
@@ -47260,6 +47535,7 @@ extension EC2ClientTypes {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
             self.description = description
+            self.devicePostureOptions = devicePostureOptions
             self.disconnectOnSessionTimeout = disconnectOnSessionTimeout
             self.dnsName = dnsName
             self.dnsServers = dnsServers
@@ -67222,7 +67498,7 @@ public struct DescribeVpcEndpointsInput: Swift.Sendable {
     ///
     /// * vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).
     ///
-    /// * vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer | Resource | ServiceNetwork).
+    /// * vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer | Resource | ServiceNetwork | Tunnel).
     public var filters: [EC2ClientTypes.Filter]?
     /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1,000, we return only 1,000 items.
     public var maxResults: Swift.Int?
@@ -72571,6 +72847,87 @@ public struct GetCapacityReservationUsageOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.state = state
         self.totalInstanceCount = totalInstanceCount
+    }
+}
+
+public struct GetClientVpnEndpointAuthorizationPolicyInput: Swift.Sendable {
+    /// The ID of the Client VPN endpoint.
+    /// This member is required.
+    public var clientVpnEndpointId: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+
+    public init(
+        clientVpnEndpointId: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil
+    ) {
+        self.clientVpnEndpointId = clientVpnEndpointId
+        self.dryRun = dryRun
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Indicates whether the authorization policy for a Client VPN endpoint is evaluated in shadow mode. Possible values include:
+    ///
+    /// * enabled - The authorization policy is evaluated and the results are logged, but access is not enforced.
+    ///
+    /// * disabled - The authorization policy is enforced.
+    public enum ClientVpnAuthorizationPolicyShadowMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientVpnAuthorizationPolicyShadowMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetClientVpnEndpointAuthorizationPolicyOutput: Swift.Sendable {
+    /// The ID of the Client VPN endpoint.
+    public var clientVpnEndpointId: Swift.String?
+    /// A brief description of the authorization policy.
+    public var description: Swift.String?
+    /// The authorization policy document, written in the Cedar policy language.
+    public var policyDocument: Swift.String?
+    /// Specifies whether the authorization policy is evaluated in shadow mode. Possible values include:
+    ///
+    /// * enabled - The authorization policy is evaluated and the results are logged, but access is not enforced.
+    ///
+    /// * disabled - The authorization policy is enforced.
+    public var shadowMode: EC2ClientTypes.ClientVpnAuthorizationPolicyShadowMode?
+    /// The current state of the authorization policy.
+    public var status: EC2ClientTypes.ClientVpnAuthorizationPolicyStatus?
+
+    public init(
+        clientVpnEndpointId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        policyDocument: Swift.String? = nil,
+        shadowMode: EC2ClientTypes.ClientVpnAuthorizationPolicyShadowMode? = nil,
+        status: EC2ClientTypes.ClientVpnAuthorizationPolicyStatus? = nil
+    ) {
+        self.clientVpnEndpointId = clientVpnEndpointId
+        self.description = description
+        self.policyDocument = policyDocument
+        self.shadowMode = shadowMode
+        self.status = status
     }
 }
 
@@ -79541,6 +79898,8 @@ public struct ModifyClientVpnEndpointInput: Swift.Sendable {
     public var connectionLogOptions: EC2ClientTypes.ConnectionLogOptions?
     /// A brief description of the Client VPN endpoint.
     public var description: Swift.String?
+    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list.
+    public var devicePostureOptions: EC2ClientTypes.DevicePostureOptions?
     /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
     public var disconnectOnSessionTimeout: Swift.Bool?
     /// Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have up to two DNS servers.
@@ -79571,6 +79930,7 @@ public struct ModifyClientVpnEndpointInput: Swift.Sendable {
         clientVpnEndpointId: Swift.String? = nil,
         connectionLogOptions: EC2ClientTypes.ConnectionLogOptions? = nil,
         description: Swift.String? = nil,
+        devicePostureOptions: EC2ClientTypes.DevicePostureOptions? = nil,
         disconnectOnSessionTimeout: Swift.Bool? = nil,
         dnsServers: EC2ClientTypes.DnsServersOptionsModifyStructure? = nil,
         dryRun: Swift.Bool? = nil,
@@ -79589,6 +79949,7 @@ public struct ModifyClientVpnEndpointInput: Swift.Sendable {
         self.clientVpnEndpointId = clientVpnEndpointId
         self.connectionLogOptions = connectionLogOptions
         self.description = description
+        self.devicePostureOptions = devicePostureOptions
         self.disconnectOnSessionTimeout = disconnectOnSessionTimeout
         self.dnsServers = dnsServers
         self.dryRun = dryRun
@@ -79611,6 +79972,56 @@ public struct ModifyClientVpnEndpointOutput: Swift.Sendable {
         `return`: Swift.Bool? = nil
     ) {
         self.`return` = `return`
+    }
+}
+
+public struct ModifyClientVpnEndpointAuthorizationPolicyInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+    public var clientToken: Swift.String?
+    /// The ID of the Client VPN endpoint.
+    /// This member is required.
+    public var clientVpnEndpointId: Swift.String?
+    /// A brief description of the authorization policy.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The authorization policy document, written in the Cedar policy language. This parameter is required when you create the authorization policy for a Client VPN endpoint that does not already have one.
+    public var policyDocument: Swift.String?
+    /// Specifies whether the authorization policy is evaluated in shadow mode. Possible values include:
+    ///
+    /// * enabled - The authorization policy is evaluated and the results are logged, but access is not enforced.
+    ///
+    /// * disabled - The authorization policy is enforced.
+    ///
+    ///
+    /// The default value is disabled.
+    public var shadowMode: EC2ClientTypes.ClientVpnAuthorizationPolicyShadowMode?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clientVpnEndpointId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        policyDocument: Swift.String? = nil,
+        shadowMode: EC2ClientTypes.ClientVpnAuthorizationPolicyShadowMode? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clientVpnEndpointId = clientVpnEndpointId
+        self.description = description
+        self.dryRun = dryRun
+        self.policyDocument = policyDocument
+        self.shadowMode = shadowMode
+    }
+}
+
+public struct ModifyClientVpnEndpointAuthorizationPolicyOutput: Swift.Sendable {
+    /// The current state of the authorization policy.
+    public var status: EC2ClientTypes.ClientVpnAuthorizationPolicyStatus?
+
+    public init(
+        status: EC2ClientTypes.ClientVpnAuthorizationPolicyStatus? = nil
+    ) {
+        self.status = status
     }
 }
 
@@ -90395,6 +90806,13 @@ extension DeleteClientVpnEndpointInput {
     }
 }
 
+extension DeleteClientVpnEndpointAuthorizationPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteClientVpnEndpointAuthorizationPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteClientVpnRouteInput {
 
     static func urlPathProvider(_ value: DeleteClientVpnRouteInput) -> Swift.String? {
@@ -93069,6 +93487,13 @@ extension GetCapacityReservationUsageInput {
     }
 }
 
+extension GetClientVpnEndpointAuthorizationPolicyInput {
+
+    static func urlPathProvider(_ value: GetClientVpnEndpointAuthorizationPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetCoipPoolUsageInput {
 
     static func urlPathProvider(_ value: GetCoipPoolUsageInput) -> Swift.String? {
@@ -93653,6 +94078,13 @@ extension ModifyCapacityReservationFleetInput {
 extension ModifyClientVpnEndpointInput {
 
     static func urlPathProvider(_ value: ModifyClientVpnEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyClientVpnEndpointAuthorizationPolicyInput {
+
+    static func urlPathProvider(_ value: ModifyClientVpnEndpointAuthorizationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -95899,6 +96331,7 @@ extension CreateClientVpnEndpointInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectionLogOptions"].write(value.connectionLogOptions, with: EC2ClientTypes.ConnectionLogOptions.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["DevicePostureOptions"].write(value.devicePostureOptions, with: EC2ClientTypes.DevicePostureOptions.write(value:to:))
         try writer["DisconnectOnSessionTimeout"].write(value.disconnectOnSessionTimeout)
         if !(value.dnsServers?.isEmpty ?? true) {
             try writer["DnsServers"].writeList(value.dnsServers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
@@ -97816,6 +98249,17 @@ extension DeleteClientVpnEndpointInput {
         try writer["ClientVpnEndpointId"].write(value.clientVpnEndpointId)
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("DeleteClientVpnEndpoint")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteClientVpnEndpointAuthorizationPolicyInput {
+
+    static func write(value: DeleteClientVpnEndpointAuthorizationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientVpnEndpointId"].write(value.clientVpnEndpointId)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Action"].write("DeleteClientVpnEndpointAuthorizationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -103443,6 +103887,17 @@ extension GetCapacityReservationUsageInput {
     }
 }
 
+extension GetClientVpnEndpointAuthorizationPolicyInput {
+
+    static func write(value: GetClientVpnEndpointAuthorizationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientVpnEndpointId"].write(value.clientVpnEndpointId)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["Action"].write("GetClientVpnEndpointAuthorizationPolicy")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension GetCoipPoolUsageInput {
 
     static func write(value: GetCoipPoolUsageInput?, to writer: SmithyFormURL.Writer) throws {
@@ -104675,6 +105130,7 @@ extension ModifyClientVpnEndpointInput {
         try writer["ClientVpnEndpointId"].write(value.clientVpnEndpointId)
         try writer["ConnectionLogOptions"].write(value.connectionLogOptions, with: EC2ClientTypes.ConnectionLogOptions.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["DevicePostureOptions"].write(value.devicePostureOptions, with: EC2ClientTypes.DevicePostureOptions.write(value:to:))
         try writer["DisconnectOnSessionTimeout"].write(value.disconnectOnSessionTimeout)
         try writer["DnsServers"].write(value.dnsServers, with: EC2ClientTypes.DnsServersOptionsModifyStructure.write(value:to:))
         try writer["DryRun"].write(value.dryRun)
@@ -104689,6 +105145,21 @@ extension ModifyClientVpnEndpointInput {
         try writer["VpcId"].write(value.vpcId)
         try writer["VpnPort"].write(value.vpnPort)
         try writer["Action"].write("ModifyClientVpnEndpoint")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyClientVpnEndpointAuthorizationPolicyInput {
+
+    static func write(value: ModifyClientVpnEndpointAuthorizationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ClientVpnEndpointId"].write(value.clientVpnEndpointId)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PolicyDocument"].write(value.policyDocument)
+        try writer["ShadowMode"].write(value.shadowMode)
+        try writer["Action"].write("ModifyClientVpnEndpointAuthorizationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -109433,6 +109904,18 @@ extension DeleteClientVpnEndpointOutput {
         let reader = responseReader
         var value = DeleteClientVpnEndpointOutput()
         value.status = try reader["status"].readIfPresent(with: EC2ClientTypes.ClientVpnEndpointStatus.read(from:))
+        return value
+    }
+}
+
+extension DeleteClientVpnEndpointAuthorizationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClientVpnEndpointAuthorizationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteClientVpnEndpointAuthorizationPolicyOutput()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -114191,6 +114674,22 @@ extension GetCapacityReservationUsageOutput {
     }
 }
 
+extension GetClientVpnEndpointAuthorizationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetClientVpnEndpointAuthorizationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetClientVpnEndpointAuthorizationPolicyOutput()
+        value.clientVpnEndpointId = try reader["clientVpnEndpointId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.policyDocument = try reader["policyDocument"].readIfPresent()
+        value.shadowMode = try reader["shadowMode"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetCoipPoolUsageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCoipPoolUsageOutput {
@@ -115317,6 +115816,18 @@ extension ModifyClientVpnEndpointOutput {
         let reader = responseReader
         var value = ModifyClientVpnEndpointOutput()
         value.`return` = try reader["return"].readIfPresent()
+        return value
+    }
+}
+
+extension ModifyClientVpnEndpointAuthorizationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyClientVpnEndpointAuthorizationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyClientVpnEndpointAuthorizationPolicyOutput()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -119509,6 +120020,19 @@ enum DeleteCarrierGatewayOutputError {
 }
 
 enum DeleteClientVpnEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteClientVpnEndpointAuthorizationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -124487,6 +125011,19 @@ enum GetCapacityReservationUsageOutputError {
     }
 }
 
+enum GetClientVpnEndpointAuthorizationPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCoipPoolUsageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -125567,6 +126104,19 @@ enum ModifyCapacityReservationFleetOutputError {
 }
 
 enum ModifyClientVpnEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyClientVpnEndpointAuthorizationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -128863,6 +129413,7 @@ extension EC2ClientTypes.CapacityReservation {
         value.adjustmentDetails = try reader["adjustmentDetails"].readIfPresent(with: EC2ClientTypes.CapacityReservationAdjustmentDetails.read(from:))
         value.originalStartDate = try reader["originalStartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.zeroSizePreference = try reader["zeroSizePreference"].readIfPresent()
+        value.launchStatus = try reader["launchStatus"].readIfPresent()
         return value
     }
 }
@@ -129342,6 +129893,7 @@ extension EC2ClientTypes.ClientVpnConnection {
         value.status = try reader["status"].readIfPresent(with: EC2ClientTypes.ClientVpnConnectionStatus.read(from:))
         value.connectionEndTime = try reader["connectionEndTime"].readIfPresent()
         value.postureComplianceStatuses = try reader["postureComplianceStatusSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.authorizationPolicyLastEvaluatedTime = try reader["authorizationPolicyLastEvaluatedTime"].readIfPresent()
         return value
     }
 }
@@ -129390,6 +129942,7 @@ extension EC2ClientTypes.ClientVpnEndpoint {
         value.endpointIpAddressType = try reader["endpointIpAddressType"].readIfPresent()
         value.trafficIpAddressType = try reader["trafficIpAddressType"].readIfPresent()
         value.transitGatewayConfiguration = try reader["transitGatewayConfiguration"].readIfPresent(with: EC2ClientTypes.TransitGatewayConfigurationDescribeEndpointStructure.read(from:))
+        value.devicePostureOptions = try reader["devicePostureOptions"].readIfPresent(with: EC2ClientTypes.DevicePostureResponseOptions.read(from:))
         return value
     }
 }
@@ -129441,6 +129994,28 @@ extension EC2ClientTypes.ClientVpnRouteStatus {
         value.code = try reader["code"].readIfPresent()
         value.message = try reader["message"].readIfPresent()
         return value
+    }
+}
+
+extension EC2ClientTypes.ClientVpnTrustProvider {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ClientVpnTrustProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ClientVpnTrustProvider()
+        value.trustProviderType = try reader["trustProviderType"].readIfPresent()
+        value.tenantId = try reader["tenantId"].readIfPresent()
+        value.publicSigningKeyUrl = try reader["publicSigningKeyUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ClientVpnTrustProviderRequest {
+
+    static func write(value: EC2ClientTypes.ClientVpnTrustProviderRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["PublicSigningKeyUrl"].write(value.publicSigningKeyUrl)
+        try writer["TenantId"].write(value.tenantId)
+        try writer["TrustProviderType"].write(value.trustProviderType)
     }
 }
 
@@ -129518,6 +130093,7 @@ extension EC2ClientTypes.ConnectionLogOptions {
         try writer["CloudwatchLogGroup"].write(value.cloudwatchLogGroup)
         try writer["CloudwatchLogStream"].write(value.cloudwatchLogStream)
         try writer["Enabled"].write(value.enabled)
+        try writer["IncludeAuthorizationPolicyContext"].write(value.includeAuthorizationPolicyContext)
     }
 }
 
@@ -129529,6 +130105,7 @@ extension EC2ClientTypes.ConnectionLogResponseOptions {
         value.enabled = try reader["Enabled"].readIfPresent()
         value.cloudwatchLogGroup = try reader["CloudwatchLogGroup"].readIfPresent()
         value.cloudwatchLogStream = try reader["CloudwatchLogStream"].readIfPresent()
+        value.includeAuthorizationPolicyContext = try reader["IncludeAuthorizationPolicyContext"].readIfPresent()
         return value
     }
 }
@@ -130213,6 +130790,27 @@ extension EC2ClientTypes.DeviceOptions {
         var value = EC2ClientTypes.DeviceOptions()
         value.tenantId = try reader["tenantId"].readIfPresent()
         value.publicSigningKeyUrl = try reader["publicSigningKeyUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.DevicePostureOptions {
+
+    static func write(value: EC2ClientTypes.DevicePostureOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        if !(value.trustProviders?.isEmpty ?? true) {
+            try writer["TrustProvider"].writeList(value.trustProviders, memberWritingClosure: EC2ClientTypes.ClientVpnTrustProviderRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+}
+
+extension EC2ClientTypes.DevicePostureResponseOptions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.DevicePostureResponseOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.DevicePostureResponseOptions()
+        value.trustProviders = try reader["trustProviderSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ClientVpnTrustProvider.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }

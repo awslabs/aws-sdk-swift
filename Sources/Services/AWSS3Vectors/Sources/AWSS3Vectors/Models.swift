@@ -577,6 +577,35 @@ public struct GetIndexInput: Swift.Sendable {
 
 extension S3VectorsClientTypes {
 
+    public enum IndexMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case classic
+        case enhanced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IndexMode] {
+            return [
+                .classic,
+                .enhanced
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .classic: return "CLASSIC"
+            case .enhanced: return "ENHANCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3VectorsClientTypes {
+
     /// The attributes of a vector index.
     public struct Index: Swift.Sendable {
         /// Date and time when the vector index was created.
@@ -596,6 +625,12 @@ extension S3VectorsClientTypes {
         /// The Amazon Resource Name (ARN) of the vector index.
         /// This member is required.
         public var indexArn: Swift.String?
+        /// The mode that determines how the vector index processes queries. Valid values:
+        ///
+        /// * CLASSIC - Applies metadata filters during the vector search.
+        ///
+        /// * ENHANCED - Applies metadata filters before the vector search.
+        public var indexMode: S3VectorsClientTypes.IndexMode?
         /// The name of the vector index.
         /// This member is required.
         public var indexName: Swift.String?
@@ -612,6 +647,7 @@ extension S3VectorsClientTypes {
             distanceMetric: S3VectorsClientTypes.DistanceMetric? = nil,
             encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration? = nil,
             indexArn: Swift.String? = nil,
+            indexMode: S3VectorsClientTypes.IndexMode? = nil,
             indexName: Swift.String? = nil,
             metadataConfiguration: S3VectorsClientTypes.MetadataConfiguration? = nil,
             vectorBucketName: Swift.String? = nil
@@ -622,6 +658,7 @@ extension S3VectorsClientTypes {
             self.distanceMetric = distanceMetric
             self.encryptionConfiguration = encryptionConfiguration
             self.indexArn = indexArn
+            self.indexMode = indexMode
             self.indexName = indexName
             self.metadataConfiguration = metadataConfiguration
             self.vectorBucketName = vectorBucketName
@@ -697,6 +734,8 @@ extension S3VectorsClientTypes {
         /// Date and time when the vector bucket was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
+        /// The mode that is automatically assigned to new vector indexes in the vector bucket. Changing the default index mode doesn't affect existing vector indexes.
+        public var defaultIndexMode: S3VectorsClientTypes.IndexMode?
         /// The encryption configuration for the vector bucket.
         public var encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the vector bucket.
@@ -708,11 +747,13 @@ extension S3VectorsClientTypes {
 
         public init(
             creationTime: Foundation.Date? = nil,
+            defaultIndexMode: S3VectorsClientTypes.IndexMode? = nil,
             encryptionConfiguration: S3VectorsClientTypes.EncryptionConfiguration? = nil,
             vectorBucketArn: Swift.String? = nil,
             vectorBucketName: Swift.String? = nil
         ) {
             self.creationTime = creationTime
+            self.defaultIndexMode = defaultIndexMode
             self.encryptionConfiguration = encryptionConfiguration
             self.vectorBucketArn = vectorBucketArn
             self.vectorBucketName = vectorBucketName
@@ -876,6 +917,39 @@ public struct ListIndexesOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateIndexModeInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the vector index to update.
+    public var indexArn: Swift.String?
+    /// The new mode for the vector index. Valid values:
+    ///
+    /// * CLASSIC - Applies metadata filters during the vector search. You can specify CLASSIC only for a vector index in a vector bucket created before September 30, 2026.
+    ///
+    /// * ENHANCED - Applies metadata filters before the vector search.
+    /// This member is required.
+    public var indexMode: S3VectorsClientTypes.IndexMode?
+    /// The name of the vector index to update.
+    public var indexName: Swift.String?
+    /// The name of the vector bucket that contains the vector index.
+    public var vectorBucketName: Swift.String?
+
+    public init(
+        indexArn: Swift.String? = nil,
+        indexMode: S3VectorsClientTypes.IndexMode? = nil,
+        indexName: Swift.String? = nil,
+        vectorBucketName: Swift.String? = nil
+    ) {
+        self.indexArn = indexArn
+        self.indexMode = indexMode
+        self.indexName = indexName
+        self.vectorBucketName = vectorBucketName
+    }
+}
+
+public struct UpdateIndexModeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct ListVectorsInput: Swift.Sendable {
     /// The Amazon resource Name (ARN) of the vector index.
     public var indexArn: Swift.String?
@@ -1026,6 +1100,12 @@ public struct QueryVectorsInput: Swift.Sendable {
     public var indexName: Swift.String?
     /// Pagination token from a previous request. The value of this field is empty for an initial request.
     public var nextToken: Swift.String?
+    /// The mode to use to process the query. If you don't specify a query mode, the operation uses the mode that's currently configured for the vector index. Valid values:
+    ///
+    /// * CLASSIC - Applies metadata filters during the vector search. You can't specify CLASSIC for an ENHANCED index.
+    ///
+    /// * ENHANCED - Applies metadata filters before the vector search.
+    public var queryMode: S3VectorsClientTypes.IndexMode?
     /// The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
     /// This member is required.
     public var queryVector: S3VectorsClientTypes.VectorData?
@@ -1044,6 +1124,7 @@ public struct QueryVectorsInput: Swift.Sendable {
         indexArn: Swift.String? = nil,
         indexName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
+        queryMode: S3VectorsClientTypes.IndexMode? = nil,
         queryVector: S3VectorsClientTypes.VectorData? = nil,
         returnDistance: Swift.Bool? = nil,
         returnMetadata: Swift.Bool? = nil,
@@ -1054,6 +1135,7 @@ public struct QueryVectorsInput: Swift.Sendable {
         self.indexArn = indexArn
         self.indexName = indexName
         self.nextToken = nextToken
+        self.queryMode = queryMode
         self.queryVector = queryVector
         self.returnDistance = returnDistance
         self.returnMetadata = returnMetadata
@@ -1214,6 +1296,31 @@ public struct ListVectorBucketsOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.vectorBuckets = vectorBuckets
     }
+}
+
+public struct PutVectorBucketDefaultIndexModeInput: Swift.Sendable {
+    /// The default mode to assign to new vector indexes in the vector bucket. This change doesn't affect existing vector indexes.
+    /// This member is required.
+    public var defaultIndexMode: S3VectorsClientTypes.IndexMode?
+    /// The Amazon Resource Name (ARN) of the vector bucket to update.
+    public var vectorBucketArn: Swift.String?
+    /// The name of the vector bucket to update.
+    public var vectorBucketName: Swift.String?
+
+    public init(
+        defaultIndexMode: S3VectorsClientTypes.IndexMode? = nil,
+        vectorBucketArn: Swift.String? = nil,
+        vectorBucketName: Swift.String? = nil
+    ) {
+        self.defaultIndexMode = defaultIndexMode
+        self.vectorBucketArn = vectorBucketArn
+        self.vectorBucketName = vectorBucketName
+    }
+}
+
+public struct PutVectorBucketDefaultIndexModeOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct PutVectorBucketPolicyInput: Swift.Sendable {
@@ -1483,6 +1590,13 @@ extension ListVectorsInput {
     }
 }
 
+extension PutVectorBucketDefaultIndexModeInput {
+
+    static func urlPathProvider(_ value: PutVectorBucketDefaultIndexModeInput) -> Swift.String? {
+        return "/PutVectorBucketDefaultIndexMode"
+    }
+}
+
 extension PutVectorBucketPolicyInput {
 
     static func urlPathProvider(_ value: PutVectorBucketPolicyInput) -> Swift.String? {
@@ -1537,6 +1651,13 @@ extension UntagResourceInput {
             items.append(queryItem)
         }
         return items
+    }
+}
+
+extension UpdateIndexModeInput {
+
+    static func urlPathProvider(_ value: UpdateIndexModeInput) -> Swift.String? {
+        return "/UpdateIndexMode"
     }
 }
 
@@ -1684,6 +1805,16 @@ extension ListVectorsInput {
     }
 }
 
+extension PutVectorBucketDefaultIndexModeInput {
+
+    static func write(value: PutVectorBucketDefaultIndexModeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultIndexMode"].write(value.defaultIndexMode)
+        try writer["vectorBucketArn"].write(value.vectorBucketArn)
+        try writer["vectorBucketName"].write(value.vectorBucketName)
+    }
+}
+
 extension PutVectorBucketPolicyInput {
 
     static func write(value: PutVectorBucketPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -1713,6 +1844,7 @@ extension QueryVectorsInput {
         try writer["indexArn"].write(value.indexArn)
         try writer["indexName"].write(value.indexName)
         try writer["nextToken"].write(value.nextToken)
+        try writer["queryMode"].write(value.queryMode)
         try writer["queryVector"].write(value.queryVector, with: S3VectorsClientTypes.VectorData.write(value:to:))
         try writer["returnDistance"].write(value.returnDistance)
         try writer["returnMetadata"].write(value.returnMetadata)
@@ -1726,6 +1858,17 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateIndexModeInput {
+
+    static func write(value: UpdateIndexModeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["indexArn"].write(value.indexArn)
+        try writer["indexMode"].write(value.indexMode)
+        try writer["indexName"].write(value.indexName)
+        try writer["vectorBucketName"].write(value.vectorBucketName)
     }
 }
 
@@ -1880,6 +2023,13 @@ extension ListVectorsOutput {
     }
 }
 
+extension PutVectorBucketDefaultIndexModeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutVectorBucketDefaultIndexModeOutput {
+        return PutVectorBucketDefaultIndexModeOutput()
+    }
+}
+
 extension PutVectorBucketPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutVectorBucketPolicyOutput {
@@ -1919,6 +2069,13 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateIndexModeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIndexModeOutput {
+        return UpdateIndexModeOutput()
     }
 }
 
@@ -2170,6 +2327,22 @@ enum ListVectorsOutputError {
     }
 }
 
+enum PutVectorBucketDefaultIndexModeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutVectorBucketPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2255,6 +2428,22 @@ enum UntagResourceOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIndexModeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2475,6 +2664,7 @@ extension S3VectorsClientTypes.Index {
         value.distanceMetric = try reader["distanceMetric"].readIfPresent() ?? .sdkUnknown("")
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: S3VectorsClientTypes.MetadataConfiguration.read(from:))
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3VectorsClientTypes.EncryptionConfiguration.read(from:))
+        value.indexMode = try reader["indexMode"].readIfPresent()
         return value
     }
 }
@@ -2561,6 +2751,7 @@ extension S3VectorsClientTypes.VectorBucket {
         value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent() ?? ""
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3VectorsClientTypes.EncryptionConfiguration.read(from:))
+        value.defaultIndexMode = try reader["defaultIndexMode"].readIfPresent()
         return value
     }
 }

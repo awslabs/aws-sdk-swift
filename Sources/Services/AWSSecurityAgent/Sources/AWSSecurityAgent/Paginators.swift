@@ -326,6 +326,7 @@ extension ListPentestJobsForPentestInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListPentestJobsForPentestInput {
         return ListPentestJobsForPentestInput(
             agentSpaceId: self.agentSpaceId,
+            jobType: self.jobType,
             maxResults: self.maxResults,
             nextToken: token,
             pentestId: self.pentestId

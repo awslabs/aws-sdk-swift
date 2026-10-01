@@ -12182,6 +12182,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteClientVpnEndpointAuthorizationPolicy` operation on the `EC2` service.
+    ///
+    /// Deletes the authorization policy for a Client VPN endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteClientVpnEndpointAuthorizationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteClientVpnEndpointAuthorizationPolicyOutput`)
+    public func deleteClientVpnEndpointAuthorizationPolicy(input: DeleteClientVpnEndpointAuthorizationPolicyInput) async throws -> DeleteClientVpnEndpointAuthorizationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteClientVpnEndpointAuthorizationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>(DeleteClientVpnEndpointAuthorizationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClientVpnEndpointAuthorizationPolicyOutput>(DeleteClientVpnEndpointAuthorizationPolicyOutput.httpOutput(from:), DeleteClientVpnEndpointAuthorizationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClientVpnEndpointAuthorizationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClientVpnEndpointAuthorizationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteClientVpnEndpointAuthorizationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClientVpnEndpointAuthorizationPolicyInput, DeleteClientVpnEndpointAuthorizationPolicyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteClientVpnEndpointAuthorizationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteClientVpnRoute` operation on the `EC2` service.
     ///
     /// Deletes a route from a Client VPN endpoint. You can only delete routes that you manually added using the CreateClientVpnRoute action. You cannot delete routes that were automatically added when associating a subnet. To remove routes that have been automatically added, disassociate the target subnet from the Client VPN endpoint.
@@ -36404,6 +36467,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetClientVpnEndpointAuthorizationPolicy` operation on the `EC2` service.
+    ///
+    /// Describes the authorization policy for a Client VPN endpoint.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetClientVpnEndpointAuthorizationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetClientVpnEndpointAuthorizationPolicyOutput`)
+    public func getClientVpnEndpointAuthorizationPolicy(input: GetClientVpnEndpointAuthorizationPolicyInput) async throws -> GetClientVpnEndpointAuthorizationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getClientVpnEndpointAuthorizationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>(GetClientVpnEndpointAuthorizationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClientVpnEndpointAuthorizationPolicyOutput>(GetClientVpnEndpointAuthorizationPolicyOutput.httpOutput(from:), GetClientVpnEndpointAuthorizationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetClientVpnEndpointAuthorizationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetClientVpnEndpointAuthorizationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetClientVpnEndpointAuthorizationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClientVpnEndpointAuthorizationPolicyInput, GetClientVpnEndpointAuthorizationPolicyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetClientVpnEndpointAuthorizationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCoipPoolUsage` operation on the `EC2` service.
     ///
     /// Describes the allocations from the specified customer-owned address pool.
@@ -41749,6 +41875,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyClientVpnEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyClientVpnEndpointAuthorizationPolicy` operation on the `EC2` service.
+    ///
+    /// Creates or updates the authorization policy for a Client VPN endpoint. A Client VPN endpoint can have one authorization policy. If a policy already exists for the endpoint, the values that you specify replace the corresponding values in the existing policy, and values that you do not specify remain unchanged.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyClientVpnEndpointAuthorizationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyClientVpnEndpointAuthorizationPolicyOutput`)
+    public func modifyClientVpnEndpointAuthorizationPolicy(input: ModifyClientVpnEndpointAuthorizationPolicyInput) async throws -> ModifyClientVpnEndpointAuthorizationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyClientVpnEndpointAuthorizationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>(ModifyClientVpnEndpointAuthorizationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClientVpnEndpointAuthorizationPolicyOutput>(ModifyClientVpnEndpointAuthorizationPolicyOutput.httpOutput(from:), ModifyClientVpnEndpointAuthorizationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClientVpnEndpointAuthorizationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyClientVpnEndpointAuthorizationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyClientVpnEndpointAuthorizationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyClientVpnEndpointAuthorizationPolicyInput, ModifyClientVpnEndpointAuthorizationPolicyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyClientVpnEndpointAuthorizationPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -1829,6 +1829,8 @@ extension EKSClientTypes {
         /// Configuration for IAM Identity CenterIAM; Identity Center integration. When configured, users can authenticate to Argo CD using their IAM Identity CenterIAM; Identity Center credentials.
         /// This member is required.
         public var awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigRequest?
+        /// An optional prefix used to construct the hostname of the Argo CD server endpoint. If not specified, Amazon EKS automatically generates the endpoint. This value can't be changed after the capability is created.
+        public var endpointPrefix: Swift.String?
         /// The Kubernetes namespace where Argo CD resources will be created. If not specified, the default namespace is used.
         public var namespace: Swift.String?
         /// Configuration for network access to the Argo CD capability's managed API server endpoint. By default, the Argo CD server is accessible via a public endpoint. You can optionally specify one or more VPC endpoint IDs to enable private connectivity from your VPCs. When VPC endpoints are configured, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
@@ -1838,11 +1840,13 @@ extension EKSClientTypes {
 
         public init(
             awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigRequest? = nil,
+            endpointPrefix: Swift.String? = nil,
             namespace: Swift.String? = nil,
             networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigRequest? = nil,
             rbacRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]? = nil
         ) {
             self.awsIdc = awsIdc
+            self.endpointPrefix = endpointPrefix
             self.namespace = namespace
             self.networkAccess = networkAccess
             self.rbacRoleMappings = rbacRoleMappings
@@ -1871,6 +1875,8 @@ extension EKSClientTypes {
     public struct ArgoCdConfigResponse: Swift.Sendable {
         /// The IAM Identity CenterIAM; Identity Center integration configuration.
         public var awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigResponse?
+        /// The prefix that was configured for the hostname of the Argo CD server endpoint when the capability was created.
+        public var endpointPrefix: Swift.String?
         /// The Kubernetes namespace where Argo CD resources are monitored by your Argo CD Capability.
         public var namespace: Swift.String?
         /// The network access configuration for the Argo CD capability's managed API server endpoint. If VPC endpoint IDs are specified, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
@@ -1882,12 +1888,14 @@ extension EKSClientTypes {
 
         public init(
             awsIdc: EKSClientTypes.ArgoCdAwsIdcConfigResponse? = nil,
+            endpointPrefix: Swift.String? = nil,
             namespace: Swift.String? = nil,
             networkAccess: EKSClientTypes.ArgoCdNetworkAccessConfigResponse? = nil,
             rbacRoleMappings: [EKSClientTypes.ArgoCdRoleMapping]? = nil,
             serverUrl: Swift.String? = nil
         ) {
             self.awsIdc = awsIdc
+            self.endpointPrefix = endpointPrefix
             self.namespace = namespace
             self.networkAccess = networkAccess
             self.rbacRoleMappings = rbacRoleMappings
@@ -13389,6 +13397,7 @@ extension EKSClientTypes.ArgoCdConfigRequest {
     static func write(value: EKSClientTypes.ArgoCdConfigRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["awsIdc"].write(value.awsIdc, with: EKSClientTypes.ArgoCdAwsIdcConfigRequest.write(value:to:))
+        try writer["endpointPrefix"].write(value.endpointPrefix)
         try writer["namespace"].write(value.namespace)
         try writer["networkAccess"].write(value.networkAccess, with: EKSClientTypes.ArgoCdNetworkAccessConfigRequest.write(value:to:))
         try writer["rbacRoleMappings"].writeList(value.rbacRoleMappings, memberWritingClosure: EKSClientTypes.ArgoCdRoleMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13405,6 +13414,7 @@ extension EKSClientTypes.ArgoCdConfigResponse {
         value.rbacRoleMappings = try reader["rbacRoleMappings"].readListIfPresent(memberReadingClosure: EKSClientTypes.ArgoCdRoleMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.networkAccess = try reader["networkAccess"].readIfPresent(with: EKSClientTypes.ArgoCdNetworkAccessConfigResponse.read(from:))
         value.serverUrl = try reader["serverUrl"].readIfPresent()
+        value.endpointPrefix = try reader["endpointPrefix"].readIfPresent()
         return value
     }
 }

@@ -1524,6 +1524,35 @@ public struct UpdateCertificateOutput: Swift.Sendable {
     }
 }
 
+extension TransferClientTypes {
+
+    public enum CommunicationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientTalkFirst
+        case serverTalkFirst
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommunicationMode] {
+            return [
+                .clientTalkFirst,
+                .serverTalkFirst
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientTalkFirst: return "CLIENT_TALK_FIRST"
+            case .serverTalkFirst: return "SERVER_TALK_FIRST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// This exception is thrown when the UpdateServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2743,13 +2772,13 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
-    /// Contains configuration for PROXY protocol version 2 (PPv2) support on an Transfer Family server. When enabled, Transfer Family reads the added PPv2 header from incoming connections to extract the original client IP address. This address is then available in Amazon CloudWatch Logs entries and is passed to custom identity providers during authentication, enabling IP-based access policies. For more information, see [Working with Network Load Balancers](https://docs.aws.amazon.com/transfer/latest/userguide/working-with-nlb.html).
+    /// Contains configuration for PROXY protocol version 2 (PPv2) support on an Transfer Family server. When enabled, Transfer Family reads the added PPv2 header from incoming connections to extract the client's source IP address. This address is then available in Amazon CloudWatch Logs entries and is passed to custom identity providers during authentication, enabling IP-based access policies. For more information, see [Working with Network Load Balancers](https://docs.aws.amazon.com/transfer/latest/userguide/working-with-nlb.html).
     public struct ProxyConfig: Swift.Sendable {
-        /// Specifies whether the Transfer Family server requires or ignores a PPv2 header containing the original client IP address on incoming SFTP connections. If you don't specify a value, the default is NONE
+        /// Specifies whether the Transfer Family server requires or ignores a PPv2 header containing the client's source IP address on incoming SFTP connections. If you don't specify a value, the default is NONE
         ///
-        /// * NONE: the server reads and ignores any PPv2 header on incoming SFTP connections. This is the default value. Use this value when your SFTP server is not behind an NLB, or when you do not need to preserve client source IP addresses through an NLB.
+        /// * NONE: the server reads and ignores any PPv2 header on incoming SFTP connections. This is the default value. Use this value when your SFTP server is not behind an NLB, or when you do not need to preserve the client's source IP address through an NLB.
         ///
-        /// * PROXY_PROTOCOL_V2_ENFORCED: the server requires a valid PPv2 header on every incoming SFTP connection. When a valid header is present, the server applies it and uses the client IP address from the header. If a connection arrives without a PPv2 header, the server refuses the connection and logs an error to Amazon CloudWatch Logs indicating that the expected PPv2 header was missing. Use this value when your SFTP server is behind an NLB with PPv2 enabled on the target group. When you enable PROXY_PROTOCOL_V2_ENFORCED, the server trusts the source IP address in the PPv2 header. You must configure security groups on your server's VPC endpoint to restrict inbound traffic to only the NLB's private IP addresses. For the full requirements, see [Working with Network Load Balancers](https://docs.aws.amazon.com/transfer/latest/userguide/working-with-nlb.html).
+        /// * PROXY_PROTOCOL_V2_ENFORCED: the server requires a valid PPv2 header on every incoming SFTP connection. When a valid header is present, the server applies it and uses the source IP address from the header. If a connection arrives without a PPv2 header, the server refuses the connection and logs an error to Amazon CloudWatch Logs indicating that the expected PPv2 header was missing. Use this value when your SFTP server is behind an NLB with PPv2 enabled on the target group. With PROXY_PROTOCOL_V2_ENFORCED you must restrict the server's VPC endpoint security group to allow inbound traffic only via the trusted NLB. For more information, see [Working with Network Load Balancers](https://docs.aws.amazon.com/transfer/latest/userguide/working-with-nlb.html).
         public var sftpMode: TransferClientTypes.ProxyMode?
 
         public init(
@@ -2785,6 +2814,26 @@ extension TransferClientTypes {
             case .enableNoOp: return "ENABLE_NO_OP"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Specifies the configuration for a single SFTP port on a Transfer Family server that uses the SFTP protocol and has a PUBLIC endpoint. Each entry in the SftpPorts list is an SftpPortWithOptions object that pairs a port number with a communication mode.
+    public struct SftpPortWithOptions: Swift.Sendable {
+        /// Determines whether the server or the client sends data first when a client establishes an SFTP connection on this port. Valid values are SERVER_TALK_FIRST and CLIENT_TALK_FIRST. For a description of each mode, see the SftpPorts property. This value is optional.
+        public var communicationMode: TransferClientTypes.CommunicationMode?
+        /// The port on which the Transfer Family server listens for SFTP connections. Specify any integer from 2000 to 65535, or 22. This value is required for each entry in the SftpPorts list.
+        /// This member is required.
+        public var sftpPort: Swift.Int?
+
+        public init(
+            communicationMode: TransferClientTypes.CommunicationMode? = nil,
+            sftpPort: Swift.Int? = nil
+        ) {
+            self.communicationMode = communicationMode
+            self.sftpPort = sftpPort
         }
     }
 }
@@ -2833,6 +2882,15 @@ extension TransferClientTypes {
         public var proxyConfig: TransferClientTypes.ProxyConfig?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOptionENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call. If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public var setStatOption: TransferClientTypes.SetStatOption?
+        /// A property used with Transfer Family servers that use the SFTP protocol and have PUBLIC endpoints. This property accepts a list of up to three port configurations that the service opens on the server endpoint. Each entry in the list consists of two parameters, the SftpPort and the CommunicationMode. The SftpPort takes any integer from 2000 to 65535, or 22. CommunicationMode can be one of the following options:
+        ///
+        /// * SERVER_TALK_FIRST: The server responds to initial TCP connections first. Many older clients expect that an SFTP server responds with its server string before starting SSH negotiations.
+        ///
+        /// * CLIENT_TALK_FIRST: The server responds to the initial TCP connection only after receiving a data packet. Most modern clients support this behavior and send their client string along with the initial data packets for SSH negotiation. Additionally, this mode is more resilient to TCP retransmissions that can occur during the initial TCP connection.
+        ///
+        ///
+        /// The following is an SftpPorts example for port 2222 with CLIENT_TALK_FIRST. [ { "SftpPort": 2222, "CommunicationMode": "CLIENT_TALK_FIRST" } ] If you don't specify any configurations during CreateServer, the service uses port 22 with SERVER_TALK_FIRST by default.
+        public var sftpPorts: [TransferClientTypes.SftpPortWithOptions]?
         /// A property used with Transfer Family servers that use the FTPS protocol. TLS Session Resumption provides a mechanism to resume or share a negotiated secret key between the control and data connection for an FTPS session. TlsSessionResumptionMode determines whether or not the server resumes recent, negotiated sessions through a unique session ID. This property is available during CreateServer and UpdateServer calls. If a TlsSessionResumptionMode value is not specified during CreateServer, it is set to ENFORCED by default.
         ///
         /// * DISABLED: the server does not process TLS session resumption client requests and creates a new TLS session for each request.
@@ -2847,12 +2905,14 @@ extension TransferClientTypes {
             passiveIp: Swift.String? = nil,
             proxyConfig: TransferClientTypes.ProxyConfig? = nil,
             setStatOption: TransferClientTypes.SetStatOption? = nil,
+            sftpPorts: [TransferClientTypes.SftpPortWithOptions]? = nil,
             tlsSessionResumptionMode: TransferClientTypes.TlsSessionResumptionMode? = nil
         ) {
             self.as2Transports = as2Transports
             self.passiveIp = passiveIp
             self.proxyConfig = proxyConfig
             self.setStatOption = setStatOption
+            self.sftpPorts = sftpPorts
             self.tlsSessionResumptionMode = tlsSessionResumptionMode
         }
     }
@@ -3033,6 +3093,8 @@ public struct CreateServerInput: Swift.Sendable {
     /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
     ///
     /// * To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.
+    ///
+    /// * To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.
     ///
     /// * To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.
     ///
@@ -4579,6 +4641,8 @@ extension TransferClientTypes {
         ///
         /// * To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.
         ///
+        /// * To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.
+        ///
         /// * To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.
         ///
         /// * As2Transports indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
@@ -6062,6 +6126,8 @@ public struct UpdateServerInput: Swift.Sendable {
     /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
     ///
     /// * To ignore the error that is generated when the client attempts to use the SETSTAT command on a file that you are uploading to an Amazon S3 bucket, use the SetStatOption parameter. To have the Transfer Family server ignore the SETSTAT command and upload files without needing to make any changes to your SFTP client, set the value to ENABLE_NO_OP. If you set the SetStatOption parameter to ENABLE_NO_OP, Transfer Family generates a log entry to Amazon CloudWatch Logs, so that you can determine when the client is making a SETSTAT call.
+    ///
+    /// * To specify which ports your Transfer Family server listens to, use the SftpPorts parameter.
     ///
     /// * To determine whether your Transfer Family server resumes recent, negotiated sessions through a unique session ID, use the TlsSessionResumptionMode parameter.
     ///

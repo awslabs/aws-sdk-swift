@@ -1633,6 +1633,162 @@ extension BillingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListBusinessSupportAccountCharges` operation on the `Billing` service.
+    ///
+    /// Returns Business Support charges broken down at the linked account level for a given billing month.
+    ///
+    /// - Parameter input: Contains the billing month and optional filters used to retrieve Business Support charges broken down by linked account. (Type: `ListBusinessSupportAccountChargesInput`)
+    ///
+    /// - Returns: Contains the Business Support charges broken down by linked account for the specified billing month, along with account and spend totals. (Type: `ListBusinessSupportAccountChargesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func listBusinessSupportAccountCharges(input: ListBusinessSupportAccountChargesInput) async throws -> ListBusinessSupportAccountChargesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BillingClient.listBusinessSupportAccountChargesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listBusinessSupportAccountCharges")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "billing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListBusinessSupportAccountChargesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Billing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBusinessSupportAccountChargesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>(overrides: ["X-Amz-Target": "AWSBilling.ListBusinessSupportAccountCharges"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBusinessSupportAccountChargesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Billing"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBusinessSupportAccountChargesInput, ListBusinessSupportAccountChargesOutput>(serviceID: serviceName, version: BillingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBusinessSupportAccountCharges")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListBusinessSupportSubscriptionHistory` operation on the `Billing` service.
+    ///
+    /// Returns the history of Business Support subscription contracts across accounts.
+    ///
+    /// - Parameter input: Contains the optional filters used to retrieve the history of Business Support subscription contracts across accounts. (Type: `ListBusinessSupportSubscriptionHistoryInput`)
+    ///
+    /// - Returns: Contains the list of Business Support subscription contracts that match the request filters. (Type: `ListBusinessSupportSubscriptionHistoryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The specified ARN in the request doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func listBusinessSupportSubscriptionHistory(input: ListBusinessSupportSubscriptionHistoryInput) async throws -> ListBusinessSupportSubscriptionHistoryOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = BillingClient.listBusinessSupportSubscriptionHistoryOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listBusinessSupportSubscriptionHistory")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "billing")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListBusinessSupportSubscriptionHistoryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Billing", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBusinessSupportSubscriptionHistoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>(overrides: ["X-Amz-Target": "AWSBilling.ListBusinessSupportSubscriptionHistory"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBusinessSupportSubscriptionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Billing"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBusinessSupportSubscriptionHistoryInput, ListBusinessSupportSubscriptionHistoryOutput>(serviceID: serviceName, version: BillingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Billing")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBusinessSupportSubscriptionHistory")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListEnterpriseSupportLinkedAccountCharges` operation on the `Billing` service.
     ///
     /// Returns Support-eligible spend broken down at linked account level.

@@ -780,14 +780,61 @@ extension AccountClientTypes.ContactInformation: Swift.CustomDebugStringConverti
         "ContactInformation(addressLine1: \"CONTENT_REDACTED\", addressLine2: \"CONTENT_REDACTED\", addressLine3: \"CONTENT_REDACTED\", city: \"CONTENT_REDACTED\", companyName: \"CONTENT_REDACTED\", countryCode: \"CONTENT_REDACTED\", districtOrCounty: \"CONTENT_REDACTED\", fullName: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", stateOrRegion: \"CONTENT_REDACTED\", websiteUrl: \"CONTENT_REDACTED\")"}
 }
 
+extension AccountClientTypes {
+
+    public enum PhoneNumberVerificationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notSupported
+        case pending
+        case unverified
+        case verified
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PhoneNumberVerificationStatus] {
+            return [
+                .notSupported,
+                .pending,
+                .unverified,
+                .verified
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notSupported: return "NOT_SUPPORTED"
+            case .pending: return "PENDING"
+            case .unverified: return "UNVERIFIED"
+            case .verified: return "VERIFIED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetContactInformationOutput: Swift.Sendable {
     /// Contains the details of the primary contact information associated with an Amazon Web Services account.
     public var contactInformation: AccountClientTypes.ContactInformation?
+    /// The verification status of the phone number in the primary contact information associated with an Amazon Web Services account. Valid values:
+    ///
+    /// * PENDING – A one-time passcode has been sent and is waiting to be submitted.
+    ///
+    /// * VERIFIED – The phone number has been verified.
+    ///
+    /// * UNVERIFIED – The phone number has not been verified.
+    ///
+    /// * NOT_SUPPORTED – Phone number verification isn't available for this account.
+    public var verificationStatus: AccountClientTypes.PhoneNumberVerificationStatus?
 
     public init(
-        contactInformation: AccountClientTypes.ContactInformation? = nil
+        contactInformation: AccountClientTypes.ContactInformation? = nil,
+        verificationStatus: AccountClientTypes.PhoneNumberVerificationStatus? = nil
     ) {
         self.contactInformation = contactInformation
+        self.verificationStatus = verificationStatus
     }
 }
 
@@ -804,6 +851,76 @@ public struct PutContactInformationInput: Swift.Sendable {
     ) {
         self.accountId = accountId
         self.contactInformation = contactInformation
+    }
+}
+
+public struct SendPhoneNumberVerificationInput: Swift.Sendable {
+    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html) enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin) account assigned. The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    public var accountId: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+    }
+}
+
+public struct SendPhoneNumberVerificationOutput: Swift.Sendable {
+    /// The verification status of the phone number in the primary contact information after the one-time passcode is sent. Valid values:
+    ///
+    /// * PENDING – A one-time passcode has been sent and is waiting to be submitted.
+    ///
+    /// * VERIFIED – The phone number has been verified.
+    ///
+    /// * UNVERIFIED – The phone number has not been verified.
+    ///
+    /// * NOT_SUPPORTED – Phone number verification isn't available for this account.
+    public var status: AccountClientTypes.PhoneNumberVerificationStatus?
+
+    public init(
+        status: AccountClientTypes.PhoneNumberVerificationStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+public struct VerifyPhoneNumberInput: Swift.Sendable {
+    /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-account.html) enabled for the Account Management service, and optionally a [delegated administrator](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#delegated-admin) account assigned. The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    public var accountId: Swift.String?
+    /// The one-time passcode sent to the phone number in the primary contact information by the SendPhoneNumberVerification operation.
+    /// This member is required.
+    public var otp: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        otp: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.otp = otp
+    }
+}
+
+extension VerifyPhoneNumberInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VerifyPhoneNumberInput(accountId: \(Swift.String(describing: accountId)), otp: \"CONTENT_REDACTED\")"}
+}
+
+public struct VerifyPhoneNumberOutput: Swift.Sendable {
+    /// The verification status of the phone number in the primary contact information after the submitted one-time passcode is evaluated. Valid values:
+    ///
+    /// * PENDING – A one-time passcode has been sent and is waiting to be submitted.
+    ///
+    /// * VERIFIED – The phone number has been verified.
+    ///
+    /// * UNVERIFIED – The phone number has not been verified.
+    ///
+    /// * NOT_SUPPORTED – Phone number verification isn't available for this account.
+    public var status: AccountClientTypes.PhoneNumberVerificationStatus?
+
+    public init(
+        status: AccountClientTypes.PhoneNumberVerificationStatus? = nil
+    ) {
+        self.status = status
     }
 }
 
@@ -1158,10 +1275,24 @@ extension PutContactInformationInput {
     }
 }
 
+extension SendPhoneNumberVerificationInput {
+
+    static func urlPathProvider(_ value: SendPhoneNumberVerificationInput) -> Swift.String? {
+        return "/sendPhoneNumberVerification"
+    }
+}
+
 extension StartPrimaryEmailUpdateInput {
 
     static func urlPathProvider(_ value: StartPrimaryEmailUpdateInput) -> Swift.String? {
         return "/startPrimaryEmailUpdate"
+    }
+}
+
+extension VerifyPhoneNumberInput {
+
+    static func urlPathProvider(_ value: VerifyPhoneNumberInput) -> Swift.String? {
+        return "/verifyPhoneNumber"
     }
 }
 
@@ -1302,12 +1433,29 @@ extension PutContactInformationInput {
     }
 }
 
+extension SendPhoneNumberVerificationInput {
+
+    static func write(value: SendPhoneNumberVerificationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+    }
+}
+
 extension StartPrimaryEmailUpdateInput {
 
     static func write(value: StartPrimaryEmailUpdateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccountId"].write(value.accountId)
         try writer["PrimaryEmail"].write(value.primaryEmail)
+    }
+}
+
+extension VerifyPhoneNumberInput {
+
+    static func write(value: VerifyPhoneNumberInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["Otp"].write(value.otp)
     }
 }
 
@@ -1379,6 +1527,7 @@ extension GetContactInformationOutput {
         let reader = responseReader
         var value = GetContactInformationOutput()
         value.contactInformation = try reader["ContactInformation"].readIfPresent(with: AccountClientTypes.ContactInformation.read(from:))
+        value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
         return value
     }
 }
@@ -1468,6 +1617,18 @@ extension PutContactInformationOutput {
     }
 }
 
+extension SendPhoneNumberVerificationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendPhoneNumberVerificationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SendPhoneNumberVerificationOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension StartPrimaryEmailUpdateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartPrimaryEmailUpdateOutput {
@@ -1475,6 +1636,18 @@ extension StartPrimaryEmailUpdateOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = StartPrimaryEmailUpdateOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension VerifyPhoneNumberOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> VerifyPhoneNumberOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = VerifyPhoneNumberOutput()
         value.status = try reader["Status"].readIfPresent()
         return value
     }
@@ -1746,7 +1919,45 @@ enum PutContactInformationOutputError {
     }
 }
 
+enum SendPhoneNumberVerificationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartPrimaryEmailUpdateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum VerifyPhoneNumberOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
