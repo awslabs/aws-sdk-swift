@@ -1197,13 +1197,15 @@ extension GlueClientTypes {
         case authorizationCode
         case clientCredentials
         case jwtBearer
+        case refreshToken
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OAuth2GrantType] {
             return [
                 .authorizationCode,
                 .clientCredentials,
-                .jwtBearer
+                .jwtBearer,
+                .refreshToken
             ]
         }
 
@@ -1217,6 +1219,7 @@ extension GlueClientTypes {
             case .authorizationCode: return "AUTHORIZATION_CODE"
             case .clientCredentials: return "CLIENT_CREDENTIALS"
             case .jwtBearer: return "JWT_BEARER"
+            case .refreshToken: return "REFRESH_TOKEN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1229,7 +1232,7 @@ extension GlueClientTypes {
     public struct OAuth2Properties: Swift.Sendable {
         /// The client application type. For example, AWS_MANAGED or USER_MANAGED.
         public var oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication?
-        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        /// The OAuth2 grant type. For example, AUTHORIZATION_CODE, JWT_BEARER, REFRESH_TOKEN, or CLIENT_CREDENTIALS.
         public var oAuth2GrantType: GlueClientTypes.OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
         public var tokenUrl: Swift.String?
@@ -1352,7 +1355,7 @@ extension GlueClientTypes {
         public var oAuth2ClientApplication: GlueClientTypes.OAuth2ClientApplication?
         /// The credentials used when the authentication type is OAuth2 authentication.
         public var oAuth2Credentials: GlueClientTypes.OAuth2Credentials?
-        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, or CLIENT_CREDENTIALS.
+        /// The OAuth2 grant type in the CreateConnection request. For example, AUTHORIZATION_CODE, JWT_BEARER, REFRESH_TOKEN, or CLIENT_CREDENTIALS.
         public var oAuth2GrantType: GlueClientTypes.OAuth2GrantType?
         /// The URL of the provider's authentication server, to exchange an authorization code for an access token.
         public var tokenUrl: Swift.String?
@@ -9212,7 +9215,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension GlueClientTypes {
 
-    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. For more information about how to utilize QuerySessionContext, see [Lake Formation workflow for application integration API operations](https://docs.aws.amazon.com/lake-formation/latest/dg/api-overview.html) in the developer guide.
     public struct QuerySessionContext: Swift.Sendable {
         /// An opaque string-string map passed by the query engine.
         public var additionalContext: [Swift.String: Swift.String]?
@@ -9252,7 +9255,7 @@ public struct BatchGetPartitionInput: Swift.Sendable {
     /// A list of partition values identifying the partitions to retrieve.
     /// This member is required.
     public var partitionsToGet: [GlueClientTypes.PartitionValueList]?
-    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. For more information about how to utilize QuerySessionContext, see [Lake Formation workflow for application integration API operations](https://docs.aws.amazon.com/lake-formation/latest/dg/api-overview.html) in the developer guide.
     public var querySessionContext: GlueClientTypes.QuerySessionContext?
     /// The name of the partitions' table.
     /// This member is required.

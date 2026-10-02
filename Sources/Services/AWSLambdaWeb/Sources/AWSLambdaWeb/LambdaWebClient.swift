@@ -616,7 +616,7 @@ extension LambdaWebClient {
 extension LambdaWebClient {
     /// Performs the `CreateWebFunction` operation on the `LambdaWeb` service.
     ///
-    /// Creates a web function with an initial revision and endpoint. To create a web function, you provide the function name, revision configuration (code and service settings), and endpoint configuration. To use this operation, you must have the CreateWebFunction permission on the web function. You don't need separate permissions for the initial revision or endpoint.
+    /// Creates a web function with an initial revision and endpoint. To create a web function, you provide the function name, revision configuration (code and service settings), and endpoint configuration. To use this operation, you must have the CreateWebFunction permission on the web function. You don't need separate permissions for the initial revision or endpoint. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to create a web function. (Type: `CreateWebFunctionInput`)
     ///
@@ -690,7 +690,7 @@ extension LambdaWebClient {
 
     /// Performs the `CreateWebFunctionEndpoint` operation on the `LambdaWeb` service.
     ///
-    /// Creates an endpoint for a web function. An endpoint exposes the web function over HTTPS and routes traffic to one or more revisions. To use this operation, you must have the CreateWebFunctionEndpoint permission on the web function, not on the endpoint being created.
+    /// Creates an endpoint for a web function. An endpoint exposes the web function over HTTPS and routes traffic to one or more revisions. To use this operation, you must have the CreateWebFunctionEndpoint permission on the web function, not on the endpoint being created. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to create a web function endpoint. (Type: `CreateWebFunctionEndpointInput`)
     ///
@@ -764,7 +764,7 @@ extension LambdaWebClient {
 
     /// Performs the `CreateWebFunctionRevision` operation on the `LambdaWeb` service.
     ///
-    /// Creates an immutable revision for a web function. A revision represents a specific version of the function code and configuration. To use this operation, you must have the CreateWebFunctionRevision permission on the web function, not on the revision being created.
+    /// Creates an immutable revision for a web function. A revision represents a specific version of the function code and configuration. To use this operation, you must have the CreateWebFunctionRevision permission on the web function, not on the revision being created. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to create a web function revision. (Type: `CreateWebFunctionRevisionInput`)
     ///
@@ -838,7 +838,7 @@ extension LambdaWebClient {
 
     /// Performs the `DeleteResourcePolicy` operation on the `LambdaWeb` service.
     ///
-    /// Removes the resource-based policy from a web function.
+    /// Removes the resource-based policy from a web function. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to delete a resource-based policy. (Type: `DeleteResourcePolicyInput`)
     ///
@@ -909,7 +909,7 @@ extension LambdaWebClient {
 
     /// Performs the `DeleteWebFunction` operation on the `LambdaWeb` service.
     ///
-    /// Deletes a web function and all of its associated revisions and endpoints. To use this operation, you must have the DeleteWebFunction permission on the web function. You don't need the DeleteWebFunctionRevision or DeleteWebFunctionEndpoint permission.
+    /// Deletes a web function and all of its associated revisions and endpoints. To use this operation, you must have the DeleteWebFunction permission on the web function. You don't need the DeleteWebFunctionRevision or DeleteWebFunctionEndpoint permission. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to delete a web function. (Type: `DeleteWebFunctionInput`)
     ///
@@ -979,7 +979,7 @@ extension LambdaWebClient {
 
     /// Performs the `DeleteWebFunctionEndpoint` operation on the `LambdaWeb` service.
     ///
-    /// Deletes a web function endpoint.
+    /// Deletes a web function endpoint. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to delete a web function endpoint. (Type: `DeleteWebFunctionEndpointInput`)
     ///
@@ -1049,7 +1049,7 @@ extension LambdaWebClient {
 
     /// Performs the `DeleteWebFunctionRevision` operation on the `LambdaWeb` service.
     ///
-    /// Deletes a web function revision. You cannot delete a revision that is currently serving traffic on an endpoint.
+    /// Deletes a web function revision. You cannot delete a revision that is currently serving traffic on an endpoint. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to delete a web function revision. (Type: `DeleteWebFunctionRevisionInput`)
     ///
@@ -1119,7 +1119,7 @@ extension LambdaWebClient {
 
     /// Performs the `GetResourcePolicy` operation on the `LambdaWeb` service.
     ///
-    /// Retrieves the resource-based policy attached to a web function.
+    /// Retrieves the resource-based policy attached to a web function. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to retrieve a resource-based policy. (Type: `GetResourcePolicyInput`)
     ///
@@ -1188,7 +1188,7 @@ extension LambdaWebClient {
 
     /// Performs the `GetWebAccountSettings` operation on the `LambdaWeb` service.
     ///
-    /// Retrieves details about your AWS Lambda Web Functions account settings for the current AWS Region, including the quotas that apply to web functions and your current usage.
+    /// Retrieves details about your AWS Lambda Web Functions account settings for the current AWS Region, including the quotas that apply to web functions and your current usage. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetWebAccountSettingsInput`)
     ///
@@ -1255,7 +1255,7 @@ extension LambdaWebClient {
 
     /// Performs the `GetWebFunction` operation on the `LambdaWeb` service.
     ///
-    /// Retrieves details about a web function, including its current state and configuration.
+    /// Retrieves details about a web function, including its current state and configuration. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to retrieve a web function. (Type: `GetWebFunctionInput`)
     ///
@@ -1324,7 +1324,7 @@ extension LambdaWebClient {
 
     /// Performs the `GetWebFunctionEndpoint` operation on the `LambdaWeb` service.
     ///
-    /// Retrieves details about a web function endpoint, including its current state, configuration, and domain name.
+    /// Retrieves details about a web function endpoint, including its current state, configuration, and domain name. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to retrieve a web function endpoint. (Type: `GetWebFunctionEndpointInput`)
     ///
@@ -1393,7 +1393,7 @@ extension LambdaWebClient {
 
     /// Performs the `GetWebFunctionRevision` operation on the `LambdaWeb` service.
     ///
-    /// Retrieves details about a web function revision, including its state and configuration.
+    /// Retrieves details about a web function revision, including its state and configuration. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to retrieve a web function revision. (Type: `GetWebFunctionRevisionInput`)
     ///
@@ -1462,7 +1462,7 @@ extension LambdaWebClient {
 
     /// Performs the `ListTags` operation on the `LambdaWeb` service.
     ///
-    /// Returns a list of tags applied to a web function.
+    /// Returns a list of tags applied to a web function. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to list tags for a resource. (Type: `ListTagsInput`)
     ///
@@ -1531,7 +1531,7 @@ extension LambdaWebClient {
 
     /// Performs the `ListWebFunctionEndpoints` operation on the `LambdaWeb` service.
     ///
-    /// Lists endpoints for a web function. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    /// Lists endpoints for a web function. We recommend using pagination to ensure that the operation returns quickly and successfully. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to list web function endpoints. (Type: `ListWebFunctionEndpointsInput`)
     ///
@@ -1603,7 +1603,7 @@ extension LambdaWebClient {
 
     /// Performs the `ListWebFunctionRevisions` operation on the `LambdaWeb` service.
     ///
-    /// Lists revisions for a web function. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    /// Lists revisions for a web function. We recommend using pagination to ensure that the operation returns quickly and successfully. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to list web function revisions. (Type: `ListWebFunctionRevisionsInput`)
     ///
@@ -1675,7 +1675,7 @@ extension LambdaWebClient {
 
     /// Performs the `ListWebFunctions` operation on the `LambdaWeb` service.
     ///
-    /// Lists web functions in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    /// Lists web functions in your account. We recommend using pagination to ensure that the operation returns quickly and successfully. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to list web functions. (Type: `ListWebFunctionsInput`)
     ///
@@ -1746,7 +1746,7 @@ extension LambdaWebClient {
 
     /// Performs the `PutResourcePolicy` operation on the `LambdaWeb` service.
     ///
-    /// Adds or updates a resource-based policy on a web function. A resource-based policy grants permissions to other AWS accounts or services to perform actions on the web function.
+    /// Adds or updates a resource-based policy on a web function. A resource-based policy grants permissions to other AWS accounts or services to perform actions on the web function. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to add or update a resource-based policy. (Type: `PutResourcePolicyInput`)
     ///
@@ -1820,7 +1820,7 @@ extension LambdaWebClient {
 
     /// Performs the `TagResource` operation on the `LambdaWeb` service.
     ///
-    /// Adds tags to a web function. If a tag key already exists, the existing value is overwritten with the new value.
+    /// Adds tags to a web function. If a tag key already exists, the existing value is overwritten with the new value. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to add tags to a resource. (Type: `TagResourceInput`)
     ///
@@ -1894,7 +1894,7 @@ extension LambdaWebClient {
 
     /// Performs the `UntagResource` operation on the `LambdaWeb` service.
     ///
-    /// Removes tags from a web function.
+    /// Removes tags from a web function. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to remove tags from a resource. (Type: `UntagResourceInput`)
     ///
@@ -1965,7 +1965,7 @@ extension LambdaWebClient {
 
     /// Performs the `UpdateWebFunctionEndpoint` operation on the `LambdaWeb` service.
     ///
-    /// Updates the configuration of a web function endpoint. You can modify the authorization type, auto-deployment mode, revision weights, scaling, and throttling settings.
+    /// Updates the configuration of a web function endpoint. You can modify the authorization type, auto-deployment mode, revision weights, scaling, and throttling settings. This API is experimental and for internal AWS use only. It is not yet available to external customers.
     ///
     /// - Parameter input: The request to update a web function endpoint. (Type: `UpdateWebFunctionEndpointInput`)
     ///

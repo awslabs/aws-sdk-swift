@@ -5800,7 +5800,7 @@ extension PinpointSMSVoiceV2Client {
 
     /// Performs the `ListAvailablePhoneNumbers` operation on the `PinpointSMSVoiceV2` service.
     ///
-    /// Search available phone numbers from aggregator inventory, optionally filtered by pattern. If NumberPreference is omitted, returns unfiltered available numbers. Returns empty list (not an exception) when no numbers match. ResourceNotFoundException is thrown only for invalid RegistrationId (campaign not found).
+    /// Retrieves a list of phone numbers that are available to request, based on the country, capabilities, and number type that you specify. You can optionally provide a number preference to return only numbers that match a specific digit pattern. If no numbers match your search, this operation returns an empty list rather than an error. This operation currently supports only TEN_DLC number types in the US.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAvailablePhoneNumbersInput`)
     ///
