@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
+import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3WithExpress
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
@@ -85,8 +86,10 @@ class RulesBasedAuthSchemeResolverGenerator {
 
                 // Construct endpoint params from auth params
                 write("let endpointParams = EndpointParams(authSchemeParams: serviceParams)")
-                // Resolve endpoint, and retrieve auth schemes valid for the resolved endpoint
-                write("let endpoint = try DefaultEndpointResolver().resolve(params: endpointParams)")
+                // Resolve endpoint with the client's endpoint resolver, falling back to a new default resolver if absent,
+                //   and retrieve auth schemes valid for the resolved endpoint
+                write("let endpointResolver = try serviceParams.endpointResolver ?? DefaultEndpointResolver()")
+                write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
                 openBlock("guard let authSchemes = endpoint.authSchemes() else {", "}") {
                     // Call internal modeled model-based auth scheme resolver as fall-back if no auth schemes
                     // are returned by endpoint resolver.
@@ -216,6 +219,9 @@ class RulesBasedAuthSchemeResolverGenerator {
                         paramList.add("$memberName: endpointParam.$memberName")
                     }
                 }
+                // Pass along the client's endpoint resolver so auth scheme resolution reuses its rules engine
+                val clientConfigTypeName = AWSServiceConfig(writer, ctx).sendableTypeName
+                paramList.add("endpointResolver: (context.clientConfig as? $clientConfigTypeName)?.endpointResolver")
 
                 val argStringToAppend = if (paramList.isEmpty()) "" else ", " + paramList.joinToString()
                 write("return $returnTypeName(authSchemePreference: authSchemePreference, operation: opName$argStringToAppend)")

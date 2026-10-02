@@ -54,6 +54,8 @@ public struct S3AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolv
     public let useObjectLambdaEndpoint: Swift.Bool?
     /// Internal parameter to indicate whether S3Express operation should use control plane, (ex. CreateBucket)
     public let useS3ExpressControlEndpoint: Swift.Bool?
+    /// The client's configured endpoint resolver, used to resolve auth schemes from endpoint rules.
+    public let endpointResolver: (any EndpointResolver)?
 }
 
 public protocol S3AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
@@ -103,7 +105,8 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         let endpointParams = EndpointParams(authSchemeParams: serviceParams)
-        let endpoint = try DefaultEndpointResolver().resolve(params: endpointParams)
+        let endpointResolver = try serviceParams.endpointResolver ?? DefaultEndpointResolver()
+        let endpoint = try endpointResolver.resolve(params: endpointParams)
         guard let authSchemes = endpoint.authSchemes() else {
             return try InternalModeledS3AuthSchemeResolver().resolveAuthScheme(params: params)
         }
@@ -143,6 +146,6 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
         let authSchemePreference = context.getAuthSchemePreference()
-        return S3AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, accelerate: endpointParam.accelerate, bucket: endpointParam.bucket, copySource: endpointParam.copySource, disableAccessPoints: endpointParam.disableAccessPoints, disableMultiRegionAccessPoints: endpointParam.disableMultiRegionAccessPoints, disableS3ExpressSessionAuth: endpointParam.disableS3ExpressSessionAuth, endpoint: endpointParam.endpoint, forcePathStyle: endpointParam.forcePathStyle, key: endpointParam.key, prefix: endpointParam.prefix, region: endpointParam.region, useArnRegion: endpointParam.useArnRegion, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS, useGlobalEndpoint: endpointParam.useGlobalEndpoint, useObjectLambdaEndpoint: endpointParam.useObjectLambdaEndpoint, useS3ExpressControlEndpoint: endpointParam.useS3ExpressControlEndpoint)
+        return S3AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, accelerate: endpointParam.accelerate, bucket: endpointParam.bucket, copySource: endpointParam.copySource, disableAccessPoints: endpointParam.disableAccessPoints, disableMultiRegionAccessPoints: endpointParam.disableMultiRegionAccessPoints, disableS3ExpressSessionAuth: endpointParam.disableS3ExpressSessionAuth, endpoint: endpointParam.endpoint, forcePathStyle: endpointParam.forcePathStyle, key: endpointParam.key, prefix: endpointParam.prefix, region: endpointParam.region, useArnRegion: endpointParam.useArnRegion, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS, useGlobalEndpoint: endpointParam.useGlobalEndpoint, useObjectLambdaEndpoint: endpointParam.useObjectLambdaEndpoint, useS3ExpressControlEndpoint: endpointParam.useS3ExpressControlEndpoint, endpointResolver: (context.clientConfig as? S3Client.S3ClientConfig)?.endpointResolver)
     }
 }
