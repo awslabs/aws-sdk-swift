@@ -370,6 +370,10 @@ extension MediaPackageV2ClientTypes {
         case multiviewConfigurationRequired
         case multiviewDuplicateLayout
         case multiviewDuplicateSource
+        case multiviewFilterConfigurationNotAllowed
+        case multiviewFilterLayoutNotAvailable
+        case multiviewFilterSourceCountMismatch
+        case multiviewFilterSourceNotAvailable
         case multiviewInputSwitchNotAllowed
         case multiviewInputTypeWithFilterConfiguration
         case multiviewInputTypeWithHarvestJob
@@ -385,10 +389,12 @@ extension MediaPackageV2ClientTypes {
         case multiviewOutputHeaderNotAllowed
         case multiviewResetNotAllowed
         case multiviewScteRequiresAvailsPeriodTrigger
+        case multiviewSourceChannelLimitExceeded
         case multiviewSourceInvalidInputType
         case multiviewSourceNonEpochLocked
         case multiviewSourceNotFound
         case multiviewStartoverWindowNotAllowed
+        case multiviewTsUseAudioRenditionGroupDisabled
         case noneModeWithTimingSource
         case nonEpochLockedWithForceEndpointErrorConfiguration
         case numManifestsHigh
@@ -506,6 +512,10 @@ extension MediaPackageV2ClientTypes {
                 .multiviewConfigurationRequired,
                 .multiviewDuplicateLayout,
                 .multiviewDuplicateSource,
+                .multiviewFilterConfigurationNotAllowed,
+                .multiviewFilterLayoutNotAvailable,
+                .multiviewFilterSourceCountMismatch,
+                .multiviewFilterSourceNotAvailable,
                 .multiviewInputSwitchNotAllowed,
                 .multiviewInputTypeWithFilterConfiguration,
                 .multiviewInputTypeWithHarvestJob,
@@ -521,10 +531,12 @@ extension MediaPackageV2ClientTypes {
                 .multiviewOutputHeaderNotAllowed,
                 .multiviewResetNotAllowed,
                 .multiviewScteRequiresAvailsPeriodTrigger,
+                .multiviewSourceChannelLimitExceeded,
                 .multiviewSourceInvalidInputType,
                 .multiviewSourceNonEpochLocked,
                 .multiviewSourceNotFound,
                 .multiviewStartoverWindowNotAllowed,
+                .multiviewTsUseAudioRenditionGroupDisabled,
                 .noneModeWithTimingSource,
                 .nonEpochLockedWithForceEndpointErrorConfiguration,
                 .numManifestsHigh,
@@ -648,6 +660,10 @@ extension MediaPackageV2ClientTypes {
             case .multiviewConfigurationRequired: return "MULTIVIEW_CONFIGURATION_REQUIRED"
             case .multiviewDuplicateLayout: return "MULTIVIEW_DUPLICATE_LAYOUT"
             case .multiviewDuplicateSource: return "MULTIVIEW_DUPLICATE_SOURCE"
+            case .multiviewFilterConfigurationNotAllowed: return "MULTIVIEW_FILTER_CONFIGURATION_NOT_ALLOWED"
+            case .multiviewFilterLayoutNotAvailable: return "MULTIVIEW_FILTER_LAYOUT_NOT_AVAILABLE"
+            case .multiviewFilterSourceCountMismatch: return "MULTIVIEW_FILTER_SOURCE_COUNT_MISMATCH"
+            case .multiviewFilterSourceNotAvailable: return "MULTIVIEW_FILTER_SOURCE_NOT_AVAILABLE"
             case .multiviewInputSwitchNotAllowed: return "MULTIVIEW_INPUT_SWITCH_NOT_ALLOWED"
             case .multiviewInputTypeWithFilterConfiguration: return "MULTIVIEW_INPUT_TYPE_WITH_FILTER_CONFIGURATION"
             case .multiviewInputTypeWithHarvestJob: return "MULTIVIEW_INPUT_TYPE_WITH_HARVEST_JOB"
@@ -663,10 +679,12 @@ extension MediaPackageV2ClientTypes {
             case .multiviewOutputHeaderNotAllowed: return "MULTIVIEW_OUTPUT_HEADER_NOT_ALLOWED"
             case .multiviewResetNotAllowed: return "MULTIVIEW_RESET_NOT_ALLOWED"
             case .multiviewScteRequiresAvailsPeriodTrigger: return "MULTIVIEW_SCTE_REQUIRES_AVAILS_PERIOD_TRIGGER"
+            case .multiviewSourceChannelLimitExceeded: return "MULTIVIEW_SOURCE_CHANNEL_LIMIT_EXCEEDED"
             case .multiviewSourceInvalidInputType: return "MULTIVIEW_SOURCE_INVALID_INPUT_TYPE"
             case .multiviewSourceNonEpochLocked: return "MULTIVIEW_SOURCE_NON_EPOCH_LOCKED"
             case .multiviewSourceNotFound: return "MULTIVIEW_SOURCE_NOT_FOUND"
             case .multiviewStartoverWindowNotAllowed: return "MULTIVIEW_STARTOVER_WINDOW_NOT_ALLOWED"
+            case .multiviewTsUseAudioRenditionGroupDisabled: return "MULTIVIEW_TS_USE_AUDIO_RENDITION_GROUP_DISABLED"
             case .noneModeWithTimingSource: return "NONE_MODE_WITH_TIMING_SOURCE"
             case .nonEpochLockedWithForceEndpointErrorConfiguration: return "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
@@ -1721,6 +1739,27 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    /// The multiview combination for a pinned manifest. MediaPackage serves the manifest with this layout and these sources, so players request it without an aws.multiview query parameter. If a request for a pinned manifest also includes an aws.multiview query parameter, MediaPackage rejects the request, even when that parameter requests the same combination.
+    public struct MultiviewFilterConfiguration: Swift.Sendable {
+        /// The layout that MediaPackage uses to composite the tiles into a single output. This layout must be one of the AvailableLayouts of the channel that this origin endpoint is on.
+        /// This member is required.
+        public var layout: MediaPackageV2ClientTypes.MultiviewLayoutType?
+        /// The source channels to composite, in tile order. Each channel must be one of the AvailableSources of the channel that this origin endpoint is on, and the number of channels must equal the number of tiles in Layout.
+        /// This member is required.
+        public var sources: [Swift.String]?
+
+        public init(
+            layout: MediaPackageV2ClientTypes.MultiviewLayoutType? = nil,
+            sources: [Swift.String]? = nil
+        ) {
+            self.layout = layout
+            self.sources = sources
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
     public struct FilterConfiguration: Swift.Sendable {
         /// Optionally specify the clip start time for all of your manifest egress requests. When you include clip start time, note that you cannot use clip start time query parameters for this manifest's endpoint URL.
@@ -1731,6 +1770,8 @@ extension MediaPackageV2ClientTypes {
         public var end: Foundation.Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
         public var manifestFilter: Swift.String?
+        /// Optionally pin this manifest to a single multiview combination, so that players request it without an aws.multiview query parameter. When you pin a combination, note that you cannot use the aws.multiview query parameter for this manifest's endpoint URL, even when that parameter requests the same combination. This setting is valid only on an origin endpoint whose channel has an InputType of MULTIVIEW.
+        public var multiview: MediaPackageV2ClientTypes.MultiviewFilterConfiguration?
         /// Optionally specify the start time for all of your manifest egress requests. When you include start time, note that you cannot use start time query parameters for this manifest's endpoint URL.
         public var start: Foundation.Date?
         /// Optionally specify the time delay for all of your manifest egress requests. Enter a value that is smaller than your endpoint's startover window. When you include time delay, note that you cannot use time delay query parameters for this manifest's endpoint URL.
@@ -1741,6 +1782,7 @@ extension MediaPackageV2ClientTypes {
             drmSettings: Swift.String? = nil,
             end: Foundation.Date? = nil,
             manifestFilter: Swift.String? = nil,
+            multiview: MediaPackageV2ClientTypes.MultiviewFilterConfiguration? = nil,
             start: Foundation.Date? = nil,
             timeDelaySeconds: Swift.Int? = nil
         ) {
@@ -1748,6 +1790,7 @@ extension MediaPackageV2ClientTypes {
             self.drmSettings = drmSettings
             self.end = end
             self.manifestFilter = manifestFilter
+            self.multiview = multiview
             self.start = start
             self.timeDelaySeconds = timeDelaySeconds
         }
@@ -7460,6 +7503,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
         try writer["DrmSettings"].write(value.drmSettings)
         try writer["End"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["ManifestFilter"].write(value.manifestFilter)
+        try writer["Multiview"].write(value.multiview, with: MediaPackageV2ClientTypes.MultiviewFilterConfiguration.write(value:to:))
         try writer["Start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["TimeDelaySeconds"].write(value.timeDelaySeconds)
     }
@@ -7473,6 +7517,7 @@ extension MediaPackageV2ClientTypes.FilterConfiguration {
         value.end = try reader["End"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.timeDelaySeconds = try reader["TimeDelaySeconds"].readIfPresent()
         value.clipStartTime = try reader["ClipStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.multiview = try reader["Multiview"].readIfPresent(with: MediaPackageV2ClientTypes.MultiviewFilterConfiguration.read(from:))
         return value
     }
 }
@@ -7765,6 +7810,23 @@ extension MediaPackageV2ClientTypes.MultiviewConfiguration {
         var value = MediaPackageV2ClientTypes.MultiviewConfiguration()
         value.availableSources = try reader["AvailableSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.availableLayouts = try reader["AvailableLayouts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.MultiviewLayoutType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.MultiviewFilterConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.MultiviewFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Layout"].write(value.layout)
+        try writer["Sources"].writeList(value.sources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.MultiviewFilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.MultiviewFilterConfiguration()
+        value.layout = try reader["Layout"].readIfPresent() ?? .sdkUnknown("")
+        value.sources = try reader["Sources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

@@ -392,6 +392,41 @@ extension PaginatorSequence where OperationStackInput == GetRecommendedPolicyV2I
     }
 }
 extension SecurityHubClient {
+    /// Paginate over `[GetRemediationsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetRemediationsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRemediationsV2Output`
+    public func getRemediationsV2Paginated(input: GetRemediationsV2Input) -> ClientRuntime.PaginatorSequence<GetRemediationsV2Input, GetRemediationsV2Output> {
+        return ClientRuntime.PaginatorSequence<GetRemediationsV2Input, GetRemediationsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getRemediationsV2(input:))
+    }
+}
+
+extension GetRemediationsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetRemediationsV2Input {
+        return GetRemediationsV2Input(
+            filters: self.filters,
+            guidanceFormat: self.guidanceFormat,
+            maxResults: self.maxResults,
+            metadataUid: self.metadataUid,
+            nextToken: token,
+            showGuidance: self.showGuidance,
+            targetUid: self.targetUid
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetRemediationsV2Input, OperationStackOutput == GetRemediationsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getRemediationsV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.RemediationV2Item]`
+    /// - Returns: `[SecurityHubClientTypes.RemediationV2Item]`
+    public func items() async throws -> [SecurityHubClientTypes.RemediationV2Item] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension SecurityHubClient {
     /// Paginate over `[GetResourcesTrendsV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -576,6 +611,37 @@ extension PaginatorSequence where OperationStackInput == ListEnabledProductsForI
     /// - Returns: `[Swift.String]`
     public func productSubscriptions() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.productSubscriptions }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[ListExposuresByRemediationV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExposuresByRemediationV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExposuresByRemediationV2Output`
+    public func listExposuresByRemediationV2Paginated(input: ListExposuresByRemediationV2Input) -> ClientRuntime.PaginatorSequence<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output> {
+        return ClientRuntime.PaginatorSequence<ListExposuresByRemediationV2Input, ListExposuresByRemediationV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExposuresByRemediationV2(input:))
+    }
+}
+
+extension ListExposuresByRemediationV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListExposuresByRemediationV2Input {
+        return ListExposuresByRemediationV2Input(
+            maxResults: self.maxResults,
+            nextToken: token,
+            targetUid: self.targetUid
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListExposuresByRemediationV2Input, OperationStackOutput == ListExposuresByRemediationV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listExposuresByRemediationV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.ExposureFinding]`
+    /// - Returns: `[SecurityHubClientTypes.ExposureFinding]`
+    public func items() async throws -> [SecurityHubClientTypes.ExposureFinding] {
+        return try await self.asyncCompactMap { item in item.items }
     }
 }
 extension SecurityHubClient {

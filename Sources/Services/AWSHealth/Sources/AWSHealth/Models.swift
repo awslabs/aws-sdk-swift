@@ -1513,6 +1513,117 @@ public struct DescribeHealthServiceStatusForOrganizationOutput: Swift.Sendable {
     }
 }
 
+extension HealthClientTypes {
+
+    /// A filter for narrowing down service lifecycle results.
+    public struct ServiceLifecycleFilter: Swift.Sendable {
+        /// The Amazon Web Services service name to filter by.
+        public var service: Swift.String?
+
+        public init(
+            service: Swift.String? = nil
+        ) {
+            self.service = service
+        }
+    }
+}
+
+public struct DescribeServiceLifecycleInput: Swift.Sendable {
+    /// Values to narrow the results returned.
+    public var filter: HealthClientTypes.ServiceLifecycleFilter?
+    /// The maximum number of items to return in one batch, between 1 and 20, inclusive.
+    public var maxResults: Swift.Int?
+    /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: HealthClientTypes.ServiceLifecycleFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A lifecycle event for an Amazon Web Services service version, such as end-of-support or end-of-life.
+    public struct LifecycleEvent: Swift.Sendable {
+        /// The date of the lifecycle event.
+        public var date: Foundation.Date?
+        /// A description of the lifecycle event.
+        public var description: Swift.String?
+        /// The potential impact risks associated with this lifecycle event.
+        public var impactRisks: [Swift.String]?
+        /// The type of lifecycle event (for example, end-of-support, end-of-life).
+        public var lifecycleEventType: Swift.String?
+        /// The Amazon Web Services Regions affected by this lifecycle event.
+        public var regions: [Swift.String]?
+
+        public init(
+            date: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            impactRisks: [Swift.String]? = nil,
+            lifecycleEventType: Swift.String? = nil,
+            regions: [Swift.String]? = nil
+        ) {
+            self.date = date
+            self.description = description
+            self.impactRisks = impactRisks
+            self.lifecycleEventType = lifecycleEventType
+            self.regions = regions
+        }
+    }
+}
+
+extension HealthClientTypes {
+
+    /// Contains lifecycle information for an Amazon Web Services service version, including lifecycle events and version recommendations.
+    public struct ServiceLifecycle: Swift.Sendable {
+        /// The list of lifecycle events for this service version.
+        public var lifecycleEvents: [HealthClientTypes.LifecycleEvent]?
+        /// The recommended version to upgrade to.
+        public var recommendedVersion: Swift.String?
+        /// The name of the Amazon Web Services service.
+        public var service: Swift.String?
+        /// A human-readable title for the lifecycle entry.
+        public var title: Swift.String?
+        /// The version of the service.
+        public var version: Swift.String?
+
+        public init(
+            lifecycleEvents: [HealthClientTypes.LifecycleEvent]? = nil,
+            recommendedVersion: Swift.String? = nil,
+            service: Swift.String? = nil,
+            title: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.lifecycleEvents = lifecycleEvents
+            self.recommendedVersion = recommendedVersion
+            self.service = service
+            self.title = title
+            self.version = version
+        }
+    }
+}
+
+public struct DescribeServiceLifecycleOutput: Swift.Sendable {
+    /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    public var nextToken: Swift.String?
+    /// The list of service lifecycle entries matching the filter criteria.
+    public var serviceLifecycles: [HealthClientTypes.ServiceLifecycle]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceLifecycles: [HealthClientTypes.ServiceLifecycle]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.serviceLifecycles = serviceLifecycles
+    }
+}
+
 /// [EnableHealthServiceAccessForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_EnableHealthServiceAccessForOrganization.html) is already in progress. Wait for the action to complete before trying again. To get the current status, use the [DescribeHealthServiceStatusForOrganization](https://docs.aws.amazon.com/health/latest/APIReference/API_DescribeHealthServiceStatusForOrganization.html) operation.
 public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 

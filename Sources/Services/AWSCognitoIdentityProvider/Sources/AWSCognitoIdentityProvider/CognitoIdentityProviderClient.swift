@@ -1911,6 +1911,14 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidEmailRoleAccessPolicyException` : This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
     /// - `InvalidLambdaResponseException` : This exception is thrown when Amazon Cognito encounters an invalid Lambda response.
@@ -4251,7 +4259,14 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidEmailRoleAccessPolicyException` : This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
@@ -4339,7 +4354,14 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidOAuthFlowException` : This exception is thrown when the specified OAuth flow is not valid.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
@@ -4427,7 +4449,14 @@ extension CognitoIdentityProviderClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
@@ -4511,7 +4540,14 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `LimitExceededException` : This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
@@ -6122,7 +6158,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `DescribeTermsByClient` operation on the `CognitoIdentityProvider` service.
     ///
-    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see [Terms documents](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html#managed-login-terms-documents). To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:DescribeTerms, the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see [Terms documents](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html#managed-login-terms-documents). To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. An IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient. Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy. Learn more
     ///
     /// * [Signing Amazon Web Services API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html)
     ///
@@ -6785,7 +6821,7 @@ extension CognitoIdentityProviderClient {
 
     /// Performs the `GetClientToken` operation on the `CognitoIdentityProvider` service.
     ///
-    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see [Scopes, M2M, and resource servers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html). Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see [Scopes, M2M, and resource servers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html). Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetClientTokenInput`)
     ///
@@ -7964,6 +8000,14 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `ForbiddenException` : This exception is thrown when WAF doesn't allow your request based on a web ACL that's associated with your user pool.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidEmailRoleAccessPolicyException` : This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
@@ -9459,7 +9503,14 @@ extension CognitoIdentityProviderClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
@@ -9795,7 +9846,14 @@ extension CognitoIdentityProviderClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `InvalidSmsRoleAccessPolicyException` : This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
@@ -11203,7 +11261,14 @@ extension CognitoIdentityProviderClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidEmailRoleAccessPolicyException` : This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
@@ -11294,7 +11359,14 @@ extension CognitoIdentityProviderClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidOAuthFlowException` : This exception is thrown when the specified OAuth flow is not valid.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
@@ -11381,7 +11453,14 @@ extension CognitoIdentityProviderClient {
     ///
     /// __Possible Exceptions:__
     /// - `ConcurrentModificationException` : This exception is thrown if two or more modifications are happening concurrently.
-    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
+    /// - `FeatureUnavailableInTierException` : This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+    ///
+    /// * You configure a feature that your feature plan doesn't support.
+    ///
+    /// * You make a request that uses a feature that requires a higher feature plan.
+    ///
+    ///
+    /// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
     /// - `InternalErrorException` : This exception is thrown when Amazon Cognito encounters an internal error.
     /// - `InvalidParameterException` : This exception is thrown when the Amazon Cognito service encounters an invalid parameter.
     /// - `NotAuthorizedException` : This exception is thrown when a user isn't authorized.
