@@ -339,6 +339,22 @@ extension CognitoIdentityProviderClientTypes {
     }
 }
 
+extension CognitoIdentityProviderClientTypes {
+
+    /// The configuration for a single authentication context class reference (ACR) level in a user pool. Each entry in an AcrConfiguration map associates a level (Level1 through Level4) with this configuration, which provides the custom name that Amazon Cognito reports for that level in the acr token claim.
+    public struct AcrLevelConfigType: Swift.Sendable {
+        /// The custom name for this authentication context class reference (ACR) level. This value is the URI that Amazon Cognito reports in the acr token claim when a user meets this level. The name must be unique across all levels in the user pool, including default names.
+        /// This member is required.
+        public var acrValue: Swift.String?
+
+        public init(
+            acrValue: Swift.String? = nil
+        ) {
+            self.acrValue = acrValue
+        }
+    }
+}
+
 /// This exception is thrown when Amazon Cognito encounters an internal error.
 public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1884,6 +1900,36 @@ public struct AdminGetUserAuthFactorsOutput: Swift.Sendable {
     }
 }
 
+/// This exception is thrown when a feature that you attempted to use or configure isn't included in your user pool's current feature plan. This can occur when:
+///
+/// * You configure a feature that your feature plan doesn't support.
+///
+/// * You make a request that uses a feature that requires a higher feature plan.
+///
+///
+/// To resolve this issue, upgrade your user pool to a feature plan that includes the feature.
+public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "FeatureUnavailableInTierException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// This exception is thrown when Amazon Cognito isn't allowed to use your email identity. HTTP status code: 400.
 public struct InvalidEmailRoleAccessPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2107,6 +2153,10 @@ public struct AdminInitiateAuthInput: Swift.Sendable {
     /// * USERNAME (required)
     ///
     /// * PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.
+    ///
+    /// * TARGET_ACR_VALUES. An optional, space-separated list of the authentication context class reference (ACR) level URIs that you want the user to reach. List the levels in priority order, from highest to lowest. Amazon Cognito attempts the highest-priority level that the user can satisfy, and falls back through the list. Amazon Cognito ignores any value that it doesn't recognize. If none of the requested values are valid, Amazon Cognito returns an error. Requesting step-up authentication with this parameter requires the Essentials or Plus feature plan. On a lower feature plan, AdminInitiateAuth returns a FeatureUnavailableInTierException. USERNAME is required. When you provide an ACCESS_TOKEN, you must also provide TARGET_ACR_VALUES. Amazon Cognito returns an error if you provide an ACCESS_TOKEN without TARGET_ACR_VALUES. The USERNAME that you provide must match the user that the ACCESS_TOKEN was issued for. For more information about step-up authentication and how Amazon Cognito handles multi-factor authentication requirements, see [Step-up authentication with ACR and AMR](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html) in the Amazon Cognito Developer Guide.
+    ///
+    /// * MAX_AGE. An optional integer that sets the maximum number of seconds allowed since the user last authenticated. If the user's most recent authentication is older than this value, Amazon Cognito discards the authentication-methods credit from any access token that you provide and processes the request as a fresh authentication toward the target level. The access token itself remains valid.
     ///
     ///
     /// USER_SRP_AUTH
@@ -3226,6 +3276,8 @@ public struct AdminRespondToAuthChallengeInput: Swift.Sendable {
 public struct AdminRespondToAuthChallengeOutput: Swift.Sendable {
     /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
     public var authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType?
+    /// This response parameter lists the available authentication challenges that users can select from in [choice-based authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice). For example, they might be able to choose between passkey authentication, a one-time password from an SMS message, and a traditional password.
+    public var availableChallenges: [CognitoIdentityProviderClientTypes.ChallengeNameType]?
     /// The name of the next challenge that you must respond to. Possible challenges include the following: All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a DEVICE_KEY for device authentication.
     ///
     /// * WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as CREDENTIAL. Examples of WebAuthn authenticators include biometric devices and security keys.
@@ -3263,11 +3315,13 @@ public struct AdminRespondToAuthChallengeOutput: Swift.Sendable {
 
     public init(
         authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType? = nil,
+        availableChallenges: [CognitoIdentityProviderClientTypes.ChallengeNameType]? = nil,
         challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType? = nil,
         challengeParameters: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil
     ) {
         self.authenticationResult = authenticationResult
+        self.availableChallenges = availableChallenges
         self.challengeName = challengeName
         self.challengeParameters = challengeParameters
         self.session = session
@@ -4555,6 +4609,8 @@ extension CognitoIdentityProviderClientTypes {
 }
 
 public struct CreateIdentityProviderInput: Swift.Sendable {
+    /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). The map is keyed by level, from Level1 through Level4, and each value is the ACR value that the IdP uses for the corresponding level. Amazon Cognito uses this mapping to translate a requested user pool ACR level to the value that the IdP expects, and to map an ACR value that the IdP returns back to a user pool level. When the IdP returns an ACR value that isn't mapped, Amazon Cognito resolves it to the lowest level. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't restricted to the Essentials or Plus feature plan.
+    public var acrMapping: [Swift.String: Swift.String]?
     /// A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
     public var attributeMapping: [Swift.String: Swift.String]?
     /// An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the [Authorize endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html) to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of [email-address matching with SAML providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-naming.html).
@@ -4573,6 +4629,7 @@ public struct CreateIdentityProviderInput: Swift.Sendable {
     public var userPoolId: Swift.String?
 
     public init(
+        acrMapping: [Swift.String: Swift.String]? = nil,
         attributeMapping: [Swift.String: Swift.String]? = nil,
         idpIdentifiers: [Swift.String]? = nil,
         providerDetails: [Swift.String: Swift.String]? = nil,
@@ -4580,6 +4637,7 @@ public struct CreateIdentityProviderInput: Swift.Sendable {
         providerType: CognitoIdentityProviderClientTypes.IdentityProviderTypeType? = nil,
         userPoolId: Swift.String? = nil
     ) {
+        self.acrMapping = acrMapping
         self.attributeMapping = attributeMapping
         self.idpIdentifiers = idpIdentifiers
         self.providerDetails = providerDetails
@@ -4593,6 +4651,8 @@ extension CognitoIdentityProviderClientTypes {
 
     /// A user pool identity provider (IdP). Contains information about a third-party IdP to a user pool, the attributes that it populates to user profiles, and the trust relationship between the IdP and your user pool.
     public struct IdentityProviderType: Swift.Sendable {
+        /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP), so that your application gets a consistent step-up experience regardless of which IdP authenticated the user. The map is keyed by level, from Level1 through Level4.
+        public var acrMapping: [Swift.String: Swift.String]?
         /// A mapping of IdP attributes to standard and custom user pool attributes.
         public var attributeMapping: [Swift.String: Swift.String]?
         /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
@@ -4611,6 +4671,7 @@ extension CognitoIdentityProviderClientTypes {
         public var userPoolId: Swift.String?
 
         public init(
+            acrMapping: [Swift.String: Swift.String]? = nil,
             attributeMapping: [Swift.String: Swift.String]? = nil,
             creationDate: Foundation.Date? = nil,
             idpIdentifiers: [Swift.String]? = nil,
@@ -4620,6 +4681,7 @@ extension CognitoIdentityProviderClientTypes {
             providerType: CognitoIdentityProviderClientTypes.IdentityProviderTypeType? = nil,
             userPoolId: Swift.String? = nil
         ) {
+            self.acrMapping = acrMapping
             self.attributeMapping = attributeMapping
             self.creationDate = creationDate
             self.idpIdentifiers = idpIdentifiers
@@ -5227,29 +5289,6 @@ public struct CreateUserImportJobOutput: Swift.Sendable {
         userImportJob: CognitoIdentityProviderClientTypes.UserImportJobType? = nil
     ) {
         self.userImportJob = userImportJob
-    }
-}
-
-/// This exception is thrown when a feature you attempted to configure isn't available in your current feature plan.
-public struct FeatureUnavailableInTierException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "FeatureUnavailableInTierException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -6132,6 +6171,8 @@ extension CognitoIdentityProviderClientTypes {
 public struct CreateUserPoolInput: Swift.Sendable {
     /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. Email MFA is also disqualifying for account recovery with email. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred over email. As a best practice, configure both verified_email and verified_phone_number, with one having a higher priority than the other.
     public var accountRecoverySetting: CognitoIdentityProviderClientTypes.AccountRecoverySettingType?
+    /// The custom names for the authentication context class reference (ACR) levels in your user pool. Amazon Cognito defines four fixed ACR levels that represent increasing authentication assurance. The combination of authentication factors that satisfies each level is fixed and you can't change it. With this configuration, you customize only the URI name that Amazon Cognito reports for each level in the acr token claim. You can override a subset of the levels. By default, the levels are named urn:cognito:loa:1 through urn:cognito:loa:4, and Amazon Cognito applies the default name to any level that you don't specify. Each name must be unique across all four levels, including any default names that apply to levels you don't override. A name can contain any character that is valid in a URL or a URN. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+    public var acrConfiguration: [Swift.String: CognitoIdentityProviderClientTypes.AcrLevelConfigType]?
     /// The configuration for administrative creation of users. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
     public var adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType?
     /// Attributes supported as an alias for this user pool. For more information about alias attributes, see [Customizing sign-in attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases).
@@ -6193,6 +6234,7 @@ public struct CreateUserPoolInput: Swift.Sendable {
 
     public init(
         accountRecoverySetting: CognitoIdentityProviderClientTypes.AccountRecoverySettingType? = nil,
+        acrConfiguration: [Swift.String: CognitoIdentityProviderClientTypes.AcrLevelConfigType]? = nil,
         adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType? = nil,
         aliasAttributes: [CognitoIdentityProviderClientTypes.AliasAttributeType]? = nil,
         autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]? = nil,
@@ -6220,6 +6262,7 @@ public struct CreateUserPoolInput: Swift.Sendable {
         verificationMessageTemplate: CognitoIdentityProviderClientTypes.VerificationMessageTemplateType? = nil
     ) {
         self.accountRecoverySetting = accountRecoverySetting
+        self.acrConfiguration = acrConfiguration
         self.adminCreateUserConfig = adminCreateUserConfig
         self.aliasAttributes = aliasAttributes
         self.autoVerifiedAttributes = autoVerifiedAttributes
@@ -6283,6 +6326,8 @@ extension CognitoIdentityProviderClientTypes {
     public struct UserPoolType: Swift.Sendable {
         /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
         public var accountRecoverySetting: CognitoIdentityProviderClientTypes.AccountRecoverySettingType?
+        /// The names of the authentication context class reference (ACR) levels for the user pool. Amazon Cognito always returns the effective configuration, with default names merged in for any level that you haven't customized. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+        public var acrConfiguration: [Swift.String: CognitoIdentityProviderClientTypes.AcrLevelConfigType]?
         /// The configuration for AdminCreateUser requests.
         public var adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType?
         /// Attributes supported as an alias for this user pool. An alias is an attribute that users can enter as an alternative username. Possible values: phone_number, email, or preferred_username.
@@ -6363,6 +6408,7 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             accountRecoverySetting: CognitoIdentityProviderClientTypes.AccountRecoverySettingType? = nil,
+            acrConfiguration: [Swift.String: CognitoIdentityProviderClientTypes.AcrLevelConfigType]? = nil,
             adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType? = nil,
             aliasAttributes: [CognitoIdentityProviderClientTypes.AliasAttributeType]? = nil,
             arn: Swift.String? = nil,
@@ -6400,6 +6446,7 @@ extension CognitoIdentityProviderClientTypes {
             verificationMessageTemplate: CognitoIdentityProviderClientTypes.VerificationMessageTemplateType? = nil
         ) {
             self.accountRecoverySetting = accountRecoverySetting
+            self.acrConfiguration = acrConfiguration
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
             self.arn = arn
@@ -7921,7 +7968,7 @@ public struct DescribeTermsByClientInput: Swift.Sendable {
 }
 
 public struct DescribeTermsByClientOutput: Swift.Sendable {
-    /// A summary of the requested terms documents. Includes a unique identifier for later changes to the terms documents.
+    /// A summary of the requested terms documents, including a unique identifier for later changes to the terms documents.
     public var terms: CognitoIdentityProviderClientTypes.TermsType?
 
     public init(
@@ -9176,6 +9223,10 @@ public struct InitiateAuthInput: Swift.Sendable {
     ///
     /// * PREFERRED_CHALLENGE. If you don't provide a value for PREFERRED_CHALLENGE, Amazon Cognito responds with the AvailableChallenges parameter that specifies the available sign-in methods.
     ///
+    /// * TARGET_ACR_VALUES. An optional, space-separated list of the authentication context class reference (ACR) level URIs that you want the user to reach. List the levels in priority order, from highest to lowest. Amazon Cognito attempts the highest-priority level that the user can satisfy, and falls back through the list. Amazon Cognito ignores any value that it doesn't recognize. If none of the requested values are valid, Amazon Cognito returns an error. Requesting step-up authentication with this parameter requires the Essentials or Plus feature plan. On a lower feature plan, InitiateAuth returns a FeatureUnavailableInTierException. USERNAME is required. When you provide an ACCESS_TOKEN, you must also provide TARGET_ACR_VALUES. Amazon Cognito returns an error if you provide an ACCESS_TOKEN without TARGET_ACR_VALUES. The USERNAME that you provide must match the user that the ACCESS_TOKEN was issued for. For more information about step-up authentication and how Amazon Cognito handles multi-factor authentication requirements, see [Step-up authentication with ACR and AMR](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-step-up-authentication.html) in the Amazon Cognito Developer Guide.
+    ///
+    /// * MAX_AGE. An optional integer that sets the maximum number of seconds allowed since the user last authenticated. If the user's most recent authentication is older than this value, Amazon Cognito discards the authentication-methods credit from any access token that you provide and processes the request as a fresh authentication toward the target level. The access token itself remains valid.
+    ///
     ///
     /// USER_SRP_AUTH
     ///
@@ -10167,6 +10218,8 @@ public struct RespondToAuthChallengeInput: Swift.Sendable {
 public struct RespondToAuthChallengeOutput: Swift.Sendable {
     /// The outcome of a successful authentication process. After your application has passed all challenges, Amazon Cognito returns an AuthenticationResult with the JSON web tokens (JWTs) that indicate successful sign-in.
     public var authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType?
+    /// This response parameter lists the available authentication challenges that users can select from in [choice-based authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flows-selection-sdk.html#authentication-flows-selection-choice). For example, they might be able to choose between passkey authentication, a one-time password from an SMS message, and a traditional password.
+    public var availableChallenges: [CognitoIdentityProviderClientTypes.ChallengeNameType]?
     /// The name of the next challenge that you must respond to. Possible challenges include the following: All of the following challenges require USERNAME and, when the app client has a client secret, SECRET_HASH in the parameters. Include a DEVICE_KEY for device authentication.
     ///
     /// * WEB_AUTHN: Respond to the challenge with the results of a successful authentication with a WebAuthn authenticator, or passkey, as CREDENTIAL. Examples of WebAuthn authenticators include biometric devices and security keys.
@@ -10204,11 +10257,13 @@ public struct RespondToAuthChallengeOutput: Swift.Sendable {
 
     public init(
         authenticationResult: CognitoIdentityProviderClientTypes.AuthenticationResultType? = nil,
+        availableChallenges: [CognitoIdentityProviderClientTypes.ChallengeNameType]? = nil,
         challengeName: CognitoIdentityProviderClientTypes.ChallengeNameType? = nil,
         challengeParameters: [Swift.String: Swift.String]? = nil,
         session: Swift.String? = nil
     ) {
         self.authenticationResult = authenticationResult
+        self.availableChallenges = availableChallenges
         self.challengeName = challengeName
         self.challengeParameters = challengeParameters
         self.session = session
@@ -10842,6 +10897,8 @@ public struct UpdateGroupOutput: Swift.Sendable {
 }
 
 public struct UpdateIdentityProviderInput: Swift.Sendable {
+    /// A mapping between the authentication context class reference (ACR) levels of your user pool and the ACR values of the external OpenID Connect (OIDC) identity provider (IdP). This mapping has the same behavior as it does when you create an identity provider. Only OIDC IdPs support ACR mapping. Setting AcrMapping is available in all feature plans. It isn't restricted to the Essentials or Plus feature plan.
+    public var acrMapping: [Swift.String: Swift.String]?
     /// A mapping of IdP attributes to standard and custom user pool attributes. Specify a user pool attribute as the key of the key-value pair, and the IdP attribute claim name as the value.
     public var attributeMapping: [Swift.String: Swift.String]?
     /// An array of IdP identifiers, for example "IdPIdentifiers": [ "MyIdP", "MyIdP2" ]. Identifiers are friendly names that you can pass in the idp_identifier query parameter of requests to the [Authorize endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html) to silently redirect to sign-in with the associated IdP. Identifiers in a domain format also enable the use of [email-address matching with SAML providers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managing-saml-idp-naming.html).
@@ -10856,12 +10913,14 @@ public struct UpdateIdentityProviderInput: Swift.Sendable {
     public var userPoolId: Swift.String?
 
     public init(
+        acrMapping: [Swift.String: Swift.String]? = nil,
         attributeMapping: [Swift.String: Swift.String]? = nil,
         idpIdentifiers: [Swift.String]? = nil,
         providerDetails: [Swift.String: Swift.String]? = nil,
         providerName: Swift.String? = nil,
         userPoolId: Swift.String? = nil
     ) {
+        self.acrMapping = acrMapping
         self.attributeMapping = attributeMapping
         self.idpIdentifiers = idpIdentifiers
         self.providerDetails = providerDetails
@@ -11106,6 +11165,8 @@ public struct UpdateUserAttributesOutput: Swift.Sendable {
 public struct UpdateUserPoolInput: Swift.Sendable {
     /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
     public var accountRecoverySetting: CognitoIdentityProviderClientTypes.AccountRecoverySettingType?
+    /// The custom names for the authentication context class reference (ACR) levels in your user pool. This configuration has the same behavior as it does when you create a user pool: you customize only the URI name that Amazon Cognito reports for each of the four fixed ACR levels, and any level that you don't specify keeps its default name. Each name must be unique across all four levels, including default names. Configuring custom ACR level names requires the Essentials or Plus feature plan. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+    public var acrConfiguration: [Swift.String: CognitoIdentityProviderClientTypes.AcrLevelConfigType]?
     /// The configuration for administrative creation of users. Includes the template for the invitation message for new users, the duration of temporary passwords, and permitting self-service sign-up.
     public var adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType?
     /// The attributes that you want your user pool to automatically verify. Possible values: email, phone_number. For more information see [Verifying contact information at sign-up](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#allowing-users-to-sign-up-and-confirm-themselves).
@@ -11154,6 +11215,7 @@ public struct UpdateUserPoolInput: Swift.Sendable {
 
     public init(
         accountRecoverySetting: CognitoIdentityProviderClientTypes.AccountRecoverySettingType? = nil,
+        acrConfiguration: [Swift.String: CognitoIdentityProviderClientTypes.AcrLevelConfigType]? = nil,
         adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType? = nil,
         autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]? = nil,
         deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType? = nil,
@@ -11178,6 +11240,7 @@ public struct UpdateUserPoolInput: Swift.Sendable {
         verificationMessageTemplate: CognitoIdentityProviderClientTypes.VerificationMessageTemplateType? = nil
     ) {
         self.accountRecoverySetting = accountRecoverySetting
+        self.acrConfiguration = acrConfiguration
         self.adminCreateUserConfig = adminCreateUserConfig
         self.autoVerifiedAttributes = autoVerifiedAttributes
         self.deletionProtection = deletionProtection

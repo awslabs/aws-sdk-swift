@@ -980,6 +980,21 @@ extension InvoicingClientTypes {
 
 extension InvoicingClientTypes {
 
+    /// Represents the Marketplace PunchOut configuration for a procurement portal preference.
+    public struct MarketplacePunchOutPreference: Swift.Sendable {
+        /// The URL that buyers are redirected to for approval requests in the procurement portal. This is only supported for Coupa. When provided together with the procurement portal instance endpoint, its host must match the host of that endpoint.
+        public var approvalRequestRedirectUrl: Swift.String?
+
+        public init(
+            approvalRequestRedirectUrl: Swift.String? = nil
+        ) {
+            self.approvalRequestRedirectUrl = approvalRequestRedirectUrl
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     public enum ProcurementPortalName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case coupa
         case sapBusinessNetwork
@@ -1108,6 +1123,10 @@ public struct CreateProcurementPortalPreferenceInput: Swift.Sendable {
     public var einvoiceDeliveryEnabled: Swift.Bool?
     /// Specifies the e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
     public var einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference?
+    /// Defaults to false if not provided.
+    public var marketplacePunchOutEnabled: Swift.Bool?
+    /// Required for Coupa when MarketplacePunchOutEnabled is true.
+    public var marketplacePunchOutPreference: InvoicingClientTypes.MarketplacePunchOutPreference?
     /// The endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
     public var procurementPortalInstanceEndpoint: Swift.String?
     /// The name of the procurement portal.
@@ -1138,6 +1157,8 @@ public struct CreateProcurementPortalPreferenceInput: Swift.Sendable {
         contacts: [InvoicingClientTypes.Contact]? = nil,
         einvoiceDeliveryEnabled: Swift.Bool? = nil,
         einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference? = nil,
+        marketplacePunchOutEnabled: Swift.Bool? = nil,
+        marketplacePunchOutPreference: InvoicingClientTypes.MarketplacePunchOutPreference? = nil,
         procurementPortalInstanceEndpoint: Swift.String? = nil,
         procurementPortalName: InvoicingClientTypes.ProcurementPortalName? = nil,
         procurementPortalSharedSecret: Swift.String? = nil,
@@ -1154,6 +1175,8 @@ public struct CreateProcurementPortalPreferenceInput: Swift.Sendable {
         self.contacts = contacts
         self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
         self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+        self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
+        self.marketplacePunchOutPreference = marketplacePunchOutPreference
         self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
         self.procurementPortalName = procurementPortalName
         self.procurementPortalSharedSecret = procurementPortalSharedSecret
@@ -1669,7 +1692,7 @@ extension InvoicingClientTypes {
         /// Indicates whether e-invoice delivery is enabled for this procurement portal preference.
         /// This member is required.
         public var einvoiceDeliveryEnabled: Swift.Bool?
-        /// The configuration settings that specify how e-invoices are delivered to the procurement portal.
+        /// The e-invoice delivery configuration including document types, attachment types, and customization settings.
         public var einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference?
         /// The current status of the e-invoice delivery preference.
         public var einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus?
@@ -1678,6 +1701,10 @@ extension InvoicingClientTypes {
         /// The date and time when the procurement portal preference was last updated.
         /// This member is required.
         public var lastUpdateDate: Foundation.Date?
+        /// Indicates whether Marketplace PunchOut is enabled for this procurement portal preference. Defaults to false.
+        public var marketplacePunchOutEnabled: Swift.Bool?
+        /// The Marketplace PunchOut configuration for this procurement portal preference. This is present when MarketplacePunchOutEnabled is true.
+        public var marketplacePunchOutPreference: InvoicingClientTypes.MarketplacePunchOutPreference?
         /// The endpoint URL where e-invoices are delivered to the procurement portal.
         public var procurementPortalInstanceEndpoint: Swift.String?
         /// The name of the procurement portal.
@@ -1722,6 +1749,8 @@ extension InvoicingClientTypes {
             einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
             einvoiceDeliveryPreferenceStatusReason: Swift.String? = nil,
             lastUpdateDate: Foundation.Date? = nil,
+            marketplacePunchOutEnabled: Swift.Bool? = nil,
+            marketplacePunchOutPreference: InvoicingClientTypes.MarketplacePunchOutPreference? = nil,
             procurementPortalInstanceEndpoint: Swift.String? = nil,
             procurementPortalName: InvoicingClientTypes.ProcurementPortalName? = nil,
             procurementPortalPreferenceArn: Swift.String? = nil,
@@ -1746,6 +1775,8 @@ extension InvoicingClientTypes {
             self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
             self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
             self.lastUpdateDate = lastUpdateDate
+            self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
+            self.marketplacePunchOutPreference = marketplacePunchOutPreference
             self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
             self.procurementPortalName = procurementPortalName
             self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
@@ -2258,6 +2289,8 @@ extension InvoicingClientTypes {
         /// The date and time when the procurement portal preference was last updated.
         /// This member is required.
         public var lastUpdateDate: Foundation.Date?
+        /// Indicates whether Marketplace PunchOut is enabled for this procurement portal preference. Defaults to false.
+        public var marketplacePunchOutEnabled: Swift.Bool?
         /// The name of the procurement portal.
         /// This member is required.
         public var procurementPortalName: InvoicingClientTypes.ProcurementPortalName?
@@ -2292,6 +2325,7 @@ extension InvoicingClientTypes {
             einvoiceDeliveryPreferenceStatus: InvoicingClientTypes.ProcurementPortalPreferenceStatus? = nil,
             einvoiceDeliveryPreferenceStatusReason: Swift.String? = nil,
             lastUpdateDate: Foundation.Date? = nil,
+            marketplacePunchOutEnabled: Swift.Bool? = nil,
             procurementPortalName: InvoicingClientTypes.ProcurementPortalName? = nil,
             procurementPortalPreferenceArn: Swift.String? = nil,
             purchaseOrderRetrievalEnabled: Swift.Bool? = nil,
@@ -2310,6 +2344,7 @@ extension InvoicingClientTypes {
             self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
             self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
             self.lastUpdateDate = lastUpdateDate
+            self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
             self.procurementPortalName = procurementPortalName
             self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
             self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
@@ -2528,6 +2563,10 @@ public struct PutProcurementPortalPreferenceInput: Swift.Sendable {
     public var einvoiceDeliveryEnabled: Swift.Bool?
     /// Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
     public var einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference?
+    /// Whether Marketplace PunchOut is enabled for this connection. Defaults to false if not provided.
+    public var marketplacePunchOutEnabled: Swift.Bool?
+    /// Configuration for Marketplace PunchOut. Required when MarketplacePunchOutEnabled is true.
+    public var marketplacePunchOutPreference: InvoicingClientTypes.MarketplacePunchOutPreference?
     /// The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
     public var procurementPortalInstanceEndpoint: Swift.String?
     /// The Amazon Resource Name (ARN) of the procurement portal preference to update.
@@ -2548,6 +2587,8 @@ public struct PutProcurementPortalPreferenceInput: Swift.Sendable {
         contacts: [InvoicingClientTypes.Contact]? = nil,
         einvoiceDeliveryEnabled: Swift.Bool? = nil,
         einvoiceDeliveryPreference: InvoicingClientTypes.EinvoiceDeliveryPreference? = nil,
+        marketplacePunchOutEnabled: Swift.Bool? = nil,
+        marketplacePunchOutPreference: InvoicingClientTypes.MarketplacePunchOutPreference? = nil,
         procurementPortalInstanceEndpoint: Swift.String? = nil,
         procurementPortalPreferenceArn: Swift.String? = nil,
         procurementPortalSharedSecret: Swift.String? = nil,
@@ -2559,6 +2600,8 @@ public struct PutProcurementPortalPreferenceInput: Swift.Sendable {
         self.contacts = contacts
         self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
         self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+        self.marketplacePunchOutEnabled = marketplacePunchOutEnabled
+        self.marketplacePunchOutPreference = marketplacePunchOutPreference
         self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
         self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
         self.procurementPortalSharedSecret = procurementPortalSharedSecret

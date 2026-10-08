@@ -114,6 +114,26 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
+    @Test
+    fun `rules based auth scheme resolver reuses the client's endpoint resolver`() {
+        val context = setupTests("rules-based-auth-resolver-with-ruleset-test.smithy", "com.test#EventBridge")
+        val contents =
+            TestUtils.getFileContents(context.manifest, "Example/Sources/Example/AuthSchemeResolver.swift")
+        contents.shouldSyntacticSanityCheck()
+        contents.shouldContainOnlyOnce("    public let endpointResolver: (any EndpointResolver)?\n")
+        contents.shouldContainOnlyOnce(
+            """
+        let endpointResolver = try serviceParams.endpointResolver ?? DefaultEndpointResolver()
+        let endpoint = try endpointResolver.resolve(params: endpointParams)
+""",
+        )
+        contents.shouldContainOnlyOnce(
+            "return EventBridgeAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, " +
+                "region: endpointParam.region, useFIPS: endpointParam.useFIPS, " +
+                "endpointResolver: (context.clientConfig as? EventBridgeClient.EventBridgeClientConfig)?.endpointResolver)\n",
+        )
+    }
+
     private fun setupTests(
         smithyFile: String,
         serviceShapeId: String,

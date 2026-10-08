@@ -3134,7 +3134,7 @@ public struct CreateServerInput: Swift.Sendable {
     public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
     /// Specifies the name of the security policy for the server.
     public var securityPolicyName: Swift.String?
-    /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+    /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
     public var structuredLogDestinations: [Swift.String]?
     /// Key-value pairs that can be used to group and search for servers.
     public var tags: [TransferClientTypes.Tag]?
@@ -3738,6 +3738,8 @@ public struct CreateWorkflowInput: Swift.Sendable {
     /// Currently, copying and tagging are supported only on S3. For file location, you specify either the Amazon S3 bucket and key, or the Amazon EFS file system ID and path.
     /// This member is required.
     public var steps: [TransferClientTypes.WorkflowStep]?
+    /// Specifies the log groups to which your workflow logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*
+    public var structuredLogDestinations: [Swift.String]?
     /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
     public var tags: [TransferClientTypes.Tag]?
 
@@ -3745,11 +3747,13 @@ public struct CreateWorkflowInput: Swift.Sendable {
         description: Swift.String? = nil,
         onExceptionSteps: [TransferClientTypes.WorkflowStep]? = nil,
         steps: [TransferClientTypes.WorkflowStep]? = nil,
+        structuredLogDestinations: [Swift.String]? = nil,
         tags: [TransferClientTypes.Tag]? = nil
     ) {
         self.description = description
         self.onExceptionSteps = onExceptionSteps
         self.steps = steps
+        self.structuredLogDestinations = structuredLogDestinations
         self.tags = tags
     }
 }
@@ -4685,7 +4689,7 @@ extension TransferClientTypes {
         public var serverId: Swift.String?
         /// The condition of the server that was described. A value of ONLINE indicates that the server can accept jobs and transfer files. A State value of OFFLINE means that the server cannot perform file transfer operations. The states of STARTING and STOPPING indicate that the server is in an intermediate state, either not fully able to respond, or not fully offline. The values of START_FAILED or STOP_FAILED can indicate an error condition.
         public var state: TransferClientTypes.State?
-        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+        /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
         public var structuredLogDestinations: [Swift.String]?
         /// Specifies the key-value pairs that you can use to search for and group servers that were assigned to the server that was described.
         public var tags: [TransferClientTypes.Tag]?
@@ -4995,6 +4999,8 @@ extension TransferClientTypes {
         public var onExceptionSteps: [TransferClientTypes.WorkflowStep]?
         /// Specifies the details for the steps that are in the specified workflow.
         public var steps: [TransferClientTypes.WorkflowStep]?
+        /// Specifies the log groups to which your workflow logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*
+        public var structuredLogDestinations: [Swift.String]?
         /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
         public var tags: [TransferClientTypes.Tag]?
         /// A unique identifier for the workflow.
@@ -5005,6 +5011,7 @@ extension TransferClientTypes {
             description: Swift.String? = nil,
             onExceptionSteps: [TransferClientTypes.WorkflowStep]? = nil,
             steps: [TransferClientTypes.WorkflowStep]? = nil,
+            structuredLogDestinations: [Swift.String]? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             workflowId: Swift.String? = nil
         ) {
@@ -5012,6 +5019,7 @@ extension TransferClientTypes {
             self.description = description
             self.onExceptionSteps = onExceptionSteps
             self.steps = steps
+            self.structuredLogDestinations = structuredLogDestinations
             self.tags = tags
             self.workflowId = workflowId
         }
@@ -6170,7 +6178,7 @@ public struct UpdateServerInput: Swift.Sendable {
     /// A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
+    /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:partition:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
     public var structuredLogDestinations: [Swift.String]?
     /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
     public var workflowDetails: TransferClientTypes.WorkflowDetails?

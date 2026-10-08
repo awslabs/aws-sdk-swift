@@ -1396,19 +1396,167 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// A pull request event that can start an automatic code review. For GitLab repositories, pull request refers to a merge request.
+    public enum TriggerEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A draft pull request is opened or updated.
+        case pullRequestDraft
+        /// A label is added to a pull request. A filter group that selects this event must include a LABEL filter with the INCLUDE match mode, and a review starts only when the added label matches it.
+        case pullRequestLabelAdded
+        /// A pull request that isn't a draft is opened, updated, or marked ready for review.
+        case pullRequestReadyForReview
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerEvent] {
+            return [
+                .pullRequestDraft,
+                .pullRequestLabelAdded,
+                .pullRequestReadyForReview
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pullRequestDraft: return "PULL_REQUEST_DRAFT"
+            case .pullRequestLabelAdded: return "PULL_REQUEST_LABEL_ADDED"
+            case .pullRequestReadyForReview: return "PULL_REQUEST_READY_FOR_REVIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Whether a filter's value must match its patterns.
+    public enum TriggerFilterMatchMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The filter passes when no value fully matches any pattern.
+        case exclude
+        /// The filter passes when a value fully matches at least one pattern.
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerFilterMatchMode] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A pull request value that a filter matches.
+    public enum TriggerFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The labels on the pull request.
+        case label
+        /// The name of the pull request's target branch, for example main.
+        case targetBranch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerFilterType] {
+            return [
+                .label,
+                .targetBranch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .label: return "LABEL"
+            case .targetBranch: return "TARGET_BRANCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A condition on a pull request value.
+    public struct TriggerFilter: Swift.Sendable {
+        /// Whether the value must match the patterns. The default is INCLUDE.
+        public var matchMode: SecurityAgentClientTypes.TriggerFilterMatchMode?
+        /// The regular expressions to match against the value.
+        /// This member is required.
+        public var patterns: [Swift.String]?
+        /// The pull request value to match.
+        /// This member is required.
+        public var type: SecurityAgentClientTypes.TriggerFilterType?
+
+        public init(
+            matchMode: SecurityAgentClientTypes.TriggerFilterMatchMode? = nil,
+            patterns: [Swift.String]? = nil,
+            type: SecurityAgentClientTypes.TriggerFilterType? = nil
+        ) {
+            self.matchMode = matchMode
+            self.patterns = patterns
+            self.type = type
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A set of conditions that start an automatic code review when they all pass. A filter group must include events, filters, or both.
+    public struct TriggerFilterGroup: Swift.Sendable {
+        /// Passes when the pull request event is one of the listed events. If you omit this, the group matches PULL_REQUEST_READY_FOR_REVIEW and PULL_REQUEST_DRAFT events only.
+        public var events: [SecurityAgentClientTypes.TriggerEvent]?
+        /// Passes when every filter passes. If you omit this, the group matches its events on any target branch and with any labels.
+        public var filters: [SecurityAgentClientTypes.TriggerFilter]?
+
+        public init(
+            events: [SecurityAgentClientTypes.TriggerEvent]? = nil,
+            filters: [SecurityAgentClientTypes.TriggerFilter]? = nil
+        ) {
+            self.events = events
+            self.filters = filters
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Capabilities for an integrated Azure DevOps repository.
     public struct AzureDevOpsResourceCapabilities: Swift.Sendable {
         /// Whether to post code review comments on pull requests.
         public var leaveComments: Swift.Bool?
         /// Whether to create pull requests with automated fixes.
         public var remediateCode: Swift.Bool?
+        /// The filter groups that control which pull request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public var triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]?
 
         public init(
             leaveComments: Swift.Bool? = nil,
-            remediateCode: Swift.Bool? = nil
+            remediateCode: Swift.Bool? = nil,
+            triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]? = nil
         ) {
             self.leaveComments = leaveComments
             self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
         }
     }
 }
@@ -5128,13 +5276,17 @@ extension SecurityAgentClientTypes {
         public var leaveComments: Swift.Bool?
         /// Whether to create pull requests with automated fixes.
         public var remediateCode: Swift.Bool?
+        /// The filter groups that control which pull request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public var triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]?
 
         public init(
             leaveComments: Swift.Bool? = nil,
-            remediateCode: Swift.Bool? = nil
+            remediateCode: Swift.Bool? = nil,
+            triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]? = nil
         ) {
             self.leaveComments = leaveComments
             self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
         }
     }
 }
@@ -7336,13 +7488,17 @@ extension SecurityAgentClientTypes {
         public var leaveComments: Swift.Bool?
         /// Indicates whether the integration can create code remediation pull requests.
         public var remediateCode: Swift.Bool?
+        /// The filter groups that control which pull request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public var triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]?
 
         public init(
             leaveComments: Swift.Bool? = nil,
-            remediateCode: Swift.Bool? = nil
+            remediateCode: Swift.Bool? = nil,
+            triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]? = nil
         ) {
             self.leaveComments = leaveComments
             self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
         }
     }
 }
@@ -7406,13 +7562,17 @@ extension SecurityAgentClientTypes {
         public var leaveComments: Swift.Bool?
         /// Whether to create merge requests with automated fixes.
         public var remediateCode: Swift.Bool?
+        /// The filter groups that control which merge request events start an automatic code review when leaveComments is enabled. A review starts when any group matches. If you omit this, a review starts on PULL_REQUEST_READY_FOR_REVIEW events.
+        public var triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]?
 
         public init(
             leaveComments: Swift.Bool? = nil,
-            remediateCode: Swift.Bool? = nil
+            remediateCode: Swift.Bool? = nil,
+            triggerFilterGroups: [SecurityAgentClientTypes.TriggerFilterGroup]? = nil
         ) {
             self.leaveComments = leaveComments
             self.remediateCode = remediateCode
+            self.triggerFilterGroups = triggerFilterGroups
         }
     }
 }
@@ -15227,11 +15387,13 @@ extension SecurityAgentClientTypes.AzureDevOpsResourceCapabilities {
         guard let value else { return }
         try writer["leaveComments"].write(value.leaveComments)
         try writer["remediateCode"].write(value.remediateCode)
+        try writer["triggerFilterGroups"].writeList(value.triggerFilterGroups, memberWritingClosure: SecurityAgentClientTypes.TriggerFilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.AzureDevOpsResourceCapabilities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityAgentClientTypes.AzureDevOpsResourceCapabilities()
+        value.triggerFilterGroups = try reader["triggerFilterGroups"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TriggerFilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.leaveComments = try reader["leaveComments"].readIfPresent()
         value.remediateCode = try reader["remediateCode"].readIfPresent()
         return value
@@ -15333,11 +15495,13 @@ extension SecurityAgentClientTypes.BitbucketResourceCapabilities {
         guard let value else { return }
         try writer["leaveComments"].write(value.leaveComments)
         try writer["remediateCode"].write(value.remediateCode)
+        try writer["triggerFilterGroups"].writeList(value.triggerFilterGroups, memberWritingClosure: SecurityAgentClientTypes.TriggerFilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BitbucketResourceCapabilities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityAgentClientTypes.BitbucketResourceCapabilities()
+        value.triggerFilterGroups = try reader["triggerFilterGroups"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TriggerFilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.leaveComments = try reader["leaveComments"].readIfPresent()
         value.remediateCode = try reader["remediateCode"].readIfPresent()
         return value
@@ -15906,11 +16070,13 @@ extension SecurityAgentClientTypes.GitHubResourceCapabilities {
         guard let value else { return }
         try writer["leaveComments"].write(value.leaveComments)
         try writer["remediateCode"].write(value.remediateCode)
+        try writer["triggerFilterGroups"].writeList(value.triggerFilterGroups, memberWritingClosure: SecurityAgentClientTypes.TriggerFilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.GitHubResourceCapabilities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityAgentClientTypes.GitHubResourceCapabilities()
+        value.triggerFilterGroups = try reader["triggerFilterGroups"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TriggerFilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.leaveComments = try reader["leaveComments"].readIfPresent()
         value.remediateCode = try reader["remediateCode"].readIfPresent()
         return value
@@ -15956,11 +16122,13 @@ extension SecurityAgentClientTypes.GitLabResourceCapabilities {
         guard let value else { return }
         try writer["leaveComments"].write(value.leaveComments)
         try writer["remediateCode"].write(value.remediateCode)
+        try writer["triggerFilterGroups"].writeList(value.triggerFilterGroups, memberWritingClosure: SecurityAgentClientTypes.TriggerFilterGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.GitLabResourceCapabilities {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityAgentClientTypes.GitLabResourceCapabilities()
+        value.triggerFilterGroups = try reader["triggerFilterGroups"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TriggerFilterGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.leaveComments = try reader["leaveComments"].readIfPresent()
         value.remediateCode = try reader["remediateCode"].readIfPresent()
         return value
@@ -16887,6 +17055,42 @@ extension SecurityAgentClientTypes.ThreatSummary {
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.TriggerFilter {
+
+    static func write(value: SecurityAgentClientTypes.TriggerFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["matchMode"].write(value.matchMode)
+        try writer["patterns"].writeList(value.patterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.TriggerFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.TriggerFilter()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.patterns = try reader["patterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.matchMode = try reader["matchMode"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.TriggerFilterGroup {
+
+    static func write(value: SecurityAgentClientTypes.TriggerFilterGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.TriggerEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: SecurityAgentClientTypes.TriggerFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.TriggerFilterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.TriggerFilterGroup()
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.TriggerEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TriggerFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

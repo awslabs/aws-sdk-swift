@@ -29,6 +29,8 @@ public struct EventBridgeAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSch
     public let useDualStack: Swift.Bool
     /// When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.
     public let useFIPS: Swift.Bool
+    /// The client's configured endpoint resolver, used to resolve auth schemes from endpoint rules.
+    public let endpointResolver: (any EndpointResolver)?
 }
 
 public protocol EventBridgeAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
@@ -70,7 +72,8 @@ public struct DefaultEventBridgeAuthSchemeResolver: EventBridgeAuthSchemeResolve
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         let endpointParams = EndpointParams(authSchemeParams: serviceParams)
-        let endpoint = try DefaultEndpointResolver().resolve(params: endpointParams)
+        let endpointResolver = try serviceParams.endpointResolver ?? DefaultEndpointResolver()
+        let endpoint = try endpointResolver.resolve(params: endpointParams)
         guard let authSchemes = endpoint.authSchemes() else {
             return try InternalModeledEventBridgeAuthSchemeResolver().resolveAuthScheme(params: params)
         }
@@ -103,6 +106,6 @@ public struct DefaultEventBridgeAuthSchemeResolver: EventBridgeAuthSchemeResolve
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
         let authSchemePreference = context.getAuthSchemePreference()
-        return EventBridgeAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, endpoint: endpointParam.endpoint, endpointId: endpointParam.endpointId, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS)
+        return EventBridgeAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, endpoint: endpointParam.endpoint, endpointId: endpointParam.endpointId, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS, endpointResolver: (context.clientConfig as? EventBridgeClient.EventBridgeClientConfig)?.endpointResolver)
     }
 }

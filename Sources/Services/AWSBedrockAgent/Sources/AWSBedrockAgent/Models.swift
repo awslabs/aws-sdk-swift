@@ -8572,6 +8572,8 @@ extension BedrockAgentClientTypes {
         /// The status of the data ingestion job.
         /// This member is required.
         public var status: BedrockAgentClientTypes.IngestionJobStatus?
+        /// The time at which all text content in the data ingestion job finished extraction and became available to query. This time isn't returned until text extraction is complete for all the documents in the job.
+        public var textReadyAt: Foundation.Date?
         /// The time the data ingestion job was last updated. If you stop a data ingestion job, the updatedAt time is the time the job was stopped.
         /// This member is required.
         public var updatedAt: Foundation.Date?
@@ -8585,6 +8587,7 @@ extension BedrockAgentClientTypes {
             startedAt: Foundation.Date? = nil,
             statistics: BedrockAgentClientTypes.IngestionJobStatistics? = nil,
             status: BedrockAgentClientTypes.IngestionJobStatus? = nil,
+            textReadyAt: Foundation.Date? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.dataSourceId = dataSourceId
@@ -8595,6 +8598,7 @@ extension BedrockAgentClientTypes {
             self.startedAt = startedAt
             self.statistics = statistics
             self.status = status
+            self.textReadyAt = textReadyAt
             self.updatedAt = updatedAt
         }
     }
@@ -8825,6 +8829,8 @@ extension BedrockAgentClientTypes {
         /// The status of the data ingestion job.
         /// This member is required.
         public var status: BedrockAgentClientTypes.IngestionJobStatus?
+        /// The time at which all text content in the data ingestion job finished extraction and became available to query. This time isn't returned until text extraction is complete for all the documents in the job.
+        public var textReadyAt: Foundation.Date?
         /// The time the data ingestion job was last updated.
         /// This member is required.
         public var updatedAt: Foundation.Date?
@@ -8837,6 +8843,7 @@ extension BedrockAgentClientTypes {
             startedAt: Foundation.Date? = nil,
             statistics: BedrockAgentClientTypes.IngestionJobStatistics? = nil,
             status: BedrockAgentClientTypes.IngestionJobStatus? = nil,
+            textReadyAt: Foundation.Date? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.dataSourceId = dataSourceId
@@ -8846,6 +8853,7 @@ extension BedrockAgentClientTypes {
             self.startedAt = startedAt
             self.statistics = statistics
             self.status = status
+            self.textReadyAt = textReadyAt
             self.updatedAt = updatedAt
         }
     }
@@ -19030,6 +19038,7 @@ extension BedrockAgentClientTypes.IngestionJob {
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.textReadyAt = try reader["textReadyAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -19082,6 +19091,7 @@ extension BedrockAgentClientTypes.IngestionJobSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.textReadyAt = try reader["textReadyAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.statistics = try reader["statistics"].readIfPresent(with: BedrockAgentClientTypes.IngestionJobStatistics.read(from:))
         return value
     }

@@ -1038,13 +1038,17 @@ extension PinpointSMSVoiceV2ClientTypes {
 }
 
 public struct CarrierLookupInput: Swift.Sendable {
+    /// Specifies whether the service cleanses the phone number that you provide. When set to true, the service normalizes the phone number according to the destination country's national numbering plan and dialing rules. The service returns the cleansed number in E.164 format in the E164PhoneNumber field and returns the number that you provided in the OriginalPhoneNumber field.
+    public var enableCleansing: Swift.Bool?
     /// The phone number that you want to retrieve information about. You can provide the phone number in various formats including special characters such as parentheses, brackets, spaces, hyphens, periods, and commas. The service automatically converts the input to E164 format for processing.
     /// This member is required.
     public var phoneNumber: Swift.String?
 
     public init(
+        enableCleansing: Swift.Bool? = nil,
         phoneNumber: Swift.String? = nil
     ) {
+        self.enableCleansing = enableCleansing
         self.phoneNumber = phoneNumber
     }
 }
@@ -1056,6 +1060,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         case landline
         case mobile
         case other
+        case prepaid
+        case voip
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PhoneNumberType] {
@@ -1063,7 +1069,9 @@ extension PinpointSMSVoiceV2ClientTypes {
                 .invalid,
                 .landline,
                 .mobile,
-                .other
+                .other,
+                .prepaid,
+                .voip
             ]
         }
 
@@ -1078,6 +1086,8 @@ extension PinpointSMSVoiceV2ClientTypes {
             case .landline: return "LANDLINE"
             case .mobile: return "MOBILE"
             case .other: return "OTHER"
+            case .prepaid: return "PREPAID"
+            case .voip: return "VOIP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1100,7 +1110,9 @@ public struct CarrierLookupOutput: Swift.Sendable {
     public var mcc: Swift.String?
     /// The phone number's mobile network code, for mobile phone number types.
     public var mnc: Swift.String?
-    /// Describes the type of phone number. Valid values are: MOBILE, LANDLINE, OTHER, and INVALID. Avoid sending SMS or voice messages to INVALID phone numbers, as these numbers are unlikely to belong to actual recipients.
+    /// The phone number exactly as you supplied it in the request. This field is returned only when you set EnableCleansing to true, the phone number was cleansed, and a normalized E.164 phone number was returned in the E164PhoneNumber field.
+    public var originalPhoneNumber: Swift.String?
+    /// Describes the type of phone number. Valid values are: MOBILE, LANDLINE, VOIP, PREPAID, OTHER, and INVALID. Avoid sending SMS or voice messages to INVALID phone numbers, as these numbers are unlikely to belong to actual recipients.
     /// This member is required.
     public var phoneNumberType: PinpointSMSVoiceV2ClientTypes.PhoneNumberType?
 
@@ -1112,6 +1124,7 @@ public struct CarrierLookupOutput: Swift.Sendable {
         isoCountryCode: Swift.String? = nil,
         mcc: Swift.String? = nil,
         mnc: Swift.String? = nil,
+        originalPhoneNumber: Swift.String? = nil,
         phoneNumberType: PinpointSMSVoiceV2ClientTypes.PhoneNumberType? = nil
     ) {
         self.carrier = carrier
@@ -1121,6 +1134,7 @@ public struct CarrierLookupOutput: Swift.Sendable {
         self.isoCountryCode = isoCountryCode
         self.mcc = mcc
         self.mnc = mnc
+        self.originalPhoneNumber = originalPhoneNumber
         self.phoneNumberType = phoneNumberType
     }
 }
@@ -8366,7 +8380,7 @@ extension PinpointSMSVoiceV2ClientTypes {
 
 extension PinpointSMSVoiceV2ClientTypes {
 
-    /// A single number preference — specifies a pattern type and filter value.
+    /// A single number preference that specifies how to match available phone numbers. Each preference pairs a match type with one or more filter values.
     public struct NumberPreferenceItem: Swift.Sendable {
         /// The digit pattern values to match against available phone numbers, using the specified preference type.
         /// This member is required.
@@ -8431,7 +8445,7 @@ public struct ListAvailablePhoneNumbersInput: Swift.Sendable {
     /// The capabilities to filter by, such as SMS. Only phone numbers that support all of the specified capabilities are returned.
     /// This member is required.
     public var numberCapabilities: [PinpointSMSVoiceV2ClientTypes.NumberCapability]?
-    /// Optional. If omitted, returns unfiltered available numbers. Max 1 element for List API.
+    /// An optional selection preference used to return only phone numbers that match a specific digit pattern, such as numbers that start with, end with, or contain a particular sequence. You can specify at most one preference. Number preferences apply only to TEN_DLC numbers in the US.
     public var numberPreference: [PinpointSMSVoiceV2ClientTypes.NumberPreferenceItem]?
     /// The type of phone number to search for.
     /// This member is required.
