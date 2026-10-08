@@ -863,31 +863,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The request was throttled due to too many requests. Please slow down and try again.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Detailed error message describing the throttling condition.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension DevOpsAgentClientTypes {
 
     /// Describes one specific validation failure for an input member.
@@ -1236,6 +1211,8 @@ extension DevOpsAgentClientTypes {
         /// Type of GitHub repository owner.
         /// This member is required.
         public var ownerType: DevOpsAgentClientTypes.GithubRepoOwnerType?
+        /// The identifier of the release management association that this repository maps to for automatic verification testing.
+        public var releaseManagementAssociationId: Swift.String?
         /// Associated Github repo ID
         /// This member is required.
         public var repoId: Swift.String?
@@ -1250,6 +1227,7 @@ extension DevOpsAgentClientTypes {
             instanceIdentifier: Swift.String? = nil,
             owner: Swift.String? = nil,
             ownerType: DevOpsAgentClientTypes.GithubRepoOwnerType? = nil,
+            releaseManagementAssociationId: Swift.String? = nil,
             repoId: Swift.String? = nil,
             repoName: Swift.String? = nil,
             runtimeRoleArn: Swift.String? = nil
@@ -1257,6 +1235,7 @@ extension DevOpsAgentClientTypes {
             self.instanceIdentifier = instanceIdentifier
             self.owner = owner
             self.ownerType = ownerType
+            self.releaseManagementAssociationId = releaseManagementAssociationId
             self.repoId = repoId
             self.repoName = repoName
             self.runtimeRoleArn = runtimeRoleArn
@@ -1276,6 +1255,8 @@ extension DevOpsAgentClientTypes {
         /// Full GitLab project path (e.g., namespace/project-name).
         /// This member is required.
         public var projectPath: Swift.String?
+        /// The identifier of the release management association that this project maps to for automatic verification testing.
+        public var releaseManagementAssociationId: Swift.String?
         /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
         @available(*, deprecated, message: "Superseded by the ReleaseManagement association. Configure the runtime role on the ReleaseManagement association and reference it via releaseManagementAssociationId. API deprecated since 2026-08-04")
         public var runtimeRoleArn: Swift.String?
@@ -1284,11 +1265,13 @@ extension DevOpsAgentClientTypes {
             instanceIdentifier: Swift.String? = nil,
             projectId: Swift.String? = nil,
             projectPath: Swift.String? = nil,
+            releaseManagementAssociationId: Swift.String? = nil,
             runtimeRoleArn: Swift.String? = nil
         ) {
             self.instanceIdentifier = instanceIdentifier
             self.projectId = projectId
             self.projectPath = projectPath
+            self.releaseManagementAssociationId = releaseManagementAssociationId
             self.runtimeRoleArn = runtimeRoleArn
         }
     }
@@ -1483,6 +1466,58 @@ extension DevOpsAgentClientTypes {
 extension DevOpsAgentClientTypes.PagerDutyConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "PagerDutyConfiguration(services: \(Swift.String(describing: services)), customerEmail: \"CONTENT_REDACTED\")"}
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Private network access to the resource inside a VPC, using a private connection.
+    public struct PrivateNetworkAccess: Swift.Sendable {
+        /// Name of the private connection that supplies the VPC configuration for this release management environment.
+        /// This member is required.
+        public var privateConnectionName: Swift.String?
+        /// Role ARN that AWS DevOps Agent assumes at runtime to connect to your VPC.
+        /// This member is required.
+        public var runtimeRoleArn: Swift.String?
+
+        public init(
+            privateConnectionName: Swift.String? = nil,
+            runtimeRoleArn: Swift.String? = nil
+        ) {
+            self.privateConnectionName = privateConnectionName
+            self.runtimeRoleArn = runtimeRoleArn
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Specifies how AWS DevOps Agent reaches your application using a Release Management Environment
+    public enum NetworkAccessConfiguration: Swift.Sendable {
+        /// Private network access to the resource inside a VPC, using a private connection.
+        case privateaccess(DevOpsAgentClientTypes.PrivateNetworkAccess)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Configuration for a release management environment.
+    public struct ReleaseManagementConfiguration: Swift.Sendable {
+        /// The name for this release management environment.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies how AWS DevOps Agent reaches your application using a Release Management Environment
+        /// This member is required.
+        public var networkAccess: DevOpsAgentClientTypes.NetworkAccessConfiguration?
+
+        public init(
+            name: Swift.String? = nil,
+            networkAccess: DevOpsAgentClientTypes.NetworkAccessConfiguration? = nil
+        ) {
+            self.name = name
+            self.networkAccess = networkAccess
+        }
+    }
 }
 
 extension DevOpsAgentClientTypes {
@@ -1719,6 +1754,8 @@ extension DevOpsAgentClientTypes {
         case remoteagent(DevOpsAgentClientTypes.RemoteAgentConfiguration)
         /// Remote A2A agent integration configuration (SigV4 auth).
         case remoteagentsigv4(DevOpsAgentClientTypes.RemoteAgentSigV4Configuration)
+        /// Release management network environment configuration
+        case releasemanagement(DevOpsAgentClientTypes.ReleaseManagementConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3095,6 +3132,31 @@ public struct ContentSizeExceededException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+/// The request was throttled due to too many requests. Please slow down and try again.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Detailed error message describing the throttling condition.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Request structure for creating a new asset
 public struct CreateAssetInput: Swift.Sendable {
     /// The unique identifier for the agent space where the asset will be created
@@ -3921,9 +3983,9 @@ public struct CreatePrivateConnectionOutput: Swift.Sendable {
 
 extension DevOpsAgentClientTypes {
 
-    /// Schedule-based condition that fires the Trigger
-    public struct ScheduleCondition: Swift.Sendable {
-        /// The schedule expression
+    /// Cron or rate schedule. Trigger-created custom-agent schedules use an EventBridge flexible window of up to 30 minutes for load distribution.
+    public struct CronSchedule: Swift.Sendable {
+        /// EventBridge cron or rate expression that anchors the flexible window
         /// This member is required.
         public var expression: Swift.String?
 
@@ -3937,9 +3999,166 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
-    /// Defines the firing condition for a Trigger
+    /// Daily recurrence
+    public struct DailyRecurrence: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Monthly recurrence
+    public struct MonthlyRecurrence: Swift.Sendable {
+        /// Day of month the window recurs on
+        /// This member is required.
+        public var dayOfMonth: Swift.Int?
+
+        public init(
+            dayOfMonth: Swift.Int? = nil
+        ) {
+            self.dayOfMonth = dayOfMonth
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Day of week for a WEEKLY recurrence
+    public enum DayOfWeek: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case friday
+        case monday
+        case saturday
+        case sunday
+        case thursday
+        case tuesday
+        case wednesday
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DayOfWeek] {
+            return [
+                .friday,
+                .monday,
+                .saturday,
+                .sunday,
+                .thursday,
+                .tuesday,
+                .wednesday
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .friday: return "FRIDAY"
+            case .monday: return "MONDAY"
+            case .saturday: return "SATURDAY"
+            case .sunday: return "SUNDAY"
+            case .thursday: return "THURSDAY"
+            case .tuesday: return "TUESDAY"
+            case .wednesday: return "WEDNESDAY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Weekly recurrence
+    public struct WeeklyRecurrence: Swift.Sendable {
+        /// Day of week the window recurs on
+        /// This member is required.
+        public var dayOfWeek: DevOpsAgentClientTypes.DayOfWeek?
+
+        public init(
+            dayOfWeek: DevOpsAgentClientTypes.DayOfWeek? = nil
+        ) {
+            self.dayOfWeek = dayOfWeek
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Recurrence cadence for a time-range schedule
+    public enum Recurrence: Swift.Sendable {
+        /// The window recurs every day
+        case daily(DevOpsAgentClientTypes.DailyRecurrence)
+        /// The window recurs once per week
+        case weekly(DevOpsAgentClientTypes.WeeklyRecurrence)
+        /// The window recurs once per month
+        case monthly(DevOpsAgentClientTypes.MonthlyRecurrence)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Recurring time-of-day window in UTC. The service derives an EventBridge expression anchored at startAfter and a flexible-window width from the interval to startBefore. A startBefore earlier than startAfter wraps past midnight.
+    public struct TimeRangeSchedule: Swift.Sendable {
+        /// How the window recurs
+        /// This member is required.
+        public var recurrence: DevOpsAgentClientTypes.Recurrence?
+        /// Earliest time of day the trigger may fire
+        /// This member is required.
+        public var startAfter: Swift.String?
+        /// Latest time of day the trigger may fire
+        /// This member is required.
+        public var startBefore: Swift.String?
+
+        public init(
+            recurrence: DevOpsAgentClientTypes.Recurrence? = nil,
+            startAfter: Swift.String? = nil,
+            startBefore: Swift.String? = nil
+        ) {
+            self.recurrence = recurrence
+            self.startAfter = startAfter
+            self.startBefore = startBefore
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Structured schedule specification. Select exactly one schedule form.
+    public enum ScheduleSpec: Swift.Sendable {
+        /// Runs on an EventBridge cron or rate cadence
+        case cron(DevOpsAgentClientTypes.CronSchedule)
+        /// Runs within a recurring time-of-day window
+        case timerange(DevOpsAgentClientTypes.TimeRangeSchedule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Expression-based schedule condition. CreateTrigger callers using this condition supply expression and omit spec. Trigger responses always use this condition, include the persisted or derived expression, and also include spec when the trigger was created from a structured schedule.
+    public struct ScheduleCondition: Swift.Sendable {
+        /// EventBridge cron or rate expression. Required for existing request and response compatibility. For a structured schedule response, this is the expression derived by Backlog.
+        public var expression: Swift.String?
+        /// Structured schedule source of truth (cron | timeRange). On CreateTrigger supply exactly one of spec or expression. Present in responses together with the derived expression for structured triggers.
+        public var spec: DevOpsAgentClientTypes.ScheduleSpec?
+
+        public init(
+            expression: Swift.String? = nil,
+            spec: DevOpsAgentClientTypes.ScheduleSpec? = nil
+        ) {
+            self.expression = expression
+            self.spec = spec
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Defines how a Trigger fires.
     public enum TriggerCondition: Swift.Sendable {
-        /// Time-based firing condition
+        /// Schedule-based firing condition. On CreateTrigger supply exactly one of the schedule condition's expression or spec.
         case schedule(DevOpsAgentClientTypes.ScheduleCondition)
         case sdkUnknown(Swift.String)
     }
@@ -10095,7 +10314,6 @@ enum AssociateServiceOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10115,7 +10333,6 @@ enum CreateAgentSpaceOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10212,7 +10429,6 @@ enum CreatePrivateConnectionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10251,7 +10467,6 @@ enum DeleteAgentSpaceOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10309,7 +10524,6 @@ enum DeletePrivateConnectionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10348,7 +10562,6 @@ enum DeregisterServiceOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10367,7 +10580,6 @@ enum DescribePrivateConnectionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10385,7 +10597,6 @@ enum DisableOperatorAppOutputError {
         switch baseError.code {
             case "IdentityCenterServiceException": return try IdentityCenterServiceException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10403,7 +10614,6 @@ enum DisassociateServiceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10421,7 +10631,6 @@ enum EnableOperatorAppOutputError {
         switch baseError.code {
             case "IdentityCenterServiceException": return try IdentityCenterServiceException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10458,7 +10667,6 @@ enum GetAgentSpaceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10533,7 +10741,6 @@ enum GetAssociationOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10570,7 +10777,6 @@ enum GetOperatorAppOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10607,7 +10813,6 @@ enum GetServiceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10643,7 +10848,6 @@ enum ListAgentSpacesOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10735,7 +10939,6 @@ enum ListAssociationsOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10864,7 +11067,6 @@ enum ListPrivateConnectionsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10899,7 +11101,6 @@ enum ListServicesOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10954,7 +11155,6 @@ enum ListWebhooksOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11047,7 +11247,6 @@ enum UpdateAgentSpaceOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11127,7 +11326,6 @@ enum UpdateAssociationOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11185,7 +11383,6 @@ enum UpdateOperatorAppIdpConfigOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11204,7 +11401,6 @@ enum UpdatePrivateConnectionCertificateOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11261,7 +11457,6 @@ enum ValidateAwsAssociationsOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
-            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11320,19 +11515,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ValidationException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
@@ -11365,6 +11547,19 @@ extension AccessDeniedException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11815,6 +12010,34 @@ extension DevOpsAgentClientTypes.ChatExecution {
     }
 }
 
+extension DevOpsAgentClientTypes.CronSchedule {
+
+    static func write(value: DevOpsAgentClientTypes.CronSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.CronSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.CronSchedule()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.DailyRecurrence {
+
+    static func write(value: DevOpsAgentClientTypes.DailyRecurrence?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.DailyRecurrence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return DevOpsAgentClientTypes.DailyRecurrence()
+    }
+}
+
 extension DevOpsAgentClientTypes.DatadogAuthorizationConfig {
 
     static func write(value: DevOpsAgentClientTypes.DatadogAuthorizationConfig?, to writer: SmithyJSON.Writer) throws {
@@ -11949,6 +12172,7 @@ extension DevOpsAgentClientTypes.GitHubConfiguration {
         try writer["instanceIdentifier"].write(value.instanceIdentifier)
         try writer["owner"].write(value.owner)
         try writer["ownerType"].write(value.ownerType)
+        try writer["releaseManagementAssociationId"].write(value.releaseManagementAssociationId)
         try writer["repoId"].write(value.repoId)
         try writer["repoName"].write(value.repoName)
         try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
@@ -11963,6 +12187,7 @@ extension DevOpsAgentClientTypes.GitHubConfiguration {
         value.ownerType = try reader["ownerType"].readIfPresent() ?? .sdkUnknown("")
         value.instanceIdentifier = try reader["instanceIdentifier"].readIfPresent()
         value.runtimeRoleArn = try reader["runtimeRoleArn"].readIfPresent()
+        value.releaseManagementAssociationId = try reader["releaseManagementAssociationId"].readIfPresent()
         return value
     }
 }
@@ -11974,6 +12199,7 @@ extension DevOpsAgentClientTypes.GitLabConfiguration {
         try writer["instanceIdentifier"].write(value.instanceIdentifier)
         try writer["projectId"].write(value.projectId)
         try writer["projectPath"].write(value.projectPath)
+        try writer["releaseManagementAssociationId"].write(value.releaseManagementAssociationId)
         try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
     }
 
@@ -11984,6 +12210,7 @@ extension DevOpsAgentClientTypes.GitLabConfiguration {
         value.projectPath = try reader["projectPath"].readIfPresent() ?? ""
         value.instanceIdentifier = try reader["instanceIdentifier"].readIfPresent()
         value.runtimeRoleArn = try reader["runtimeRoleArn"].readIfPresent()
+        value.releaseManagementAssociationId = try reader["releaseManagementAssociationId"].readIfPresent()
         return value
     }
 }
@@ -12364,6 +12591,45 @@ extension DevOpsAgentClientTypes.Message {
     }
 }
 
+extension DevOpsAgentClientTypes.MonthlyRecurrence {
+
+    static func write(value: DevOpsAgentClientTypes.MonthlyRecurrence?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dayOfMonth"].write(value.dayOfMonth)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MonthlyRecurrence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MonthlyRecurrence()
+        value.dayOfMonth = try reader["dayOfMonth"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.NetworkAccessConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.NetworkAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .privateaccess(privateaccess):
+                try writer["privateAccess"].write(privateaccess, with: DevOpsAgentClientTypes.PrivateNetworkAccess.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.NetworkAccessConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "privateAccess":
+                return .privateaccess(try reader["privateAccess"].read(with: DevOpsAgentClientTypes.PrivateNetworkAccess.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension DevOpsAgentClientTypes.NewRelicApiKeyConfig {
 
     static func write(value: DevOpsAgentClientTypes.NewRelicApiKeyConfig?, to writer: SmithyJSON.Writer) throws {
@@ -12518,6 +12784,23 @@ extension DevOpsAgentClientTypes.PrivateConnectionSummary {
     }
 }
 
+extension DevOpsAgentClientTypes.PrivateNetworkAccess {
+
+    static func write(value: DevOpsAgentClientTypes.PrivateNetworkAccess?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["privateConnectionName"].write(value.privateConnectionName)
+        try writer["runtimeRoleArn"].write(value.runtimeRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.PrivateNetworkAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.PrivateNetworkAccess()
+        value.privateConnectionName = try reader["privateConnectionName"].readIfPresent() ?? ""
+        value.runtimeRoleArn = try reader["runtimeRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.Recommendation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.Recommendation {
@@ -12550,6 +12833,38 @@ extension DevOpsAgentClientTypes.RecommendationContent {
         value.summary = try reader["summary"].readIfPresent() ?? ""
         value.spec = try reader["spec"].readIfPresent()
         return value
+    }
+}
+
+extension DevOpsAgentClientTypes.Recurrence {
+
+    static func write(value: DevOpsAgentClientTypes.Recurrence?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .daily(daily):
+                try writer["daily"].write(daily, with: DevOpsAgentClientTypes.DailyRecurrence.write(value:to:))
+            case let .monthly(monthly):
+                try writer["monthly"].write(monthly, with: DevOpsAgentClientTypes.MonthlyRecurrence.write(value:to:))
+            case let .weekly(weekly):
+                try writer["weekly"].write(weekly, with: DevOpsAgentClientTypes.WeeklyRecurrence.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.Recurrence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "daily":
+                return .daily(try reader["daily"].read(with: DevOpsAgentClientTypes.DailyRecurrence.read(from:)))
+            case "weekly":
+                return .weekly(try reader["weekly"].read(with: DevOpsAgentClientTypes.WeeklyRecurrence.read(from:)))
+            case "monthly":
+                return .monthly(try reader["monthly"].read(with: DevOpsAgentClientTypes.MonthlyRecurrence.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -12766,6 +13081,23 @@ extension DevOpsAgentClientTypes.RegisteredSlackServiceDetails {
     }
 }
 
+extension DevOpsAgentClientTypes.ReleaseManagementConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.ReleaseManagementConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["networkAccess"].write(value.networkAccess, with: DevOpsAgentClientTypes.NetworkAccessConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.ReleaseManagementConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.ReleaseManagementConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkAccess = try reader["networkAccess"].readIfPresent(with: DevOpsAgentClientTypes.NetworkAccessConfiguration.read(from:))
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig {
 
     static func write(value: DevOpsAgentClientTypes.RemoteAgentAPIKeyConfig?, to writer: SmithyJSON.Writer) throws {
@@ -12879,13 +13211,43 @@ extension DevOpsAgentClientTypes.ScheduleCondition {
     static func write(value: DevOpsAgentClientTypes.ScheduleCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["expression"].write(value.expression)
+        try writer["spec"].write(value.spec, with: DevOpsAgentClientTypes.ScheduleSpec.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.ScheduleCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DevOpsAgentClientTypes.ScheduleCondition()
-        value.expression = try reader["expression"].readIfPresent() ?? ""
+        value.expression = try reader["expression"].readIfPresent()
+        value.spec = try reader["spec"].readIfPresent(with: DevOpsAgentClientTypes.ScheduleSpec.read(from:))
         return value
+    }
+}
+
+extension DevOpsAgentClientTypes.ScheduleSpec {
+
+    static func write(value: DevOpsAgentClientTypes.ScheduleSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .cron(cron):
+                try writer["cron"].write(cron, with: DevOpsAgentClientTypes.CronSchedule.write(value:to:))
+            case let .timerange(timerange):
+                try writer["timeRange"].write(timerange, with: DevOpsAgentClientTypes.TimeRangeSchedule.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.ScheduleSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "cron":
+                return .cron(try reader["cron"].read(with: DevOpsAgentClientTypes.CronSchedule.read(from:)))
+            case "timeRange":
+                return .timerange(try reader["timeRange"].read(with: DevOpsAgentClientTypes.TimeRangeSchedule.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -13096,6 +13458,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerSplunkConfiguration.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyConfiguration.write(value:to:))
+            case let .releasemanagement(releasemanagement):
+                try writer["releaseManagement"].write(releasemanagement, with: DevOpsAgentClientTypes.ReleaseManagementConfiguration.write(value:to:))
             case let .remoteagent(remoteagent):
                 try writer["remoteagent"].write(remoteagent, with: DevOpsAgentClientTypes.RemoteAgentConfiguration.write(value:to:))
             case let .remoteagentsigv4(remoteagentsigv4):
@@ -13153,6 +13517,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 return .remoteagent(try reader["remoteagent"].read(with: DevOpsAgentClientTypes.RemoteAgentConfiguration.read(from:)))
             case "remoteagentsigv4":
                 return .remoteagentsigv4(try reader["remoteagentsigv4"].read(with: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration.read(from:)))
+            case "releaseManagement":
+                return .releasemanagement(try reader["releaseManagement"].read(with: DevOpsAgentClientTypes.ReleaseManagementConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -13400,6 +13766,25 @@ extension DevOpsAgentClientTypes.TaskFilter {
     }
 }
 
+extension DevOpsAgentClientTypes.TimeRangeSchedule {
+
+    static func write(value: DevOpsAgentClientTypes.TimeRangeSchedule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["recurrence"].write(value.recurrence, with: DevOpsAgentClientTypes.Recurrence.write(value:to:))
+        try writer["startAfter"].write(value.startAfter)
+        try writer["startBefore"].write(value.startBefore)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.TimeRangeSchedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.TimeRangeSchedule()
+        value.startAfter = try reader["startAfter"].readIfPresent() ?? ""
+        value.startBefore = try reader["startBefore"].readIfPresent() ?? ""
+        value.recurrence = try reader["recurrence"].readIfPresent(with: DevOpsAgentClientTypes.Recurrence.read(from:))
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.Trigger {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.Trigger {
@@ -13515,6 +13900,21 @@ extension DevOpsAgentClientTypes.Webhook {
         value.webhookUrl = try reader["webhookUrl"].readIfPresent() ?? ""
         value.webhookType = try reader["webhookType"].readIfPresent()
         value.webhookId = try reader["webhookId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.WeeklyRecurrence {
+
+    static func write(value: DevOpsAgentClientTypes.WeeklyRecurrence?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dayOfWeek"].write(value.dayOfWeek)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.WeeklyRecurrence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.WeeklyRecurrence()
+        value.dayOfWeek = try reader["dayOfWeek"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

@@ -3622,6 +3622,8 @@ extension SecurityAgentClientTypes {
         public var pentestJobId: Swift.String?
         /// The reasoning behind the finding, explaining why it was identified as a vulnerability.
         public var reasoning: Swift.String?
+        /// The suggested fix for the finding, describing the changes recommended to remediate the vulnerability, with example code or configuration.
+        public var remediationCode: Swift.String?
         /// The list of pentest job identifiers for revalidation jobs that retested this finding.
         public var revalidationJobIds: [Swift.String]?
         /// The risk level of the finding. Valid values include UNKNOWN, INFORMATIONAL, LOW, MEDIUM, HIGH, and CRITICAL.
@@ -3660,6 +3662,7 @@ extension SecurityAgentClientTypes {
             pentestId: Swift.String? = nil,
             pentestJobId: Swift.String? = nil,
             reasoning: Swift.String? = nil,
+            remediationCode: Swift.String? = nil,
             revalidationJobIds: [Swift.String]? = nil,
             riskLevel: SecurityAgentClientTypes.RiskLevel? = nil,
             riskScore: Swift.String? = nil,
@@ -3688,6 +3691,7 @@ extension SecurityAgentClientTypes {
             self.pentestId = pentestId
             self.pentestJobId = pentestJobId
             self.reasoning = reasoning
+            self.remediationCode = remediationCode
             self.revalidationJobIds = revalidationJobIds
             self.riskLevel = riskLevel
             self.riskScore = riskScore
@@ -15993,6 +15997,7 @@ extension SecurityAgentClientTypes.Finding {
         value.confidence = try reader["confidence"].readIfPresent()
         value.validationStatus = try reader["validationStatus"].readIfPresent()
         value.attackScript = try reader["attackScript"].readIfPresent()
+        value.remediationCode = try reader["remediationCode"].readIfPresent()
         value.codeRemediationTask = try reader["codeRemediationTask"].readIfPresent(with: SecurityAgentClientTypes.CodeRemediationTask.read(from:))
         value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
         value.customerNote = try reader["customerNote"].readIfPresent()

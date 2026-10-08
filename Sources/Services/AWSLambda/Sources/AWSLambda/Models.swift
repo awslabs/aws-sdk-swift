@@ -681,6 +681,7 @@ extension LambdaClientTypes {
     public enum KafkaSchemaRegistryAuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basicAuth
         case clientCertificateTlsAuth
+        case oauthbearerAuth
         case serverRootCaCertificate
         case sdkUnknown(Swift.String)
 
@@ -688,6 +689,7 @@ extension LambdaClientTypes {
             return [
                 .basicAuth,
                 .clientCertificateTlsAuth,
+                .oauthbearerAuth,
                 .serverRootCaCertificate
             ]
         }
@@ -701,6 +703,7 @@ extension LambdaClientTypes {
             switch self {
             case .basicAuth: return "BASIC_AUTH"
             case .clientCertificateTlsAuth: return "CLIENT_CERTIFICATE_TLS_AUTH"
+            case .oauthbearerAuth: return "OAUTHBEARER_AUTH"
             case .serverRootCaCertificate: return "SERVER_ROOT_CA_CERTIFICATE"
             case let .sdkUnknown(s): return s
             }
@@ -713,6 +716,14 @@ extension LambdaClientTypes {
     /// Specific access configuration settings that tell Lambda how to authenticate with your schema registry. If you're working with an Glue schema registry, don't provide authentication details in this object. Instead, ensure that your execution role has the required permissions for Lambda to access your cluster. If you're working with a Confluent schema registry, choose the authentication method in the Type field, and provide the Secrets Manager secret ARN in the URI field.
     public struct KafkaSchemaRegistryAccessConfig: Swift.Sendable {
         /// The type of authentication Lambda uses to access your schema registry.
+        ///
+        /// * BASIC_AUTH – The Secrets Manager ARN of your secret key used for basic authentication with your Confluent schema registry.
+        ///
+        /// * CLIENT_CERTIFICATE_TLS_AUTH – The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication with your Confluent schema registry.
+        ///
+        /// * SERVER_ROOT_CA_CERTIFICATE – The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption with your Confluent schema registry.
+        ///
+        /// * OAUTHBEARER_AUTH – The Secrets Manager ARN of your secret key containing the OAuth 2.0 credentials that Lambda uses to acquire an access token for your Confluent schema registry. For the contents of the secret, see [Configuring the OAuth secret](https://docs.aws.amazon.com/lambda/latest/dg/kafka-cluster-auth.html#smaa-auth-oauth-secret).
         public var type: LambdaClientTypes.KafkaSchemaRegistryAuthType?
         /// The URI of the secret (Secrets Manager secret ARN) to authenticate with your schema registry.
         public var uri: Swift.String?
@@ -4018,6 +4029,13 @@ extension LambdaClientTypes {
     public enum SourceAccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basicAuth
         case clientCertificateTlsAuth
+        case iamAuth
+        case iamOauthbearerAuth
+        case oauthbearerAudience
+        case oauthbearerAuth
+        case oauthbearerIdentityPool
+        case oauthbearerLogicalCluster
+        case oauthbearerScope
         case saslScram256Auth
         case saslScram512Auth
         case serverRootCaCertificate
@@ -4030,6 +4048,13 @@ extension LambdaClientTypes {
             return [
                 .basicAuth,
                 .clientCertificateTlsAuth,
+                .iamAuth,
+                .iamOauthbearerAuth,
+                .oauthbearerAudience,
+                .oauthbearerAuth,
+                .oauthbearerIdentityPool,
+                .oauthbearerLogicalCluster,
+                .oauthbearerScope,
                 .saslScram256Auth,
                 .saslScram512Auth,
                 .serverRootCaCertificate,
@@ -4048,6 +4073,13 @@ extension LambdaClientTypes {
             switch self {
             case .basicAuth: return "BASIC_AUTH"
             case .clientCertificateTlsAuth: return "CLIENT_CERTIFICATE_TLS_AUTH"
+            case .iamAuth: return "IAM_AUTH"
+            case .iamOauthbearerAuth: return "IAM_OAUTHBEARER_AUTH"
+            case .oauthbearerAudience: return "OAUTHBEARER_AUDIENCE"
+            case .oauthbearerAuth: return "OAUTHBEARER_AUTH"
+            case .oauthbearerIdentityPool: return "OAUTHBEARER_IDENTITY_POOL"
+            case .oauthbearerLogicalCluster: return "OAUTHBEARER_LOGICAL_CLUSTER"
+            case .oauthbearerScope: return "OAUTHBEARER_SCOPE"
             case .saslScram256Auth: return "SASL_SCRAM_256_AUTH"
             case .saslScram512Auth: return "SASL_SCRAM_512_AUTH"
             case .serverRootCaCertificate: return "SERVER_ROOT_CA_CERTIFICATE"
@@ -4083,6 +4115,20 @@ extension LambdaClientTypes {
         /// * CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.
         ///
         /// * SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
+        ///
+        /// * OAUTHBEARER_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the OAuth 2.0 credentials that Lambda uses for SASL/OAUTHBEARER authentication with your Apache Kafka brokers. For the contents of the secret, see [Configuring the OAuth secret](https://docs.aws.amazon.com/lambda/latest/dg/kafka-cluster-auth.html#smaa-auth-oauth-secret).
+        ///
+        /// * OAUTHBEARER_SCOPE – (Self-managed Apache Kafka) The OAuth 2.0 scope that Lambda requests when it acquires an access token. The URI field holds the scope value, not a secret ARN. This type requires OAUTHBEARER_AUTH.
+        ///
+        /// * OAUTHBEARER_AUDIENCE – (Self-managed Apache Kafka) The OAuth 2.0 audience that Lambda requests when it acquires an access token. The URI field holds the audience value, not a secret ARN. This type requires either OAUTHBEARER_AUTH or IAM_OAUTHBEARER_AUTH.
+        ///
+        /// * OAUTHBEARER_LOGICAL_CLUSTER – (Self-managed Apache Kafka) The logical cluster identifier that Lambda sends to a Confluent Cloud broker. The URI field holds the identifier, not a secret ARN. This type requires OAUTHBEARER_AUTH.
+        ///
+        /// * OAUTHBEARER_IDENTITY_POOL – (Self-managed Apache Kafka) The identity pool identifier that Lambda sends to a Confluent Cloud broker. The URI field holds the identifier, not a secret ARN. This type requires OAUTHBEARER_AUTH.
+        ///
+        /// * IAM_AUTH – (Self-managed Apache Kafka) Authenticate with Identity and Access Management (IAM). Your function's execution role signs each connection, so there is no secret to provide. Omit the URI field for this type.
+        ///
+        /// * IAM_OAUTHBEARER_AUTH – (Self-managed Apache Kafka) Authenticate with an Amazon Web Services web identity token over SASL/OAUTHBEARER. Lambda requests the token for your function's execution role, so there is no secret to provide. Omit the URI field for this type. This type requires OAUTHBEARER_AUDIENCE and does not support the other OAUTHBEARER types.
         public var type: LambdaClientTypes.SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public var uri: Swift.String?
@@ -9391,7 +9437,7 @@ public struct ListDurableExecutionsByFunctionInput: Swift.Sendable {
     public var marker: Swift.String?
     /// Maximum number of executions to return (1-1000). Default is 100.
     public var maxItems: Swift.Int?
-    /// The function version or alias. If not specified, lists executions for the $LATEST version.
+    /// The function version to filter executions by. If you don't specify a qualifier, this operation returns executions across all versions of the Lambda function.
     public var qualifier: Swift.String?
     /// Set to true to return results in chronological order (oldest first). Default is false.
     public var reverseOrder: Swift.Bool?
@@ -16799,6 +16845,9 @@ enum InvokeWithResponseStreamOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "CodeArtifactUserDeletedException": return try CodeArtifactUserDeletedException.makeError(baseError: baseError)
+            case "CodeArtifactUserFailedException": return try CodeArtifactUserFailedException.makeError(baseError: baseError)
+            case "CodeArtifactUserPendingException": return try CodeArtifactUserPendingException.makeError(baseError: baseError)
             case "EC2AccessDeniedException": return try EC2AccessDeniedException.makeError(baseError: baseError)
             case "EC2ThrottledException": return try EC2ThrottledException.makeError(baseError: baseError)
             case "EC2UnexpectedException": return try EC2UnexpectedException.makeError(baseError: baseError)

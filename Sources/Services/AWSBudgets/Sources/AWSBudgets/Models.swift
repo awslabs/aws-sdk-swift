@@ -1208,6 +1208,50 @@ extension BudgetsClientTypes {
 
 extension BudgetsClientTypes {
 
+    /// The product attribute values used for filtering the costs by key and value pairs. Product attributes are supported for Amazon Bedrock only.
+    public struct ProductAttributeValues: Swift.Sendable {
+        /// The name of the product attribute to filter on. Valid values are the following:
+        ///
+        /// * feature – The feature that was used, such as On-demand Inference.
+        ///
+        /// * inferenceType – The type of inference usage, such as Input tokens or Output tokens.
+        ///
+        /// * model – The model, such as Claude Sonnet 5 or Claude Haiku 4.5.
+        ///
+        /// * provider – The model provider, such as Anthropic, Cohere, or Amazon.
+        ///
+        ///
+        /// Keys are case-sensitive.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The match options for the ProductAttributes filter. Valid values:
+        ///
+        /// * ABSENT – Matches costs that have no value for the attribute.
+        ///
+        /// * CASE_SENSITIVE – Requires an exact case match.
+        ///
+        /// * EQUALS – Matches costs where the attribute equals the specified value.
+        ///
+        ///
+        /// Specify either EQUALS or ABSENT. You can add CASE_SENSITIVE to EQUALS, but you can't use it by itself or with ABSENT.
+        public var matchOptions: [BudgetsClientTypes.MatchOption]?
+        /// The specific values of the product attribute, such as Claude Sonnet 5 for the model key. Values are matched exactly. Values is required unless MatchOptions is ABSENT. To match costs that have no value for the key, set MatchOptions to ABSENT and omit Values.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            matchOptions: [BudgetsClientTypes.MatchOption]? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
     /// The values that are available for a tag.
     public struct TagValues: Swift.Sendable {
         /// The key for the tag.
@@ -2665,6 +2709,8 @@ extension BudgetsClientTypes {
         @Indirect public var not: BudgetsClientTypes.Expression?
         /// Return results that match either Dimension object.
         public var or: [BudgetsClientTypes.Expression]?
+        /// The filter that limits results based on the values of specific product attributes.
+        public var productAttributes: BudgetsClientTypes.ProductAttributeValues?
         /// The specific Tag to use for Expression.
         public var tags: BudgetsClientTypes.TagValues?
 
@@ -2674,6 +2720,7 @@ extension BudgetsClientTypes {
             dimensions: BudgetsClientTypes.ExpressionDimensionValues? = nil,
             not: BudgetsClientTypes.Expression? = nil,
             or: [BudgetsClientTypes.Expression]? = nil,
+            productAttributes: BudgetsClientTypes.ProductAttributeValues? = nil,
             tags: BudgetsClientTypes.TagValues? = nil
         ) {
             self.and = and
@@ -2681,6 +2728,7 @@ extension BudgetsClientTypes {
             self.dimensions = dimensions
             self.not = not
             self.or = or
+            self.productAttributes = productAttributes
             self.tags = tags
         }
     }

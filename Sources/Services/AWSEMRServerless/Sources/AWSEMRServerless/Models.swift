@@ -768,6 +768,8 @@ extension EMRServerlessClientTypes {
 }
 
 public struct GetResourceDashboardInput: Swift.Sendable {
+    /// Allows access to system profile logs for Lake Formation-enabled sessions. Default is false.
+    public var accessSystemProfileLogs: Swift.Bool?
     /// The ID of the application that the resource belongs to.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -779,10 +781,12 @@ public struct GetResourceDashboardInput: Swift.Sendable {
     public var resourceType: EMRServerlessClientTypes.ResourceType?
 
     public init(
+        accessSystemProfileLogs: Swift.Bool? = nil,
         applicationId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         resourceType: EMRServerlessClientTypes.ResourceType? = nil
     ) {
+        self.accessSystemProfileLogs = accessSystemProfileLogs
         self.applicationId = applicationId
         self.resourceId = resourceId
         self.resourceType = resourceType
@@ -2246,7 +2250,7 @@ extension EMRServerlessClientTypes {
         /// The execution role ARN of the job run.
         /// This member is required.
         public var executionRole: Swift.String?
-        /// Returns the job run timeout value from the StartJobRun call. If no timeout was specified, then it returns the default timeout of 720 minutes.
+        /// Returns the job run timeout value from the StartJobRun call. If you didn't specify a timeout, this value defaults to 720 minutes. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11.
         public var executionTimeoutMinutes: Swift.Int?
         /// The applied image configuration.
         public var imageConfiguration: EMRServerlessClientTypes.ImageConfiguration?
@@ -2486,7 +2490,7 @@ public struct StartJobRunInput: Swift.Sendable {
     /// The execution role ARN for the job run.
     /// This member is required.
     public var executionRoleArn: Swift.String?
-    /// The maximum duration for the job run to run. If the job run runs beyond this duration, it will be automatically cancelled.
+    /// The maximum duration, in minutes, for the job run. If the job run exceeds this duration, Amazon EMR Serverless cancels it automatically. For BATCH mode job runs, the maximum value is 10080 minutes (7 days) starting with Amazon EMR release 7.11. Setting a value of 0 to disable the timeout is no longer supported for BATCH mode job runs.
     public var executionTimeoutMinutes: Swift.Int?
     /// The job driver for the job run.
     public var jobDriver: EMRServerlessClientTypes.JobDriver?
@@ -2726,6 +2730,10 @@ extension GetResourceDashboardInput {
         }
         let resourceIdQueryItem = Smithy.URIQueryItem(name: "resourceId".urlPercentEncoding(), value: Swift.String(resourceId).urlPercentEncoding())
         items.append(resourceIdQueryItem)
+        if let accessSystemProfileLogs = value.accessSystemProfileLogs {
+            let accessSystemProfileLogsQueryItem = Smithy.URIQueryItem(name: "accessSystemProfileLogs".urlPercentEncoding(), value: Swift.String(accessSystemProfileLogs).urlPercentEncoding())
+            items.append(accessSystemProfileLogsQueryItem)
+        }
         guard let resourceType = value.resourceType else {
             let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)

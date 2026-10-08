@@ -24795,6 +24795,57 @@ public struct GetStatementOutput: Swift.Sendable {
     }
 }
 
+public struct GetSystemLogsForJobRunInput: Swift.Sendable {
+    /// The name of the job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The ID of the job run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init(
+        jobName: Swift.String? = nil,
+        runId: Swift.String? = nil
+    ) {
+        self.jobName = jobName
+        self.runId = runId
+    }
+}
+
+public struct GetSystemLogsForJobRunOutput: Swift.Sendable {
+    /// The URL to download the system logs for the job run.
+    public var systemLogsUrl: Swift.String?
+
+    public init(
+        systemLogsUrl: Swift.String? = nil
+    ) {
+        self.systemLogsUrl = systemLogsUrl
+    }
+}
+
+public struct GetSystemLogsForSessionInput: Swift.Sendable {
+    /// The ID of the session.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct GetSystemLogsForSessionOutput: Swift.Sendable {
+    /// The URL to download the system logs for the session.
+    public var systemLogsUrl: Swift.String?
+
+    public init(
+        systemLogsUrl: Swift.String? = nil
+    ) {
+        self.systemLogsUrl = systemLogsUrl
+    }
+}
+
 extension GlueClientTypes {
 
     public enum TableAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {

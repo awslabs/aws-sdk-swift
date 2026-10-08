@@ -337,7 +337,7 @@ extension GameLiftClientTypes {
     ///
     /// * To upload a game server build directly to Amazon GameLift Servers S3 storage using CreateBuild. To get access for this task, call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_RequestUploadCredentials.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_RequestUploadCredentials.html).
     ///
-    /// * To remotely connect to an active Amazon GameLift Servers fleet instances. To get remote access, call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html).
+    /// * To remotely connect to an active Amazon GameLift Servers fleet instance. To get remote access, call [https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetComputeAccess.html).
     public struct AwsCredentials: Swift.Sendable {
         /// The access key ID that identifies the temporary security credentials.
         public var accessKeyId: Swift.String?
@@ -2548,7 +2548,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// An Amazon GameLift Servers compute resource for hosting your game servers. Computes in an Amazon GameLift Servers fleet differs depending on the fleet's compute type property as follows:
+    /// An Amazon GameLift Servers compute resource for hosting your game servers. Computes in an Amazon GameLift Servers fleet differ depending on the fleet's compute type property as follows:
     ///
     /// * For managed EC2 fleets, a compute is an EC2 instance.
     ///
@@ -2712,7 +2712,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A container's dependency on another container in the same container group. The dependency impacts how the dependent container is able to start or shut down based the status of the other container. For example, ContainerA is configured with the following dependency: a START dependency on ContainerB. This means that ContainerA can't start until ContainerB has started. It also means that ContainerA must shut down before ContainerB. Part of: [GameServerContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html), [GameServerContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html), [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html), [SupportContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html)
+    /// A container's dependency on another container in the same container group. The dependency impacts how the dependent container is able to start or shut down based on the status of the other container. For example, ContainerA is configured with the following dependency: a START dependency on ContainerB. This means that ContainerA can't start until ContainerB has started. It also means that ContainerA must shut down before ContainerB. Part of: [GameServerContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinition.html), [GameServerContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerContainerDefinitionInput.html), [SupportContainerDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinition.html), [SupportContainerDefinitionInput](https://docs.aws.amazon.com/gamelift/latest/apireference/API_SupportContainerDefinitionInput.html)
     public struct ContainerDependency: Swift.Sendable {
         /// The condition that the dependency container must reach before the dependent container can start. Valid conditions include:
         ///
@@ -2806,9 +2806,9 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
+    /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than the game session limit in the specified time period.
     public struct GameSessionCreationLimitPolicy: Swift.Sendable {
-        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy evaluates when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
+        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy evaluates when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than the game session limit in the specified time period.
         public var newGameSessionsPerCreator: Swift.Int?
         /// The time span used in evaluating the resource creation limit policy.
         public var policyPeriodInMinutes: Swift.Int?
@@ -2983,7 +2983,7 @@ extension GameLiftClientTypes {
         ///
         /// * ACTIVE -- The container fleet has been deployed and is ready to host game sessions.
         ///
-        /// * UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
+        /// * UPDATING -- The container fleet is being updated. A deployment is in progress.
         ///
         /// * EXPIRED -- The container fleet has been expired. The fleet is scaled down to zero instances and cannot host new game sessions.
         public var status: GameLiftClientTypes.ContainerFleetLocationStatus?
@@ -3199,7 +3199,7 @@ extension GameLiftClientTypes {
         public var instanceConnectionPortRange: GameLiftClientTypes.ConnectionPortRange?
         /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet.
         public var instanceInboundPermissions: [GameLiftClientTypes.IpPermission]?
-        /// The Amazon EC2 instance type to use for all instances in the fleet. Instance type determines the computing resources and processing power that's available to host your game servers. This includes including CPU, memory, storage, and networking capacity. You can't update this fleet property.
+        /// The Amazon EC2 instance type to use for all instances in the fleet. Instance type determines the computing resources and processing power that's available to host your game servers. This includes CPU, memory, storage, and networking capacity. You can't update this fleet property.
         public var instanceType: Swift.String?
         /// Information about the container fleet's remote locations where fleet instances are deployed.
         public var locationAttributes: [GameLiftClientTypes.ContainerFleetLocationAttributes]?
@@ -3211,7 +3211,7 @@ extension GameLiftClientTypes {
         ///
         /// * NONE -- Don't collect container logs.
         public var logConfiguration: GameLiftClientTypes.LogConfiguration?
-        /// The calculated maximum number of game server container group that can be deployed on each fleet instance. The calculation depends on the resource needs of the container group and the CPU and memory resources of the fleet's instance type.
+        /// The calculated maximum number of game server container groups that can be deployed on each fleet instance. The calculation depends on the resource needs of the container group and the CPU and memory resources of the fleet's instance type.
         public var maximumGameServerContainerGroupsPerInstance: Swift.Int?
         /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to. Metric groups aggregate metrics for multiple fleets.
         public var metricGroups: [Swift.String]?
@@ -3239,7 +3239,7 @@ extension GameLiftClientTypes {
         ///
         /// * ACTIVE -- The container fleet has been deployed and is ready to host game sessions.
         ///
-        /// * UPDATING -- Updates to the container fleet is being updated. A deployment is in progress.
+        /// * UPDATING -- The container fleet is being updated. A deployment is in progress.
         ///
         /// * EXPIRED -- The container fleet has been expired. The fleet is scaled down to zero instances and cannot host new game sessions.
         public var status: GameLiftClientTypes.ContainerFleetStatus?
@@ -3624,6 +3624,8 @@ extension GameLiftClientTypes {
         public var resolvedImageDigest: Swift.String?
         /// The Amazon GameLift Servers server SDK version that the game server is integrated with. Only game servers using 5.2.0 or higher are compatible with container fleets.
         public var serverSdkVersion: Swift.String?
+        /// The number of vCPU units reserved for the game server container. The container can use more vCPU when it's available, up to the container group's total vCPU limit if one is set. If the container group has a total vCPU limit and the request doesn't set this value, Amazon GameLift Servers calculates the game server container's vCPU as the total vCPU limit minus the sum of the vCPU units reserved for the group's support containers. A game server container group needs either a total vCPU limit or this value. If the container group doesn't have a total vCPU limit, the group's containers can use up to the instance's available vCPU, and Amazon GameLift Servers uses the sum of the group's container Vcpu values to calculate how many game server container groups fit on an instance. Related data type: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html)TotalVcpuLimit
+        public var vcpu: Swift.Double?
 
         public init(
             containerName: Swift.String? = nil,
@@ -3634,7 +3636,8 @@ extension GameLiftClientTypes {
             mountPoints: [GameLiftClientTypes.ContainerMountPoint]? = nil,
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
             resolvedImageDigest: Swift.String? = nil,
-            serverSdkVersion: Swift.String? = nil
+            serverSdkVersion: Swift.String? = nil,
+            vcpu: Swift.Double? = nil
         ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
@@ -3645,6 +3648,7 @@ extension GameLiftClientTypes {
             self.portConfiguration = portConfiguration
             self.resolvedImageDigest = resolvedImageDigest
             self.serverSdkVersion = serverSdkVersion
+            self.vcpu = vcpu
         }
     }
 }
@@ -3761,7 +3765,7 @@ extension GameLiftClientTypes {
         public var memoryHardLimitMebibytes: Swift.Int?
         /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
         public var mountPoints: [GameLiftClientTypes.ContainerMountPoint]?
-        /// A set of ports that allow access to the container from external users. Processes running in the container can bind to a one of these ports. Container ports aren't directly accessed by inbound traffic. Amazon GameLift Servers maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
+        /// A set of ports that allow access to the container from external users. Processes running in the container can bind to one of these ports. Container ports aren't directly accessed by inbound traffic. Amazon GameLift Servers maps these container ports to externally accessible connection ports, which are assigned as needed from the container fleet's ConnectionPortRange.
         public var portConfiguration: GameLiftClientTypes.ContainerPortConfiguration?
         /// A unique and immutable identifier for the container image. The digest is a SHA 256 hash of the container image manifest.
         public var resolvedImageDigest: Swift.String?
@@ -3800,7 +3804,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// The properties that describe a container group resource. You can update all properties of a container group definition properties. Updates to a container group definition are saved as new versions. Used with: [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html) Returned by: [DescribeContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html), [ListContainerGroupDefinitions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html), [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html)
+    /// The properties that describe a container group resource. You can update all properties of a container group definition. Updates to a container group definition are saved as new versions. Used with: [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html) Returned by: [DescribeContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeContainerGroupDefinition.html), [ListContainerGroupDefinitions](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListContainerGroupDefinitions.html), [UpdateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateContainerGroupDefinition.html)
     public struct ContainerGroupDefinition: Swift.Sendable {
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to an Amazon GameLift Servers ContainerGroupDefinition resource. It uniquely identifies the resource across all Amazon Web Services Regions. Format is arn:aws:gamelift:[region]::containergroupdefinition/[container group definition name]:[version].
         public var containerGroupDefinitionArn: Swift.String?
@@ -3825,9 +3829,9 @@ extension GameLiftClientTypes {
         public var status: GameLiftClientTypes.ContainerGroupDefinitionStatus?
         /// Additional information about a container group definition that's in FAILED status. Possible reasons include:
         ///
-        /// * An internal issue prevented Amazon GameLift Servers from creating the container group definition resource. Delete the failed resource and call [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html)again.
+        /// * An internal issue prevented Amazon GameLift Servers from creating the container group definition resource. Delete the failed resource and call [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html) again.
         ///
-        /// * An access-denied message means that you don't have permissions to access the container image on ECR. See [ IAM permission examples](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-iam-policy-examples.html.html) for help setting up required IAM permissions for Amazon GameLift Servers.
+        /// * An access-denied message means that you don't have permissions to access the container image on ECR. See [ IAM permission examples](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-iam-policy-examples.html) for help setting up required IAM permissions for Amazon GameLift Servers.
         ///
         /// * The ImageUri value for at least one of the containers in the container group definition was invalid or not found in the current Amazon Web Services account.
         ///
@@ -3835,11 +3839,11 @@ extension GameLiftClientTypes {
         ///
         /// * At least one of the container images referenced in the container group definition uses a different operating system than the one defined for the container group.
         public var statusReason: Swift.String?
-        /// The set of definitions for support containers in this group. A container group definition might have zero support container definitions. Support container can be used in any type of container group.
+        /// The set of definitions for support containers in this group. A container group definition might have zero support container definitions. Support containers can be used in any type of container group.
         public var supportContainerDefinitions: [GameLiftClientTypes.SupportContainerDefinition]?
         /// The amount of memory (in MiB) on a fleet instance to allocate for the container group. All containers in the group share these resources. You can set a limit for each container definition in the group. If individual containers have limits, this total value must be greater than any individual container's memory limit.
         public var totalMemoryLimitMebibytes: Swift.Int?
-        /// The amount of vCPU units on a fleet instance to allocate for the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share these resources. You can set a limit for each container definition in the group. If individual containers have limits, this total value must be equal to or greater than the sum of the limits for each container in the group.
+        /// The amount of vCPU units on a fleet instance to allocate for the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share these resources. You can set a vCPU reservation for each container definition in the group. If individual containers have reservations, this total value must be equal to or greater than the sum of the reservations for each container in the group. For a game server container group, if this property is set, Amazon GameLift Servers uses this value to calculate how many game server container groups fit on an instance. If this property isn't set, the group's containers can use up to the instance's available vCPU, and Amazon GameLift Servers uses the sum of the containers' Vcpu values to calculate how many game server container groups fit on an instance.
         public var totalVcpuLimit: Swift.Double?
         /// An optional description that was provided for a container group definition update. Each version can have a unique description.
         public var versionDescription: Swift.String?
@@ -3874,6 +3878,32 @@ extension GameLiftClientTypes {
             self.totalVcpuLimit = totalVcpuLimit
             self.versionDescription = versionDescription
             self.versionNumber = versionNumber
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    public enum ContainerGroupDefinitionRemoveAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case totalVcpuLimit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContainerGroupDefinitionRemoveAttribute] {
+            return [
+                .totalVcpuLimit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .totalVcpuLimit: return "TOTAL_VCPU_LIMIT"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -4019,7 +4049,7 @@ public struct CreateAliasInput: Swift.Sendable {
     /// The routing configuration, including routing type and fleet target, for the alias.
     /// This member is required.
     public var routingStrategy: GameLiftClientTypes.RoutingStrategy?
-    /// A list of labels to assign to the new alias resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// A list of labels to assign to the new alias resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
 
     public init(
@@ -4050,7 +4080,7 @@ extension GameLiftClientTypes {
 
     /// The location in Amazon S3 where build or script files are stored for access by Amazon GameLift Servers.
     public struct S3Location: Swift.Sendable {
-        /// An Amazon S3 bucket identifier. Thename of the S3 bucket. Amazon GameLift Servers doesn't support uploading from Amazon S3 buckets with names that contain a dot (.).
+        /// An Amazon S3 bucket identifier. The name of the S3 bucket. Amazon GameLift Servers doesn't support uploading from Amazon S3 buckets with names that contain a dot (.).
         public var bucket: Swift.String?
         /// The name of the zip file that contains the build files or script files.
         public var key: Swift.String?
@@ -4082,7 +4112,7 @@ public struct CreateBuildInput: Swift.Sendable {
     public var serverSdkVersion: Swift.String?
     /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key. The location must also specify a role ARN that you set up to allow Amazon GameLift Servers to access your Amazon S3 bucket. The S3 bucket and your new build must be in the same Region. If a StorageLocation is specified, the size of your file can be found in your Amazon S3 bucket. Amazon GameLift Servers will report a SizeOnDisk of 0.
     public var storageLocation: GameLiftClientTypes.S3Location?
-    /// A list of labels to assign to the new build resource. Tags are developer defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html) to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
+    /// A list of labels to assign to the new build resource. Tags are developer defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html) to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
     public var tags: [GameLiftClientTypes.Tag]?
     /// Version information that is associated with a build or script. Version strings do not need to be unique. You can change this value later.
     public var version: Swift.String?
@@ -4105,7 +4135,7 @@ public struct CreateBuildInput: Swift.Sendable {
 }
 
 public struct CreateBuildOutput: Swift.Sendable {
-    /// The newly created build resource, including a unique build IDs and status.
+    /// The newly created build resource, including a unique build ID and status.
     public var build: GameLiftClientTypes.Build?
     /// Amazon S3 location for your game build file, including bucket name and key.
     public var storageLocation: GameLiftClientTypes.S3Location?
@@ -4149,7 +4179,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     public var fleetRoleArn: Swift.String?
     /// A container group definition resource that describes how to deploy containers with your game server build and support software onto each fleet instance. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [CreateContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html). This operation creates a [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource.
     public var gameServerContainerGroupDefinitionName: Swift.String?
-    /// The number of times to replicate the game server container group on each fleet instance. By default, Amazon GameLift Servers calculates the maximum number of game server container groups that can fit on each instance. This calculation is based on the CPU and memory resources of the fleet's instance type). To use the calculated maximum, don't set this parameter. If you set this number manually, Amazon GameLift Servers uses your value as long as it's less than the calculated maximum.
+    /// The number of times to replicate the game server container group on each fleet instance. By default, Amazon GameLift Servers calculates the maximum number of game server container groups that can fit on each instance. This calculation is based on the CPU and memory resources of the fleet's instance type. To use the calculated maximum, don't set this parameter. If you set this number manually, Amazon GameLift Servers uses your value as long as it's less than the calculated maximum.
     public var gameServerContainerGroupsPerInstance: Swift.Int?
     /// A policy that limits the number of game sessions that each individual player can create on instances in this fleet. The limit applies for a specified span of time.
     public var gameSessionCreationLimitPolicy: GameLiftClientTypes.GameSessionCreationLimitPolicy?
@@ -4169,7 +4199,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     ///
     /// You can also choose to manually set this parameter. When manually setting this parameter, you must use port numbers that match the fleet's connection port range. If you set values manually, Amazon GameLift Servers no longer calculates a port range for you, even if you later remove the manual settings. The port range must not overlap with the Amazon GameLift Servers reserved port range 4092-4191. This range is reserved for internal Amazon GameLift Servers services.
     public var instanceInboundPermissions: [GameLiftClientTypes.IpPermission]?
-    /// The Amazon EC2 instance type to use for all instances in the fleet. For multi-location fleets, the instance type must be available in the home region and all remote locations. Instance type determines the computing resources and processing power that's available to host your game servers. This includes including CPU, memory, storage, and networking capacity. By default, Amazon GameLift Servers uses the c5.large instance type. If this instance type does not have sufficient resources for your container groups, you can choose a different instance type that better fits your needs. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types. You can't update this fleet property later.
+    /// The Amazon EC2 instance type to use for all instances in the fleet. For multi-location fleets, the instance type must be available in the home region and all remote locations. Instance type determines the computing resources and processing power that's available to host your game servers. This includes CPU, memory, storage, and networking capacity. By default, Amazon GameLift Servers uses the c5.large instance type. If this instance type does not have sufficient resources for your container groups, you can choose a different instance type that better fits your needs. See [Amazon Elastic Compute Cloud Instance Types](http://aws.amazon.com/ec2/instance-types/) for detailed descriptions of Amazon EC2 instance types. You can't update this fleet property later.
     public var instanceType: Swift.String?
     /// A set of locations to deploy container fleet instances to. You can add any Amazon Web Services Region or Local Zone that's supported by Amazon GameLift Servers. Provide a list of one or more Amazon Web Services Region codes, such as us-west-2, or Local Zone names. Also include the fleet's home Region, which is the Amazon Web Services Region where the fleet is created. For a list of supported Regions and Local Zones, see [ Amazon GameLift Servers service locations](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html) for managed hosting.
     public var locations: [GameLiftClientTypes.LocationConfiguration]?
@@ -4182,7 +4212,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     /// * NONE -- Don't collect container logs.
     ///
     ///
-    /// By default, this property is set to CLOUDWATCH. Amazon GameLift Servers requires permissions to send logs other Amazon Web Services services in your account. These permissions are included in the IAM fleet role for this container fleet (see FleetRoleArn).
+    /// By default, this property is set to CLOUDWATCH. Amazon GameLift Servers requires permissions to send logs to other Amazon Web Services services in your account. These permissions are included in the IAM fleet role for this container fleet (see FleetRoleArn).
     public var logConfiguration: GameLiftClientTypes.LogConfiguration?
     /// The name of an Amazon Web Services CloudWatch metric group to add this fleet to. You can use a metric group to aggregate metrics for multiple fleets. You can specify an existing metric group name or use a new name to create a new metric group. Each fleet can have only one metric group, but you can change this value at any time.
     public var metricGroups: [Swift.String]?
@@ -4195,9 +4225,9 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     ///
     /// By default, this property is set to NoProtection.
     public var newGameSessionProtectionPolicy: GameLiftClientTypes.ProtectionPolicy?
-    /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html). This operation creates a [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource.
+    /// The name of a container group definition resource that describes a set of auxiliary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling [https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html). This operation creates a [https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) resource.
     public var perInstanceContainerGroupDefinitionName: Swift.String?
-    /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traﬃc before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy. How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see [DDoS protection with Amazon GameLift Servers player gateway](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/ddos-protection-intro.html). Possible values include:
+    /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traffic before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy. How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see [DDoS protection with Amazon GameLift Servers player gateway](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/ddos-protection-intro.html). Possible values include:
     ///
     /// * DISABLED (default) -- Game clients connect to the game server endpoint. Use this when you do not intend to integrate your game with player gateway.
     ///
@@ -4205,7 +4235,7 @@ public struct CreateContainerFleetInput: Swift.Sendable {
     ///
     /// * REQUIRED -- Player gateway is available in fleet locations where it is supported, and the fleet can only use locations that support this feature. Attempting to add a remote location to your fleet which does not support player gateway will result in an InvalidRequestException.
     public var playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode?
-    /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
 
     public init(
@@ -4280,12 +4310,14 @@ extension GameLiftClientTypes {
         public var linuxCapabilities: GameLiftClientTypes.LinuxCapabilities?
         /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
         public var mountPoints: [GameLiftClientTypes.ContainerMountPoint]?
-        /// A set of ports that Amazon GameLift Servers can assign to processes in a container. The container port configuration must have enough ports for each container process that accepts inbound traffic connections. For example, a game server process requires a container port to allow game clients to connect to it. A container port configuration can have can have one or more container port ranges. Each range specifies starting and ending values as well as the supported network protocol. Container ports aren't directly accessed by inbound traffic. Amazon GameLift Servers maps each container port to an externally accessible connection port (see the container fleet property ConnectionPortRange).
+        /// A set of ports that Amazon GameLift Servers can assign to processes in a container. The container port configuration must have enough ports for each container process that accepts inbound traffic connections. For example, a game server process requires a container port to allow game clients to connect to it. A container port configuration can have one or more container port ranges. Each range specifies starting and ending values as well as the supported network protocol. Container ports aren't directly accessed by inbound traffic. Amazon GameLift Servers maps each container port to an externally accessible connection port (see the container fleet property ConnectionPortRange).
         /// This member is required.
         public var portConfiguration: GameLiftClientTypes.ContainerPortConfiguration?
         /// The Amazon GameLift Servers server SDK version that the game server is integrated with. Only game servers using 5.2.0 or higher are compatible with container fleets.
         /// This member is required.
         public var serverSdkVersion: Swift.String?
+        /// The number of vCPU units reserved for the game server container. The container can use more vCPU when it's available, up to the container group's total vCPU limit if one is set. If the container group has a total vCPU limit and the request doesn't set this value, Amazon GameLift Servers calculates the game server container's vCPU as the total vCPU limit minus the sum of the vCPU units reserved for the group's support containers. A game server container group needs either a total vCPU limit or this value. If the container group doesn't have a total vCPU limit, the group's containers can use up to the instance's available vCPU, and Amazon GameLift Servers uses the sum of the group's container Vcpu values to calculate how many game server container groups fit on an instance. Related data type: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html)TotalVcpuLimit
+        public var vcpu: Swift.Double?
 
         public init(
             containerName: Swift.String? = nil,
@@ -4295,7 +4327,8 @@ extension GameLiftClientTypes {
             linuxCapabilities: GameLiftClientTypes.LinuxCapabilities? = nil,
             mountPoints: [GameLiftClientTypes.ContainerMountPoint]? = nil,
             portConfiguration: GameLiftClientTypes.ContainerPortConfiguration? = nil,
-            serverSdkVersion: Swift.String? = nil
+            serverSdkVersion: Swift.String? = nil,
+            vcpu: Swift.Double? = nil
         ) {
             self.containerName = containerName
             self.dependsOn = dependsOn
@@ -4305,6 +4338,7 @@ extension GameLiftClientTypes {
             self.mountPoints = mountPoints
             self.portConfiguration = portConfiguration
             self.serverSdkVersion = serverSdkVersion
+            self.vcpu = vcpu
         }
     }
 }
@@ -4316,7 +4350,7 @@ extension GameLiftClientTypes {
         /// A string that uniquely identifies the container definition within a container group.
         /// This member is required.
         public var containerName: Swift.String?
-        /// Establishes dependencies between this container and the status of other containers in the same container group. A container can have dependencies on multiple different containers. . You can use dependencies to establish a startup/shutdown sequence across the container group. For example, you might specify that ContainerB has a START dependency on ContainerA. This dependency means that ContainerB can't start until after ContainerA has started. This dependency is reversed on shutdown, which means that ContainerB must shut down before ContainerA can shut down.
+        /// Establishes dependencies between this container and the status of other containers in the same container group. A container can have dependencies on multiple different containers. You can use dependencies to establish a startup/shutdown sequence across the container group. For example, you might specify that ContainerB has a START dependency on ContainerA. This dependency means that ContainerB can't start until after ContainerA has started. This dependency is reversed on shutdown, which means that ContainerB must shut down before ContainerA can shut down.
         public var dependsOn: [GameLiftClientTypes.ContainerDependency]?
         /// A set of environment variables to pass to the container on startup. See the [ContainerDefinition::environment](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html#ECS-Type-ContainerDefinition-environment) parameter in the Amazon Elastic Container Service API Reference.
         public var environmentOverride: [GameLiftClientTypes.ContainerEnvironment]?
@@ -4339,9 +4373,9 @@ extension GameLiftClientTypes {
         public var memoryHardLimitMebibytes: Swift.Int?
         /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
         public var mountPoints: [GameLiftClientTypes.ContainerMountPoint]?
-        /// A set of ports that Amazon GameLift Servers can assign to processes in a container. The container port configuration must have enough ports for each container process that accepts inbound traffic connections. A container port configuration can have can have one or more container port ranges. Each range specifies starting and ending values as well as the supported network protocol. Container ports aren't directly accessed by inbound traffic. Amazon GameLift Servers maps each container port to an externally accessible connection port (see the container fleet property ConnectionPortRange).
+        /// A set of ports that Amazon GameLift Servers can assign to processes in a container. The container port configuration must have enough ports for each container process that accepts inbound traffic connections. A container port configuration can have one or more container port ranges. Each range specifies starting and ending values as well as the supported network protocol. Container ports aren't directly accessed by inbound traffic. Amazon GameLift Servers maps each container port to an externally accessible connection port (see the container fleet property ConnectionPortRange).
         public var portConfiguration: GameLiftClientTypes.ContainerPortConfiguration?
-        /// The number of vCPU units to reserve for this container. The container can use more resources when needed, if available. If you don't reserve CPU units for this container, it shares the container group's total vCPU limit. Related data type: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) TotalCpuLimit
+        /// The number of vCPU units to reserve for this container. The container can use more resources when needed, if available. If you don't reserve vCPU units for this container, it shares the container group's total vCPU limit. Related data type: [ContainerGroupDefinition](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html) TotalVcpuLimit
         public var vcpu: Swift.Double?
 
         public init(
@@ -4385,13 +4419,12 @@ public struct CreateContainerGroupDefinitionInput: Swift.Sendable {
     public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
     /// One or more definition for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
     public var supportContainerDefinitions: [GameLiftClientTypes.SupportContainerDefinitionInput]?
-    /// A list of labels to assign to the container group definition resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// A list of labels to assign to the container group definition resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
     /// The maximum amount of memory (in MiB) to allocate to the container group. All containers in the group share this memory. If you specify memory limits for an individual container, the total value must be greater than any individual container's memory limit. Default value: 1024
     /// This member is required.
     public var totalMemoryLimitMebibytes: Swift.Int?
-    /// The maximum amount of vCPU units to allocate to the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share this memory. If you specify vCPU limits for individual containers, the total value must be equal to or greater than the sum of the CPU limits for all containers in the group. Default value: 1
-    /// This member is required.
+    /// The maximum amount of vCPU units to allocate to the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share these resources. If you set vCPU reservations for individual containers, the total value must be equal to or greater than the sum of the Vcpu values for all containers in the group. This property is required for a per-instance container group. For a game server container group, Amazon GameLift Servers requires either a total vCPU limit or a Vcpu value for the game server container. If you set a total vCPU limit for a game server container group, Amazon GameLift Servers uses this value to calculate how many game server container groups fit on an instance. If you don't set a total vCPU limit, the group's containers can use up to the instance's available vCPU, and Amazon GameLift Servers uses the sum of the containers' Vcpu values to calculate how many game server container groups fit on an instance.
     public var totalVcpuLimit: Swift.Double?
     /// A description for the initial version of this container group definition.
     public var versionDescription: Swift.String?
@@ -4554,9 +4587,9 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period. The purpose of this policy is to prevent a single player from consuming a large share of available hosting resources. For example, setting NewGameSessionsPerCreator to 4 and PolicyPeriodInMinutes to 10 limits each player to creating 4 game sessions every 10 minutes. Setting these values too high (for example, 200 game sessions every 1000 minutes) still allows a single player to rapidly consume resources. We recommend keeping these values small.
+    /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than the game session limit in the specified time period. The purpose of this policy is to prevent a single player from consuming a large share of available hosting resources. For example, setting NewGameSessionsPerCreator to 4 and PolicyPeriodInMinutes to 10 limits each player to creating 4 game sessions every 10 minutes. Setting these values too high (for example, 200 game sessions every 1000 minutes) still allows a single player to rapidly consume resources. We recommend keeping these values small.
     public struct ResourceCreationLimitPolicy: Swift.Sendable {
-        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period.
+        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than the game session limit in the specified time period.
         public var newGameSessionsPerCreator: Swift.Int?
         /// The time span used in evaluating the resource creation limit policy.
         public var policyPeriodInMinutes: Swift.Int?
@@ -4672,7 +4705,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public var peerVpcId: Swift.String?
     /// Configuration settings for player gateway. Use this to specify advanced options for how player gateway handles connections.
     public var playerGatewayConfiguration: GameLiftClientTypes.PlayerGatewayConfiguration?
-    /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traﬃc before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy. Note, player gateway is only available for fleets using server SDK 5.x or later game server builds. How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see [DDoS protection with Amazon GameLift Servers player gateway](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/ddos-protection-intro.html). Possible values include:
+    /// Configures player gateway for your fleet. Player gateway provides benefits such as DDoS protection by rate limiting and validating traffic before it reaches game servers, hiding game server IP addresses from players, and providing updated endpoints when relay endpoints become unhealthy. Note, player gateway is only available for fleets using server SDK 5.x or later game server builds. How it works: When enabled, game clients connect to relay endpoints instead of to your game servers. Player gateway validates player gateway tokens and routes traffic to the appropriate game server. Your game backend calls [GetPlayerConnectionDetails](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GetPlayerConnectionDetails.html) to retrieve relay endpoints and player gateway tokens for your game clients. To learn more about this topic, see [DDoS protection with Amazon GameLift Servers player gateway](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/ddos-protection-intro.html). Possible values include:
     ///
     /// * DISABLED (default) -- Game clients connect to the game server endpoint. Use this when you do not intend to integrate your game with player gateway.
     ///
@@ -4682,7 +4715,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public var playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode?
     /// A policy that limits the number of game sessions that an individual player can create on instances in this fleet within a specified span of time.
     public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
-    /// Instructions for how to launch and run server processes on the fleet. Set runtime configuration for managed EC2 fleets. For an Anywhere fleets, set this parameter only if the fleet is running the Amazon GameLift Servers Agent. The runtime configuration defines one or more server process configurations. Each server process identifies a game executable or Realtime script file and the number of processes to run concurrently. This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
+    /// Instructions for how to launch and run server processes on the fleet. Set runtime configuration for managed EC2 fleets. For an Anywhere fleet, set this parameter only if the fleet is running the Amazon GameLift Servers Agent. The runtime configuration defines one or more server process configurations. Each server process identifies a game executable or Realtime script file and the number of processes to run concurrently. This parameter replaces the parameters ServerLaunchPath and ServerLaunchParameters, which are still supported for backward compatibility.
     public var runtimeConfiguration: GameLiftClientTypes.RuntimeConfiguration?
     /// The unique identifier for a Realtime configuration script to be deployed to a fleet with compute type EC2. You can use either the script ID or ARN. Scripts must be uploaded to Amazon GameLift Servers prior to creating the fleet. This fleet property can't be changed after the fleet is created.
     public var scriptId: Swift.String?
@@ -4690,7 +4723,7 @@ public struct CreateFleetInput: Swift.Sendable {
     public var serverLaunchParameters: Swift.String?
     /// This parameter is no longer used. Specify a server launch path using the RuntimeConfiguration parameter. Requests that use this parameter instead continue to be valid.
     public var serverLaunchPath: Swift.String?
-    /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
 
     public init(
@@ -4885,7 +4918,7 @@ extension GameLiftClientTypes {
         public var playerGatewayConfiguration: GameLiftClientTypes.PlayerGatewayConfiguration?
         /// Indicates whether player gateway is enabled for this fleet. Player gateway provides benefits such as DDoS protection with negligible impact to latency. If ENABLED or REQUIRED, game clients can use player gateway to connect with the game server. If DISABLED, game clients cannot use player gateway. Instead, they have to directly connect to the game server.
         public var playerGatewayMode: GameLiftClientTypes.PlayerGatewayMode?
-        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than game session limit in the specified time period. The purpose of this policy is to prevent a single player from consuming a large share of available hosting resources. For example, setting NewGameSessionsPerCreator to 4 and PolicyPeriodInMinutes to 10 limits each player to creating 4 game sessions every 10 minutes. Setting these values too high (for example, 200 game sessions every 1000 minutes) still allows a single player to rapidly consume resources. We recommend keeping these values small.
+        /// A policy that puts limits on the number of game sessions that a player can create within a specified span of time. With this policy, you can control players' ability to consume available resources. The policy is evaluated when a player tries to create a new game session. On receiving a CreateGameSession request, Amazon GameLift Servers checks that the player (identified by CreatorId) has created fewer than the game session limit in the specified time period. The purpose of this policy is to prevent a single player from consuming a large share of available hosting resources. For example, setting NewGameSessionsPerCreator to 4 and PolicyPeriodInMinutes to 10 limits each player to creating 4 game sessions every 10 minutes. Setting these values too high (for example, 200 game sessions every 1000 minutes) still allows a single player to rapidly consume resources. We recommend keeping these values small.
         public var resourceCreationLimitPolicy: GameLiftClientTypes.ResourceCreationLimitPolicy?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
         public var scriptArn: Swift.String?
@@ -4899,7 +4932,7 @@ extension GameLiftClientTypes {
         ///
         /// * NEW -- A new fleet resource has been defined and Amazon GameLift Servers has started creating the fleet. Desired instances is set to 1.
         ///
-        /// * DOWNLOADING/VALIDATING/BUILDING -- Amazon GameLift Servers is download the game server build, running install scripts, and then validating the build files. When complete, Amazon GameLift Servers launches a fleet instance.
+        /// * DOWNLOADING/VALIDATING/BUILDING -- Amazon GameLift Servers is downloading the game server build, running install scripts, and then validating the build files. When complete, Amazon GameLift Servers launches a fleet instance.
         ///
         /// * ACTIVATING -- Amazon GameLift Servers is launching a game server process and testing its connectivity with the Amazon GameLift Servers service.
         ///
@@ -5504,7 +5537,7 @@ public struct CreateGameServerGroupInput: Swift.Sendable {
     /// An identifier for the new game server group. This value is used to generate unique ARN identifiers for the Amazon EC2 Auto Scaling group and the Amazon GameLift Servers FleetIQ game server group. The name must be unique per Region per Amazon Web Services account.
     /// This member is required.
     public var gameServerGroupName: Swift.String?
-    /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This property is set to NO_PROTECTION by default.
+    /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion. An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This property is set to NO_PROTECTION by default.
     public var gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy?
     /// The Amazon EC2 instance types and sizes to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by Amazon GameLift Servers FleetIQ. For more information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon Elastic Compute Cloud User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see [ Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon EC2 Auto Scaling User Guide.
     /// This member is required.
@@ -5643,7 +5676,7 @@ extension GameLiftClientTypes {
         public var gameServerGroupArn: Swift.String?
         /// A developer-defined identifier for the game server group. The name is unique for each Region in each Amazon Web Services account.
         public var gameServerGroupName: Swift.String?
-        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status.
+        /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion. An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status.
         public var gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy?
         /// The set of Amazon EC2 instance types that Amazon GameLift Servers FleetIQ can use when balancing and automatically scaling instances in the corresponding Auto Scaling group.
         public var instanceDefinitions: [GameLiftClientTypes.InstanceDefinition]?
@@ -5810,7 +5843,7 @@ extension GameLiftClientTypes {
 public struct CreateGameSessionInput: Swift.Sendable {
     /// A unique identifier for the alias associated with the fleet to create a game session in. You can use either the alias ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
     public var aliasId: Swift.String?
-    /// A unique identifier for a player or entity creating the game session. If you add a resource creation limit policy to a fleet, the CreateGameSession operation requires a CreatorId. Amazon GameLift Servers limits the number of game session creation requests with the same CreatorId in a specified time period. If you your fleet doesn't have a resource creation limit policy and you provide a CreatorId in your CreateGameSession requests, Amazon GameLift Servers limits requests to one request per CreatorId per second. To not limit CreateGameSession requests with the same CreatorId, don't provide a CreatorId in your CreateGameSession request.
+    /// A unique identifier for a player or entity creating the game session. If you add a resource creation limit policy to a fleet, the CreateGameSession operation requires a CreatorId. Amazon GameLift Servers limits the number of game session creation requests with the same CreatorId in a specified time period. If your fleet doesn't have a resource creation limit policy and you provide a CreatorId in your CreateGameSession requests, Amazon GameLift Servers limits requests to one request per CreatorId per second. To not limit CreateGameSession requests with the same CreatorId, don't provide a CreatorId in your CreateGameSession request.
     public var creatorId: Swift.String?
     /// A unique identifier for the fleet to create a game session in. You can use either the fleet ID or ARN value. Each request must reference either a fleet ID or alias ID, but not both.
     public var fleetId: Swift.String?
@@ -6102,7 +6135,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// A list of fleet locations where a game session queue can place new game sessions. You can use a filter to temporarily exclude specific locations from receiving placements. For queues that have multi-location fleets, you can use a filter configuration allow placement with some, but not all, of a fleet's locations.
+    /// A list of fleet locations where a game session queue can place new game sessions. You can use a filter to temporarily exclude specific locations from receiving placements. For queues that have multi-location fleets, you can use a filter configuration to allow placement with some, but not all, of a fleet's locations.
     public struct FilterConfiguration: Swift.Sendable {
         /// A list of locations to allow game session placement in, in the form of Amazon Web Services Region codes such as us-west-2.
         public var allowedLocations: [Swift.String]?
@@ -6117,7 +6150,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Sets a latency cap for individual players when placing a game session. With a latency policy in force, a game session cannot be placed in a fleet location where a player reports latency higher than the cap. Latency policies are used only with placement request that provide player latency information. Player latency policies can be stacked to gradually relax latency requirements over time.
+    /// Sets a latency cap for individual players when placing a game session. With a latency policy in force, a game session cannot be placed in a fleet location where a player reports latency higher than the cap. Latency policies are used only with placement requests that provide player latency information. Player latency policies can be stacked to gradually relax latency requirements over time.
     public struct PlayerLatencyPolicy: Swift.Sendable {
         /// The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property.
         public var maximumIndividualPlayerLatencyMilliseconds: Swift.Int?
@@ -6175,7 +6208,7 @@ extension GameLiftClientTypes {
     ///
     /// * When a game session request does not include player latency data, Amazon GameLift Servers places game sessions based on the following priorities: (1) the queue's default destination order, and (2) for multi-location fleets, an alphabetic list of locations.
     ///
-    /// * When a game session request includes player latency data, Amazon GameLift Servers re-orders the queue's destinations to make placements where the average player latency is lowest. It reorders based the following priorities: (1) the lowest average latency across all players, (2) the lowest hosting cost, (3) the queue's default destination order, and (4) for multi-location fleets, an alphabetic list of locations.
+    /// * When a game session request includes player latency data, Amazon GameLift Servers re-orders the queue's destinations to make placements where the average player latency is lowest. It reorders based on the following priorities: (1) the lowest average latency across all players, (2) the lowest hosting cost, (3) the queue's default destination order, and (4) for multi-location fleets, an alphabetic list of locations.
     public struct PriorityConfiguration: Swift.Sendable {
         /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations can include Amazon Web Services Region codes (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see [Amazon GameLift Servers service locations.](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
         public var locationOrder: [Swift.String]?
@@ -6216,7 +6249,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
     public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
     /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
-    /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
     /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value. The minimum value is 10 and the maximum value is 600.
     public var timeoutInSeconds: Swift.Int?
@@ -6306,7 +6339,7 @@ public struct CreateLocationInput: Swift.Sendable {
     /// A descriptive name for the custom location.
     /// This member is required.
     public var locationName: Swift.String?
-    /// A list of labels to assign to the new resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management, and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Rareference.
+    /// A list of labels to assign to the new resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management, and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
 
     public init(
@@ -6443,7 +6476,7 @@ public struct CreateMatchmakingConfigurationInput: Swift.Sendable {
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the new GameSession object that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. A matchmaking configuration supports only one queue; if you specify more than one ARN, the request fails with an InvalidRequestException. If FlexMatchMode is set to STANDALONE, do not set this parameter.
     public var gameSessionQueueArns: [Swift.String]?
     /// A unique identifier for the matchmaking configuration. This name is used to identify the configuration associated with a matchmaking request or ticket.
     /// This member is required.
@@ -6456,7 +6489,7 @@ public struct CreateMatchmakingConfigurationInput: Swift.Sendable {
     /// A unique identifier for the matchmaking rule set to use with this configuration. You can use either the rule set name or ARN value. A matchmaking configuration can only use rule sets that are defined in the same Region.
     /// This member is required.
     public var ruleSetName: Swift.String?
-    /// A list of labels to assign to the new matchmaking configuration resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// A list of labels to assign to the new matchmaking configuration resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
 
     public init(
@@ -6599,7 +6632,7 @@ public struct CreateMatchmakingRuleSetInput: Swift.Sendable {
     /// A collection of matchmaking rules, formatted as a JSON string. Comments are not allowed in JSON, but most elements support a description field.
     /// This member is required.
     public var ruleSetBody: Swift.String?
-    /// A list of labels to assign to the new matchmaking rule set resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    /// A list of labels to assign to the new matchmaking rule set resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
 
     public init(
@@ -6621,7 +6654,7 @@ extension GameLiftClientTypes {
     ///
     /// * Player attributes -- Optional. These attributes specify a set of player characteristics to evaluate when looking for a match. Matchmaking requests that use a rule set with player attributes must provide the corresponding attribute values. For example, an attribute might specify a player's skill or level.
     ///
-    /// * Rules -- Optional. Rules define how to evaluate potential players for a match based on player attributes. A rule might specify minimum requirements for individual players, teams, or entire matches. For example, a rule might require each player to meet a certain skill level, each team to have at least one player in a certain role, or the match to have a minimum average skill level. or may describe an entire group--such as all teams must be evenly matched or have at least one player in a certain role.
+    /// * Rules -- Optional. Rules define how to evaluate potential players for a match based on player attributes. A rule might specify minimum requirements for individual players, teams, or entire matches. For example, a rule might require each player to meet a certain skill level, each team to have at least one player in a certain role, or the match to have a minimum average skill level, or may describe an entire group--such as all teams must be evenly matched or have at least one player in a certain role.
     ///
     /// * Expansions -- Optional. Expansions allow you to relax the rules after a period of time when no acceptable matches are found. This feature lets you balance getting players into games in a reasonable amount of time instead of making them wait indefinitely for the best possible match. For example, you might use an expansion to increase the maximum skill variance between players after 30 seconds.
     public struct MatchmakingRuleSet: Swift.Sendable {
@@ -6765,7 +6798,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Represents a player session. Player sessions are created either for a specific game session, or as part of a game session placement or matchmaking request. A player session can represents a reserved player slot in a game session (when status is RESERVED) or actual player activity in a game session (when status is ACTIVE). A player session object, including player data, is automatically passed to a game session when the player connects to the game session and is validated. After the game session ends, player sessions information is retained for 30 days and then removed. Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    /// Represents a player session. Player sessions are created either for a specific game session, or as part of a game session placement or matchmaking request. A player session can represent a reserved player slot in a game session (when status is RESERVED) or actual player activity in a game session (when status is ACTIVE). A player session object, including player data, is automatically passed to a game session when the player connects to the game session and is validated. After the game session ends, player session information is retained for 30 days and then removed. Related actions [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     public struct PlayerSession: Swift.Sendable {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: Foundation.Date?
@@ -6887,7 +6920,7 @@ public struct CreateScriptInput: Swift.Sendable {
     public var nodeJsVersion: Swift.String?
     /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift Servers to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift Servers uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
     public var storageLocation: GameLiftClientTypes.S3Location?
-    /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html) to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
+    /// A list of labels to assign to the new script resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference. Once the resource is created, you can use [TagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListTagsForResource.html) to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
     public var tags: [GameLiftClientTypes.Tag]?
     /// Version information that is associated with a build or script. Version strings do not need to be unique. You can use [UpdateScript](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateScript.html) to change this value later.
     public var version: Swift.String?
@@ -6955,7 +6988,7 @@ extension GameLiftClientTypes {
 }
 
 public struct CreateScriptOutput: Swift.Sendable {
-    /// The newly created script record with a unique script ID and ARN. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift Servers service.
+    /// The newly created script record with a unique script ID and ARN. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controlled by the Amazon GameLift Servers service.
     public var script: GameLiftClientTypes.Script?
 
     public init(
@@ -7748,7 +7781,7 @@ public struct DescribeEC2InstanceLimitsInput: Swift.Sendable {
 
 extension GameLiftClientTypes {
 
-    /// The Amazon GameLift Servers service limits for an Amazon EC2 instance type and current utilization. Amazon GameLift Servers allows Amazon Web Services accounts a maximum number of instances, per instance type, per Amazon Web Services Region or location, for use with Amazon GameLift Servers. You can request an limit increase for your account by using the Service limits page in the Amazon GameLift Servers console.
+    /// The Amazon GameLift Servers service limits for an Amazon EC2 instance type and current utilization. Amazon GameLift Servers allows Amazon Web Services accounts a maximum number of instances, per instance type, per Amazon Web Services Region or location, for use with Amazon GameLift Servers. You can request a limit increase for your account by using the Service limits page in the Amazon GameLift Servers console.
     public struct EC2InstanceLimit: Swift.Sendable {
         /// The number of instances for the specified type and location that are currently being used by the Amazon Web Services account.
         public var currentInstances: Swift.Int?
@@ -7839,7 +7872,7 @@ public struct DescribeFleetCapacityInput: Swift.Sendable {
 
 extension GameLiftClientTypes {
 
-    /// The number and status of game server container groups that are deployed across a container fleet. Combine this count with the number of server processes that each game server container group runs to learn how many game sessions the fleet is capable of hosting concurrently. For example, if a fleet has 50 game server container groups, and the game server container in each group runs 1 game server process, then the fleet has the capacity to run host 50 game sessions at a time. Returned by: [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html), [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html)
+    /// The number and status of game server container groups that are deployed across a container fleet. Combine this count with the number of server processes that each game server container group runs to learn how many game sessions the fleet is capable of hosting concurrently. For example, if a fleet has 50 game server container groups, and the game server container in each group runs 1 game server process, then the fleet has the capacity to host 50 game sessions at a time. Returned by: [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html), [https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html)
     public struct GameServerContainerGroupCounts: Swift.Sendable {
         /// The number of container groups that have active game sessions.
         public var active: Swift.Int?
@@ -8375,15 +8408,15 @@ extension GameLiftClientTypes {
         ///
         /// * FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.
         ///
-        /// * FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLift Serversis now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.
+        /// * FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLift Servers is now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.
         ///
         /// * FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and Amazon GameLift Servers is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.
         ///
         /// * FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were successfully installed and validation of the installation will begin soon.
         ///
-        /// * FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift Servers could start validation.
+        /// * FLEET_CREATION_FAILED_INSTALLER -- The installer failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift Servers could start validation.
         ///
-        /// * FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift Servers tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.
+        /// * FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift Servers tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.
         ///
         /// * FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.
         ///
@@ -8871,7 +8904,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Additional properties, including status, that describe an EC2 instance in a game server group. Instance configurations are set with game server group properties (see DescribeGameServerGroup and with the EC2 launch template that was used when creating the game server group. Retrieve game server instances for a game server group by calling DescribeGameServerInstances.
+    /// Additional properties, including status, that describe an EC2 instance in a game server group. Instance configurations are set with game server group properties (see DescribeGameServerGroup) and with the EC2 launch template that was used when creating the game server group. Retrieve game server instances for a game server group by calling DescribeGameServerInstances.
     public struct GameServerInstance: Swift.Sendable {
         /// A generated unique identifier for the game server group that includes the game server instance.
         public var gameServerGroupArn: Swift.String?
@@ -9069,7 +9102,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// An alternate list of prioritized locations for use with a game session queue. When this property is included in a [StartGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartGameSessionPlacement.html) request, the alternate list overrides the queue's default location priorities, as defined in the queue's [PriorityConfiguration] setting (LocationOrder). The override is valid for an individual placement request only. Use this property only with queues that have a PriorityConfiguration setting that prioritizes LOCATION first. A priority configuration override list does not override a queue's FilterConfiguration setting, if the queue has one. Filter configurations are used to limit placements to a subset of the locations in a queue's destinations. If the override list includes a location that's not on in the FilterConfiguration allowed list, Amazon GameLift Servers won't attempt to place a game session there.
+    /// An alternate list of prioritized locations for use with a game session queue. When this property is included in a [StartGameSessionPlacement](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartGameSessionPlacement.html) request, the alternate list overrides the queue's default location priorities, as defined in the queue's [PriorityConfiguration] setting (LocationOrder). The override is valid for an individual placement request only. Use this property only with queues that have a PriorityConfiguration setting that prioritizes LOCATION first. A priority configuration override list does not override a queue's FilterConfiguration setting, if the queue has one. Filter configurations are used to limit placements to a subset of the locations in a queue's destinations. If the override list includes a location that's not in the FilterConfiguration allowed list, Amazon GameLift Servers won't attempt to place a game session there.
     public struct PriorityConfigurationOverride: Swift.Sendable {
         /// A prioritized list of hosting locations. The list can include Amazon Web Services Regions (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see [Amazon GameLift Servers service locations.](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-regions.html)
         /// This member is required.
@@ -9642,7 +9675,7 @@ extension GameLiftClientTypes {
         public var endTime: Foundation.Date?
         /// Average amount of time (in seconds) that players are currently waiting for a match. If there is not enough recent data, this property may be empty.
         public var estimatedWaitTime: Swift.Int?
-        /// Connection information for a new game session. Once a match is made, the FlexMatch engine creates a new game session for it. This information is added to the matchmaking ticket, which you can be retrieve by calling [DescribeMatchmaking](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeMatchmaking.html) .
+        /// Connection information for a new game session. Once a match is made, the FlexMatch engine creates a new game session for it. This information is added to the matchmaking ticket, which you can retrieve by calling [DescribeMatchmaking](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeMatchmaking.html) .
         public var gameSessionConnectionInfo: GameLiftClientTypes.GameSessionConnectionInfo?
         /// A set of Player objects, each representing a player to find matches for. Players are identified by a unique player ID and may include latency data for use during matchmaking. If the ticket is in status COMPLETED, the Player objects include the team the players were assigned to in the resulting match.
         public var players: [GameLiftClientTypes.Player]?
@@ -10073,7 +10106,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Settings for a target-based scaling policy. A target-based policy tracks a particular fleet metric specifies a target value for the metric. As player usage changes, the policy triggers Amazon GameLift Servers to adjust capacity so that the metric returns to the target value. The target configuration specifies settings as needed for the target based policy, including the target value.
+    /// Settings for a target-based scaling policy. A target-based policy tracks a particular fleet metric and specifies a target value for the metric. As player usage changes, the policy triggers Amazon GameLift Servers to adjust capacity so that the metric returns to the target value. The target configuration specifies settings as needed for the target based policy, including the target value.
     public struct TargetConfiguration: Swift.Sendable {
         /// Desired value to use with a target-based scaling policy. The value must be relevant for whatever metric the scaling policy is using. For example, in a policy using the metric PercentAvailableGameSessions, the target value should be the preferred size of the fleet's buffer (the percent of capacity that should be idle and ready for new game sessions).
         /// This member is required.
@@ -10109,7 +10142,7 @@ extension GameLiftClientTypes {
         ///
         /// * ActiveInstances -- Fleet instances that are currently running at least one game session.
         ///
-        /// * AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.
+        /// * AvailableGameSessions -- Additional game sessions that a fleet could host simultaneously, given current capacity.
         ///
         /// * AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.
         ///
@@ -11195,7 +11228,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     ///
     /// * ActiveInstances -- Fleet instances that are currently running at least one game session.
     ///
-    /// * AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.
+    /// * AvailableGameSessions -- Additional game sessions that a fleet could host simultaneously, given current capacity.
     ///
     /// * AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.
     ///
@@ -11673,7 +11706,7 @@ public struct StartMatchmakingInput: Swift.Sendable {
 }
 
 public struct StartMatchmakingOutput: Swift.Sendable {
-    /// Ticket representing the matchmaking request. This object include the information included in the request, ticket status, and match results as generated during the matchmaking process.
+    /// Ticket representing the matchmaking request. This object includes the information included in the request, ticket status, and match results as generated during the matchmaking process.
     public var matchmakingTicket: GameLiftClientTypes.MatchmakingTicket?
 
     public init(
@@ -12041,13 +12074,15 @@ public struct UpdateContainerGroupDefinitionInput: Swift.Sendable {
     public var name: Swift.String?
     /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Amazon Linux 2 (AL2) will reach end of support on 6/30/2026. See more details in the [Amazon Linux 2 FAQs](http://aws.amazon.com/amazon-linux-2/faqs/). For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift Servers, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See [ Migrate to server SDK version 5.](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-serversdk5-migration.html)
     public var operatingSystem: GameLiftClientTypes.ContainerOperatingSystem?
+    /// If set, this update removes the container group's total vCPU limit, and the group's containers can use up to the instance's available vCPU. You can't remove the total vCPU limit from a per-instance container group. A game server container group needs either a total vCPU limit or a Vcpu value for the game server container. You can't set TotalVcpuLimit in the same request.
+    public var removeAttributes: [GameLiftClientTypes.ContainerGroupDefinitionRemoveAttribute]?
     /// The container group definition version to update. The new version starts with values from the source version, and then updates values included in this request.
     public var sourceVersionNumber: Swift.Int?
     /// One or more definitions for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
     public var supportContainerDefinitions: [GameLiftClientTypes.SupportContainerDefinitionInput]?
     /// The maximum amount of memory (in MiB) to allocate to the container group. All containers in the group share this memory. If you specify memory limits for an individual container, the total value must be greater than any individual container's memory limit.
     public var totalMemoryLimitMebibytes: Swift.Int?
-    /// The maximum amount of vCPU units to allocate to the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share this memory. If you specify vCPU limits for individual containers, the total value must be equal to or greater than the sum of the CPU limits for all containers in the group.
+    /// The maximum amount of vCPU units to allocate to the container group (1 vCPU is equal to 1024 CPU units). All containers in the group share these resources. If you set vCPU reservations for individual containers, the total value must be equal to or greater than the sum of the Vcpu values for all containers in the group. For a game server container group, Amazon GameLift Servers requires either a total vCPU limit or a Vcpu value for the game server container. If the container group has a total vCPU limit, Amazon GameLift Servers uses this value to calculate how many game server container groups fit on an instance. If the container group doesn't have a total vCPU limit, its containers can use up to the instance's available vCPU, and Amazon GameLift Servers uses the sum of the containers' Vcpu values to calculate how many game server container groups fit on an instance. To remove the total vCPU limit, omit this parameter and set RemoveAttributes to TOTAL_VCPU_LIMIT.
     public var totalVcpuLimit: Swift.Double?
     /// A description for this update to the container group definition.
     public var versionDescription: Swift.String?
@@ -12056,6 +12091,7 @@ public struct UpdateContainerGroupDefinitionInput: Swift.Sendable {
         gameServerContainerDefinition: GameLiftClientTypes.GameServerContainerDefinitionInput? = nil,
         name: Swift.String? = nil,
         operatingSystem: GameLiftClientTypes.ContainerOperatingSystem? = nil,
+        removeAttributes: [GameLiftClientTypes.ContainerGroupDefinitionRemoveAttribute]? = nil,
         sourceVersionNumber: Swift.Int? = nil,
         supportContainerDefinitions: [GameLiftClientTypes.SupportContainerDefinitionInput]? = nil,
         totalMemoryLimitMebibytes: Swift.Int? = nil,
@@ -12065,6 +12101,7 @@ public struct UpdateContainerGroupDefinitionInput: Swift.Sendable {
         self.gameServerContainerDefinition = gameServerContainerDefinition
         self.name = name
         self.operatingSystem = operatingSystem
+        self.removeAttributes = removeAttributes
         self.sourceVersionNumber = sourceVersionNumber
         self.supportContainerDefinitions = supportContainerDefinitions
         self.totalMemoryLimitMebibytes = totalMemoryLimitMebibytes
@@ -12266,7 +12303,7 @@ public struct UpdateGameServerInput: Swift.Sendable {
     public var gameServerId: Swift.String?
     /// Indicates health status of the game server. A request that includes this parameter updates the game server's LastHealthCheckTime timestamp.
     public var healthCheck: GameLiftClientTypes.GameServerHealthCheck?
-    /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTILIZED, but you can't change a the status from UTILIZED to AVAILABLE.
+    /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTILIZED, but you can't change the status from UTILIZED to AVAILABLE.
     public var utilizationStatus: GameLiftClientTypes.GameServerUtilizationStatus?
 
     public init(
@@ -12307,7 +12344,7 @@ public struct UpdateGameServerGroupInput: Swift.Sendable {
     /// A unique identifier for the game server group. Use either the name or ARN value.
     /// This member is required.
     public var gameServerGroupName: Swift.String?
-    /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion (see ). An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This property is set to NO_PROTECTION by default.
+    /// A flag that indicates whether instances in the game server group are protected from early termination. Unprotected instances that have active game servers running might be terminated during a scale-down event, causing players to be dropped from the game. Protected instances cannot be terminated while there are active game servers running except in the event of a forced game server group deletion. An exception to this is with Spot Instances, which can be terminated by Amazon Web Services regardless of protection status. This property is set to NO_PROTECTION by default.
     public var gameServerProtectionPolicy: GameLiftClientTypes.GameServerProtectionPolicy?
     /// An updated list of Amazon EC2 instance types to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by Amazon GameLift Servers FleetIQ. This updated list replaces the entire current list of instance definitions for the game server group. For more information on instance types, see [EC2 Instance Types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see [ Instance Weighting for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-weighting.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceDefinitions: [GameLiftClientTypes.InstanceDefinition]?
@@ -12469,7 +12506,7 @@ public struct UpdateMatchmakingConfigurationInput: Swift.Sendable {
     public var gameProperties: [GameLiftClientTypes.GameProperty]?
     /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process with a request to start a new game session. For more information, see [Start a game session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession). This information is added to the game session that is created for a successful match. This parameter is not used if FlexMatchMode is set to STANDALONE.
     public var gameSessionData: Swift.String?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. If FlexMatchMode is set to STANDALONE, do not set this parameter.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. Queues can be located in any Region. Queues are used to start new Amazon GameLift Servers-hosted game sessions for matches that are created with this matchmaking configuration. A matchmaking configuration supports only one queue; if you specify more than one ARN, the request fails with an InvalidRequestException. If FlexMatchMode is set to STANDALONE, do not set this parameter.
     public var gameSessionQueueArns: [Swift.String]?
     /// A unique identifier for the matchmaking configuration to update. You can use either the configuration name or ARN value.
     /// This member is required.
@@ -12582,7 +12619,7 @@ public struct UpdateScriptInput: Swift.Sendable {
 }
 
 public struct UpdateScriptOutput: Swift.Sendable {
-    /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift Servers service.
+    /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controlled by the Amazon GameLift Servers service.
     public var script: GameLiftClientTypes.Script?
 
     public init(

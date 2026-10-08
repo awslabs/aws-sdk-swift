@@ -1598,7 +1598,7 @@ extension SESv2Client {
 
     /// Performs the `CreateExportJob` operation on the `SESv2` service.
     ///
-    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
+    /// Creates an export job for a data source and destination. Export jobs run asynchronously. This operation returns a JobId. Call GetExportJob with that ID until JobStatus is COMPLETED, FAILED, or CANCELLED. When the status is COMPLETED, download the export file from the pre-signed URL in ExportDestination.S3Url. When the status is FAILED, see FailureInfo. To store a copy in your own bucket, upload the downloaded file to your bucket. Do not include S3Url in the request. You can execute this operation no more than once per second.
     ///
     /// - Parameter input: Represents a request to create an export job from a data source to a data destination. (Type: `CreateExportJobInput`)
     ///
@@ -4189,7 +4189,7 @@ extension SESv2Client {
 
     /// Performs the `GetExportJob` operation on the `SESv2` service.
     ///
-    /// Provides information about an export job.
+    /// Provides information about an export job. When the job status is COMPLETED, the response includes a pre-signed URL in ExportDestination.S3Url that you use to download the export file.
     ///
     /// - Parameter input: Represents a request to retrieve information about an export job using the export job ID. (Type: `GetExportJobInput`)
     ///

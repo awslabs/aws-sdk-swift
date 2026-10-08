@@ -24667,10 +24667,59 @@ public struct SearchUserProfilesOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    /// A single Amazon Simple Storage Service object to import as a notebook cell.
+    public struct S3File: Swift.Sendable {
+        /// The key of the Amazon Simple Storage Service object to import.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            key: Swift.String? = nil
+        ) {
+            self.key = key
+        }
+    }
+}
+
+extension DataZoneClientTypes.S3File: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "S3File(key: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Simple Storage Service objects to import as the cells of a notebook, specified as a bucket and an ordered list of object keys.
+    public struct S3FilesLocation: Swift.Sendable {
+        /// The name of the Amazon Simple Storage Service bucket that contains the files to import.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The files to import. Cells are created in the order in which you list the files. You can specify between 1 and 100 files.
+        /// This member is required.
+        public var fileList: [DataZoneClientTypes.S3File]?
+
+        public init(
+            bucket: Swift.String? = nil,
+            fileList: [DataZoneClientTypes.S3File]? = nil
+        ) {
+            self.bucket = bucket
+            self.fileList = fileList
+        }
+    }
+}
+
+extension DataZoneClientTypes.S3FilesLocation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "S3FilesLocation(fileList: \(Swift.String(describing: fileList)), bucket: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
     /// The source location for a notebook import in Amazon SageMaker Unified Studio.
     public enum SourceLocation: Swift.Sendable {
         /// The Amazon Simple Storage Service URI of the notebook source file.
         case s3(Swift.String)
+        /// The Amazon Simple Storage Service objects to import as the notebook's cells. One cell is created for each object, in the order in which you list them.
+        case s3files(DataZoneClientTypes.S3FilesLocation)
         case sdkUnknown(Swift.String)
     }
 }
@@ -24689,9 +24738,11 @@ public struct StartNotebookImportInput: Swift.Sendable {
     /// The identifier of the project that will own the imported notebook.
     /// This member is required.
     public var owningProjectIdentifier: Swift.String?
-    /// The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    /// The source location of the notebook to import. Specify either a single Amazon Simple Storage Service URI, or a list of objects to import as the notebook's cells.
     /// This member is required.
     public var sourceLocation: DataZoneClientTypes.SourceLocation?
+    /// The type of the notebook to import. If not specified, defaults to DATA.
+    public var type: DataZoneClientTypes.NotebookType?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -24699,7 +24750,8 @@ public struct StartNotebookImportInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil,
-        sourceLocation: DataZoneClientTypes.SourceLocation? = nil
+        sourceLocation: DataZoneClientTypes.SourceLocation? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
@@ -24707,12 +24759,13 @@ public struct StartNotebookImportInput: Swift.Sendable {
         self.name = name
         self.owningProjectIdentifier = owningProjectIdentifier
         self.sourceLocation = sourceLocation
+        self.type = type
     }
 }
 
 extension StartNotebookImportInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartNotebookImportInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), sourceLocation: \(Swift.String(describing: sourceLocation)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "StartNotebookImportInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), sourceLocation: \(Swift.String(describing: sourceLocation)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartNotebookImportOutput: Swift.Sendable {
@@ -24734,6 +24787,8 @@ public struct StartNotebookImportOutput: Swift.Sendable {
     public var sourceLocation: DataZoneClientTypes.SourceLocation?
     /// The status of the notebook import.
     public var status: DataZoneClientTypes.NotebookStatus?
+    /// The type of the imported notebook.
+    public var type: DataZoneClientTypes.NotebookType?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -24744,7 +24799,8 @@ public struct StartNotebookImportOutput: Swift.Sendable {
         notebookId: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
         sourceLocation: DataZoneClientTypes.SourceLocation? = nil,
-        status: DataZoneClientTypes.NotebookStatus? = nil
+        status: DataZoneClientTypes.NotebookStatus? = nil,
+        type: DataZoneClientTypes.NotebookType? = nil
     ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -24755,12 +24811,13 @@ public struct StartNotebookImportOutput: Swift.Sendable {
         self.owningProjectId = owningProjectId
         self.sourceLocation = sourceLocation
         self.status = status
+        self.type = type
     }
 }
 
 extension StartNotebookImportOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartNotebookImportOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), sourceLocation: \(Swift.String(describing: sourceLocation)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "StartNotebookImportOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), notebookId: \(Swift.String(describing: notebookId)), owningProjectId: \(Swift.String(describing: owningProjectId)), sourceLocation: \(Swift.String(describing: sourceLocation)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartNotebookSyncInput: Swift.Sendable {
@@ -31179,6 +31236,7 @@ extension StartNotebookImportInput {
         try writer["name"].write(value.name)
         try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
         try writer["sourceLocation"].write(value.sourceLocation, with: DataZoneClientTypes.SourceLocation.write(value:to:))
+        try writer["type"].write(value.type)
     }
 }
 
@@ -34225,6 +34283,7 @@ extension StartNotebookImportOutput {
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
         value.sourceLocation = try reader["sourceLocation"].readIfPresent(with: DataZoneClientTypes.SourceLocation.read(from:))
         value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -43158,6 +43217,38 @@ extension DataZoneClientTypes.S3Destination {
     }
 }
 
+extension DataZoneClientTypes.S3File {
+
+    static func write(value: DataZoneClientTypes.S3File?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.S3File {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.S3File()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DataZoneClientTypes.S3FilesLocation {
+
+    static func write(value: DataZoneClientTypes.S3FilesLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["fileList"].writeList(value.fileList, memberWritingClosure: DataZoneClientTypes.S3File.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.S3FilesLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.S3FilesLocation()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.fileList = try reader["fileList"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.S3File.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension DataZoneClientTypes.S3PropertiesInput {
 
     static func write(value: DataZoneClientTypes.S3PropertiesInput?, to writer: SmithyJSON.Writer) throws {
@@ -43390,6 +43481,8 @@ extension DataZoneClientTypes.SourceLocation {
         switch value {
             case let .s3(s3):
                 try writer["s3"].write(s3)
+            case let .s3files(s3files):
+                try writer["s3Files"].write(s3files, with: DataZoneClientTypes.S3FilesLocation.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -43401,6 +43494,8 @@ extension DataZoneClientTypes.SourceLocation {
         switch name {
             case "s3":
                 return .s3(try reader["s3"].read())
+            case "s3Files":
+                return .s3files(try reader["s3Files"].read(with: DataZoneClientTypes.S3FilesLocation.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -50,6 +50,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
@@ -60,10 +61,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -632,7 +633,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func acceptAgreementCancellationRequest(input: AcceptAgreementCancellationRequestInput) async throws -> AcceptAgreementCancellationRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -651,7 +652,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -660,17 +661,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.AcceptAgreementCancellationRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAgreementCancellationRequestInput, AcceptAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -711,7 +715,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func acceptAgreementPaymentRequest(input: AcceptAgreementPaymentRequestInput) async throws -> AcceptAgreementPaymentRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -730,7 +734,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -739,17 +743,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptAgreementPaymentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.AcceptAgreementPaymentRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAgreementPaymentRequestInput, AcceptAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -790,7 +797,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func acceptAgreementRequest(input: AcceptAgreementRequestInput) async throws -> AcceptAgreementRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -809,7 +816,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -818,17 +825,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAgreementRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptAgreementRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.AcceptAgreementRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptAgreementRequestInput, AcceptAgreementRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -868,7 +878,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func batchCreateBillingAdjustmentRequest(input: BatchCreateBillingAdjustmentRequestInput) async throws -> BatchCreateBillingAdjustmentRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -887,7 +897,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -896,17 +906,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateBillingAdjustmentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateBillingAdjustmentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.BatchCreateBillingAdjustmentRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateBillingAdjustmentRequestInput, BatchCreateBillingAdjustmentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -947,7 +960,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func cancelAgreement(input: CancelAgreementInput) async throws -> CancelAgreementOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -966,7 +979,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -975,17 +988,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAgreementInput, CancelAgreementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementInput, CancelAgreementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementInput, CancelAgreementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementInput, CancelAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelAgreementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementInput, CancelAgreementOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.CancelAgreement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementInput, CancelAgreementOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementInput, CancelAgreementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CancelAgreementInput, CancelAgreementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementInput, CancelAgreementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementInput, CancelAgreementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementInput, CancelAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementInput, CancelAgreementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1026,7 +1042,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func cancelAgreementCancellationRequest(input: CancelAgreementCancellationRequestInput) async throws -> CancelAgreementCancellationRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1045,7 +1061,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1054,17 +1070,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.CancelAgreementCancellationRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementCancellationRequestInput, CancelAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1105,7 +1124,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func cancelAgreementPaymentRequest(input: CancelAgreementPaymentRequestInput) async throws -> CancelAgreementPaymentRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1124,7 +1143,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1133,17 +1152,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelAgreementPaymentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.CancelAgreementPaymentRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelAgreementPaymentRequestInput, CancelAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1185,7 +1207,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func createAgreementRequest(input: CreateAgreementRequestInput) async throws -> CreateAgreementRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1204,7 +1226,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1214,17 +1236,20 @@ extension MarketplaceAgreementClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAgreementRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateAgreementRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.CreateAgreementRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateAgreementRequestInput, CreateAgreementRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1264,7 +1289,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func describeAgreement(input: DescribeAgreementInput) async throws -> DescribeAgreementOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1283,7 +1308,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1292,17 +1317,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAgreementOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAgreementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.DescribeAgreement"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAgreementInput, DescribeAgreementOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAgreementInput, DescribeAgreementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1342,7 +1370,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getAgreementCancellationRequest(input: GetAgreementCancellationRequestInput) async throws -> GetAgreementCancellationRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1361,7 +1389,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1370,17 +1398,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.GetAgreementCancellationRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementCancellationRequestInput, GetAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1420,7 +1451,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getAgreementEntitlements(input: GetAgreementEntitlementsInput) async throws -> GetAgreementEntitlementsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1439,7 +1470,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1448,17 +1479,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementEntitlementsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementEntitlementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.GetAgreementEntitlements"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1498,7 +1532,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getAgreementPaymentRequest(input: GetAgreementPaymentRequestInput) async throws -> GetAgreementPaymentRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1517,7 +1551,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1526,17 +1560,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementPaymentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.GetAgreementPaymentRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementPaymentRequestInput, GetAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1587,7 +1624,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getAgreementTerms(input: GetAgreementTermsInput) async throws -> GetAgreementTermsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1606,7 +1643,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1615,17 +1652,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgreementTermsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgreementTermsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.GetAgreementTerms"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgreementTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgreementTermsInput, GetAgreementTermsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1665,7 +1705,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func getBillingAdjustmentRequest(input: GetBillingAdjustmentRequestInput) async throws -> GetBillingAdjustmentRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1684,7 +1724,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1693,17 +1733,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBillingAdjustmentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetBillingAdjustmentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.GetBillingAdjustmentRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetBillingAdjustmentRequestInput, GetBillingAdjustmentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1742,7 +1785,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listAgreementCancellationRequests(input: ListAgreementCancellationRequestsInput) async throws -> ListAgreementCancellationRequestsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1761,7 +1804,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1770,17 +1813,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementCancellationRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementCancellationRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListAgreementCancellationRequests"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementCancellationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1819,7 +1865,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listAgreementCharges(input: ListAgreementChargesInput) async throws -> ListAgreementChargesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1838,7 +1884,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1847,17 +1893,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementChargesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementChargesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListAgreementCharges"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementChargesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementChargesInput, ListAgreementChargesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1897,7 +1946,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listAgreementInvoiceLineItems(input: ListAgreementInvoiceLineItemsInput) async throws -> ListAgreementInvoiceLineItemsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1916,7 +1965,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1925,17 +1974,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementInvoiceLineItemsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementInvoiceLineItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListAgreementInvoiceLineItems"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementInvoiceLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1974,7 +2026,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listAgreementPaymentRequests(input: ListAgreementPaymentRequestsInput) async throws -> ListAgreementPaymentRequestsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1993,7 +2045,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2002,17 +2054,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAgreementPaymentRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAgreementPaymentRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListAgreementPaymentRequests"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAgreementPaymentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2051,7 +2106,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func listBillingAdjustmentRequests(input: ListBillingAdjustmentRequestsInput) async throws -> ListBillingAdjustmentRequestsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2070,7 +2125,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2079,17 +2134,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBillingAdjustmentRequestsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBillingAdjustmentRequestsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.ListBillingAdjustmentRequests"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBillingAdjustmentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2130,7 +2188,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func rejectAgreementCancellationRequest(input: RejectAgreementCancellationRequestInput) async throws -> RejectAgreementCancellationRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2149,7 +2207,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2158,17 +2216,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.RejectAgreementCancellationRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectAgreementCancellationRequestInput, RejectAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2209,7 +2270,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func rejectAgreementPaymentRequest(input: RejectAgreementPaymentRequestInput) async throws -> RejectAgreementPaymentRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2228,7 +2289,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2237,17 +2298,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectAgreementPaymentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.RejectAgreementPaymentRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectAgreementPaymentRequestInput, RejectAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2286,7 +2350,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func searchAgreements(input: SearchAgreementsInput) async throws -> SearchAgreementsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2305,7 +2369,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2314,17 +2378,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAgreementsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchAgreementsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.SearchAgreements"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchAgreementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchAgreementsInput, SearchAgreementsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchAgreementsInput, SearchAgreementsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2365,7 +2432,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func sendAgreementCancellationRequest(input: SendAgreementCancellationRequestInput) async throws -> SendAgreementCancellationRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2384,7 +2451,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2394,17 +2461,20 @@ extension MarketplaceAgreementClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAgreementCancellationRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendAgreementCancellationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.SendAgreementCancellationRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendAgreementCancellationRequestInput, SendAgreementCancellationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2445,7 +2515,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func sendAgreementPaymentRequest(input: SendAgreementPaymentRequestInput) async throws -> SendAgreementPaymentRequestOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2464,7 +2534,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2474,17 +2544,20 @@ extension MarketplaceAgreementClient {
         }
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAgreementPaymentRequestOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SendAgreementPaymentRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.SendAgreementPaymentRequest"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SendAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SendAgreementPaymentRequestInput, SendAgreementPaymentRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2525,7 +2598,7 @@ extension MarketplaceAgreementClient {
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
     public func updatePurchaseOrders(input: UpdatePurchaseOrdersInput) async throws -> UpdatePurchaseOrdersOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2544,7 +2617,7 @@ extension MarketplaceAgreementClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2553,17 +2626,20 @@ extension MarketplaceAgreementClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePurchaseOrdersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Marketplace Agreement", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePurchaseOrdersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(overrides: ["X-Amz-Target": "AWSMPCommerceService_v20200301.UpdatePurchaseOrders"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePurchaseOrdersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePurchaseOrdersInput, UpdatePurchaseOrdersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

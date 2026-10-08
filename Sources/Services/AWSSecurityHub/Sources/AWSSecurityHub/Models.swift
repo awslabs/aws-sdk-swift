@@ -23316,6 +23316,79 @@ extension SecurityHubClientTypes {
     }
 }
 
+public struct CancelExportJobV2Input: Swift.Sendable {
+    /// The unique identifier of the export job to cancel. This is the value returned by StartExportJobV2.
+    /// This member is required.
+    public var exportJobId: Swift.String?
+
+    public init(
+        exportJobId: Swift.String? = nil
+    ) {
+        self.exportJobId = exportJobId
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The state of an export job. Valid values are as follows:
+    ///
+    /// * RUNNING – The job is queued or in progress.
+    ///
+    /// * SUCCEEDED – The job completed and the output is available in the destination bucket.
+    ///
+    /// * FAILED – The job didn't complete. See FailureCode and FailureMessage.
+    ///
+    /// * CANCELLED – The job was canceled with CancelExportJobV2.
+    public enum ExportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case failed
+        case running
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportStatus] {
+            return [
+                .cancelled,
+                .failed,
+                .running,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .failed: return "FAILED"
+            case .running: return "RUNNING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CancelExportJobV2Output: Swift.Sendable {
+    /// The unique identifier of the export job.
+    /// This member is required.
+    public var exportJobId: Swift.String?
+    /// The state of the export job after the cancel request.
+    /// This member is required.
+    public var status: SecurityHubClientTypes.ExportStatus?
+
+    public init(
+        exportJobId: Swift.String? = nil,
+        status: SecurityHubClientTypes.ExportStatus? = nil
+    ) {
+        self.exportJobId = exportJobId
+        self.status = status
+    }
+}
+
 extension SecurityHubClientTypes {
 
     public enum OcsfBooleanField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -26641,6 +26714,601 @@ public struct EnableSecurityHubV2Output: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    /// The category of data that an export job produces. Currently, the only supported value is FINDINGS.
+    public enum ExportDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case findings
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportDataType] {
+            return [
+                .findings
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .findings: return "FINDINGS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The Amazon S3 destination for an export, including the bucket, the Amazon Web Services KMS key used for encryption, and an optional object key prefix.
+    public struct S3ExportDestination: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket that Security Hub writes the export to. You must own the bucket, and its bucket policy must grant the Security Hub service principal (exportv2.securityhub.amazonaws.com) permission to write objects. For the required bucket policy, see the Examples section of StartExportJobV2.
+        /// This member is required.
+        public var bucketArn: Swift.String?
+        /// The ARN of the Amazon Web Services KMS key that Security Hub uses to encrypt the export objects with server-side encryption. The key policy must allow the Security Hub service principal (exportv2.securityhub.amazonaws.com) to use the key through Amazon S3. For the required key policy, see the Examples section of StartExportJobV2. The key must meet all of the following requirements:
+        ///
+        /// * It must be a symmetric key with a key usage of ENCRYPT_DECRYPT.
+        ///
+        /// * It must be a single-Region key. Multi-Region keys, whose key IDs begin with mrk-, are rejected.
+        ///
+        /// * You must specify the full key ARN. Key IDs and aliases are rejected.
+        ///
+        /// * The key must be in the same Amazon Web Services account as the export job.
+        ///
+        /// * The key must be in the same Amazon Web Services Region as the export job.
+        ///
+        /// * The key must be in the aws, aws-cn, or aws-us-gov partition.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+        /// An optional key prefix that Security Hub prepends to the Amazon S3 object keys of the export output. Use a prefix to organize exports within the bucket. The value can be up to 512 characters.
+        public var objectPrefix: Swift.String?
+
+        public init(
+            bucketArn: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            objectPrefix: Swift.String? = nil
+        ) {
+            self.bucketArn = bucketArn
+            self.kmsKeyArn = kmsKeyArn
+            self.objectPrefix = objectPrefix
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Specifies where Security Hub writes the export output. This is a union: you must specify exactly one member. Currently, the only supported member is S3.
+    public enum ExportDestination: Swift.Sendable {
+        /// The Amazon Simple Storage Service (Amazon S3) bucket and Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Security Hub uses to write the export.
+        case s3(SecurityHubClientTypes.S3ExportDestination)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Classifies why a terminal-state export job failed. Present only when Status is FAILED. Valid values are as follows:
+    ///
+    /// * ACCESS_DENIED – Security Hub couldn't read a required resource or write to the destination. Verify the bucket policy and key policy.
+    ///
+    /// * RESOURCE_NOT_FOUND – A referenced destination bucket or Amazon Web Services KMS key no longer exists.
+    ///
+    /// * INTERNAL_ERROR – An unclassified service-side error occurred. Retry the export, and if the failure persists, contact Amazon Web Services Support.
+    public enum ExportFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case internalError
+        case resourceNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportFailureCode] {
+            return [
+                .accessDenied,
+                .internalError,
+                .resourceNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .internalError: return "INTERNAL_ERROR"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The output format of an export. CSV produces comma-separated rows. OCSF_JSON produces newline-delimited JSON records in the Open Cybersecurity Schema Framework (OCSF) format.
+    public enum FindingsExportFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case ocsfJson
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingsExportFormat] {
+            return [
+                .csv,
+                .ocsfJson
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .ocsfJson: return "OCSF_JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// An OCSF finding field path that can be included in FindingsOutput.SelectedFields, for example finding_info.title, severity, or cloud.account.uid. Each value corresponds to a field in the OCSF finding schema.
+    public enum FindingsSelectableField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activityId
+        case activityName
+        case className
+        case cloudAccountName
+        case cloudAccountUid
+        case cloudProvider
+        case cloudRegion
+        case comment
+        case complianceAssessmentsCategory
+        case complianceAssessmentsMeetsCriteria
+        case complianceAssessmentsName
+        case complianceControl
+        case complianceControlParameters
+        case complianceStandards
+        case complianceStatus
+        case complianceStatusId
+        case confidenceScore
+        case databucketEncryptionDetailsAlgorithm
+        case databucketEncryptionDetailsKeyUid
+        case databucketFileDataClassificationsClassifierDetailsType
+        case databucketTags
+        case evidencesActorUserAccountUid
+        case evidencesApiOperation
+        case evidencesApiResponseCode
+        case evidencesApiResponseErrorMessage
+        case evidencesApiServiceName
+        case evidencesConnectionInfoDirection
+        case evidencesConnectionInfoProtocolName
+        case evidencesDstEndpointAutonomousSystemName
+        case evidencesDstEndpointAutonomousSystemNumber
+        case evidencesDstEndpointIp
+        case evidencesDstEndpointLocationCity
+        case evidencesDstEndpointLocationCountry
+        case evidencesDstEndpointPort
+        case evidencesSrcEndpointAutonomousSystemName
+        case evidencesSrcEndpointAutonomousSystemNumber
+        case evidencesSrcEndpointHostname
+        case evidencesSrcEndpointIp
+        case evidencesSrcEndpointLocationCity
+        case evidencesSrcEndpointLocationCountry
+        case evidencesSrcEndpointPort
+        case findingInfoAnalyticName
+        case findingInfoCreatedTimeDt
+        case findingInfoDesc
+        case findingInfoFirstSeenTimeDt
+        case findingInfoLastSeenTimeDt
+        case findingInfoModifiedTimeDt
+        case findingInfoRelatedEventsCount
+        case findingInfoRelatedEventsProductUid
+        case findingInfoRelatedEventsTitle
+        case findingInfoRelatedEventsTraitsCategory
+        case findingInfoRelatedEventsUid
+        case findingInfoSrcUrl
+        case findingInfoTags
+        case findingInfoTitle
+        case findingInfoTypes
+        case findingInfoUid
+        case malwareName
+        case malwareScanInfoUid
+        case malwareSeverity
+        case metadataProductFeatureUid
+        case metadataProductName
+        case metadataProductUid
+        case metadataProductVendorName
+        case metadataUid
+        case remediationDesc
+        case remediationReferences
+        case resourcesCloudFunctionLayersUidAlt
+        case resourcesCloudFunctionRuntime
+        case resourcesCloudFunctionUserUid
+        case resourcesCloudPartition
+        case resourcesDeviceEncryptionDetailsKeyUid
+        case resourcesDeviceImageUid
+        case resourcesImageArchitecture
+        case resourcesImageCreatedTimeDt
+        case resourcesImageInUseCount
+        case resourcesImageLastUsedTimeDt
+        case resourcesImageRegistryUid
+        case resourcesImageRepositoryName
+        case resourcesImageUid
+        case resourcesModifiedTimeDt
+        case resourcesName
+        case resourcesOwnerAccountName
+        case resourcesOwnerAccountUid
+        case resourcesOwnerOrgUid
+        case resourcesProvider
+        case resourcesRegion
+        case resourcesSubnetInfoUid
+        case resourcesTags
+        case resourcesType
+        case resourcesUid
+        case resourcesVpcUid
+        case severity
+        case severityId
+        case status
+        case statusId
+        case vendorAttributesSeverity
+        case vendorAttributesSeverityId
+        case vulnerabilitiesAffectedCodeFilePath
+        case vulnerabilitiesAffectedPackagesName
+        case vulnerabilitiesCveCvssBaseScore
+        case vulnerabilitiesCveCvssVendorName
+        case vulnerabilitiesCveCvssVersion
+        case vulnerabilitiesCveEpssScore
+        case vulnerabilitiesCveUid
+        case vulnerabilitiesFixCoverage
+        case vulnerabilitiesIsExploitAvailable
+        case vulnerabilitiesIsFixAvailable
+        case vulnerabilitiesRelatedVulnerabilities
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingsSelectableField] {
+            return [
+                .activityId,
+                .activityName,
+                .className,
+                .cloudAccountName,
+                .cloudAccountUid,
+                .cloudProvider,
+                .cloudRegion,
+                .comment,
+                .complianceAssessmentsCategory,
+                .complianceAssessmentsMeetsCriteria,
+                .complianceAssessmentsName,
+                .complianceControl,
+                .complianceControlParameters,
+                .complianceStandards,
+                .complianceStatus,
+                .complianceStatusId,
+                .confidenceScore,
+                .databucketEncryptionDetailsAlgorithm,
+                .databucketEncryptionDetailsKeyUid,
+                .databucketFileDataClassificationsClassifierDetailsType,
+                .databucketTags,
+                .evidencesActorUserAccountUid,
+                .evidencesApiOperation,
+                .evidencesApiResponseCode,
+                .evidencesApiResponseErrorMessage,
+                .evidencesApiServiceName,
+                .evidencesConnectionInfoDirection,
+                .evidencesConnectionInfoProtocolName,
+                .evidencesDstEndpointAutonomousSystemName,
+                .evidencesDstEndpointAutonomousSystemNumber,
+                .evidencesDstEndpointIp,
+                .evidencesDstEndpointLocationCity,
+                .evidencesDstEndpointLocationCountry,
+                .evidencesDstEndpointPort,
+                .evidencesSrcEndpointAutonomousSystemName,
+                .evidencesSrcEndpointAutonomousSystemNumber,
+                .evidencesSrcEndpointHostname,
+                .evidencesSrcEndpointIp,
+                .evidencesSrcEndpointLocationCity,
+                .evidencesSrcEndpointLocationCountry,
+                .evidencesSrcEndpointPort,
+                .findingInfoAnalyticName,
+                .findingInfoCreatedTimeDt,
+                .findingInfoDesc,
+                .findingInfoFirstSeenTimeDt,
+                .findingInfoLastSeenTimeDt,
+                .findingInfoModifiedTimeDt,
+                .findingInfoRelatedEventsCount,
+                .findingInfoRelatedEventsProductUid,
+                .findingInfoRelatedEventsTitle,
+                .findingInfoRelatedEventsTraitsCategory,
+                .findingInfoRelatedEventsUid,
+                .findingInfoSrcUrl,
+                .findingInfoTags,
+                .findingInfoTitle,
+                .findingInfoTypes,
+                .findingInfoUid,
+                .malwareName,
+                .malwareScanInfoUid,
+                .malwareSeverity,
+                .metadataProductFeatureUid,
+                .metadataProductName,
+                .metadataProductUid,
+                .metadataProductVendorName,
+                .metadataUid,
+                .remediationDesc,
+                .remediationReferences,
+                .resourcesCloudFunctionLayersUidAlt,
+                .resourcesCloudFunctionRuntime,
+                .resourcesCloudFunctionUserUid,
+                .resourcesCloudPartition,
+                .resourcesDeviceEncryptionDetailsKeyUid,
+                .resourcesDeviceImageUid,
+                .resourcesImageArchitecture,
+                .resourcesImageCreatedTimeDt,
+                .resourcesImageInUseCount,
+                .resourcesImageLastUsedTimeDt,
+                .resourcesImageRegistryUid,
+                .resourcesImageRepositoryName,
+                .resourcesImageUid,
+                .resourcesModifiedTimeDt,
+                .resourcesName,
+                .resourcesOwnerAccountName,
+                .resourcesOwnerAccountUid,
+                .resourcesOwnerOrgUid,
+                .resourcesProvider,
+                .resourcesRegion,
+                .resourcesSubnetInfoUid,
+                .resourcesTags,
+                .resourcesType,
+                .resourcesUid,
+                .resourcesVpcUid,
+                .severity,
+                .severityId,
+                .status,
+                .statusId,
+                .vendorAttributesSeverity,
+                .vendorAttributesSeverityId,
+                .vulnerabilitiesAffectedCodeFilePath,
+                .vulnerabilitiesAffectedPackagesName,
+                .vulnerabilitiesCveCvssBaseScore,
+                .vulnerabilitiesCveCvssVendorName,
+                .vulnerabilitiesCveCvssVersion,
+                .vulnerabilitiesCveEpssScore,
+                .vulnerabilitiesCveUid,
+                .vulnerabilitiesFixCoverage,
+                .vulnerabilitiesIsExploitAvailable,
+                .vulnerabilitiesIsFixAvailable,
+                .vulnerabilitiesRelatedVulnerabilities
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activityId: return "activity_id"
+            case .activityName: return "activity_name"
+            case .className: return "class_name"
+            case .cloudAccountName: return "cloud.account.name"
+            case .cloudAccountUid: return "cloud.account.uid"
+            case .cloudProvider: return "cloud.provider"
+            case .cloudRegion: return "cloud.region"
+            case .comment: return "comment"
+            case .complianceAssessmentsCategory: return "compliance.assessments.category"
+            case .complianceAssessmentsMeetsCriteria: return "compliance.assessments.meets_criteria"
+            case .complianceAssessmentsName: return "compliance.assessments.name"
+            case .complianceControl: return "compliance.control"
+            case .complianceControlParameters: return "compliance.control_parameters"
+            case .complianceStandards: return "compliance.standards"
+            case .complianceStatus: return "compliance.status"
+            case .complianceStatusId: return "compliance.status_id"
+            case .confidenceScore: return "confidence_score"
+            case .databucketEncryptionDetailsAlgorithm: return "databucket.encryption_details.algorithm"
+            case .databucketEncryptionDetailsKeyUid: return "databucket.encryption_details.key_uid"
+            case .databucketFileDataClassificationsClassifierDetailsType: return "databucket.file.data_classifications.classifier_details.type"
+            case .databucketTags: return "databucket.tags"
+            case .evidencesActorUserAccountUid: return "evidences.actor.user.account.uid"
+            case .evidencesApiOperation: return "evidences.api.operation"
+            case .evidencesApiResponseCode: return "evidences.api.response.code"
+            case .evidencesApiResponseErrorMessage: return "evidences.api.response.error_message"
+            case .evidencesApiServiceName: return "evidences.api.service.name"
+            case .evidencesConnectionInfoDirection: return "evidences.connection_info.direction"
+            case .evidencesConnectionInfoProtocolName: return "evidences.connection_info.protocol_name"
+            case .evidencesDstEndpointAutonomousSystemName: return "evidences.dst_endpoint.autonomous_system.name"
+            case .evidencesDstEndpointAutonomousSystemNumber: return "evidences.dst_endpoint.autonomous_system.number"
+            case .evidencesDstEndpointIp: return "evidences.dst_endpoint.ip"
+            case .evidencesDstEndpointLocationCity: return "evidences.dst_endpoint.location.city"
+            case .evidencesDstEndpointLocationCountry: return "evidences.dst_endpoint.location.country"
+            case .evidencesDstEndpointPort: return "evidences.dst_endpoint.port"
+            case .evidencesSrcEndpointAutonomousSystemName: return "evidences.src_endpoint.autonomous_system.name"
+            case .evidencesSrcEndpointAutonomousSystemNumber: return "evidences.src_endpoint.autonomous_system.number"
+            case .evidencesSrcEndpointHostname: return "evidences.src_endpoint.hostname"
+            case .evidencesSrcEndpointIp: return "evidences.src_endpoint.ip"
+            case .evidencesSrcEndpointLocationCity: return "evidences.src_endpoint.location.city"
+            case .evidencesSrcEndpointLocationCountry: return "evidences.src_endpoint.location.country"
+            case .evidencesSrcEndpointPort: return "evidences.src_endpoint.port"
+            case .findingInfoAnalyticName: return "finding_info.analytic.name"
+            case .findingInfoCreatedTimeDt: return "finding_info.created_time_dt"
+            case .findingInfoDesc: return "finding_info.desc"
+            case .findingInfoFirstSeenTimeDt: return "finding_info.first_seen_time_dt"
+            case .findingInfoLastSeenTimeDt: return "finding_info.last_seen_time_dt"
+            case .findingInfoModifiedTimeDt: return "finding_info.modified_time_dt"
+            case .findingInfoRelatedEventsCount: return "finding_info.related_events_count"
+            case .findingInfoRelatedEventsProductUid: return "finding_info.related_events.product.uid"
+            case .findingInfoRelatedEventsTitle: return "finding_info.related_events.title"
+            case .findingInfoRelatedEventsTraitsCategory: return "finding_info.related_events.traits.category"
+            case .findingInfoRelatedEventsUid: return "finding_info.related_events.uid"
+            case .findingInfoSrcUrl: return "finding_info.src_url"
+            case .findingInfoTags: return "finding_info.tags"
+            case .findingInfoTitle: return "finding_info.title"
+            case .findingInfoTypes: return "finding_info.types"
+            case .findingInfoUid: return "finding_info.uid"
+            case .malwareName: return "malware.name"
+            case .malwareScanInfoUid: return "malware_scan_info.uid"
+            case .malwareSeverity: return "malware.severity"
+            case .metadataProductFeatureUid: return "metadata.product.feature.uid"
+            case .metadataProductName: return "metadata.product.name"
+            case .metadataProductUid: return "metadata.product.uid"
+            case .metadataProductVendorName: return "metadata.product.vendor_name"
+            case .metadataUid: return "metadata.uid"
+            case .remediationDesc: return "remediation.desc"
+            case .remediationReferences: return "remediation.references"
+            case .resourcesCloudFunctionLayersUidAlt: return "resources.cloud_function.layers.uid_alt"
+            case .resourcesCloudFunctionRuntime: return "resources.cloud_function.runtime"
+            case .resourcesCloudFunctionUserUid: return "resources.cloud_function.user.uid"
+            case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesDeviceEncryptionDetailsKeyUid: return "resources.device.encryption_details.key_uid"
+            case .resourcesDeviceImageUid: return "resources.device.image.uid"
+            case .resourcesImageArchitecture: return "resources.image.architecture"
+            case .resourcesImageCreatedTimeDt: return "resources.image.created_time_dt"
+            case .resourcesImageInUseCount: return "resources.image.in_use_count"
+            case .resourcesImageLastUsedTimeDt: return "resources.image.last_used_time_dt"
+            case .resourcesImageRegistryUid: return "resources.image.registry_uid"
+            case .resourcesImageRepositoryName: return "resources.image.repository_name"
+            case .resourcesImageUid: return "resources.image.uid"
+            case .resourcesModifiedTimeDt: return "resources.modified_time_dt"
+            case .resourcesName: return "resources.name"
+            case .resourcesOwnerAccountName: return "resources.owner.account.name"
+            case .resourcesOwnerAccountUid: return "resources.owner.account.uid"
+            case .resourcesOwnerOrgUid: return "resources.owner.org.uid"
+            case .resourcesProvider: return "resources.provider"
+            case .resourcesRegion: return "resources.region"
+            case .resourcesSubnetInfoUid: return "resources.subnet_info.uid"
+            case .resourcesTags: return "resources.tags"
+            case .resourcesType: return "resources.type"
+            case .resourcesUid: return "resources.uid"
+            case .resourcesVpcUid: return "resources.vpc_uid"
+            case .severity: return "severity"
+            case .severityId: return "severity_id"
+            case .status: return "status"
+            case .statusId: return "status_id"
+            case .vendorAttributesSeverity: return "vendor_attributes.severity"
+            case .vendorAttributesSeverityId: return "vendor_attributes.severity_id"
+            case .vulnerabilitiesAffectedCodeFilePath: return "vulnerabilities.affected_code.file.path"
+            case .vulnerabilitiesAffectedPackagesName: return "vulnerabilities.affected_packages.name"
+            case .vulnerabilitiesCveCvssBaseScore: return "vulnerabilities.cve.cvss.base_score"
+            case .vulnerabilitiesCveCvssVendorName: return "vulnerabilities.cve.cvss.vendor_name"
+            case .vulnerabilitiesCveCvssVersion: return "vulnerabilities.cve.cvss.version"
+            case .vulnerabilitiesCveEpssScore: return "vulnerabilities.cve.epss.score"
+            case .vulnerabilitiesCveUid: return "vulnerabilities.cve.uid"
+            case .vulnerabilitiesFixCoverage: return "vulnerabilities.fix_coverage"
+            case .vulnerabilitiesIsExploitAvailable: return "vulnerabilities.is_exploit_available"
+            case .vulnerabilitiesIsFixAvailable: return "vulnerabilities.is_fix_available"
+            case .vulnerabilitiesRelatedVulnerabilities: return "vulnerabilities.related_vulnerabilities"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A summary of the output configuration for a findings export, returned by ListExportJobsV2. Unlike the configuration returned by GetExportJobV2, it reports only the output format.
+    public struct FindingsOutputSummary: Swift.Sendable {
+        /// The output format of the export. CSV produces comma-separated rows that are suitable for spreadsheets and analysis tools. OCSF_JSON produces newline-delimited JSON records in the Open Cybersecurity Schema Framework (OCSF) format used elsewhere in Security Hub.
+        /// This member is required.
+        public var format: SecurityHubClientTypes.FindingsExportFormat?
+
+        public init(
+            format: SecurityHubClientTypes.FindingsExportFormat? = nil
+        ) {
+            self.format = format
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A summary of the output configuration for an export job. The populated member corresponds to the data type that was exported.
+    public enum ExportOutputSummary: Swift.Sendable {
+        /// The output configuration summary for a findings export.
+        case findings(SecurityHubClientTypes.FindingsOutputSummary)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the data boundary for a findings export. Scopes determine which organizational units or organizations to retrieve data from. Only a delegated administrator can use this structure. If a delegated administrator omits it, the export covers the entire organization; any other caller exports only findings from its own account.
+    public struct ExportScopes: Swift.Sendable {
+        /// A list of Organizations scopes to include in the export. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public var awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]?
+
+        public init(
+            awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]? = nil
+        ) {
+            self.awsOrganizations = awsOrganizations
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A summary of an export job, as returned by ListExportJobsV2.
+    public struct ExportSummary: Swift.Sendable {
+        /// The category of data that the export job produces.
+        /// This member is required.
+        public var dataType: SecurityHubClientTypes.ExportDataType?
+        /// The destination that the export job writes to.
+        /// This member is required.
+        public var destination: SecurityHubClientTypes.ExportDestination?
+        /// The time when the export job reached a terminal state. Absent while the job is RUNNING. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        public var endedAt: Foundation.Date?
+        /// The unique identifier of the export job.
+        /// This member is required.
+        public var exportJobId: Swift.String?
+        /// A code that classifies why the export job failed. Present only when Status is FAILED.
+        public var failureCode: SecurityHubClientTypes.ExportFailureCode?
+        /// A human-readable message about why the export job failed. Present only when Status is FAILED.
+        public var failureMessage: Swift.String?
+        /// The user-provided name of the export job, if one was specified.
+        public var name: Swift.String?
+        /// The output configuration of the export job. For findings exports, this reports the output format. Present only for findings exports; absent for other data types.
+        public var outputConfiguration: SecurityHubClientTypes.ExportOutputSummary?
+        /// The organization scopes that the export job was started with, echoed verbatim. Absent if the caller didn't supply Scopes.
+        public var scopes: SecurityHubClientTypes.ExportScopes?
+        /// The time when the export job was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+        /// This member is required.
+        public var startedAt: Foundation.Date?
+        /// The current state of the export job.
+        /// This member is required.
+        public var status: SecurityHubClientTypes.ExportStatus?
+
+        public init(
+            dataType: SecurityHubClientTypes.ExportDataType? = nil,
+            destination: SecurityHubClientTypes.ExportDestination? = nil,
+            endedAt: Foundation.Date? = nil,
+            exportJobId: Swift.String? = nil,
+            failureCode: SecurityHubClientTypes.ExportFailureCode? = nil,
+            failureMessage: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputConfiguration: SecurityHubClientTypes.ExportOutputSummary? = nil,
+            scopes: SecurityHubClientTypes.ExportScopes? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: SecurityHubClientTypes.ExportStatus? = nil
+        ) {
+            self.dataType = dataType
+            self.destination = destination
+            self.endedAt = endedAt
+            self.exportJobId = exportJobId
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.name = name
+            self.outputConfiguration = outputConfiguration
+            self.scopes = scopes
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum ExposureImpact: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case reduces
         case resolves
@@ -27398,6 +28066,18 @@ public struct GetEnabledStandardsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.standardsSubscriptions = standardsSubscriptions
+    }
+}
+
+public struct GetExportJobV2Input: Swift.Sendable {
+    /// The unique identifier of the export job to retrieve. This is the value returned by StartExportJobV2.
+    /// This member is required.
+    public var exportJobId: Swift.String?
+
+    public init(
+        exportJobId: Swift.String? = nil
+    ) {
+        self.exportJobId = exportJobId
     }
 }
 
@@ -28582,7 +29262,7 @@ extension SecurityHubClientTypes {
 
     /// Provided remediation guidance examples in different formats that can be run for remediating the target.
     public struct RemediationGuidanceExamples: Swift.Sendable {
-        /// An AWS CLI snippet version of the example.
+        /// An CLI snippet version of the example.
         public var awsCli: Swift.String?
         /// A CDK snippet version of the example.
         public var cdk: Swift.String?
@@ -30438,6 +31118,45 @@ public struct ListEnabledProductsForImportOutput: Swift.Sendable {
     }
 }
 
+public struct ListExportJobsV2Input: Swift.Sendable {
+    /// Filters the results to export jobs that produce the specified data type.
+    public var dataType: SecurityHubClientTypes.ExportDataType?
+    /// The maximum number of results to return in a single call. Valid range is 1–20.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// Filters the results to export jobs that have the specified status.
+    public var status: SecurityHubClientTypes.ExportStatus?
+
+    public init(
+        dataType: SecurityHubClientTypes.ExportDataType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: SecurityHubClientTypes.ExportStatus? = nil
+    ) {
+        self.dataType = dataType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+public struct ListExportJobsV2Output: Swift.Sendable {
+    /// The export jobs that match the request, as ExportSummary objects.
+    /// This member is required.
+    public var items: [SecurityHubClientTypes.ExportSummary]?
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [SecurityHubClientTypes.ExportSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListExposuresByRemediationV2Input: Swift.Sendable {
     /// The maximum number of results to return. Valid range is 1-100. If you don't specify a value, the operation returns up to 25 results.
     public var maxResults: Swift.Int?
@@ -30977,6 +31696,18 @@ public struct StartConfigurationPolicyDisassociationInput: Swift.Sendable {
 public struct StartConfigurationPolicyDisassociationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct StartExportJobV2Output: Swift.Sendable {
+    /// The unique identifier of the export job that Security Hub started. Use this value with GetExportJobV2 or CancelExportJobV2.
+    /// This member is required.
+    public var exportJobId: Swift.String?
+
+    public init(
+        exportJobId: Swift.String? = nil
+    ) {
+        self.exportJobId = exportJobId
+    }
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -31644,6 +32375,34 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// The configuration for a findings export: the output format, an optional set of filters, and the fields to include.
+    public struct FindingsOutput: Swift.Sendable {
+        /// An optional set of OCSF finding filters that restrict which findings are exported. The filter structure is the same as the one used by GetFindingsV2. If you omit this member, Security Hub exports all findings available to the caller. When echoed by GetExportJobV2, relative date ranges are returned unresolved.
+        public var filters: SecurityHubClientTypes.OcsfFindingFilters?
+        /// The output format of the export. CSV produces comma-separated rows that are suitable for spreadsheets and analysis tools. OCSF_JSON produces newline-delimited JSON records in the Open Cybersecurity Schema Framework (OCSF) format used elsewhere in Security Hub.
+        /// This member is required.
+        public var format: SecurityHubClientTypes.FindingsExportFormat?
+        /// The OCSF finding fields to include in the export, specified as OCSF field paths (for example, finding_info.title or severity). You can specify from 1 to 50 fields. Whether this parameter is required depends on the value of Format:
+        ///
+        /// * CSV – Required. The field paths that you specify become the columns of the output, in the order that you provide them. If you omit this parameter, the request returns a ValidationException.
+        ///
+        /// * OCSF_JSON – Not supported. This format includes each finding in full, so field selection doesn't apply. If you specify this parameter, the request returns a ValidationException.
+        public var selectedFields: [SecurityHubClientTypes.FindingsSelectableField]?
+
+        public init(
+            filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
+            format: SecurityHubClientTypes.FindingsExportFormat? = nil,
+            selectedFields: [SecurityHubClientTypes.FindingsSelectableField]? = nil
+        ) {
+            self.filters = filters
+            self.format = format
+            self.selectedFields = selectedFields
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Defines the how the finding attribute should be grouped.
     public struct GroupByRule: Swift.Sendable {
         /// The criteria used to select which security findings should be included in the grouping operation.
@@ -31794,6 +32553,16 @@ public struct GetResourcesV2Input: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    /// Specifies what data to export and how to format it. This is a union: you must specify exactly one member. Currently, the only supported member is Findings.
+    public indirect enum ExportOutput: Swift.Sendable {
+        /// Configures an export of Security Hub findings, including the output format and any filters or selected fields.
+        case findings(SecurityHubClientTypes.FindingsOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct CreateAutomationRuleV2Input: Swift.Sendable {
     /// A list of actions to be performed when the rule criteria is met.
     /// This member is required.
@@ -31921,6 +32690,62 @@ public struct UpdateAutomationRuleV2Input: Swift.Sendable {
     }
 }
 
+public struct GetExportJobV2Output: Swift.Sendable {
+    /// The category of data that the export job produces.
+    /// This member is required.
+    public var dataType: SecurityHubClientTypes.ExportDataType?
+    /// The destination that the export job writes to.
+    /// This member is required.
+    public var destination: SecurityHubClientTypes.ExportDestination?
+    /// The time when the export job reached a terminal state (SUCCEEDED, FAILED, or CANCELLED). This parameter is absent while the job is RUNNING. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    public var endedAt: Foundation.Date?
+    /// The unique identifier of the export job.
+    /// This member is required.
+    public var exportJobId: Swift.String?
+    /// A code that classifies why the export job failed. Present only when Status is FAILED.
+    public var failureCode: SecurityHubClientTypes.ExportFailureCode?
+    /// A human-readable message that provides more detail about why the export job failed. Present only when Status is FAILED.
+    public var failureMessage: Swift.String?
+    /// The user-provided name of the export job, if one was specified when the job was started.
+    public var name: Swift.String?
+    /// The output configuration that the export job was started with, including the format and any filters or selected fields.
+    public var outputConfiguration: SecurityHubClientTypes.ExportOutput?
+    /// The organization scopes that the export job was started with, echoed verbatim. This parameter is absent if the caller didn't supply Scopes. It contains only the organization or organizational unit (OU) identifiers that the caller submitted; it never contains resolved member-account identifiers.
+    public var scopes: SecurityHubClientTypes.ExportScopes?
+    /// The time when the export job was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current state of the export job.
+    /// This member is required.
+    public var status: SecurityHubClientTypes.ExportStatus?
+
+    public init(
+        dataType: SecurityHubClientTypes.ExportDataType? = nil,
+        destination: SecurityHubClientTypes.ExportDestination? = nil,
+        endedAt: Foundation.Date? = nil,
+        exportJobId: Swift.String? = nil,
+        failureCode: SecurityHubClientTypes.ExportFailureCode? = nil,
+        failureMessage: Swift.String? = nil,
+        name: Swift.String? = nil,
+        outputConfiguration: SecurityHubClientTypes.ExportOutput? = nil,
+        scopes: SecurityHubClientTypes.ExportScopes? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: SecurityHubClientTypes.ExportStatus? = nil
+    ) {
+        self.dataType = dataType
+        self.destination = destination
+        self.endedAt = endedAt
+        self.exportJobId = exportJobId
+        self.failureCode = failureCode
+        self.failureMessage = failureMessage
+        self.name = name
+        self.outputConfiguration = outputConfiguration
+        self.scopes = scopes
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
 public struct GetFindingStatisticsV2Input: Swift.Sendable {
     /// Specifies how security findings should be aggregated and organized in the statistical analysis. It can accept up to 5 groupBy fields in a single call.
     /// This member is required.
@@ -31966,6 +32791,35 @@ public struct GetResourcesStatisticsV2Input: Swift.Sendable {
         self.maxStatisticResults = maxStatisticResults
         self.scopes = scopes
         self.sortOrder = sortOrder
+    }
+}
+
+public struct StartExportJobV2Input: Swift.Sendable {
+    /// A unique identifier used to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The destination that Security Hub writes the export to. You must specify exactly one destination type. Currently, the only supported type is Amazon S3.
+    /// This member is required.
+    public var destination: SecurityHubClientTypes.ExportDestination?
+    /// An optional, user-provided name for the export job that helps you identify it in ListExportJobsV2 results. The value can be 1–256 characters. Alphanumeric characters, spaces, and the following ASCII characters are permitted: . _ , : ( ) / + -.
+    public var name: Swift.String?
+    /// Specifies what data to export and how to format it. You must specify exactly one output type. Currently, the only supported type is Findings.
+    /// This member is required.
+    public var outputConfiguration: SecurityHubClientTypes.ExportOutput?
+    /// Limits the export to findings from specific organizational units (OUs) or from the delegated administrator's organization. Only the delegated administrator account can use this parameter; other accounts that specify it receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator exports findings from all accounts across the entire organization, and other accounts export only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If you specify multiple entries, Security Hub combines them using OR logic.
+    public var scopes: SecurityHubClientTypes.ExportScopes?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        destination: SecurityHubClientTypes.ExportDestination? = nil,
+        name: Swift.String? = nil,
+        outputConfiguration: SecurityHubClientTypes.ExportOutput? = nil,
+        scopes: SecurityHubClientTypes.ExportScopes? = nil
+    ) {
+        self.clientToken = clientToken
+        self.destination = destination
+        self.name = name
+        self.outputConfiguration = outputConfiguration
+        self.scopes = scopes
     }
 }
 
@@ -32064,6 +32918,16 @@ extension BatchUpdateStandardsControlAssociationsInput {
 
     static func urlPathProvider(_ value: BatchUpdateStandardsControlAssociationsInput) -> Swift.String? {
         return "/associations"
+    }
+}
+
+extension CancelExportJobV2Input {
+
+    static func urlPathProvider(_ value: CancelExportJobV2Input) -> Swift.String? {
+        guard let exportJobId = value.exportJobId else {
+            return nil
+        }
+        return "/exportjobsv2/\(exportJobId.urlPercentEncoding())/cancel"
     }
 }
 
@@ -32571,6 +33435,16 @@ extension GetEnabledStandardsInput {
     }
 }
 
+extension GetExportJobV2Input {
+
+    static func urlPathProvider(_ value: GetExportJobV2Input) -> Swift.String? {
+        guard let exportJobId = value.exportJobId else {
+            return nil
+        }
+        return "/exportjobsv2/\(exportJobId.urlPercentEncoding())"
+    }
+}
+
 extension GetFindingAggregatorInput {
 
     static func urlPathProvider(_ value: GetFindingAggregatorInput) -> Swift.String? {
@@ -32928,6 +33802,37 @@ extension ListEnabledProductsForImportInput {
     }
 }
 
+extension ListExportJobsV2Input {
+
+    static func urlPathProvider(_ value: ListExportJobsV2Input) -> Swift.String? {
+        return "/exportjobsv2"
+    }
+}
+
+extension ListExportJobsV2Input {
+
+    static func queryItemProvider(_ value: ListExportJobsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "Status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let dataType = value.dataType {
+            let dataTypeQueryItem = Smithy.URIQueryItem(name: "DataType".urlPercentEncoding(), value: Swift.String(dataType.rawValue).urlPercentEncoding())
+            items.append(dataTypeQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListExposuresByRemediationV2Input {
 
     static func urlPathProvider(_ value: ListExposuresByRemediationV2Input) -> Swift.String? {
@@ -33132,6 +34037,13 @@ extension StartConfigurationPolicyDisassociationInput {
 
     static func urlPathProvider(_ value: StartConfigurationPolicyDisassociationInput) -> Swift.String? {
         return "/configurationPolicyAssociation/disassociate"
+    }
+}
+
+extension StartExportJobV2Input {
+
+    static func urlPathProvider(_ value: StartExportJobV2Input) -> Swift.String? {
+        return "/exportjobsv2"
     }
 }
 
@@ -33834,6 +34746,18 @@ extension StartConfigurationPolicyDisassociationInput {
     }
 }
 
+extension StartExportJobV2Input {
+
+    static func write(value: StartExportJobV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Destination"].write(value.destination, with: SecurityHubClientTypes.ExportDestination.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OutputConfiguration"].write(value.outputConfiguration, with: SecurityHubClientTypes.ExportOutput.write(value:to:))
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.ExportScopes.write(value:to:))
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -34134,6 +35058,19 @@ extension BatchUpdateStandardsControlAssociationsOutput {
         let reader = responseReader
         var value = BatchUpdateStandardsControlAssociationsOutput()
         value.unprocessedAssociationUpdates = try reader["UnprocessedAssociationUpdates"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CancelExportJobV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelExportJobV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelExportJobV2Output()
+        value.exportJobId = try reader["ExportJobId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -34766,6 +35703,28 @@ extension GetEnabledStandardsOutput {
     }
 }
 
+extension GetExportJobV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetExportJobV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetExportJobV2Output()
+        value.dataType = try reader["DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.destination = try reader["Destination"].readIfPresent(with: SecurityHubClientTypes.ExportDestination.read(from:))
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.exportJobId = try reader["ExportJobId"].readIfPresent() ?? ""
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.outputConfiguration = try reader["OutputConfiguration"].readIfPresent(with: SecurityHubClientTypes.ExportOutput.read(from:))
+        value.scopes = try reader["Scopes"].readIfPresent(with: SecurityHubClientTypes.ExportScopes.read(from:))
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetFindingAggregatorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingAggregatorOutput {
@@ -35105,6 +36064,19 @@ extension ListEnabledProductsForImportOutput {
     }
 }
 
+extension ListExportJobsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExportJobsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListExportJobsV2Output()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ExportSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListExposuresByRemediationV2Output {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListExposuresByRemediationV2Output {
@@ -35261,6 +36233,18 @@ extension StartConfigurationPolicyDisassociationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartConfigurationPolicyDisassociationOutput {
         return StartConfigurationPolicyDisassociationOutput()
+    }
+}
+
+extension StartExportJobV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartExportJobV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartExportJobV2Output()
+        value.exportJobId = try reader["ExportJobId"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -35653,6 +36637,25 @@ enum BatchUpdateStandardsControlAssociationsOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelExportJobV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -36610,6 +37613,24 @@ enum GetEnabledStandardsOutputError {
     }
 }
 
+enum GetExportJobV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetFindingAggregatorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -37087,6 +38108,23 @@ enum ListEnabledProductsForImportOutputError {
     }
 }
 
+enum ListExportJobsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListExposuresByRemediationV2OutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -37294,6 +38332,27 @@ enum StartConfigurationPolicyDisassociationOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartExportJobV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -46371,6 +47430,14 @@ extension SecurityHubClientTypes.AwsOrganizationScope {
         try writer["OrganizationId"].write(value.organizationId)
         try writer["OrganizationalUnitId"].write(value.organizationalUnitId)
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AwsOrganizationScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AwsOrganizationScope()
+        value.organizationId = try reader["OrganizationId"].readIfPresent()
+        value.organizationalUnitId = try reader["OrganizationalUnitId"].readIfPresent()
+        return value
+    }
 }
 
 extension SecurityHubClientTypes.AwsRdsDbClusterAssociatedRole {
@@ -50421,6 +51488,103 @@ extension SecurityHubClientTypes.EnumListConfigurationOptions {
     }
 }
 
+extension SecurityHubClientTypes.ExportDestination {
+
+    static func write(value: SecurityHubClientTypes.ExportDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["S3"].write(s3, with: SecurityHubClientTypes.S3ExportDestination.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "S3":
+                return .s3(try reader["S3"].read(with: SecurityHubClientTypes.S3ExportDestination.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SecurityHubClientTypes.ExportOutput {
+
+    static func write(value: SecurityHubClientTypes.ExportOutput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .findings(findings):
+                try writer["Findings"].write(findings, with: SecurityHubClientTypes.FindingsOutput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExportOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Findings":
+                return .findings(try reader["Findings"].read(with: SecurityHubClientTypes.FindingsOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SecurityHubClientTypes.ExportOutputSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExportOutputSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Findings":
+                return .findings(try reader["Findings"].read(with: SecurityHubClientTypes.FindingsOutputSummary.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SecurityHubClientTypes.ExportScopes {
+
+    static func write(value: SecurityHubClientTypes.ExportScopes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsOrganizations"].writeList(value.awsOrganizations, memberWritingClosure: SecurityHubClientTypes.AwsOrganizationScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExportScopes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ExportScopes()
+        value.awsOrganizations = try reader["AwsOrganizations"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AwsOrganizationScope.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ExportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ExportSummary()
+        value.exportJobId = try reader["ExportJobId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.dataType = try reader["DataType"].readIfPresent() ?? .sdkUnknown("")
+        value.outputConfiguration = try reader["OutputConfiguration"].readIfPresent(with: SecurityHubClientTypes.ExportOutputSummary.read(from:))
+        value.scopes = try reader["Scopes"].readIfPresent(with: SecurityHubClientTypes.ExportScopes.read(from:))
+        value.destination = try reader["Destination"].readIfPresent(with: SecurityHubClientTypes.ExportDestination.read(from:))
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.ExposureFinding {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExposureFinding {
@@ -50575,6 +51739,35 @@ extension SecurityHubClientTypes.FindingScopes {
     static func write(value: SecurityHubClientTypes.FindingScopes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AwsOrganizations"].writeList(value.awsOrganizations, memberWritingClosure: SecurityHubClientTypes.AwsOrganizationScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.FindingsOutput {
+
+    static func write(value: SecurityHubClientTypes.FindingsOutput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.OcsfFindingFilters.write(value:to:))
+        try writer["Format"].write(value.format)
+        try writer["SelectedFields"].writeList(value.selectedFields, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityHubClientTypes.FindingsSelectableField>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FindingsOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.FindingsOutput()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.filters = try reader["Filters"].readIfPresent(with: SecurityHubClientTypes.OcsfFindingFilters.read(from:))
+        value.selectedFields = try reader["SelectedFields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityHubClientTypes.FindingsSelectableField>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.FindingsOutputSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.FindingsOutputSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.FindingsOutputSummary()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -53124,6 +54317,25 @@ extension SecurityHubClientTypes.RuleGroupVariablesPortSetsDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.RuleGroupVariablesPortSetsDetails()
         value.definition = try reader["Definition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.S3ExportDestination {
+
+    static func write(value: SecurityHubClientTypes.S3ExportDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketArn"].write(value.bucketArn)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["ObjectPrefix"].write(value.objectPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.S3ExportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.S3ExportDestination()
+        value.bucketArn = try reader["BucketArn"].readIfPresent() ?? ""
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
+        value.objectPrefix = try reader["ObjectPrefix"].readIfPresent()
         return value
     }
 }

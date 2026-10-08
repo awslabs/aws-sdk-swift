@@ -3982,6 +3982,9 @@ extension LambdaClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `CodeArtifactUserDeletedException` : The Lambda function couldn't be invoked because its code artifact user has been deleted. Wait for Lambda to provision a new code artifact user, or update the function's code package to recreate it.
+    /// - `CodeArtifactUserFailedException` : The Lambda function couldn't be invoked because provisioning of its code artifact user failed. Update the function's code package or check the Lambda function's State and StateReasonCode for additional context.
+    /// - `CodeArtifactUserPendingException` : The Lambda function couldn't be invoked because its code artifact user is still being provisioned. Wait for the function's State to become Active and try the request again.
     /// - `EC2AccessDeniedException` : Need additional permissions to configure VPC settings.
     /// - `EC2ThrottledException` : Amazon EC2 throttled Lambda during Lambda function initialization using the execution role provided for the function.
     /// - `EC2UnexpectedException` : Lambda received an unexpected Amazon EC2 client exception while setting up for the Lambda function.
