@@ -6019,7 +6019,7 @@ extension DeadlineClientTypes {
 
         public init(
             iops: Swift.Int? = 3000,
-            lastUsedTtlHours: Swift.Int? = 168,
+            lastUsedTtlHours: Swift.Int? = 12,
             mountPath: Swift.String? = nil,
             sizeGiB: Swift.Int? = 250,
             throughputMiB: Swift.Int? = 125
@@ -12546,6 +12546,107 @@ public struct ListAvailableMeteredProductsOutput: Swift.Sendable {
     }
 }
 
+extension DeadlineClientTypes {
+
+    public enum MembershipResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case farm
+        case fleet
+        case job
+        case queue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MembershipResourceType] {
+            return [
+                .farm,
+                .fleet,
+                .job,
+                .queue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .farm: return "FARM"
+            case .fleet: return "FLEET"
+            case .job: return "JOB"
+            case .queue: return "QUEUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Shared pagination fields for List operation inputs (nextToken + maxResults).
+public struct ListMembershipsInput: Swift.Sendable {
+    /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.
+    public var identityCenterRegion: Swift.String?
+    /// The identity store ID that contains the principal. This parameter is required for callers that do not use a monitor session.
+    public var identityStoreId: Swift.String?
+    /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results, or null to start from the beginning.
+    public var nextToken: Swift.String?
+    /// The ID of the IAM Identity Center principal whose Deadline Cloud resource memberships you want to list.
+    /// This member is required.
+    public var principalId: Swift.String?
+    /// The resource types to include when listing the principal's memberships. If not specified, memberships for all supported resource types are returned.
+    public var resourceTypes: [DeadlineClientTypes.MembershipResourceType]?
+
+    public init(
+        identityCenterRegion: Swift.String? = nil,
+        identityStoreId: Swift.String? = nil,
+        maxResults: Swift.Int? = 100,
+        nextToken: Swift.String? = nil,
+        principalId: Swift.String? = nil,
+        resourceTypes: [DeadlineClientTypes.MembershipResourceType]? = nil
+    ) {
+        self.identityCenterRegion = identityCenterRegion
+        self.identityStoreId = identityStoreId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principalId = principalId
+        self.resourceTypes = resourceTypes
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// A membership record for a principal on a single Deadline Cloud resource. The summary identifies the resource that the principal is a member of and the principal's membership level for that resource.
+    public enum MembershipSummary: Swift.Sendable {
+        /// A membership on a farm.
+        case farm(DeadlineClientTypes.FarmMember)
+        /// A membership on a queue.
+        case queue(DeadlineClientTypes.QueueMember)
+        /// A membership on a fleet.
+        case fleet(DeadlineClientTypes.FleetMember)
+        /// A membership on a job.
+        case job(DeadlineClientTypes.JobMember)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+/// Shared pagination field for List operation outputs (nextToken).
+public struct ListMembershipsOutput: Swift.Sendable {
+    /// The memberships associated with the specified principal.
+    /// This member is required.
+    public var memberships: [DeadlineClientTypes.MembershipSummary]?
+    /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+    public var nextToken: Swift.String?
+
+    public init(
+        memberships: [DeadlineClientTypes.MembershipSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.memberships = memberships
+        self.nextToken = nextToken
+    }
+}
+
 /// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueFleetAssociationsInput: Swift.Sendable {
     /// The farm ID for the queue-fleet association list.
@@ -15678,6 +15779,49 @@ extension ListLimitsInput {
     }
 }
 
+extension ListMembershipsInput {
+
+    static func urlPathProvider(_ value: ListMembershipsInput) -> Swift.String? {
+        return "/2023-10-12/memberships"
+    }
+}
+
+extension ListMembershipsInput {
+
+    static func queryItemProvider(_ value: ListMembershipsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let resourceTypes = value.resourceTypes {
+            resourceTypes.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "resourceTypes".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let identityCenterRegion = value.identityCenterRegion {
+            let identityCenterRegionQueryItem = Smithy.URIQueryItem(name: "identityCenterRegion".urlPercentEncoding(), value: Swift.String(identityCenterRegion).urlPercentEncoding())
+            items.append(identityCenterRegionQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let principalId = value.principalId else {
+            let message = "Creating a URL Query Item failed. principalId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let principalIdQueryItem = Smithy.URIQueryItem(name: "principalId".urlPercentEncoding(), value: Swift.String(principalId).urlPercentEncoding())
+        items.append(principalIdQueryItem)
+        if let identityStoreId = value.identityStoreId {
+            let identityStoreIdQueryItem = Smithy.URIQueryItem(name: "identityStoreId".urlPercentEncoding(), value: Swift.String(identityStoreId).urlPercentEncoding())
+            items.append(identityStoreIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListMeteredProductsInput {
 
     static func urlPathProvider(_ value: ListMeteredProductsInput) -> Swift.String? {
@@ -18327,6 +18471,19 @@ extension ListLimitsOutput {
     }
 }
 
+extension ListMembershipsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMembershipsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMembershipsOutput()
+        value.memberships = try reader["memberships"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.MembershipSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListMeteredProductsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMeteredProductsOutput {
@@ -20264,6 +20421,24 @@ enum ListLicenseEndpointsOutputError {
 }
 
 enum ListLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMembershipsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -22677,6 +22852,26 @@ extension DeadlineClientTypes.ManifestProperties {
     }
 }
 
+extension DeadlineClientTypes.MembershipSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.MembershipSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "farm":
+                return .farm(try reader["farm"].read(with: DeadlineClientTypes.FarmMember.read(from:)))
+            case "queue":
+                return .queue(try reader["queue"].read(with: DeadlineClientTypes.QueueMember.read(from:)))
+            case "fleet":
+                return .fleet(try reader["fleet"].read(with: DeadlineClientTypes.FleetMember.read(from:)))
+            case "job":
+                return .job(try reader["job"].read(with: DeadlineClientTypes.JobMember.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension DeadlineClientTypes.MemoryMiBRange {
 
     static func write(value: DeadlineClientTypes.MemoryMiBRange?, to writer: SmithyJSON.Writer) throws {
@@ -22788,7 +22983,7 @@ extension DeadlineClientTypes.PersistentVolumeConfiguration {
         value.iops = try reader["iops"].readIfPresent() ?? 3000
         value.throughputMiB = try reader["throughputMiB"].readIfPresent() ?? 125
         value.mountPath = try reader["mountPath"].readIfPresent() ?? ""
-        value.lastUsedTtlHours = try reader["lastUsedTtlHours"].readIfPresent() ?? 168
+        value.lastUsedTtlHours = try reader["lastUsedTtlHours"].readIfPresent() ?? 12
         return value
     }
 }

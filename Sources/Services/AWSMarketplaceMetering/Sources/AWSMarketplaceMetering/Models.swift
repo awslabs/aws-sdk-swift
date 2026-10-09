@@ -734,7 +734,22 @@ public struct ResolveCustomerInput: Swift.Sendable {
     }
 }
 
-/// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
+extension MarketplaceMeteringClientTypes {
+
+    /// Metadata associated with a resolved customer. Includes the AgreementId of the Amazon Web Services Marketplace agreement the customer accepted.
+    public struct Metadata: Swift.Sendable {
+        /// The unique identifier of the Amazon Web Services Marketplace agreement the customer accepted. Use it to call Amazon Web Services Marketplace Agreement APIs.
+        public var agreementId: Swift.String?
+
+        public init(
+            agreementId: Swift.String? = nil
+        ) {
+            self.agreementId = agreementId
+        }
+    }
+}
+
+/// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, LicenseArn, and Metadata.
 public struct ResolveCustomerOutput: Swift.Sendable {
     /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer. Calls to BatchMeterUsage require CustomerAWSAccountId for each UsageRecord.
     public var customerAWSAccountId: Swift.String?
@@ -742,6 +757,8 @@ public struct ResolveCustomerOutput: Swift.Sendable {
     public var customerIdentifier: Swift.String?
     /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord. Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
     public var licenseArn: Swift.String?
+    /// The metadata associated with the resolved customer, including the AgreementId of the Amazon Web Services Marketplace agreement the customer accepted.
+    public var metadata: MarketplaceMeteringClientTypes.Metadata?
     /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
     public var productCode: Swift.String?
 
@@ -749,11 +766,13 @@ public struct ResolveCustomerOutput: Swift.Sendable {
         customerAWSAccountId: Swift.String? = nil,
         customerIdentifier: Swift.String? = nil,
         licenseArn: Swift.String? = nil,
+        metadata: MarketplaceMeteringClientTypes.Metadata? = nil,
         productCode: Swift.String? = nil
     ) {
         self.customerAWSAccountId = customerAWSAccountId
         self.customerIdentifier = customerIdentifier
         self.licenseArn = licenseArn
+        self.metadata = metadata
         self.productCode = productCode
     }
 }

@@ -2448,6 +2448,54 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// The category of application a pentest targets.
+    public enum TestScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// A generative AI application.
+        case generativeAiApp
+        /// A traditional web application.
+        case webApp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestScopeType] {
+            return [
+                .generativeAiApp,
+                .webApp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .generativeAiApp: return "GENERATIVE_AI_APP"
+            case .webApp: return "WEB_APP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The category of application a pentest targets.
+    public struct TestScope: Swift.Sendable {
+        /// The category of application under test.
+        /// This member is required.
+        public var type: SecurityAgentClientTypes.TestScopeType?
+
+        public init(
+            type: SecurityAgentClientTypes.TestScopeType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents a pentest configuration that defines the parameters for security testing, including target assets, risk type exclusions, and infrastructure settings.
     public struct Pentest: Swift.Sendable {
         /// The unique identifier of the agent space that contains the pentest.
@@ -2483,6 +2531,8 @@ extension SecurityAgentClientTypes {
         public var reportFilters: SecurityAgentClientTypes.ReportFilters?
         /// The IAM service role used for the pentest.
         public var serviceRole: Swift.String?
+        /// The category of application a pentest targets.
+        public var testScope: SecurityAgentClientTypes.TestScope?
         /// The title of the pentest.
         /// This member is required.
         public var title: Swift.String?
@@ -2507,6 +2557,7 @@ extension SecurityAgentClientTypes {
             reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
             reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
             serviceRole: Swift.String? = nil,
+            testScope: SecurityAgentClientTypes.TestScope? = nil,
             title: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil,
             vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
@@ -2526,6 +2577,7 @@ extension SecurityAgentClientTypes {
             self.reportDestination = reportDestination
             self.reportFilters = reportFilters
             self.serviceRole = serviceRole
+            self.testScope = testScope
             self.title = title
             self.updatedAt = updatedAt
             self.vpcConfig = vpcConfig
@@ -3930,6 +3982,8 @@ extension SecurityAgentClientTypes {
         public var status: SecurityAgentClientTypes.JobStatus?
         /// The list of steps in the pentest job execution.
         public var steps: [SecurityAgentClientTypes.Step]?
+        /// The category of application a pentest targets.
+        public var testScope: SecurityAgentClientTypes.TestScope?
         /// The title of the pentest job.
         public var title: Swift.String?
         /// The trust anchors used to validate target endpoint TLS certificates during the pentest job.
@@ -3970,6 +4024,7 @@ extension SecurityAgentClientTypes {
             sourceCode: [SecurityAgentClientTypes.SourceCodeRepository]? = nil,
             status: SecurityAgentClientTypes.JobStatus? = nil,
             steps: [SecurityAgentClientTypes.Step]? = nil,
+            testScope: SecurityAgentClientTypes.TestScope? = nil,
             title: Swift.String? = nil,
             trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -4005,6 +4060,7 @@ extension SecurityAgentClientTypes {
             self.sourceCode = sourceCode
             self.status = status
             self.steps = steps
+            self.testScope = testScope
             self.title = title
             self.trustedCaCertificates = trustedCaCertificates
             self.updatedAt = updatedAt
@@ -4015,7 +4071,7 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes.PentestJob: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
+        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), testScope: \(Swift.String(describing: testScope)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 /// Output for the BatchGetPentestJobs operation.
@@ -6001,6 +6057,8 @@ public struct CreatePentestInput: Swift.Sendable {
     public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role to use for the pentest.
     public var serviceRole: Swift.String?
+    /// The category of application a pentest targets.
+    public var testScope: SecurityAgentClientTypes.TestScope?
     /// The title of the pentest.
     /// This member is required.
     public var title: Swift.String?
@@ -6020,6 +6078,7 @@ public struct CreatePentestInput: Swift.Sendable {
         reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
         reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
+        testScope: SecurityAgentClientTypes.TestScope? = nil,
         title: Swift.String? = nil,
         vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
     ) {
@@ -6035,6 +6094,7 @@ public struct CreatePentestInput: Swift.Sendable {
         self.reportDestination = reportDestination
         self.reportFilters = reportFilters
         self.serviceRole = serviceRole
+        self.testScope = testScope
         self.title = title
         self.vpcConfig = vpcConfig
     }
@@ -6062,6 +6122,8 @@ public struct CreatePentestOutput: Swift.Sendable {
     public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role used for the pentest.
     public var serviceRole: Swift.String?
+    /// The category of application a pentest targets.
+    public var testScope: SecurityAgentClientTypes.TestScope?
     /// The title of the pentest.
     public var title: Swift.String?
     /// The date and time the pentest was last updated, in UTC format.
@@ -6078,6 +6140,7 @@ public struct CreatePentestOutput: Swift.Sendable {
         reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
         reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
+        testScope: SecurityAgentClientTypes.TestScope? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
@@ -6091,6 +6154,7 @@ public struct CreatePentestOutput: Swift.Sendable {
         self.reportDestination = reportDestination
         self.reportFilters = reportFilters
         self.serviceRole = serviceRole
+        self.testScope = testScope
         self.title = title
         self.updatedAt = updatedAt
     }
@@ -10269,6 +10333,8 @@ public struct UpdatePentestInput: Swift.Sendable {
     public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The updated IAM service role for the pentest.
     public var serviceRole: Swift.String?
+    /// The category of application a pentest targets.
+    public var testScope: SecurityAgentClientTypes.TestScope?
     /// The updated title of the pentest.
     public var title: Swift.String?
     /// The updated VPC configuration for the pentest.
@@ -10288,6 +10354,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
         reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
+        testScope: SecurityAgentClientTypes.TestScope? = nil,
         title: Swift.String? = nil,
         vpcConfig: SecurityAgentClientTypes.VpcConfig? = nil
     ) {
@@ -10304,6 +10371,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         self.reportDestination = reportDestination
         self.reportFilters = reportFilters
         self.serviceRole = serviceRole
+        self.testScope = testScope
         self.title = title
         self.vpcConfig = vpcConfig
     }
@@ -10331,6 +10399,8 @@ public struct UpdatePentestOutput: Swift.Sendable {
     public var reportFilters: SecurityAgentClientTypes.ReportFilters?
     /// The IAM service role used for the pentest.
     public var serviceRole: Swift.String?
+    /// The category of application a pentest targets.
+    public var testScope: SecurityAgentClientTypes.TestScope?
     /// The title of the pentest.
     public var title: Swift.String?
     /// The date and time the pentest was last updated, in UTC format.
@@ -10347,6 +10417,7 @@ public struct UpdatePentestOutput: Swift.Sendable {
         reportDestination: SecurityAgentClientTypes.ReportDestination? = nil,
         reportFilters: SecurityAgentClientTypes.ReportFilters? = nil,
         serviceRole: Swift.String? = nil,
+        testScope: SecurityAgentClientTypes.TestScope? = nil,
         title: Swift.String? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
@@ -10360,6 +10431,7 @@ public struct UpdatePentestOutput: Swift.Sendable {
         self.reportDestination = reportDestination
         self.reportFilters = reportFilters
         self.serviceRole = serviceRole
+        self.testScope = testScope
         self.title = title
         self.updatedAt = updatedAt
     }
@@ -11645,6 +11717,7 @@ extension CreatePentestInput {
         try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
         try writer["reportFilters"].write(value.reportFilters, with: SecurityAgentClientTypes.ReportFilters.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
+        try writer["testScope"].write(value.testScope, with: SecurityAgentClientTypes.TestScope.write(value:to:))
         try writer["title"].write(value.title)
         try writer["vpcConfig"].write(value.vpcConfig, with: SecurityAgentClientTypes.VpcConfig.write(value:to:))
     }
@@ -12275,6 +12348,7 @@ extension UpdatePentestInput {
         try writer["reportDestination"].write(value.reportDestination, with: SecurityAgentClientTypes.ReportDestination.write(value:to:))
         try writer["reportFilters"].write(value.reportFilters, with: SecurityAgentClientTypes.ReportFilters.write(value:to:))
         try writer["serviceRole"].write(value.serviceRole)
+        try writer["testScope"].write(value.testScope, with: SecurityAgentClientTypes.TestScope.write(value:to:))
         try writer["title"].write(value.title)
         try writer["vpcConfig"].write(value.vpcConfig, with: SecurityAgentClientTypes.VpcConfig.write(value:to:))
     }
@@ -12732,6 +12806,7 @@ extension CreatePentestOutput {
         value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.testScope = try reader["testScope"].readIfPresent(with: SecurityAgentClientTypes.TestScope.read(from:))
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -13556,6 +13631,7 @@ extension UpdatePentestOutput {
         value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.serviceRole = try reader["serviceRole"].readIfPresent()
+        value.testScope = try reader["testScope"].readIfPresent(with: SecurityAgentClientTypes.TestScope.read(from:))
         value.title = try reader["title"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -16441,6 +16517,7 @@ extension SecurityAgentClientTypes.Pentest {
         value.reportDestination = try reader["reportDestination"].readIfPresent(with: SecurityAgentClientTypes.ReportDestination.read(from:))
         value.reportFilters = try reader["reportFilters"].readIfPresent(with: SecurityAgentClientTypes.ReportFilters.read(from:))
         value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
+        value.testScope = try reader["testScope"].readIfPresent(with: SecurityAgentClientTypes.TestScope.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -16484,6 +16561,7 @@ extension SecurityAgentClientTypes.PentestJob {
         value.scopeResult = try reader["scopeResult"].readIfPresent(with: SecurityAgentClientTypes.ScopeResult.read(from:))
         value.scopeChanges = try reader["scopeChanges"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ScopeChange.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.cicdConfiguration = try reader["cicdConfiguration"].readIfPresent(with: SecurityAgentClientTypes.CiCdConfiguration.read(from:))
+        value.testScope = try reader["testScope"].readIfPresent(with: SecurityAgentClientTypes.TestScope.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -16863,6 +16941,21 @@ extension SecurityAgentClientTypes.TaskSummary {
         value.taskHours = try reader["taskHours"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.TestScope {
+
+    static func write(value: SecurityAgentClientTypes.TestScope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.TestScope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.TestScope()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

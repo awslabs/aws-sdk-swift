@@ -896,6 +896,31 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
 
+    /// The optional response-caching configuration shared by the HTTP-based function types (HTTP_REQUEST, AWS_SERVICE_REQUEST, and VAST_REQUEST). When you provide this configuration, MediaTailor caches the function's responses that have one of the following HTTP status codes: 200, 203, 204, 404, 405, 410, 414, and 501. For a cacheable response, MediaTailor caches it for the number of seconds given by the response's Cache-Controlmax-age directive, limited to the range between TtlMinimumSeconds and TtlMaximumSeconds. If the response has no Cache-Controlmax-age directive, MediaTailor caches it for TtlMinimumSeconds seconds. Cached HTTP responses are scoped per playback configuration, not per function.
+    public struct HttpRequestCacheConfiguration: Swift.Sendable {
+        /// A JSONata expression that MediaTailor evaluates to a custom cache key. By default, the cache key is a hash of the HTTP URL, the request body, and the HTTP method; request headers are not included. You can specify a custom cache key expression to vary caching by request headers and more. The evaluated key must be smaller than 1 KB; otherwise the HTTP function will fail.
+        public var key: Swift.String?
+        /// The upper bound, in seconds, on how long MediaTailor caches a response. This value must be greater than or equal to TtlMinimumSeconds.
+        /// This member is required.
+        public var ttlMaximumSeconds: Swift.Int?
+        /// The lower bound, in seconds, on how long MediaTailor caches a response. MediaTailor also uses this value as the cache duration when a response has no Cache-Controlmax-age directive.
+        /// This member is required.
+        public var ttlMinimumSeconds: Swift.Int?
+
+        public init(
+            key: Swift.String? = nil,
+            ttlMaximumSeconds: Swift.Int? = nil,
+            ttlMinimumSeconds: Swift.Int? = nil
+        ) {
+            self.key = key
+            self.ttlMaximumSeconds = ttlMaximumSeconds
+            self.ttlMinimumSeconds = ttlMinimumSeconds
+        }
+    }
+}
+
+extension MediaTailorClientTypes {
+
     public enum MethodType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `get`
         case post
@@ -955,6 +980,8 @@ extension MediaTailorClientTypes {
     public struct AwsServiceRequestConfiguration: Swift.Sendable {
         /// An expression that evaluates to the request body for the AWS service API call. The body must conform to the input format that the target service operation expects. Applies only when the target operation accepts a request body. The maximum size after evaluation is 64 KB.
         public var body: Swift.String?
+        /// The optional response-caching configuration for the function. When present, MediaTailor caches the responses that the function receives from the AWS service, within the time-to-live (TTL) bounds that you specify. Omit this configuration to disable response caching.
+        public var cache: MediaTailorClientTypes.HttpRequestCacheConfiguration?
         /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request to the AWS service. Use this to pass any headers required by the target service operation. You can include a maximum of 50 headers.
         public var headers: [Swift.String: Swift.String]?
         /// Specifies how the function sends the request to the target service. The value must match what the target service operation requires. Valid values:
@@ -984,6 +1011,7 @@ extension MediaTailorClientTypes {
 
         public init(
             body: Swift.String? = nil,
+            cache: MediaTailorClientTypes.HttpRequestCacheConfiguration? = nil,
             headers: [Swift.String: Swift.String]? = nil,
             methodType: MediaTailorClientTypes.MethodType? = nil,
             output: [Swift.String: Swift.String]? = nil,
@@ -994,6 +1022,7 @@ extension MediaTailorClientTypes {
             url: Swift.String? = nil
         ) {
             self.body = body
+            self.cache = cache
             self.headers = headers
             self.methodType = methodType
             self.output = output
@@ -1110,6 +1139,8 @@ extension MediaTailorClientTypes {
     public struct HttpRequestConfiguration: Swift.Sendable {
         /// An expression that evaluates to the request body. Used with POST requests. The maximum size after evaluation is 64 KB.
         public var body: Swift.String?
+        /// The optional response-caching configuration for the function. When present, MediaTailor caches the responses that the function receives from the HTTP endpoint, within the time-to-live (TTL) bounds that you specify. Omit this configuration to disable response caching.
+        public var cache: MediaTailorClientTypes.HttpRequestCacheConfiguration?
         /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound HTTP request. Maximum 50 headers.
         public var headers: [Swift.String: Swift.String]?
         /// The HTTP method for the request. Valid values: GET and POST.
@@ -1129,6 +1160,7 @@ extension MediaTailorClientTypes {
 
         public init(
             body: Swift.String? = nil,
+            cache: MediaTailorClientTypes.HttpRequestCacheConfiguration? = nil,
             headers: [Swift.String: Swift.String]? = nil,
             methodType: MediaTailorClientTypes.MethodType? = nil,
             output: [Swift.String: Swift.String]? = nil,
@@ -1137,6 +1169,7 @@ extension MediaTailorClientTypes {
             url: Swift.String? = nil
         ) {
             self.body = body
+            self.cache = cache
             self.headers = headers
             self.methodType = methodType
             self.output = output
@@ -1183,6 +1216,8 @@ extension MediaTailorClientTypes {
     public struct VastRequestConfiguration: Swift.Sendable {
         /// An expression that evaluates to the request body, for example to send an OpenRTB bid request. The expression can be up to 100,000 characters, and the body after evaluation can be up to 64 KB.
         public var body: Swift.String?
+        /// The optional response-caching configuration for the function. When present, MediaTailor caches the responses that the function receives from the HTTP endpoint, within the time-to-live (TTL) bounds that you specify. Omit this configuration to disable response caching.
+        public var cache: MediaTailorClientTypes.HttpRequestCacheConfiguration?
         /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request. Headers beginning with X-Amz- are reserved by the service, and method override headers are not allowed.
         public var headers: [Swift.String: Swift.String]?
         /// The HTTP method for the request to the VAST endpoint. Valid values: GET and POST. Use POST to send a bid request body, such as an OpenRTB payload.
@@ -1202,6 +1237,7 @@ extension MediaTailorClientTypes {
 
         public init(
             body: Swift.String? = nil,
+            cache: MediaTailorClientTypes.HttpRequestCacheConfiguration? = nil,
             headers: [Swift.String: Swift.String]? = nil,
             methodType: MediaTailorClientTypes.MethodType? = nil,
             output: [Swift.String: Swift.String]? = nil,
@@ -1210,6 +1246,7 @@ extension MediaTailorClientTypes {
             url: Swift.String? = nil
         ) {
             self.body = body
+            self.cache = cache
             self.headers = headers
             self.methodType = methodType
             self.output = output
@@ -8482,6 +8519,7 @@ extension MediaTailorClientTypes.AwsServiceRequestConfiguration {
     static func write(value: MediaTailorClientTypes.AwsServiceRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Body"].write(value.body)
+        try writer["Cache"].write(value.cache, with: MediaTailorClientTypes.HttpRequestCacheConfiguration.write(value:to:))
         try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MethodType"].write(value.methodType)
         try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8502,6 +8540,7 @@ extension MediaTailorClientTypes.AwsServiceRequestConfiguration {
         value.url = try reader["Url"].readIfPresent() ?? ""
         value.body = try reader["Body"].readIfPresent()
         value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.cache = try reader["Cache"].readIfPresent(with: MediaTailorClientTypes.HttpRequestCacheConfiguration.read(from:))
         value.targetService = try reader["TargetService"].readIfPresent() ?? ""
         value.targetRegion = try reader["TargetRegion"].readIfPresent() ?? ""
         return value
@@ -8832,11 +8871,31 @@ extension MediaTailorClientTypes.HttpRequest {
     }
 }
 
+extension MediaTailorClientTypes.HttpRequestCacheConfiguration {
+
+    static func write(value: MediaTailorClientTypes.HttpRequestCacheConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["TtlMaximumSeconds"].write(value.ttlMaximumSeconds)
+        try writer["TtlMinimumSeconds"].write(value.ttlMinimumSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpRequestCacheConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.HttpRequestCacheConfiguration()
+        value.ttlMinimumSeconds = try reader["TtlMinimumSeconds"].readIfPresent() ?? 0
+        value.ttlMaximumSeconds = try reader["TtlMaximumSeconds"].readIfPresent() ?? 0
+        value.key = try reader["Key"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.HttpRequestConfiguration {
 
     static func write(value: MediaTailorClientTypes.HttpRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Body"].write(value.body)
+        try writer["Cache"].write(value.cache, with: MediaTailorClientTypes.HttpRequestCacheConfiguration.write(value:to:))
         try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MethodType"].write(value.methodType)
         try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8855,6 +8914,7 @@ extension MediaTailorClientTypes.HttpRequestConfiguration {
         value.url = try reader["Url"].readIfPresent() ?? ""
         value.body = try reader["Body"].readIfPresent()
         value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.cache = try reader["Cache"].readIfPresent(with: MediaTailorClientTypes.HttpRequestCacheConfiguration.read(from:))
         return value
     }
 }
@@ -9464,6 +9524,7 @@ extension MediaTailorClientTypes.VastRequestConfiguration {
     static func write(value: MediaTailorClientTypes.VastRequestConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Body"].write(value.body)
+        try writer["Cache"].write(value.cache, with: MediaTailorClientTypes.HttpRequestCacheConfiguration.write(value:to:))
         try writer["Headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MethodType"].write(value.methodType)
         try writer["Output"].writeMap(value.output, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9482,6 +9543,7 @@ extension MediaTailorClientTypes.VastRequestConfiguration {
         value.url = try reader["Url"].readIfPresent() ?? ""
         value.body = try reader["Body"].readIfPresent()
         value.headers = try reader["Headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.cache = try reader["Cache"].readIfPresent(with: MediaTailorClientTypes.HttpRequestCacheConfiguration.read(from:))
         return value
     }
 }
