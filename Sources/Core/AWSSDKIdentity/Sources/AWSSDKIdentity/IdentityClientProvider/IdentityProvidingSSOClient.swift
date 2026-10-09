@@ -32,8 +32,8 @@ struct IdentityProvidingSSOClient {
             )
         }
         var expiration: Foundation.Date?
-        if let expiresIn = out.roleCredentials?.expiration {
-            expiration = Foundation.Date().addingTimeInterval(Foundation.TimeInterval(expiresIn))
+        if let expiresAt = out.roleCredentials?.expiration {
+            expiration = Self.expirationDate(epochMilliseconds: expiresAt)
         }
         var properties = Smithy.Attributes()
         if credentialFeatureIDs.last == CredentialFeatureID.CREDENTIALS_PROFILE_SSO_LEGACY.rawValue {
@@ -59,5 +59,11 @@ struct IdentityProvidingSSOClient {
             sessionToken: out.roleCredentials?.sessionToken,
             properties: properties
         )
+    }
+
+    /// `GetRoleCredentials` returns the time that the role credentials expire, expressed in
+    /// milliseconds since the Unix epoch.  Convert that to a `Date`.
+    static func expirationDate(epochMilliseconds: Int) -> Foundation.Date {
+        Foundation.Date(timeIntervalSince1970: Foundation.TimeInterval(epochMilliseconds) / 1_000)
     }
 }
