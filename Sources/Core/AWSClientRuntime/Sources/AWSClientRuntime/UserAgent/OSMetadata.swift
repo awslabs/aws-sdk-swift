@@ -43,6 +43,7 @@ private extension PlatformOperatingSystem {
         switch self {
         case .windows: return "windows"
         case .linux: return "linux"
+        case .freebsd: return "freebsd"
         case .iOS: return "ios"
         case .macOS: return "macos"
         case .watchOS: return "watchos"
