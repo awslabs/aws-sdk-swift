@@ -2707,6 +2707,305 @@ public struct BatchDeleteThreatModelsOutput: Swift.Sendable {
     }
 }
 
+/// The input for the BatchDisassociateFindingIssue operation.
+public struct BatchDisassociateFindingIssueInput: Swift.Sendable {
+    /// The identifier of the agent space where the job exists.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The identifier of the code review job. This parameter is mutually exclusive with pentestJobId.
+    public var codeReviewJobId: Swift.String?
+    /// The identifiers of the findings to disassociate from their issues. Each must belong to the specified job.
+    /// This member is required.
+    public var findingIds: [Swift.String]?
+    /// The identifier of the penetration test job. This parameter is mutually exclusive with codeReviewJobId.
+    public var pentestJobId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewJobId: Swift.String? = nil,
+        findingIds: [Swift.String]? = nil,
+        pentestJobId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewJobId = codeReviewJobId
+        self.findingIds = findingIds
+        self.pentestJobId = pentestJobId
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Error code for pentest job failure.
+    public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Failure caused by a client-side error.
+        case clientError
+        /// Failure caused by an internal error.
+        case internalError
+        /// Pentest job was stopped by the user.
+        case stoppedByUser
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ErrorCode] {
+            return [
+                .clientError,
+                .internalError,
+                .stoppedByUser
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientError: return "CLIENT_ERROR"
+            case .internalError: return "INTERNAL_ERROR"
+            case .stoppedByUser: return "STOPPED_BY_USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A finding that failed to disassociate, with the cause of the failure.
+    public struct BatchDisassociateFindingIssueError: Swift.Sendable {
+        /// The machine-readable failure category.
+        /// This member is required.
+        public var code: SecurityAgentClientTypes.ErrorCode?
+        /// The identifier of the finding that failed to disassociate.
+        /// This member is required.
+        public var findingId: Swift.String?
+        /// A customer-facing explanation of the failure.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: SecurityAgentClientTypes.ErrorCode? = nil,
+            findingId: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.findingId = findingId
+            self.message = message
+        }
+    }
+}
+
+/// The output for the BatchDisassociateFindingIssue operation.
+public struct BatchDisassociateFindingIssueOutput: Swift.Sendable {
+    /// The findings whose issue could not be disassociated.
+    /// This member is required.
+    public var errors: [SecurityAgentClientTypes.BatchDisassociateFindingIssueError]?
+
+    public init(
+        errors: [SecurityAgentClientTypes.BatchDisassociateFindingIssueError]? = nil
+    ) {
+        self.errors = errors
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A finding whose issue could not be created, with the cause of the failure.
+    public struct BatchExportFindingError: Swift.Sendable {
+        /// The machine-readable failure category.
+        /// This member is required.
+        public var code: SecurityAgentClientTypes.ErrorCode?
+        /// The identifier of the finding this error corresponds to.
+        /// This member is required.
+        public var findingId: Swift.String?
+        /// A customer-facing explanation of why the issue could not be created.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: SecurityAgentClientTypes.ErrorCode? = nil,
+            findingId: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.findingId = findingId
+            self.message = message
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Third-party provider type.
+    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azureDevops
+        case bitbucket
+        case confluence
+        case github
+        case gitlab
+        case jira
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Provider] {
+            return [
+                .azureDevops,
+                .bitbucket,
+                .confluence,
+                .github,
+                .gitlab,
+                .jira
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azureDevops: return "AZURE_DEVOPS"
+            case .bitbucket: return "BITBUCKET"
+            case .confluence: return "CONFLUENCE"
+            case .github: return "GITHUB"
+            case .gitlab: return "GITLAB"
+            case .jira: return "JIRA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A reference to an issue created for a finding in a third-party issue tracker.
+    public struct LinkedIssue: Swift.Sendable {
+        /// The integration identifier for the issue-tracker provider.
+        public var integrationId: Swift.String?
+        /// The stable numeric issue identifier.
+        public var issueId: Swift.String?
+        /// The issue key.
+        public var issueKey: Swift.String?
+        /// The issue URL.
+        public var issueUrl: Swift.String?
+        /// The key of the project the issue belongs to.
+        public var projectKey: Swift.String?
+        /// The issue-tracker provider.
+        public var provider: SecurityAgentClientTypes.Provider?
+        /// The Atlassian Cloud site URL.
+        public var siteUrl: Swift.String?
+
+        public init(
+            integrationId: Swift.String? = nil,
+            issueId: Swift.String? = nil,
+            issueKey: Swift.String? = nil,
+            issueUrl: Swift.String? = nil,
+            projectKey: Swift.String? = nil,
+            provider: SecurityAgentClientTypes.Provider? = nil,
+            siteUrl: Swift.String? = nil
+        ) {
+            self.integrationId = integrationId
+            self.issueId = issueId
+            self.issueKey = issueKey
+            self.issueUrl = issueUrl
+            self.projectKey = projectKey
+            self.provider = provider
+            self.siteUrl = siteUrl
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// A finding whose issue was created.
+    public struct BatchExportFindingResult: Swift.Sendable {
+        /// The identifier of the finding this result corresponds to.
+        /// This member is required.
+        public var findingId: Swift.String?
+        /// The issue that was created for the finding.
+        /// This member is required.
+        public var linkedIssue: SecurityAgentClientTypes.LinkedIssue?
+
+        public init(
+            findingId: Swift.String? = nil,
+            linkedIssue: SecurityAgentClientTypes.LinkedIssue? = nil
+        ) {
+            self.findingId = findingId
+            self.linkedIssue = linkedIssue
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// The destination for filing findings as issues in an integrated issue tracker.
+    public struct IssueDestination: Swift.Sendable {
+        /// The integration identifier for the issue-tracker provider.
+        /// This member is required.
+        public var integrationId: Swift.String?
+        /// The identifier of the project the issues are filed under.
+        /// This member is required.
+        public var projectKey: Swift.String?
+
+        public init(
+            integrationId: Swift.String? = nil,
+            projectKey: Swift.String? = nil
+        ) {
+            self.integrationId = integrationId
+            self.projectKey = projectKey
+        }
+    }
+}
+
+/// The input for the BatchExportFindings operation.
+public struct BatchExportFindingsInput: Swift.Sendable {
+    /// The identifier of the agent space where the job exists.
+    /// This member is required.
+    public var agentSpaceId: Swift.String?
+    /// The identifier of the code review job. This parameter is mutually exclusive with pentestJobId.
+    public var codeReviewJobId: Swift.String?
+    /// The identifiers of the findings to export. Each must belong to the specified job.
+    /// This member is required.
+    public var findingIds: [Swift.String]?
+    /// The destination issue-tracker project the findings are exported to. Must be a connected capability of the agent space.
+    /// This member is required.
+    public var issueDestination: SecurityAgentClientTypes.IssueDestination?
+    /// The identifier of the penetration test job. This parameter is mutually exclusive with codeReviewJobId.
+    public var pentestJobId: Swift.String?
+
+    public init(
+        agentSpaceId: Swift.String? = nil,
+        codeReviewJobId: Swift.String? = nil,
+        findingIds: [Swift.String]? = nil,
+        issueDestination: SecurityAgentClientTypes.IssueDestination? = nil,
+        pentestJobId: Swift.String? = nil
+    ) {
+        self.agentSpaceId = agentSpaceId
+        self.codeReviewJobId = codeReviewJobId
+        self.findingIds = findingIds
+        self.issueDestination = issueDestination
+        self.pentestJobId = pentestJobId
+    }
+}
+
+/// The output for the BatchExportFindings operation.
+public struct BatchExportFindingsOutput: Swift.Sendable {
+    /// The findings whose issue could not be created, each with a customer-facing reason.
+    /// This member is required.
+    public var errors: [SecurityAgentClientTypes.BatchExportFindingError]?
+    /// The findings whose issue was created, each with its linked issue.
+    /// This member is required.
+    public var results: [SecurityAgentClientTypes.BatchExportFindingResult]?
+
+    public init(
+        errors: [SecurityAgentClientTypes.BatchExportFindingError]? = nil,
+        results: [SecurityAgentClientTypes.BatchExportFindingResult]? = nil
+    ) {
+        self.errors = errors
+        self.results = results
+    }
+}
+
 public struct BatchGetArtifactMetadataInput: Swift.Sendable {
     /// The unique identifier of the agent space that contains the artifacts.
     /// This member is required.
@@ -2751,42 +3050,6 @@ public struct BatchGetCodeReviewJobsInput: Swift.Sendable {
     ) {
         self.agentSpaceId = agentSpaceId
         self.codeReviewJobIds = codeReviewJobIds
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Error code for pentest job failure.
-    public enum ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Failure caused by a client-side error.
-        case clientError
-        /// Failure caused by an internal error.
-        case internalError
-        /// Pentest job was stopped by the user.
-        case stoppedByUser
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ErrorCode] {
-            return [
-                .clientError,
-                .internalError,
-                .stoppedByUser
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .clientError: return "CLIENT_ERROR"
-            case .internalError: return "INTERNAL_ERROR"
-            case .stoppedByUser: return "STOPPED_BY_USER"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -3664,6 +3927,8 @@ extension SecurityAgentClientTypes {
         public var findingId: Swift.String?
         /// The identifier of the entity that last updated the finding.
         public var lastUpdatedBy: Swift.String?
+        /// The issue in a third-party issue tracker that this finding has been exported to.
+        public var linkedIssue: SecurityAgentClientTypes.LinkedIssue?
         /// The name of the finding.
         public var name: Swift.String?
         /// The identifier of the original finding that this revalidation finding was produced from.
@@ -3709,6 +3974,7 @@ extension SecurityAgentClientTypes {
             description: Swift.String? = nil,
             findingId: Swift.String? = nil,
             lastUpdatedBy: Swift.String? = nil,
+            linkedIssue: SecurityAgentClientTypes.LinkedIssue? = nil,
             name: Swift.String? = nil,
             originalFindingId: Swift.String? = nil,
             pentestId: Swift.String? = nil,
@@ -3738,6 +4004,7 @@ extension SecurityAgentClientTypes {
             self.description = description
             self.findingId = findingId
             self.lastUpdatedBy = lastUpdatedBy
+            self.linkedIssue = linkedIssue
             self.name = name
             self.originalFindingId = originalFindingId
             self.pentestId = pentestId
@@ -5808,6 +6075,37 @@ extension SecurityAgentClientTypes.GitLabIntegrationInput: Swift.CustomDebugStri
 
 extension SecurityAgentClientTypes {
 
+    /// The configuration for creating a Jira integration.
+    public struct JiraIntegrationInput: Swift.Sendable {
+        /// The OAuth 2.0 authorization code returned from the consent redirect.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The Atlassian installation identifier, available from the Atlassian administration console.
+        /// This member is required.
+        public var installationId: Swift.String?
+        /// The Jira Cloud site URL, for example https://mysite.atlassian.net.
+        /// This member is required.
+        public var siteUrl: Swift.String?
+        /// The CSRF state token echoed back from the OAuth redirect.
+        /// This member is required.
+        public var state: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            installationId: Swift.String? = nil,
+            siteUrl: Swift.String? = nil,
+            state: Swift.String? = nil
+        ) {
+            self.code = code
+            self.installationId = installationId
+            self.siteUrl = siteUrl
+            self.state = state
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// The provider-specific input for creating an integration. This is a union type that contains provider-specific configuration.
     public enum ProviderInput: Swift.Sendable {
         /// The GitHub-specific input for creating an integration.
@@ -5822,46 +6120,9 @@ extension SecurityAgentClientTypes {
         case azuredevops(SecurityAgentClientTypes.AzureDevOpsIntegrationInput)
         /// The Bitbucket Data Center-specific input for creating an integration.
         case bitbucketdatacenter(SecurityAgentClientTypes.BitbucketDataCenterIntegrationInput)
+        /// The configuration for a Jira integration.
+        case jira(SecurityAgentClientTypes.JiraIntegrationInput)
         case sdkUnknown(Swift.String)
-    }
-}
-
-extension SecurityAgentClientTypes {
-
-    /// Third-party provider type.
-    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case azureDevops
-        case bitbucket
-        case confluence
-        case github
-        case gitlab
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Provider] {
-            return [
-                .azureDevops,
-                .bitbucket,
-                .confluence,
-                .github,
-                .gitlab
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .azureDevops: return "AZURE_DEVOPS"
-            case .bitbucket: return "BITBUCKET"
-            case .confluence: return "CONFLUENCE"
-            case .github: return "GITHUB"
-            case .gitlab: return "GITLAB"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -7296,12 +7557,14 @@ extension SecurityAgentClientTypes {
     /// Type of provider integration.
     public enum ProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case documentation
+        case issueTracking
         case sourceCode
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProviderType] {
             return [
                 .documentation,
+                .issueTracking,
                 .sourceCode
             ]
         }
@@ -7314,6 +7577,7 @@ extension SecurityAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .documentation: return "DOCUMENTATION"
+            case .issueTracking: return "ISSUE_TRACKING"
             case .sourceCode: return "SOURCE_CODE"
             case let .sdkUnknown(s): return s
             }
@@ -7340,6 +7604,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     /// The type of the integration provider.
     /// This member is required.
     public var providerType: SecurityAgentClientTypes.ProviderType?
+    /// The Atlassian Cloud site URL for Atlassian integrations.
+    public var siteUrl: Swift.String?
     /// The HTTPS URL of the customer self-hosted instance, such as a GitHub Enterprise Server or self-managed GitLab instance. This value is absent for SaaS integrations.
     public var targetUrl: Swift.String?
     /// The payload URL of the integration's webhook, once it has been created. The signing secret is never returned on a read.
@@ -7353,6 +7619,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         privateConnectionName: Swift.String? = nil,
         provider: SecurityAgentClientTypes.Provider? = nil,
         providerType: SecurityAgentClientTypes.ProviderType? = nil,
+        siteUrl: Swift.String? = nil,
         targetUrl: Swift.String? = nil,
         webhookUrl: Swift.String? = nil
     ) {
@@ -7363,6 +7630,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         self.privateConnectionName = privateConnectionName
         self.provider = provider
         self.providerType = providerType
+        self.siteUrl = siteUrl
         self.targetUrl = targetUrl
         self.webhookUrl = webhookUrl
     }
@@ -7810,6 +8078,36 @@ public struct InitiateProviderRegistrationOutput: Swift.Sendable {
 
 extension SecurityAgentClientTypes {
 
+    /// Represents a Jira project resource used in an integration.
+    public struct JiraProjectResource: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Jira project identifier.
+        /// This member is required.
+        public var projectId: Swift.String?
+        /// The Jira project key, for example PROJ.
+        /// This member is required.
+        public var projectKey: Swift.String?
+        /// The display name of the Jira project.
+        public var projectName: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            projectId: Swift.String? = nil,
+            projectKey: Swift.String? = nil,
+            projectName: Swift.String? = nil
+        ) {
+            self.name = name
+            self.projectId = projectId
+            self.projectKey = projectKey
+            self.projectName = projectName
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Represents an integrated resource from a third-party provider. This is a union type that contains provider-specific resource information.
     public enum IntegratedResource: Swift.Sendable {
         /// The GitHub repository resource information.
@@ -7822,7 +8120,28 @@ extension SecurityAgentClientTypes {
         case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentResource)
         /// The Azure DevOps repository resource information.
         case azuredevopsrepository(SecurityAgentClientTypes.AzureDevOpsRepositoryResource)
+        /// The Jira project resource information.
+        case jiraproject(SecurityAgentClientTypes.JiraProjectResource)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityAgentClientTypes {
+
+    /// Capabilities for an integrated Jira project.
+    public struct JiraResourceCapabilities: Swift.Sendable {
+        /// Whether to post comments on issues in the integrated jira project.
+        public var commentIssue: Swift.Bool?
+        /// Whether to create issues in the integrated jira project.
+        public var createIssue: Swift.Bool?
+
+        public init(
+            commentIssue: Swift.Bool? = nil,
+            createIssue: Swift.Bool? = nil
+        ) {
+            self.commentIssue = commentIssue
+            self.createIssue = createIssue
+        }
     }
 }
 
@@ -7840,6 +8159,8 @@ extension SecurityAgentClientTypes {
         case confluence(SecurityAgentClientTypes.ConfluenceResourceCapabilities)
         /// The Azure DevOps-specific resource capabilities.
         case azuredevops(SecurityAgentClientTypes.AzureDevOpsResourceCapabilities)
+        /// The Jira-specific resource capabilities.
+        case jira(SecurityAgentClientTypes.JiraResourceCapabilities)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7866,6 +8187,41 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// Contains metadata about a Jira project that is integrated with the service.
+    public struct JiraProjectMetadata: Swift.Sendable {
+        /// Name of the resource e.g. repository name, etc.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Jira project identifier.
+        /// This member is required.
+        public var projectId: Swift.String?
+        /// The Jira project key, for example PROJ.
+        /// This member is required.
+        public var projectKey: Swift.String?
+        /// The display name of the Jira project.
+        public var projectName: Swift.String?
+        /// Provider Id of the resource e.g. GitHub repository id, etc.
+        /// This member is required.
+        public var providerResourceId: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            projectId: Swift.String? = nil,
+            projectKey: Swift.String? = nil,
+            projectName: Swift.String? = nil,
+            providerResourceId: Swift.String? = nil
+        ) {
+            self.name = name
+            self.projectId = projectId
+            self.projectKey = projectKey
+            self.projectName = projectName
+            self.providerResourceId = providerResourceId
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// Contains metadata about an integrated resource. This is a union type that contains provider-specific metadata.
     public enum IntegratedResourceMetadata: Swift.Sendable {
         /// The GitHub repository metadata.
@@ -7878,6 +8234,8 @@ extension SecurityAgentClientTypes {
         case confluencedocument(SecurityAgentClientTypes.ConfluenceDocumentMetadata)
         /// The Azure DevOps repository metadata.
         case azuredevopsrepository(SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata)
+        /// The Jira project metadata.
+        case jiraproject(SecurityAgentClientTypes.JiraProjectMetadata)
         case sdkUnknown(Swift.String)
     }
 }
@@ -8404,12 +8762,14 @@ extension SecurityAgentClientTypes {
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case codeRepository
         case document
+        case project
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
                 .codeRepository,
-                .document
+                .document,
+                .project
             ]
         }
 
@@ -8422,6 +8782,7 @@ extension SecurityAgentClientTypes {
             switch self {
             case .codeRepository: return "CODE_REPOSITORY"
             case .document: return "DOCUMENT"
+            case .project: return "PROJECT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10795,6 +11156,20 @@ extension BatchDeleteThreatModelsInput {
     }
 }
 
+extension BatchDisassociateFindingIssueInput {
+
+    static func urlPathProvider(_ value: BatchDisassociateFindingIssueInput) -> Swift.String? {
+        return "/BatchDisassociateFindingIssue"
+    }
+}
+
+extension BatchExportFindingsInput {
+
+    static func urlPathProvider(_ value: BatchExportFindingsInput) -> Swift.String? {
+        return "/BatchExportFindings"
+    }
+}
+
 extension BatchGetAgentSpacesInput {
 
     static func urlPathProvider(_ value: BatchGetAgentSpacesInput) -> Swift.String? {
@@ -11489,6 +11864,29 @@ extension BatchDeleteThreatModelsInput {
         guard let value else { return }
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["threatModelIds"].writeList(value.threatModelIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchDisassociateFindingIssueInput {
+
+    static func write(value: BatchDisassociateFindingIssueInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewJobId"].write(value.codeReviewJobId)
+        try writer["findingIds"].writeList(value.findingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["pentestJobId"].write(value.pentestJobId)
+    }
+}
+
+extension BatchExportFindingsInput {
+
+    static func write(value: BatchExportFindingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceId"].write(value.agentSpaceId)
+        try writer["codeReviewJobId"].write(value.codeReviewJobId)
+        try writer["findingIds"].writeList(value.findingIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["issueDestination"].write(value.issueDestination, with: SecurityAgentClientTypes.IssueDestination.write(value:to:))
+        try writer["pentestJobId"].write(value.pentestJobId)
     }
 }
 
@@ -12507,6 +12905,31 @@ extension BatchDeleteThreatModelsOutput {
     }
 }
 
+extension BatchDisassociateFindingIssueOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDisassociateFindingIssueOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDisassociateFindingIssueOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchDisassociateFindingIssueError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchExportFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchExportFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchExportFindingsOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchExportFindingError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.results = try reader["results"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.BatchExportFindingResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchGetAgentSpacesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetAgentSpacesOutput {
@@ -13071,6 +13494,7 @@ extension GetIntegrationOutput {
         value.privateConnectionName = try reader["privateConnectionName"].readIfPresent()
         value.provider = try reader["provider"].readIfPresent() ?? .sdkUnknown("")
         value.providerType = try reader["providerType"].readIfPresent() ?? .sdkUnknown("")
+        value.siteUrl = try reader["siteUrl"].readIfPresent()
         value.targetUrl = try reader["targetUrl"].readIfPresent()
         value.webhookUrl = try reader["webhookUrl"].readIfPresent()
         return value
@@ -13856,6 +14280,46 @@ enum BatchDeleteThreatModelsOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDisassociateFindingIssueOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchExportFindingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -15497,6 +15961,41 @@ extension SecurityAgentClientTypes.BatchCreateSecurityRequirementResult {
     }
 }
 
+extension SecurityAgentClientTypes.BatchDisassociateFindingIssueError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchDisassociateFindingIssueError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BatchDisassociateFindingIssueError()
+        value.findingId = try reader["findingId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.BatchExportFindingError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchExportFindingError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BatchExportFindingError()
+        value.findingId = try reader["findingId"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.BatchExportFindingResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchExportFindingResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.BatchExportFindingResult()
+        value.findingId = try reader["findingId"].readIfPresent() ?? ""
+        value.linkedIssue = try reader["linkedIssue"].readIfPresent(with: SecurityAgentClientTypes.LinkedIssue.read(from:))
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.BatchGetSecurityRequirementResult {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.BatchGetSecurityRequirementResult {
@@ -16082,6 +16581,7 @@ extension SecurityAgentClientTypes.Finding {
         value.alignmentRationale = try reader["alignmentRationale"].readIfPresent()
         value.revalidationJobIds = try reader["revalidationJobIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.originalFindingId = try reader["originalFindingId"].readIfPresent()
+        value.linkedIssue = try reader["linkedIssue"].readIfPresent(with: SecurityAgentClientTypes.LinkedIssue.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
@@ -16302,6 +16802,8 @@ extension SecurityAgentClientTypes.IntegratedResource {
                 try writer["githubRepository"].write(githubrepository, with: SecurityAgentClientTypes.GitHubRepositoryResource.write(value:to:))
             case let .gitlabrepository(gitlabrepository):
                 try writer["gitlabRepository"].write(gitlabrepository, with: SecurityAgentClientTypes.GitLabRepositoryResource.write(value:to:))
+            case let .jiraproject(jiraproject):
+                try writer["jiraProject"].write(jiraproject, with: SecurityAgentClientTypes.JiraProjectResource.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -16333,6 +16835,8 @@ extension SecurityAgentClientTypes.IntegratedResourceMetadata {
                 return .confluencedocument(try reader["confluenceDocument"].read(with: SecurityAgentClientTypes.ConfluenceDocumentMetadata.read(from:)))
             case "azureDevOpsRepository":
                 return .azuredevopsrepository(try reader["azureDevOpsRepository"].read(with: SecurityAgentClientTypes.AzureDevOpsRepositoryMetadata.read(from:)))
+            case "jiraProject":
+                return .jiraproject(try reader["jiraProject"].read(with: SecurityAgentClientTypes.JiraProjectMetadata.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -16379,6 +16883,84 @@ extension SecurityAgentClientTypes.IntegrationSummary {
         value.targetUrl = try reader["targetUrl"].readIfPresent()
         value.webhookUrl = try reader["webhookUrl"].readIfPresent()
         value.privateConnectionName = try reader["privateConnectionName"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.IssueDestination {
+
+    static func write(value: SecurityAgentClientTypes.IssueDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationId"].write(value.integrationId)
+        try writer["projectKey"].write(value.projectKey)
+    }
+}
+
+extension SecurityAgentClientTypes.JiraIntegrationInput {
+
+    static func write(value: SecurityAgentClientTypes.JiraIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["installationId"].write(value.installationId)
+        try writer["siteUrl"].write(value.siteUrl)
+        try writer["state"].write(value.state)
+    }
+}
+
+extension SecurityAgentClientTypes.JiraProjectMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.JiraProjectMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.JiraProjectMetadata()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.providerResourceId = try reader["providerResourceId"].readIfPresent() ?? ""
+        value.projectKey = try reader["projectKey"].readIfPresent() ?? ""
+        value.projectId = try reader["projectId"].readIfPresent() ?? ""
+        value.projectName = try reader["projectName"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.JiraProjectResource {
+
+    static func write(value: SecurityAgentClientTypes.JiraProjectResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["projectId"].write(value.projectId)
+        try writer["projectKey"].write(value.projectKey)
+        try writer["projectName"].write(value.projectName)
+    }
+}
+
+extension SecurityAgentClientTypes.JiraResourceCapabilities {
+
+    static func write(value: SecurityAgentClientTypes.JiraResourceCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["commentIssue"].write(value.commentIssue)
+        try writer["createIssue"].write(value.createIssue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.JiraResourceCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.JiraResourceCapabilities()
+        value.createIssue = try reader["createIssue"].readIfPresent()
+        value.commentIssue = try reader["commentIssue"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.LinkedIssue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.LinkedIssue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.LinkedIssue()
+        value.provider = try reader["provider"].readIfPresent()
+        value.integrationId = try reader["integrationId"].readIfPresent()
+        value.projectKey = try reader["projectKey"].readIfPresent()
+        value.issueKey = try reader["issueKey"].readIfPresent()
+        value.issueId = try reader["issueId"].readIfPresent()
+        value.issueUrl = try reader["issueUrl"].readIfPresent()
+        value.siteUrl = try reader["siteUrl"].readIfPresent()
         return value
     }
 }
@@ -16651,6 +17233,8 @@ extension SecurityAgentClientTypes.ProviderInput {
                 try writer["github"].write(github, with: SecurityAgentClientTypes.GitHubIntegrationInput.write(value:to:))
             case let .gitlab(gitlab):
                 try writer["gitlab"].write(gitlab, with: SecurityAgentClientTypes.GitLabIntegrationInput.write(value:to:))
+            case let .jira(jira):
+                try writer["jira"].write(jira, with: SecurityAgentClientTypes.JiraIntegrationInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -16672,6 +17256,8 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
                 try writer["github"].write(github, with: SecurityAgentClientTypes.GitHubResourceCapabilities.write(value:to:))
             case let .gitlab(gitlab):
                 try writer["gitlab"].write(gitlab, with: SecurityAgentClientTypes.GitLabResourceCapabilities.write(value:to:))
+            case let .jira(jira):
+                try writer["jira"].write(jira, with: SecurityAgentClientTypes.JiraResourceCapabilities.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -16691,6 +17277,8 @@ extension SecurityAgentClientTypes.ProviderResourceCapabilities {
                 return .confluence(try reader["confluence"].read(with: SecurityAgentClientTypes.ConfluenceResourceCapabilities.read(from:)))
             case "azureDevOps":
                 return .azuredevops(try reader["azureDevOps"].read(with: SecurityAgentClientTypes.AzureDevOpsResourceCapabilities.read(from:)))
+            case "jira":
+                return .jira(try reader["jira"].read(with: SecurityAgentClientTypes.JiraResourceCapabilities.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

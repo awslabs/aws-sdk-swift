@@ -1039,6 +1039,8 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the output. This value must be unique within the current flow.
         public var name: Swift.String?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20.
+        public var ndiAudioReferenceLevel: Swift.Int?
         /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect uses EMBEDDED_TIMECODE.
         ///
         /// * EMBEDDED_TIMECODE (default) - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.
@@ -1081,6 +1083,7 @@ extension MediaConnectClientTypes {
             mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
             minLatency: Swift.Int? = nil,
             name: Swift.String? = nil,
+            ndiAudioReferenceLevel: Swift.Int? = nil,
             ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource? = nil,
             ndiProgramName: Swift.String? = nil,
             ndiSpeedHqQuality: Swift.Int? = nil,
@@ -1104,6 +1107,7 @@ extension MediaConnectClientTypes {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -2261,6 +2265,218 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    public enum VideoColorimetry: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bt2020
+        case bt470bg
+        case bt470m
+        case bt601
+        case bt709
+        case genericFilm
+        case smpte240m
+        case smpte428
+        case smpte431
+        case smpte432
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoColorimetry] {
+            return [
+                .bt2020,
+                .bt470bg,
+                .bt470m,
+                .bt601,
+                .bt709,
+                .genericFilm,
+                .smpte240m,
+                .smpte428,
+                .smpte431,
+                .smpte432
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bt2020: return "BT2020"
+            case .bt470bg: return "BT470BG"
+            case .bt470m: return "BT470M"
+            case .bt601: return "BT601"
+            case .bt709: return "BT709"
+            case .genericFilm: return "GENERIC_FILM"
+            case .smpte240m: return "SMPTE240M"
+            case .smpte428: return "SMPTE428"
+            case .smpte431: return "SMPTE431"
+            case .smpte432: return "SMPTE432"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum VideoMatrixCoefficients: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bt2020Cl
+        case bt2020Ncl
+        case bt2100Ictcp
+        case bt470bg
+        case bt601
+        case bt709
+        case chromaticityDerivedCl
+        case chromaticityDerivedNcl
+        case fcc
+        case identity
+        case iptC2
+        case smpte2085
+        case smpte240m
+        case ycgco
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoMatrixCoefficients] {
+            return [
+                .bt2020Cl,
+                .bt2020Ncl,
+                .bt2100Ictcp,
+                .bt470bg,
+                .bt601,
+                .bt709,
+                .chromaticityDerivedCl,
+                .chromaticityDerivedNcl,
+                .fcc,
+                .identity,
+                .iptC2,
+                .smpte2085,
+                .smpte240m,
+                .ycgco
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bt2020Cl: return "BT2020_CL"
+            case .bt2020Ncl: return "BT2020_NCL"
+            case .bt2100Ictcp: return "BT2100_ICTCP"
+            case .bt470bg: return "BT470BG"
+            case .bt601: return "BT601"
+            case .bt709: return "BT709"
+            case .chromaticityDerivedCl: return "CHROMATICITY_DERIVED_CL"
+            case .chromaticityDerivedNcl: return "CHROMATICITY_DERIVED_NCL"
+            case .fcc: return "FCC"
+            case .identity: return "IDENTITY"
+            case .iptC2: return "IPT_C2"
+            case .smpte2085: return "SMPTE2085"
+            case .smpte240m: return "SMPTE240M"
+            case .ycgco: return "YCGCO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum VideoTransferCharacteristics: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bt1361Ecg
+        case bt202010
+        case bt202012
+        case bt2100Hlg
+        case bt2100Pq
+        case bt470bg
+        case bt470m
+        case bt601
+        case bt709
+        case iec6196621
+        case iec6196624
+        case linear
+        case log100
+        case log316
+        case smpte240m
+        case smpte428
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoTransferCharacteristics] {
+            return [
+                .bt1361Ecg,
+                .bt202010,
+                .bt202012,
+                .bt2100Hlg,
+                .bt2100Pq,
+                .bt470bg,
+                .bt470m,
+                .bt601,
+                .bt709,
+                .iec6196621,
+                .iec6196624,
+                .linear,
+                .log100,
+                .log316,
+                .smpte240m,
+                .smpte428
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bt1361Ecg: return "BT1361_ECG"
+            case .bt202010: return "BT2020_10"
+            case .bt202012: return "BT2020_12"
+            case .bt2100Hlg: return "BT2100_HLG"
+            case .bt2100Pq: return "BT2100_PQ"
+            case .bt470bg: return "BT470BG"
+            case .bt470m: return "BT470M"
+            case .bt601: return "BT601"
+            case .bt709: return "BT709"
+            case .iec6196621: return "IEC61966_2_1"
+            case .iec6196624: return "IEC61966_2_4"
+            case .linear: return "LINEAR"
+            case .log100: return "LOG100"
+            case .log316: return "LOG316"
+            case .smpte240m: return "SMPTE240M"
+            case .smpte428: return "SMPTE428"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The color signaling of the video stream.
+    public struct ColorInformation: Swift.Sendable {
+        /// The color primaries that the video stream uses (for example, BT709 or BT2020).
+        public var colorimetry: MediaConnectClientTypes.VideoColorimetry?
+        /// The YCbCr matrix coefficients that the video stream uses (for example, BT709 or BT2020_NCL).
+        public var matrixCoefficients: MediaConnectClientTypes.VideoMatrixCoefficients?
+        /// The transfer characteristics that the video stream uses (for example, BT601, BT709, BT2100_PQ, or BT2100_HLG).
+        public var transferCharacteristics: MediaConnectClientTypes.VideoTransferCharacteristics?
+
+        public init(
+            colorimetry: MediaConnectClientTypes.VideoColorimetry? = nil,
+            matrixCoefficients: MediaConnectClientTypes.VideoMatrixCoefficients? = nil,
+            transferCharacteristics: MediaConnectClientTypes.VideoTransferCharacteristics? = nil
+        ) {
+            self.colorimetry = colorimetry
+            self.matrixCoefficients = matrixCoefficients
+            self.transferCharacteristics = transferCharacteristics
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The frame resolution used by the video stream.
     public struct FrameResolution: Swift.Sendable {
         /// The number of pixels in the height of the video frame.
@@ -2289,6 +2505,8 @@ extension MediaConnectClientTypes {
         /// The codec used for the media stream. For NDI sources, use speed-hq.
         /// This member is required.
         public var codec: Swift.String?
+        /// The color signaling of the video stream. Used when the streamType is Video.
+        public var color: MediaConnectClientTypes.ColorInformation?
         /// The number of video frames displayed per second. Used when the streamType is Video.
         public var frameRate: Swift.String?
         /// The width and height dimensions of the video frame in pixels. Used when the streamType is Video.
@@ -2307,6 +2525,7 @@ extension MediaConnectClientTypes {
         public init(
             channels: Swift.Int? = nil,
             codec: Swift.String? = nil,
+            color: MediaConnectClientTypes.ColorInformation? = nil,
             frameRate: Swift.String? = nil,
             frameResolution: MediaConnectClientTypes.FrameResolution? = nil,
             sampleRate: Swift.Int? = nil,
@@ -2316,6 +2535,7 @@ extension MediaConnectClientTypes {
         ) {
             self.channels = channels
             self.codec = codec
+            self.color = color
             self.frameRate = frameRate
             self.frameResolution = frameResolution
             self.sampleRate = sampleRate
@@ -2493,14 +2713,18 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The settings for the NDI® source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+    /// The settings for the NDI® source. This includes the exact name of the upstream NDI sender that you want to connect to your source. When you update the NDI source, include only the members you want to change. MediaConnect leaves the members that you don't specify unchanged.
     public struct NdiSourceSettings: Swift.Sendable {
+        /// The audio reference level of the NDI sender, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect uses -20.
+        public var audioReferenceLevel: Swift.Int?
         /// The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName).
         public var sourceName: Swift.String?
 
         public init(
+            audioReferenceLevel: Swift.Int? = nil,
             sourceName: Swift.String? = nil
         ) {
+            self.audioReferenceLevel = audioReferenceLevel
             self.sourceName = sourceName
         }
     }
@@ -2520,6 +2744,8 @@ extension MediaConnectClientTypes {
         public var maxSyncBuffer: Swift.Int?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public var minLatency: Swift.Int?
+        /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). For NDI outputs, this field is always present and defaults to -20.
+        public var ndiAudioReferenceLevel: Swift.Int?
         /// The timecode source for NDI output frames. For NDI outputs, this field is always present and defaults to EMBEDDED_TIMECODE.
         ///
         /// * EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.
@@ -2556,6 +2782,7 @@ extension MediaConnectClientTypes {
             maxLatency: Swift.Int? = nil,
             maxSyncBuffer: Swift.Int? = nil,
             minLatency: Swift.Int? = nil,
+            ndiAudioReferenceLevel: Swift.Int? = nil,
             ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource? = nil,
             ndiProgramName: Swift.String? = nil,
             ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
@@ -2574,6 +2801,7 @@ extension MediaConnectClientTypes {
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
+            self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
             self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
             self.ndiProgramName = ndiProgramName
             self.ndiSourceSettings = ndiSourceSettings
@@ -3050,6 +3278,8 @@ extension MediaConnectClientTypes {
         public var channels: Swift.Int?
         /// The codec used by the stream.
         public var codec: Swift.String?
+        /// The color signaling of the video stream.
+        public var color: MediaConnectClientTypes.ColorInformation?
         /// The frame rate used by the video stream.
         public var frameRate: Swift.String?
         /// The frame resolution used by the video stream.
@@ -3068,6 +3298,7 @@ extension MediaConnectClientTypes {
         public init(
             channels: Swift.Int? = nil,
             codec: Swift.String? = nil,
+            color: MediaConnectClientTypes.ColorInformation? = nil,
             frameRate: Swift.String? = nil,
             frameResolution: MediaConnectClientTypes.FrameResolution? = nil,
             pid: Swift.Int? = nil,
@@ -3077,6 +3308,7 @@ extension MediaConnectClientTypes {
         ) {
             self.channels = channels
             self.codec = codec
+            self.color = color
             self.frameRate = frameRate
             self.frameResolution = frameResolution
             self.pid = pid
@@ -3990,7 +4222,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Configuration settings for connecting a router input to a flow output.
+    /// Configuration settings for connecting a router input to a flow output. To connect the router input to the flow output, provide both flowArn and flowOutputArn. To disconnect it, call the update operation and omit both fields while keeping this configuration object. You can't change sourceTransitDecryption while the router input is connected to a flow output. To change it, first disconnect the router input, then update the decryption.
     public struct MediaConnectFlowRouterInputConfiguration: Swift.Sendable {
         /// The ARN of the flow to connect to.
         public var flowArn: Swift.String?
@@ -4104,7 +4336,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Configuration settings for connecting a router input to a MediaLive channel output.
+    /// Configuration settings for connecting a router input to a MediaLive channel output. To connect the router input to the MediaLive channel output, provide all three of mediaLiveChannelArn, mediaLivePipelineId, and mediaLiveChannelOutputName. To disconnect it, call the update operation and omit all three fields while keeping this configuration object. You can't change sourceTransitDecryption while the router input is connected to a MediaLive channel output. To change it, first disconnect the router input, then update the decryption.
     public struct MediaLiveChannelRouterInputConfiguration: Swift.Sendable {
         /// The ARN of the MediaLive channel to connect to this router input.
         public var mediaLiveChannelArn: Swift.String?
@@ -4250,11 +4482,11 @@ extension MediaConnectClientTypes {
     public enum RouterInputConfiguration: Swift.Sendable {
         /// The configuration settings for a standard router input, including the protocol, protocol-specific configuration, network interface, and availability zone.
         case standard(MediaConnectClientTypes.StandardRouterInputConfiguration)
-        /// Configuration settings for connecting a router input to a MediaLive channel output.
+        /// Configuration settings for connecting a router input to a MediaLive channel output. To connect the router input to the MediaLive channel output, provide all three of mediaLiveChannelArn, mediaLivePipelineId, and mediaLiveChannelOutputName. To disconnect it, call the update operation and omit all three fields while keeping this configuration object. You can't change sourceTransitDecryption while the router input is connected to a MediaLive channel output. To change it, first disconnect the router input, then update the decryption.
         case medialivechannel(MediaConnectClientTypes.MediaLiveChannelRouterInputConfiguration)
         /// Configuration settings for a failover router input that allows switching between two input sources.
         case failover(MediaConnectClientTypes.FailoverRouterInputConfiguration)
-        /// Configuration settings for connecting a router input to a flow output.
+        /// Configuration settings for connecting a router input to a flow output. To connect the router input to the flow output, provide both flowArn and flowOutputArn. To disconnect it, call the update operation and omit both fields while keeping this configuration object. You can't change sourceTransitDecryption while the router input is connected to a flow output. To change it, first disconnect the router input, then update the decryption.
         case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterInputConfiguration)
         /// Configuration settings for a merge router input that combines two input sources.
         case merge(MediaConnectClientTypes.MergeRouterInputConfiguration)
@@ -4869,14 +5101,18 @@ extension MediaConnectClientTypes {
     public enum RouterInputTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case input100
         case input20
+        case input250
         case input50
+        case input500
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouterInputTier] {
             return [
                 .input100,
                 .input20,
-                .input50
+                .input250,
+                .input50,
+                .input500
             ]
         }
 
@@ -4889,7 +5125,9 @@ extension MediaConnectClientTypes {
             switch self {
             case .input100: return "INPUT_100"
             case .input20: return "INPUT_20"
+            case .input250: return "INPUT_250"
             case .input50: return "INPUT_50"
+            case .input500: return "INPUT_500"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5026,7 +5264,20 @@ extension MediaConnectClientTypes {
         /// Key-value pairs that can be used to tag and organize this router input.
         /// This member is required.
         public var tags: [Swift.String: Swift.String]?
-        /// The tier level of the router input.
+        /// The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:
+        ///
+        /// * INPUT_20 – 20 Mbps
+        ///
+        /// * INPUT_50 – 50 Mbps
+        ///
+        /// * INPUT_100 – 100 Mbps
+        ///
+        /// * INPUT_250 – 250 Mbps
+        ///
+        /// * INPUT_500 – 500 Mbps
+        ///
+        ///
+        /// The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         /// This member is required.
         public var tier: MediaConnectClientTypes.RouterInputTier?
         /// The transit encryption settings for a router input.
@@ -5412,7 +5663,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Configuration settings for connecting a router output to a MediaConnect flow source.
+    /// Configuration settings for connecting a router output to a MediaConnect flow source. To connect the router output to the flow source, provide both flowArn and flowSourceArn. To disconnect it, call the update operation and omit both fields while keeping this configuration object. You can't change destinationTransitEncryption while the router output is connected to a flow source. To change it, first disconnect the router output, then update the encryption.
     public struct MediaConnectFlowRouterOutputConfiguration: Swift.Sendable {
         /// The encryption configuration for the flow destination when connected to this router output.
         /// This member is required.
@@ -5465,7 +5716,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Configuration settings for connecting a router output to a MediaLive input.
+    /// Configuration settings for connecting a router output to a MediaLive input. To connect the router output to the MediaLive input, provide both mediaLiveInputArn and mediaLivePipelineId. To disconnect it, call the update operation and omit both fields while keeping this configuration object. You can't change destinationTransitEncryption while the router output is connected to a MediaLive input. To change it, first disconnect the router output, then update the encryption.
     public struct MediaLiveInputRouterOutputConfiguration: Swift.Sendable {
         /// The encryption configuration for the MediaLive input when connected to this router output.
         /// This member is required.
@@ -5795,9 +6046,9 @@ extension MediaConnectClientTypes {
     public enum RouterOutputConfiguration: Swift.Sendable {
         /// The configuration settings for a standard router output, including the protocol, protocol-specific configuration, network interface, and availability zone.
         case standard(MediaConnectClientTypes.StandardRouterOutputConfiguration)
-        /// Configuration settings for connecting a router output to a MediaConnect flow source.
+        /// Configuration settings for connecting a router output to a MediaConnect flow source. To connect the router output to the flow source, provide both flowArn and flowSourceArn. To disconnect it, call the update operation and omit both fields while keeping this configuration object. You can't change destinationTransitEncryption while the router output is connected to a flow source. To change it, first disconnect the router output, then update the encryption.
         case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration)
-        /// Configuration settings for connecting a router output to a MediaLive input.
+        /// Configuration settings for connecting a router output to a MediaLive input. To connect the router output to the MediaLive input, provide both mediaLiveInputArn and mediaLivePipelineId. To disconnect it, call the update operation and omit both fields while keeping this configuration object. You can't change destinationTransitEncryption while the router output is connected to a MediaLive input. To change it, first disconnect the router output, then update the encryption.
         case medialiveinput(MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -6042,14 +6293,18 @@ extension MediaConnectClientTypes {
     public enum RouterOutputTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case output100
         case output20
+        case output250
         case output50
+        case output500
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouterOutputTier] {
             return [
                 .output100,
                 .output20,
-                .output50
+                .output250,
+                .output50,
+                .output500
             ]
         }
 
@@ -6062,7 +6317,9 @@ extension MediaConnectClientTypes {
             switch self {
             case .output100: return "OUTPUT_100"
             case .output20: return "OUTPUT_20"
+            case .output250: return "OUTPUT_250"
             case .output50: return "OUTPUT_50"
+            case .output500: return "OUTPUT_500"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6135,7 +6392,20 @@ extension MediaConnectClientTypes {
         /// Key-value pairs that can be used to tag and organize this router output.
         /// This member is required.
         public var tags: [Swift.String: Swift.String]?
-        /// The tier level of the router output.
+        /// The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:
+        ///
+        /// * OUTPUT_20 – 20 Mbps
+        ///
+        /// * OUTPUT_50 – 50 Mbps
+        ///
+        /// * OUTPUT_100 – 100 Mbps
+        ///
+        /// * OUTPUT_250 – 250 Mbps
+        ///
+        /// * OUTPUT_500 – 500 Mbps
+        ///
+        ///
+        /// The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
         /// This member is required.
         public var tier: MediaConnectClientTypes.RouterOutputTier?
         /// The timestamp when the router output was last updated.
@@ -7502,7 +7772,20 @@ public struct CreateRouterInputInput: Swift.Sendable {
     public var routingScope: MediaConnectClientTypes.RoutingScope?
     /// Key-value pairs that can be used to tag and organize this router input.
     public var tags: [Swift.String: Swift.String]?
-    /// The tier level for the router input.
+    /// The tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:
+    ///
+    /// * INPUT_20 – 20 Mbps
+    ///
+    /// * INPUT_50 – 50 Mbps
+    ///
+    /// * INPUT_100 – 100 Mbps
+    ///
+    /// * INPUT_250 – 250 Mbps
+    ///
+    /// * INPUT_500 – 500 Mbps
+    ///
+    ///
+    /// The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     /// This member is required.
     public var tier: MediaConnectClientTypes.RouterInputTier?
     /// The transit encryption settings for the router input.
@@ -7663,7 +7946,20 @@ public struct CreateRouterOutputInput: Swift.Sendable {
     public var routingScope: MediaConnectClientTypes.RoutingScope?
     /// Key-value pairs that can be used to tag this router output.
     public var tags: [Swift.String: Swift.String]?
-    /// The tier level for the router output.
+    /// The tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:
+    ///
+    /// * OUTPUT_20 – 20 Mbps
+    ///
+    /// * OUTPUT_50 – 50 Mbps
+    ///
+    /// * OUTPUT_100 – 100 Mbps
+    ///
+    /// * OUTPUT_250 – 250 Mbps
+    ///
+    /// * OUTPUT_500 – 500 Mbps
+    ///
+    ///
+    /// The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     /// This member is required.
     public var tier: MediaConnectClientTypes.RouterOutputTier?
 
@@ -7997,11 +8293,15 @@ extension MediaConnectClientTypes {
         /// The list of transport stream programs in the current flow's source.
         /// This member is required.
         public var programs: [MediaConnectClientTypes.TransportStreamProgram]?
+        /// The transport stream ID (TSID) of the source, from the Program Association Table (PAT).
+        public var tsId: Swift.Int?
 
         public init(
-            programs: [MediaConnectClientTypes.TransportStreamProgram]? = nil
+            programs: [MediaConnectClientTypes.TransportStreamProgram]? = nil,
+            tsId: Swift.Int? = nil
         ) {
             self.programs = programs
+            self.tsId = tsId
         }
     }
 }
@@ -8770,6 +9070,8 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
     public var mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
+    /// The audio reference level of the NDI receiver, in decibels relative to full scale (dBFS). Common values are -20 (NDI and SMPTE) and -18 (EBU). If you don't specify this field, MediaConnect leaves the value unchanged.
+    public var ndiAudioReferenceLevel: Swift.Int?
     /// Controls how MediaConnect generates timecodes for NDI output frames. If you don't specify this field, MediaConnect leaves the value unchanged.
     ///
     /// * EMBEDDED_TIMECODE - Preserves timecodes from the input transport stream. The timecodes must be embedded in the video stream as SEI timing messages. If no embedded timecode is detected, MediaConnect uses the UTC system time instead.
@@ -8815,6 +9117,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         maxLatency: Swift.Int? = nil,
         mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Swift.Int? = nil,
+        ndiAudioReferenceLevel: Swift.Int? = nil,
         ndiOutputTimecodeSource: MediaConnectClientTypes.NdiOutputTimecodeSource? = nil,
         ndiProgramName: Swift.String? = nil,
         ndiSpeedHqQuality: Swift.Int? = nil,
@@ -8839,6 +9142,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
         self.maxLatency = maxLatency
         self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
         self.minLatency = minLatency
+        self.ndiAudioReferenceLevel = ndiAudioReferenceLevel
         self.ndiOutputTimecodeSource = ndiOutputTimecodeSource
         self.ndiProgramName = ndiProgramName
         self.ndiSpeedHqQuality = ndiSpeedHqQuality
@@ -10000,7 +10304,20 @@ public struct UpdateRouterInputInput: Swift.Sendable {
     public var name: Swift.String?
     /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - can be assigned only to outputs in the same Region. GLOBAL - can be assigned to outputs in any Region.
     public var routingScope: MediaConnectClientTypes.RoutingScope?
-    /// The updated tier level for the router input.
+    /// The updated tier level for the router input. The tier sets the maximum bitrate, in Mbps, for the router input. Valid values include the following:
+    ///
+    /// * INPUT_20 – 20 Mbps
+    ///
+    /// * INPUT_50 – 50 Mbps
+    ///
+    /// * INPUT_100 – 100 Mbps
+    ///
+    /// * INPUT_250 – 250 Mbps
+    ///
+    /// * INPUT_500 – 500 Mbps
+    ///
+    ///
+    /// The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     public var tier: MediaConnectClientTypes.RouterInputTier?
     /// The updated transit encryption settings for the router input.
     public var transitEncryption: MediaConnectClientTypes.RouterInputTransitEncryption?
@@ -10246,7 +10563,20 @@ public struct UpdateRouterOutputInput: Swift.Sendable {
     public var name: Swift.String?
     /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
     public var routingScope: MediaConnectClientTypes.RoutingScope?
-    /// The updated tier level for the router output.
+    /// The updated tier level for the router output. The tier sets the maximum bitrate, in Mbps, for the router output. Valid values include the following:
+    ///
+    /// * OUTPUT_20 – 20 Mbps
+    ///
+    /// * OUTPUT_50 – 50 Mbps
+    ///
+    /// * OUTPUT_100 – 100 Mbps
+    ///
+    /// * OUTPUT_250 – 250 Mbps
+    ///
+    /// * OUTPUT_500 – 500 Mbps
+    ///
+    ///
+    /// The 250 Mbps and 500 Mbps tiers are high-bitrate tiers that support TR-07 (JPEG XS) workflows.
     public var tier: MediaConnectClientTypes.RouterOutputTier?
 
     public init(
@@ -11702,6 +12032,7 @@ extension UpdateFlowOutputInput {
         try writer["maxLatency"].write(value.maxLatency)
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
+        try writer["ndiAudioReferenceLevel"].write(value.ndiAudioReferenceLevel)
         try writer["ndiOutputTimecodeSource"].write(value.ndiOutputTimecodeSource)
         try writer["ndiProgramName"].write(value.ndiProgramName)
         try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
@@ -14691,6 +15022,7 @@ extension MediaConnectClientTypes.AddOutputRequest {
         try writer["mediaStreamOutputConfigurations"].writeList(value.mediaStreamOutputConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamOutputConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
         try writer["name"].write(value.name)
+        try writer["ndiAudioReferenceLevel"].write(value.ndiAudioReferenceLevel)
         try writer["ndiOutputTimecodeSource"].write(value.ndiOutputTimecodeSource)
         try writer["ndiProgramName"].write(value.ndiProgramName)
         try writer["ndiSpeedHqQuality"].write(value.ndiSpeedHqQuality)
@@ -14898,6 +15230,18 @@ extension MediaConnectClientTypes.BridgeSource {
         var value = MediaConnectClientTypes.BridgeSource()
         value.flowSource = try reader["flowSource"].readIfPresent(with: MediaConnectClientTypes.BridgeFlowSource.read(from:))
         value.networkSource = try reader["networkSource"].readIfPresent(with: MediaConnectClientTypes.BridgeNetworkSource.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ColorInformation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ColorInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ColorInformation()
+        value.colorimetry = try reader["colorimetry"].readIfPresent()
+        value.transferCharacteristics = try reader["transferCharacteristics"].readIfPresent()
+        value.matrixCoefficients = try reader["matrixCoefficients"].readIfPresent()
         return value
     }
 }
@@ -16053,6 +16397,7 @@ extension MediaConnectClientTypes.NdiMediaStreamInfo {
         value.codec = try reader["codec"].readIfPresent() ?? ""
         value.streamId = try reader["streamId"].readIfPresent() ?? 0
         value.scanMode = try reader["scanMode"].readIfPresent()
+        value.color = try reader["color"].readIfPresent(with: MediaConnectClientTypes.ColorInformation.read(from:))
         value.frameResolution = try reader["frameResolution"].readIfPresent(with: MediaConnectClientTypes.FrameResolution.read(from:))
         value.frameRate = try reader["frameRate"].readIfPresent()
         value.channels = try reader["channels"].readIfPresent()
@@ -16088,6 +16433,7 @@ extension MediaConnectClientTypes.NdiSourceSettings {
 
     static func write(value: MediaConnectClientTypes.NdiSourceSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioReferenceLevel"].write(value.audioReferenceLevel)
         try writer["sourceName"].write(value.sourceName)
     }
 
@@ -16095,6 +16441,7 @@ extension MediaConnectClientTypes.NdiSourceSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.NdiSourceSettings()
         value.sourceName = try reader["sourceName"].readIfPresent()
+        value.audioReferenceLevel = try reader["audioReferenceLevel"].readIfPresent()
         return value
     }
 }
@@ -17209,6 +17556,7 @@ extension MediaConnectClientTypes.Transport {
         value.ndiProgramName = try reader["ndiProgramName"].readIfPresent()
         value.ndiSourceSettings = try reader["ndiSourceSettings"].readIfPresent(with: MediaConnectClientTypes.NdiSourceSettings.read(from:))
         value.ndiOutputTimecodeSource = try reader["ndiOutputTimecodeSource"].readIfPresent()
+        value.ndiAudioReferenceLevel = try reader["ndiAudioReferenceLevel"].readIfPresent()
         return value
     }
 }
@@ -17219,6 +17567,7 @@ extension MediaConnectClientTypes.TransportMediaInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.TransportMediaInfo()
         value.programs = try reader["programs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.TransportStreamProgram.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tsId = try reader["tsId"].readIfPresent()
         return value
     }
 }
@@ -17230,6 +17579,7 @@ extension MediaConnectClientTypes.TransportStream {
         var value = MediaConnectClientTypes.TransportStream()
         value.channels = try reader["channels"].readIfPresent()
         value.codec = try reader["codec"].readIfPresent()
+        value.color = try reader["color"].readIfPresent(with: MediaConnectClientTypes.ColorInformation.read(from:))
         value.frameRate = try reader["frameRate"].readIfPresent()
         value.frameResolution = try reader["frameResolution"].readIfPresent(with: MediaConnectClientTypes.FrameResolution.read(from:))
         value.pid = try reader["pid"].readIfPresent() ?? 0

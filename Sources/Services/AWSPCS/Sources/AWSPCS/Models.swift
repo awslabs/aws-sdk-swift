@@ -2589,6 +2589,8 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
     public var nodeID: Swift.String?
     /// The node lifecycle actions configured for the node group, including scripts to run when a compute node finishes bootstrapping or becomes ready to accept jobs.
     public var nodeLifecycleActions: PCSClientTypes.NodeLifecycleActions?
+    /// The scheduler version that the cluster is running. A compute node uses this value to run the matching scheduler version.
+    public var schedulerVersion: Swift.String?
     /// For the Slurm scheduler, this is the shared Munge key the scheduler uses to authenticate compute node group instances.
     /// This member is required.
     public var sharedSecret: Swift.String?
@@ -2600,6 +2602,7 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
         endpoints: [PCSClientTypes.Endpoint]? = nil,
         nodeID: Swift.String? = nil,
         nodeLifecycleActions: PCSClientTypes.NodeLifecycleActions? = nil,
+        schedulerVersion: Swift.String? = nil,
         sharedSecret: Swift.String? = nil
     ) {
         self.clusterName = clusterName
@@ -2608,6 +2611,7 @@ public struct RegisterComputeNodeGroupInstanceOutput: Swift.Sendable {
         self.endpoints = endpoints
         self.nodeID = nodeID
         self.nodeLifecycleActions = nodeLifecycleActions
+        self.schedulerVersion = schedulerVersion
         self.sharedSecret = sharedSecret
     }
 }

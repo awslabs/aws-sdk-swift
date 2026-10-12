@@ -12282,6 +12282,29 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The billable token usage for a training session, broken down by operation type.
+    public struct BillableTokenUsage: Swift.Sendable {
+        /// The number of prefill tokens consumed.
+        public var prefillTokenCount: Swift.Int?
+        /// The number of sample tokens consumed.
+        public var sampleTokenCount: Swift.Int?
+        /// The number of training tokens consumed.
+        public var trainingTokenCount: Swift.Int?
+
+        public init(
+            prefillTokenCount: Swift.Int? = nil,
+            sampleTokenCount: Swift.Int? = nil,
+            trainingTokenCount: Swift.Int? = nil
+        ) {
+            self.prefillTokenCount = prefillTokenCount
+            self.sampleTokenCount = sampleTokenCount
+            self.trainingTokenCount = trainingTokenCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum CapacitySizeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case capacityPercent
         case instanceCount
@@ -32787,6 +32810,139 @@ public struct CreateTrainingPlanOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// The Low-Rank Adaptation (LoRA) configuration for a training session, including the rank and alpha parameters.
+    public struct LoraConfig: Swift.Sendable {
+        /// The Low-Rank Adaptation (LoRA) scaling factor.
+        /// This member is required.
+        public var alpha: Swift.Int?
+        /// The rank of the Low-Rank Adaptation (LoRA) adapter matrices.
+        /// This member is required.
+        public var rank: Swift.Int?
+
+        public init(
+            alpha: Swift.Int? = nil,
+            rank: Swift.Int? = nil
+        ) {
+            self.alpha = alpha
+            self.rank = rank
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for the base model used in a training session.
+    public struct TrainingSessionModelConfig: Swift.Sendable {
+        /// Specifies whether you accept the end-user license agreement (EULA) for gated models.
+        public var acceptEula: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the base foundation model from SageMaker Hub.
+        /// This member is required.
+        public var baseModelArn: Swift.String?
+
+        public init(
+            acceptEula: Swift.Bool? = nil,
+            baseModelArn: Swift.String? = nil
+        ) {
+            self.acceptEula = acceptEula
+            self.baseModelArn = baseModelArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies the Amazon S3 path and optional encryption settings for training session output data, including checkpoints, model artifacts, and invocation results.
+    public struct TrainingSessionS3Location: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt output data. If not specified, the default Amazon S3 encryption is used.
+        public var kmsKeyArn: Swift.String?
+        /// The Amazon S3 path where training session outputs are stored.
+        /// This member is required.
+        public var path: Swift.String?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            path: Swift.String? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.path = path
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The output configuration for a training session, including the Amazon S3 location for checkpoints and model artifacts, and optional encryption settings.
+    public struct TrainingSessionOutputConfig: Swift.Sendable {
+        /// The Amazon S3 location where training session outputs, including checkpoints and model artifacts, are stored.
+        /// This member is required.
+        public var s3Location: SageMakerClientTypes.TrainingSessionS3Location?
+
+        public init(
+            s3Location: SageMakerClientTypes.TrainingSessionS3Location? = nil
+        ) {
+            self.s3Location = s3Location
+        }
+    }
+}
+
+public struct CreateTrainingSessionInput: Swift.Sendable {
+    /// The Low-Rank Adaptation (LoRA) configuration for the training session, including the rank and alpha parameters.
+    /// This member is required.
+    public var loraConfig: SageMakerClientTypes.LoraConfig?
+    /// The configuration for the base model, including the model ARN and end-user license agreement (EULA) acceptance.
+    /// This member is required.
+    public var modelConfig: SageMakerClientTypes.TrainingSessionModelConfig?
+    /// The Amazon Resource Name (ARN) of the model package group where checkpoints and fine-tuned model artifacts are published.
+    public var modelPackageGroupArn: Swift.String?
+    /// The output configuration for the training session, including the S3 location and optional encryption settings.
+    /// This member is required.
+    public var outputConfig: SageMakerClientTypes.TrainingSessionOutputConfig?
+    /// The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to access resources on your behalf. The role must have permissions to access the output S3 path and model package group.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// An array of key-value pairs to apply to the training session as tags. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+    public var tags: [SageMakerClientTypes.Tag]?
+    /// The name of the training session.
+    /// This member is required.
+    public var trainingSessionName: Swift.String?
+    /// The Virtual Private Cloud (VPC) configuration for the training session. Specify subnets and security groups to run the training session in your VPC.
+    public var vpcConfig: SageMakerClientTypes.VpcConfig?
+
+    public init(
+        loraConfig: SageMakerClientTypes.LoraConfig? = nil,
+        modelConfig: SageMakerClientTypes.TrainingSessionModelConfig? = nil,
+        modelPackageGroupArn: Swift.String? = nil,
+        outputConfig: SageMakerClientTypes.TrainingSessionOutputConfig? = nil,
+        roleArn: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        trainingSessionName: Swift.String? = nil,
+        vpcConfig: SageMakerClientTypes.VpcConfig? = nil
+    ) {
+        self.loraConfig = loraConfig
+        self.modelConfig = modelConfig
+        self.modelPackageGroupArn = modelPackageGroupArn
+        self.outputConfig = outputConfig
+        self.roleArn = roleArn
+        self.tags = tags
+        self.trainingSessionName = trainingSessionName
+        self.vpcConfig = vpcConfig
+    }
+}
+
+public struct CreateTrainingSessionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the training session.
+    /// This member is required.
+    public var trainingSessionArn: Swift.String?
+
+    public init(
+        trainingSessionArn: Swift.String? = nil
+    ) {
+        self.trainingSessionArn = trainingSessionArn
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum JoinSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case input
         case `none`
@@ -34762,6 +34918,23 @@ public struct DeleteTrainingJobInput: Swift.Sendable {
     ) {
         self.trainingJobName = trainingJobName
     }
+}
+
+public struct DeleteTrainingSessionInput: Swift.Sendable {
+    /// The name of the training session to delete.
+    /// This member is required.
+    public var trainingSessionName: Swift.String?
+
+    public init(
+        trainingSessionName: Swift.String? = nil
+    ) {
+        self.trainingSessionName = trainingSessionName
+    }
+}
+
+public struct DeleteTrainingSessionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteTrialInput: Swift.Sendable {
@@ -45002,6 +45175,163 @@ public struct DescribeTrainingPlanExtensionHistoryOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.trainingPlanExtensions = trainingPlanExtensions
+    }
+}
+
+public struct DescribeTrainingSessionInput: Swift.Sendable {
+    /// The name of the training session to describe.
+    /// This member is required.
+    public var trainingSessionName: Swift.String?
+
+    public init(
+        trainingSessionName: Swift.String? = nil
+    ) {
+        self.trainingSessionName = trainingSessionName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of a training session.
+    public enum TrainingSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blocked
+        case created
+        case deleting
+        case deletionFailed
+        case expired
+        case failed
+        case running
+        case scheduled
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingSessionStatus] {
+            return [
+                .blocked,
+                .created,
+                .deleting,
+                .deletionFailed,
+                .expired,
+                .failed,
+                .running,
+                .scheduled,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blocked: return "Blocked"
+            case .created: return "Created"
+            case .deleting: return "Deleting"
+            case .deletionFailed: return "DeletionFailed"
+            case .expired: return "Expired"
+            case .failed: return "Failed"
+            case .running: return "Running"
+            case .scheduled: return "Scheduled"
+            case .stopped: return "Stopped"
+            case .stopping: return "Stopping"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains detailed information about a training session.
+    public struct TrainingSessionDetail: Swift.Sendable {
+        /// The billable token usage for the training session.
+        public var billableTokenUsage: SageMakerClientTypes.BillableTokenUsage?
+        /// The date and time that the training session was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the training session ended.
+        public var endTime: Foundation.Date?
+        /// If the training session failed or is blocked, detailed error information.
+        public var errorDetails: Swift.String?
+        /// The date and time that the training session was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The sequence number of the last training operation received by the session.
+        public var lastReceivedSequenceNumber: Swift.Int?
+        /// The Low-Rank Adaptation (LoRA) configuration for the training session.
+        public var loraConfig: SageMakerClientTypes.LoraConfig?
+        /// The configuration for the base model.
+        public var modelConfig: SageMakerClientTypes.TrainingSessionModelConfig?
+        /// The Amazon Resource Name (ARN) of the model package group where checkpoints are published.
+        public var modelPackageGroupArn: Swift.String?
+        /// The output configuration for the training session.
+        public var outputConfig: SageMakerClientTypes.TrainingSessionOutputConfig?
+        /// The Amazon Resource Name (ARN) of the IAM role associated with the training session.
+        public var roleArn: Swift.String?
+        /// The tags associated with the training session.
+        public var tags: [SageMakerClientTypes.Tag]?
+        /// The Amazon Resource Name (ARN) of the training session.
+        /// This member is required.
+        public var trainingSessionArn: Swift.String?
+        /// The name of the training session.
+        /// This member is required.
+        public var trainingSessionName: Swift.String?
+        /// The current status of the training session.
+        /// This member is required.
+        public var trainingSessionStatus: SageMakerClientTypes.TrainingSessionStatus?
+        /// The Virtual Private Cloud (VPC) configuration for the training session.
+        public var vpcConfig: SageMakerClientTypes.VpcConfig?
+
+        public init(
+            billableTokenUsage: SageMakerClientTypes.BillableTokenUsage? = nil,
+            creationTime: Foundation.Date? = nil,
+            endTime: Foundation.Date? = nil,
+            errorDetails: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            lastReceivedSequenceNumber: Swift.Int? = nil,
+            loraConfig: SageMakerClientTypes.LoraConfig? = nil,
+            modelConfig: SageMakerClientTypes.TrainingSessionModelConfig? = nil,
+            modelPackageGroupArn: Swift.String? = nil,
+            outputConfig: SageMakerClientTypes.TrainingSessionOutputConfig? = nil,
+            roleArn: Swift.String? = nil,
+            tags: [SageMakerClientTypes.Tag]? = nil,
+            trainingSessionArn: Swift.String? = nil,
+            trainingSessionName: Swift.String? = nil,
+            trainingSessionStatus: SageMakerClientTypes.TrainingSessionStatus? = nil,
+            vpcConfig: SageMakerClientTypes.VpcConfig? = nil
+        ) {
+            self.billableTokenUsage = billableTokenUsage
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.errorDetails = errorDetails
+            self.lastModifiedTime = lastModifiedTime
+            self.lastReceivedSequenceNumber = lastReceivedSequenceNumber
+            self.loraConfig = loraConfig
+            self.modelConfig = modelConfig
+            self.modelPackageGroupArn = modelPackageGroupArn
+            self.outputConfig = outputConfig
+            self.roleArn = roleArn
+            self.tags = tags
+            self.trainingSessionArn = trainingSessionArn
+            self.trainingSessionName = trainingSessionName
+            self.trainingSessionStatus = trainingSessionStatus
+            self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+public struct DescribeTrainingSessionOutput: Swift.Sendable {
+    /// The detailed information about the training session.
+    /// This member is required.
+    public var trainingSessionDetail: SageMakerClientTypes.TrainingSessionDetail?
+
+    public init(
+        trainingSessionDetail: SageMakerClientTypes.TrainingSessionDetail? = nil
+    ) {
+        self.trainingSessionDetail = trainingSessionDetail
     }
 }
 
@@ -57339,6 +57669,82 @@ public struct ListTrainingPlansOutput: Swift.Sendable {
     }
 }
 
+public struct ListTrainingSessionsInput: Swift.Sendable {
+    /// A filter that returns only training sessions created after the specified time.
+    public var creationTimeAfter: Foundation.Date?
+    /// A filter that returns only training sessions created before the specified time.
+    public var creationTimeBefore: Foundation.Date?
+    /// The maximum number of training sessions to return in the response.
+    public var maxResults: Swift.Int?
+    /// A string in the training session name to filter results. Only sessions whose name contains the specified string are returned.
+    public var nameContains: Swift.String?
+    /// If the response was truncated, use the token returned in the previous response to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A filter that returns only training sessions with the specified status.
+    public var statusEquals: SageMakerClientTypes.TrainingSessionStatus?
+
+    public init(
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        statusEquals: SageMakerClientTypes.TrainingSessionStatus? = nil
+    ) {
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.maxResults = maxResults
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.statusEquals = statusEquals
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains summary information about a training session.
+    public struct TrainingSessionSummary: Swift.Sendable {
+        /// The date and time that the training session was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The date and time that the training session was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the training session.
+        /// This member is required.
+        public var trainingSessionArn: Swift.String?
+        /// The current status of the training session.
+        /// This member is required.
+        public var trainingSessionStatus: SageMakerClientTypes.TrainingSessionStatus?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            trainingSessionArn: Swift.String? = nil,
+            trainingSessionStatus: SageMakerClientTypes.TrainingSessionStatus? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.trainingSessionArn = trainingSessionArn
+            self.trainingSessionStatus = trainingSessionStatus
+        }
+    }
+}
+
+public struct ListTrainingSessionsOutput: Swift.Sendable {
+    /// If the response is truncated, this token retrieves the next set of results.
+    public var nextToken: Swift.String?
+    /// An array of TrainingSessionSummary objects that provide summary information about the training sessions.
+    public var trainingSessionSummaries: [SageMakerClientTypes.TrainingSessionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trainingSessionSummaries: [SageMakerClientTypes.TrainingSessionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.trainingSessionSummaries = trainingSessionSummaries
+    }
+}
+
 public struct ListTransformJobsInput: Swift.Sendable {
     /// A filter that returns only transform jobs created after the specified time.
     public var creationTimeAfter: Foundation.Date?
@@ -61001,6 +61407,23 @@ public struct StopTrainingJobInput: Swift.Sendable {
     ) {
         self.trainingJobName = trainingJobName
     }
+}
+
+public struct StopTrainingSessionInput: Swift.Sendable {
+    /// The name of the training session to stop.
+    /// This member is required.
+    public var trainingSessionName: Swift.String?
+
+    public init(
+        trainingSessionName: Swift.String? = nil
+    ) {
+        self.trainingSessionName = trainingSessionName
+    }
+}
+
+public struct StopTrainingSessionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct StopTransformJobInput: Swift.Sendable {

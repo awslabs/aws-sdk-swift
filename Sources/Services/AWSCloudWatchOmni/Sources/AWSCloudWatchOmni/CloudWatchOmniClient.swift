@@ -2106,6 +2106,7 @@ extension CloudWatchOmniClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The caller is not authorized to perform this action.
+    /// - `ConflictException` : The operation could not be completed because of a conflict with the current state of the resource.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was throttled due to exceeding the allowed request rate.
     /// - `ValidationException` : A parameter is specified incorrectly.
@@ -2186,6 +2187,7 @@ extension CloudWatchOmniClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The caller is not authorized to perform this action.
+    /// - `ConflictException` : The operation could not be completed because of a conflict with the current state of the resource.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The request was throttled due to exceeding the allowed request rate.
     /// - `ValidationException` : A parameter is specified incorrectly.
@@ -4043,6 +4045,7 @@ extension CloudWatchOmniClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The caller is not authorized to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The request was throttled due to exceeding the allowed request rate.
     /// - `ValidationException` : A parameter is specified incorrectly.
     public func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutput {

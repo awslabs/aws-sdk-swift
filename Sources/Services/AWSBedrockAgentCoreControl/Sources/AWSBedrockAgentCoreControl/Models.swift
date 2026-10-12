@@ -11968,7 +11968,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// The configuration for an AWS Lambda hook target.
+    /// The configuration for an Amazon Web Services Lambda hook target.
     public struct HarnessHookLambdaTarget: Swift.Sendable {
         /// The ARN of the Lambda function to invoke.
         /// This member is required.
@@ -12010,7 +12010,7 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The target that receives lifecycle hook events. Specify one target type.
     public enum HarnessHookTarget: Swift.Sendable {
-        /// A Lambda hook target that invokes an AWS Lambda function synchronously and waits for its response.
+        /// A Lambda hook target that invokes an Amazon Web Services Lambda function synchronously and waits for its response.
         case lambda(BedrockAgentCoreControlClientTypes.HarnessHookLambdaTarget)
         /// An Amazon SNS hook target that publishes the hook event without waiting for a response.
         case sns(BedrockAgentCoreControlClientTypes.HarnessHookSnsTarget)
@@ -12221,7 +12221,7 @@ extension BedrockAgentCoreControlClientTypes {
     public struct HarnessManagedMemoryConfiguration: Swift.Sendable {
         /// The ARN of the managed AgentCore Memory resource. Read-only on Get, ignored on Create/Update input.
         public var arn: Swift.String?
-        /// Customer-managed KMS key. Defaults to AWS-owned key. Not updatable after creation.
+        /// Customer-managed KMS key. Defaults to Amazon Web Services-owned key. Not updatable after creation.
         public var encryptionKeyArn: Swift.String?
         /// Event retention in days. Defaults to 30.
         public var eventExpiryDuration: Swift.Int?
@@ -12512,7 +12512,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Passed to show that AWS Skills should be included.
+    /// Passed to show that Amazon Web Services Skills should be included.
     public struct HarnessSkillAwsSkillsSource: Swift.Sendable {
         /// Optionally filter allowed skills with glob syntax, e.g., ['core-skills/*'].
         public var paths: [Swift.String]?
@@ -12595,7 +12595,7 @@ extension BedrockAgentCoreControlClientTypes {
         case s3(BedrockAgentCoreControlClientTypes.HarnessSkillS3Source)
         /// A git repository containing the skill.
         case git(BedrockAgentCoreControlClientTypes.HarnessSkillGitSource)
-        /// AWS Skills baked into the harness's underlying Runtime.
+        /// Amazon Web Services Skills baked into the harness's underlying Runtime.
         case awsskills(BedrockAgentCoreControlClientTypes.HarnessSkillAwsSkillsSource)
         case sdkUnknown(Swift.String)
     }
@@ -12657,7 +12657,7 @@ extension BedrockAgentCoreControlClientTypes {
         case awsiam(BedrockAgentCoreControlClientTypes.Unit)
         /// No authentication.
         case `none`(BedrockAgentCoreControlClientTypes.Unit)
-        /// Use OAuth credentials for outbound authentication to the gateway.
+        /// Use OAuth credentials for outbound authentication to the gateway. The AUTHORIZATION_CODE grant type is not supported for outbound authentication from a harness to an AgentCore Gateway, even when defaultReturnUrl is specified.
         case oauth(BedrockAgentCoreControlClientTypes.OAuthCredentialProvider)
         case sdkUnknown(Swift.String)
     }
@@ -14324,6 +14324,45 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The action to apply to a strategy's record expiry (long-term memory time-to-live) configuration. REMOVE removes a previously configured time-to-live; newer records no longer have a time-to-live set and do not expire.
+    public enum RecordExpiryAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case remove
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordExpiryAction] {
+            return [
+                .remove
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .remove: return "REMOVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies the record expiry (long-term memory time-to-live) for a memory strategy. Provide exactly one of recordExpiryDurationDays or action. Set recordExpiryDurationDays to configure or update the time-to-live, or set action to REMOVE to remove a previously configured time-to-live.
+    public enum RecordExpirySpecification: Swift.Sendable {
+        /// The duration, in days, after which memory records generated by this strategy expire. The minimum is 31 days.
+        case recordexpirydurationdays(Swift.Int)
+        /// The action to apply to the existing record expiry (long-term memory time-to-live) configuration. Set to REMOVE to remove a previously configured time-to-live so that newer records no longer expire. This value is not applicable on create paths.
+        case action(BedrockAgentCoreControlClientTypes.RecordExpiryAction)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Input for creating a custom memory strategy.
     public struct CustomMemoryStrategyInput: Swift.Sendable {
         /// The configuration for the custom memory strategy.
@@ -14340,6 +14379,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the custom memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public var recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification?
 
         public init(
             configuration: BedrockAgentCoreControlClientTypes.CustomConfigurationInput? = nil,
@@ -14347,7 +14388,8 @@ extension BedrockAgentCoreControlClientTypes {
             memoryRecordSchema: BedrockAgentCoreControlClientTypes.MemoryRecordSchema? = nil,
             name: Swift.String? = nil,
             namespaceTemplates: [Swift.String]? = nil,
-            namespaces: [Swift.String]? = nil
+            namespaces: [Swift.String]? = nil,
+            recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification? = nil
         ) {
             self.configuration = configuration
             self.description = description
@@ -14355,13 +14397,14 @@ extension BedrockAgentCoreControlClientTypes {
             self.name = name
             self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
+            self.recordExpirySpecification = recordExpirySpecification
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "CustomMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), recordExpirySpecification: \(Swift.String(describing: recordExpirySpecification)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -14404,6 +14447,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// This is a legacy parameter, use namespaceTemplates. The namespaces for which to create episodes.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public var recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification?
         /// The configuration for the reflections created with the episodic memory strategy.
         public var reflectionConfiguration: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput?
 
@@ -14413,6 +14458,7 @@ extension BedrockAgentCoreControlClientTypes {
             name: Swift.String? = nil,
             namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil,
+            recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification? = nil,
             reflectionConfiguration: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput? = nil
         ) {
             self.description = description
@@ -14420,6 +14466,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.name = name
             self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
+            self.recordExpirySpecification = recordExpirySpecification
             self.reflectionConfiguration = reflectionConfiguration
         }
     }
@@ -14427,7 +14474,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EpisodicMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), reflectionConfiguration: \(Swift.String(describing: reflectionConfiguration)), description: \"CONTENT_REDACTED\")"}
+        "EpisodicMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), recordExpirySpecification: \(Swift.String(describing: recordExpirySpecification)), reflectionConfiguration: \(Swift.String(describing: reflectionConfiguration)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -14446,26 +14493,30 @@ extension BedrockAgentCoreControlClientTypes {
         /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the semantic memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public var recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification?
 
         public init(
             description: Swift.String? = nil,
             memoryRecordSchema: BedrockAgentCoreControlClientTypes.MemoryRecordSchema? = nil,
             name: Swift.String? = nil,
             namespaceTemplates: [Swift.String]? = nil,
-            namespaces: [Swift.String]? = nil
+            namespaces: [Swift.String]? = nil,
+            recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification? = nil
         ) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
+            self.recordExpirySpecification = recordExpirySpecification
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SemanticMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "SemanticMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), recordExpirySpecification: \(Swift.String(describing: recordExpirySpecification)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -14484,26 +14535,30 @@ extension BedrockAgentCoreControlClientTypes {
         /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the summary memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public var recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification?
 
         public init(
             description: Swift.String? = nil,
             memoryRecordSchema: BedrockAgentCoreControlClientTypes.MemoryRecordSchema? = nil,
             name: Swift.String? = nil,
             namespaceTemplates: [Swift.String]? = nil,
-            namespaces: [Swift.String]? = nil
+            namespaces: [Swift.String]? = nil,
+            recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification? = nil
         ) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
+            self.recordExpirySpecification = recordExpirySpecification
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SummaryMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "SummaryMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), recordExpirySpecification: \(Swift.String(describing: recordExpirySpecification)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -14522,26 +14577,30 @@ extension BedrockAgentCoreControlClientTypes {
         /// This is a legacy parameter, use namespaceTemplates. The namespaces associated with the user preference memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
+        /// The record expiry (long-term memory time-to-live) configuration for memory records generated by this strategy. Set recordExpiryDurationDays to the number of days after which records expire. If not specified, records generated by this strategy do not expire.
+        public var recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification?
 
         public init(
             description: Swift.String? = nil,
             memoryRecordSchema: BedrockAgentCoreControlClientTypes.MemoryRecordSchema? = nil,
             name: Swift.String? = nil,
             namespaceTemplates: [Swift.String]? = nil,
-            namespaces: [Swift.String]? = nil
+            namespaces: [Swift.String]? = nil,
+            recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification? = nil
         ) {
             self.description = description
             self.memoryRecordSchema = memoryRecordSchema
             self.name = name
             self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
+            self.recordExpirySpecification = recordExpirySpecification
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserPreferenceMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "UserPreferenceMemoryStrategyInput(memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), recordExpirySpecification: \(Swift.String(describing: recordExpirySpecification)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -15406,6 +15465,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// This member is required.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
+        /// The effective record expiry (long-term memory time-to-live), in days, for memory records generated by this strategy. New records expire this many days after they are created. If not set, records generated by this strategy do not expire.
+        public var recordExpiryDurationDays: Swift.Int?
         /// The current status of the memory strategy.
         public var status: BedrockAgentCoreControlClientTypes.MemoryStrategyStatus?
         /// The unique identifier of the memory strategy.
@@ -15425,6 +15486,7 @@ extension BedrockAgentCoreControlClientTypes {
             name: Swift.String? = nil,
             namespaceTemplates: [Swift.String]? = nil,
             namespaces: [Swift.String]? = nil,
+            recordExpiryDurationDays: Swift.Int? = nil,
             status: BedrockAgentCoreControlClientTypes.MemoryStrategyStatus? = nil,
             strategyId: Swift.String? = nil,
             type: BedrockAgentCoreControlClientTypes.MemoryStrategyType? = nil,
@@ -15437,6 +15499,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.name = name
             self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
+            self.recordExpiryDurationDays = recordExpiryDurationDays
             self.status = status
             self.strategyId = strategyId
             self.type = type
@@ -15447,7 +15510,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.MemoryStrategy: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MemoryStrategy(configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), status: \(Swift.String(describing: status)), strategyId: \(Swift.String(describing: strategyId)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+        "MemoryStrategy(configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), name: \(Swift.String(describing: name)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), recordExpiryDurationDays: \(Swift.String(describing: recordExpiryDurationDays)), status: \(Swift.String(describing: status)), strategyId: \(Swift.String(describing: strategyId)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -15549,7 +15612,7 @@ public struct CreateMemoryOutput: Swift.Sendable {
 }
 
 public struct DeleteMemoryInput: Swift.Sendable {
-    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
+    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier.
     public var clientToken: Swift.String?
     /// The unique identifier of the memory to delete.
     /// This member is required.
@@ -15880,6 +15943,8 @@ extension BedrockAgentCoreControlClientTypes {
         /// This is a legacy parameter, use namespaceTemplates. The updated namespaces for the memory strategy.
         @available(*, deprecated, message: "Use namespaceTemplates instead API deprecated since 2026-03-02")
         public var namespaces: [Swift.String]?
+        /// Updates or removes the record expiry (long-term memory time-to-live) for this strategy. Set recordExpiryDurationDays to configure or update the number of days after which records expire, or set action to REMOVE to remove a previously configured time-to-live so that newer records no longer expire. The change applies only to records created after the update.
+        public var recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification?
 
         public init(
             configuration: BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration? = nil,
@@ -15887,7 +15952,8 @@ extension BedrockAgentCoreControlClientTypes {
             memoryRecordSchema: BedrockAgentCoreControlClientTypes.MemoryRecordSchema? = nil,
             memoryStrategyId: Swift.String? = nil,
             namespaceTemplates: [Swift.String]? = nil,
-            namespaces: [Swift.String]? = nil
+            namespaces: [Swift.String]? = nil,
+            recordExpirySpecification: BedrockAgentCoreControlClientTypes.RecordExpirySpecification? = nil
         ) {
             self.configuration = configuration
             self.description = description
@@ -15895,13 +15961,14 @@ extension BedrockAgentCoreControlClientTypes {
             self.memoryStrategyId = memoryStrategyId
             self.namespaceTemplates = namespaceTemplates
             self.namespaces = namespaces
+            self.recordExpirySpecification = recordExpirySpecification
         }
     }
 }
 
 extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), memoryStrategyId: \(Swift.String(describing: memoryStrategyId)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), description: \"CONTENT_REDACTED\")"}
+        "ModifyMemoryStrategyInput(configuration: \(Swift.String(describing: configuration)), memoryRecordSchema: \(Swift.String(describing: memoryRecordSchema)), memoryStrategyId: \(Swift.String(describing: memoryStrategyId)), namespaceTemplates: \(Swift.String(describing: namespaceTemplates)), namespaces: \(Swift.String(describing: namespaces)), recordExpirySpecification: \(Swift.String(describing: recordExpirySpecification)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -15930,7 +15997,7 @@ extension BedrockAgentCoreControlClientTypes {
 public struct UpdateMemoryInput: Swift.Sendable {
     /// Additional metadata keys to index. Previously indexed keys cannot be removed.
     public var addIndexedKeys: [BedrockAgentCoreControlClientTypes.IndexedKey]?
-    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
+    /// A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique Amazon Web Services identifier.
     public var clientToken: Swift.String?
     /// The updated description of the AgentCore Memory resource.
     public var description: Swift.String?
@@ -20843,7 +20910,7 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct StartPolicyGenerationInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
+    /// A unique, case-sensitive identifier to ensure the idempotency of the request. The Amazon Web Services SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
     public var clientToken: Swift.String?
     /// The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Dogwood policy statements that match the described intent.
     /// This member is required.
@@ -20989,7 +21056,7 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreatePolicyInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
+    /// A unique, case-sensitive identifier to ensure the idempotency of the request. The Amazon Web Services SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
     public var clientToken: Swift.String?
     /// The Cedar or Dogwood policy statement that defines the access control rules. This contains the actual policy logic written in Cedar or Dogwood, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
     /// This member is required.
@@ -35361,6 +35428,7 @@ extension BedrockAgentCoreControlClientTypes.CustomMemoryStrategyInput {
         try writer["name"].write(value.name)
         try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreControlClientTypes.RecordExpirySpecification.write(value:to:))
     }
 }
 
@@ -35724,6 +35792,7 @@ extension BedrockAgentCoreControlClientTypes.EpisodicMemoryStrategyInput {
         try writer["name"].write(value.name)
         try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreControlClientTypes.RecordExpirySpecification.write(value:to:))
         try writer["reflectionConfiguration"].write(value.reflectionConfiguration, with: BedrockAgentCoreControlClientTypes.EpisodicReflectionConfigurationInput.write(value:to:))
     }
 }
@@ -38245,6 +38314,7 @@ extension BedrockAgentCoreControlClientTypes.MemoryStrategy {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["status"].readIfPresent()
         value.memoryRecordSchema = try reader["memoryRecordSchema"].readIfPresent(with: BedrockAgentCoreControlClientTypes.MemoryRecordSchema.read(from:))
+        value.recordExpiryDurationDays = try reader["recordExpiryDurationDays"].readIfPresent()
         return value
     }
 }
@@ -38451,6 +38521,7 @@ extension BedrockAgentCoreControlClientTypes.ModifyMemoryStrategyInput {
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
         try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreControlClientTypes.RecordExpirySpecification.write(value:to:))
     }
 }
 
@@ -39311,6 +39382,21 @@ extension BedrockAgentCoreControlClientTypes.ReasoningConfiguration {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.RecordExpirySpecification {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RecordExpirySpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .action(action):
+                try writer["action"].write(action)
+            case let .recordexpirydurationdays(recordexpirydurationdays):
+                try writer["recordExpiryDurationDays"].write(recordexpirydurationdays)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.RecordingConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.RecordingConfig?, to writer: SmithyJSON.Writer) throws {
@@ -39927,6 +40013,7 @@ extension BedrockAgentCoreControlClientTypes.SemanticMemoryStrategyInput {
         try writer["name"].write(value.name)
         try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreControlClientTypes.RecordExpirySpecification.write(value:to:))
     }
 }
 
@@ -40276,6 +40363,7 @@ extension BedrockAgentCoreControlClientTypes.SummaryMemoryStrategyInput {
         try writer["name"].write(value.name)
         try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreControlClientTypes.RecordExpirySpecification.write(value:to:))
     }
 }
 
@@ -40789,6 +40877,7 @@ extension BedrockAgentCoreControlClientTypes.UserPreferenceMemoryStrategyInput {
         try writer["name"].write(value.name)
         try writer["namespaceTemplates"].writeList(value.namespaceTemplates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreControlClientTypes.RecordExpirySpecification.write(value:to:))
     }
 }
 

@@ -239,6 +239,7 @@ extension DevOpsAgentClientTypes {
         case apiKey
         /// Bearer token authentication (RFC 6750).
         case bearerToken
+        case customHeaders
         /// OAuth 2.0 three-legged authorization flow.
         case oauth3lo
         /// OAuth 2.0 client credentials flow.
@@ -249,6 +250,7 @@ extension DevOpsAgentClientTypes {
             return [
                 .apiKey,
                 .bearerToken,
+                .customHeaders,
                 .oauth3lo,
                 .oauthClientCredentials
             ]
@@ -263,6 +265,7 @@ extension DevOpsAgentClientTypes {
             switch self {
             case .apiKey: return "api-key"
             case .bearerToken: return "bearer-token"
+            case .customHeaders: return "custom-headers"
             case .oauth3lo: return "oauth-3lo"
             case .oauthClientCredentials: return "oauth-client-credentials"
             case let .sdkUnknown(s): return s
@@ -280,6 +283,8 @@ extension DevOpsAgentClientTypes {
         /// The MCP server uses this authorization method.
         /// This member is required.
         public var authorizationMethod: DevOpsAgentClientTypes.MCPServerAuthorizationMethod?
+        /// The configured custom authentication header names when the MCP server uses custom-header authentication. Secret values are not returned.
+        public var customHeaderNames: [Swift.String]?
         /// Optional description for the MCP server.
         public var description: Swift.String?
         /// The MCP server endpoint URL.
@@ -292,12 +297,14 @@ extension DevOpsAgentClientTypes {
         public init(
             apiKeyHeader: Swift.String? = nil,
             authorizationMethod: DevOpsAgentClientTypes.MCPServerAuthorizationMethod? = nil,
+            customHeaderNames: [Swift.String]? = nil,
             description: Swift.String? = nil,
             endpoint: Swift.String? = nil,
             name: Swift.String? = nil
         ) {
             self.apiKeyHeader = apiKeyHeader
             self.authorizationMethod = authorizationMethod
+            self.customHeaderNames = customHeaderNames
             self.description = description
             self.endpoint = endpoint
             self.name = name
@@ -307,7 +314,7 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes.RegisteredMCPServerDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegisteredMCPServerDetails(apiKeyHeader: \(Swift.String(describing: apiKeyHeader)), authorizationMethod: \(Swift.String(describing: authorizationMethod)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
+        "RegisteredMCPServerDetails(apiKeyHeader: \(Swift.String(describing: apiKeyHeader)), authorizationMethod: \(Swift.String(describing: authorizationMethod)), customHeaderNames: \(Swift.String(describing: customHeaderNames)), endpoint: \(Swift.String(describing: endpoint)), name: \(Swift.String(describing: name)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension DevOpsAgentClientTypes {
@@ -2506,16 +2513,50 @@ public struct EnableOperatorAppOutput: Swift.Sendable {
     }
 }
 
+extension DevOpsAgentClientTypes {
+
+    /// How much data to include in the response. Defaults to ALL_DATA.
+    public enum IncludedData: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allData
+        case metadataOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludedData] {
+            return [
+                .allData,
+                .metadataOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allData: return "ALL_DATA"
+            case .metadataOnly: return "METADATA_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Input for retrieving a specific AgentSpace by ID.
 public struct GetAgentSpaceInput: Swift.Sendable {
     /// The unique identifier of the AgentSpace
     /// This member is required.
     public var agentSpaceId: Swift.String?
+    /// How much data to include in the response.
+    public var includedData: DevOpsAgentClientTypes.IncludedData?
 
     public init(
-        agentSpaceId: Swift.String? = nil
+        agentSpaceId: Swift.String? = nil,
+        includedData: DevOpsAgentClientTypes.IncludedData? = nil
     ) {
         self.agentSpaceId = agentSpaceId
+        self.includedData = includedData
     }
 }
 
@@ -2575,15 +2616,19 @@ public struct GetOperatorAppOutput: Swift.Sendable {
 
 /// Input for listing AgentSpaces with pagination support.
 public struct ListAgentSpacesInput: Swift.Sendable {
+    /// How much data to include in the response.
+    public var includedData: DevOpsAgentClientTypes.IncludedData?
     /// Maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// Token for the next page of results.
     public var nextToken: Swift.String?
 
     public init(
+        includedData: DevOpsAgentClientTypes.IncludedData? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.includedData = includedData
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -4549,6 +4594,8 @@ extension DevOpsAgentClientTypes {
 public struct GetAccountUsageOutput: Swift.Sendable {
     /// Monthly evaluation hours usage and limit for an account
     public var monthlyAccountEvaluationHours: DevOpsAgentClientTypes.UsageMetric?
+    /// Represents a usage metric with its configured limit and current usage value.
+    public var monthlyAccountGraderHours: DevOpsAgentClientTypes.UsageMetric?
     /// Monthly investigation hours usage and limit for an account
     public var monthlyAccountInvestigationHours: DevOpsAgentClientTypes.UsageMetric?
     /// Monthly on-demand hours usage and limit for an account
@@ -4564,6 +4611,7 @@ public struct GetAccountUsageOutput: Swift.Sendable {
 
     public init(
         monthlyAccountEvaluationHours: DevOpsAgentClientTypes.UsageMetric? = nil,
+        monthlyAccountGraderHours: DevOpsAgentClientTypes.UsageMetric? = nil,
         monthlyAccountInvestigationHours: DevOpsAgentClientTypes.UsageMetric? = nil,
         monthlyAccountOnDemandHours: DevOpsAgentClientTypes.UsageMetric? = nil,
         monthlyAccountSystemLearningHours: DevOpsAgentClientTypes.UsageMetric? = nil,
@@ -4571,6 +4619,7 @@ public struct GetAccountUsageOutput: Swift.Sendable {
         usagePeriodStartTime: Foundation.Date? = nil
     ) {
         self.monthlyAccountEvaluationHours = monthlyAccountEvaluationHours
+        self.monthlyAccountGraderHours = monthlyAccountGraderHours
         self.monthlyAccountInvestigationHours = monthlyAccountInvestigationHours
         self.monthlyAccountOnDemandHours = monthlyAccountOnDemandHours
         self.monthlyAccountSystemLearningHours = monthlyAccountSystemLearningHours
@@ -7107,6 +7156,27 @@ extension DevOpsAgentClientTypes.MCPServerBearerTokenConfig: Swift.CustomDebugSt
 
 extension DevOpsAgentClientTypes {
 
+    /// Configuration for authenticating to an MCP server with custom HTTP headers.
+    public struct MCPServerCustomHeadersConfig: Swift.Sendable {
+        /// Custom headers map.
+        /// This member is required.
+        public var headers: [Swift.String: Swift.String]?
+
+        public init(
+            headers: [Swift.String: Swift.String]? = nil
+        ) {
+            self.headers = headers
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerCustomHeadersConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MCPServerCustomHeadersConfig(headers: [keys: \(Swift.String(describing: headers?.keys)), values: \"CONTENT_REDACTED\"])"}
+}
+
+extension DevOpsAgentClientTypes {
+
     /// OAuth 3-legged authorization configuration for MCP server.
     public struct MCPServerOAuth3LOConfig: Swift.Sendable {
         /// OAuth authorization URL for 3LO authentication.
@@ -7216,6 +7286,8 @@ extension DevOpsAgentClientTypes {
         case apikey(DevOpsAgentClientTypes.MCPServerAPIKeyConfig)
         /// MCP server configuration with Bearer token (RFC 6750).
         case bearertoken(DevOpsAgentClientTypes.MCPServerBearerTokenConfig)
+        /// MCP server configuration with one or more custom authentication headers.
+        case customheaders(DevOpsAgentClientTypes.MCPServerCustomHeadersConfig)
         /// MCP server authorization discovery configuration.
         case authorizationdiscovery(DevOpsAgentClientTypes.MCPServerAuthorizationDiscoveryConfig)
         case sdkUnknown(Swift.String)
@@ -8490,6 +8562,18 @@ extension GetAgentSpaceInput {
     }
 }
 
+extension GetAgentSpaceInput {
+
+    static func queryItemProvider(_ value: GetAgentSpaceInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let includedData = value.includedData {
+            let includedDataQueryItem = Smithy.URIQueryItem(name: "includedData".urlPercentEncoding(), value: Swift.String(includedData.rawValue).urlPercentEncoding())
+            items.append(includedDataQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetAssetInput {
 
     static func urlPathProvider(_ value: GetAssetInput) -> Swift.String? {
@@ -8670,6 +8754,10 @@ extension ListAgentSpacesInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let includedData = value.includedData {
+            let includedDataQueryItem = Smithy.URIQueryItem(name: "includedData".urlPercentEncoding(), value: Swift.String(includedData.rawValue).urlPercentEncoding())
+            items.append(includedDataQueryItem)
         }
         return items
     }
@@ -9725,6 +9813,7 @@ extension GetAccountUsageOutput {
         let reader = responseReader
         var value = GetAccountUsageOutput()
         value.monthlyAccountEvaluationHours = try reader["monthlyAccountEvaluationHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
+        value.monthlyAccountGraderHours = try reader["monthlyAccountGraderHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
         value.monthlyAccountInvestigationHours = try reader["monthlyAccountInvestigationHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
         value.monthlyAccountOnDemandHours = try reader["monthlyAccountOnDemandHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
         value.monthlyAccountSystemLearningHours = try reader["monthlyAccountSystemLearningHours"].readIfPresent(with: DevOpsAgentClientTypes.UsageMetric.read(from:))
@@ -11324,6 +11413,7 @@ enum UpdateAssociationOutputError {
         if let error = baseError.customError() { return error }
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -12367,6 +12457,8 @@ extension DevOpsAgentClientTypes.MCPServerAuthorizationConfig {
                 try writer["authorizationDiscovery"].write(authorizationdiscovery, with: DevOpsAgentClientTypes.MCPServerAuthorizationDiscoveryConfig.write(value:to:))
             case let .bearertoken(bearertoken):
                 try writer["bearerToken"].write(bearertoken, with: DevOpsAgentClientTypes.MCPServerBearerTokenConfig.write(value:to:))
+            case let .customheaders(customheaders):
+                try writer["customHeaders"].write(customheaders, with: DevOpsAgentClientTypes.MCPServerCustomHeadersConfig.write(value:to:))
             case let .oauth3lo(oauth3lo):
                 try writer["oAuth3LO"].write(oauth3lo, with: DevOpsAgentClientTypes.MCPServerOAuth3LOConfig.write(value:to:))
             case let .oauthclientcredentials(oauthclientcredentials):
@@ -12409,6 +12501,14 @@ extension DevOpsAgentClientTypes.MCPServerConfiguration {
         value.tools = try reader["tools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.toolDetails = try reader["toolDetails"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.MCPToolDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension DevOpsAgentClientTypes.MCPServerCustomHeadersConfig {
+
+    static func write(value: DevOpsAgentClientTypes.MCPServerCustomHeadersConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12970,6 +13070,7 @@ extension DevOpsAgentClientTypes.RegisteredMCPServerDetails {
         value.authorizationMethod = try reader["authorizationMethod"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.apiKeyHeader = try reader["apiKeyHeader"].readIfPresent()
+        value.customHeaderNames = try reader["customHeaderNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
