@@ -5639,6 +5639,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         public var phoneNumberId: Swift.String?
         /// The unique identifier of the pool associated with the phone number.
         public var poolId: Swift.String?
+        /// The pricing model.
+        public var pricingTier: Swift.String?
         /// The unique identifier for the registration.
         public var registrationId: Swift.String?
         /// When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User Messaging SMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out request. For more information see [Self-managed opt-outs](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-sms-managing.html#settings-account-sms-self-managed-opt-out)
@@ -5670,6 +5672,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             phoneNumberArn: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             poolId: Swift.String? = nil,
+            pricingTier: Swift.String? = nil,
             registrationId: Swift.String? = nil,
             selfManagedOptOutsEnabled: Swift.Bool = false,
             status: PinpointSMSVoiceV2ClientTypes.NumberStatus? = nil,
@@ -5691,6 +5694,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
             self.poolId = poolId
+            self.pricingTier = pricingTier
             self.registrationId = registrationId
             self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
             self.status = status
@@ -7675,6 +7679,8 @@ extension PinpointSMSVoiceV2ClientTypes {
         /// The monthly leasing price, in US dollars.
         /// This member is required.
         public var monthlyLeasingPrice: Swift.String?
+        /// The pricing model.
+        public var pricingTier: Swift.String?
         /// True if the sender ID is registered.
         /// This member is required.
         public var registered: Swift.Bool
@@ -7693,6 +7699,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             messageTypes: [PinpointSMSVoiceV2ClientTypes.MessageType]? = nil,
             messagingLimits: PinpointSMSVoiceV2ClientTypes.MessagingLimits? = nil,
             monthlyLeasingPrice: Swift.String? = nil,
+            pricingTier: Swift.String? = nil,
             registered: Swift.Bool = false,
             registrationId: Swift.String? = nil,
             senderId: Swift.String? = nil,
@@ -7703,6 +7710,7 @@ extension PinpointSMSVoiceV2ClientTypes {
             self.messageTypes = messageTypes
             self.messagingLimits = messagingLimits
             self.monthlyLeasingPrice = monthlyLeasingPrice
+            self.pricingTier = pricingTier
             self.registered = registered
             self.registrationId = registrationId
             self.senderId = senderId

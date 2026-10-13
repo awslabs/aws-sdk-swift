@@ -2080,6 +2080,7 @@ extension DevOpsAgentClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentSpaceInput, GetAgentSpaceOutput>(GetAgentSpaceInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentSpaceInput, GetAgentSpaceOutput>(hostPrefix: "cp."))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetAgentSpaceInput, GetAgentSpaceOutput>(GetAgentSpaceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentSpaceOutput>(GetAgentSpaceOutput.httpOutput(from:), GetAgentSpaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentSpaceInput, GetAgentSpaceOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

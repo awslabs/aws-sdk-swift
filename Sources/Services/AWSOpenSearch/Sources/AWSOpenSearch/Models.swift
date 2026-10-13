@@ -3289,18 +3289,52 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// The type of encryption at rest applied to a domain's data: DISK for volume-level encryption or NATIVE for engine-native, index-level encryption.
+    public enum EncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disk
+        case native
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionMode] {
+            return [
+                .disk,
+                .native
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disk: return "DISK"
+            case .native: return "NATIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Specifies whether the domain should encrypt data at rest, and if so, the Key Management Service (KMS) key to use. Can only be used when creating a new domain or enabling encryption at rest for the first time on an existing domain. You can't modify this parameter after it's already been specified.
     public struct EncryptionAtRestOptions: Swift.Sendable {
         /// True to enable encryption at rest.
         public var enabled: Swift.Bool?
+        /// The type of encryption at rest applied to the domain's data. Valid values are DISK and NATIVE. DISK is the default and uses volume-level encryption. NATIVE uses engine-native, index-level encryption and requires encryption at rest to be enabled and OpenSearch version 3.3 or later. After the mode is set to NATIVE, it can't be changed back to DISK.
+        public var encryptionMode: OpenSearchClientTypes.EncryptionMode?
         /// The KMS key ID. Takes the form 1a2a3a4-1a2a-3a4a-5a6a-1a2a3a4a5a6a.
         public var kmsKeyId: Swift.String?
 
         public init(
             enabled: Swift.Bool? = nil,
+            encryptionMode: OpenSearchClientTypes.EncryptionMode? = nil,
             kmsKeyId: Swift.String? = nil
         ) {
             self.enabled = enabled
+            self.encryptionMode = encryptionMode
             self.kmsKeyId = kmsKeyId
         }
     }
@@ -10948,7 +10982,7 @@ extension OpenSearchClientTypes {
 
 /// Container for the request parameters to the UpdateDomain operation.
 public struct UpdateDomainConfigInput: Swift.Sendable {
-    /// A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in theValidationFailures list returned by DescribeDomainChangeProgressand DescribeDryRunProgress. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see [Validating a domain update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check).
+    /// A list of advisory warning codes to accept for this configuration change. By default, any advisory warning blocks the change. Include the code of each warning you want to accept so the change can proceed. You can find warning codes in the ValidationFailures list returned by DescribeDomainChangeProgress and DescribeDryRunProgress. Critical validation failures cannot be accepted and always block the change. If you omit this parameter or pass an empty list, all warnings block the change. For more information, see [Validating a domain update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check).
     public var acceptedWarnings: [Swift.String]?
     /// Identity and Access Management (IAM) access policy as a JSON-formatted string.
     public var accessPolicies: Swift.String?
@@ -17394,6 +17428,7 @@ extension OpenSearchClientTypes.EncryptionAtRestOptions {
     static func write(value: OpenSearchClientTypes.EncryptionAtRestOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+        try writer["EncryptionMode"].write(value.encryptionMode)
         try writer["KmsKeyId"].write(value.kmsKeyId)
     }
 
@@ -17402,6 +17437,7 @@ extension OpenSearchClientTypes.EncryptionAtRestOptions {
         var value = OpenSearchClientTypes.EncryptionAtRestOptions()
         value.enabled = try reader["Enabled"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.encryptionMode = try reader["EncryptionMode"].readIfPresent()
         return value
     }
 }

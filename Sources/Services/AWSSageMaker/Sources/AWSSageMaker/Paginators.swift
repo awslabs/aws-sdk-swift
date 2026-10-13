@@ -2943,6 +2943,40 @@ extension PaginatorSequence where OperationStackInput == ListTrainingPlansInput,
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListTrainingSessionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTrainingSessionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTrainingSessionsOutput`
+    public func listTrainingSessionsPaginated(input: ListTrainingSessionsInput) -> ClientRuntime.PaginatorSequence<ListTrainingSessionsInput, ListTrainingSessionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTrainingSessionsInput, ListTrainingSessionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrainingSessions(input:))
+    }
+}
+
+extension ListTrainingSessionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTrainingSessionsInput {
+        return ListTrainingSessionsInput(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            statusEquals: self.statusEquals
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTrainingSessionsInput, OperationStackOutput == ListTrainingSessionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTrainingSessionsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.TrainingSessionSummary]`
+    /// - Returns: `[SageMakerClientTypes.TrainingSessionSummary]`
+    public func trainingSessionSummaries() async throws -> [SageMakerClientTypes.TrainingSessionSummary] {
+        return try await self.asyncCompactMap { item in item.trainingSessionSummaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListTransformJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

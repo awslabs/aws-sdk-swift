@@ -3379,7 +3379,7 @@ extension GlueClientTypes {
         public var jobName: Swift.String?
         /// The job run ID associated with the data quality result, if any.
         public var jobRunId: Swift.String?
-        /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
+        /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
         public var observations: [GlueClientTypes.DataQualityObservation]?
         /// The Profile ID for the data quality result.
         public var profileId: Swift.String?
@@ -3441,6 +3441,106 @@ public struct BatchGetDataQualityResultOutput: Swift.Sendable {
 
     public init(
         results: [GlueClientTypes.DataQualityResult]? = nil,
+        resultsNotFound: [Swift.String]? = nil
+    ) {
+        self.results = results
+        self.resultsNotFound = resultsNotFound
+    }
+}
+
+public struct BatchGetDataQualityResultV2Input: Swift.Sendable {
+    /// A list of unique result IDs for the data quality results.
+    /// This member is required.
+    public var resultIds: [Swift.String]?
+
+    public init(
+        resultIds: [Swift.String]? = nil
+    ) {
+        self.resultIds = resultIds
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Describes a data quality result returned by BatchGetDataQualityResultV2.
+    public struct DataQualityResultV2Item: Swift.Sendable {
+        /// A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+        public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
+        /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
+        public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+        /// The table associated with the data quality result, if any.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
+        public var descriptors: [Swift.String: Swift.String]?
+        /// A map of platform-specific identifiers, such as cluster, application, workgroup, or project IDs, that identify where the data quality evaluation ran.
+        public var dimensions: [Swift.String: Swift.String]?
+        /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
+        public var evaluationContext: Swift.String?
+        /// The date and time when this data quality run completed.
+        public var executionCompletedOn: Foundation.Date?
+        /// The date and time when this data quality run started.
+        public var executionStartedOn: Foundation.Date?
+        /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
+        public var observations: [GlueClientTypes.DataQualityObservation]?
+        /// A unique result ID for the data quality result.
+        /// This member is required.
+        public var resultId: Swift.String?
+        /// The date and time when this data quality result was published.
+        public var resultPublishedOn: Foundation.Date?
+        /// A list of DataQualityRuleResult objects representing the results for each rule.
+        public var ruleResults: [GlueClientTypes.DataQualityRuleResult]?
+        /// The name of the ruleset associated with the data quality result.
+        public var rulesetName: Swift.String?
+        /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+        public var score: Swift.Double?
+        /// A map of tags associated with the data quality result.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
+            analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
+            dataSource: GlueClientTypes.DataSource? = nil,
+            descriptors: [Swift.String: Swift.String]? = nil,
+            dimensions: [Swift.String: Swift.String]? = nil,
+            evaluationContext: Swift.String? = nil,
+            executionCompletedOn: Foundation.Date? = nil,
+            executionStartedOn: Foundation.Date? = nil,
+            observations: [GlueClientTypes.DataQualityObservation]? = nil,
+            resultId: Swift.String? = nil,
+            resultPublishedOn: Foundation.Date? = nil,
+            ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
+            rulesetName: Swift.String? = nil,
+            score: Swift.Double? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.aggregatedMetrics = aggregatedMetrics
+            self.analyzerResults = analyzerResults
+            self.dataSource = dataSource
+            self.descriptors = descriptors
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.executionCompletedOn = executionCompletedOn
+            self.executionStartedOn = executionStartedOn
+            self.observations = observations
+            self.resultId = resultId
+            self.resultPublishedOn = resultPublishedOn
+            self.ruleResults = ruleResults
+            self.rulesetName = rulesetName
+            self.score = score
+            self.tags = tags
+        }
+    }
+}
+
+public struct BatchGetDataQualityResultV2Output: Swift.Sendable {
+    /// A list of DataQualityResultV2Item objects representing the data quality results.
+    /// This member is required.
+    public var results: [GlueClientTypes.DataQualityResultV2Item]?
+    /// A list of result IDs for which results were not found.
+    public var resultsNotFound: [Swift.String]?
+
+    public init(
+        results: [GlueClientTypes.DataQualityResultV2Item]? = nil,
         resultsNotFound: [Swift.String]? = nil
     ) {
         self.results = results
@@ -21675,7 +21775,7 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
     public var jobName: Swift.String?
     /// The job run ID associated with the data quality result, if any.
     public var jobRunId: Swift.String?
-    /// A list of DataQualityObservation objects representing the observations generated after evaluating the rules and analyzers.
+    /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
     public var observations: [GlueClientTypes.DataQualityObservation]?
     /// The Profile ID for the data quality result.
     public var profileId: Swift.String?
@@ -21724,6 +21824,89 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         self.rulesetName = rulesetName
         self.score = score
         self.startedOn = startedOn
+    }
+}
+
+public struct GetDataQualityResultV2Input: Swift.Sendable {
+    /// A unique result ID for the data quality result.
+    /// This member is required.
+    public var resultId: Swift.String?
+
+    public init(
+        resultId: Swift.String? = nil
+    ) {
+        self.resultId = resultId
+    }
+}
+
+public struct GetDataQualityResultV2Output: Swift.Sendable {
+    /// A summary of DataQualityAggregatedMetrics objects showing the total counts of processed rows and rules, including their pass/fail statistics based on row-level results.
+    public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
+    /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
+    public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+    /// The table associated with the data quality result, if any.
+    public var dataSource: GlueClientTypes.DataSource?
+    /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
+    public var descriptors: [Swift.String: Swift.String]?
+    /// A map of platform-specific identifiers, such as cluster, application, workgroup, or project IDs, that identify where the data quality evaluation ran.
+    public var dimensions: [Swift.String: Swift.String]?
+    /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
+    public var evaluationContext: Swift.String?
+    /// The date and time when this data quality run completed.
+    public var executionCompletedOn: Foundation.Date?
+    /// The date and time when this data quality run started.
+    public var executionStartedOn: Foundation.Date?
+    /// A list of DataQualityObservation objects representing the anomaly detection observations generated after evaluating the rules and analyzers.
+    public var observations: [GlueClientTypes.DataQualityObservation]?
+    /// The Profile ID for the data quality result.
+    public var profileId: Swift.String?
+    /// A unique result ID for the data quality result.
+    public var resultId: Swift.String?
+    /// The date and time when this data quality result was published.
+    public var resultPublishedOn: Foundation.Date?
+    /// A list of DataQualityRuleResult objects representing the results for each rule.
+    public var ruleResults: [GlueClientTypes.DataQualityRuleResult]?
+    /// The name of the ruleset associated with the data quality result.
+    public var rulesetName: Swift.String?
+    /// An aggregate data quality score. Represents the ratio of rules that passed to the total number of rules.
+    public var score: Swift.Double?
+    /// A map of tags associated with the data quality result.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
+        analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
+        dataSource: GlueClientTypes.DataSource? = nil,
+        descriptors: [Swift.String: Swift.String]? = nil,
+        dimensions: [Swift.String: Swift.String]? = nil,
+        evaluationContext: Swift.String? = nil,
+        executionCompletedOn: Foundation.Date? = nil,
+        executionStartedOn: Foundation.Date? = nil,
+        observations: [GlueClientTypes.DataQualityObservation]? = nil,
+        profileId: Swift.String? = nil,
+        resultId: Swift.String? = nil,
+        resultPublishedOn: Foundation.Date? = nil,
+        ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
+        rulesetName: Swift.String? = nil,
+        score: Swift.Double? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.aggregatedMetrics = aggregatedMetrics
+        self.analyzerResults = analyzerResults
+        self.dataSource = dataSource
+        self.descriptors = descriptors
+        self.dimensions = dimensions
+        self.evaluationContext = evaluationContext
+        self.executionCompletedOn = executionCompletedOn
+        self.executionStartedOn = executionStartedOn
+        self.observations = observations
+        self.profileId = profileId
+        self.resultId = resultId
+        self.resultPublishedOn = resultPublishedOn
+        self.ruleResults = ruleResults
+        self.rulesetName = rulesetName
+        self.score = score
+        self.tags = tags
     }
 }
 
@@ -24795,6 +24978,57 @@ public struct GetStatementOutput: Swift.Sendable {
     }
 }
 
+public struct GetSystemLogsForJobRunInput: Swift.Sendable {
+    /// The name of the job.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The ID of the job run.
+    /// This member is required.
+    public var runId: Swift.String?
+
+    public init(
+        jobName: Swift.String? = nil,
+        runId: Swift.String? = nil
+    ) {
+        self.jobName = jobName
+        self.runId = runId
+    }
+}
+
+public struct GetSystemLogsForJobRunOutput: Swift.Sendable {
+    /// The URL to download the system logs for the job run.
+    public var systemLogsUrl: Swift.String?
+
+    public init(
+        systemLogsUrl: Swift.String? = nil
+    ) {
+        self.systemLogsUrl = systemLogsUrl
+    }
+}
+
+public struct GetSystemLogsForSessionInput: Swift.Sendable {
+    /// The ID of the session.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    ) {
+        self.id = id
+    }
+}
+
+public struct GetSystemLogsForSessionOutput: Swift.Sendable {
+    /// The URL to download the system logs for the session.
+    public var systemLogsUrl: Swift.String?
+
+    public init(
+        systemLogsUrl: Swift.String? = nil
+    ) {
+        self.systemLogsUrl = systemLogsUrl
+    }
+}
+
 extension GlueClientTypes {
 
     public enum TableAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -24932,6 +25166,21 @@ extension GlueClientTypes {
             self.schemas = schemas
             self.sortOrders = sortOrders
             self.tableUuid = tableUuid
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// A structure that describes the default row-level security policy of a table.
+    public struct RLSProperties: Swift.Sendable {
+        /// The name of the default row-level security policy applied to the table.
+        public var defaultRLSPolicy: Swift.String?
+
+        public init(
+            defaultRLSPolicy: Swift.String? = nil
+        ) {
+            self.defaultRLSPolicy = defaultRLSPolicy
         }
     }
 }
@@ -26670,6 +26919,107 @@ public struct ListDataQualityResultsOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Describes the criteria used to filter the data quality results returned by ListDataQualityResultsV2.
+    public struct DataQualityResultsV2FilterCriteria: Swift.Sendable {
+        /// The data source used to filter the results. For example, you can retrieve all results for an Glue table. DatabaseName and TableName are required. If you omit CatalogId, the catalog of the calling account is used. When you filter by data source, a page of results can be empty but still include a NextToken. Keep requesting pages until NextToken is absent.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// The platform dimensions to filter results by.
+        public var dimensions: [Swift.String: Swift.String]?
+        /// The evaluation context to filter results by.
+        public var evaluationContext: Swift.String?
+        /// The time after which to include published results.
+        public var publishedAfter: Foundation.Date?
+        /// The time before which to include published results.
+        public var publishedBefore: Foundation.Date?
+
+        public init(
+            dataSource: GlueClientTypes.DataSource? = nil,
+            dimensions: [Swift.String: Swift.String]? = nil,
+            evaluationContext: Swift.String? = nil,
+            publishedAfter: Foundation.Date? = nil,
+            publishedBefore: Foundation.Date? = nil
+        ) {
+            self.dataSource = dataSource
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.publishedAfter = publishedAfter
+            self.publishedBefore = publishedBefore
+        }
+    }
+}
+
+public struct ListDataQualityResultsV2Input: Swift.Sendable {
+    /// The filter criteria.
+    public var filter: GlueClientTypes.DataQualityResultsV2FilterCriteria?
+    /// The maximum number of results to return. If you don't specify a value, the operation uses the default number of results.
+    public var maxResults: Swift.Int?
+    /// A pagination token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: GlueClientTypes.DataQualityResultsV2FilterCriteria? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Describes a data quality result returned by ListDataQualityResultsV2.
+    public struct DataQualityResultsV2Description: Swift.Sendable {
+        /// The table associated with the data quality result, if any.
+        public var dataSource: GlueClientTypes.DataSource?
+        /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
+        public var descriptors: [Swift.String: Swift.String]?
+        /// A map of platform-specific identifiers, such as cluster, application, workgroup, or project IDs, that identify where the data quality evaluation ran.
+        public var dimensions: [Swift.String: Swift.String]?
+        /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
+        public var evaluationContext: Swift.String?
+        /// The unique result ID for this data quality result.
+        public var resultId: Swift.String?
+        /// The date and time when this data quality result was published.
+        public var resultPublishedOn: Foundation.Date?
+
+        public init(
+            dataSource: GlueClientTypes.DataSource? = nil,
+            descriptors: [Swift.String: Swift.String]? = nil,
+            dimensions: [Swift.String: Swift.String]? = nil,
+            evaluationContext: Swift.String? = nil,
+            resultId: Swift.String? = nil,
+            resultPublishedOn: Foundation.Date? = nil
+        ) {
+            self.dataSource = dataSource
+            self.descriptors = descriptors
+            self.dimensions = dimensions
+            self.evaluationContext = evaluationContext
+            self.resultId = resultId
+            self.resultPublishedOn = resultPublishedOn
+        }
+    }
+}
+
+public struct ListDataQualityResultsV2Output: Swift.Sendable {
+    /// A pagination token, if more results are available.
+    public var nextToken: Swift.String?
+    /// A list of DataQualityResultsV2Description objects.
+    /// This member is required.
+    public var results: [GlueClientTypes.DataQualityResultsV2Description]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        results: [GlueClientTypes.DataQualityResultsV2Description]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.results = results
+    }
+}
+
+extension GlueClientTypes {
+
     /// A filter for listing data quality recommendation runs.
     public struct DataQualityRuleRecommendationRunFilter: Swift.Sendable {
         /// Filter based on a specified data source (Glue table).
@@ -28381,6 +28731,180 @@ public struct ModifyIntegrationOutput: Swift.Sendable {
         self.status = status
         self.tags = tags
         self.targetArn = targetArn
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The run configuration for a data quality result.
+    public struct DataQualityConfigurationV2: Swift.Sendable {
+        /// The observation mode for the run. Valid values are:
+        ///
+        /// * SCHEDULED
+        ///
+        /// * FIXED
+        public var observationMode: GlueClientTypes.ObservationMode?
+        /// Whether observations are enabled for the run. Valid values are:
+        ///
+        /// * ALL
+        ///
+        /// * NONE
+        public var observationsEnabled: GlueClientTypes.ObservationConfiguration?
+
+        public init(
+            observationMode: GlueClientTypes.ObservationMode? = nil,
+            observationsEnabled: GlueClientTypes.ObservationConfiguration? = nil
+        ) {
+            self.observationMode = observationMode
+            self.observationsEnabled = observationsEnabled
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEngine: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case python
+        case spark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEngine] {
+            return [
+                .python,
+                .spark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .python: return "PYTHON"
+            case .spark: return "SPARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public struct DataQualityTelemetry: Swift.Sendable {
+        public var engine: GlueClientTypes.DataQualityEngine?
+        public var flagsEnabled: [Swift.String: Swift.String]?
+        public var hostRuntimeVersion: Swift.String?
+        public var libraryVersion: Swift.String?
+        public var sparkVersion: Swift.String?
+        public var vcpuHours: Swift.Double?
+
+        public init(
+            engine: GlueClientTypes.DataQualityEngine? = nil,
+            flagsEnabled: [Swift.String: Swift.String]? = nil,
+            hostRuntimeVersion: Swift.String? = nil,
+            libraryVersion: Swift.String? = nil,
+            sparkVersion: Swift.String? = nil,
+            vcpuHours: Swift.Double? = nil
+        ) {
+            self.engine = engine
+            self.flagsEnabled = flagsEnabled
+            self.hostRuntimeVersion = hostRuntimeVersion
+            self.libraryVersion = libraryVersion
+            self.sparkVersion = sparkVersion
+            self.vcpuHours = vcpuHours
+        }
+    }
+}
+
+public struct PublishDataQualityResultV2Input: Swift.Sendable {
+    /// The aggregated metrics for the result.
+    public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
+    /// The analyzer level results.
+    public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+    /// The client token for the request.
+    public var clientToken: Swift.String?
+    /// The security configuration for the result.
+    public var dataQualitySecurityConfiguration: Swift.String?
+    /// The descriptors for the result.
+    public var descriptors: [Swift.String: Swift.String]?
+    /// The dimensions for the result.
+    /// This member is required.
+    public var dimensions: [Swift.String: Swift.String]?
+    /// The evaluation context for the result.
+    /// This member is required.
+    public var evaluationContext: Swift.String?
+    /// The time execution completed for the result.
+    public var executionCompletedOn: Foundation.Date?
+    /// The time execution started for the result.
+    public var executionStartedOn: Foundation.Date?
+    /// The observations for the result.
+    public var observations: [GlueClientTypes.DataQualityObservation]?
+    /// The rule level results.
+    /// This member is required.
+    public var ruleResults: [GlueClientTypes.DataQualityRuleResult]?
+    /// The ruleset name for the result.
+    public var rulesetName: Swift.String?
+    /// The run configuration for the result.
+    public var runConfiguration: GlueClientTypes.DataQualityConfigurationV2?
+    /// The score for the result.
+    /// This member is required.
+    public var score: Swift.Double?
+    /// The statistics for the result.
+    public var statistics: [GlueClientTypes.StatisticSummary]?
+    /// The tags for the result.
+    public var tags: [Swift.String: Swift.String]?
+    public var telemetry: GlueClientTypes.DataQualityTelemetry?
+
+    public init(
+        aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
+        analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
+        clientToken: Swift.String? = nil,
+        dataQualitySecurityConfiguration: Swift.String? = nil,
+        descriptors: [Swift.String: Swift.String]? = nil,
+        dimensions: [Swift.String: Swift.String]? = nil,
+        evaluationContext: Swift.String? = nil,
+        executionCompletedOn: Foundation.Date? = nil,
+        executionStartedOn: Foundation.Date? = nil,
+        observations: [GlueClientTypes.DataQualityObservation]? = nil,
+        ruleResults: [GlueClientTypes.DataQualityRuleResult]? = nil,
+        rulesetName: Swift.String? = nil,
+        runConfiguration: GlueClientTypes.DataQualityConfigurationV2? = nil,
+        score: Swift.Double? = nil,
+        statistics: [GlueClientTypes.StatisticSummary]? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        telemetry: GlueClientTypes.DataQualityTelemetry? = nil
+    ) {
+        self.aggregatedMetrics = aggregatedMetrics
+        self.analyzerResults = analyzerResults
+        self.clientToken = clientToken
+        self.dataQualitySecurityConfiguration = dataQualitySecurityConfiguration
+        self.descriptors = descriptors
+        self.dimensions = dimensions
+        self.evaluationContext = evaluationContext
+        self.executionCompletedOn = executionCompletedOn
+        self.executionStartedOn = executionStartedOn
+        self.observations = observations
+        self.ruleResults = ruleResults
+        self.rulesetName = rulesetName
+        self.runConfiguration = runConfiguration
+        self.score = score
+        self.statistics = statistics
+        self.tags = tags
+        self.telemetry = telemetry
+    }
+}
+
+public struct PublishDataQualityResultV2Output: Swift.Sendable {
+    /// The ID of the result.
+    /// This member is required.
+    public var resultId: Swift.String?
+
+    public init(
+        resultId: Swift.String? = nil
+    ) {
+        self.resultId = resultId
     }
 }
 
@@ -32855,6 +33379,8 @@ extension GlueClientTypes {
         public var partitionKeys: [GlueClientTypes.Column]?
         /// The retention time for this table.
         public var retention: Swift.Int
+        /// A RLSProperties structure that describes the default row-level security policy of the table.
+        public var rlsProperties: GlueClientTypes.RLSProperties?
         /// Indicates the the state of an asynchronous change to a table.
         public var status: GlueClientTypes.TableStatus?
         /// A storage descriptor containing information about the physical storage of this table.
@@ -32892,6 +33418,7 @@ extension GlueClientTypes {
             parameters: [Swift.String: Swift.String]? = nil,
             partitionKeys: [GlueClientTypes.Column]? = nil,
             retention: Swift.Int = 0,
+            rlsProperties: GlueClientTypes.RLSProperties? = nil,
             status: GlueClientTypes.TableStatus? = nil,
             storageDescriptor: GlueClientTypes.StorageDescriptor? = nil,
             tableType: Swift.String? = nil,
@@ -32919,6 +33446,7 @@ extension GlueClientTypes {
             self.parameters = parameters
             self.partitionKeys = partitionKeys
             self.retention = retention
+            self.rlsProperties = rlsProperties
             self.status = status
             self.storageDescriptor = storageDescriptor
             self.tableType = tableType

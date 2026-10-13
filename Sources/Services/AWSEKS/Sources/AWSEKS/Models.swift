@@ -218,6 +218,44 @@ extension EKSClientTypes {
     }
 }
 
+extension EKSClientTypes {
+
+    /// Configuration settings for an ACK (Amazon Web Services Controllers for Kubernetes) capability. This includes whether controllers can resolve cross-namespace resource references and which ACK service controllers are disabled.
+    public struct AckConfigRequest: Swift.Sendable {
+        /// A list of ACK service names whose controllers are turned off for this capability, for example s3, ec2, and iam. Resources of a disabled service aren't reconciled until you re-enable the service. To keep all services enabled, omit this field or specify an empty list. An unrecognized service name is accepted and stored but turns nothing off, and DescribeCapability returns the list exactly as you supplied it. For more information, see [ACK capability configuration options](https://docs.aws.amazon.com/eks/latest/userguide/create-ack-capability.html#ack-configuration-options) in the Amazon EKS User Guide.
+        public var disabledServices: [Swift.String]?
+        /// Specifies whether ACK controllers resolve resource references to resources in a different Kubernetes namespace. Set this value to true to allow references to resolve to resources in another namespace. If you don't specify this value, or you omit the ack configuration entirely, the capability is created with this value set to false and references must remain within the same namespace.
+        public var enableCrossNamespace: Swift.Bool?
+
+        public init(
+            disabledServices: [Swift.String]? = nil,
+            enableCrossNamespace: Swift.Bool? = nil
+        ) {
+            self.disabledServices = disabledServices
+            self.enableCrossNamespace = enableCrossNamespace
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The response object containing configuration details for an ACK (Amazon Web Services Controllers for Kubernetes) capability.
+    public struct AckConfigResponse: Swift.Sendable {
+        /// The list of ACK service names whose controllers are turned off for this capability. Existing custom resource definitions remain installed, and resources of a disabled service aren't reconciled until the service is re-enabled.
+        public var disabledServices: [Swift.String]?
+        /// Indicates whether ACK controllers resolve resource references to resources in a different Kubernetes namespace. This value reflects the setting that's in effect, and is false if you never specified a value. Capabilities that were using cross-namespace references before this setting became available have this value set to true, so their behavior is unchanged.
+        public var enableCrossNamespace: Swift.Bool?
+
+        public init(
+            disabledServices: [Swift.String]? = nil,
+            enableCrossNamespace: Swift.Bool? = nil
+        ) {
+            self.disabledServices = disabledServices
+            self.enableCrossNamespace = enableCrossNamespace
+        }
+    }
+}
+
 /// The specified parameter is invalid. Review the available parameters for the API request.
 public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -730,6 +768,8 @@ extension EKSClientTypes {
         case controlPlaneEgressMode
         case deletionProtection
         case desiredSize
+        case disabledServices
+        case enableCrossNamespace
         case encryptionConfig
         case endpointPrivateAccess
         case endpointPublicAccess
@@ -792,6 +832,8 @@ extension EKSClientTypes {
                 .controlPlaneEgressMode,
                 .deletionProtection,
                 .desiredSize,
+                .disabledServices,
+                .enableCrossNamespace,
                 .encryptionConfig,
                 .endpointPrivateAccess,
                 .endpointPublicAccess,
@@ -860,6 +902,8 @@ extension EKSClientTypes {
             case .controlPlaneEgressMode: return "ControlPlaneEgressMode"
             case .deletionProtection: return "DeletionProtection"
             case .desiredSize: return "DesiredSize"
+            case .disabledServices: return "DisabledServices"
+            case .enableCrossNamespace: return "EnableCrossNamespace"
             case .encryptionConfig: return "EncryptionConfig"
             case .endpointPrivateAccess: return "EndpointPrivateAccess"
             case .endpointPublicAccess: return "EndpointPublicAccess"
@@ -2536,12 +2580,16 @@ extension EKSClientTypes {
 
     /// Configuration settings for a capability. The structure of this object varies depending on the capability type.
     public struct CapabilityConfigurationRequest: Swift.Sendable {
+        /// Configuration settings specific to ACK (Amazon Web Services Controllers for Kubernetes) capabilities. This field is only used when creating or updating an ACK capability.
+        public var ack: EKSClientTypes.AckConfigRequest?
         /// Configuration settings specific to Argo CD capabilities. This field is only used when creating or updating an Argo CD capability.
         public var argoCd: EKSClientTypes.ArgoCdConfigRequest?
 
         public init(
+            ack: EKSClientTypes.AckConfigRequest? = nil,
             argoCd: EKSClientTypes.ArgoCdConfigRequest? = nil
         ) {
+            self.ack = ack
             self.argoCd = argoCd
         }
     }
@@ -2673,12 +2721,16 @@ extension EKSClientTypes {
 
     /// The response object containing capability configuration details.
     public struct CapabilityConfigurationResponse: Swift.Sendable {
+        /// Configuration settings for an ACK (Amazon Web Services Controllers for Kubernetes) capability, including the cross-namespace reference setting and the list of disabled services.
+        public var ack: EKSClientTypes.AckConfigResponse?
         /// Configuration settings for an Argo CD capability, including the server URL and other Argo CD-specific settings.
         public var argoCd: EKSClientTypes.ArgoCdConfigResponse?
 
         public init(
+            ack: EKSClientTypes.AckConfigResponse? = nil,
             argoCd: EKSClientTypes.ArgoCdConfigResponse? = nil
         ) {
+            self.ack = ack
             self.argoCd = argoCd
         }
     }
@@ -8858,6 +8910,25 @@ public struct UpdateAddonOutput: Swift.Sendable {
 
 extension EKSClientTypes {
 
+    /// Configuration updates for an ACK (Amazon Web Services Controllers for Kubernetes) capability. You only need to specify the fields that you want to update.
+    public struct UpdateAckConfig: Swift.Sendable {
+        /// An updated list of ACK service names whose controllers are turned off for this capability. This list replaces the previous list instead of merging with it, so specify the complete set of services that you want turned off. If you omit this field, the previous list is unchanged. To turn all services back on, specify an empty list.
+        public var disabledServices: [Swift.String]?
+        /// Specifies whether ACK controllers resolve resource references to resources in a different Kubernetes namespace. Set this value to false to require references to remain within the same namespace, or true to allow cross-namespace references. If you omit this field, the current value is unchanged.
+        public var enableCrossNamespace: Swift.Bool?
+
+        public init(
+            disabledServices: [Swift.String]? = nil,
+            enableCrossNamespace: Swift.Bool? = nil
+        ) {
+            self.disabledServices = disabledServices
+            self.enableCrossNamespace = enableCrossNamespace
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// Updates to RBAC role mappings for an Argo CD capability. You can add, update, or remove role mappings in a single operation.
     public struct UpdateRoleMappings: Swift.Sendable {
         /// A list of role mappings to add or update. If a mapping for the specified role already exists, it will be updated with the new identities. If it doesn't exist, a new mapping will be created.
@@ -8898,12 +8969,16 @@ extension EKSClientTypes {
 
     /// Configuration updates for a capability. The structure varies depending on the capability type.
     public struct UpdateCapabilityConfiguration: Swift.Sendable {
+        /// Configuration updates specific to ACK (Amazon Web Services Controllers for Kubernetes) capabilities.
+        public var ack: EKSClientTypes.UpdateAckConfig?
         /// Configuration updates specific to Argo CD capabilities.
         public var argoCd: EKSClientTypes.UpdateArgoCdConfig?
 
         public init(
+            ack: EKSClientTypes.UpdateAckConfig? = nil,
             argoCd: EKSClientTypes.UpdateArgoCdConfig? = nil
         ) {
+            self.ack = ack
             self.argoCd = argoCd
         }
     }
@@ -13223,6 +13298,26 @@ extension EKSClientTypes.AccessScope {
     }
 }
 
+extension EKSClientTypes.AckConfigRequest {
+
+    static func write(value: EKSClientTypes.AckConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["disabledServices"].writeList(value.disabledServices, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enableCrossNamespace"].write(value.enableCrossNamespace)
+    }
+}
+
+extension EKSClientTypes.AckConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AckConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AckConfigResponse()
+        value.enableCrossNamespace = try reader["enableCrossNamespace"].readIfPresent()
+        value.disabledServices = try reader["disabledServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension EKSClientTypes.ActiveCertificateAuthority {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ActiveCertificateAuthority {
@@ -13529,6 +13624,7 @@ extension EKSClientTypes.CapabilityConfigurationRequest {
 
     static func write(value: EKSClientTypes.CapabilityConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ack"].write(value.ack, with: EKSClientTypes.AckConfigRequest.write(value:to:))
         try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.ArgoCdConfigRequest.write(value:to:))
     }
 }
@@ -13539,6 +13635,7 @@ extension EKSClientTypes.CapabilityConfigurationResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.CapabilityConfigurationResponse()
         value.argoCd = try reader["argoCd"].readIfPresent(with: EKSClientTypes.ArgoCdConfigResponse.read(from:))
+        value.ack = try reader["ack"].readIfPresent(with: EKSClientTypes.AckConfigResponse.read(from:))
         return value
     }
 }
@@ -15020,6 +15117,15 @@ extension EKSClientTypes.UpdateAccessConfigRequest {
     }
 }
 
+extension EKSClientTypes.UpdateAckConfig {
+
+    static func write(value: EKSClientTypes.UpdateAckConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["disabledServices"].writeList(value.disabledServices, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enableCrossNamespace"].write(value.enableCrossNamespace)
+    }
+}
+
 extension EKSClientTypes.UpdateArgoCdConfig {
 
     static func write(value: EKSClientTypes.UpdateArgoCdConfig?, to writer: SmithyJSON.Writer) throws {
@@ -15033,6 +15139,7 @@ extension EKSClientTypes.UpdateCapabilityConfiguration {
 
     static func write(value: EKSClientTypes.UpdateCapabilityConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ack"].write(value.ack, with: EKSClientTypes.UpdateAckConfig.write(value:to:))
         try writer["argoCd"].write(value.argoCd, with: EKSClientTypes.UpdateArgoCdConfig.write(value:to:))
     }
 }

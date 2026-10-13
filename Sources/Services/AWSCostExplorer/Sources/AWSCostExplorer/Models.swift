@@ -909,6 +909,7 @@ extension CostExplorerClientTypes {
         case payerAccount
         case paymentOption
         case platform
+        case productAttribute
         case purchaseType
         case recordType
         case region
@@ -948,6 +949,7 @@ extension CostExplorerClientTypes {
                 .payerAccount,
                 .paymentOption,
                 .platform,
+                .productAttribute,
                 .purchaseType,
                 .recordType,
                 .region,
@@ -993,6 +995,7 @@ extension CostExplorerClientTypes {
             case .payerAccount: return "PAYER_ACCOUNT"
             case .paymentOption: return "PAYMENT_OPTION"
             case .platform: return "PLATFORM"
+            case .productAttribute: return "PRODUCT_ATTRIBUTE"
             case .purchaseType: return "PURCHASE_TYPE"
             case .recordType: return "RECORD_TYPE"
             case .region: return "REGION"
@@ -1018,7 +1021,7 @@ extension CostExplorerClientTypes {
 
     /// The metadata that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
     public struct DimensionValues: Swift.Sendable {
-        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported. LINKED_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html). ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in [AnomalySubscriptions](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html).
+        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported. LINKED_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html). ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in [AnomalySubscriptions](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html). Use PRODUCT_ATTRIBUTE only as the Dimension in GetDimensionValues. To filter or group by product attributes, use the ProductAttributes field of Expression or the PRODUCT_ATTRIBUTE group type.
         public var key: CostExplorerClientTypes.Dimension?
         /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to cost category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public var matchOptions: [CostExplorerClientTypes.MatchOption]?
@@ -1027,6 +1030,64 @@ extension CostExplorerClientTypes {
 
         public init(
             key: CostExplorerClientTypes.Dimension? = nil,
+            matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.matchOptions = matchOptions
+            self.values = values
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// The product attribute values that you can use to filter the costs of supported services. Currently, Amazon Bedrock is the only supported service. The following product attribute keys are available for each supported service:
+    ///
+    /// * Amazon Bedrock
+    ///
+    /// * provider - The model provider, such as Anthropic, Cohere, or OpenAI.
+    ///
+    /// * model - The model, such as Claude Sonnet 5 or Claude Haiku 4.5.
+    ///
+    /// * inferenceType - The type of inference usage, such as Input tokens or Output tokens.
+    ///
+    /// * feature - The feature that was used, such as On-demand Inference or Reranker.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The following operations support product attributes: GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories. Product attribute data is available for time periods that start on or after September 1, 2026. Requests for earlier time periods that use product attributes fail with a DataUnavailableException. The SERVICE filter rules for product attributes depend on the operation:
+    ///
+    /// * GetCostAndUsage and GetCostAndUsageWithResources - Optional.
+    ///
+    /// * GetDimensionValues - Required when the filter includes ProductAttributes, for any Dimension. Otherwise, optional.
+    ///
+    /// * GetTags and GetCostCategories - Required when the filter includes ProductAttributes.
+    ///
+    ///
+    /// A SERVICE filter must contain only supported services, or the request fails with a ValidationException. Service names are matched exactly. To list them, use GetDimensionValues with Dimension set to SERVICE and the same TimePeriod, for example with SearchString set to Bedrock. The costs of a supported service can appear under multiple service names. When the SERVICE filter is optional, omit it so that your results include all of those costs. For example, the following Expression filters for the costs of one model: { "ProductAttributes": { "Key": "model", "Values": [ "Claude Sonnet 5" ], "MatchOptions": [ "EQUALS" ] } }
+    public struct ProductAttributeValues: Swift.Sendable {
+        /// The name of the product attribute, such as model. The keys that are available depend on the service. For the keys of each supported service, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html). Keys are case-sensitive. A key that doesn't exist doesn't return an error: EQUALS matches no costs, and ABSENT matches all costs of supported services.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The match options that you can use to filter your results. Valid values:
+        ///
+        /// * EQUALS - Matches the values that you specify.
+        ///
+        /// * ABSENT - Matches costs that have no value for the key. Omit Values.
+        ///
+        /// * CASE_SENSITIVE - Use only with EQUALS. Values are always matched case-sensitively.
+        ///
+        ///
+        /// Default values are EQUALS and CASE_SENSITIVE.
+        public var matchOptions: [CostExplorerClientTypes.MatchOption]?
+        /// The specific values of the product attribute, such as Claude Sonnet 5 for the model key. Values are matched exactly, including case. To list the values of a key, use GetDimensionValues with Dimension set to PRODUCT_ATTRIBUTE and DimensionKey set to the key. To match costs that have no value for the key, set MatchOptions to ABSENT and omit Values. Otherwise, Values is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
             matchOptions: [CostExplorerClientTypes.MatchOption]? = nil,
             values: [Swift.String]? = nil
         ) {
@@ -2177,6 +2238,7 @@ extension CostExplorerClientTypes {
     public enum GroupDefinitionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case costCategory
         case dimension
+        case productAttribute
         case tag
         case sdkUnknown(Swift.String)
 
@@ -2184,6 +2246,7 @@ extension CostExplorerClientTypes {
             return [
                 .costCategory,
                 .dimension,
+                .productAttribute,
                 .tag
             ]
         }
@@ -2197,6 +2260,7 @@ extension CostExplorerClientTypes {
             switch self {
             case .costCategory: return "COST_CATEGORY"
             case .dimension: return "DIMENSION"
+            case .productAttribute: return "PRODUCT_ATTRIBUTE"
             case .tag: return "TAG"
             case let .sdkUnknown(s): return s
             }
@@ -5235,7 +5299,7 @@ public struct ListCostCategoryDefinitionsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
     public var nextToken: Swift.String?
-    /// Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing and billing:billingview.
+    /// Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing, billing:billingview, and billing:creditsharing.
     public var supportedResourceTypes: [Swift.String]?
 
     public init(
@@ -5862,13 +5926,15 @@ extension CostExplorerClientTypes {
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///
@@ -5920,6 +5986,8 @@ extension CostExplorerClientTypes {
         @Indirect public var not: CostExplorerClientTypes.Expression?
         /// Return results that match either Dimension object.
         public var or: [CostExplorerClientTypes.Expression]?
+        /// The filter that's based on ProductAttributeValues. Use it to filter the costs of supported services, such as Amazon Bedrock, by product attributes. The following operations support this filter: GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories. For the supported services and keys, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
+        public var productAttributes: CostExplorerClientTypes.ProductAttributeValues?
         /// The specific Tag to use for Expression.
         public var tags: CostExplorerClientTypes.TagValues?
 
@@ -5929,6 +5997,7 @@ extension CostExplorerClientTypes {
             dimensions: CostExplorerClientTypes.DimensionValues? = nil,
             not: CostExplorerClientTypes.Expression? = nil,
             or: [CostExplorerClientTypes.Expression]? = nil,
+            productAttributes: CostExplorerClientTypes.ProductAttributeValues? = nil,
             tags: CostExplorerClientTypes.TagValues? = nil
         ) {
             self.and = and
@@ -5936,6 +6005,7 @@ extension CostExplorerClientTypes {
             self.dimensions = dimensions
             self.not = not
             self.or = or
+            self.productAttributes = productAttributes
             self.tags = tags
         }
     }
@@ -6069,13 +6139,15 @@ extension CostExplorerClientTypes {
         ///
         /// * Simple dimension values.
         ///
-        /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+        /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
         ///
         /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
         ///
         /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
         ///
         /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+        ///
+        /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
         ///
         ///
         ///
@@ -6167,13 +6239,15 @@ extension CostExplorerClientTypes {
         ///
         /// * Simple dimension values.
         ///
-        /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+        /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
         ///
         /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
         ///
         /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
         ///
         /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+        ///
+        /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
         ///
         ///
         ///
@@ -6243,13 +6317,15 @@ public struct GetCostAndUsageComparisonsInput: Swift.Sendable {
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///
@@ -6325,12 +6401,12 @@ public struct GetCostAndUsageComparisonsInput: Swift.Sendable {
 public struct GetCostAndUsageInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     public var billingViewArn: Swift.String?
-    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories, Tags, and ProductAttributes are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE. You can filter by product attributes with or without grouping by them. If you filter or group by product attributes, the results include only the costs of supported services, and a SERVICE filter is optional. For more information, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html). If you include a SERVICE filter, it must apply to the whole request: combine it with other filters by using And, and include it in every branch of an Or. A SERVICE filter inside Not doesn't meet this requirement, and the request fails with a ValidationException.
     public var filter: CostExplorerClientTypes.Expression?
     /// Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
     /// This member is required.
     public var granularity: CostExplorerClientTypes.Granularity?
-    /// You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types. Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag values, including empty strings.
+    /// You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, product attributes, or any two group by types. Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag values, including empty strings. To group by the PRODUCT_ATTRIBUTE type, set Key to a product attribute key, such as model. For the keys of each supported service, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html). The results include only the costs of supported services, and if you have no such costs, the response contains no groups. In the response, each group key has the format key$value, for example, model$Claude Sonnet 5. Costs that have no value for the key are in the group key$, for example, model$. Remove the key$ prefix before you use a value in a ProductAttributes filter. Keys are case-sensitive: if you group by a key that doesn't exist, such as Model, all of your costs of supported services are in the group Model$.
     public var groupBy: [CostExplorerClientTypes.GroupDefinition]?
     /// Which metrics are returned in the query. For more information about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/). Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity. If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours and GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups. Metrics is required for GetCostAndUsage requests.
     /// This member is required.
@@ -6363,13 +6439,13 @@ public struct GetCostAndUsageInput: Swift.Sendable {
 public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     public var billingViewArn: Swift.String?
-    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)"SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)"SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories, Tags, and ProductAttributes are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE. If you filter or group by product attributes, the SERVICE filter rules are the same as for [GetCostAndUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetCostAndUsage.html).
     /// This member is required.
     public var filter: CostExplorerClientTypes.Expression?
     /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
     /// This member is required.
     public var granularity: CostExplorerClientTypes.Granularity?
-    /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
+    /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY, and PRODUCT_ATTRIBUTE. PRODUCT_ATTRIBUTE groups work the same way as in [GetCostAndUsage](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetCostAndUsage.html). A PRODUCT_ATTRIBUTE group or a ProductAttributes filter doesn't meet the requirement to group by or filter by a ResourceId.
     public var groupBy: [CostExplorerClientTypes.GroupDefinition]?
     /// Which metrics are returned in the query. For more information about blended and unblended rates, see [Why does the "blended" annotation appear on some line items in my bill?](http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/). Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity. If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups. Metrics is required for GetCostAndUsageWithResources requests.
     public var metrics: [Swift.String]?
@@ -6407,13 +6483,15 @@ public struct GetCostCategoriesInput: Swift.Sendable {
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///
@@ -6518,13 +6596,15 @@ public struct GetCostComparisonDriversInput: Swift.Sendable {
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///
@@ -6716,6 +6796,8 @@ public struct GetDimensionValuesInput: Swift.Sendable {
     ///
     /// * PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.
     ///
+    /// * PRODUCT_ATTRIBUTE - The product attributes of supported services, such as the model provider or the model for Amazon Bedrock.
+    ///
     /// * PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.
     ///
     /// * RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.
@@ -6776,20 +6858,24 @@ public struct GetDimensionValuesInput: Swift.Sendable {
     ///
     /// * SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
     public var context: CostExplorerClientTypes.Context?
-    /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/AAPI_CostCategoryRule.html).
+    /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/AAPI_CostCategoryRule.html). PRODUCT_ATTRIBUTE returns the product attribute keys that are available for your costs of supported services, or the values of the key that you specify in DimensionKey. PRODUCT_ATTRIBUTE is supported only in the COST_AND_USAGE context.
     /// This member is required.
     public var dimension: CostExplorerClientTypes.Dimension?
+    /// The product attribute key to return values for, such as model. If you omit DimensionKey or set it to an empty string, the response lists the product attribute keys that are available for your costs of supported services instead. For the supported services, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html). If you specify a key, the response lists the values of that key. If some of your costs have no value for the key, the response includes an empty-string value. Keys are case-sensitive, and a key that doesn't exist returns no values other than an empty string. You can specify DimensionKey only when Dimension is PRODUCT_ATTRIBUTE. If you also specify SortBy, DimensionKey is required. As a result, you can't list product attribute keys when you use SortBy.
+    public var dimensionKey: Swift.String?
     /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///
@@ -6864,6 +6950,7 @@ public struct GetDimensionValuesInput: Swift.Sendable {
         billingViewArn: Swift.String? = nil,
         context: CostExplorerClientTypes.Context? = nil,
         dimension: CostExplorerClientTypes.Dimension? = nil,
+        dimensionKey: Swift.String? = nil,
         filter: CostExplorerClientTypes.Expression? = nil,
         maxResults: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
@@ -6874,6 +6961,7 @@ public struct GetDimensionValuesInput: Swift.Sendable {
         self.billingViewArn = billingViewArn
         self.context = context
         self.dimension = dimension
+        self.dimensionKey = dimensionKey
         self.filter = filter
         self.maxResults = maxResults
         self.nextPageToken = nextPageToken
@@ -7005,13 +7093,15 @@ public struct GetReservationPurchaseRecommendationInput: Swift.Sendable {
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///
@@ -7199,13 +7289,15 @@ public struct GetRightsizingRecommendationInput: Swift.Sendable {
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///
@@ -7502,13 +7594,15 @@ public struct GetTagsInput: Swift.Sendable {
     ///
     /// * Simple dimension values.
     ///
-    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    /// * There are four types of simple dimension values: CostCategories, Tags, Dimensions, and ProductAttributes.
     ///
     /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
     ///
     /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
     ///
     /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    /// * Specify the ProductAttributes field to define a filter that acts on the product attributes of supported services, such as Amazon Bedrock. Only GetCostAndUsage, GetCostAndUsageWithResources, GetDimensionValues (in the COST_AND_USAGE context), GetTags, and GetCostCategories support ProductAttributes. For the supported services, keys and SERVICE filter rules, see [ProductAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_ProductAttributeValues.html).
     ///
     ///
     ///

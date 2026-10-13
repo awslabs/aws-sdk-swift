@@ -1991,6 +1991,91 @@ extension SecurityIRClientTypes {
     }
 }
 
+public struct GetFindingMetricsInput: Swift.Sendable {
+    /// The end of the day-aligned UTC window, inclusive.
+    /// This member is required.
+    public var endDate: Foundation.Date?
+    /// The membership ID to retrieve metrics for.
+    /// This member is required.
+    public var membershipId: Swift.String?
+    /// The start of the day-aligned UTC window, inclusive.
+    /// This member is required.
+    public var startDate: Foundation.Date?
+
+    public init(
+        endDate: Foundation.Date? = nil,
+        membershipId: Swift.String? = nil,
+        startDate: Foundation.Date? = nil
+    ) {
+        self.endDate = endDate
+        self.membershipId = membershipId
+        self.startDate = startDate
+    }
+}
+
+/// Finding-lifecycle metrics for a membership over the requested date range.
+public struct GetFindingMetricsOutput: Swift.Sendable {
+    /// The number of findings escalated during the requested date range.
+    /// This member is required.
+    public var findingsEscalated: Swift.Int?
+    /// The number of escalated findings that were closed as false positives during the requested date range.
+    /// This member is required.
+    public var findingsEscalatedFalsePositive: Swift.Int?
+    /// The number of findings whose escalation was in progress during the requested date range.
+    /// This member is required.
+    public var findingsEscalatedInProgress: Swift.Int?
+    /// The number of findings ingested from Amazon GuardDuty during the requested date range.
+    /// This member is required.
+    public var findingsIngestedGuardDuty: Swift.Int?
+    /// The number of findings ingested from AWS Security Hub during the requested date range.
+    /// This member is required.
+    public var findingsIngestedSecurityHub: Swift.Int?
+    /// The number of findings investigated during the requested date range.
+    /// This member is required.
+    public var findingsInvestigated: Swift.Int?
+    /// The number of investigated findings that were closed as false positives during the requested date range.
+    /// This member is required.
+    public var findingsInvestigatedFalsePositive: Swift.Int?
+    /// The number of findings whose investigation was in progress during the requested date range.
+    /// This member is required.
+    public var findingsInvestigatedInProgress: Swift.Int?
+    /// The number of findings triaged during the requested date range.
+    /// This member is required.
+    public var findingsTriaged: Swift.Int?
+    /// The number of triaged findings that were closed as false positives during the requested date range.
+    /// This member is required.
+    public var findingsTriagedFalsePositive: Swift.Int?
+    /// The number of findings confirmed as true positives during the requested date range.
+    /// This member is required.
+    public var findingsTruePositive: Swift.Int?
+
+    public init(
+        findingsEscalated: Swift.Int? = nil,
+        findingsEscalatedFalsePositive: Swift.Int? = nil,
+        findingsEscalatedInProgress: Swift.Int? = nil,
+        findingsIngestedGuardDuty: Swift.Int? = nil,
+        findingsIngestedSecurityHub: Swift.Int? = nil,
+        findingsInvestigated: Swift.Int? = nil,
+        findingsInvestigatedFalsePositive: Swift.Int? = nil,
+        findingsInvestigatedInProgress: Swift.Int? = nil,
+        findingsTriaged: Swift.Int? = nil,
+        findingsTriagedFalsePositive: Swift.Int? = nil,
+        findingsTruePositive: Swift.Int? = nil
+    ) {
+        self.findingsEscalated = findingsEscalated
+        self.findingsEscalatedFalsePositive = findingsEscalatedFalsePositive
+        self.findingsEscalatedInProgress = findingsEscalatedInProgress
+        self.findingsIngestedGuardDuty = findingsIngestedGuardDuty
+        self.findingsIngestedSecurityHub = findingsIngestedSecurityHub
+        self.findingsInvestigated = findingsInvestigated
+        self.findingsInvestigatedFalsePositive = findingsInvestigatedFalsePositive
+        self.findingsInvestigatedInProgress = findingsInvestigatedInProgress
+        self.findingsTriaged = findingsTriaged
+        self.findingsTriagedFalsePositive = findingsTriagedFalsePositive
+        self.findingsTruePositive = findingsTruePositive
+    }
+}
+
 public struct GetMembershipInput: Swift.Sendable {
     /// Required element for GetMembership to identify the membership ID to query.
     /// This member is required.
@@ -2708,6 +2793,36 @@ extension GetCaseAttachmentUploadUrlInput {
     }
 }
 
+extension GetFindingMetricsInput {
+
+    static func urlPathProvider(_ value: GetFindingMetricsInput) -> Swift.String? {
+        guard let membershipId = value.membershipId else {
+            return nil
+        }
+        return "/v1/membership/\(membershipId.urlPercentEncoding())/finding-metrics"
+    }
+}
+
+extension GetFindingMetricsInput {
+
+    static func queryItemProvider(_ value: GetFindingMetricsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let endDate = value.endDate else {
+            let message = "Creating a URL Query Item failed. endDate is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let endDateQueryItem = Smithy.URIQueryItem(name: "endDate".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endDate)).urlPercentEncoding())
+        items.append(endDateQueryItem)
+        guard let startDate = value.startDate else {
+            let message = "Creating a URL Query Item failed. startDate is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let startDateQueryItem = Smithy.URIQueryItem(name: "startDate".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startDate)).urlPercentEncoding())
+        items.append(startDateQueryItem)
+        return items
+    }
+}
+
 extension GetMembershipInput {
 
     static func urlPathProvider(_ value: GetMembershipInput) -> Swift.String? {
@@ -3190,6 +3305,28 @@ extension GetCaseAttachmentUploadUrlOutput {
     }
 }
 
+extension GetFindingMetricsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingMetricsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFindingMetricsOutput()
+        value.findingsEscalated = try reader["findingsEscalated"].readIfPresent() ?? 0
+        value.findingsEscalatedFalsePositive = try reader["findingsEscalatedFalsePositive"].readIfPresent() ?? 0
+        value.findingsEscalatedInProgress = try reader["findingsEscalatedInProgress"].readIfPresent() ?? 0
+        value.findingsIngestedGuardDuty = try reader["findingsIngestedGuardDuty"].readIfPresent() ?? 0
+        value.findingsIngestedSecurityHub = try reader["findingsIngestedSecurityHub"].readIfPresent() ?? 0
+        value.findingsInvestigated = try reader["findingsInvestigated"].readIfPresent() ?? 0
+        value.findingsInvestigatedFalsePositive = try reader["findingsInvestigatedFalsePositive"].readIfPresent() ?? 0
+        value.findingsInvestigatedInProgress = try reader["findingsInvestigatedInProgress"].readIfPresent() ?? 0
+        value.findingsTriaged = try reader["findingsTriaged"].readIfPresent() ?? 0
+        value.findingsTriagedFalsePositive = try reader["findingsTriagedFalsePositive"].readIfPresent() ?? 0
+        value.findingsTruePositive = try reader["findingsTruePositive"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension GetMembershipOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMembershipOutput {
@@ -3496,6 +3633,20 @@ enum GetCaseAttachmentDownloadUrlOutputError {
 }
 
 enum GetCaseAttachmentUploadUrlOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFindingMetricsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()

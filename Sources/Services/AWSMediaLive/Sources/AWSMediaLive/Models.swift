@@ -6110,6 +6110,7 @@ extension MediaLiveClientTypes {
     /// The resource type this template should dynamically generate cloudwatch metric alarms for.
     public enum CloudWatchAlarmTemplateTargetResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloudfrontDistribution
+        case elementalInferenceFeed
         case mediaconnectFlow
         case medialiveChannel
         case medialiveInputDevice
@@ -6123,6 +6124,7 @@ extension MediaLiveClientTypes {
         public static var allCases: [CloudWatchAlarmTemplateTargetResourceType] {
             return [
                 .cloudfrontDistribution,
+                .elementalInferenceFeed,
                 .mediaconnectFlow,
                 .medialiveChannel,
                 .medialiveInputDevice,
@@ -6142,6 +6144,7 @@ extension MediaLiveClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloudfrontDistribution: return "CLOUDFRONT_DISTRIBUTION"
+            case .elementalInferenceFeed: return "ELEMENTAL_INFERENCE_FEED"
             case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
             case .medialiveChannel: return "MEDIALIVE_CHANNEL"
             case .medialiveInputDevice: return "MEDIALIVE_INPUT_DEVICE"

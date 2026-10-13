@@ -28868,6 +28868,8 @@ extension QuickSightClientTypes {
         public var addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Adobe Marketing Agent connectors.
         public var adobeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Adobe Analytics data sources.
+        public var adobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Airtable connectors.
         public var airtableAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Bedrock Agent connectors.
@@ -28886,6 +28888,10 @@ extension QuickSightClientTypes {
         public var apps: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Asana connectors.
         public var asanaAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon Athena data sources.
+        public var athenaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon Aurora data sources.
+        public var auroraDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform automate-related actions.
         public var automate: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using BambooHR connectors.
@@ -28928,6 +28934,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var confluenceKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Adobe Analytics data sources.
+        public var createAdobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Adobe Marketing Agent actions.
         public var createAndUpdateAdobeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Airtable actions.
@@ -29000,6 +29008,8 @@ extension QuickSightClientTypes {
         public var createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Gmail actions.
         public var createAndUpdateGmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Gong actions.
+        public var createAndUpdateGongAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Google Analytics actions.
         public var createAndUpdateGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update Google Calendar actions.
@@ -29148,24 +29158,126 @@ extension QuickSightClientTypes {
         public var createAndUpdateZoomAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update ZoomInfo Agent actions.
         public var createAndUpdateZoomInfoAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon Athena data sources.
+        public var createAthenaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon Aurora data sources.
+        public var createAuroraDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to create chat agents.
         public var createChatAgents: QuickSightClientTypes.CapabilityState?
         /// The ability to Create Executive Summary
         public var createDashboardExecutiveSummaryWithQ: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Databricks data sources.
+        public var createDatabricksDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Db2 data sources.
+        public var createDb2DataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Denodo data sources.
+        public var createDenodoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon DocumentDB data sources.
+        public var createDocumentDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Dremio data sources.
+        public var createDremioDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon DynamoDB data sources.
+        public var createDynamoDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Exasol data sources.
+        public var createExasolDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create file data sources.
+        public var createFileDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create GitHub data sources.
+        public var createGitHubDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Google Analytics data sources.
+        public var createGoogleAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Google BigQuery data sources.
+        public var createGoogleBigQueryDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Google Sheets data sources.
+        public var createGoogleSheetsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Impala data sources.
+        public var createImpalaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Jira data sources.
+        public var createJiraDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create MariaDB data sources.
+        public var createMariaDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create MongoDB Atlas data sources.
+        public var createMongoAtlasDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create MongoDB data sources.
+        public var createMongoDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create MySQL data sources.
+        public var createMySqlDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon OpenSearch Service data sources.
+        public var createOpenSearchDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Oracle data sources.
+        public var createOracleDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create PayPal data sources.
+        public var createPayPalDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create PostgreSQL data sources.
+        public var createPostgreSqlDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Presto data sources.
+        public var createPrestoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon QuickSight data sources.
+        public var createRadiantDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create auto-discovered Amazon RDS data sources.
+        public var createRdsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create auto-discovered Amazon Redshift data sources.
+        public var createRedshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create manually configured Amazon Redshift data sources.
+        public var createRedshiftManualDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon S3 Analytics data sources.
+        public var createS3AnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon S3 data sources.
+        public var createS3DataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon S3 Tables data sources.
+        public var createS3TablesDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to create a SPICE dataset.
         public var createSPICEDataset: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Salesforce data sources.
+        public var createSalesforceDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create SAP HANA data sources.
+        public var createSapHanaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create ServiceNow data sources.
+        public var createServiceNowDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to create shared folders.
         public var createSharedFolders: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Snowflake data sources.
+        public var createSnowflakeDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to create spaces.
         public var createSpaces: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Spark data sources.
+        public var createSparkDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create SQL Server data sources.
+        public var createSqlServerDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Square data sources.
+        public var createSquareDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Starburst data sources.
+        public var createStarburstDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Teradata data sources.
+        public var createTeradataDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Amazon Timestream data sources.
+        public var createTimestreamDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Trino data sources.
+        public var createTrinoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create Twitter data sources.
+        public var createTwitterDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform dashboard-related actions.
         public var dashboard: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Databricks data sources.
+        public var databricksDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Db2 data sources.
+        public var db2DataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Denodo data sources.
+        public var denodoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon DocumentDB data sources.
+        public var documentDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Dremio data sources.
+        public var dremioDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Dropbox connectors.
         public var dropboxAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Dun and Bradstreet connectors.
         public var dunAndBradstreetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon DynamoDB data sources.
+        public var dynamoDbDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to Edit Visual with AI
         public var editVisualWithQ: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Exasol data sources.
+        public var exasolDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to export to CSV files from the UI.
         public var exportToCsv: QuickSightClientTypes.CapabilityState?
         /// The ability to export to CSV files in scheduled email reports.
@@ -29184,18 +29296,28 @@ extension QuickSightClientTypes {
         public var factSetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Figma connectors.
         public var figmaAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share file data sources.
+        public var fileDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform flow-related actions.
         public var flow: QuickSightClientTypes.CapabilityState?
         /// The ability to generate analysis using AI
         public var generateAnalyses: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using REST API connection connectors.
         public var genericHTTPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share GitHub data sources.
+        public var gitHubDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using GitHub connectors.
         public var githubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Gmail connectors.
         public var gmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Gong connectors.
+        public var gongAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Google Analytics connectors.
         public var googleAnalyticsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Google Analytics data sources.
+        public var googleAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Google BigQuery data sources.
+        public var googleBigQueryDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Google Calendar connectors.
         public var googleCalendarAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Google Chat connectors.
@@ -29214,6 +29336,8 @@ extension QuickSightClientTypes {
         public var googleMeetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Google Sheets connectors.
         public var googleSheetsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Google Sheets data sources.
+        public var googleSheetsDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Google Slides connectors.
         public var googleSlidesAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using HG Insights Agent connectors.
@@ -29228,6 +29352,8 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var idcKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Impala data sources.
+        public var impalaDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to create, view, edit, delete, and run inbound email triggers for flows and automations.
         public var inboundEmailTrigger: QuickSightClientTypes.CapabilityState?
         /// The ability to include content in scheduled email reports.
@@ -29238,22 +29364,32 @@ extension QuickSightClientTypes {
         public var invokeAppsAIInference: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Jira connectors.
         public var jiraAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Jira data sources.
+        public var jiraDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to use knowledge bases to specify content from external applications.
         public var knowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Linear connectors.
         public var linearAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create, update, delete and view shared folders (both restricted and unrestricted), ability to add any asset to shared folders, and ability to share the folders. Note: This does not prevent inheriting access to assets that others share with them through folder membership.
         public var manageSharedFolders: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share MariaDB data sources.
+        public var mariaDbDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Model Context Protocol connectors.
         public var mcpAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Monday connectors.
         public var mondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share MongoDB Atlas data sources.
+        public var mongoAtlasDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share MongoDB data sources.
+        public var mongoDbDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Moody's GenAI Ready Data connectors.
         public var moodysAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft Outlook connectors.
         public var msExchangeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft Teams connectors.
         public var msTeamsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share MySQL data sources.
+        public var mySqlDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using New Relic connectors.
         public var newRelicAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Notion connectors.
@@ -29270,12 +29406,22 @@ extension QuickSightClientTypes {
         public var oneNoteAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using OpenAPI Specification connectors.
         public var openAPIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon OpenSearch Service data sources.
+        public var openSearchDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Oracle data sources.
+        public var oracleDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using PagerDuty Advance connectors.
         public var pagerDutyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using PagerDuty Agent connectors.
         public var pagerDutyAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share PayPal data sources.
+        public var payPalDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to use UI Agent step to perform tasks on public websites.
         public var performFlowUiTask: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share PostgreSQL data sources.
+        public var postgreSqlDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Presto data sources.
+        public var prestoDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to print reports.
         public var printReports: QuickSightClientTypes.CapabilityState?
         /// The ability to enable approvals for flow share.
@@ -29290,18 +29436,34 @@ extension QuickSightClientTypes {
         public var quickBooksAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.
         public var quickEventTrigger: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon QuickSight data sources.
+        public var radiantDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share auto-discovered Amazon RDS data sources.
+        public var rdsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share auto-discovered Amazon Redshift data sources.
+        public var redshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share manually configured Amazon Redshift data sources.
+        public var redshiftManualDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to rename shared folders.
         public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
         /// The ability to perform research-related actions.
         public var research: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon S3 Analytics data sources.
+        public var s3AnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon S3 data sources.
+        public var s3DataSource: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var s3KnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon S3 Tables data sources.
+        public var s3TablesDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Salesforce connectors.
         public var salesforceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Salesforce data sources.
+        public var salesforceDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using S&P Global Market Intelligence connectors.
         public var sandPGMIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using S&P Global Energy connectors.
@@ -29310,6 +29472,8 @@ extension QuickSightClientTypes {
         public var sapBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using SAP Business Partner connectors.
         public var sapBusinessPartnerAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share SAP HANA data sources.
+        public var sapHanaDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using SAP Material Stock connectors.
         public var sapMaterialStockAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using SAP Physical Inventory connectors.
@@ -29324,8 +29488,12 @@ extension QuickSightClientTypes {
         public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using ServiceNow connectors.
         public var serviceNowAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share ServiceNow data sources.
+        public var serviceNowDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Adobe Marketing Agent actions.
         public var shareAdobeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Adobe Analytics data sources.
+        public var shareAdobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Airtable actions.
         public var shareAirtableAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Bedrock Agent actions.
@@ -29342,6 +29510,10 @@ extension QuickSightClientTypes {
         public var shareApps: QuickSightClientTypes.CapabilityState?
         /// The ability to share Asana actions.
         public var shareAsanaAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon Athena data sources.
+        public var shareAthenaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon Aurora data sources.
+        public var shareAuroraDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share BambooHR actions.
         public var shareBambooHRAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29384,24 +29556,48 @@ extension QuickSightClientTypes {
         public var shareDashboards: QuickSightClientTypes.CapabilityState?
         /// The ability to share data sources.
         public var shareDataSources: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Databricks data sources.
+        public var shareDatabricksDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share datasets.
         public var shareDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Db2 data sources.
+        public var shareDb2DataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Denodo data sources.
+        public var shareDenodoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon DocumentDB data sources.
+        public var shareDocumentDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Dremio data sources.
+        public var shareDremioDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Dropbox actions.
         public var shareDropboxAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Dun and Bradstreet actions.
         public var shareDunAndBradstreetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon DynamoDB data sources.
+        public var shareDynamoDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Exasol data sources.
+        public var shareExasolDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share FactSet actions.
         public var shareFactSetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Figma actions.
         public var shareFigmaAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share file data sources.
+        public var shareFileDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share REST API connection actions.
         public var shareGenericHTTPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share GitHub data sources.
+        public var shareGitHubDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share GitHub actions.
         public var shareGithubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Gmail actions.
         public var shareGmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Gong actions.
+        public var shareGongAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Google Analytics actions.
         public var shareGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Analytics data sources.
+        public var shareGoogleAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google BigQuery data sources.
+        public var shareGoogleBigQueryDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Google Calendar actions.
         public var shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Google Chat actions.
@@ -29420,6 +29616,8 @@ extension QuickSightClientTypes {
         public var shareGoogleMeetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Google Sheets actions.
         public var shareGoogleSheetsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Sheets data sources.
+        public var shareGoogleSheetsDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Google Slides actions.
         public var shareGoogleSlidesAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share HG Insights Agent actions.
@@ -29434,10 +29632,14 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareIDCKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Impala data sources.
+        public var shareImpalaDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Intercom actions.
         public var shareIntercomAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Jira actions.
         public var shareJiraAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Jira data sources.
+        public var shareJiraDataSource: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
@@ -29452,10 +29654,18 @@ extension QuickSightClientTypes {
         public var shareMSExchangeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Microsoft Teams actions.
         public var shareMSTeamsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share MariaDB data sources.
+        public var shareMariaDbDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Monday actions.
         public var shareMondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share MongoDB Atlas data sources.
+        public var shareMongoAtlasDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share MongoDB data sources.
+        public var shareMongoDbDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Moody's GenAI Ready Data actions.
         public var shareMoodysAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share MySQL data sources.
+        public var shareMySqlDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share New Relic actions.
         public var shareNewRelicAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Notion actions.
@@ -29472,10 +29682,16 @@ extension QuickSightClientTypes {
         public var shareOneNoteAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share OpenAPI Specification actions.
         public var shareOpenAPIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon OpenSearch Service data sources.
+        public var shareOpenSearchDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Oracle data sources.
+        public var shareOracleDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share PagerDuty Advance actions.
         public var sharePagerDutyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share PagerDuty Agent actions.
         public var sharePagerDutyAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share PayPal data sources.
+        public var sharePayPalDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Microsoft SharePoint Online connectors.
         public var sharePointAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29484,6 +29700,10 @@ extension QuickSightClientTypes {
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var sharePointKnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share PostgreSQL data sources.
+        public var sharePostgreSqlDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Presto data sources.
+        public var sharePrestoDataSource: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
@@ -29492,12 +29712,26 @@ extension QuickSightClientTypes {
         public var shareQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState?
         /// The ability to share QuickBooks actions.
         public var shareQuickBooksAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon QuickSight data sources.
+        public var shareRadiantDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share auto-discovered Amazon RDS data sources.
+        public var shareRdsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share auto-discovered Amazon Redshift data sources.
+        public var shareRedshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share manually configured Amazon Redshift data sources.
+        public var shareRedshiftManualDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon S3 Analytics data sources.
+        public var shareS3AnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon S3 data sources.
+        public var shareS3DataSource: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
         ///
         /// * DENY – Amazon Quick denies this capability for users assigned to the profile.
         ///
         /// * ALLOW – Amazon Quick grants this capability to users assigned to the profile. This value is only relevant when governance is enabled for the capability's category. Without governance, the default effect is always ALLOW. In a governed category, this value overrides the category-level deny-by-default behavior for that capability only.
         public var shareS3KnowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon S3 Tables data sources.
+        public var shareS3TablesDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share SAP Bill of Materials actions.
         public var shareSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share SAP Business Partner actions.
@@ -29510,12 +29744,18 @@ extension QuickSightClientTypes {
         public var shareSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Salesforce actions.
         public var shareSalesforceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Salesforce data sources.
+        public var shareSalesforceDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share S&P Global Market Intelligence actions.
         public var shareSandPGMIAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share S&P Global Energy actions.
         public var shareSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share SAP HANA data sources.
+        public var shareSapHanaDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share ServiceNow actions.
         public var shareServiceNowAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share ServiceNow data sources.
+        public var shareServiceNowDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Microsoft SharePoint Online actions.
         public var shareSharePointAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29532,10 +29772,28 @@ extension QuickSightClientTypes {
         public var shareSmartsheetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share Snowflake Cortex Agent actions.
         public var shareSnowFlakeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Snowflake data sources.
+        public var shareSnowflakeDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share spaces with other users and groups.
         public var shareSpaces: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Spark data sources.
+        public var shareSparkDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share SQL Server data sources.
+        public var shareSqlServerDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Square data sources.
+        public var shareSquareDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Starburst data sources.
+        public var shareStarburstDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Teradata data sources.
+        public var shareTeradataDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Textract actions.
         public var shareTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon Timestream data sources.
+        public var shareTimestreamDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Trino data sources.
+        public var shareTrinoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Twitter data sources.
+        public var shareTwitterDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to share Visier Agent actions.
         public var shareVisierAgentAction: QuickSightClientTypes.CapabilityState?
         /// The permission state of a capability in a custom permissions profile. Valid values:
@@ -29562,18 +29820,126 @@ extension QuickSightClientTypes {
         public var smartsheetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Snowflake Cortex Agent connectors.
         public var snowFlakeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Snowflake data sources.
+        public var snowflakeDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform space-related actions.
         public var space: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Spark data sources.
+        public var sparkDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share SQL Server data sources.
+        public var sqlServerDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Square data sources.
+        public var squareDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Starburst data sources.
+        public var starburstDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform Story-related actions.
         public var story: QuickSightClientTypes.CapabilityState?
         /// The ability to subscribe to email reports.
         public var subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Teradata data sources.
+        public var teradataDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform actions using Textract connectors.
         public var textractAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Amazon Timestream data sources.
+        public var timestreamDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to perform Topic-related actions.
         public var topic: QuickSightClientTypes.CapabilityState?
         /// The ability to manage trigger-related settings for flows and automations.
         public var trigger: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Trino data sources.
+        public var trinoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to create, update, and share Twitter data sources.
+        public var twitterDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Adobe Analytics data sources.
+        public var updateAdobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon Athena data sources.
+        public var updateAthenaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon Aurora data sources.
+        public var updateAuroraDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Databricks data sources.
+        public var updateDatabricksDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Db2 data sources.
+        public var updateDb2DataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Denodo data sources.
+        public var updateDenodoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon DocumentDB data sources.
+        public var updateDocumentDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Dremio data sources.
+        public var updateDremioDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon DynamoDB data sources.
+        public var updateDynamoDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Exasol data sources.
+        public var updateExasolDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update file data sources.
+        public var updateFileDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update GitHub data sources.
+        public var updateGitHubDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Google Analytics data sources.
+        public var updateGoogleAnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Google BigQuery data sources.
+        public var updateGoogleBigQueryDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Google Sheets data sources.
+        public var updateGoogleSheetsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Impala data sources.
+        public var updateImpalaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Jira data sources.
+        public var updateJiraDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update MariaDB data sources.
+        public var updateMariaDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update MongoDB Atlas data sources.
+        public var updateMongoAtlasDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update MongoDB data sources.
+        public var updateMongoDbDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update MySQL data sources.
+        public var updateMySqlDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon OpenSearch Service data sources.
+        public var updateOpenSearchDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Oracle data sources.
+        public var updateOracleDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update PayPal data sources.
+        public var updatePayPalDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update PostgreSQL data sources.
+        public var updatePostgreSqlDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Presto data sources.
+        public var updatePrestoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon QuickSight data sources.
+        public var updateRadiantDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update auto-discovered Amazon RDS data sources.
+        public var updateRdsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update auto-discovered Amazon Redshift data sources.
+        public var updateRedshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update manually configured Amazon Redshift data sources.
+        public var updateRedshiftManualDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon S3 Analytics data sources.
+        public var updateS3AnalyticsDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon S3 data sources.
+        public var updateS3DataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon S3 Tables data sources.
+        public var updateS3TablesDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Salesforce data sources.
+        public var updateSalesforceDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update SAP HANA data sources.
+        public var updateSapHanaDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update ServiceNow data sources.
+        public var updateServiceNowDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Snowflake data sources.
+        public var updateSnowflakeDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Spark data sources.
+        public var updateSparkDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update SQL Server data sources.
+        public var updateSqlServerDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Square data sources.
+        public var updateSquareDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Starburst data sources.
+        public var updateStarburstDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Teradata data sources.
+        public var updateTeradataDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Amazon Timestream data sources.
+        public var updateTimestreamDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Trino data sources.
+        public var updateTrinoDataSource: QuickSightClientTypes.CapabilityState?
+        /// The ability to update Twitter data sources.
+        public var updateTwitterDataSource: QuickSightClientTypes.CapabilityState?
         /// The ability to use Adobe Marketing Agent actions.
         public var useAdobeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research. Web search queries will be processed securely in an Amazon Web Services region us-east-1.
@@ -29646,6 +30012,8 @@ extension QuickSightClientTypes {
         public var useGithubAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Gmail actions.
         public var useGmailAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Gong actions.
+        public var useGongAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Google Analytics actions.
         public var useGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Google Calendar actions.
@@ -29816,6 +30184,7 @@ extension QuickSightClientTypes {
             action: QuickSightClientTypes.CapabilityState? = nil,
             addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             adobeAction: QuickSightClientTypes.CapabilityState? = nil,
+            adobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
             airtableAction: QuickSightClientTypes.CapabilityState? = nil,
             amazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             amazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29825,6 +30194,8 @@ extension QuickSightClientTypes {
             approveFlowShareRequests: QuickSightClientTypes.CapabilityState? = nil,
             apps: QuickSightClientTypes.CapabilityState? = nil,
             asanaAction: QuickSightClientTypes.CapabilityState? = nil,
+            athenaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            auroraDataSource: QuickSightClientTypes.CapabilityState? = nil,
             automate: QuickSightClientTypes.CapabilityState? = nil,
             bambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             bedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
@@ -29840,6 +30211,7 @@ extension QuickSightClientTypes {
             comprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
             confluenceAction: QuickSightClientTypes.CapabilityState? = nil,
             confluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            createAdobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAdobeAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAirtableAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29870,6 +30242,7 @@ extension QuickSightClientTypes {
             createAndUpdateGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGongAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateGoogleChatAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29928,15 +30301,66 @@ extension QuickSightClientTypes {
             createAndUpdateZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateZoomAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateZoomInfoAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAthenaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createAuroraDataSource: QuickSightClientTypes.CapabilityState? = nil,
             createChatAgents: QuickSightClientTypes.CapabilityState? = nil,
             createDashboardExecutiveSummaryWithQ: QuickSightClientTypes.CapabilityState? = nil,
+            createDatabricksDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createDb2DataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createDenodoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createDocumentDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createDremioDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createDynamoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createExasolDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createFileDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createGitHubDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createGoogleAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createGoogleBigQueryDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createGoogleSheetsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createImpalaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createJiraDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createMariaDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createMongoAtlasDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createMongoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createMySqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createOpenSearchDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createOracleDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createPayPalDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createPostgreSqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createPrestoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createRadiantDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createRdsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createRedshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createRedshiftManualDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createS3AnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createS3DataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createS3TablesDataSource: QuickSightClientTypes.CapabilityState? = nil,
             createSPICEDataset: QuickSightClientTypes.CapabilityState? = nil,
+            createSalesforceDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createSapHanaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createServiceNowDataSource: QuickSightClientTypes.CapabilityState? = nil,
             createSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
+            createSnowflakeDataSource: QuickSightClientTypes.CapabilityState? = nil,
             createSpaces: QuickSightClientTypes.CapabilityState? = nil,
+            createSparkDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createSqlServerDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createSquareDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createStarburstDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createTeradataDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createTimestreamDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createTrinoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            createTwitterDataSource: QuickSightClientTypes.CapabilityState? = nil,
             dashboard: QuickSightClientTypes.CapabilityState? = nil,
+            databricksDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            db2DataSource: QuickSightClientTypes.CapabilityState? = nil,
+            denodoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            documentDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            dremioDataSource: QuickSightClientTypes.CapabilityState? = nil,
             dropboxAction: QuickSightClientTypes.CapabilityState? = nil,
             dunAndBradstreetAction: QuickSightClientTypes.CapabilityState? = nil,
+            dynamoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
             editVisualWithQ: QuickSightClientTypes.CapabilityState? = nil,
+            exasolDataSource: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsv: QuickSightClientTypes.CapabilityState? = nil,
             exportToCsvInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
             exportToExcel: QuickSightClientTypes.CapabilityState? = nil,
@@ -29946,12 +30370,17 @@ extension QuickSightClientTypes {
             `extension`: QuickSightClientTypes.CapabilityState? = nil,
             factSetAction: QuickSightClientTypes.CapabilityState? = nil,
             figmaAction: QuickSightClientTypes.CapabilityState? = nil,
+            fileDataSource: QuickSightClientTypes.CapabilityState? = nil,
             flow: QuickSightClientTypes.CapabilityState? = nil,
             generateAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             genericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
+            gitHubDataSource: QuickSightClientTypes.CapabilityState? = nil,
             githubAction: QuickSightClientTypes.CapabilityState? = nil,
             gmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            gongAction: QuickSightClientTypes.CapabilityState? = nil,
             googleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            googleBigQueryDataSource: QuickSightClientTypes.CapabilityState? = nil,
             googleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
             googleChatAction: QuickSightClientTypes.CapabilityState? = nil,
             googleDocsAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -29959,46 +30388,67 @@ extension QuickSightClientTypes {
             googleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             googleMeetAction: QuickSightClientTypes.CapabilityState? = nil,
             googleSheetsAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleSheetsDataSource: QuickSightClientTypes.CapabilityState? = nil,
             googleSlidesAction: QuickSightClientTypes.CapabilityState? = nil,
             hgInsightsAction: QuickSightClientTypes.CapabilityState? = nil,
             hubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             huggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             idcKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            impalaDataSource: QuickSightClientTypes.CapabilityState? = nil,
             inboundEmailTrigger: QuickSightClientTypes.CapabilityState? = nil,
             includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
             intercomAction: QuickSightClientTypes.CapabilityState? = nil,
             invokeAppsAIInference: QuickSightClientTypes.CapabilityState? = nil,
             jiraAction: QuickSightClientTypes.CapabilityState? = nil,
+            jiraDataSource: QuickSightClientTypes.CapabilityState? = nil,
             knowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             linearAction: QuickSightClientTypes.CapabilityState? = nil,
             manageSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
+            mariaDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
             mcpAction: QuickSightClientTypes.CapabilityState? = nil,
             mondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            mongoAtlasDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            mongoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
             moodysAction: QuickSightClientTypes.CapabilityState? = nil,
             msExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
             msTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
+            mySqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
             newRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             notionAction: QuickSightClientTypes.CapabilityState? = nil,
             oneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             oneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             oneNoteAction: QuickSightClientTypes.CapabilityState? = nil,
             openAPIAction: QuickSightClientTypes.CapabilityState? = nil,
+            openSearchDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            oracleDataSource: QuickSightClientTypes.CapabilityState? = nil,
             pagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
             pagerDutyAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            payPalDataSource: QuickSightClientTypes.CapabilityState? = nil,
             performFlowUiTask: QuickSightClientTypes.CapabilityState? = nil,
+            postgreSqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            prestoDataSource: QuickSightClientTypes.CapabilityState? = nil,
             printReports: QuickSightClientTypes.CapabilityState? = nil,
             publishWithoutApproval: QuickSightClientTypes.CapabilityState? = nil,
             qBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             quickBooksAction: QuickSightClientTypes.CapabilityState? = nil,
             quickEventTrigger: QuickSightClientTypes.CapabilityState? = nil,
+            radiantDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            rdsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            redshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            redshiftManualDataSource: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             research: QuickSightClientTypes.CapabilityState? = nil,
+            s3AnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            s3DataSource: QuickSightClientTypes.CapabilityState? = nil,
             s3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            s3TablesDataSource: QuickSightClientTypes.CapabilityState? = nil,
             salesforceAction: QuickSightClientTypes.CapabilityState? = nil,
+            salesforceDataSource: QuickSightClientTypes.CapabilityState? = nil,
             sandPGMIAction: QuickSightClientTypes.CapabilityState? = nil,
             sandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
             sapBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             sapBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
+            sapHanaDataSource: QuickSightClientTypes.CapabilityState? = nil,
             sapMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
             sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
             sapProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -30006,7 +30456,9 @@ extension QuickSightClientTypes {
             scheduleTrigger: QuickSightClientTypes.CapabilityState? = nil,
             selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
             serviceNowAction: QuickSightClientTypes.CapabilityState? = nil,
+            serviceNowDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareAdobeAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAdobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareAirtableAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -30015,6 +30467,8 @@ extension QuickSightClientTypes {
             shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
             shareApps: QuickSightClientTypes.CapabilityState? = nil,
             shareAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAthenaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareAuroraDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             shareBedrockManagedKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareBeeAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -30030,15 +30484,27 @@ extension QuickSightClientTypes {
             shareConfluenceKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
             shareDataSources: QuickSightClientTypes.CapabilityState? = nil,
+            shareDatabricksDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            shareDb2DataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareDenodoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareDocumentDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareDremioDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareDropboxAction: QuickSightClientTypes.CapabilityState? = nil,
             shareDunAndBradstreetAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareDynamoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareExasolDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
             shareFigmaAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareFileDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGitHubDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareGithubAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGongAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleBigQueryDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleChatAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleDocsAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -30046,50 +30512,81 @@ extension QuickSightClientTypes {
             shareGoogleDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleMeetAction: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleSheetsAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleSheetsDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareGoogleSlidesAction: QuickSightClientTypes.CapabilityState? = nil,
             shareHGInsightsAction: QuickSightClientTypes.CapabilityState? = nil,
             shareHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
             shareHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             shareIDCKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareImpalaDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareIntercomAction: QuickSightClientTypes.CapabilityState? = nil,
             shareJiraAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareJiraDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareKnowledgeBases: QuickSightClientTypes.CapabilityState? = nil,
             shareLinearAction: QuickSightClientTypes.CapabilityState? = nil,
             shareMCPAction: QuickSightClientTypes.CapabilityState? = nil,
             shareMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
             shareMSTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMariaDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareMondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMongoAtlasDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareMongoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareMoodysAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMySqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
             shareNotionAction: QuickSightClientTypes.CapabilityState? = nil,
             shareOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
             shareOneDriveKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareOneNoteAction: QuickSightClientTypes.CapabilityState? = nil,
             shareOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareOpenSearchDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareOracleDataSource: QuickSightClientTypes.CapabilityState? = nil,
             sharePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
             sharePagerDutyAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            sharePayPalDataSource: QuickSightClientTypes.CapabilityState? = nil,
             sharePointAction: QuickSightClientTypes.CapabilityState? = nil,
             sharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            sharePostgreSqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            sharePrestoDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareQBusinessKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareQuickBooksAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareRadiantDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareRdsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareRedshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareRedshiftManualDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareS3AnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareS3DataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareS3KnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            shareS3TablesDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSalesforceAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSalesforceDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareSandPGMIAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSapHanaDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareServiceNowDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSharePointKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareShopifyAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSlackAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             shareSnowFlakeAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSnowflakeDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareSpaces: QuickSightClientTypes.CapabilityState? = nil,
+            shareSparkDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareSqlServerDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareSquareDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareStarburstDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareTeradataDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareTimestreamDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareTrinoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            shareTwitterDataSource: QuickSightClientTypes.CapabilityState? = nil,
             shareVisierAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             shareWebCrawlerKnowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
             shareWhatsAppAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -30101,12 +30598,66 @@ extension QuickSightClientTypes {
             slackAction: QuickSightClientTypes.CapabilityState? = nil,
             smartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             snowFlakeAction: QuickSightClientTypes.CapabilityState? = nil,
+            snowflakeDataSource: QuickSightClientTypes.CapabilityState? = nil,
             space: QuickSightClientTypes.CapabilityState? = nil,
+            sparkDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            sqlServerDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            squareDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            starburstDataSource: QuickSightClientTypes.CapabilityState? = nil,
             story: QuickSightClientTypes.CapabilityState? = nil,
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
+            teradataDataSource: QuickSightClientTypes.CapabilityState? = nil,
             textractAction: QuickSightClientTypes.CapabilityState? = nil,
+            timestreamDataSource: QuickSightClientTypes.CapabilityState? = nil,
             topic: QuickSightClientTypes.CapabilityState? = nil,
             trigger: QuickSightClientTypes.CapabilityState? = nil,
+            trinoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            twitterDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateAdobeAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateAthenaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateAuroraDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateDatabricksDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateDb2DataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateDenodoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateDocumentDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateDremioDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateDynamoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateExasolDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateFileDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateGitHubDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateGoogleAnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateGoogleBigQueryDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateGoogleSheetsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateImpalaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateJiraDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateMariaDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateMongoAtlasDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateMongoDbDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateMySqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateOpenSearchDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateOracleDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updatePayPalDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updatePostgreSqlDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updatePrestoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateRadiantDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateRdsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateRedshiftAutoDiscoveredDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateRedshiftManualDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateS3AnalyticsDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateS3DataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateS3TablesDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateSalesforceDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateSapHanaDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateServiceNowDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateSnowflakeDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateSparkDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateSqlServerDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateSquareDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateStarburstDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateTeradataDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateTimestreamDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateTrinoDataSource: QuickSightClientTypes.CapabilityState? = nil,
+            updateTwitterDataSource: QuickSightClientTypes.CapabilityState? = nil,
             useAdobeAction: QuickSightClientTypes.CapabilityState? = nil,
             useAgentWebSearch: QuickSightClientTypes.CapabilityState? = nil,
             useAirtableAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -30137,6 +30688,7 @@ extension QuickSightClientTypes {
             useGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
             useGithubAction: QuickSightClientTypes.CapabilityState? = nil,
             useGmailAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGongAction: QuickSightClientTypes.CapabilityState? = nil,
             useGoogleAnalyticsAction: QuickSightClientTypes.CapabilityState? = nil,
             useGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
             useGoogleChatAction: QuickSightClientTypes.CapabilityState? = nil,
@@ -30208,6 +30760,7 @@ extension QuickSightClientTypes {
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.adobeAction = adobeAction
+            self.adobeAnalyticsDataSource = adobeAnalyticsDataSource
             self.airtableAction = airtableAction
             self.amazonBedrockARSAction = amazonBedrockARSAction
             self.amazonBedrockFSAction = amazonBedrockFSAction
@@ -30217,6 +30770,8 @@ extension QuickSightClientTypes {
             self.approveFlowShareRequests = approveFlowShareRequests
             self.apps = apps
             self.asanaAction = asanaAction
+            self.athenaDataSource = athenaDataSource
+            self.auroraDataSource = auroraDataSource
             self.automate = automate
             self.bambooHRAction = bambooHRAction
             self.bedrockManagedKnowledgeBase = bedrockManagedKnowledgeBase
@@ -30232,6 +30787,7 @@ extension QuickSightClientTypes {
             self.comprehendMedicalAction = comprehendMedicalAction
             self.confluenceAction = confluenceAction
             self.confluenceKnowledgeBase = confluenceKnowledgeBase
+            self.createAdobeAnalyticsDataSource = createAdobeAnalyticsDataSource
             self.createAndUpdateAdobeAction = createAndUpdateAdobeAction
             self.createAndUpdateAirtableAction = createAndUpdateAirtableAction
             self.createAndUpdateAmazonBedrockARSAction = createAndUpdateAmazonBedrockARSAction
@@ -30262,6 +30818,7 @@ extension QuickSightClientTypes {
             self.createAndUpdateGenericHTTPAction = createAndUpdateGenericHTTPAction
             self.createAndUpdateGithubAction = createAndUpdateGithubAction
             self.createAndUpdateGmailAction = createAndUpdateGmailAction
+            self.createAndUpdateGongAction = createAndUpdateGongAction
             self.createAndUpdateGoogleAnalyticsAction = createAndUpdateGoogleAnalyticsAction
             self.createAndUpdateGoogleCalendarAction = createAndUpdateGoogleCalendarAction
             self.createAndUpdateGoogleChatAction = createAndUpdateGoogleChatAction
@@ -30320,15 +30877,66 @@ extension QuickSightClientTypes {
             self.createAndUpdateZendeskAction = createAndUpdateZendeskAction
             self.createAndUpdateZoomAction = createAndUpdateZoomAction
             self.createAndUpdateZoomInfoAction = createAndUpdateZoomInfoAction
+            self.createAthenaDataSource = createAthenaDataSource
+            self.createAuroraDataSource = createAuroraDataSource
             self.createChatAgents = createChatAgents
             self.createDashboardExecutiveSummaryWithQ = createDashboardExecutiveSummaryWithQ
+            self.createDatabricksDataSource = createDatabricksDataSource
+            self.createDb2DataSource = createDb2DataSource
+            self.createDenodoDataSource = createDenodoDataSource
+            self.createDocumentDbDataSource = createDocumentDbDataSource
+            self.createDremioDataSource = createDremioDataSource
+            self.createDynamoDbDataSource = createDynamoDbDataSource
+            self.createExasolDataSource = createExasolDataSource
+            self.createFileDataSource = createFileDataSource
+            self.createGitHubDataSource = createGitHubDataSource
+            self.createGoogleAnalyticsDataSource = createGoogleAnalyticsDataSource
+            self.createGoogleBigQueryDataSource = createGoogleBigQueryDataSource
+            self.createGoogleSheetsDataSource = createGoogleSheetsDataSource
+            self.createImpalaDataSource = createImpalaDataSource
+            self.createJiraDataSource = createJiraDataSource
+            self.createMariaDbDataSource = createMariaDbDataSource
+            self.createMongoAtlasDataSource = createMongoAtlasDataSource
+            self.createMongoDbDataSource = createMongoDbDataSource
+            self.createMySqlDataSource = createMySqlDataSource
+            self.createOpenSearchDataSource = createOpenSearchDataSource
+            self.createOracleDataSource = createOracleDataSource
+            self.createPayPalDataSource = createPayPalDataSource
+            self.createPostgreSqlDataSource = createPostgreSqlDataSource
+            self.createPrestoDataSource = createPrestoDataSource
+            self.createRadiantDataSource = createRadiantDataSource
+            self.createRdsDataSource = createRdsDataSource
+            self.createRedshiftAutoDiscoveredDataSource = createRedshiftAutoDiscoveredDataSource
+            self.createRedshiftManualDataSource = createRedshiftManualDataSource
+            self.createS3AnalyticsDataSource = createS3AnalyticsDataSource
+            self.createS3DataSource = createS3DataSource
+            self.createS3TablesDataSource = createS3TablesDataSource
             self.createSPICEDataset = createSPICEDataset
+            self.createSalesforceDataSource = createSalesforceDataSource
+            self.createSapHanaDataSource = createSapHanaDataSource
+            self.createServiceNowDataSource = createServiceNowDataSource
             self.createSharedFolders = createSharedFolders
+            self.createSnowflakeDataSource = createSnowflakeDataSource
             self.createSpaces = createSpaces
+            self.createSparkDataSource = createSparkDataSource
+            self.createSqlServerDataSource = createSqlServerDataSource
+            self.createSquareDataSource = createSquareDataSource
+            self.createStarburstDataSource = createStarburstDataSource
+            self.createTeradataDataSource = createTeradataDataSource
+            self.createTimestreamDataSource = createTimestreamDataSource
+            self.createTrinoDataSource = createTrinoDataSource
+            self.createTwitterDataSource = createTwitterDataSource
             self.dashboard = dashboard
+            self.databricksDataSource = databricksDataSource
+            self.db2DataSource = db2DataSource
+            self.denodoDataSource = denodoDataSource
+            self.documentDbDataSource = documentDbDataSource
+            self.dremioDataSource = dremioDataSource
             self.dropboxAction = dropboxAction
             self.dunAndBradstreetAction = dunAndBradstreetAction
+            self.dynamoDbDataSource = dynamoDbDataSource
             self.editVisualWithQ = editVisualWithQ
+            self.exasolDataSource = exasolDataSource
             self.exportToCsv = exportToCsv
             self.exportToCsvInScheduledReports = exportToCsvInScheduledReports
             self.exportToExcel = exportToExcel
@@ -30338,12 +30946,17 @@ extension QuickSightClientTypes {
             self.`extension` = `extension`
             self.factSetAction = factSetAction
             self.figmaAction = figmaAction
+            self.fileDataSource = fileDataSource
             self.flow = flow
             self.generateAnalyses = generateAnalyses
             self.genericHTTPAction = genericHTTPAction
+            self.gitHubDataSource = gitHubDataSource
             self.githubAction = githubAction
             self.gmailAction = gmailAction
+            self.gongAction = gongAction
             self.googleAnalyticsAction = googleAnalyticsAction
+            self.googleAnalyticsDataSource = googleAnalyticsDataSource
+            self.googleBigQueryDataSource = googleBigQueryDataSource
             self.googleCalendarAction = googleCalendarAction
             self.googleChatAction = googleChatAction
             self.googleDocsAction = googleDocsAction
@@ -30351,46 +30964,67 @@ extension QuickSightClientTypes {
             self.googleDriveKnowledgeBase = googleDriveKnowledgeBase
             self.googleMeetAction = googleMeetAction
             self.googleSheetsAction = googleSheetsAction
+            self.googleSheetsDataSource = googleSheetsDataSource
             self.googleSlidesAction = googleSlidesAction
             self.hgInsightsAction = hgInsightsAction
             self.hubspotAction = hubspotAction
             self.huggingFaceAction = huggingFaceAction
             self.idcKnowledgeBase = idcKnowledgeBase
+            self.impalaDataSource = impalaDataSource
             self.inboundEmailTrigger = inboundEmailTrigger
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
             self.intercomAction = intercomAction
             self.invokeAppsAIInference = invokeAppsAIInference
             self.jiraAction = jiraAction
+            self.jiraDataSource = jiraDataSource
             self.knowledgeBase = knowledgeBase
             self.linearAction = linearAction
             self.manageSharedFolders = manageSharedFolders
+            self.mariaDbDataSource = mariaDbDataSource
             self.mcpAction = mcpAction
             self.mondayAction = mondayAction
+            self.mongoAtlasDataSource = mongoAtlasDataSource
+            self.mongoDbDataSource = mongoDbDataSource
             self.moodysAction = moodysAction
             self.msExchangeAction = msExchangeAction
             self.msTeamsAction = msTeamsAction
+            self.mySqlDataSource = mySqlDataSource
             self.newRelicAction = newRelicAction
             self.notionAction = notionAction
             self.oneDriveAction = oneDriveAction
             self.oneDriveKnowledgeBase = oneDriveKnowledgeBase
             self.oneNoteAction = oneNoteAction
             self.openAPIAction = openAPIAction
+            self.openSearchDataSource = openSearchDataSource
+            self.oracleDataSource = oracleDataSource
             self.pagerDutyAction = pagerDutyAction
             self.pagerDutyAgentAction = pagerDutyAgentAction
+            self.payPalDataSource = payPalDataSource
             self.performFlowUiTask = performFlowUiTask
+            self.postgreSqlDataSource = postgreSqlDataSource
+            self.prestoDataSource = prestoDataSource
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
             self.qBusinessKnowledgeBase = qBusinessKnowledgeBase
             self.quickBooksAction = quickBooksAction
             self.quickEventTrigger = quickEventTrigger
+            self.radiantDataSource = radiantDataSource
+            self.rdsDataSource = rdsDataSource
+            self.redshiftAutoDiscoveredDataSource = redshiftAutoDiscoveredDataSource
+            self.redshiftManualDataSource = redshiftManualDataSource
             self.renameSharedFolders = renameSharedFolders
             self.research = research
+            self.s3AnalyticsDataSource = s3AnalyticsDataSource
+            self.s3DataSource = s3DataSource
             self.s3KnowledgeBase = s3KnowledgeBase
+            self.s3TablesDataSource = s3TablesDataSource
             self.salesforceAction = salesforceAction
+            self.salesforceDataSource = salesforceDataSource
             self.sandPGMIAction = sandPGMIAction
             self.sandPGlobalEnergyAction = sandPGlobalEnergyAction
             self.sapBillOfMaterialAction = sapBillOfMaterialAction
             self.sapBusinessPartnerAction = sapBusinessPartnerAction
+            self.sapHanaDataSource = sapHanaDataSource
             self.sapMaterialStockAction = sapMaterialStockAction
             self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
             self.sapProductMasterDataAction = sapProductMasterDataAction
@@ -30398,7 +31032,9 @@ extension QuickSightClientTypes {
             self.scheduleTrigger = scheduleTrigger
             self.selfUpgradeUserRole = selfUpgradeUserRole
             self.serviceNowAction = serviceNowAction
+            self.serviceNowDataSource = serviceNowDataSource
             self.shareAdobeAction = shareAdobeAction
+            self.shareAdobeAnalyticsDataSource = shareAdobeAnalyticsDataSource
             self.shareAirtableAction = shareAirtableAction
             self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
             self.shareAmazonBedrockFSAction = shareAmazonBedrockFSAction
@@ -30407,6 +31043,8 @@ extension QuickSightClientTypes {
             self.shareAnalyses = shareAnalyses
             self.shareApps = shareApps
             self.shareAsanaAction = shareAsanaAction
+            self.shareAthenaDataSource = shareAthenaDataSource
+            self.shareAuroraDataSource = shareAuroraDataSource
             self.shareBambooHRAction = shareBambooHRAction
             self.shareBedrockManagedKnowledgeBase = shareBedrockManagedKnowledgeBase
             self.shareBeeAction = shareBeeAction
@@ -30422,15 +31060,27 @@ extension QuickSightClientTypes {
             self.shareConfluenceKnowledgeBase = shareConfluenceKnowledgeBase
             self.shareDashboards = shareDashboards
             self.shareDataSources = shareDataSources
+            self.shareDatabricksDataSource = shareDatabricksDataSource
             self.shareDatasets = shareDatasets
+            self.shareDb2DataSource = shareDb2DataSource
+            self.shareDenodoDataSource = shareDenodoDataSource
+            self.shareDocumentDbDataSource = shareDocumentDbDataSource
+            self.shareDremioDataSource = shareDremioDataSource
             self.shareDropboxAction = shareDropboxAction
             self.shareDunAndBradstreetAction = shareDunAndBradstreetAction
+            self.shareDynamoDbDataSource = shareDynamoDbDataSource
+            self.shareExasolDataSource = shareExasolDataSource
             self.shareFactSetAction = shareFactSetAction
             self.shareFigmaAction = shareFigmaAction
+            self.shareFileDataSource = shareFileDataSource
             self.shareGenericHTTPAction = shareGenericHTTPAction
+            self.shareGitHubDataSource = shareGitHubDataSource
             self.shareGithubAction = shareGithubAction
             self.shareGmailAction = shareGmailAction
+            self.shareGongAction = shareGongAction
             self.shareGoogleAnalyticsAction = shareGoogleAnalyticsAction
+            self.shareGoogleAnalyticsDataSource = shareGoogleAnalyticsDataSource
+            self.shareGoogleBigQueryDataSource = shareGoogleBigQueryDataSource
             self.shareGoogleCalendarAction = shareGoogleCalendarAction
             self.shareGoogleChatAction = shareGoogleChatAction
             self.shareGoogleDocsAction = shareGoogleDocsAction
@@ -30438,50 +31088,81 @@ extension QuickSightClientTypes {
             self.shareGoogleDriveKnowledgeBase = shareGoogleDriveKnowledgeBase
             self.shareGoogleMeetAction = shareGoogleMeetAction
             self.shareGoogleSheetsAction = shareGoogleSheetsAction
+            self.shareGoogleSheetsDataSource = shareGoogleSheetsDataSource
             self.shareGoogleSlidesAction = shareGoogleSlidesAction
             self.shareHGInsightsAction = shareHGInsightsAction
             self.shareHubspotAction = shareHubspotAction
             self.shareHuggingFaceAction = shareHuggingFaceAction
             self.shareIDCKnowledgeBase = shareIDCKnowledgeBase
+            self.shareImpalaDataSource = shareImpalaDataSource
             self.shareIntercomAction = shareIntercomAction
             self.shareJiraAction = shareJiraAction
+            self.shareJiraDataSource = shareJiraDataSource
             self.shareKnowledgeBases = shareKnowledgeBases
             self.shareLinearAction = shareLinearAction
             self.shareMCPAction = shareMCPAction
             self.shareMSExchangeAction = shareMSExchangeAction
             self.shareMSTeamsAction = shareMSTeamsAction
+            self.shareMariaDbDataSource = shareMariaDbDataSource
             self.shareMondayAction = shareMondayAction
+            self.shareMongoAtlasDataSource = shareMongoAtlasDataSource
+            self.shareMongoDbDataSource = shareMongoDbDataSource
             self.shareMoodysAction = shareMoodysAction
+            self.shareMySqlDataSource = shareMySqlDataSource
             self.shareNewRelicAction = shareNewRelicAction
             self.shareNotionAction = shareNotionAction
             self.shareOneDriveAction = shareOneDriveAction
             self.shareOneDriveKnowledgeBase = shareOneDriveKnowledgeBase
             self.shareOneNoteAction = shareOneNoteAction
             self.shareOpenAPIAction = shareOpenAPIAction
+            self.shareOpenSearchDataSource = shareOpenSearchDataSource
+            self.shareOracleDataSource = shareOracleDataSource
             self.sharePagerDutyAction = sharePagerDutyAction
             self.sharePagerDutyAgentAction = sharePagerDutyAgentAction
+            self.sharePayPalDataSource = sharePayPalDataSource
             self.sharePointAction = sharePointAction
             self.sharePointKnowledgeBase = sharePointKnowledgeBase
+            self.sharePostgreSqlDataSource = sharePostgreSqlDataSource
+            self.sharePrestoDataSource = sharePrestoDataSource
             self.shareQBusinessKnowledgeBase = shareQBusinessKnowledgeBase
             self.shareQuickBooksAction = shareQuickBooksAction
+            self.shareRadiantDataSource = shareRadiantDataSource
+            self.shareRdsDataSource = shareRdsDataSource
+            self.shareRedshiftAutoDiscoveredDataSource = shareRedshiftAutoDiscoveredDataSource
+            self.shareRedshiftManualDataSource = shareRedshiftManualDataSource
+            self.shareS3AnalyticsDataSource = shareS3AnalyticsDataSource
+            self.shareS3DataSource = shareS3DataSource
             self.shareS3KnowledgeBase = shareS3KnowledgeBase
+            self.shareS3TablesDataSource = shareS3TablesDataSource
             self.shareSAPBillOfMaterialAction = shareSAPBillOfMaterialAction
             self.shareSAPBusinessPartnerAction = shareSAPBusinessPartnerAction
             self.shareSAPMaterialStockAction = shareSAPMaterialStockAction
             self.shareSAPPhysicalInventoryAction = shareSAPPhysicalInventoryAction
             self.shareSAPProductMasterDataAction = shareSAPProductMasterDataAction
             self.shareSalesforceAction = shareSalesforceAction
+            self.shareSalesforceDataSource = shareSalesforceDataSource
             self.shareSandPGMIAction = shareSandPGMIAction
             self.shareSandPGlobalEnergyAction = shareSandPGlobalEnergyAction
+            self.shareSapHanaDataSource = shareSapHanaDataSource
             self.shareServiceNowAction = shareServiceNowAction
+            self.shareServiceNowDataSource = shareServiceNowDataSource
             self.shareSharePointAction = shareSharePointAction
             self.shareSharePointKnowledgeBase = shareSharePointKnowledgeBase
             self.shareShopifyAction = shareShopifyAction
             self.shareSlackAction = shareSlackAction
             self.shareSmartsheetAction = shareSmartsheetAction
             self.shareSnowFlakeAction = shareSnowFlakeAction
+            self.shareSnowflakeDataSource = shareSnowflakeDataSource
             self.shareSpaces = shareSpaces
+            self.shareSparkDataSource = shareSparkDataSource
+            self.shareSqlServerDataSource = shareSqlServerDataSource
+            self.shareSquareDataSource = shareSquareDataSource
+            self.shareStarburstDataSource = shareStarburstDataSource
+            self.shareTeradataDataSource = shareTeradataDataSource
             self.shareTextractAction = shareTextractAction
+            self.shareTimestreamDataSource = shareTimestreamDataSource
+            self.shareTrinoDataSource = shareTrinoDataSource
+            self.shareTwitterDataSource = shareTwitterDataSource
             self.shareVisierAgentAction = shareVisierAgentAction
             self.shareWebCrawlerKnowledgeBase = shareWebCrawlerKnowledgeBase
             self.shareWhatsAppAction = shareWhatsAppAction
@@ -30493,12 +31174,66 @@ extension QuickSightClientTypes {
             self.slackAction = slackAction
             self.smartsheetAction = smartsheetAction
             self.snowFlakeAction = snowFlakeAction
+            self.snowflakeDataSource = snowflakeDataSource
             self.space = space
+            self.sparkDataSource = sparkDataSource
+            self.sqlServerDataSource = sqlServerDataSource
+            self.squareDataSource = squareDataSource
+            self.starburstDataSource = starburstDataSource
             self.story = story
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.teradataDataSource = teradataDataSource
             self.textractAction = textractAction
+            self.timestreamDataSource = timestreamDataSource
             self.topic = topic
             self.trigger = trigger
+            self.trinoDataSource = trinoDataSource
+            self.twitterDataSource = twitterDataSource
+            self.updateAdobeAnalyticsDataSource = updateAdobeAnalyticsDataSource
+            self.updateAthenaDataSource = updateAthenaDataSource
+            self.updateAuroraDataSource = updateAuroraDataSource
+            self.updateDatabricksDataSource = updateDatabricksDataSource
+            self.updateDb2DataSource = updateDb2DataSource
+            self.updateDenodoDataSource = updateDenodoDataSource
+            self.updateDocumentDbDataSource = updateDocumentDbDataSource
+            self.updateDremioDataSource = updateDremioDataSource
+            self.updateDynamoDbDataSource = updateDynamoDbDataSource
+            self.updateExasolDataSource = updateExasolDataSource
+            self.updateFileDataSource = updateFileDataSource
+            self.updateGitHubDataSource = updateGitHubDataSource
+            self.updateGoogleAnalyticsDataSource = updateGoogleAnalyticsDataSource
+            self.updateGoogleBigQueryDataSource = updateGoogleBigQueryDataSource
+            self.updateGoogleSheetsDataSource = updateGoogleSheetsDataSource
+            self.updateImpalaDataSource = updateImpalaDataSource
+            self.updateJiraDataSource = updateJiraDataSource
+            self.updateMariaDbDataSource = updateMariaDbDataSource
+            self.updateMongoAtlasDataSource = updateMongoAtlasDataSource
+            self.updateMongoDbDataSource = updateMongoDbDataSource
+            self.updateMySqlDataSource = updateMySqlDataSource
+            self.updateOpenSearchDataSource = updateOpenSearchDataSource
+            self.updateOracleDataSource = updateOracleDataSource
+            self.updatePayPalDataSource = updatePayPalDataSource
+            self.updatePostgreSqlDataSource = updatePostgreSqlDataSource
+            self.updatePrestoDataSource = updatePrestoDataSource
+            self.updateRadiantDataSource = updateRadiantDataSource
+            self.updateRdsDataSource = updateRdsDataSource
+            self.updateRedshiftAutoDiscoveredDataSource = updateRedshiftAutoDiscoveredDataSource
+            self.updateRedshiftManualDataSource = updateRedshiftManualDataSource
+            self.updateS3AnalyticsDataSource = updateS3AnalyticsDataSource
+            self.updateS3DataSource = updateS3DataSource
+            self.updateS3TablesDataSource = updateS3TablesDataSource
+            self.updateSalesforceDataSource = updateSalesforceDataSource
+            self.updateSapHanaDataSource = updateSapHanaDataSource
+            self.updateServiceNowDataSource = updateServiceNowDataSource
+            self.updateSnowflakeDataSource = updateSnowflakeDataSource
+            self.updateSparkDataSource = updateSparkDataSource
+            self.updateSqlServerDataSource = updateSqlServerDataSource
+            self.updateSquareDataSource = updateSquareDataSource
+            self.updateStarburstDataSource = updateStarburstDataSource
+            self.updateTeradataDataSource = updateTeradataDataSource
+            self.updateTimestreamDataSource = updateTimestreamDataSource
+            self.updateTrinoDataSource = updateTrinoDataSource
+            self.updateTwitterDataSource = updateTwitterDataSource
             self.useAdobeAction = useAdobeAction
             self.useAgentWebSearch = useAgentWebSearch
             self.useAirtableAction = useAirtableAction
@@ -30529,6 +31264,7 @@ extension QuickSightClientTypes {
             self.useGenericHTTPAction = useGenericHTTPAction
             self.useGithubAction = useGithubAction
             self.useGmailAction = useGmailAction
+            self.useGongAction = useGongAction
             self.useGoogleAnalyticsAction = useGoogleAnalyticsAction
             self.useGoogleCalendarAction = useGoogleCalendarAction
             self.useGoogleChatAction = useGoogleChatAction
@@ -78534,6 +79270,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["Action"].write(value.action)
         try writer["AddOrRunAnomalyDetectionForAnalyses"].write(value.addOrRunAnomalyDetectionForAnalyses)
         try writer["AdobeAction"].write(value.adobeAction)
+        try writer["AdobeAnalyticsDataSource"].write(value.adobeAnalyticsDataSource)
         try writer["AirtableAction"].write(value.airtableAction)
         try writer["AmazonBedrockARSAction"].write(value.amazonBedrockARSAction)
         try writer["AmazonBedrockFSAction"].write(value.amazonBedrockFSAction)
@@ -78543,6 +79280,8 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ApproveFlowShareRequests"].write(value.approveFlowShareRequests)
         try writer["Apps"].write(value.apps)
         try writer["AsanaAction"].write(value.asanaAction)
+        try writer["AthenaDataSource"].write(value.athenaDataSource)
+        try writer["AuroraDataSource"].write(value.auroraDataSource)
         try writer["Automate"].write(value.automate)
         try writer["BambooHRAction"].write(value.bambooHRAction)
         try writer["BedrockManagedKnowledgeBase"].write(value.bedrockManagedKnowledgeBase)
@@ -78558,6 +79297,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ComprehendMedicalAction"].write(value.comprehendMedicalAction)
         try writer["ConfluenceAction"].write(value.confluenceAction)
         try writer["ConfluenceKnowledgeBase"].write(value.confluenceKnowledgeBase)
+        try writer["CreateAdobeAnalyticsDataSource"].write(value.createAdobeAnalyticsDataSource)
         try writer["CreateAndUpdateAdobeAction"].write(value.createAndUpdateAdobeAction)
         try writer["CreateAndUpdateAirtableAction"].write(value.createAndUpdateAirtableAction)
         try writer["CreateAndUpdateAmazonBedrockARSAction"].write(value.createAndUpdateAmazonBedrockARSAction)
@@ -78588,6 +79328,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateGenericHTTPAction"].write(value.createAndUpdateGenericHTTPAction)
         try writer["CreateAndUpdateGithubAction"].write(value.createAndUpdateGithubAction)
         try writer["CreateAndUpdateGmailAction"].write(value.createAndUpdateGmailAction)
+        try writer["CreateAndUpdateGongAction"].write(value.createAndUpdateGongAction)
         try writer["CreateAndUpdateGoogleAnalyticsAction"].write(value.createAndUpdateGoogleAnalyticsAction)
         try writer["CreateAndUpdateGoogleCalendarAction"].write(value.createAndUpdateGoogleCalendarAction)
         try writer["CreateAndUpdateGoogleChatAction"].write(value.createAndUpdateGoogleChatAction)
@@ -78646,15 +79387,66 @@ extension QuickSightClientTypes.Capabilities {
         try writer["CreateAndUpdateZendeskAction"].write(value.createAndUpdateZendeskAction)
         try writer["CreateAndUpdateZoomAction"].write(value.createAndUpdateZoomAction)
         try writer["CreateAndUpdateZoomInfoAction"].write(value.createAndUpdateZoomInfoAction)
+        try writer["CreateAthenaDataSource"].write(value.createAthenaDataSource)
+        try writer["CreateAuroraDataSource"].write(value.createAuroraDataSource)
         try writer["CreateChatAgents"].write(value.createChatAgents)
         try writer["CreateDashboardExecutiveSummaryWithQ"].write(value.createDashboardExecutiveSummaryWithQ)
+        try writer["CreateDatabricksDataSource"].write(value.createDatabricksDataSource)
+        try writer["CreateDb2DataSource"].write(value.createDb2DataSource)
+        try writer["CreateDenodoDataSource"].write(value.createDenodoDataSource)
+        try writer["CreateDocumentDbDataSource"].write(value.createDocumentDbDataSource)
+        try writer["CreateDremioDataSource"].write(value.createDremioDataSource)
+        try writer["CreateDynamoDbDataSource"].write(value.createDynamoDbDataSource)
+        try writer["CreateExasolDataSource"].write(value.createExasolDataSource)
+        try writer["CreateFileDataSource"].write(value.createFileDataSource)
+        try writer["CreateGitHubDataSource"].write(value.createGitHubDataSource)
+        try writer["CreateGoogleAnalyticsDataSource"].write(value.createGoogleAnalyticsDataSource)
+        try writer["CreateGoogleBigQueryDataSource"].write(value.createGoogleBigQueryDataSource)
+        try writer["CreateGoogleSheetsDataSource"].write(value.createGoogleSheetsDataSource)
+        try writer["CreateImpalaDataSource"].write(value.createImpalaDataSource)
+        try writer["CreateJiraDataSource"].write(value.createJiraDataSource)
+        try writer["CreateMariaDbDataSource"].write(value.createMariaDbDataSource)
+        try writer["CreateMongoAtlasDataSource"].write(value.createMongoAtlasDataSource)
+        try writer["CreateMongoDbDataSource"].write(value.createMongoDbDataSource)
+        try writer["CreateMySqlDataSource"].write(value.createMySqlDataSource)
+        try writer["CreateOpenSearchDataSource"].write(value.createOpenSearchDataSource)
+        try writer["CreateOracleDataSource"].write(value.createOracleDataSource)
+        try writer["CreatePayPalDataSource"].write(value.createPayPalDataSource)
+        try writer["CreatePostgreSqlDataSource"].write(value.createPostgreSqlDataSource)
+        try writer["CreatePrestoDataSource"].write(value.createPrestoDataSource)
+        try writer["CreateRadiantDataSource"].write(value.createRadiantDataSource)
+        try writer["CreateRdsDataSource"].write(value.createRdsDataSource)
+        try writer["CreateRedshiftAutoDiscoveredDataSource"].write(value.createRedshiftAutoDiscoveredDataSource)
+        try writer["CreateRedshiftManualDataSource"].write(value.createRedshiftManualDataSource)
+        try writer["CreateS3AnalyticsDataSource"].write(value.createS3AnalyticsDataSource)
+        try writer["CreateS3DataSource"].write(value.createS3DataSource)
+        try writer["CreateS3TablesDataSource"].write(value.createS3TablesDataSource)
         try writer["CreateSPICEDataset"].write(value.createSPICEDataset)
+        try writer["CreateSalesforceDataSource"].write(value.createSalesforceDataSource)
+        try writer["CreateSapHanaDataSource"].write(value.createSapHanaDataSource)
+        try writer["CreateServiceNowDataSource"].write(value.createServiceNowDataSource)
         try writer["CreateSharedFolders"].write(value.createSharedFolders)
+        try writer["CreateSnowflakeDataSource"].write(value.createSnowflakeDataSource)
         try writer["CreateSpaces"].write(value.createSpaces)
+        try writer["CreateSparkDataSource"].write(value.createSparkDataSource)
+        try writer["CreateSqlServerDataSource"].write(value.createSqlServerDataSource)
+        try writer["CreateSquareDataSource"].write(value.createSquareDataSource)
+        try writer["CreateStarburstDataSource"].write(value.createStarburstDataSource)
+        try writer["CreateTeradataDataSource"].write(value.createTeradataDataSource)
+        try writer["CreateTimestreamDataSource"].write(value.createTimestreamDataSource)
+        try writer["CreateTrinoDataSource"].write(value.createTrinoDataSource)
+        try writer["CreateTwitterDataSource"].write(value.createTwitterDataSource)
         try writer["Dashboard"].write(value.dashboard)
+        try writer["DatabricksDataSource"].write(value.databricksDataSource)
+        try writer["Db2DataSource"].write(value.db2DataSource)
+        try writer["DenodoDataSource"].write(value.denodoDataSource)
+        try writer["DocumentDbDataSource"].write(value.documentDbDataSource)
+        try writer["DremioDataSource"].write(value.dremioDataSource)
         try writer["DropboxAction"].write(value.dropboxAction)
         try writer["DunAndBradstreetAction"].write(value.dunAndBradstreetAction)
+        try writer["DynamoDbDataSource"].write(value.dynamoDbDataSource)
         try writer["EditVisualWithQ"].write(value.editVisualWithQ)
+        try writer["ExasolDataSource"].write(value.exasolDataSource)
         try writer["ExportToCsv"].write(value.exportToCsv)
         try writer["ExportToCsvInScheduledReports"].write(value.exportToCsvInScheduledReports)
         try writer["ExportToExcel"].write(value.exportToExcel)
@@ -78664,12 +79456,17 @@ extension QuickSightClientTypes.Capabilities {
         try writer["Extension"].write(value.`extension`)
         try writer["FactSetAction"].write(value.factSetAction)
         try writer["FigmaAction"].write(value.figmaAction)
+        try writer["FileDataSource"].write(value.fileDataSource)
         try writer["Flow"].write(value.flow)
         try writer["GenerateAnalyses"].write(value.generateAnalyses)
         try writer["GenericHTTPAction"].write(value.genericHTTPAction)
+        try writer["GitHubDataSource"].write(value.gitHubDataSource)
         try writer["GithubAction"].write(value.githubAction)
         try writer["GmailAction"].write(value.gmailAction)
+        try writer["GongAction"].write(value.gongAction)
         try writer["GoogleAnalyticsAction"].write(value.googleAnalyticsAction)
+        try writer["GoogleAnalyticsDataSource"].write(value.googleAnalyticsDataSource)
+        try writer["GoogleBigQueryDataSource"].write(value.googleBigQueryDataSource)
         try writer["GoogleCalendarAction"].write(value.googleCalendarAction)
         try writer["GoogleChatAction"].write(value.googleChatAction)
         try writer["GoogleDocsAction"].write(value.googleDocsAction)
@@ -78677,54 +79474,77 @@ extension QuickSightClientTypes.Capabilities {
         try writer["GoogleDriveKnowledgeBase"].write(value.googleDriveKnowledgeBase)
         try writer["GoogleMeetAction"].write(value.googleMeetAction)
         try writer["GoogleSheetsAction"].write(value.googleSheetsAction)
+        try writer["GoogleSheetsDataSource"].write(value.googleSheetsDataSource)
         try writer["GoogleSlidesAction"].write(value.googleSlidesAction)
         try writer["HGInsightsAction"].write(value.hgInsightsAction)
         try writer["HubspotAction"].write(value.hubspotAction)
         try writer["HuggingFaceAction"].write(value.huggingFaceAction)
         try writer["IDCKnowledgeBase"].write(value.idcKnowledgeBase)
+        try writer["ImpalaDataSource"].write(value.impalaDataSource)
         try writer["InboundEmailTrigger"].write(value.inboundEmailTrigger)
         try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
         try writer["IntercomAction"].write(value.intercomAction)
         try writer["InvokeAppsAIInference"].write(value.invokeAppsAIInference)
         try writer["JiraAction"].write(value.jiraAction)
+        try writer["JiraDataSource"].write(value.jiraDataSource)
         try writer["KnowledgeBase"].write(value.knowledgeBase)
         try writer["LinearAction"].write(value.linearAction)
         try writer["MCPAction"].write(value.mcpAction)
         try writer["MSExchangeAction"].write(value.msExchangeAction)
         try writer["MSTeamsAction"].write(value.msTeamsAction)
         try writer["ManageSharedFolders"].write(value.manageSharedFolders)
+        try writer["MariaDbDataSource"].write(value.mariaDbDataSource)
         try writer["MondayAction"].write(value.mondayAction)
+        try writer["MongoAtlasDataSource"].write(value.mongoAtlasDataSource)
+        try writer["MongoDbDataSource"].write(value.mongoDbDataSource)
         try writer["MoodysAction"].write(value.moodysAction)
+        try writer["MySqlDataSource"].write(value.mySqlDataSource)
         try writer["NewRelicAction"].write(value.newRelicAction)
         try writer["NotionAction"].write(value.notionAction)
         try writer["OneDriveAction"].write(value.oneDriveAction)
         try writer["OneDriveKnowledgeBase"].write(value.oneDriveKnowledgeBase)
         try writer["OneNoteAction"].write(value.oneNoteAction)
         try writer["OpenAPIAction"].write(value.openAPIAction)
+        try writer["OpenSearchDataSource"].write(value.openSearchDataSource)
+        try writer["OracleDataSource"].write(value.oracleDataSource)
         try writer["PagerDutyAction"].write(value.pagerDutyAction)
         try writer["PagerDutyAgentAction"].write(value.pagerDutyAgentAction)
+        try writer["PayPalDataSource"].write(value.payPalDataSource)
         try writer["PerformFlowUiTask"].write(value.performFlowUiTask)
+        try writer["PostgreSqlDataSource"].write(value.postgreSqlDataSource)
+        try writer["PrestoDataSource"].write(value.prestoDataSource)
         try writer["PrintReports"].write(value.printReports)
         try writer["PublishWithoutApproval"].write(value.publishWithoutApproval)
         try writer["QBusinessKnowledgeBase"].write(value.qBusinessKnowledgeBase)
         try writer["QuickBooksAction"].write(value.quickBooksAction)
         try writer["QuickEventTrigger"].write(value.quickEventTrigger)
+        try writer["RadiantDataSource"].write(value.radiantDataSource)
+        try writer["RdsDataSource"].write(value.rdsDataSource)
+        try writer["RedshiftAutoDiscoveredDataSource"].write(value.redshiftAutoDiscoveredDataSource)
+        try writer["RedshiftManualDataSource"].write(value.redshiftManualDataSource)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
         try writer["Research"].write(value.research)
+        try writer["S3AnalyticsDataSource"].write(value.s3AnalyticsDataSource)
+        try writer["S3DataSource"].write(value.s3DataSource)
         try writer["S3KnowledgeBase"].write(value.s3KnowledgeBase)
+        try writer["S3TablesDataSource"].write(value.s3TablesDataSource)
         try writer["SAPBillOfMaterialAction"].write(value.sapBillOfMaterialAction)
         try writer["SAPBusinessPartnerAction"].write(value.sapBusinessPartnerAction)
         try writer["SAPMaterialStockAction"].write(value.sapMaterialStockAction)
         try writer["SAPPhysicalInventoryAction"].write(value.sapPhysicalInventoryAction)
         try writer["SAPProductMasterDataAction"].write(value.sapProductMasterDataAction)
         try writer["SalesforceAction"].write(value.salesforceAction)
+        try writer["SalesforceDataSource"].write(value.salesforceDataSource)
         try writer["SandPGMIAction"].write(value.sandPGMIAction)
         try writer["SandPGlobalEnergyAction"].write(value.sandPGlobalEnergyAction)
+        try writer["SapHanaDataSource"].write(value.sapHanaDataSource)
         try writer["Scenario"].write(value.scenario)
         try writer["ScheduleTrigger"].write(value.scheduleTrigger)
         try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
         try writer["ServiceNowAction"].write(value.serviceNowAction)
+        try writer["ServiceNowDataSource"].write(value.serviceNowDataSource)
         try writer["ShareAdobeAction"].write(value.shareAdobeAction)
+        try writer["ShareAdobeAnalyticsDataSource"].write(value.shareAdobeAnalyticsDataSource)
         try writer["ShareAirtableAction"].write(value.shareAirtableAction)
         try writer["ShareAmazonBedrockARSAction"].write(value.shareAmazonBedrockARSAction)
         try writer["ShareAmazonBedrockFSAction"].write(value.shareAmazonBedrockFSAction)
@@ -78733,6 +79553,8 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareAnalyses"].write(value.shareAnalyses)
         try writer["ShareApps"].write(value.shareApps)
         try writer["ShareAsanaAction"].write(value.shareAsanaAction)
+        try writer["ShareAthenaDataSource"].write(value.shareAthenaDataSource)
+        try writer["ShareAuroraDataSource"].write(value.shareAuroraDataSource)
         try writer["ShareBambooHRAction"].write(value.shareBambooHRAction)
         try writer["ShareBedrockManagedKnowledgeBase"].write(value.shareBedrockManagedKnowledgeBase)
         try writer["ShareBeeAction"].write(value.shareBeeAction)
@@ -78748,15 +79570,27 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareConfluenceKnowledgeBase"].write(value.shareConfluenceKnowledgeBase)
         try writer["ShareDashboards"].write(value.shareDashboards)
         try writer["ShareDataSources"].write(value.shareDataSources)
+        try writer["ShareDatabricksDataSource"].write(value.shareDatabricksDataSource)
         try writer["ShareDatasets"].write(value.shareDatasets)
+        try writer["ShareDb2DataSource"].write(value.shareDb2DataSource)
+        try writer["ShareDenodoDataSource"].write(value.shareDenodoDataSource)
+        try writer["ShareDocumentDbDataSource"].write(value.shareDocumentDbDataSource)
+        try writer["ShareDremioDataSource"].write(value.shareDremioDataSource)
         try writer["ShareDropboxAction"].write(value.shareDropboxAction)
         try writer["ShareDunAndBradstreetAction"].write(value.shareDunAndBradstreetAction)
+        try writer["ShareDynamoDbDataSource"].write(value.shareDynamoDbDataSource)
+        try writer["ShareExasolDataSource"].write(value.shareExasolDataSource)
         try writer["ShareFactSetAction"].write(value.shareFactSetAction)
         try writer["ShareFigmaAction"].write(value.shareFigmaAction)
+        try writer["ShareFileDataSource"].write(value.shareFileDataSource)
         try writer["ShareGenericHTTPAction"].write(value.shareGenericHTTPAction)
+        try writer["ShareGitHubDataSource"].write(value.shareGitHubDataSource)
         try writer["ShareGithubAction"].write(value.shareGithubAction)
         try writer["ShareGmailAction"].write(value.shareGmailAction)
+        try writer["ShareGongAction"].write(value.shareGongAction)
         try writer["ShareGoogleAnalyticsAction"].write(value.shareGoogleAnalyticsAction)
+        try writer["ShareGoogleAnalyticsDataSource"].write(value.shareGoogleAnalyticsDataSource)
+        try writer["ShareGoogleBigQueryDataSource"].write(value.shareGoogleBigQueryDataSource)
         try writer["ShareGoogleCalendarAction"].write(value.shareGoogleCalendarAction)
         try writer["ShareGoogleChatAction"].write(value.shareGoogleChatAction)
         try writer["ShareGoogleDocsAction"].write(value.shareGoogleDocsAction)
@@ -78764,50 +79598,81 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ShareGoogleDriveKnowledgeBase"].write(value.shareGoogleDriveKnowledgeBase)
         try writer["ShareGoogleMeetAction"].write(value.shareGoogleMeetAction)
         try writer["ShareGoogleSheetsAction"].write(value.shareGoogleSheetsAction)
+        try writer["ShareGoogleSheetsDataSource"].write(value.shareGoogleSheetsDataSource)
         try writer["ShareGoogleSlidesAction"].write(value.shareGoogleSlidesAction)
         try writer["ShareHGInsightsAction"].write(value.shareHGInsightsAction)
         try writer["ShareHubspotAction"].write(value.shareHubspotAction)
         try writer["ShareHuggingFaceAction"].write(value.shareHuggingFaceAction)
         try writer["ShareIDCKnowledgeBase"].write(value.shareIDCKnowledgeBase)
+        try writer["ShareImpalaDataSource"].write(value.shareImpalaDataSource)
         try writer["ShareIntercomAction"].write(value.shareIntercomAction)
         try writer["ShareJiraAction"].write(value.shareJiraAction)
+        try writer["ShareJiraDataSource"].write(value.shareJiraDataSource)
         try writer["ShareKnowledgeBases"].write(value.shareKnowledgeBases)
         try writer["ShareLinearAction"].write(value.shareLinearAction)
         try writer["ShareMCPAction"].write(value.shareMCPAction)
         try writer["ShareMSExchangeAction"].write(value.shareMSExchangeAction)
         try writer["ShareMSTeamsAction"].write(value.shareMSTeamsAction)
+        try writer["ShareMariaDbDataSource"].write(value.shareMariaDbDataSource)
         try writer["ShareMondayAction"].write(value.shareMondayAction)
+        try writer["ShareMongoAtlasDataSource"].write(value.shareMongoAtlasDataSource)
+        try writer["ShareMongoDbDataSource"].write(value.shareMongoDbDataSource)
         try writer["ShareMoodysAction"].write(value.shareMoodysAction)
+        try writer["ShareMySqlDataSource"].write(value.shareMySqlDataSource)
         try writer["ShareNewRelicAction"].write(value.shareNewRelicAction)
         try writer["ShareNotionAction"].write(value.shareNotionAction)
         try writer["ShareOneDriveAction"].write(value.shareOneDriveAction)
         try writer["ShareOneDriveKnowledgeBase"].write(value.shareOneDriveKnowledgeBase)
         try writer["ShareOneNoteAction"].write(value.shareOneNoteAction)
         try writer["ShareOpenAPIAction"].write(value.shareOpenAPIAction)
+        try writer["ShareOpenSearchDataSource"].write(value.shareOpenSearchDataSource)
+        try writer["ShareOracleDataSource"].write(value.shareOracleDataSource)
         try writer["SharePagerDutyAction"].write(value.sharePagerDutyAction)
         try writer["SharePagerDutyAgentAction"].write(value.sharePagerDutyAgentAction)
+        try writer["SharePayPalDataSource"].write(value.sharePayPalDataSource)
         try writer["SharePointAction"].write(value.sharePointAction)
         try writer["SharePointKnowledgeBase"].write(value.sharePointKnowledgeBase)
+        try writer["SharePostgreSqlDataSource"].write(value.sharePostgreSqlDataSource)
+        try writer["SharePrestoDataSource"].write(value.sharePrestoDataSource)
         try writer["ShareQBusinessKnowledgeBase"].write(value.shareQBusinessKnowledgeBase)
         try writer["ShareQuickBooksAction"].write(value.shareQuickBooksAction)
+        try writer["ShareRadiantDataSource"].write(value.shareRadiantDataSource)
+        try writer["ShareRdsDataSource"].write(value.shareRdsDataSource)
+        try writer["ShareRedshiftAutoDiscoveredDataSource"].write(value.shareRedshiftAutoDiscoveredDataSource)
+        try writer["ShareRedshiftManualDataSource"].write(value.shareRedshiftManualDataSource)
+        try writer["ShareS3AnalyticsDataSource"].write(value.shareS3AnalyticsDataSource)
+        try writer["ShareS3DataSource"].write(value.shareS3DataSource)
         try writer["ShareS3KnowledgeBase"].write(value.shareS3KnowledgeBase)
+        try writer["ShareS3TablesDataSource"].write(value.shareS3TablesDataSource)
         try writer["ShareSAPBillOfMaterialAction"].write(value.shareSAPBillOfMaterialAction)
         try writer["ShareSAPBusinessPartnerAction"].write(value.shareSAPBusinessPartnerAction)
         try writer["ShareSAPMaterialStockAction"].write(value.shareSAPMaterialStockAction)
         try writer["ShareSAPPhysicalInventoryAction"].write(value.shareSAPPhysicalInventoryAction)
         try writer["ShareSAPProductMasterDataAction"].write(value.shareSAPProductMasterDataAction)
         try writer["ShareSalesforceAction"].write(value.shareSalesforceAction)
+        try writer["ShareSalesforceDataSource"].write(value.shareSalesforceDataSource)
         try writer["ShareSandPGMIAction"].write(value.shareSandPGMIAction)
         try writer["ShareSandPGlobalEnergyAction"].write(value.shareSandPGlobalEnergyAction)
+        try writer["ShareSapHanaDataSource"].write(value.shareSapHanaDataSource)
         try writer["ShareServiceNowAction"].write(value.shareServiceNowAction)
+        try writer["ShareServiceNowDataSource"].write(value.shareServiceNowDataSource)
         try writer["ShareSharePointAction"].write(value.shareSharePointAction)
         try writer["ShareSharePointKnowledgeBase"].write(value.shareSharePointKnowledgeBase)
         try writer["ShareShopifyAction"].write(value.shareShopifyAction)
         try writer["ShareSlackAction"].write(value.shareSlackAction)
         try writer["ShareSmartsheetAction"].write(value.shareSmartsheetAction)
         try writer["ShareSnowFlakeAction"].write(value.shareSnowFlakeAction)
+        try writer["ShareSnowflakeDataSource"].write(value.shareSnowflakeDataSource)
         try writer["ShareSpaces"].write(value.shareSpaces)
+        try writer["ShareSparkDataSource"].write(value.shareSparkDataSource)
+        try writer["ShareSqlServerDataSource"].write(value.shareSqlServerDataSource)
+        try writer["ShareSquareDataSource"].write(value.shareSquareDataSource)
+        try writer["ShareStarburstDataSource"].write(value.shareStarburstDataSource)
+        try writer["ShareTeradataDataSource"].write(value.shareTeradataDataSource)
         try writer["ShareTextractAction"].write(value.shareTextractAction)
+        try writer["ShareTimestreamDataSource"].write(value.shareTimestreamDataSource)
+        try writer["ShareTrinoDataSource"].write(value.shareTrinoDataSource)
+        try writer["ShareTwitterDataSource"].write(value.shareTwitterDataSource)
         try writer["ShareVisierAgentAction"].write(value.shareVisierAgentAction)
         try writer["ShareWebCrawlerKnowledgeBase"].write(value.shareWebCrawlerKnowledgeBase)
         try writer["ShareWhatsAppAction"].write(value.shareWhatsAppAction)
@@ -78819,12 +79684,66 @@ extension QuickSightClientTypes.Capabilities {
         try writer["SlackAction"].write(value.slackAction)
         try writer["SmartsheetAction"].write(value.smartsheetAction)
         try writer["SnowFlakeAction"].write(value.snowFlakeAction)
+        try writer["SnowflakeDataSource"].write(value.snowflakeDataSource)
         try writer["Space"].write(value.space)
+        try writer["SparkDataSource"].write(value.sparkDataSource)
+        try writer["SqlServerDataSource"].write(value.sqlServerDataSource)
+        try writer["SquareDataSource"].write(value.squareDataSource)
+        try writer["StarburstDataSource"].write(value.starburstDataSource)
         try writer["Story"].write(value.story)
         try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
+        try writer["TeradataDataSource"].write(value.teradataDataSource)
         try writer["TextractAction"].write(value.textractAction)
+        try writer["TimestreamDataSource"].write(value.timestreamDataSource)
         try writer["Topic"].write(value.topic)
         try writer["Trigger"].write(value.trigger)
+        try writer["TrinoDataSource"].write(value.trinoDataSource)
+        try writer["TwitterDataSource"].write(value.twitterDataSource)
+        try writer["UpdateAdobeAnalyticsDataSource"].write(value.updateAdobeAnalyticsDataSource)
+        try writer["UpdateAthenaDataSource"].write(value.updateAthenaDataSource)
+        try writer["UpdateAuroraDataSource"].write(value.updateAuroraDataSource)
+        try writer["UpdateDatabricksDataSource"].write(value.updateDatabricksDataSource)
+        try writer["UpdateDb2DataSource"].write(value.updateDb2DataSource)
+        try writer["UpdateDenodoDataSource"].write(value.updateDenodoDataSource)
+        try writer["UpdateDocumentDbDataSource"].write(value.updateDocumentDbDataSource)
+        try writer["UpdateDremioDataSource"].write(value.updateDremioDataSource)
+        try writer["UpdateDynamoDbDataSource"].write(value.updateDynamoDbDataSource)
+        try writer["UpdateExasolDataSource"].write(value.updateExasolDataSource)
+        try writer["UpdateFileDataSource"].write(value.updateFileDataSource)
+        try writer["UpdateGitHubDataSource"].write(value.updateGitHubDataSource)
+        try writer["UpdateGoogleAnalyticsDataSource"].write(value.updateGoogleAnalyticsDataSource)
+        try writer["UpdateGoogleBigQueryDataSource"].write(value.updateGoogleBigQueryDataSource)
+        try writer["UpdateGoogleSheetsDataSource"].write(value.updateGoogleSheetsDataSource)
+        try writer["UpdateImpalaDataSource"].write(value.updateImpalaDataSource)
+        try writer["UpdateJiraDataSource"].write(value.updateJiraDataSource)
+        try writer["UpdateMariaDbDataSource"].write(value.updateMariaDbDataSource)
+        try writer["UpdateMongoAtlasDataSource"].write(value.updateMongoAtlasDataSource)
+        try writer["UpdateMongoDbDataSource"].write(value.updateMongoDbDataSource)
+        try writer["UpdateMySqlDataSource"].write(value.updateMySqlDataSource)
+        try writer["UpdateOpenSearchDataSource"].write(value.updateOpenSearchDataSource)
+        try writer["UpdateOracleDataSource"].write(value.updateOracleDataSource)
+        try writer["UpdatePayPalDataSource"].write(value.updatePayPalDataSource)
+        try writer["UpdatePostgreSqlDataSource"].write(value.updatePostgreSqlDataSource)
+        try writer["UpdatePrestoDataSource"].write(value.updatePrestoDataSource)
+        try writer["UpdateRadiantDataSource"].write(value.updateRadiantDataSource)
+        try writer["UpdateRdsDataSource"].write(value.updateRdsDataSource)
+        try writer["UpdateRedshiftAutoDiscoveredDataSource"].write(value.updateRedshiftAutoDiscoveredDataSource)
+        try writer["UpdateRedshiftManualDataSource"].write(value.updateRedshiftManualDataSource)
+        try writer["UpdateS3AnalyticsDataSource"].write(value.updateS3AnalyticsDataSource)
+        try writer["UpdateS3DataSource"].write(value.updateS3DataSource)
+        try writer["UpdateS3TablesDataSource"].write(value.updateS3TablesDataSource)
+        try writer["UpdateSalesforceDataSource"].write(value.updateSalesforceDataSource)
+        try writer["UpdateSapHanaDataSource"].write(value.updateSapHanaDataSource)
+        try writer["UpdateServiceNowDataSource"].write(value.updateServiceNowDataSource)
+        try writer["UpdateSnowflakeDataSource"].write(value.updateSnowflakeDataSource)
+        try writer["UpdateSparkDataSource"].write(value.updateSparkDataSource)
+        try writer["UpdateSqlServerDataSource"].write(value.updateSqlServerDataSource)
+        try writer["UpdateSquareDataSource"].write(value.updateSquareDataSource)
+        try writer["UpdateStarburstDataSource"].write(value.updateStarburstDataSource)
+        try writer["UpdateTeradataDataSource"].write(value.updateTeradataDataSource)
+        try writer["UpdateTimestreamDataSource"].write(value.updateTimestreamDataSource)
+        try writer["UpdateTrinoDataSource"].write(value.updateTrinoDataSource)
+        try writer["UpdateTwitterDataSource"].write(value.updateTwitterDataSource)
         try writer["UseAdobeAction"].write(value.useAdobeAction)
         try writer["UseAgentWebSearch"].write(value.useAgentWebSearch)
         try writer["UseAirtableAction"].write(value.useAirtableAction)
@@ -78855,6 +79774,7 @@ extension QuickSightClientTypes.Capabilities {
         try writer["UseGenericHTTPAction"].write(value.useGenericHTTPAction)
         try writer["UseGithubAction"].write(value.useGithubAction)
         try writer["UseGmailAction"].write(value.useGmailAction)
+        try writer["UseGongAction"].write(value.useGongAction)
         try writer["UseGoogleAnalyticsAction"].write(value.useGoogleAnalyticsAction)
         try writer["UseGoogleCalendarAction"].write(value.useGoogleCalendarAction)
         try writer["UseGoogleChatAction"].write(value.useGoogleChatAction)
@@ -79291,6 +80211,10 @@ extension QuickSightClientTypes.Capabilities {
         value.createAndUpdateBeeAction = try reader["CreateAndUpdateBeeAction"].readIfPresent()
         value.shareBeeAction = try reader["ShareBeeAction"].readIfPresent()
         value.useBeeAction = try reader["UseBeeAction"].readIfPresent()
+        value.gongAction = try reader["GongAction"].readIfPresent()
+        value.createAndUpdateGongAction = try reader["CreateAndUpdateGongAction"].readIfPresent()
+        value.shareGongAction = try reader["ShareGongAction"].readIfPresent()
+        value.useGongAction = try reader["UseGongAction"].readIfPresent()
         value.topic = try reader["Topic"].readIfPresent()
         value.editVisualWithQ = try reader["EditVisualWithQ"].readIfPresent()
         value.buildCalculatedFieldWithQ = try reader["BuildCalculatedFieldWithQ"].readIfPresent()
@@ -79317,6 +80241,186 @@ extension QuickSightClientTypes.Capabilities {
         value.scheduleTrigger = try reader["ScheduleTrigger"].readIfPresent()
         value.inboundEmailTrigger = try reader["InboundEmailTrigger"].readIfPresent()
         value.quickEventTrigger = try reader["QuickEventTrigger"].readIfPresent()
+        value.fileDataSource = try reader["FileDataSource"].readIfPresent()
+        value.createFileDataSource = try reader["CreateFileDataSource"].readIfPresent()
+        value.updateFileDataSource = try reader["UpdateFileDataSource"].readIfPresent()
+        value.shareFileDataSource = try reader["ShareFileDataSource"].readIfPresent()
+        value.s3DataSource = try reader["S3DataSource"].readIfPresent()
+        value.createS3DataSource = try reader["CreateS3DataSource"].readIfPresent()
+        value.updateS3DataSource = try reader["UpdateS3DataSource"].readIfPresent()
+        value.shareS3DataSource = try reader["ShareS3DataSource"].readIfPresent()
+        value.s3AnalyticsDataSource = try reader["S3AnalyticsDataSource"].readIfPresent()
+        value.createS3AnalyticsDataSource = try reader["CreateS3AnalyticsDataSource"].readIfPresent()
+        value.updateS3AnalyticsDataSource = try reader["UpdateS3AnalyticsDataSource"].readIfPresent()
+        value.shareS3AnalyticsDataSource = try reader["ShareS3AnalyticsDataSource"].readIfPresent()
+        value.s3TablesDataSource = try reader["S3TablesDataSource"].readIfPresent()
+        value.createS3TablesDataSource = try reader["CreateS3TablesDataSource"].readIfPresent()
+        value.updateS3TablesDataSource = try reader["UpdateS3TablesDataSource"].readIfPresent()
+        value.shareS3TablesDataSource = try reader["ShareS3TablesDataSource"].readIfPresent()
+        value.athenaDataSource = try reader["AthenaDataSource"].readIfPresent()
+        value.createAthenaDataSource = try reader["CreateAthenaDataSource"].readIfPresent()
+        value.updateAthenaDataSource = try reader["UpdateAthenaDataSource"].readIfPresent()
+        value.shareAthenaDataSource = try reader["ShareAthenaDataSource"].readIfPresent()
+        value.rdsDataSource = try reader["RdsDataSource"].readIfPresent()
+        value.createRdsDataSource = try reader["CreateRdsDataSource"].readIfPresent()
+        value.updateRdsDataSource = try reader["UpdateRdsDataSource"].readIfPresent()
+        value.shareRdsDataSource = try reader["ShareRdsDataSource"].readIfPresent()
+        value.redshiftAutoDiscoveredDataSource = try reader["RedshiftAutoDiscoveredDataSource"].readIfPresent()
+        value.createRedshiftAutoDiscoveredDataSource = try reader["CreateRedshiftAutoDiscoveredDataSource"].readIfPresent()
+        value.updateRedshiftAutoDiscoveredDataSource = try reader["UpdateRedshiftAutoDiscoveredDataSource"].readIfPresent()
+        value.shareRedshiftAutoDiscoveredDataSource = try reader["ShareRedshiftAutoDiscoveredDataSource"].readIfPresent()
+        value.redshiftManualDataSource = try reader["RedshiftManualDataSource"].readIfPresent()
+        value.createRedshiftManualDataSource = try reader["CreateRedshiftManualDataSource"].readIfPresent()
+        value.updateRedshiftManualDataSource = try reader["UpdateRedshiftManualDataSource"].readIfPresent()
+        value.shareRedshiftManualDataSource = try reader["ShareRedshiftManualDataSource"].readIfPresent()
+        value.openSearchDataSource = try reader["OpenSearchDataSource"].readIfPresent()
+        value.createOpenSearchDataSource = try reader["CreateOpenSearchDataSource"].readIfPresent()
+        value.updateOpenSearchDataSource = try reader["UpdateOpenSearchDataSource"].readIfPresent()
+        value.shareOpenSearchDataSource = try reader["ShareOpenSearchDataSource"].readIfPresent()
+        value.timestreamDataSource = try reader["TimestreamDataSource"].readIfPresent()
+        value.createTimestreamDataSource = try reader["CreateTimestreamDataSource"].readIfPresent()
+        value.updateTimestreamDataSource = try reader["UpdateTimestreamDataSource"].readIfPresent()
+        value.shareTimestreamDataSource = try reader["ShareTimestreamDataSource"].readIfPresent()
+        value.auroraDataSource = try reader["AuroraDataSource"].readIfPresent()
+        value.createAuroraDataSource = try reader["CreateAuroraDataSource"].readIfPresent()
+        value.updateAuroraDataSource = try reader["UpdateAuroraDataSource"].readIfPresent()
+        value.shareAuroraDataSource = try reader["ShareAuroraDataSource"].readIfPresent()
+        value.mySqlDataSource = try reader["MySqlDataSource"].readIfPresent()
+        value.createMySqlDataSource = try reader["CreateMySqlDataSource"].readIfPresent()
+        value.updateMySqlDataSource = try reader["UpdateMySqlDataSource"].readIfPresent()
+        value.shareMySqlDataSource = try reader["ShareMySqlDataSource"].readIfPresent()
+        value.postgreSqlDataSource = try reader["PostgreSqlDataSource"].readIfPresent()
+        value.createPostgreSqlDataSource = try reader["CreatePostgreSqlDataSource"].readIfPresent()
+        value.updatePostgreSqlDataSource = try reader["UpdatePostgreSqlDataSource"].readIfPresent()
+        value.sharePostgreSqlDataSource = try reader["SharePostgreSqlDataSource"].readIfPresent()
+        value.oracleDataSource = try reader["OracleDataSource"].readIfPresent()
+        value.createOracleDataSource = try reader["CreateOracleDataSource"].readIfPresent()
+        value.updateOracleDataSource = try reader["UpdateOracleDataSource"].readIfPresent()
+        value.shareOracleDataSource = try reader["ShareOracleDataSource"].readIfPresent()
+        value.sqlServerDataSource = try reader["SqlServerDataSource"].readIfPresent()
+        value.createSqlServerDataSource = try reader["CreateSqlServerDataSource"].readIfPresent()
+        value.updateSqlServerDataSource = try reader["UpdateSqlServerDataSource"].readIfPresent()
+        value.shareSqlServerDataSource = try reader["ShareSqlServerDataSource"].readIfPresent()
+        value.mariaDbDataSource = try reader["MariaDbDataSource"].readIfPresent()
+        value.createMariaDbDataSource = try reader["CreateMariaDbDataSource"].readIfPresent()
+        value.updateMariaDbDataSource = try reader["UpdateMariaDbDataSource"].readIfPresent()
+        value.shareMariaDbDataSource = try reader["ShareMariaDbDataSource"].readIfPresent()
+        value.snowflakeDataSource = try reader["SnowflakeDataSource"].readIfPresent()
+        value.createSnowflakeDataSource = try reader["CreateSnowflakeDataSource"].readIfPresent()
+        value.updateSnowflakeDataSource = try reader["UpdateSnowflakeDataSource"].readIfPresent()
+        value.shareSnowflakeDataSource = try reader["ShareSnowflakeDataSource"].readIfPresent()
+        value.googleBigQueryDataSource = try reader["GoogleBigQueryDataSource"].readIfPresent()
+        value.createGoogleBigQueryDataSource = try reader["CreateGoogleBigQueryDataSource"].readIfPresent()
+        value.updateGoogleBigQueryDataSource = try reader["UpdateGoogleBigQueryDataSource"].readIfPresent()
+        value.shareGoogleBigQueryDataSource = try reader["ShareGoogleBigQueryDataSource"].readIfPresent()
+        value.databricksDataSource = try reader["DatabricksDataSource"].readIfPresent()
+        value.createDatabricksDataSource = try reader["CreateDatabricksDataSource"].readIfPresent()
+        value.updateDatabricksDataSource = try reader["UpdateDatabricksDataSource"].readIfPresent()
+        value.shareDatabricksDataSource = try reader["ShareDatabricksDataSource"].readIfPresent()
+        value.starburstDataSource = try reader["StarburstDataSource"].readIfPresent()
+        value.createStarburstDataSource = try reader["CreateStarburstDataSource"].readIfPresent()
+        value.updateStarburstDataSource = try reader["UpdateStarburstDataSource"].readIfPresent()
+        value.shareStarburstDataSource = try reader["ShareStarburstDataSource"].readIfPresent()
+        value.trinoDataSource = try reader["TrinoDataSource"].readIfPresent()
+        value.createTrinoDataSource = try reader["CreateTrinoDataSource"].readIfPresent()
+        value.updateTrinoDataSource = try reader["UpdateTrinoDataSource"].readIfPresent()
+        value.shareTrinoDataSource = try reader["ShareTrinoDataSource"].readIfPresent()
+        value.impalaDataSource = try reader["ImpalaDataSource"].readIfPresent()
+        value.createImpalaDataSource = try reader["CreateImpalaDataSource"].readIfPresent()
+        value.updateImpalaDataSource = try reader["UpdateImpalaDataSource"].readIfPresent()
+        value.shareImpalaDataSource = try reader["ShareImpalaDataSource"].readIfPresent()
+        value.teradataDataSource = try reader["TeradataDataSource"].readIfPresent()
+        value.createTeradataDataSource = try reader["CreateTeradataDataSource"].readIfPresent()
+        value.updateTeradataDataSource = try reader["UpdateTeradataDataSource"].readIfPresent()
+        value.shareTeradataDataSource = try reader["ShareTeradataDataSource"].readIfPresent()
+        value.prestoDataSource = try reader["PrestoDataSource"].readIfPresent()
+        value.createPrestoDataSource = try reader["CreatePrestoDataSource"].readIfPresent()
+        value.updatePrestoDataSource = try reader["UpdatePrestoDataSource"].readIfPresent()
+        value.sharePrestoDataSource = try reader["SharePrestoDataSource"].readIfPresent()
+        value.sparkDataSource = try reader["SparkDataSource"].readIfPresent()
+        value.createSparkDataSource = try reader["CreateSparkDataSource"].readIfPresent()
+        value.updateSparkDataSource = try reader["UpdateSparkDataSource"].readIfPresent()
+        value.shareSparkDataSource = try reader["ShareSparkDataSource"].readIfPresent()
+        value.exasolDataSource = try reader["ExasolDataSource"].readIfPresent()
+        value.createExasolDataSource = try reader["CreateExasolDataSource"].readIfPresent()
+        value.updateExasolDataSource = try reader["UpdateExasolDataSource"].readIfPresent()
+        value.shareExasolDataSource = try reader["ShareExasolDataSource"].readIfPresent()
+        value.db2DataSource = try reader["Db2DataSource"].readIfPresent()
+        value.createDb2DataSource = try reader["CreateDb2DataSource"].readIfPresent()
+        value.updateDb2DataSource = try reader["UpdateDb2DataSource"].readIfPresent()
+        value.shareDb2DataSource = try reader["ShareDb2DataSource"].readIfPresent()
+        value.sapHanaDataSource = try reader["SapHanaDataSource"].readIfPresent()
+        value.createSapHanaDataSource = try reader["CreateSapHanaDataSource"].readIfPresent()
+        value.updateSapHanaDataSource = try reader["UpdateSapHanaDataSource"].readIfPresent()
+        value.shareSapHanaDataSource = try reader["ShareSapHanaDataSource"].readIfPresent()
+        value.denodoDataSource = try reader["DenodoDataSource"].readIfPresent()
+        value.createDenodoDataSource = try reader["CreateDenodoDataSource"].readIfPresent()
+        value.updateDenodoDataSource = try reader["UpdateDenodoDataSource"].readIfPresent()
+        value.shareDenodoDataSource = try reader["ShareDenodoDataSource"].readIfPresent()
+        value.dremioDataSource = try reader["DremioDataSource"].readIfPresent()
+        value.createDremioDataSource = try reader["CreateDremioDataSource"].readIfPresent()
+        value.updateDremioDataSource = try reader["UpdateDremioDataSource"].readIfPresent()
+        value.shareDremioDataSource = try reader["ShareDremioDataSource"].readIfPresent()
+        value.salesforceDataSource = try reader["SalesforceDataSource"].readIfPresent()
+        value.createSalesforceDataSource = try reader["CreateSalesforceDataSource"].readIfPresent()
+        value.updateSalesforceDataSource = try reader["UpdateSalesforceDataSource"].readIfPresent()
+        value.shareSalesforceDataSource = try reader["ShareSalesforceDataSource"].readIfPresent()
+        value.radiantDataSource = try reader["RadiantDataSource"].readIfPresent()
+        value.createRadiantDataSource = try reader["CreateRadiantDataSource"].readIfPresent()
+        value.updateRadiantDataSource = try reader["UpdateRadiantDataSource"].readIfPresent()
+        value.shareRadiantDataSource = try reader["ShareRadiantDataSource"].readIfPresent()
+        value.payPalDataSource = try reader["PayPalDataSource"].readIfPresent()
+        value.createPayPalDataSource = try reader["CreatePayPalDataSource"].readIfPresent()
+        value.updatePayPalDataSource = try reader["UpdatePayPalDataSource"].readIfPresent()
+        value.sharePayPalDataSource = try reader["SharePayPalDataSource"].readIfPresent()
+        value.squareDataSource = try reader["SquareDataSource"].readIfPresent()
+        value.createSquareDataSource = try reader["CreateSquareDataSource"].readIfPresent()
+        value.updateSquareDataSource = try reader["UpdateSquareDataSource"].readIfPresent()
+        value.shareSquareDataSource = try reader["ShareSquareDataSource"].readIfPresent()
+        value.gitHubDataSource = try reader["GitHubDataSource"].readIfPresent()
+        value.createGitHubDataSource = try reader["CreateGitHubDataSource"].readIfPresent()
+        value.updateGitHubDataSource = try reader["UpdateGitHubDataSource"].readIfPresent()
+        value.shareGitHubDataSource = try reader["ShareGitHubDataSource"].readIfPresent()
+        value.twitterDataSource = try reader["TwitterDataSource"].readIfPresent()
+        value.createTwitterDataSource = try reader["CreateTwitterDataSource"].readIfPresent()
+        value.updateTwitterDataSource = try reader["UpdateTwitterDataSource"].readIfPresent()
+        value.shareTwitterDataSource = try reader["ShareTwitterDataSource"].readIfPresent()
+        value.jiraDataSource = try reader["JiraDataSource"].readIfPresent()
+        value.createJiraDataSource = try reader["CreateJiraDataSource"].readIfPresent()
+        value.updateJiraDataSource = try reader["UpdateJiraDataSource"].readIfPresent()
+        value.shareJiraDataSource = try reader["ShareJiraDataSource"].readIfPresent()
+        value.serviceNowDataSource = try reader["ServiceNowDataSource"].readIfPresent()
+        value.createServiceNowDataSource = try reader["CreateServiceNowDataSource"].readIfPresent()
+        value.updateServiceNowDataSource = try reader["UpdateServiceNowDataSource"].readIfPresent()
+        value.shareServiceNowDataSource = try reader["ShareServiceNowDataSource"].readIfPresent()
+        value.adobeAnalyticsDataSource = try reader["AdobeAnalyticsDataSource"].readIfPresent()
+        value.createAdobeAnalyticsDataSource = try reader["CreateAdobeAnalyticsDataSource"].readIfPresent()
+        value.updateAdobeAnalyticsDataSource = try reader["UpdateAdobeAnalyticsDataSource"].readIfPresent()
+        value.shareAdobeAnalyticsDataSource = try reader["ShareAdobeAnalyticsDataSource"].readIfPresent()
+        value.googleAnalyticsDataSource = try reader["GoogleAnalyticsDataSource"].readIfPresent()
+        value.createGoogleAnalyticsDataSource = try reader["CreateGoogleAnalyticsDataSource"].readIfPresent()
+        value.updateGoogleAnalyticsDataSource = try reader["UpdateGoogleAnalyticsDataSource"].readIfPresent()
+        value.shareGoogleAnalyticsDataSource = try reader["ShareGoogleAnalyticsDataSource"].readIfPresent()
+        value.googleSheetsDataSource = try reader["GoogleSheetsDataSource"].readIfPresent()
+        value.createGoogleSheetsDataSource = try reader["CreateGoogleSheetsDataSource"].readIfPresent()
+        value.updateGoogleSheetsDataSource = try reader["UpdateGoogleSheetsDataSource"].readIfPresent()
+        value.shareGoogleSheetsDataSource = try reader["ShareGoogleSheetsDataSource"].readIfPresent()
+        value.documentDbDataSource = try reader["DocumentDbDataSource"].readIfPresent()
+        value.createDocumentDbDataSource = try reader["CreateDocumentDbDataSource"].readIfPresent()
+        value.updateDocumentDbDataSource = try reader["UpdateDocumentDbDataSource"].readIfPresent()
+        value.shareDocumentDbDataSource = try reader["ShareDocumentDbDataSource"].readIfPresent()
+        value.mongoDbDataSource = try reader["MongoDbDataSource"].readIfPresent()
+        value.createMongoDbDataSource = try reader["CreateMongoDbDataSource"].readIfPresent()
+        value.updateMongoDbDataSource = try reader["UpdateMongoDbDataSource"].readIfPresent()
+        value.shareMongoDbDataSource = try reader["ShareMongoDbDataSource"].readIfPresent()
+        value.mongoAtlasDataSource = try reader["MongoAtlasDataSource"].readIfPresent()
+        value.createMongoAtlasDataSource = try reader["CreateMongoAtlasDataSource"].readIfPresent()
+        value.updateMongoAtlasDataSource = try reader["UpdateMongoAtlasDataSource"].readIfPresent()
+        value.shareMongoAtlasDataSource = try reader["ShareMongoAtlasDataSource"].readIfPresent()
+        value.dynamoDbDataSource = try reader["DynamoDbDataSource"].readIfPresent()
+        value.createDynamoDbDataSource = try reader["CreateDynamoDbDataSource"].readIfPresent()
+        value.updateDynamoDbDataSource = try reader["UpdateDynamoDbDataSource"].readIfPresent()
+        value.shareDynamoDbDataSource = try reader["ShareDynamoDbDataSource"].readIfPresent()
         return value
     }
 }

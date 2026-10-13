@@ -3699,7 +3699,7 @@ extension CloudWatchOmniClientTypes {
 
     /// One LOGS query selector block on a node. The attributes map's keys are AND'd; each selects with col = value. Deliberately RAW/un-normalized so the selector matches the store, not the node's merged identity.
     public struct LogMetadata: Swift.Sendable {
-        /// One LOGS query-selector block: EXACT store column -> raw SCALAR value (mirroring the scalar MetadataAttributeMap). Keyed by the store column that carries the value (e.g. resource.attributes['service.name'], attributes['aws.local.service'], @logGroupName) so the selector matches the emitted signal. A dimension seen under several values (a service under two namespaces, several log groups) becomes several blocks with the same columns and different values, which the console ORs. Dedicated to the LOGS selector so its cap evolves independently of the metric attribute map and the TRACES map. Selector caps are deliberately DISTINCT from the metric caps.
+        /// One LOGS query-selector block: an exact log-store column mapped to the raw value it carries, so the selector matches the emitted signal. Keys are store column names, not bare attribute names. Every block carries "@logGroupName"; alongside it a block carries either the entity columns ("@entities.KeyAttributes.Name", ".Type", ".Environment", "@entities.Attributes.PlatformType") or OTel columns ("resource.attributes['service.name']", "resource.attributes['service.namespace']", "resource.attributes['cloud.provider'|'cloud.account.id'|'cloud.region']"). A dimension seen under several values — several log groups, or a service under two namespaces — becomes several blocks with the same columns and different values, to be OR'd together.
         public var attributes: [Swift.String: Swift.String]?
 
         public init(
@@ -3733,15 +3733,12 @@ extension CloudWatchOmniClientTypes {
 
     /// A single metric observed on a context graph node.
     public struct MetricMetadata: Swift.Sendable {
-        /// Per-metric qualifying attributes the console uses to query this metric's telemetry. These are the RAW, store-matching values keyed by their OTel names ("service.name", "service.namespace", "cloud.provider", "cloud.account.id", "cloud.region", "instrumentation_scope") — deliberately NOT the node's normalized/merged identity, so the query selectors match the emitted series. A merged node can carry different values per metric, which is why they live here rather than on the node.
+        /// Per-metric qualifying attributes used to query this metric's telemetry. Keys are the metric store's own label names, not bare OTel attribute names: service identity arrives as "@resource.service.name" and "@resource.service.namespace", and the instrumentation scope as "@instrumentation.@name", while span-derived metrics label the service as a bare "service.name". Cloud provider, account and region are not repeated per metric — read those from the node. Values are RAW, deliberately NOT the node's normalized or merged identity, so a selector built from them matches the emitted series. A merged node can carry different values per metric, which is why these live here rather than on the node.
         public var attributes: [Swift.String: Swift.String]?
         /// OTel metric kind: "gauge", "sum", "histogram", "exponential_histogram", or "summary" (CloudWatch-vended metrics carry the same kinds). Absent when the producer did not report one.
         public var metricType: Swift.String?
         /// The metric name as emitted, such as "Duration".
         public var name: Swift.String?
-        /// DEPRECATED: read attributes["service.namespace"] instead. Retained (deprecated) for backward compatibility with existing consumers; will be removed once they migrate. The logical service grouping the metric belongs to.
-        @available(*, deprecated, message: "Use attributes['service.namespace']; retained for backward compatibility. API deprecated since 2026-08-19")
-        public var namespace: Swift.String?
         /// The statistic to chart or alarm on, such as "p99" or "Sum". Free-form and frequently absent.
         public var preferredStat: Swift.String?
         /// What the metric means and the unit it is reported in.
@@ -3751,14 +3748,12 @@ extension CloudWatchOmniClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             metricType: Swift.String? = nil,
             name: Swift.String? = nil,
-            namespace: Swift.String? = nil,
             preferredStat: Swift.String? = nil,
             semantics: CloudWatchOmniClientTypes.MetricSemantics? = nil
         ) {
             self.attributes = attributes
             self.metricType = metricType
             self.name = name
-            self.namespace = namespace
             self.preferredStat = preferredStat
             self.semantics = semantics
         }
@@ -3800,7 +3795,7 @@ extension CloudWatchOmniClientTypes {
 
     /// One TRACES query selector block on a node/edge (see LogMetadata).
     public struct TraceMetadata: Swift.Sendable {
-        /// TRACES counterpart of LogMetadataAttributeMap — a dedicated per-signal map so the two evolve independently (same scalar shape and cap today).
+        /// One TRACES query-selector block: an exact span-store column mapped to the raw value it carries. Keys are store column names, not bare attribute names — the service identity and cloud dimensions arrive as "resource.attributes['service.name']", "resource.attributes['service.namespace']", "resource.attributes['cloud.provider']", "resource.attributes['cloud.account.id']", "resource.attributes['cloud.region']" and "resource.attributes['deployment.environment']", and span-level identity as "attributes['aws.local.service']" and "attributes['aws.local.environment']". Not every column is present on every block; which ones appear depends on what the span carried.
         public var attributes: [Swift.String: Swift.String]?
 
         public init(
@@ -3815,13 +3810,13 @@ extension CloudWatchOmniClientTypes {
 
     /// Descriptive information about a context graph node or edge, as opposed to its identity and structure. Returned only when the request sets includeMetadata.
     public struct Metadata: Swift.Sendable {
-        /// Per-signal LOGS query selectors: a LIST of blocks the console ORs, each an AND of exact store column -> raw values. Node-level (edges carry only traces). Populated when the request sets includeMetadata; derived labels (logSourceType) are added by the service projection, not stored here.
+        /// LOGS query selectors: a list of blocks to OR together, each block an AND of exact store column to raw value. Present on node metadata only — edges carry trace selectors. Returned when the request sets includeMetadata.
         public var logs: [CloudWatchOmniClientTypes.LogMetadata]?
         /// The metrics observed on the element.
         public var metrics: [CloudWatchOmniClientTypes.MetricMetadata]?
         /// Semantic description of the node. Absent on an edge, because semantics describe a service rather than a relationship.
         public var semantics: CloudWatchOmniClientTypes.NodeSemantics?
-        /// Per-signal TRACES query selectors (same block shape as logs). Present on both node and edge metadata. serviceName is derived at the service projection, not stored here.
+        /// TRACES query selectors, same block shape as the logs selectors. Present on both node and edge metadata. Returned when the request sets includeMetadata.
         public var traces: [CloudWatchOmniClientTypes.TraceMetadata]?
 
         public init(
@@ -5740,6 +5735,8 @@ public struct UpdateOmniDashboardOutput: Swift.Sendable {
 }
 
 public struct UpdateSpaceInput: Swift.Sendable {
+    /// The ARN of the IAM role used by AgentCore online evaluation. Must be in the caller's account. Omit if the space does not use AgentCore online evaluation.
+    public var agentCoreEvaluationRoleArn: Swift.String?
     /// How to encrypt the space's data at rest. Omit to leave encryption unchanged. Pass encryptionStrategy AWS_OWNED to stop using a customer managed key and revert to service owned encryption.
     public var encryptionConfiguration: CloudWatchOmniClientTypes.EncryptionConfiguration?
     /// A new name for the space. Omit to leave unchanged. Must be 3-64 characters: lowercase letters, numbers, and hyphens. It must begin and end with a letter or number and cannot contain consecutive hyphens.
@@ -5749,10 +5746,12 @@ public struct UpdateSpaceInput: Swift.Sendable {
     public var spaceId: Swift.String?
 
     public init(
+        agentCoreEvaluationRoleArn: Swift.String? = nil,
         encryptionConfiguration: CloudWatchOmniClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil,
         spaceId: Swift.String? = nil
     ) {
+        self.agentCoreEvaluationRoleArn = agentCoreEvaluationRoleArn
         self.encryptionConfiguration = encryptionConfiguration
         self.name = name
         self.spaceId = spaceId

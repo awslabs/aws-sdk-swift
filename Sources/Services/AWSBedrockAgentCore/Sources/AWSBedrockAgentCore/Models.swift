@@ -7429,7 +7429,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Passed to show that AWS Skills should be included.
+    /// Passed to show that Amazon Web Services Skills should be included.
     public struct HarnessSkillAwsSkillsSource: Swift.Sendable {
         /// Optionally filter allowed skills with glob syntax, e.g., ['core-skills/*'].
         public var paths: [Swift.String]?
@@ -7512,7 +7512,7 @@ extension BedrockAgentCoreClientTypes {
         case s3(BedrockAgentCoreClientTypes.HarnessSkillS3Source)
         /// A git repository containing the skill.
         case git(BedrockAgentCoreClientTypes.HarnessSkillGitSource)
-        /// AWS Skills baked into the Harness's underlying Runtime.
+        /// Amazon Web Services Skills baked into the Harness's underlying Runtime.
         case awsskills(BedrockAgentCoreClientTypes.HarnessSkillAwsSkillsSource)
         case sdkUnknown(Swift.String)
     }
@@ -8441,6 +8441,45 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The action to apply to an existing record expiry (long-term memory time-to-live) configuration. REMOVE removes a previously configured expiry so that the records no longer expire.
+    public enum RecordExpiryAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case remove
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecordExpiryAction] {
+            return [
+                .remove
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .remove: return "REMOVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Specifies the record expiry (long-term memory time-to-live) applied to the records in a batch request. Provide exactly one of recordExpiryDurationDays or action. Set recordExpiryDurationDays to configure or update the expiry, or set action to REMOVE to remove a previously configured expiry.
+    public enum RecordExpirySpecification: Swift.Sendable {
+        /// The duration, in days, after which the records in this request expire. The minimum is 31 days.
+        case recordexpirydurationdays(Swift.Int)
+        /// The action to apply to the existing record expiry configuration. Set to REMOVE to remove a previously configured expiry so that the records no longer expire. This value does not apply when creating records.
+        case action(BedrockAgentCoreClientTypes.RecordExpiryAction)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Contains the content of a memory record.
     public enum MemoryContent: Swift.Sendable {
         /// The text content of the memory record.
@@ -8510,6 +8549,8 @@ public struct BatchCreateMemoryRecordsInput: Swift.Sendable {
     /// The unique ID of the memory resource where records will be created.
     /// This member is required.
     public var memoryId: Swift.String?
+    /// The record expiry (long-term memory time-to-live) applied to every record created by this request. Set recordExpiryDurationDays to the number of days after which the records expire. Only the expiry provided here is applied; the records' strategy association has no effect on their expiry. If you do not provide this value, the records do not expire. The REMOVE action does not apply when creating records.
+    public var recordExpirySpecification: BedrockAgentCoreClientTypes.RecordExpirySpecification?
     /// A list of memory record creation inputs to be processed in the batch operation.
     /// This member is required.
     public var records: [BedrockAgentCoreClientTypes.MemoryRecordCreateInput]?
@@ -8517,10 +8558,12 @@ public struct BatchCreateMemoryRecordsInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         memoryId: Swift.String? = nil,
+        recordExpirySpecification: BedrockAgentCoreClientTypes.RecordExpirySpecification? = nil,
         records: [BedrockAgentCoreClientTypes.MemoryRecordCreateInput]? = nil
     ) {
         self.clientToken = clientToken
         self.memoryId = memoryId
+        self.recordExpirySpecification = recordExpirySpecification
         self.records = records
     }
 }
@@ -8703,15 +8746,26 @@ public struct BatchUpdateMemoryRecordsInput: Swift.Sendable {
     /// The unique ID of the memory resource where records will be updated.
     /// This member is required.
     public var memoryId: Swift.String?
+    /// The record expiry (long-term memory time-to-live) applied to every record updated by this request. Set recordExpiryDurationDays to configure or overwrite the number of days after which the records expire, or set action to REMOVE to clear a previously configured expiry so that the records no longer expire. When you do not provide this value, the service determines each record's expiry from its current state:
+    ///
+    /// * If the record already has an expiry configured, the service resets and reapplies the expiry based on the last applied recordExpiryDurationDays.
+    ///
+    /// * If the record does not have an expiry configured, no expiry is applied and the record remains non-expiring. This is the outcome regardless of whether the record's strategy configures an expiry.
+    ///
+    ///
+    /// Providing an explicit recordExpiryDurationDays always takes precedence: it overwrites an existing expiry, or sets one on a record that previously had none.
+    public var recordExpirySpecification: BedrockAgentCoreClientTypes.RecordExpirySpecification?
     /// A list of memory record update inputs to be processed in the batch operation.
     /// This member is required.
     public var records: [BedrockAgentCoreClientTypes.MemoryRecordUpdateInput]?
 
     public init(
         memoryId: Swift.String? = nil,
+        recordExpirySpecification: BedrockAgentCoreClientTypes.RecordExpirySpecification? = nil,
         records: [BedrockAgentCoreClientTypes.MemoryRecordUpdateInput]? = nil
     ) {
         self.memoryId = memoryId
+        self.recordExpirySpecification = recordExpirySpecification
         self.records = records
     }
 }
@@ -9184,6 +9238,8 @@ extension BedrockAgentCoreClientTypes {
         /// The timestamp when the memory record was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The timestamp at which the memory record expires and becomes eligible for deletion. This value is set when a record expiry (long-term memory time-to-live) applies to the record, either from the strategy the record belongs to or from a record expiry provided on the batch request that created or updated it. If the record has no expiry configured, this value is not present and the record does not expire.
+        public var expiresAt: Foundation.Date?
         /// The unique identifier of the memory record.
         /// This member is required.
         public var memoryRecordId: Swift.String?
@@ -9195,21 +9251,27 @@ extension BedrockAgentCoreClientTypes {
         /// The namespaces associated with this memory record. Namespaces help organize and categorize memory records.
         /// This member is required.
         public var namespaces: [Swift.String]?
+        /// The timestamp based on which the memory record was ingested. This reflects the time of the source content that the record was derived from, which can differ from createdAt, the time the record itself was written.
+        public var timestamp: Foundation.Date?
 
         public init(
             content: BedrockAgentCoreClientTypes.MemoryContent? = nil,
             createdAt: Foundation.Date? = nil,
+            expiresAt: Foundation.Date? = nil,
             memoryRecordId: Swift.String? = nil,
             memoryStrategyId: Swift.String? = nil,
             metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]? = nil,
-            namespaces: [Swift.String]? = nil
+            namespaces: [Swift.String]? = nil,
+            timestamp: Foundation.Date? = nil
         ) {
             self.content = content
             self.createdAt = createdAt
+            self.expiresAt = expiresAt
             self.memoryRecordId = memoryRecordId
             self.memoryStrategyId = memoryStrategyId
             self.metadata = metadata
             self.namespaces = namespaces
+            self.timestamp = timestamp
         }
     }
 }
@@ -9847,6 +9909,8 @@ extension BedrockAgentCoreClientTypes {
         public var namespaces: [Swift.String]?
         /// The relevance score of the memory record when returned as part of a search result. Higher values indicate greater relevance to the search query.
         public var score: Swift.Double?
+        /// The timestamp based on which the memory record was ingested. This reflects the time of the source content that the record was derived from, which can differ from createdAt, the time the record itself was written.
+        public var timestamp: Foundation.Date?
 
         public init(
             content: BedrockAgentCoreClientTypes.MemoryContent? = nil,
@@ -9855,7 +9919,8 @@ extension BedrockAgentCoreClientTypes {
             memoryStrategyId: Swift.String? = nil,
             metadata: [Swift.String: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue]? = nil,
             namespaces: [Swift.String]? = nil,
-            score: Swift.Double? = nil
+            score: Swift.Double? = nil,
+            timestamp: Foundation.Date? = nil
         ) {
             self.content = content
             self.createdAt = createdAt
@@ -9864,6 +9929,7 @@ extension BedrockAgentCoreClientTypes {
             self.metadata = metadata
             self.namespaces = namespaces
             self.score = score
+            self.timestamp = timestamp
         }
     }
 }
@@ -13048,6 +13114,7 @@ extension BatchCreateMemoryRecordsInput {
     static func write(value: BatchCreateMemoryRecordsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreClientTypes.RecordExpirySpecification.write(value:to:))
         try writer["records"].writeList(value.records, memberWritingClosure: BedrockAgentCoreClientTypes.MemoryRecordCreateInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -13064,6 +13131,7 @@ extension BatchUpdateMemoryRecordsInput {
 
     static func write(value: BatchUpdateMemoryRecordsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["recordExpirySpecification"].write(value.recordExpirySpecification, with: BedrockAgentCoreClientTypes.RecordExpirySpecification.write(value:to:))
         try writer["records"].writeList(value.records, memberWritingClosure: BedrockAgentCoreClientTypes.MemoryRecordUpdateInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -18509,7 +18577,9 @@ extension BedrockAgentCoreClientTypes.MemoryRecord {
         value.memoryStrategyId = try reader["memoryStrategyId"].readIfPresent() ?? ""
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -18623,6 +18693,7 @@ extension BedrockAgentCoreClientTypes.MemoryRecordSummary {
         value.namespaces = try reader["namespaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.score = try reader["score"].readIfPresent()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: BedrockAgentCoreClientTypes.MemoryRecordMetadataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -19260,6 +19331,21 @@ extension BedrockAgentCoreClientTypes.RecommendationSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.RecordExpirySpecification {
+
+    static func write(value: BedrockAgentCoreClientTypes.RecordExpirySpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .action(action):
+                try writer["action"].write(action)
+            case let .recordexpirydurationdays(recordexpirydurationdays):
+                try writer["recordExpiryDurationDays"].write(recordexpirydurationdays)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 

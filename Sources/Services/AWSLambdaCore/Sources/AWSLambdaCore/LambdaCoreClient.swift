@@ -617,7 +617,7 @@ extension LambdaCoreClient {
 extension LambdaCoreClient {
     /// Performs the `CreateNetworkConnector` operation on the `LambdaCore` service.
     ///
-    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to Lambda MicroVMs at run time using the egressNetworkConnectors parameter on RunMicroVm. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
+    /// Creates a network connector that enables Lambda compute resources to route outbound traffic through your Amazon VPC. The network connector provisions elastic network interfaces (ENIs) in the subnets you specify, providing a managed network path to private resources such as databases, caches, and internal APIs. This operation is asynchronous. The network connector starts in PENDING state while ENIs are provisioned in your VPC (provisioning typically takes up to 10 minutes). Use GetNetworkConnector to poll the connector state until it reaches ACTIVE. Once active, you can attach the connector to supported Lambda compute resources — such as MicroVMs and WebFunctions — at run time. For how to attach a connector, see the documentation for the specific compute type. This operation is idempotent when you provide a ClientToken — if you retry a request that completed successfully using the same client token, the operation returns the existing connector without creating a duplicate.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateNetworkConnectorInput`)
     ///
@@ -627,7 +627,7 @@ extension LambdaCoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
-    /// - `NetworkConnectorLimitExceededException` : The account has reached the maximum number of network connectors allowed. Delete unused connectors or request a limit increase through Service Quotas.
+    /// - `NetworkConnectorLimitExceededException` : The request would exceed a network connector limit. For CreateNetworkConnector, the account has reached the maximum number of network connectors allowed. For UpdateNetworkConnector, the connector has reached the maximum number of versions allowed.
     /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
     /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
     /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
@@ -690,7 +690,7 @@ extension LambdaCoreClient {
 
     /// Performs the `DeleteNetworkConnector` operation on the `LambdaCore` service.
     ///
-    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda MicroVMs are using it, as they will lose VPC egress connectivity immediately.
+    /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda compute resources are using it, as they will lose VPC egress connectivity immediately. Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own — delete the connector to remove it.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteNetworkConnectorInput`)
     ///
@@ -825,6 +825,75 @@ extension LambdaCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListNetworkConnectorVersions` operation on the `LambdaCore` service.
+    ///
+    /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use GetNetworkConnector; to inspect a specific version, call GetNetworkConnector with a version-qualified identifier.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListNetworkConnectorVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListNetworkConnectorVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceNotFoundException` : The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func listNetworkConnectorVersions(input: ListNetworkConnectorVersionsInput) async throws -> ListNetworkConnectorVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listNetworkConnectorVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput>(ListNetworkConnectorVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput>(ListNetworkConnectorVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNetworkConnectorVersionsOutput>(ListNetworkConnectorVersionsOutput.httpOutput(from:), ListNetworkConnectorVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListNetworkConnectorVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListNetworkConnectorVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListNetworkConnectorVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListNetworkConnectorVersionsInput, ListNetworkConnectorVersionsOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListNetworkConnectorVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListNetworkConnectors` operation on the `LambdaCore` service.
     ///
     /// Returns a paginated list of network connectors in your account for the current Region. You can optionally filter results by connector state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the connector ARN, name, ID, type, current state, and last modified timestamp. To retrieve full configuration details for a specific connector, use GetNetworkConnector.
@@ -895,7 +964,7 @@ extension LambdaCoreClient {
 
     /// Performs the `UpdateNetworkConnector` operation on the `LambdaCore` service.
     ///
-    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken.
+    /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken. Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with NetworkConnectorLimitExceededException until you delete older versions.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateNetworkConnectorInput`)
     ///
@@ -905,6 +974,7 @@ extension LambdaCoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `NetworkConnectorLimitExceededException` : The request would exceed a network connector limit. For CreateNetworkConnector, the account has reached the maximum number of network connectors allowed. For UpdateNetworkConnector, the connector has reached the maximum number of versions allowed.
     /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
     /// - `ResourceNotFoundException` : The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
     /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.

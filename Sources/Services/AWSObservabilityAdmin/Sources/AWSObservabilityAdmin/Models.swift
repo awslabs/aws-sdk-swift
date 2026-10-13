@@ -1941,6 +1941,7 @@ extension ObservabilityAdminClientTypes {
         case awsSecurityHub
         case awsSecurityHubHubv2
         case awsWafV2WebAcl
+        case awsXrayTransactionSearchConfig
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -1966,7 +1967,8 @@ extension ObservabilityAdminClientTypes {
                 .awsS3Bucket,
                 .awsSecurityHub,
                 .awsSecurityHubHubv2,
-                .awsWafV2WebAcl
+                .awsWafV2WebAcl,
+                .awsXrayTransactionSearchConfig
             ]
         }
 
@@ -1999,6 +2001,7 @@ extension ObservabilityAdminClientTypes {
             case .awsSecurityHub: return "AWS::SecurityHub::Hub"
             case .awsSecurityHubHubv2: return "AWS::SecurityHub::HubV2"
             case .awsWafV2WebAcl: return "AWS::WAFv2::WebACL"
+            case .awsXrayTransactionSearchConfig: return "AWS::XRay::TransactionSearchConfig"
             case let .sdkUnknown(s): return s
             }
         }

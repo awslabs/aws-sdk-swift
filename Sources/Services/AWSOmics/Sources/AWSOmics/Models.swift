@@ -2679,13 +2679,17 @@ extension OmicsClientTypes {
         public var securityGroupIds: [Swift.String]?
         /// List of subnet IDs. Maximum of 16 subnets allowed.
         public var subnetIds: [Swift.String]?
+        /// The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations.
+        public var vpcOwnerAccountId: Swift.String?
 
         public init(
             securityGroupIds: [Swift.String]? = nil,
-            subnetIds: [Swift.String]? = nil
+            subnetIds: [Swift.String]? = nil,
+            vpcOwnerAccountId: Swift.String? = nil
         ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
     }
 }
@@ -2745,15 +2749,19 @@ extension OmicsClientTypes {
         public var subnetIds: [Swift.String]?
         /// VPC ID computed from the provided subnet IDs.
         public var vpcId: Swift.String?
+        /// The Amazon Web Services account ID of the cross-account VPC owner for RAM-shared VPC configurations.
+        public var vpcOwnerAccountId: Swift.String?
 
         public init(
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil,
-            vpcId: Swift.String? = nil
+            vpcId: Swift.String? = nil,
+            vpcOwnerAccountId: Swift.String? = nil
         ) {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
     }
 }
@@ -17937,6 +17945,7 @@ extension OmicsClientTypes.VpcConfig {
         guard let value else { return }
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcOwnerAccountId"].write(value.vpcOwnerAccountId)
     }
 }
 
@@ -17948,6 +17957,7 @@ extension OmicsClientTypes.VpcConfigResponse {
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcId = try reader["vpcId"].readIfPresent()
+        value.vpcOwnerAccountId = try reader["vpcOwnerAccountId"].readIfPresent()
         return value
     }
 }

@@ -3360,13 +3360,16 @@ extension GuardDutyClientTypes {
         case ec2AgentManagement
         case ecsFargateAgentManagement
         case eksAddonManagement
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FeatureAdditionalConfiguration] {
             return [
                 .ec2AgentManagement,
                 .ecsFargateAgentManagement,
-                .eksAddonManagement
+                .eksAddonManagement,
+                .rdsDataRisk
             ]
         }
 
@@ -3380,6 +3383,7 @@ extension GuardDutyClientTypes {
             case .ec2AgentManagement: return "EC2_AGENT_MANAGEMENT"
             case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
+            case .rdsDataRisk: return "RDS_DATA_RISK"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6838,13 +6842,16 @@ extension GuardDutyClientTypes {
         case ec2AgentManagement
         case ecsFargateAgentManagement
         case eksAddonManagement
+        /// RDS Data Activity Monitoring, which monitors data activity on supported Amazon RDS database engines to detect potentially unauthorized access to your data.
+        case rdsDataRisk
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OrgFeatureAdditionalConfiguration] {
             return [
                 .ec2AgentManagement,
                 .ecsFargateAgentManagement,
-                .eksAddonManagement
+                .eksAddonManagement,
+                .rdsDataRisk
             ]
         }
 
@@ -6858,6 +6865,7 @@ extension GuardDutyClientTypes {
             case .ec2AgentManagement: return "EC2_AGENT_MANAGEMENT"
             case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
+            case .rdsDataRisk: return "RDS_DATA_RISK"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13266,6 +13274,14 @@ extension GuardDutyClientTypes {
         case fargateRuntimeMonitoring
         case flowLogs
         case lambdaNetworkLogs
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDataActivityDbiProtectionLimitless
+        /// Usage attributed to RDS Data Activity Monitoring for provisioned Amazon RDS databases.
+        case rdsDataActivityDbiProtectionProvisioned
+        /// Usage attributed to RDS Data Activity Monitoring for Amazon Aurora Serverless databases.
+        case rdsDataActivityDbiProtectionServerless
+        /// Usage attributed to RDS Protection database infrastructure monitoring for Amazon Aurora DSQL Limitless databases.
+        case rdsDbiProtectionLimitless
         case rdsDbiProtectionProvisioned
         case rdsDbiProtectionServerless
         case rdsLoginEvents
@@ -13284,6 +13300,10 @@ extension GuardDutyClientTypes {
                 .fargateRuntimeMonitoring,
                 .flowLogs,
                 .lambdaNetworkLogs,
+                .rdsDataActivityDbiProtectionLimitless,
+                .rdsDataActivityDbiProtectionProvisioned,
+                .rdsDataActivityDbiProtectionServerless,
+                .rdsDbiProtectionLimitless,
                 .rdsDbiProtectionProvisioned,
                 .rdsDbiProtectionServerless,
                 .rdsLoginEvents,
@@ -13308,6 +13328,10 @@ extension GuardDutyClientTypes {
             case .fargateRuntimeMonitoring: return "FARGATE_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
+            case .rdsDataActivityDbiProtectionLimitless: return "RDS_DATA_ACTIVITY_DBI_PROTECTION_LIMITLESS"
+            case .rdsDataActivityDbiProtectionProvisioned: return "RDS_DATA_ACTIVITY_DBI_PROTECTION_PROVISIONED"
+            case .rdsDataActivityDbiProtectionServerless: return "RDS_DATA_ACTIVITY_DBI_PROTECTION_SERVERLESS"
+            case .rdsDbiProtectionLimitless: return "RDS_DBI_PROTECTION_LIMITLESS"
             case .rdsDbiProtectionProvisioned: return "RDS_DBI_PROTECTION_PROVISIONED"
             case .rdsDbiProtectionServerless: return "RDS_DBI_PROTECTION_SERVERLESS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"

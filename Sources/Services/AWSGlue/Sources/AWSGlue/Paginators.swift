@@ -805,6 +805,37 @@ extension ListDataQualityResultsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension GlueClient {
+    /// Paginate over `[ListDataQualityResultsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataQualityResultsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityResultsV2Output`
+    public func listDataQualityResultsV2Paginated(input: ListDataQualityResultsV2Input) -> ClientRuntime.PaginatorSequence<ListDataQualityResultsV2Input, ListDataQualityResultsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListDataQualityResultsV2Input, ListDataQualityResultsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDataQualityResultsV2(input:))
+    }
+}
+
+extension ListDataQualityResultsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDataQualityResultsV2Input {
+        return ListDataQualityResultsV2Input(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDataQualityResultsV2Input, OperationStackOutput == ListDataQualityResultsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataQualityResultsV2Paginated`
+    /// to access the nested member `[GlueClientTypes.DataQualityResultsV2Description]`
+    /// - Returns: `[GlueClientTypes.DataQualityResultsV2Description]`
+    public func results() async throws -> [GlueClientTypes.DataQualityResultsV2Description] {
+        return try await self.asyncCompactMap { item in item.results }
+    }
+}
+extension GlueClient {
     /// Paginate over `[ListDataQualityRuleRecommendationRunsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

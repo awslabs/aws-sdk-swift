@@ -614,6 +614,38 @@ extension PaginatorSequence where OperationStackInput == ListEnabledProductsForI
     }
 }
 extension SecurityHubClient {
+    /// Paginate over `[ListExportJobsV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExportJobsV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExportJobsV2Output`
+    public func listExportJobsV2Paginated(input: ListExportJobsV2Input) -> ClientRuntime.PaginatorSequence<ListExportJobsV2Input, ListExportJobsV2Output> {
+        return ClientRuntime.PaginatorSequence<ListExportJobsV2Input, ListExportJobsV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listExportJobsV2(input:))
+    }
+}
+
+extension ListExportJobsV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListExportJobsV2Input {
+        return ListExportJobsV2Input(
+            dataType: self.dataType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListExportJobsV2Input, OperationStackOutput == ListExportJobsV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listExportJobsV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.ExportSummary]`
+    /// - Returns: `[SecurityHubClientTypes.ExportSummary]`
+    public func items() async throws -> [SecurityHubClientTypes.ExportSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension SecurityHubClient {
     /// Paginate over `[ListExposuresByRemediationV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

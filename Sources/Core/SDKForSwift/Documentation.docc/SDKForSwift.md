@@ -847,6 +847,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSageMakerRuntimeHTTP2](/sdk-for-swift/latest/api/awssagemakerruntimehttp2/documentation/awssagemakerruntimehttp2)
 
+[AWSSageMakerTrainingSessionRuntime](/sdk-for-swift/latest/api/awssagemakertrainingsessionruntime/documentation/awssagemakertrainingsessionruntime)
+
 [AWSSagemakerEdge](/sdk-for-swift/latest/api/awssagemakeredge/documentation/awssagemakeredge)
 
 [AWSSagemakerJobRuntime](/sdk-for-swift/latest/api/awssagemakerjobruntime/documentation/awssagemakerjobruntime)

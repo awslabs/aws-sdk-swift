@@ -1022,6 +1022,154 @@ extension SecurityAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchDisassociateFindingIssue` operation on the `SecurityAgent` service.
+    ///
+    /// Disassociates a batch of findings from their linked issues.
+    ///
+    /// - Parameter input: The input for the BatchDisassociateFindingIssue operation. (Type: `BatchDisassociateFindingIssueInput`)
+    ///
+    /// - Returns: The output for the BatchDisassociateFindingIssue operation. (Type: `BatchDisassociateFindingIssueOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota. Review your current usage and request a quota increase if needed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func batchDisassociateFindingIssue(input: BatchDisassociateFindingIssueInput) async throws -> BatchDisassociateFindingIssueOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchDisassociateFindingIssue")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>(BatchDisassociateFindingIssueInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchDisassociateFindingIssueInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateFindingIssueOutput>(BatchDisassociateFindingIssueOutput.httpOutput(from:), BatchDisassociateFindingIssueOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateFindingIssueOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDisassociateFindingIssueOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDisassociateFindingIssueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchDisassociateFindingIssueInput, BatchDisassociateFindingIssueOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchDisassociateFindingIssue")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `BatchExportFindings` operation on the `SecurityAgent` service.
+    ///
+    /// Exports a batch of findings to the connected issue tracker as issues.
+    ///
+    /// - Parameter input: The input for the BatchExportFindings operation. (Type: `BatchExportFindingsInput`)
+    ///
+    /// - Returns: The output for the BatchExportFindings operation. (Type: `BatchExportFindingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the resource.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of your request.
+    /// - `ResourceNotFoundException` : The specified resource was not found. Verify that the resource identifier is correct and that the resource exists in the specified agent space or account.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota. Review your current usage and request a quota increase if needed.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func batchExportFindings(input: BatchExportFindingsInput) async throws -> BatchExportFindingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchExportFindings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityagent")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchExportFindingsInput, BatchExportFindingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>(BatchExportFindingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchExportFindingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchExportFindingsOutput>(BatchExportFindingsOutput.httpOutput(from:), BatchExportFindingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchExportFindingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityAgent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchExportFindingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchExportFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityAgent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchExportFindingsInput, BatchExportFindingsOutput>(serviceID: serviceName, version: SecurityAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchExportFindings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetAgentSpaces` operation on the `SecurityAgent` service.
     ///
     /// Retrieves information about one or more agent spaces.
