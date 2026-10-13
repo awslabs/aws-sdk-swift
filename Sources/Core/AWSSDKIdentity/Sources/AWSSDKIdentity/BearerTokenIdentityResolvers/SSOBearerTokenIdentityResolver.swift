@@ -83,7 +83,10 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
             ).accessToken
         }
         if cachedToken.tokenIsExpired() {
-            throw ClientError.dataNotFound("Cached SSO token is expired and cannot be refreshed.")
+            throw NonRecoverableCredentialError(
+                actionableMessage: "Cached SSO token is expired and cannot be refreshed. "
+                    + "Sign in again, for example with `aws sso login`."
+            )
         }
         return cachedToken.accessToken
     }
@@ -133,7 +136,10 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
             let token = try decoder.decode(SSOToken.self, from: data)
             return token
         } catch {
-            throw ClientError.dataNotFound("Failed to load SSO token.")
+            throw NonRecoverableCredentialError(
+                underlying: error,
+                actionableMessage: "Failed to load SSO token. Sign in again, for example with `aws sso login`."
+            )
         }
     }
 

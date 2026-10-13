@@ -39,6 +39,8 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
         "RequestTimeout",
         "InternalError",
         "RequestTimeoutException",
+        "ExpiredToken",
+        "InvalidToken",
     ]
 
     // "IDPCommunicationError" is retryable only for STS clients.
