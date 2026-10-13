@@ -90,6 +90,19 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
             ).constructAWSCredentialIdentity(
                 credentialFeatureIDs: credentialFeatureIDs
             )
+        } catch let error as AccessDeniedException where error.properties.error == .tokenExpired {
+            throw NonRecoverableCredentialError(
+                actionableMessage: "The AWS Login session has expired. Sign in again to continue."
+            )
+        } catch let error as AccessDeniedException where error.properties.error == .userCredentialsChanged {
+            throw NonRecoverableCredentialError(
+                actionableMessage: "The AWS Login session password has changed. Sign in again to continue."
+            )
+        } catch let error as AccessDeniedException where error.properties.error == .insufficientPermissions {
+            throw NonRecoverableCredentialError(
+                actionableMessage: "The AWS Login session has insufficient permissions. "
+                    + "You may be missing permissions for the CreateOAuth2Token action."
+            )
         } catch {
             if loginToken.tokenIsExpired() {
                 throw error
@@ -249,7 +262,7 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
 
 struct LoginToken: Codable {
     let accessToken: AccessToken
-    let tokenType: String
+    let tokenType: String?
     let refreshToken: String
     let idToken: String
     let clientId: String

@@ -24,7 +24,16 @@ struct IdentityProvidingSSOClient {
         )
         let sso = SSOClient(config: ssoConfig)
         let input = GetRoleCredentialsInput(accessToken: accessToken, accountId: accountID, roleName: roleName)
-        let out = try await sso.getRoleCredentials(input: input)
+        let out: GetRoleCredentialsOutput
+        do {
+            out = try await sso.getRoleCredentials(input: input)
+        } catch let error as UnauthorizedException {
+            throw NonRecoverableCredentialError(
+                underlying: error,
+                actionableMessage: "The SSO session has expired or is invalid. "
+                    + "Sign in again, for example with `aws sso login`."
+            )
+        }
         guard let accessKey = out.roleCredentials?.accessKeyId, let secretKey = out.roleCredentials?.secretAccessKey
         else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(

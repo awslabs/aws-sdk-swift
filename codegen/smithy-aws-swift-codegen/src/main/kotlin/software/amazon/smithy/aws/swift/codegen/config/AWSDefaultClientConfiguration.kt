@@ -12,6 +12,7 @@ import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
+import software.amazon.smithy.swift.codegen.config.DefaultProvider
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.toGeneric
 import software.amazon.smithy.swift.codegen.model.toOptional
@@ -35,13 +36,26 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                 ConfigProperty(
                     "awsCredentialIdentityResolver",
                     SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric(),
-                    {
-                        if (ctx.settings.internalClient) {
-                            it.format("\$N()", SmithyIdentityTypes.StaticAWSCredentialIdentityResolver)
-                        } else {
-                            it.format("\$N()", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
-                        }
-                    },
+                    // wrapCredentialIdentityResolver wraps SDK resolvers in a cache and defaults to the chain.
+                    DefaultProvider(
+                        {
+                            if (ctx.settings.internalClient) {
+                                // Internal clients use the resolver they were given, with no cache.
+                                it.format(
+                                    "awsCredentialIdentityResolver ?? \$N()",
+                                    SmithyIdentityTypes.StaticAWSCredentialIdentityResolver,
+                                )
+                            } else {
+                                it.format(
+                                    "\$N(awsCredentialIdentityResolver)",
+                                    AWSSDKIdentityTypes.wrapCredentialIdentityResolver,
+                                )
+                            }
+                        },
+                        isThrowable = false,
+                        isAsync = false,
+                        wrapsParameter = true,
+                    ),
                 ),
                 ConfigProperty(
                     "awsRetryMode",

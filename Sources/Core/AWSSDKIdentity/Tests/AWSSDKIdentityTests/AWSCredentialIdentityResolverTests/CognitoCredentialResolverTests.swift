@@ -188,15 +188,15 @@ class CognitoCredentialResolverTests: XCTestCase {
         // First call
         _ = try await resolver.getIdentity(identityProperties: attributes)
 
-        // Second call with same logins (should use cached credentials)
+        // Second call with same logins (reuses the cached identity ID)
         _ = try await resolver.getIdentity(identityProperties: attributes)
         
         // Should call GetId only once
         XCTAssertEqual(mockClient.getIdCalls.count, 1)
         XCTAssertEqual(mockClient.getIdCalls[0].logins?["accounts.google.com"], "google-token")
         
-        // Should call GetCredentialsForIdentity only once (second call uses cache)
-        XCTAssertEqual(mockClient.getCredentialsCalls.count, 1)
+        // Should call GetCredentialsForIdentity on each call; credential caching is done by the client's cache wrapper
+        XCTAssertEqual(mockClient.getCredentialsCalls.count, 2)
         XCTAssertEqual(mockClient.getCredentialsCalls[0].logins?["accounts.google.com"], "google-token")
     }
     

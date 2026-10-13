@@ -37,6 +37,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+@_spi(ClientConfigDefaultIdentityResolver) import func AWSSDKIdentity.wrapCredentialIdentityResolver
 import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
@@ -225,7 +226,7 @@ extension S3Client {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(awsCredentialIdentityResolver)
             self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
             self.maxAttempts = maxAttempts
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
@@ -296,7 +297,7 @@ extension S3Client {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(awsCredentialIdentityResolver)
             self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
             self.maxAttempts = maxAttempts
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
@@ -512,7 +513,7 @@ extension S3Client {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(awsCredentialIdentityResolver)
             self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
             self.maxAttempts = maxAttempts
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
@@ -583,7 +584,7 @@ extension S3Client {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
-            self.awsCredentialIdentityResolver = awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(awsCredentialIdentityResolver)
             self.awsRetryMode = try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode()
             self.maxAttempts = maxAttempts
             self.requestChecksumCalculation = try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation)
