@@ -1628,6 +1628,21 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes {
 
+    /// The AWS DevOps Agent (DevOps Agent) integration configuration that you supply when creating or updating a service. Connecting a service to a DevOps Agent Agent Space lets DevOps Agent investigate the service's resilience test runs and attach its analysis to the results. Include this block with an Agent Space Amazon Resource Name (ARN) to connect or reconnect the service to an Agent Space. Include it without an Agent Space ARN to disconnect the service. Omit it to leave the existing linkage unchanged.
+    public struct DevOpsAgentConfiguration: Swift.Sendable {
+        /// The ARN of the DevOps Agent Agent Space to link to this service.
+        public var agentSpaceArn: Swift.String?
+
+        public init(
+            agentSpaceArn: Swift.String? = nil
+        ) {
+            self.agentSpaceArn = agentSpaceArn
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
     /// Specifies a cross-account IAM role ARN and optional external ID.
     public struct CrossAccountRole: Swift.Sendable {
         /// ARN of the IAM Role for the profile. Null if the permission profile is the 'Admin' profile.
@@ -1722,6 +1737,8 @@ public struct CreateServiceInput: Swift.Sendable {
     public var dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryInput?
     /// Resource description for services and policies.
     public var description: Swift.String?
+    /// The optional DevOps Agent integration configuration to apply to the new service. If you omit this field, the new service has no DevOps Agent integration.
+    public var devOpsAgentConfiguration: Resiliencehubv2ClientTypes.DevOpsAgentConfiguration?
     /// KMS key identifier — accepts key ID, key ARN, alias name, or alias ARN.
     public var kmsKeyId: Swift.String?
     /// Resource name (used in ARN — no spaces allowed).
@@ -1745,6 +1762,7 @@ public struct CreateServiceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryInput? = nil,
         description: Swift.String? = nil,
+        devOpsAgentConfiguration: Resiliencehubv2ClientTypes.DevOpsAgentConfiguration? = nil,
         kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         permissionModel: Resiliencehubv2ClientTypes.PermissionModel? = nil,
@@ -1757,6 +1775,7 @@ public struct CreateServiceInput: Swift.Sendable {
         self.clientToken = clientToken
         self.dependencyDiscovery = dependencyDiscovery
         self.description = description
+        self.devOpsAgentConfiguration = devOpsAgentConfiguration
         self.kmsKeyId = kmsKeyId
         self.name = name
         self.permissionModel = permissionModel
@@ -1769,7 +1788,7 @@ public struct CreateServiceInput: Swift.Sendable {
 
 extension CreateServiceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateServiceInput(associatedSystems: \(Swift.String(describing: associatedSystems)), clientToken: \(Swift.String(describing: clientToken)), dependencyDiscovery: \(Swift.String(describing: dependencyDiscovery)), description: \(Swift.String(describing: description)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), regions: \(Swift.String(describing: regions)), reportConfiguration: \(Swift.String(describing: reportConfiguration)), tags: \"CONTENT_REDACTED\")"}
+        "CreateServiceInput(associatedSystems: \(Swift.String(describing: associatedSystems)), clientToken: \(Swift.String(describing: clientToken)), dependencyDiscovery: \(Swift.String(describing: dependencyDiscovery)), description: \(Swift.String(describing: description)), devOpsAgentConfiguration: \(Swift.String(describing: devOpsAgentConfiguration)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), name: \(Swift.String(describing: name)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), regions: \(Swift.String(describing: regions)), reportConfiguration: \(Swift.String(describing: reportConfiguration)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension Resiliencehubv2ClientTypes {
@@ -1828,6 +1847,88 @@ extension Resiliencehubv2ClientTypes {
             self.message = message
             self.status = status
             self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    public enum DevOpsAgentConnectionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case connecting
+        case disconnected
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DevOpsAgentConnectionStatus] {
+            return [
+                .connected,
+                .connecting,
+                .disconnected,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .connecting: return "CONNECTING"
+            case .disconnected: return "DISCONNECTED"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// The current DevOps Agent integration state for a service. Read operations return this state.
+    public struct DevOpsAgentConfigurationView: Swift.Sendable {
+        /// The ARN of the linked DevOps Agent Agent Space.
+        public var agentSpaceArn: Swift.String?
+        /// The identifier of the linked DevOps Agent Agent Space.
+        public var agentSpaceId: Swift.String?
+        /// The timestamp when the service successfully connected to the DevOps Agent Agent Space.
+        public var connectedAt: Foundation.Date?
+        /// The URL of the DevOps Agent Operator App for the linked Agent Space. This URL is present when the connection status is CONNECTED.
+        public var operatorAppUrl: Swift.String?
+        /// The AWS Region of the linked DevOps Agent Agent Space.
+        public var region: Swift.String?
+        /// The connection status of the DevOps Agent integration for this service. Valid values:
+        ///
+        /// * CONNECTING - The service is being connected to the Agent Space.
+        ///
+        /// * CONNECTED - The service is connected to the Agent Space.
+        ///
+        /// * DISCONNECTED - The service is not connected to an Agent Space.
+        ///
+        /// * FAILED - The connection attempt failed. See statusReason for details.
+        public var status: Resiliencehubv2ClientTypes.DevOpsAgentConnectionStatus?
+        /// A human-readable explanation of the current connection status. This field explains the status when the connection fails.
+        public var statusReason: Swift.String?
+
+        public init(
+            agentSpaceArn: Swift.String? = nil,
+            agentSpaceId: Swift.String? = nil,
+            connectedAt: Foundation.Date? = nil,
+            operatorAppUrl: Swift.String? = nil,
+            region: Swift.String? = nil,
+            status: Resiliencehubv2ClientTypes.DevOpsAgentConnectionStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.agentSpaceArn = agentSpaceArn
+            self.agentSpaceId = agentSpaceId
+            self.connectedAt = connectedAt
+            self.operatorAppUrl = operatorAppUrl
+            self.region = region
+            self.status = status
+            self.statusReason = statusReason
         }
     }
 }
@@ -2100,6 +2201,8 @@ extension Resiliencehubv2ClientTypes {
         public var dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryConfig?
         /// Resource description for services and policies.
         public var description: Swift.String?
+        /// The current DevOps Agent integration state for the service.
+        public var devOpsAgentConfiguration: Resiliencehubv2ClientTypes.DevOpsAgentConfigurationView?
         /// The effective policy values for the service.
         public var effectivePolicyValues: Resiliencehubv2ClientTypes.EffectivePolicyValues?
         /// The estimated cost of running an assessment on the service.
@@ -2145,6 +2248,7 @@ extension Resiliencehubv2ClientTypes {
             createdAt: Foundation.Date? = nil,
             dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryConfig? = nil,
             description: Swift.String? = nil,
+            devOpsAgentConfiguration: Resiliencehubv2ClientTypes.DevOpsAgentConfigurationView? = nil,
             effectivePolicyValues: Resiliencehubv2ClientTypes.EffectivePolicyValues? = nil,
             estimatedAssessmentCost: Resiliencehubv2ClientTypes.AssessmentCost? = nil,
             kmsKeyId: Swift.String? = nil,
@@ -2170,6 +2274,7 @@ extension Resiliencehubv2ClientTypes {
             self.createdAt = createdAt
             self.dependencyDiscovery = dependencyDiscovery
             self.description = description
+            self.devOpsAgentConfiguration = devOpsAgentConfiguration
             self.effectivePolicyValues = effectivePolicyValues
             self.estimatedAssessmentCost = estimatedAssessmentCost
             self.kmsKeyId = kmsKeyId
@@ -2193,7 +2298,7 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes.Service: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Service(accountId: \(Swift.String(describing: accountId)), achievability: \(Swift.String(describing: achievability)), assessmentStatus: \(Swift.String(describing: assessmentStatus)), associatedSystems: \(Swift.String(describing: associatedSystems)), createdAt: \(Swift.String(describing: createdAt)), dependencyDiscovery: \(Swift.String(describing: dependencyDiscovery)), description: \(Swift.String(describing: description)), effectivePolicyValues: \(Swift.String(describing: effectivePolicyValues)), estimatedAssessmentCost: \(Swift.String(describing: estimatedAssessmentCost)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), name: \(Swift.String(describing: name)), openFindingsCount: \(Swift.String(describing: openFindingsCount)), organizationId: \(Swift.String(describing: organizationId)), ouId: \(Swift.String(describing: ouId)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), regions: \(Swift.String(describing: regions)), reportConfiguration: \(Swift.String(describing: reportConfiguration)), rerunAssessment: \(Swift.String(describing: rerunAssessment)), resolvedFindingsCount: \(Swift.String(describing: resolvedFindingsCount)), resourceDiscovery: \(Swift.String(describing: resourceDiscovery)), serviceArn: \(Swift.String(describing: serviceArn)), updatedAt: \(Swift.String(describing: updatedAt)), tags: \"CONTENT_REDACTED\")"}
+        "Service(accountId: \(Swift.String(describing: accountId)), achievability: \(Swift.String(describing: achievability)), assessmentStatus: \(Swift.String(describing: assessmentStatus)), associatedSystems: \(Swift.String(describing: associatedSystems)), createdAt: \(Swift.String(describing: createdAt)), dependencyDiscovery: \(Swift.String(describing: dependencyDiscovery)), description: \(Swift.String(describing: description)), devOpsAgentConfiguration: \(Swift.String(describing: devOpsAgentConfiguration)), effectivePolicyValues: \(Swift.String(describing: effectivePolicyValues)), estimatedAssessmentCost: \(Swift.String(describing: estimatedAssessmentCost)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), name: \(Swift.String(describing: name)), openFindingsCount: \(Swift.String(describing: openFindingsCount)), organizationId: \(Swift.String(describing: organizationId)), ouId: \(Swift.String(describing: ouId)), permissionModel: \(Swift.String(describing: permissionModel)), policyArn: \(Swift.String(describing: policyArn)), regions: \(Swift.String(describing: regions)), reportConfiguration: \(Swift.String(describing: reportConfiguration)), rerunAssessment: \(Swift.String(describing: rerunAssessment)), resolvedFindingsCount: \(Swift.String(describing: resolvedFindingsCount)), resourceDiscovery: \(Swift.String(describing: resourceDiscovery)), serviceArn: \(Swift.String(describing: serviceArn)), updatedAt: \(Swift.String(describing: updatedAt)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateServiceOutput: Swift.Sendable {
@@ -3445,6 +3550,163 @@ extension Resiliencehubv2ClientTypes {
 
 extension Resiliencehubv2ClientTypes {
 
+    public enum DevOpsAgentConfidence: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DevOpsAgentConfidence] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    public enum DevOpsAgentInvestigationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canceled
+        case completed
+        case failed
+        case inProgress
+        case pending
+        case timedOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DevOpsAgentInvestigationStatus] {
+            return [
+                .canceled,
+                .completed,
+                .failed,
+                .inProgress,
+                .pending,
+                .timedOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case .timedOut: return "TIMED_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    public enum DevOpsAgentVerdict: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fail
+        case pass
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DevOpsAgentVerdict] {
+            return [
+                .fail,
+                .pass
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "FAIL"
+            case .pass: return "PASS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
+    /// The result when DevOps Agent investigates a resilience test run. The verdict is advisory and builds on the test run's own result, which remains authoritative.
+    public struct DevOpsAgentInvestigation: Swift.Sendable {
+        /// The confidence level of the verdict. Valid values:
+        ///
+        /// * HIGH - The verdict is highly reliable.
+        ///
+        /// * MEDIUM - The verdict has moderate reliability.
+        ///
+        /// * LOW - The verdict has low reliability.
+        public var confidence: Resiliencehubv2ClientTypes.DevOpsAgentConfidence?
+        /// A deep link to the interactive DevOps Agent investigation session.
+        public var deepLink: Swift.String?
+        /// The lifecycle status of the investigation. Valid values:
+        ///
+        /// * PENDING - The investigation has been created but has not started.
+        ///
+        /// * IN_PROGRESS - The investigation is running.
+        ///
+        /// * COMPLETED - The investigation finished successfully.
+        ///
+        /// * FAILED - The investigation failed to complete.
+        ///
+        /// * TIMED_OUT - The investigation did not complete within the allotted time.
+        ///
+        /// * CANCELED - The investigation was canceled.
+        public var status: Resiliencehubv2ClientTypes.DevOpsAgentInvestigationStatus?
+        /// The DevOps Agent analysis summary for the investigation.
+        public var summary: Swift.String?
+        /// The investigation verdict. Valid values:
+        ///
+        /// * PASS - The resilience test run passed.
+        ///
+        /// * FAIL - The resilience test run failed.
+        ///
+        /// * INCONCLUSIVE - The investigation could not determine a clear outcome.
+        public var verdict: Resiliencehubv2ClientTypes.DevOpsAgentVerdict?
+
+        public init(
+            confidence: Resiliencehubv2ClientTypes.DevOpsAgentConfidence? = nil,
+            deepLink: Swift.String? = nil,
+            status: Resiliencehubv2ClientTypes.DevOpsAgentInvestigationStatus? = nil,
+            summary: Swift.String? = nil,
+            verdict: Resiliencehubv2ClientTypes.DevOpsAgentVerdict? = nil
+        ) {
+            self.confidence = confidence
+            self.deepLink = deepLink
+            self.status = status
+            self.summary = summary
+            self.verdict = verdict
+        }
+    }
+}
+
+extension Resiliencehubv2ClientTypes {
+
     public enum TopologyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case containment
         case dataFlow
@@ -3742,6 +4004,8 @@ extension Resiliencehubv2ClientTypes {
         public var findingId: Swift.String?
         /// Infrastructure and code recommendations to address the finding.
         public var infrastructureAndCodeRecommendations: [Resiliencehubv2ClientTypes.InfrastructureAndCodeRecommendation]?
+        /// A deep link to an interactive DevOps Agent investigation seeded with this finding. This value is null until DevOps Agent creates an investigation.
+        public var investigationDeepLink: Swift.String?
         /// The name of the finding.
         public var name: Swift.String?
         /// Observability recommendations to address the finding.
@@ -3767,6 +4031,7 @@ extension Resiliencehubv2ClientTypes {
             failureCategory: Resiliencehubv2ClientTypes.FailureCategory? = nil,
             findingId: Swift.String? = nil,
             infrastructureAndCodeRecommendations: [Resiliencehubv2ClientTypes.InfrastructureAndCodeRecommendation]? = nil,
+            investigationDeepLink: Swift.String? = nil,
             name: Swift.String? = nil,
             observabilityRecommendations: [Resiliencehubv2ClientTypes.ObservabilityRecommendation]? = nil,
             policyComponent: Resiliencehubv2ClientTypes.PolicyComponent? = nil,
@@ -3782,6 +4047,7 @@ extension Resiliencehubv2ClientTypes {
             self.failureCategory = failureCategory
             self.findingId = findingId
             self.infrastructureAndCodeRecommendations = infrastructureAndCodeRecommendations
+            self.investigationDeepLink = investigationDeepLink
             self.name = name
             self.observabilityRecommendations = observabilityRecommendations
             self.policyComponent = policyComponent
@@ -3805,6 +4071,8 @@ extension Resiliencehubv2ClientTypes {
         public var failureCategory: Resiliencehubv2ClientTypes.FailureCategory?
         /// The unique identifier of the finding.
         public var findingId: Swift.String?
+        /// A deep link to an interactive DevOps Agent investigation seeded with this finding. This value is null until DevOps Agent creates an investigation.
+        public var investigationDeepLink: Swift.String?
         /// The name of the finding.
         public var name: Swift.String?
         /// The policy component associated with the finding.
@@ -3822,6 +4090,7 @@ extension Resiliencehubv2ClientTypes {
             description: Swift.String? = nil,
             failureCategory: Resiliencehubv2ClientTypes.FailureCategory? = nil,
             findingId: Swift.String? = nil,
+            investigationDeepLink: Swift.String? = nil,
             name: Swift.String? = nil,
             policyComponent: Resiliencehubv2ClientTypes.PolicyComponent? = nil,
             serviceArn: Swift.String? = nil,
@@ -3832,6 +4101,7 @@ extension Resiliencehubv2ClientTypes {
             self.description = description
             self.failureCategory = failureCategory
             self.findingId = findingId
+            self.investigationDeepLink = investigationDeepLink
             self.name = name
             self.policyComponent = policyComponent
             self.serviceArn = serviceArn
@@ -4146,6 +4416,8 @@ extension Resiliencehubv2ClientTypes {
     public struct TestRun: Swift.Sendable {
         /// Indicates whether the test run targets resources in a single AWS account or across multiple accounts.
         public var accountTargeting: Resiliencehubv2ClientTypes.AccountTargeting?
+        /// The DevOps Agent investigation result for the test run, present when the integration is enabled for the service.
+        public var devOpsAgentInvestigation: Resiliencehubv2ClientTypes.DevOpsAgentInvestigation?
         /// The timestamp when the test run ended.
         public var endedAt: Foundation.Date?
         /// A human-readable reason for test run failure. Only present when the status is FAILED or ERROR.
@@ -4196,6 +4468,7 @@ extension Resiliencehubv2ClientTypes {
 
         public init(
             accountTargeting: Resiliencehubv2ClientTypes.AccountTargeting? = nil,
+            devOpsAgentInvestigation: Resiliencehubv2ClientTypes.DevOpsAgentInvestigation? = nil,
             endedAt: Foundation.Date? = nil,
             errorMessage: Swift.String? = nil,
             eventCount: Swift.Int? = nil,
@@ -4219,6 +4492,7 @@ extension Resiliencehubv2ClientTypes {
             testTemplateArn: Swift.String? = nil
         ) {
             self.accountTargeting = accountTargeting
+            self.devOpsAgentInvestigation = devOpsAgentInvestigation
             self.endedAt = endedAt
             self.errorMessage = errorMessage
             self.eventCount = eventCount
@@ -5369,25 +5643,41 @@ extension Resiliencehubv2ClientTypes {
 
     /// Represents an AWS resource discovered by Resilience Hub.
     public struct Resource: Swift.Sendable {
+        /// The Availability Zone ID of the Availability Zone that hosts the resource, such as use1-az1. The Availability Zone ID is consistent across Amazon Web Services (AWS) accounts, unlike the Availability Zone name.
+        public var availabilityZoneId: Swift.String?
+        /// The name of the Availability Zone that hosts the resource, such as us-west-2a.
+        public var availabilityZoneName: Swift.String?
         /// The AWS account ID that owns the resource.
         public var awsAccountId: Swift.String?
         /// The AWS Region where the resource is located.
         public var awsRegion: Swift.String?
+        /// The identifier of the single parent resource that contains this resource, used to represent containment relationships in the resource topology. A resource has at most one containment parent.
+        public var containmentParentId: Swift.String?
         /// The identifier of the resource.
         /// This member is required.
         public var identifier: Swift.String?
+        /// The identifier of the logical resource group that this resource belongs to. Resources that share this identifier are managed as a single unit.
+        public var logicalResourceGroupId: Swift.String?
         /// The type of the resource.
         public var resourceType: Swift.String?
 
         public init(
+            availabilityZoneId: Swift.String? = nil,
+            availabilityZoneName: Swift.String? = nil,
             awsAccountId: Swift.String? = nil,
             awsRegion: Swift.String? = nil,
+            containmentParentId: Swift.String? = nil,
             identifier: Swift.String? = nil,
+            logicalResourceGroupId: Swift.String? = nil,
             resourceType: Swift.String? = nil
         ) {
+            self.availabilityZoneId = availabilityZoneId
+            self.availabilityZoneName = availabilityZoneName
             self.awsAccountId = awsAccountId
             self.awsRegion = awsRegion
+            self.containmentParentId = containmentParentId
             self.identifier = identifier
+            self.logicalResourceGroupId = logicalResourceGroupId
             self.resourceType = resourceType
         }
     }
@@ -6130,6 +6420,18 @@ extension Resiliencehubv2ClientTypes {
         public var createdAt: Foundation.Date?
         /// The dependency discovery configuration.
         public var dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryConfig?
+        /// The ARN of the DevOps Agent Agent Space linked to the service, when the service is linked to one.
+        public var devOpsAgentSpaceArn: Swift.String?
+        /// The DevOps Agent connection status for the service. Valid values:
+        ///
+        /// * CONNECTING - The service is being connected to the Agent Space.
+        ///
+        /// * CONNECTED - The service is connected to the Agent Space.
+        ///
+        /// * DISCONNECTED - The service is not connected to an Agent Space.
+        ///
+        /// * FAILED - The connection attempt failed.
+        public var devOpsAgentStatus: Resiliencehubv2ClientTypes.DevOpsAgentConnectionStatus?
         /// Resource name (used in ARN — no spaces allowed).
         /// This member is required.
         public var name: Swift.String?
@@ -6158,6 +6460,8 @@ extension Resiliencehubv2ClientTypes {
             associatedSystems: [Resiliencehubv2ClientTypes.AssociatedSystem]? = nil,
             createdAt: Foundation.Date? = nil,
             dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryConfig? = nil,
+            devOpsAgentSpaceArn: Swift.String? = nil,
+            devOpsAgentStatus: Resiliencehubv2ClientTypes.DevOpsAgentConnectionStatus? = nil,
             name: Swift.String? = nil,
             openFindingsCount: Swift.Int? = nil,
             organizationId: Swift.String? = nil,
@@ -6174,6 +6478,8 @@ extension Resiliencehubv2ClientTypes {
             self.associatedSystems = associatedSystems
             self.createdAt = createdAt
             self.dependencyDiscovery = dependencyDiscovery
+            self.devOpsAgentSpaceArn = devOpsAgentSpaceArn
+            self.devOpsAgentStatus = devOpsAgentStatus
             self.name = name
             self.openFindingsCount = openFindingsCount
             self.organizationId = organizationId
@@ -8225,6 +8531,8 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryInput?
     /// Resource description for services and policies.
     public var description: Swift.String?
+    /// The optional DevOps Agent integration configuration to set, replace, or disconnect for the service. If you omit this field, the existing DevOps Agent linkage stays unchanged.
+    public var devOpsAgentConfiguration: Resiliencehubv2ClientTypes.DevOpsAgentConfiguration?
     /// The updated permission model for the service.
     public var permissionModel: Resiliencehubv2ClientTypes.PermissionModel?
     /// ARN identifier.
@@ -8241,6 +8549,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         associatedSystems: [Resiliencehubv2ClientTypes.AssociatedSystem]? = nil,
         dependencyDiscovery: Resiliencehubv2ClientTypes.DependencyDiscoveryInput? = nil,
         description: Swift.String? = nil,
+        devOpsAgentConfiguration: Resiliencehubv2ClientTypes.DevOpsAgentConfiguration? = nil,
         permissionModel: Resiliencehubv2ClientTypes.PermissionModel? = nil,
         policyArn: Swift.String? = nil,
         regions: [Swift.String]? = nil,
@@ -8250,6 +8559,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         self.associatedSystems = associatedSystems
         self.dependencyDiscovery = dependencyDiscovery
         self.description = description
+        self.devOpsAgentConfiguration = devOpsAgentConfiguration
         self.permissionModel = permissionModel
         self.policyArn = policyArn
         self.regions = regions
@@ -9874,6 +10184,7 @@ extension CreateServiceInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["dependencyDiscovery"].write(value.dependencyDiscovery)
         try writer["description"].write(value.description)
+        try writer["devOpsAgentConfiguration"].write(value.devOpsAgentConfiguration, with: Resiliencehubv2ClientTypes.DevOpsAgentConfiguration.write(value:to:))
         try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
         try writer["permissionModel"].write(value.permissionModel, with: Resiliencehubv2ClientTypes.PermissionModel.write(value:to:))
@@ -10168,6 +10479,7 @@ extension UpdateServiceInput {
         try writer["associatedSystems"].writeList(value.associatedSystems, memberWritingClosure: Resiliencehubv2ClientTypes.AssociatedSystem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dependencyDiscovery"].write(value.dependencyDiscovery)
         try writer["description"].write(value.description)
+        try writer["devOpsAgentConfiguration"].write(value.devOpsAgentConfiguration, with: Resiliencehubv2ClientTypes.DevOpsAgentConfiguration.write(value:to:))
         try writer["permissionModel"].write(value.permissionModel, with: Resiliencehubv2ClientTypes.PermissionModel.write(value:to:))
         try writer["policyArn"].write(value.policyArn)
         try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -11659,6 +11971,7 @@ enum ImportAppOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11677,6 +11990,7 @@ enum ImportPolicyOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12725,6 +13039,44 @@ extension Resiliencehubv2ClientTypes.DependencySummary {
     }
 }
 
+extension Resiliencehubv2ClientTypes.DevOpsAgentConfiguration {
+
+    static func write(value: Resiliencehubv2ClientTypes.DevOpsAgentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentSpaceArn"].write(value.agentSpaceArn)
+    }
+}
+
+extension Resiliencehubv2ClientTypes.DevOpsAgentConfigurationView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.DevOpsAgentConfigurationView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.DevOpsAgentConfigurationView()
+        value.agentSpaceArn = try reader["agentSpaceArn"].readIfPresent()
+        value.agentSpaceId = try reader["agentSpaceId"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.operatorAppUrl = try reader["operatorAppUrl"].readIfPresent()
+        value.connectedAt = try reader["connectedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension Resiliencehubv2ClientTypes.DevOpsAgentInvestigation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.DevOpsAgentInvestigation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Resiliencehubv2ClientTypes.DevOpsAgentInvestigation()
+        value.verdict = try reader["verdict"].readIfPresent()
+        value.confidence = try reader["confidence"].readIfPresent()
+        value.deepLink = try reader["deepLink"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent()
+        return value
+    }
+}
+
 extension Resiliencehubv2ClientTypes.DisasterRecoverySource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Resiliencehubv2ClientTypes.DisasterRecoverySource {
@@ -12874,6 +13226,7 @@ extension Resiliencehubv2ClientTypes.Finding {
         value.observabilityRecommendations = try reader["observabilityRecommendations"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.ObservabilityRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.testingRecommendations = try reader["testingRecommendations"].readListIfPresent(memberReadingClosure: Resiliencehubv2ClientTypes.TestingRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.investigationDeepLink = try reader["investigationDeepLink"].readIfPresent()
         return value
     }
 }
@@ -12892,6 +13245,7 @@ extension Resiliencehubv2ClientTypes.FindingSummary {
         value.status = try reader["status"].readIfPresent()
         value.policyComponent = try reader["policyComponent"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.investigationDeepLink = try reader["investigationDeepLink"].readIfPresent()
         return value
     }
 }
@@ -13274,6 +13628,10 @@ extension Resiliencehubv2ClientTypes.Resource {
         value.awsRegion = try reader["awsRegion"].readIfPresent()
         value.awsAccountId = try reader["awsAccountId"].readIfPresent()
         value.resourceType = try reader["resourceType"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.availabilityZoneName = try reader["availabilityZoneName"].readIfPresent()
+        value.containmentParentId = try reader["containmentParentId"].readIfPresent()
+        value.logicalResourceGroupId = try reader["logicalResourceGroupId"].readIfPresent()
         return value
     }
 }
@@ -13383,6 +13741,7 @@ extension Resiliencehubv2ClientTypes.Service {
         value.organizationId = try reader["organizationId"].readIfPresent()
         value.ouId = try reader["ouId"].readIfPresent()
         value.accountId = try reader["accountId"].readIfPresent()
+        value.devOpsAgentConfiguration = try reader["devOpsAgentConfiguration"].readIfPresent(with: Resiliencehubv2ClientTypes.DevOpsAgentConfigurationView.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
@@ -13689,6 +14048,8 @@ extension Resiliencehubv2ClientTypes.ServiceSummary {
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.policyArn = try reader["policyArn"].readIfPresent()
         value.assessmentStatus = try reader["assessmentStatus"].readIfPresent()
+        value.devOpsAgentStatus = try reader["devOpsAgentStatus"].readIfPresent()
+        value.devOpsAgentSpaceArn = try reader["devOpsAgentSpaceArn"].readIfPresent()
         value.openFindingsCount = try reader["openFindingsCount"].readIfPresent()
         value.resolvedFindingsCount = try reader["resolvedFindingsCount"].readIfPresent()
         value.dependencyDiscovery = try reader["dependencyDiscovery"].readIfPresent(with: Resiliencehubv2ClientTypes.DependencyDiscoveryConfig.read(from:))
@@ -14087,6 +14448,7 @@ extension Resiliencehubv2ClientTypes.TestRun {
         value.permissionModel = try reader["permissionModel"].readIfPresent(with: Resiliencehubv2ClientTypes.PermissionModel.read(from:))
         value.regions = try reader["regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.accountTargeting = try reader["accountTargeting"].readIfPresent()
+        value.devOpsAgentInvestigation = try reader["devOpsAgentInvestigation"].readIfPresent(with: Resiliencehubv2ClientTypes.DevOpsAgentInvestigation.read(from:))
         return value
     }
 }

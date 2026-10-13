@@ -258,6 +258,69 @@ extension ListResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LakeFormationClient {
+    /// Paginate over `[ListRLSPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRLSPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRLSPoliciesOutput`
+    public func listRLSPoliciesPaginated(input: ListRLSPoliciesInput) -> ClientRuntime.PaginatorSequence<ListRLSPoliciesInput, ListRLSPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListRLSPoliciesInput, ListRLSPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRLSPolicies(input:))
+    }
+}
+
+extension ListRLSPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRLSPoliciesInput {
+        return ListRLSPoliciesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRLSPoliciesInput, OperationStackOutput == ListRLSPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRLSPoliciesPaginated`
+    /// to access the nested member `[LakeFormationClientTypes.RLSPolicy]`
+    /// - Returns: `[LakeFormationClientTypes.RLSPolicy]`
+    public func rlsPolicies() async throws -> [LakeFormationClientTypes.RLSPolicy] {
+        return try await self.asyncCompactMap { item in item.rlsPolicies }
+    }
+}
+extension LakeFormationClient {
+    /// Paginate over `[ListRLSPolicyAttachmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRLSPolicyAttachmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRLSPolicyAttachmentsOutput`
+    public func listRLSPolicyAttachmentsPaginated(input: ListRLSPolicyAttachmentsInput) -> ClientRuntime.PaginatorSequence<ListRLSPolicyAttachmentsInput, ListRLSPolicyAttachmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRLSPolicyAttachmentsInput, ListRLSPolicyAttachmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRLSPolicyAttachments(input:))
+    }
+}
+
+extension ListRLSPolicyAttachmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRLSPolicyAttachmentsInput {
+        return ListRLSPolicyAttachmentsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyName: self.policyName,
+            principal: self.principal,
+            resource: self.resource
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRLSPolicyAttachmentsInput, OperationStackOutput == ListRLSPolicyAttachmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRLSPolicyAttachmentsPaginated`
+    /// to access the nested member `[LakeFormationClientTypes.RLSPolicyAttachment]`
+    /// - Returns: `[LakeFormationClientTypes.RLSPolicyAttachment]`
+    public func rlsPolicyAttachments() async throws -> [LakeFormationClientTypes.RLSPolicyAttachment] {
+        return try await self.asyncCompactMap { item in item.rlsPolicyAttachments }
+    }
+}
+extension LakeFormationClient {
     /// Paginate over `[ListTableStorageOptimizersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

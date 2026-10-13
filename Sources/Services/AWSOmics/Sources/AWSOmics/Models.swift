@@ -2936,21 +2936,27 @@ extension OmicsClientTypes {
 
     /// If you are using the ECR pull through cache feature, the registry mapping maps between the ECR repository and the upstream registry where container images are pulled and synchronized.
     public struct RegistryMapping: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that holds the credentials for the upstream registry. You must specify this value when Amazon Elastic Container Registry (Amazon ECR) doesn't support pull through cache for the upstream registry. HealthOmics supports only some of these registries. The workflow role must have permission to call the secretsmanager:GetSecretValue operation on the secret. For more information about the supported registries, see [Container images](https://docs.aws.amazon.com/omics/latest/dev/workflows-ecr.html) in the Amazon Web Services HealthOmics User Guide.
+        public var credentialArn: Swift.String?
         /// Account ID of the account that owns the upstream container image.
         public var ecrAccountId: Swift.String?
         /// The repository prefix to use in the ECR private repository.
+        /// This member is required.
         public var ecrRepositoryPrefix: Swift.String?
         /// The URI of the upstream registry.
+        /// This member is required.
         public var upstreamRegistryUrl: Swift.String?
         /// The repository prefix of the corresponding repository in the upstream registry.
         public var upstreamRepositoryPrefix: Swift.String?
 
         public init(
+            credentialArn: Swift.String? = nil,
             ecrAccountId: Swift.String? = nil,
             ecrRepositoryPrefix: Swift.String? = nil,
             upstreamRegistryUrl: Swift.String? = nil,
             upstreamRepositoryPrefix: Swift.String? = nil
         ) {
+            self.credentialArn = credentialArn
             self.ecrAccountId = ecrAccountId
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.upstreamRegistryUrl = upstreamRegistryUrl
@@ -17408,6 +17414,7 @@ extension OmicsClientTypes.RegistryMapping {
 
     static func write(value: OmicsClientTypes.RegistryMapping?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["credentialArn"].write(value.credentialArn)
         try writer["ecrAccountId"].write(value.ecrAccountId)
         try writer["ecrRepositoryPrefix"].write(value.ecrRepositoryPrefix)
         try writer["upstreamRegistryUrl"].write(value.upstreamRegistryUrl)
@@ -17417,10 +17424,11 @@ extension OmicsClientTypes.RegistryMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> OmicsClientTypes.RegistryMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OmicsClientTypes.RegistryMapping()
-        value.upstreamRegistryUrl = try reader["upstreamRegistryUrl"].readIfPresent()
-        value.ecrRepositoryPrefix = try reader["ecrRepositoryPrefix"].readIfPresent()
+        value.upstreamRegistryUrl = try reader["upstreamRegistryUrl"].readIfPresent() ?? ""
+        value.ecrRepositoryPrefix = try reader["ecrRepositoryPrefix"].readIfPresent() ?? ""
         value.upstreamRepositoryPrefix = try reader["upstreamRepositoryPrefix"].readIfPresent()
         value.ecrAccountId = try reader["ecrAccountId"].readIfPresent()
+        value.credentialArn = try reader["credentialArn"].readIfPresent()
         return value
     }
 }

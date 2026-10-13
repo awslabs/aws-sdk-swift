@@ -1276,7 +1276,7 @@ extension AgentRegistryControlClientTypes {
 public struct CreateRegistryRecordInput: Swift.Sendable {
     /// Client token for idempotency
     public var clientToken: Swift.String?
-    /// The custom metadata to attach to the registry record. Each key must match a property defined in the registry's custom metadata schema. Values can be strings (maximum 128 characters) or native JSON booleans (true or false). Values are validated against the schema at creation time.
+    /// The custom metadata for the record. Values are strings or JSON booleans.
     public var customMetadata: Smithy.Document?
     /// The description of the registry record
     public var description: Swift.String?
@@ -2615,12 +2615,12 @@ extension AgentRegistryControlClientTypes {
 
 extension AgentRegistryControlClientTypes {
 
-    /// A schema override for a specific record type within a custom metadata schema configuration.
+    /// The custom metadata fields for one record type, in addition to the common attributes defined in defaultSchema.
     public struct RecordTypeSchemaOverride: Swift.Sendable {
-        /// The record type that this schema override applies to.
+        /// The record type these fields apply to.
         /// This member is required.
         public var recordType: AgentRegistryControlClientTypes.RecordType?
-        /// The JSON Schema for the specified record type. Must follow the same structural rules as the default schema.
+        /// A JSON Schema with the fields for this record type.
         /// This member is required.
         public var schema: Swift.String?
 
@@ -2641,11 +2641,11 @@ extension AgentRegistryControlClientTypes.RecordTypeSchemaOverride: Swift.Custom
 
 extension AgentRegistryControlClientTypes {
 
-    /// Configuration that defines a typed metadata schema for a registry. Specify at least one of a default schema or per-record-type schema overrides. You can provide both.
+    /// The custom metadata fields that records in the registry can carry. defaultSchema defines the common attributes for every record type, and recordTypeSchemaOverrides adds fields for individual record types.
     public struct CustomMetadataSchemaConfiguration: Swift.Sendable {
-        /// The default JSON Schema that applies to record types without a specific override. Supported property types are string, string with an enum constraint, string with a uri format, and boolean.
+        /// A JSON Schema with the common attributes: fields that records of every record type can carry.
         public var defaultSchema: Swift.String?
-        /// A list of per-record-type schema overrides. When a record's type matches an override, that override's schema is used instead of the default schema for validation. If you don't specify an override for a record type, the default schema applies. If no default schema exists, custom metadata on records of that type is rejected.
+        /// The fields for individual record types. Records of a record type can carry the common attributes defined in defaultSchema plus that record type's fields.
         public var recordTypeSchemaOverrides: [AgentRegistryControlClientTypes.RecordTypeSchemaOverride]?
 
         public init(
@@ -3234,7 +3234,7 @@ public struct UpdateRegistryInput: Swift.Sendable {
     public var approvalConfiguration: AgentRegistryControlClientTypes.UpdatedApprovalConfiguration?
     /// The updated auto-detection configuration for the registry, with PATCH semantics. Omit this field to leave the current configuration unchanged. Supply an empty wrapper to unset it. Supply optionalValue to replace it.
     public var autoDetectionConfiguration: AgentRegistryControlClientTypes.UpdatedAutoDetectionConfiguration?
-    /// Updated custom metadata schema configuration for the registry. Omit to leave the existing schema unchanged. Schema evolution is additive only: you can add properties and enum values, but you cannot remove properties, change property types or formats, add or remove enum constraints, or remove record type overrides.
+    /// The new custom metadata schema configuration, which replaces the current one. You can add fields and allowed values, but you can't remove a field or an allowed value, or change a field's type.
     public var customMetadataSchemaConfiguration: AgentRegistryControlClientTypes.UpdatedCustomMetadataSchemaConfiguration?
     /// The updated description of the registry
     public var description: AgentRegistryControlClientTypes.UpdatedDescription?

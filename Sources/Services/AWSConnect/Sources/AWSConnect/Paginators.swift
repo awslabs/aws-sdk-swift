@@ -361,6 +361,38 @@ extension PaginatorSequence where OperationStackInput == ListContactEvaluationsI
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListContactFlowAliasesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContactFlowAliasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactFlowAliasesOutput`
+    public func listContactFlowAliasesPaginated(input: ListContactFlowAliasesInput) -> ClientRuntime.PaginatorSequence<ListContactFlowAliasesInput, ListContactFlowAliasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListContactFlowAliasesInput, ListContactFlowAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactFlowAliases(input:))
+    }
+}
+
+extension ListContactFlowAliasesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContactFlowAliasesInput {
+        return ListContactFlowAliasesInput(
+            contactFlowId: self.contactFlowId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContactFlowAliasesInput, OperationStackOutput == ListContactFlowAliasesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContactFlowAliasesPaginated`
+    /// to access the nested member `[ConnectClientTypes.ContactFlowAliasSummary]`
+    /// - Returns: `[ConnectClientTypes.ContactFlowAliasSummary]`
+    public func contactFlowAliasSummaryList() async throws -> [ConnectClientTypes.ContactFlowAliasSummary] {
+        return try await self.asyncCompactMap { item in item.contactFlowAliasSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListContactFlowModuleAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

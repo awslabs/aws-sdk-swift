@@ -8752,6 +8752,25 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// The query execution identifier and the result output location for the Amazon Athena query that an Athena step runs.
+    public struct AthenaStepMetadata: Swift.Sendable {
+        /// The unique identifier of the Amazon Athena query execution that was run by this step execution.
+        public var queryExecutionId: Swift.String?
+        /// The Amazon S3 location of the Amazon Athena query results. This is the effective output location reported by GetQueryExecution for the query. This value can be absent when the query uses Athena managed query results.
+        public var s3OutputLocation: Swift.String?
+
+        public init(
+            queryExecutionId: Swift.String? = nil,
+            s3OutputLocation: Swift.String? = nil
+        ) {
+            self.queryExecutionId = queryExecutionId
+            self.s3OutputLocation = s3OutputLocation
+        }
+    }
+}
+
 public struct AttachClusterNodeNetworkInterfaceInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster that contains the target node.
     /// This member is required.
@@ -13756,6 +13775,86 @@ extension SageMakerClientTypes {
             self.enableExplanations = enableExplanations
             self.inferenceConfig = inferenceConfig
             self.shapConfig = shapConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The type of error that prevented the Cleanup step from deleting output resources. Valid values are:
+    ///
+    /// * ClientError indicates that the failure was caused by the request.
+    ///
+    /// * InternalFailure indicates that the failure was caused by an internal error.
+    public enum CleanupFailureErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientError
+        case internalFailure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CleanupFailureErrorCode] {
+            return [
+                .clientError,
+                .internalFailure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientError: return "ClientError"
+            case .internalFailure: return "InternalFailure"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The Amazon S3 output resources associated with an upstream step that the Cleanup step could not delete.
+    public struct CleanupFailure: Swift.Sendable {
+        /// The error code that identifies why the Cleanup step could not delete the output resources associated with the upstream step.
+        public var errorCode: SageMakerClientTypes.CleanupFailureErrorCode?
+        /// A message describing why the Cleanup step could not delete the output resources associated with the upstream step.
+        public var errorMessage: Swift.String?
+        /// The name of the upstream step whose Amazon S3 output resources the Cleanup step could not delete.
+        public var stepName: Swift.String?
+
+        public init(
+            errorCode: SageMakerClientTypes.CleanupFailureErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            stepName: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.stepName = stepName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The cleanup outcomes for Amazon S3 output resources associated with upstream steps.
+    public struct CleanupStepMetadata: Swift.Sendable {
+        /// The names of upstream steps whose Amazon S3 output resources the Cleanup step deleted successfully.
+        public var cleanedSteps: [Swift.String]?
+        /// The upstream steps whose Amazon S3 output resources the Cleanup step could not delete.
+        public var failedSteps: [SageMakerClientTypes.CleanupFailure]?
+        /// The names of upstream steps that the Cleanup step skipped. The Cleanup step skips a step when the output properties needed to locate its resources are unavailable.
+        public var skippedSteps: [Swift.String]?
+
+        public init(
+            cleanedSteps: [Swift.String]? = nil,
+            failedSteps: [SageMakerClientTypes.CleanupFailure]? = nil,
+            skippedSteps: [Swift.String]? = nil
+        ) {
+            self.cleanedSteps = cleanedSteps
+            self.failedSteps = failedSteps
+            self.skippedSteps = skippedSteps
         }
     }
 }
@@ -43264,6 +43363,8 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
 
     public enum PipelineExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The pipeline completed all reachable work after one or more steps failed. Every failed step was handled by a scheduled downstream step whose trigger is Failed or Any.
+        case completedWithFailures
         case executing
         case failed
         case stopped
@@ -43273,6 +43374,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [PipelineExecutionStatus] {
             return [
+                .completedWithFailures,
                 .executing,
                 .failed,
                 .stopped,
@@ -43288,6 +43390,7 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .completedWithFailures: return "CompletedWithFailures"
             case .executing: return "Executing"
             case .failed: return "Failed"
             case .stopped: return "Stopped"
@@ -46910,6 +47013,33 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configurations and outcomes of an Amazon EMR Serverless step execution.
+    public struct EMRServerlessStepMetadata: Swift.Sendable {
+        /// The identifier of the Amazon EMR Serverless application.
+        public var applicationId: Swift.String?
+        /// The identifier of the Amazon EMR Serverless job run.
+        public var jobRunId: Swift.String?
+        /// The name of the Amazon EMR Serverless job run.
+        public var jobRunName: Swift.String?
+        /// The path to the log file for the Amazon EMR Serverless job run.
+        public var logFilePath: Swift.String?
+
+        public init(
+            applicationId: Swift.String? = nil,
+            jobRunId: Swift.String? = nil,
+            jobRunName: Swift.String? = nil,
+            logFilePath: Swift.String? = nil
+        ) {
+            self.applicationId = applicationId
+            self.jobRunId = jobRunId
+            self.jobRunName = jobRunName
+            self.logFilePath = logFilePath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The configurations and outcomes of an Amazon EMR step execution.
     public struct EMRStepMetadata: Swift.Sendable {
         /// The identifier of the EMR cluster.
@@ -47763,6 +47893,103 @@ extension SageMakerClientTypes {
             self.flowDefinitionArn = flowDefinitionArn
             self.flowDefinitionName = flowDefinitionName
             self.flowDefinitionStatus = flowDefinitionStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The result of the selector that identifies an iteration of a ForEach step.
+    public struct ForEachSelectorResult: Swift.Sendable {
+        /// The index of the iteration within the ForEach step.
+        public var index: Swift.Int?
+        /// The name of the step associated with the iteration.
+        public var stepName: Swift.String?
+
+        public init(
+            index: Swift.Int? = nil,
+            stepName: Swift.String? = nil
+        ) {
+            self.index = index
+            self.stepName = stepName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of a ForEach step execution. Valid values are:
+    ///
+    /// * Succeeded indicates that the ForEach step execution completed successfully.
+    ///
+    /// * Failed indicates that the ForEach step execution failed.
+    ///
+    /// * Stopped indicates that the ForEach step execution was stopped.
+    public enum ForEachStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case stopped
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ForEachStatus] {
+            return [
+                .failed,
+                .stopped,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .stopped: return "Stopped"
+            case .succeeded: return "Succeeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status, the iteration-step counts, and the selector information for a ForEach step execution.
+    public struct ForEachStepMetadata: Swift.Sendable {
+        /// The number of iteration steps that failed.
+        public var failedStepCount: Swift.Int?
+        /// The number of input items that the ForEach step iterates over.
+        public var inputItemCount: Swift.Int?
+        /// Identifies the body step and iteration selected within the ForEach step.
+        public var selector: SageMakerClientTypes.ForEachSelectorResult?
+        /// The status of the ForEach step execution.
+        public var status: SageMakerClientTypes.ForEachStatus?
+        /// The number of iteration steps that were stopped.
+        public var stoppedStepCount: Swift.Int?
+        /// The number of iteration steps that completed successfully.
+        public var succeededStepCount: Swift.Int?
+        /// The total number of steps generated across all iterations of the ForEach step.
+        public var totalStepCount: Swift.Int?
+
+        public init(
+            failedStepCount: Swift.Int? = nil,
+            inputItemCount: Swift.Int? = nil,
+            selector: SageMakerClientTypes.ForEachSelectorResult? = nil,
+            status: SageMakerClientTypes.ForEachStatus? = nil,
+            stoppedStepCount: Swift.Int? = nil,
+            succeededStepCount: Swift.Int? = nil,
+            totalStepCount: Swift.Int? = nil
+        ) {
+            self.failedStepCount = failedStepCount
+            self.inputItemCount = inputItemCount
+            self.selector = selector
+            self.status = status
+            self.stoppedStepCount = stoppedStepCount
+            self.succeededStepCount = succeededStepCount
+            self.totalStepCount = totalStepCount
         }
     }
 }
@@ -49313,6 +49540,29 @@ extension SageMakerClientTypes {
             self.jobName = jobName
             self.status = status
             self.stepType = stepType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The context for an iteration of a ForEach step.
+    public struct IterationContext: Swift.Sendable {
+        /// The index of the iteration within the ForEach step.
+        public var index: Swift.Int?
+        /// The input item that is being processed in this iteration.
+        public var item: Swift.String?
+        /// The name of the ForEach step that generated this iteration.
+        public var parentStepName: Swift.String?
+
+        public init(
+            index: Swift.Int? = nil,
+            item: Swift.String? = nil,
+            parentStepName: Swift.String? = nil
+        ) {
+            self.index = index
+            self.item = item
+            self.parentStepName = parentStepName
         }
     }
 }
@@ -55892,6 +56142,8 @@ extension SageMakerClientTypes {
 
     /// Metadata for a step execution.
     public struct PipelineExecutionStepMetadata: Swift.Sendable {
+        /// The metadata for the Athena step execution.
+        public var athena: SageMakerClientTypes.AthenaStepMetadata?
         /// The Amazon Resource Name (ARN) of the AutoML job that was run by this step.
         public var autoMLJob: SageMakerClientTypes.AutoMLJobStepMetadata?
         /// The metadata of the Amazon Bedrock custom model used in the pipeline execution step.
@@ -55922,16 +56174,22 @@ extension SageMakerClientTypes {
         ///
         /// * If step property BaselineUsedForDriftCheck is set the same as CalculatedBaseline.
         public var clarifyCheck: SageMakerClientTypes.ClarifyCheckStepMetadata?
+        /// The metadata for the cleanup step execution.
+        public var cleanup: SageMakerClientTypes.CleanupStepMetadata?
         /// The outcome of the condition evaluation that was run by this step execution.
         public var condition: SageMakerClientTypes.ConditionStepMetadata?
         /// The configurations and outcomes of an Amazon EMR step execution.
         public var emr: SageMakerClientTypes.EMRStepMetadata?
+        /// The configurations and outcomes of an Amazon EMR Serverless step execution.
+        public var emrServerless: SageMakerClientTypes.EMRServerlessStepMetadata?
         /// The endpoint that was invoked during this step execution.
         public var endpoint: SageMakerClientTypes.EndpointStepMetadata?
         /// The endpoint configuration used to create an endpoint during this step execution.
         public var endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata?
         /// The configurations and outcomes of a Fail step execution.
         public var fail: SageMakerClientTypes.FailStepMetadata?
+        /// The metadata for the ForEach step execution.
+        public var forEach: SageMakerClientTypes.ForEachStepMetadata?
         /// The metadata of the inference component used in pipeline execution step.
         public var inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata?
         /// The metadata for a SageMaker job used in a pipeline execution step.
@@ -55972,6 +56230,7 @@ extension SageMakerClientTypes {
         public var tuningJob: SageMakerClientTypes.TuningJobStepMetaData?
 
         public init(
+            athena: SageMakerClientTypes.AthenaStepMetadata? = nil,
             autoMLJob: SageMakerClientTypes.AutoMLJobStepMetadata? = nil,
             bedrockCustomModel: SageMakerClientTypes.BedrockCustomModelMetadata? = nil,
             bedrockCustomModelDeployment: SageMakerClientTypes.BedrockCustomModelDeploymentMetadata? = nil,
@@ -55979,11 +56238,14 @@ extension SageMakerClientTypes {
             bedrockProvisionedModelThroughput: SageMakerClientTypes.BedrockProvisionedModelThroughputMetadata? = nil,
             callback: SageMakerClientTypes.CallbackStepMetadata? = nil,
             clarifyCheck: SageMakerClientTypes.ClarifyCheckStepMetadata? = nil,
+            cleanup: SageMakerClientTypes.CleanupStepMetadata? = nil,
             condition: SageMakerClientTypes.ConditionStepMetadata? = nil,
             emr: SageMakerClientTypes.EMRStepMetadata? = nil,
+            emrServerless: SageMakerClientTypes.EMRServerlessStepMetadata? = nil,
             endpoint: SageMakerClientTypes.EndpointStepMetadata? = nil,
             endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata? = nil,
             fail: SageMakerClientTypes.FailStepMetadata? = nil,
+            forEach: SageMakerClientTypes.ForEachStepMetadata? = nil,
             inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata? = nil,
             job: SageMakerClientTypes.JobStepMetadata? = nil,
             lambda: SageMakerClientTypes.LambdaStepMetadata? = nil,
@@ -55996,6 +56258,7 @@ extension SageMakerClientTypes {
             transformJob: SageMakerClientTypes.TransformJobStepMetadata? = nil,
             tuningJob: SageMakerClientTypes.TuningJobStepMetaData? = nil
         ) {
+            self.athena = athena
             self.autoMLJob = autoMLJob
             self.bedrockCustomModel = bedrockCustomModel
             self.bedrockCustomModelDeployment = bedrockCustomModelDeployment
@@ -56003,11 +56266,14 @@ extension SageMakerClientTypes {
             self.bedrockProvisionedModelThroughput = bedrockProvisionedModelThroughput
             self.callback = callback
             self.clarifyCheck = clarifyCheck
+            self.cleanup = cleanup
             self.condition = condition
             self.emr = emr
+            self.emrServerless = emrServerless
             self.endpoint = endpoint
             self.endpointConfig = endpointConfig
             self.fail = fail
+            self.forEach = forEach
             self.inferenceComponent = inferenceComponent
             self.job = job
             self.lambda = lambda
@@ -56091,6 +56357,8 @@ extension SageMakerClientTypes {
         public var endTime: Foundation.Date?
         /// The reason why the step failed execution. This is only returned if the step failed its execution.
         public var failureReason: Swift.String?
+        /// The context for the iteration of a ForEach step that generated this step execution.
+        public var iterationContext: SageMakerClientTypes.IterationContext?
         /// Metadata to run the pipeline step.
         public var metadata: SageMakerClientTypes.PipelineExecutionStepMetadata?
         /// The ARN from an execution of the current pipeline from which results are reused for this step.
@@ -56111,6 +56379,7 @@ extension SageMakerClientTypes {
             cacheHitResult: SageMakerClientTypes.CacheHitResult? = nil,
             endTime: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
+            iterationContext: SageMakerClientTypes.IterationContext? = nil,
             metadata: SageMakerClientTypes.PipelineExecutionStepMetadata? = nil,
             selectiveExecutionResult: SageMakerClientTypes.SelectiveExecutionResult? = nil,
             startTime: Foundation.Date? = nil,
@@ -56123,6 +56392,7 @@ extension SageMakerClientTypes {
             self.cacheHitResult = cacheHitResult
             self.endTime = endTime
             self.failureReason = failureReason
+            self.iterationContext = iterationContext
             self.metadata = metadata
             self.selectiveExecutionResult = selectiveExecutionResult
             self.startTime = startTime

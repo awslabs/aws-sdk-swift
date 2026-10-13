@@ -2326,6 +2326,135 @@ extension ARCRegionswitchClientTypes {
 
 extension ARCRegionswitchClientTypes {
 
+    /// A single SendCommand target filter, consisting of a target key and the values matched by that key.
+    public struct SsmTarget: Swift.Sendable {
+        /// The target key, such as tag:Environment or InstanceIds.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The values matched by this target key. Multiple values combine with a logical OR.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            key: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.key = key
+            self.values = values
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// The Systems Manager document to run and the managed nodes to target for a single Amazon Web Services Region.
+    public struct SsmDocumentConfig: Swift.Sendable {
+        /// The cross-account role for the configuration.
+        public var crossAccountRole: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Systems Manager document to run.
+        /// This member is required.
+        public var documentArn: Swift.String?
+        /// The version of the Systems Manager document to run for this Region. When you omit it, Systems Manager runs the document's default version.
+        public var documentVersion: Swift.String?
+        /// The external ID (secret key) for the configuration.
+        public var externalId: Swift.String?
+        /// The parameters that are passed to this Region's Systems Manager document. You set parameters for each document, so each Region can run its document with its own parameters.
+        public var parameters: [Swift.String: [Swift.String]]?
+        /// The target filters that Systems Manager resolves to managed nodes when the command runs. To target specific managed nodes, use the InstanceIds key. You can specify up to five target filters.
+        /// This member is required.
+        public var targets: [ARCRegionswitchClientTypes.SsmTarget]?
+
+        public init(
+            crossAccountRole: Swift.String? = nil,
+            documentArn: Swift.String? = nil,
+            documentVersion: Swift.String? = nil,
+            externalId: Swift.String? = nil,
+            parameters: [Swift.String: [Swift.String]]? = nil,
+            targets: [ARCRegionswitchClientTypes.SsmTarget]? = nil
+        ) {
+            self.crossAccountRole = crossAccountRole
+            self.documentArn = documentArn
+            self.documentVersion = documentVersion
+            self.externalId = externalId
+            self.parameters = parameters
+            self.targets = targets
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// The ungraceful behavior for an AWS Systems Manager SendCommand execution block, which must be set to skip.
+    public enum SsmSendCommandUngracefulBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case skip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SsmSendCommandUngracefulBehavior] {
+            return [
+                .skip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .skip: return "skip"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// The ungraceful execution settings for an AWS Systems Manager SendCommand execution block.
+    public struct SsmSendCommandUngraceful: Swift.Sendable {
+        /// Specifies whether to skip running this command during an ungraceful execution. Set to skip to skip the command.
+        public var behavior: ARCRegionswitchClientTypes.SsmSendCommandUngracefulBehavior?
+
+        public init(
+            behavior: ARCRegionswitchClientTypes.SsmSendCommandUngracefulBehavior? = nil
+        ) {
+            self.behavior = behavior
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
+    /// Configuration for an AWS Systems Manager SendCommand execution block in a Region switch plan. This execution block runs a Systems Manager document on the managed nodes that you target in each Amazon Web Services Region of the plan.
+    public struct SsmSendCommandConfiguration: Swift.Sendable {
+        /// The Systems Manager document and target configuration for each Amazon Web Services Region in the plan. Provide an entry for each Amazon Web Services Region that you want the command to run in.
+        /// This member is required.
+        public var regionDocuments: [Swift.String: ARCRegionswitchClientTypes.SsmDocumentConfig]?
+        /// How often, in minutes, Region switch retries the command if it returns a failure.
+        /// This member is required.
+        public var retryIntervalMinutes: Swift.Float?
+        /// The timeout value specified for the configuration.
+        public var timeoutMinutes: Swift.Int?
+        /// Specifies the settings that determine how the execution block behaves when the plan runs ungracefully, such as whether to skip the command.
+        public var ungraceful: ARCRegionswitchClientTypes.SsmSendCommandUngraceful?
+
+        public init(
+            regionDocuments: [Swift.String: ARCRegionswitchClientTypes.SsmDocumentConfig]? = nil,
+            retryIntervalMinutes: Swift.Float? = nil,
+            timeoutMinutes: Swift.Int? = 60,
+            ungraceful: ARCRegionswitchClientTypes.SsmSendCommandUngraceful? = nil
+        ) {
+            self.regionDocuments = regionDocuments
+            self.retryIntervalMinutes = retryIntervalMinutes
+            self.timeoutMinutes = timeoutMinutes
+            self.ungraceful = ungraceful
+        }
+    }
+}
+
+extension ARCRegionswitchClientTypes {
+
     public enum ExecutionBlockType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aurora
         case auroraProvisionedScaling
@@ -2345,6 +2474,7 @@ extension ARCRegionswitchClientTypes {
         case regionSwitch
         case route53HealthCheck
         case routingControl
+        case ssmSendCommand
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ExecutionBlockType] {
@@ -2366,7 +2496,8 @@ extension ARCRegionswitchClientTypes {
                 .rdsSwitchoverReadReplica,
                 .regionSwitch,
                 .route53HealthCheck,
-                .routingControl
+                .routingControl,
+                .ssmSendCommand
             ]
         }
 
@@ -2395,6 +2526,7 @@ extension ARCRegionswitchClientTypes {
             case .regionSwitch: return "ARCRegionSwitchPlan"
             case .route53HealthCheck: return "Route53HealthCheck"
             case .routingControl: return "ARCRoutingControl"
+            case .ssmSendCommand: return "SSMSendCommand"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3510,6 +3642,8 @@ extension ARCRegionswitchClientTypes {
         case neptuneglobaldatabaseconfig(ARCRegionswitchClientTypes.NeptuneGlobalDatabaseConfiguration)
         /// An Amazon RDS switchover read replica execution block.
         case rdsswitchoverreadreplicaconfig(ARCRegionswitchClientTypes.RdsSwitchoverReadReplicaConfiguration)
+        /// Specifies an AWS Systems Manager SendCommand execution block.
+        case ssmsendcommandconfig(ARCRegionswitchClientTypes.SsmSendCommandConfiguration)
         case sdkUnknown(Swift.String)
     }
 }

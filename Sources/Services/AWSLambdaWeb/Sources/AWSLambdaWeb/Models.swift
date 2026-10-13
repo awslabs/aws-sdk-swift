@@ -119,7 +119,7 @@ extension LambdaWebClientTypes {
 
     /// Contains your current web function usage for the current AWS Region.
     public struct AccountUsage: Swift.Sendable {
-        /// The number of web functions in your account in the current AWS Region.
+        /// The number of web functions in your account in the current AWS Region. This count includes web functions in all states, not only functions in the Active state.
         /// This member is required.
         public var functionCount: Swift.Int?
 

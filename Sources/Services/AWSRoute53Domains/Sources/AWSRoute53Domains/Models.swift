@@ -528,15 +528,73 @@ extension Route53DomainsClientTypes {
     }
 }
 
+extension Route53DomainsClientTypes {
+
+    public enum PriceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case registryPremium
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PriceType] {
+            return [
+                .registryPremium,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .registryPremium: return "REGISTRY_PREMIUM"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Route53DomainsClientTypes {
+
+    /// Currency-specific price information.
+    public struct PriceWithCurrency: Swift.Sendable {
+        /// The currency specifier.
+        /// This member is required.
+        public var currency: Swift.String?
+        /// The price of a domain, in a specific currency.
+        /// This member is required.
+        public var price: Swift.Double
+        /// Indicates whether the domain has standard or premium pricing. A value of STANDARD means the domain is priced at the regular rate for its TLD. A value of REGISTRY_PREMIUM means the domain has registry premium pricing, which may be different than the standard rate.
+        public var priceType: Route53DomainsClientTypes.PriceType?
+
+        public init(
+            currency: Swift.String? = nil,
+            price: Swift.Double = 0.0,
+            priceType: Route53DomainsClientTypes.PriceType? = nil
+        ) {
+            self.currency = currency
+            self.price = price
+            self.priceType = priceType
+        }
+    }
+}
+
 /// The CheckDomainAvailability response includes the following elements.
 public struct CheckDomainAvailabilityOutput: Swift.Sendable {
     /// Whether the domain name is available for registering. You can register only domains designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. INVALID_NAME_FOR_TLD The TLD isn't valid. For example, it can contain characters that aren't allowed. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
     public var availability: Route53DomainsClientTypes.DomainAvailability?
+    /// The price to register the domain name, in the currency that Currency specifies. If the domain has registry premium pricing, this price is different from the standard rate for the TLD that ListPrices returns. Use PriceType to determine which rate applies. This element is returned only when Availability is AVAILABLE.
+    public var price: Route53DomainsClientTypes.PriceWithCurrency?
 
     public init(
-        availability: Route53DomainsClientTypes.DomainAvailability? = nil
+        availability: Route53DomainsClientTypes.DomainAvailability? = nil,
+        price: Route53DomainsClientTypes.PriceWithCurrency? = nil
     ) {
         self.availability = availability
+        self.price = price
     }
 }
 
@@ -567,11 +625,12 @@ public struct CheckDomainTransferabilityInput: Swift.Sendable {
 
 extension Route53DomainsClientTypes {
 
-    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW The TLD registry didn't respond in time or didn't provide a definitive answer about domain transferability, which can occur due to registry maintenance or temporary delays. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name can be transferred. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
     public enum Transferable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case domainInAnotherAccount
         case domainInOwnAccount
         case dontKnow
+        case pending
         case premiumDomain
         case transferable
         case untransferable
@@ -582,6 +641,7 @@ extension Route53DomainsClientTypes {
                 .domainInAnotherAccount,
                 .domainInOwnAccount,
                 .dontKnow,
+                .pending,
                 .premiumDomain,
                 .transferable,
                 .untransferable
@@ -598,6 +658,7 @@ extension Route53DomainsClientTypes {
             case .domainInAnotherAccount: return "DOMAIN_IN_ANOTHER_ACCOUNT"
             case .domainInOwnAccount: return "DOMAIN_IN_OWN_ACCOUNT"
             case .dontKnow: return "DONT_KNOW"
+            case .pending: return "PENDING"
             case .premiumDomain: return "PREMIUM_DOMAIN"
             case .transferable: return "TRANSFERABLE"
             case .untransferable: return "UNTRANSFERABLE"
@@ -611,7 +672,7 @@ extension Route53DomainsClientTypes {
 
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public struct DomainTransferability: Swift.Sendable {
-        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW The TLD registry didn't respond in time or didn't provide a definitive answer about domain transferability, which can occur due to registry maintenance or temporary delays. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name can be transferred. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
         public init(
@@ -626,26 +687,30 @@ extension Route53DomainsClientTypes {
 public struct CheckDomainTransferabilityOutput: Swift.Sendable {
     /// Provides an explanation for when a domain can't be transferred.
     public var message: Swift.String?
+    /// The price to transfer the domain name to Route 53, in the currency that Currency specifies. If the domain has registry premium pricing, this price is different from the standard rate for the TLD that ListPrices returns. Use PriceType to determine which rate applies. This element is returned only when Route 53 can determine whether the domain is transferable.
+    public var price: Route53DomainsClientTypes.PriceWithCurrency?
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public var transferability: Route53DomainsClientTypes.DomainTransferability?
 
     public init(
         message: Swift.String? = nil,
+        price: Route53DomainsClientTypes.PriceWithCurrency? = nil,
         transferability: Route53DomainsClientTypes.DomainTransferability? = nil
     ) {
         self.message = message
+        self.price = price
         self.transferability = transferability
     }
 }
 
 extension Route53DomainsClientTypes {
 
-    /// Customer's consent for the owner change request.
+    /// The maximum amount that you agree to pay for an operation, and the currency for that amount.
     public struct Consent: Swift.Sendable {
-        /// Currency for the MaxPrice.
+        /// The currency for the MaxPrice.
         /// This member is required.
         public var currency: Swift.String?
-        /// Maximum amount the customer agreed to accept.
+        /// The maximum amount that you agree to accept.
         /// This member is required.
         public var maxPrice: Swift.Double
 
@@ -2302,13 +2367,15 @@ extension Route53DomainsClientTypes {
         public var digest: Swift.String?
         /// The number of the DS digest algorithm according to an IANA assignment. For more information, see [IANA](https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml) for DNSSEC Delegation Signer (DS) Resource Record (RR) Type Digest Algorithms.
         public var digestType: Swift.Int?
-        /// Defines the type of key. It can be either a KSK (key-signing-key, value 257) or ZSK (zone-signing-key, value 256). Using KSK is always encouraged. Only use ZSK if your DNS provider isn't Route 53 and you don’t have KSK available. If you have KSK and ZSK keys, always use KSK to create a delegations signer (DS) record. If you have ZSK keys only – use ZSK to create a DS record.
+        /// The DNSKEY flags that indicate the key type. This field is deprecated; the DnssecKey response no longer returns the flags.
+        @available(*, deprecated, message: "The DnssecKey response no longer returns the flags. API deprecated since 2026-10-01")
         public var flags: Swift.Int?
         /// An ID assigned to each DS record created by [AssociateDelegationSignerToDomain](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AssociateDelegationSignerToDomain.html).
         public var id: Swift.String?
         /// A numeric identification of the DNSKEY record referred to by this DS record.
         public var keyTag: Swift.Int?
-        /// The base64-encoded public key part of the key pair that is passed to the registry .
+        /// The base64-encoded public key of the key pair. This field is deprecated; the DnssecKey response no longer returns the public key.
+        @available(*, deprecated, message: "The DnssecKey response no longer returns the public key. API deprecated since 2026-10-01")
         public var publicKey: Swift.String?
 
         public init(
@@ -2333,32 +2400,11 @@ extension Route53DomainsClientTypes {
 
 extension Route53DomainsClientTypes {
 
-    /// Currency-specific price information.
-    public struct PriceWithCurrency: Swift.Sendable {
-        /// The currency specifier.
-        /// This member is required.
-        public var currency: Swift.String?
-        /// The price of a domain, in a specific currency.
-        /// This member is required.
-        public var price: Swift.Double
-
-        public init(
-            currency: Swift.String? = nil,
-            price: Swift.Double = 0.0
-        ) {
-            self.currency = currency
-            self.price = price
-        }
-    }
-}
-
-extension Route53DomainsClientTypes {
-
-    /// Information about the domain price associated with a TLD.
+    /// Information about the prices associated with a TLD or a domain name.
     public struct DomainPrice: Swift.Sendable {
         /// The price for changing domain ownership.
         public var changeOwnershipPrice: Route53DomainsClientTypes.PriceWithCurrency?
-        /// The name of the TLD for which the prices apply.
+        /// The TLD or domain name that the prices apply to.
         public var name: Swift.String?
         /// The price for domain registration with Route 53.
         public var registrationPrice: Route53DomainsClientTypes.PriceWithCurrency?
@@ -2391,17 +2437,21 @@ extension Route53DomainsClientTypes {
 
     /// Information about one suggested domain name.
     public struct DomainSuggestion: Swift.Sendable {
-        /// Whether the domain name is available for registering. You can register only the domains that are designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
+        /// Specifies whether the domain name is available for registering. This element is populated only if you specified true for OnlyAvailable in the request. You can register only the domains that are designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
         public var availability: Swift.String?
         /// A suggested domain name.
         public var domainName: Swift.String?
+        /// The price to register the suggested domain name, in the currency that Currency specifies. This element is populated only if you specified true for OnlyAvailable in the request.
+        public var price: Route53DomainsClientTypes.PriceWithCurrency?
 
         public init(
             availability: Swift.String? = nil,
-            domainName: Swift.String? = nil
+            domainName: Swift.String? = nil,
+            price: Route53DomainsClientTypes.PriceWithCurrency? = nil
         ) {
             self.availability = availability
             self.domainName = domainName
+            self.price = price
         }
     }
 }
@@ -2763,6 +2813,31 @@ public struct GetDomainDetailOutput: Swift.Sendable {
     }
 }
 
+/// The GetDomainPrices request includes the following element.
+public struct GetDomainPricesInput: Swift.Sendable {
+    /// The name of the domain that you want to get the prices for.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+    }
+}
+
+/// The GetDomainPrices response includes the following element.
+public struct GetDomainPricesOutput: Swift.Sendable {
+    /// The registration, transfer, owner change, renewal, and restoration prices for the specified domain.
+    public var domainPrice: Route53DomainsClientTypes.DomainPrice?
+
+    public init(
+        domainPrice: Route53DomainsClientTypes.DomainPrice? = nil
+    ) {
+        self.domainPrice = domainPrice
+    }
+}
+
 public struct GetDomainSuggestionsInput: Swift.Sendable {
     /// A domain name that you want to use as the basis for a list of possible domain names. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
@@ -2778,9 +2853,11 @@ public struct GetDomainSuggestionsInput: Swift.Sendable {
     /// Internationalized domain names are not supported for some top-level domains. To determine whether the TLD that you want to use supports internationalized domain names, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
     /// This member is required.
     public var domainName: Swift.String?
-    /// If OnlyAvailable is true, Route 53 returns only domain names that are available. If OnlyAvailable is false, Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, you can call checkDomainAvailability for each suggestion.
+    /// If OnlyAvailable is true, Route 53 returns only domain names that are available. If OnlyAvailable is false, Route 53 returns domain names without checking whether they're available to be registered. To determine whether the domain is available, call checkDomainAvailability for each suggestion. If OnlyAvailable is false, Route 53 does not return pricing information for the suggested domain names.
     /// This member is required.
     public var onlyAvailable: Swift.Bool?
+    /// If true, Route 53 returns only domain names that are priced at the standard registration rate for their TLD. If false, Route 53 includes domain names with premium pricing in the suggestions list. The default is true.
+    public var onlyStandardPrices: Swift.Bool?
     /// The number of suggested domain names that you want Route 53 to return. Specify a value between 1 and 50. Note that fewer than the requested number might be returned.
     /// This member is required.
     public var suggestionCount: Swift.Int?
@@ -2788,10 +2865,12 @@ public struct GetDomainSuggestionsInput: Swift.Sendable {
     public init(
         domainName: Swift.String? = nil,
         onlyAvailable: Swift.Bool? = nil,
+        onlyStandardPrices: Swift.Bool? = nil,
         suggestionCount: Swift.Int? = 0
     ) {
         self.domainName = domainName
         self.onlyAvailable = onlyAvailable
+        self.onlyStandardPrices = onlyStandardPrices
         self.suggestionCount = suggestionCount
     }
 }
@@ -3271,6 +3350,8 @@ public struct RegisterDomainInput: Swift.Sendable {
     public var autoRenew: Swift.Bool?
     /// Provides detailed contact information. For information about the values that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
     public var billingContact: Route53DomainsClientTypes.ContactDetail?
+    /// Specifies the maximum price that you agree to pay to register the domain name. This element is required if the domain has registry premium pricing, and optional if the domain is priced at the standard rate for its TLD. If you include it and the registration price is more than MaxPrice, the request fails.
+    public var consent: Route53DomainsClientTypes.Consent?
     /// The domain name that you want to register. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
     /// * Letters a through z. Domain names are not case sensitive.
@@ -3309,6 +3390,7 @@ public struct RegisterDomainInput: Swift.Sendable {
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
         autoRenew: Swift.Bool? = nil,
         billingContact: Route53DomainsClientTypes.ContactDetail? = nil,
+        consent: Route53DomainsClientTypes.Consent? = nil,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil,
         idnLangCode: Swift.String? = nil,
@@ -3322,6 +3404,7 @@ public struct RegisterDomainInput: Swift.Sendable {
         self.adminContact = adminContact
         self.autoRenew = autoRenew
         self.billingContact = billingContact
+        self.consent = consent
         self.domainName = domainName
         self.durationInYears = durationInYears
         self.idnLangCode = idnLangCode
@@ -3373,6 +3456,8 @@ public struct RejectDomainTransferFromAnotherAwsAccountOutput: Swift.Sendable {
 
 /// A RenewDomain request includes the number of years that you want to renew for and the current expiration year.
 public struct RenewDomainInput: Swift.Sendable {
+    /// Specifies the maximum price that you agree to pay to renew the domain name. This element is required if the domain has registry premium pricing, and optional if the domain is priced at the standard rate for its TLD. If you include it and the renewal price is more than MaxPrice, the request fails.
+    public var consent: Route53DomainsClientTypes.Consent?
     /// The year when the registration for the domain is set to expire. This value must match the current expiration date for the domain.
     /// This member is required.
     public var currentExpiryYear: Swift.Int?
@@ -3383,10 +3468,12 @@ public struct RenewDomainInput: Swift.Sendable {
     public var durationInYears: Swift.Int?
 
     public init(
+        consent: Route53DomainsClientTypes.Consent? = nil,
         currentExpiryYear: Swift.Int? = 0,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil
     ) {
+        self.consent = consent
         self.currentExpiryYear = currentExpiryYear
         self.domainName = domainName
         self.durationInYears = durationInYears
@@ -3482,6 +3569,8 @@ public struct TransferDomainInput: Swift.Sendable {
     public var autoRenew: Swift.Bool?
     /// Provides detailed contact information.
     public var billingContact: Route53DomainsClientTypes.ContactDetail?
+    /// Specifies the maximum price that you agree to pay to transfer the domain name to Route 53. This element is required if the domain has registry premium pricing, and optional if the domain is priced at the standard rate for its TLD. If you include it and the transfer price is more than MaxPrice, the request fails.
+    public var consent: Route53DomainsClientTypes.Consent?
     /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
     /// * Letters a through z. Domain names are not case sensitive.
@@ -3519,6 +3608,7 @@ public struct TransferDomainInput: Swift.Sendable {
         authCode: Swift.String? = nil,
         autoRenew: Swift.Bool? = nil,
         billingContact: Route53DomainsClientTypes.ContactDetail? = nil,
+        consent: Route53DomainsClientTypes.Consent? = nil,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil,
         idnLangCode: Swift.String? = nil,
@@ -3534,6 +3624,7 @@ public struct TransferDomainInput: Swift.Sendable {
         self.authCode = authCode
         self.autoRenew = autoRenew
         self.billingContact = billingContact
+        self.consent = consent
         self.domainName = domainName
         self.durationInYears = durationInYears
         self.idnLangCode = idnLangCode
@@ -3599,7 +3690,7 @@ public struct UpdateDomainContactInput: Swift.Sendable {
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
     /// Provides detailed contact information.
     public var billingContact: Route53DomainsClientTypes.ContactDetail?
-    /// Customer's consent for the owner change request. Required if the domain is not free (consent price is more than $0.00).
+    /// The maximum amount that you agree to pay for the owner change. Required if the domain is not free (consent price is more than USD $0.00).
     public var consent: Route53DomainsClientTypes.Consent?
     /// The name of the domain that you want to update contact information for.
     /// This member is required.

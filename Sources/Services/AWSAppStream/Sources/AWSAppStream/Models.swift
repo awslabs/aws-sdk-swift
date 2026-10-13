@@ -4475,6 +4475,36 @@ public struct CreateImportedImageOutput: Swift.Sendable {
 
 extension AppStreamClientTypes {
 
+    /// Specifies whether users' cloud storage authentication persists across streaming sessions.
+    public enum StorageConnectorAuthentication: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case forceReauthentication
+        case reuseCredentials
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageConnectorAuthentication] {
+            return [
+                .forceReauthentication,
+                .reuseCredentials
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .forceReauthentication: return "FORCE_REAUTHENTICATION"
+            case .reuseCredentials: return "REUSE_CREDENTIALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
     /// The type of storage connector.
     public enum StorageConnectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case googleDrive
@@ -4625,6 +4655,8 @@ public struct CreateStackInput: Swift.Sendable {
     public var name: Swift.String?
     /// The URL that users are redirected to after their streaming session ends.
     public var redirectURL: Swift.String?
+    /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
+    public var storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication?
     /// The storage connectors to enable.
     public var storageConnectors: [AppStreamClientTypes.StorageConnector]?
     /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -4645,6 +4677,7 @@ public struct CreateStackInput: Swift.Sendable {
         feedbackURL: Swift.String? = nil,
         name: Swift.String? = nil,
         redirectURL: Swift.String? = nil,
+        storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication? = nil,
         storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
         streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -4660,6 +4693,7 @@ public struct CreateStackInput: Swift.Sendable {
         self.feedbackURL = feedbackURL
         self.name = name
         self.redirectURL = redirectURL
+        self.storageConnectorAuthentication = storageConnectorAuthentication
         self.storageConnectors = storageConnectors
         self.streamingExperienceSettings = streamingExperienceSettings
         self.tags = tags
@@ -4746,6 +4780,8 @@ extension AppStreamClientTypes {
         public var redirectURL: Swift.String?
         /// The errors for the stack.
         public var stackErrors: [AppStreamClientTypes.StackError]?
+        /// Indicates whether users' cloud storage authentication persists across streaming sessions. When this attribute is FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. The default is REUSE_CREDENTIALS.
+        public var storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication?
         /// The storage connectors to enable.
         public var storageConnectors: [AppStreamClientTypes.StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -4767,6 +4803,7 @@ extension AppStreamClientTypes {
             name: Swift.String? = nil,
             redirectURL: Swift.String? = nil,
             stackErrors: [AppStreamClientTypes.StackError]? = nil,
+            storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication? = nil,
             storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
             streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
             userSettings: [AppStreamClientTypes.UserSetting]? = nil
@@ -4784,6 +4821,7 @@ extension AppStreamClientTypes {
             self.name = name
             self.redirectURL = redirectURL
             self.stackErrors = stackErrors
+            self.storageConnectorAuthentication = storageConnectorAuthentication
             self.storageConnectors = storageConnectors
             self.streamingExperienceSettings = streamingExperienceSettings
             self.userSettings = userSettings
@@ -7752,6 +7790,8 @@ extension AppStreamClientTypes {
     /// * STREAMING_EXPERIENCE_SETTINGS
     ///
     /// * AGENT_ACCESS_CONFIG
+    ///
+    /// * STORAGE_CONNECTOR_AUTHENTICATION
     public enum StackAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessEndpoints
         case agentAccessConfig
@@ -7761,6 +7801,7 @@ extension AppStreamClientTypes {
         case iamRoleArn
         case redirectUrl
         case storageConnectors
+        case storageConnectorAuthentication
         case storageConnectorGoogleDrive
         case storageConnectorHomefolders
         case storageConnectorOneDrive
@@ -7779,6 +7820,7 @@ extension AppStreamClientTypes {
                 .iamRoleArn,
                 .redirectUrl,
                 .storageConnectors,
+                .storageConnectorAuthentication,
                 .storageConnectorGoogleDrive,
                 .storageConnectorHomefolders,
                 .storageConnectorOneDrive,
@@ -7803,6 +7845,7 @@ extension AppStreamClientTypes {
             case .iamRoleArn: return "IAM_ROLE_ARN"
             case .redirectUrl: return "REDIRECT_URL"
             case .storageConnectors: return "STORAGE_CONNECTORS"
+            case .storageConnectorAuthentication: return "STORAGE_CONNECTOR_AUTHENTICATION"
             case .storageConnectorGoogleDrive: return "STORAGE_CONNECTOR_GOOGLE_DRIVE"
             case .storageConnectorHomefolders: return "STORAGE_CONNECTOR_HOMEFOLDERS"
             case .storageConnectorOneDrive: return "STORAGE_CONNECTOR_ONE_DRIVE"
@@ -7842,6 +7885,8 @@ public struct UpdateStackInput: Swift.Sendable {
     public var name: Swift.String?
     /// The URL that users are redirected to after their streaming session ends.
     public var redirectURL: Swift.String?
+    /// Specifies whether users' cloud storage authentication persists across streaming sessions. When you specify FORCE_REAUTHENTICATION, WorkSpaces Applications removes the stored authentication for the stack's OneDrive and Google Drive connectors when a user's session ends. The user links their cloud storage again on their next session. To clear this attribute, add STORAGE_CONNECTOR_AUTHENTICATION to AttributesToDelete.
+    public var storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication?
     /// The storage connectors to enable.
     public var storageConnectors: [AppStreamClientTypes.StorageConnector]?
     /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
@@ -7862,6 +7907,7 @@ public struct UpdateStackInput: Swift.Sendable {
         feedbackURL: Swift.String? = nil,
         name: Swift.String? = nil,
         redirectURL: Swift.String? = nil,
+        storageConnectorAuthentication: AppStreamClientTypes.StorageConnectorAuthentication? = nil,
         storageConnectors: [AppStreamClientTypes.StorageConnector]? = nil,
         streamingExperienceSettings: AppStreamClientTypes.StreamingExperienceSettings? = nil,
         userSettings: [AppStreamClientTypes.UserSetting]? = nil
@@ -7878,6 +7924,7 @@ public struct UpdateStackInput: Swift.Sendable {
         self.feedbackURL = feedbackURL
         self.name = name
         self.redirectURL = redirectURL
+        self.storageConnectorAuthentication = storageConnectorAuthentication
         self.storageConnectors = storageConnectors
         self.streamingExperienceSettings = streamingExperienceSettings
         self.userSettings = userSettings

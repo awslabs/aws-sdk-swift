@@ -405,6 +405,26 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes {
 
+    /// A structure that identifies a row-level security policy as a resource, used when granting permissions on the policy.
+    public struct RLSPolicyResource: Swift.Sendable {
+        /// The identifier for the Data Catalog that contains the policy. By default, the account ID.
+        public var catalogId: Swift.String?
+        /// The name of the row-level security policy.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.catalogId = catalogId
+            self.name = name
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
     /// A wildcard object representing every table under a database.
     public struct TableWildcard: Swift.Sendable {
 
@@ -506,6 +526,8 @@ extension LakeFormationClientTypes {
         public var lfTagExpression: LakeFormationClientTypes.LFTagExpressionResource?
         /// A list of LF-tag conditions or saved LF-Tag expressions that define a resource's LF-tag policy.
         public var lfTagPolicy: LakeFormationClientTypes.LFTagPolicyResource?
+        /// A row-level security policy resource. Specify this when granting or revoking permissions on a row-level security policy.
+        public var rlsPolicy: LakeFormationClientTypes.RLSPolicyResource?
         /// The table for the resource. A table is a metadata definition that represents your data. You can Grant and Revoke table privileges to a principal.
         public var table: LakeFormationClientTypes.TableResource?
         /// The table with columns for the resource. A principal with permissions to this resource can select metadata from the columns of a table in the Data Catalog and the underlying data in Amazon S3.
@@ -519,6 +541,7 @@ extension LakeFormationClientTypes {
             lfTag: LakeFormationClientTypes.LFTagKeyResource? = nil,
             lfTagExpression: LakeFormationClientTypes.LFTagExpressionResource? = nil,
             lfTagPolicy: LakeFormationClientTypes.LFTagPolicyResource? = nil,
+            rlsPolicy: LakeFormationClientTypes.RLSPolicyResource? = nil,
             table: LakeFormationClientTypes.TableResource? = nil,
             tableWithColumns: LakeFormationClientTypes.TableWithColumnsResource? = nil
         ) {
@@ -529,6 +552,7 @@ extension LakeFormationClientTypes {
             self.lfTag = lfTag
             self.lfTagExpression = lfTagExpression
             self.lfTagPolicy = lfTagPolicy
+            self.rlsPolicy = rlsPolicy
             self.table = table
             self.tableWithColumns = tableWithColumns
         }
@@ -746,18 +770,27 @@ public struct AssumeDecoratedRoleWithSAMLOutput: Swift.Sendable {
     }
 }
 
-extension LakeFormationClientTypes {
+/// A resource numerical limit was exceeded.
+public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    /// A structure used to include auditing information on the privileged API.
-    public struct AuditContext: Swift.Sendable {
-        /// The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account.
-        public var additionalAuditContext: Swift.String?
+    public struct Properties: Swift.Sendable {
+        /// A message describing the problem.
+        public internal(set) var message: Swift.String? = nil
+    }
 
-        public init(
-            additionalAuditContext: Swift.String? = nil
-        ) {
-            self.additionalAuditContext = additionalAuditContext
-        }
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNumberLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -772,6 +805,70 @@ extension LakeFormationClientTypes {
             expression: Swift.String? = nil
         ) {
             self.expression = expression
+        }
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
+    public struct DataLakePrincipal: Swift.Sendable {
+        /// An identifier for the Lake Formation principal.
+        public var dataLakePrincipalIdentifier: Swift.String?
+
+        public init(
+            dataLakePrincipalIdentifier: Swift.String? = nil
+        ) {
+            self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
+        }
+    }
+}
+
+public struct AttachRLSPolicyInput: Swift.Sendable {
+    /// A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+    public var condition: LakeFormationClientTypes.Condition?
+    /// The name of the row-level security policy to attach.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The principal to which the row-level security policy applies.
+    public var principal: LakeFormationClientTypes.DataLakePrincipal?
+    /// The resource to which the row-level security policy is attached.
+    /// This member is required.
+    public var resource: LakeFormationClientTypes.Resource?
+    /// Indicates whether this policy becomes the default row-level security policy for the resource. The default policy applies to all principals by default.
+    public var setDefault: Swift.Bool?
+
+    public init(
+        condition: LakeFormationClientTypes.Condition? = nil,
+        name: Swift.String? = nil,
+        principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+        resource: LakeFormationClientTypes.Resource? = nil,
+        setDefault: Swift.Bool? = nil
+    ) {
+        self.condition = condition
+        self.name = name
+        self.principal = principal
+        self.resource = resource
+        self.setDefault = setDefault
+    }
+}
+
+public struct AttachRLSPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A structure used to include auditing information on the privileged API.
+    public struct AuditContext: Swift.Sendable {
+        /// The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account.
+        public var additionalAuditContext: Swift.String?
+
+        public init(
+            additionalAuditContext: Swift.String? = nil
+        ) {
+            self.additionalAuditContext = additionalAuditContext
         }
     }
 }
@@ -843,21 +940,6 @@ extension LakeFormationClientTypes {
             case .superUser: return "SUPER_USER"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension LakeFormationClientTypes {
-
-    /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
-    public struct DataLakePrincipal: Swift.Sendable {
-        /// An identifier for the Lake Formation principal.
-        public var dataLakePrincipalIdentifier: Swift.String?
-
-        public init(
-            dataLakePrincipalIdentifier: Swift.String? = nil
-        ) {
-            self.dataLakePrincipalIdentifier = dataLakePrincipalIdentifier
         }
     }
 }
@@ -1115,30 +1197,6 @@ public struct CommitTransactionOutput: Swift.Sendable {
         transactionStatus: LakeFormationClientTypes.TransactionStatus? = nil
     ) {
         self.transactionStatus = transactionStatus
-    }
-}
-
-/// A resource numerical limit was exceeded.
-public struct ResourceNumberLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A message describing the problem.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNumberLimitExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -1461,6 +1519,53 @@ public struct CreateLFTagExpressionOutput: Swift.Sendable {
     public init() { }
 }
 
+extension LakeFormationClientTypes {
+
+    /// A column in a table that a row-level security policy's filter expression can reference.
+    public struct Column: Swift.Sendable {
+        /// The name of the column.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The data type of the column.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct CreateRLSPolicyInput: Swift.Sendable {
+    /// The list of columns that the filter expression references. These columns define the shape of the data that the policy can be attached to.
+    /// This member is required.
+    public var attachmentColumns: [LakeFormationClientTypes.Column]?
+    /// A filter predicate, written in a SQL-like syntax, that Lake Formation evaluates against each row. Only the rows for which the expression evaluates to true are returned to the principal.
+    /// This member is required.
+    public var filterExpression: Swift.String?
+    /// A unique name for the row-level security policy within the Data Catalog.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        attachmentColumns: [LakeFormationClientTypes.Column]? = nil,
+        filterExpression: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.attachmentColumns = attachmentColumns
+        self.filterExpression = filterExpression
+        self.name = name
+    }
+}
+
+public struct CreateRLSPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteDataCellsFilterInput: Swift.Sendable {
     /// A database in the Glue Data Catalog.
     public var databaseName: Swift.String?
@@ -1649,6 +1754,23 @@ public struct DeleteObjectsOnCancelInput: Swift.Sendable {
 }
 
 public struct DeleteObjectsOnCancelOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteRLSPolicyInput: Swift.Sendable {
+    /// The name of the row-level security policy to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct DeleteRLSPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -1868,6 +1990,40 @@ public struct DescribeTransactionOutput: Swift.Sendable {
     ) {
         self.transactionDescription = transactionDescription
     }
+}
+
+public struct DetachRLSPolicyInput: Swift.Sendable {
+    /// A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+    public var condition: LakeFormationClientTypes.Condition?
+    /// The name of the row-level security policy to detach.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The principal for which the row-level security policy is detached.
+    public var principal: LakeFormationClientTypes.DataLakePrincipal?
+    /// Indicates whether to remove this policy as the default row-level security policy for the resource.
+    public var removeDefault: Swift.Bool?
+    /// The resource from which the row-level security policy is detached.
+    /// This member is required.
+    public var resource: LakeFormationClientTypes.Resource?
+
+    public init(
+        condition: LakeFormationClientTypes.Condition? = nil,
+        name: Swift.String? = nil,
+        principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+        removeDefault: Swift.Bool? = nil,
+        resource: LakeFormationClientTypes.Resource? = nil
+    ) {
+        self.condition = condition
+        self.name = name
+        self.principal = principal
+        self.removeDefault = removeDefault
+        self.resource = resource
+    }
+}
+
+public struct DetachRLSPolicyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct ExtendTransactionInput: Swift.Sendable {
@@ -2514,6 +2670,56 @@ public struct GetResourceLFTagsOutput: Swift.Sendable {
         self.lfTagOnDatabase = lfTagOnDatabase
         self.lfTagsOnColumns = lfTagsOnColumns
         self.lfTagsOnTable = lfTagsOnTable
+    }
+}
+
+public struct GetRLSPolicyInput: Swift.Sendable {
+    /// The name of the row-level security policy to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A structure that describes a row-level security policy, including the columns its filter expression references and the filter expression itself.
+    public struct RLSPolicy: Swift.Sendable {
+        /// The list of columns that the filter expression references.
+        public var attachmentColumns: [LakeFormationClientTypes.Column]?
+        /// The identifier for the Data Catalog that contains the policy. By default, the account ID.
+        public var catalogId: Swift.String?
+        /// The filter predicate, written in a SQL-like syntax, that determines which rows are returned to the principal.
+        public var filterExpression: Swift.String?
+        /// The name of the row-level security policy.
+        public var name: Swift.String?
+
+        public init(
+            attachmentColumns: [LakeFormationClientTypes.Column]? = nil,
+            catalogId: Swift.String? = nil,
+            filterExpression: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.attachmentColumns = attachmentColumns
+            self.catalogId = catalogId
+            self.filterExpression = filterExpression
+            self.name = name
+        }
+    }
+}
+
+public struct GetRLSPolicyOutput: Swift.Sendable {
+    /// An RLSPolicy structure containing the definition of the requested row-level security policy.
+    public var rlsPolicy: LakeFormationClientTypes.RLSPolicy?
+
+    public init(
+        rlsPolicy: LakeFormationClientTypes.RLSPolicy? = nil
+    ) {
+        self.rlsPolicy = rlsPolicy
     }
 }
 
@@ -3622,6 +3828,113 @@ public struct ListResourcesOutput: Swift.Sendable {
     }
 }
 
+public struct ListRLSPoliciesInput: Swift.Sendable {
+    /// The maximum number of row-level security policies to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListRLSPoliciesOutput: Swift.Sendable {
+    /// A continuation token, if not all row-level security policies have been returned.
+    public var nextToken: Swift.String?
+    /// A list of RLSPolicy structures.
+    public var rlsPolicies: [LakeFormationClientTypes.RLSPolicy]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rlsPolicies: [LakeFormationClientTypes.RLSPolicy]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.rlsPolicies = rlsPolicies
+    }
+}
+
+public struct ListRLSPolicyAttachmentsInput: Swift.Sendable {
+    /// The maximum number of attachments to return in a single response.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is a continuation call.
+    public var nextToken: Swift.String?
+    /// If specified, returns only the attachments for the row-level security policy with this name.
+    public var policyName: Swift.String?
+    /// If specified, returns only the attachments for the given principal.
+    public var principal: LakeFormationClientTypes.DataLakePrincipal?
+    /// If specified, returns only the attachments for the given resource.
+    public var resource: LakeFormationClientTypes.Resource?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyName: Swift.String? = nil,
+        principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+        resource: LakeFormationClientTypes.Resource? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyName = policyName
+        self.principal = principal
+        self.resource = resource
+    }
+}
+
+extension LakeFormationClientTypes {
+
+    /// A structure that describes the attachment of a row-level security policy to a resource for a principal.
+    public struct RLSPolicyAttachment: Swift.Sendable {
+        /// The identifier for the Data Catalog that contains the attachment. By default, the account ID.
+        public var catalogId: Swift.String?
+        /// A Lake Formation condition, which applies to the row-level security policy attachment and contains an expression.
+        public var condition: LakeFormationClientTypes.Condition?
+        /// Indicates whether this attachment is the default row-level security policy for the resource.
+        public var defaultRLSPolicy: Swift.Bool?
+        /// The name of the attached row-level security policy.
+        public var policyName: Swift.String?
+        /// The principal to which the attached policy applies.
+        public var principal: LakeFormationClientTypes.DataLakePrincipal?
+        /// The resource to which the policy is attached.
+        public var resource: LakeFormationClientTypes.Resource?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            condition: LakeFormationClientTypes.Condition? = nil,
+            defaultRLSPolicy: Swift.Bool? = nil,
+            policyName: Swift.String? = nil,
+            principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+            resource: LakeFormationClientTypes.Resource? = nil
+        ) {
+            self.catalogId = catalogId
+            self.condition = condition
+            self.defaultRLSPolicy = defaultRLSPolicy
+            self.policyName = policyName
+            self.principal = principal
+            self.resource = resource
+        }
+    }
+}
+
+public struct ListRLSPolicyAttachmentsOutput: Swift.Sendable {
+    /// A continuation token, if not all attachments have been returned.
+    public var nextToken: Swift.String?
+    /// A list of RLSPolicyAttachment structures.
+    public var rlsPolicyAttachments: [LakeFormationClientTypes.RLSPolicyAttachment]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rlsPolicyAttachments: [LakeFormationClientTypes.RLSPolicyAttachment]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.rlsPolicyAttachments = rlsPolicyAttachments
+    }
+}
+
 extension LakeFormationClientTypes {
 
     public enum OptimizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -4326,6 +4639,27 @@ public struct UpdateResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateRLSPolicyInput: Swift.Sendable {
+    /// The new filter predicate, written in a SQL-like syntax, that replaces the policy's current filter expression.
+    public var filterExpression: Swift.String?
+    /// The name of the row-level security policy to update.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        filterExpression: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.filterExpression = filterExpression
+        self.name = name
+    }
+}
+
+public struct UpdateRLSPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension LakeFormationClientTypes {
 
     /// An object to delete from the governed table.
@@ -4455,6 +4789,13 @@ extension AssumeDecoratedRoleWithSAMLInput {
     }
 }
 
+extension AttachRLSPolicyInput {
+
+    static func urlPathProvider(_ value: AttachRLSPolicyInput) -> Swift.String? {
+        return "/AttachRLSPolicy"
+    }
+}
+
 extension BatchGrantPermissionsInput {
 
     static func urlPathProvider(_ value: BatchGrantPermissionsInput) -> Swift.String? {
@@ -4518,6 +4859,13 @@ extension CreateLFTagExpressionInput {
     }
 }
 
+extension CreateRLSPolicyInput {
+
+    static func urlPathProvider(_ value: CreateRLSPolicyInput) -> Swift.String? {
+        return "/CreateRLSPolicy"
+    }
+}
+
 extension DeleteDataCellsFilterInput {
 
     static func urlPathProvider(_ value: DeleteDataCellsFilterInput) -> Swift.String? {
@@ -4560,6 +4908,13 @@ extension DeleteObjectsOnCancelInput {
     }
 }
 
+extension DeleteRLSPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteRLSPolicyInput) -> Swift.String? {
+        return "/DeleteRLSPolicy"
+    }
+}
+
 extension DeregisterResourceInput {
 
     static func urlPathProvider(_ value: DeregisterResourceInput) -> Swift.String? {
@@ -4585,6 +4940,13 @@ extension DescribeTransactionInput {
 
     static func urlPathProvider(_ value: DescribeTransactionInput) -> Swift.String? {
         return "/DescribeTransaction"
+    }
+}
+
+extension DetachRLSPolicyInput {
+
+    static func urlPathProvider(_ value: DetachRLSPolicyInput) -> Swift.String? {
+        return "/DetachRLSPolicy"
     }
 }
 
@@ -4655,6 +5017,13 @@ extension GetResourceLFTagsInput {
 
     static func urlPathProvider(_ value: GetResourceLFTagsInput) -> Swift.String? {
         return "/GetResourceLFTags"
+    }
+}
+
+extension GetRLSPolicyInput {
+
+    static func urlPathProvider(_ value: GetRLSPolicyInput) -> Swift.String? {
+        return "/GetRLSPolicy"
     }
 }
 
@@ -4746,6 +5115,20 @@ extension ListResourcesInput {
 
     static func urlPathProvider(_ value: ListResourcesInput) -> Swift.String? {
         return "/ListResources"
+    }
+}
+
+extension ListRLSPoliciesInput {
+
+    static func urlPathProvider(_ value: ListRLSPoliciesInput) -> Swift.String? {
+        return "/ListRLSPolicies"
+    }
+}
+
+extension ListRLSPolicyAttachmentsInput {
+
+    static func urlPathProvider(_ value: ListRLSPolicyAttachmentsInput) -> Swift.String? {
+        return "/ListRLSPolicyAttachments"
     }
 }
 
@@ -4854,6 +5237,13 @@ extension UpdateResourceInput {
     }
 }
 
+extension UpdateRLSPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateRLSPolicyInput) -> Swift.String? {
+        return "/UpdateRLSPolicy"
+    }
+}
+
 extension UpdateTableObjectsInput {
 
     static func urlPathProvider(_ value: UpdateTableObjectsInput) -> Swift.String? {
@@ -4886,6 +5276,18 @@ extension AssumeDecoratedRoleWithSAMLInput {
         try writer["PrincipalArn"].write(value.principalArn)
         try writer["RoleArn"].write(value.roleArn)
         try writer["SAMLAssertion"].write(value.samlAssertion)
+    }
+}
+
+extension AttachRLSPolicyInput {
+
+    static func write(value: AttachRLSPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition, with: LakeFormationClientTypes.Condition.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
+        try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
+        try writer["SetDefault"].write(value.setDefault)
     }
 }
 
@@ -4974,6 +5376,16 @@ extension CreateLFTagExpressionInput {
     }
 }
 
+extension CreateRLSPolicyInput {
+
+    static func write(value: CreateRLSPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentColumns"].writeList(value.attachmentColumns, memberWritingClosure: LakeFormationClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FilterExpression"].write(value.filterExpression)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension DeleteDataCellsFilterInput {
 
     static func write(value: DeleteDataCellsFilterInput?, to writer: SmithyJSON.Writer) throws {
@@ -5033,6 +5445,14 @@ extension DeleteObjectsOnCancelInput {
     }
 }
 
+extension DeleteRLSPolicyInput {
+
+    static func write(value: DeleteRLSPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension DeregisterResourceInput {
 
     static func write(value: DeregisterResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -5062,6 +5482,18 @@ extension DescribeTransactionInput {
     static func write(value: DescribeTransactionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TransactionId"].write(value.transactionId)
+    }
+}
+
+extension DetachRLSPolicyInput {
+
+    static func write(value: DetachRLSPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition, with: LakeFormationClientTypes.Condition.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
+        try writer["RemoveDefault"].write(value.removeDefault)
+        try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
     }
 }
 
@@ -5144,6 +5576,14 @@ extension GetResourceLFTagsInput {
         try writer["CatalogId"].write(value.catalogId)
         try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
         try writer["ShowAssignedLFTags"].write(value.showAssignedLFTags)
+    }
+}
+
+extension GetRLSPolicyInput {
+
+    static func write(value: GetRLSPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -5296,6 +5736,27 @@ extension ListResourcesInput {
         try writer["FilterConditionList"].writeList(value.filterConditionList, memberWritingClosure: LakeFormationClientTypes.FilterCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListRLSPoliciesInput {
+
+    static func write(value: ListRLSPoliciesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListRLSPolicyAttachmentsInput {
+
+    static func write(value: ListRLSPolicyAttachmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PolicyName"].write(value.policyName)
+        try writer["Principal"].write(value.principal, with: LakeFormationClientTypes.DataLakePrincipal.write(value:to:))
+        try writer["Resource"].write(value.resource, with: LakeFormationClientTypes.Resource.write(value:to:))
     }
 }
 
@@ -5462,6 +5923,15 @@ extension UpdateResourceInput {
     }
 }
 
+extension UpdateRLSPolicyInput {
+
+    static func write(value: UpdateRLSPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterExpression"].write(value.filterExpression)
+        try writer["Name"].write(value.name)
+    }
+}
+
 extension UpdateTableObjectsInput {
 
     static func write(value: UpdateTableObjectsInput?, to writer: SmithyJSON.Writer) throws {
@@ -5509,6 +5979,13 @@ extension AssumeDecoratedRoleWithSAMLOutput {
         value.secretAccessKey = try reader["SecretAccessKey"].readIfPresent()
         value.sessionToken = try reader["SessionToken"].readIfPresent()
         return value
+    }
+}
+
+extension AttachRLSPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachRLSPolicyOutput {
+        return AttachRLSPolicyOutput()
     }
 }
 
@@ -5595,6 +6072,13 @@ extension CreateLFTagExpressionOutput {
     }
 }
 
+extension CreateRLSPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRLSPolicyOutput {
+        return CreateRLSPolicyOutput()
+    }
+}
+
 extension DeleteDataCellsFilterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataCellsFilterOutput {
@@ -5634,6 +6118,13 @@ extension DeleteObjectsOnCancelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteObjectsOnCancelOutput {
         return DeleteObjectsOnCancelOutput()
+    }
+}
+
+extension DeleteRLSPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRLSPolicyOutput {
+        return DeleteRLSPolicyOutput()
     }
 }
 
@@ -5683,6 +6174,13 @@ extension DescribeTransactionOutput {
         var value = DescribeTransactionOutput()
         value.transactionDescription = try reader["TransactionDescription"].readIfPresent(with: LakeFormationClientTypes.TransactionDescription.read(from:))
         return value
+    }
+}
+
+extension DetachRLSPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachRLSPolicyOutput {
+        return DetachRLSPolicyOutput()
     }
 }
 
@@ -5808,6 +6306,18 @@ extension GetResourceLFTagsOutput {
         value.lfTagOnDatabase = try reader["LFTagOnDatabase"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTagPair.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lfTagsOnColumns = try reader["LFTagsOnColumns"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.ColumnLFTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lfTagsOnTable = try reader["LFTagsOnTable"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.LFTagPair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetRLSPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRLSPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRLSPolicyOutput()
+        value.rlsPolicy = try reader["RLSPolicy"].readIfPresent(with: LakeFormationClientTypes.RLSPolicy.read(from:))
         return value
     }
 }
@@ -5985,6 +6495,32 @@ extension ListResourcesOutput {
     }
 }
 
+extension ListRLSPoliciesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRLSPoliciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRLSPoliciesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.rlsPolicies = try reader["RLSPolicies"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.RLSPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListRLSPolicyAttachmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRLSPolicyAttachmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRLSPolicyAttachmentsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.rlsPolicyAttachments = try reader["RLSPolicyAttachments"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.RLSPolicyAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTableStorageOptimizersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTableStorageOptimizersOutput {
@@ -6129,6 +6665,13 @@ extension UpdateResourceOutput {
     }
 }
 
+extension UpdateRLSPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRLSPolicyOutput {
+        return UpdateRLSPolicyOutput()
+    }
+}
+
 extension UpdateTableObjectsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTableObjectsOutput {
@@ -6180,6 +6723,27 @@ enum AssumeDecoratedRoleWithSAMLOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AttachRLSPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6351,6 +6915,26 @@ enum CreateLFTagExpressionOutputError {
     }
 }
 
+enum CreateRLSPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDataCellsFilterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6464,6 +7048,25 @@ enum DeleteObjectsOnCancelOutputError {
     }
 }
 
+enum DeleteRLSPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeregisterResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6524,6 +7127,25 @@ enum DescribeTransactionOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DetachRLSPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -6702,6 +7324,24 @@ enum GetResourceLFTagsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "GlueEncryptionException": return try GlueEncryptionException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRLSPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -6934,6 +7574,42 @@ enum ListResourcesOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRLSPoliciesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRLSPolicyAttachmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
@@ -7209,6 +7885,26 @@ enum UpdateResourceOutputError {
     }
 }
 
+enum UpdateRLSPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTableObjectsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7326,6 +8022,32 @@ extension OperationTimeoutException {
     }
 }
 
+extension AlreadyExistsException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = AlreadyExistsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNumberLimitExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNumberLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNumberLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TransactionCommitInProgressException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TransactionCommitInProgressException {
@@ -7357,32 +8079,6 @@ extension TransactionCanceledException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> TransactionCanceledException {
         let reader = baseError.errorBodyReader
         var value = TransactionCanceledException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AlreadyExistsException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = AlreadyExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNumberLimitExceededException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNumberLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNumberLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7574,6 +8270,23 @@ extension LakeFormationClientTypes.CatalogResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LakeFormationClientTypes.CatalogResource()
         value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.Column {
+
+    static func write(value: LakeFormationClientTypes.Column?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.Column {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.Column()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -8092,6 +8805,7 @@ extension LakeFormationClientTypes.Resource {
         try writer["LFTag"].write(value.lfTag, with: LakeFormationClientTypes.LFTagKeyResource.write(value:to:))
         try writer["LFTagExpression"].write(value.lfTagExpression, with: LakeFormationClientTypes.LFTagExpressionResource.write(value:to:))
         try writer["LFTagPolicy"].write(value.lfTagPolicy, with: LakeFormationClientTypes.LFTagPolicyResource.write(value:to:))
+        try writer["RLSPolicy"].write(value.rlsPolicy, with: LakeFormationClientTypes.RLSPolicyResource.write(value:to:))
         try writer["Table"].write(value.table, with: LakeFormationClientTypes.TableResource.write(value:to:))
         try writer["TableWithColumns"].write(value.tableWithColumns, with: LakeFormationClientTypes.TableWithColumnsResource.write(value:to:))
     }
@@ -8108,6 +8822,7 @@ extension LakeFormationClientTypes.Resource {
         value.lfTag = try reader["LFTag"].readIfPresent(with: LakeFormationClientTypes.LFTagKeyResource.read(from:))
         value.lfTagPolicy = try reader["LFTagPolicy"].readIfPresent(with: LakeFormationClientTypes.LFTagPolicyResource.read(from:))
         value.lfTagExpression = try reader["LFTagExpression"].readIfPresent(with: LakeFormationClientTypes.LFTagExpressionResource.read(from:))
+        value.rlsPolicy = try reader["RLSPolicy"].readIfPresent(with: LakeFormationClientTypes.RLSPolicyResource.read(from:))
         return value
     }
 }
@@ -8125,6 +8840,51 @@ extension LakeFormationClientTypes.ResourceInfo {
         value.withPrivilegedAccess = try reader["WithPrivilegedAccess"].readIfPresent()
         value.verificationStatus = try reader["VerificationStatus"].readIfPresent()
         value.expectedResourceOwnerAccount = try reader["ExpectedResourceOwnerAccount"].readIfPresent()
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.RLSPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RLSPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.RLSPolicy()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.attachmentColumns = try reader["AttachmentColumns"].readListIfPresent(memberReadingClosure: LakeFormationClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterExpression = try reader["FilterExpression"].readIfPresent()
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.RLSPolicyAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RLSPolicyAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.RLSPolicyAttachment()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.principal = try reader["Principal"].readIfPresent(with: LakeFormationClientTypes.DataLakePrincipal.read(from:))
+        value.resource = try reader["Resource"].readIfPresent(with: LakeFormationClientTypes.Resource.read(from:))
+        value.condition = try reader["Condition"].readIfPresent(with: LakeFormationClientTypes.Condition.read(from:))
+        value.defaultRLSPolicy = try reader["DefaultRLSPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension LakeFormationClientTypes.RLSPolicyResource {
+
+    static func write(value: LakeFormationClientTypes.RLSPolicyResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LakeFormationClientTypes.RLSPolicyResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LakeFormationClientTypes.RLSPolicyResource()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }

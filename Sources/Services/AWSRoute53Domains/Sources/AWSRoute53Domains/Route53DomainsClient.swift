@@ -1691,6 +1691,95 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetDomainPrices` operation on the `Route53Domains` service.
+    ///
+    /// Returns the following prices for the specified domain:
+    ///
+    /// * Registration
+    ///
+    /// * Transfer
+    ///
+    /// * Owner change
+    ///
+    /// * Renewal
+    ///
+    /// * Restoration
+    ///
+    ///
+    /// For most domains, the prices match the standard prices for the TLD that the [ListPrices](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListPrices.html) operation returns. For a premium domain, the registry sets the price individually. Premium prices might differ from the standard prices and can change over time.
+    ///
+    /// - Parameter input: The GetDomainPrices request includes the following element. (Type: `GetDomainPricesInput`)
+    ///
+    /// - Returns: The GetDomainPrices response includes the following element. (Type: `GetDomainPricesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
+    /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
+    /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
+    public func getDomainPrices(input: GetDomainPricesInput) async throws -> GetDomainPricesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53DomainsClient.getDomainPricesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getDomainPrices")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53domains")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainPricesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainPricesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetDomainPrices"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainPricesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53 Domains"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(serviceID: serviceName, version: Route53DomainsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Domains")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetDomainPrices")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetDomainSuggestions` operation on the `Route53Domains` service.
     ///
     /// The GetDomainSuggestions operation returns a list of suggested domain names.
@@ -1999,9 +2088,12 @@ extension Route53DomainsClient {
     ///
     /// * Owner change
     ///
-    /// * Domain renewal
+    /// * Renewal
     ///
-    /// * Domain restoration
+    /// * Restoration
+    ///
+    ///
+    /// The prices that ListPrices returns are the standard rates for a TLD. ListPrices doesn't return registry premium prices, which apply to individual domain names rather than to a TLD. To get accurate pricing for a specific domain name, including premium prices, call GetDomainPrices.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPricesInput`)
     ///
