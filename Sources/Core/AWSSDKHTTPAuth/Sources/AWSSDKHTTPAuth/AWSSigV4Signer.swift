@@ -145,7 +145,11 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 
         // Determine signed body value
         let checksumIsPresent = signingProperties.get(key: SigningPropertyKeys.checksum) != nil
-        let isChunkedEligibleStream = signingProperties.get(key: SigningPropertyKeys.isChunkedEligibleStream) ?? false
+        // aws-chunked encoding is only used when the stream is eligible AND the client has not
+        // disabled it via the `enableAwsChunked` config flag (defaults to true when unset).
+        let enableAwsChunked = signingProperties.get(key: SigningPropertyKeys.enableAwsChunked) ?? true
+        let isChunkedEligibleStream =
+            (signingProperties.get(key: SigningPropertyKeys.isChunkedEligibleStream) ?? false) && enableAwsChunked
         let preComputedSha256 = signingProperties.get(key: AttributeKey<String>(name: "SignedBodyValue"))
         let requestedUnsignedBody = signingProperties.get(key: SigningPropertyKeys.requestUnsignedBody)
 
