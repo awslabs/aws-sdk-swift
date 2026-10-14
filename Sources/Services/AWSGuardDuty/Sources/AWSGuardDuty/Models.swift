@@ -8473,11 +8473,13 @@ extension GuardDutyClientTypes {
 
     public enum DetectionRuleDataSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloudtrailManagementEvent
+        case runtimeMonitoring
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DetectionRuleDataSource] {
             return [
-                .cloudtrailManagementEvent
+                .cloudtrailManagementEvent,
+                .runtimeMonitoring
             ]
         }
 
@@ -8489,8 +8491,54 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloudtrailManagementEvent: return "CloudTrailManagementEvent"
+            case .runtimeMonitoring: return "RuntimeMonitoring"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// The requirements for running a Runtime Monitoring custom detection rule on Amazon EC2.
+    public struct DetectionRuleEc2Requirements: Swift.Sendable {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon EC2.
+        public var minAgentVersion: Swift.String?
+
+        public init(
+            minAgentVersion: Swift.String? = nil
+        ) {
+            self.minAgentVersion = minAgentVersion
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// The requirements for running a Runtime Monitoring custom detection rule on Amazon ECS with the Fargate launch type.
+    public struct DetectionRuleEcsFargateRequirements: Swift.Sendable {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon ECS with the Fargate launch type.
+        public var minAgentVersion: Swift.String?
+
+        public init(
+            minAgentVersion: Swift.String? = nil
+        ) {
+            self.minAgentVersion = minAgentVersion
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// The requirements for running a Runtime Monitoring custom detection rule on Amazon EKS.
+    public struct DetectionRuleEksRequirements: Swift.Sendable {
+        /// The minimum GuardDuty agent version required to run the rule on Amazon EKS.
+        public var minAgentVersion: Swift.String?
+
+        public init(
+            minAgentVersion: Swift.String? = nil
+        ) {
+            self.minAgentVersion = minAgentVersion
         }
     }
 }
@@ -8687,6 +8735,44 @@ extension GuardDutyClientTypes {
             self.status = status
             self.statusReason = statusReason
             self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// The platforms on which a Runtime Monitoring custom detection rule can run. A member's presence is the support statement: when present, the rule runs on that platform and minAgentVersion is the minimum GuardDuty agent version required there. When absent, the rule cannot run on that platform at any agent version.
+    public struct DetectionRuleRuntimePlatforms: Swift.Sendable {
+        /// The requirements for running the rule on Amazon EC2.
+        public var ec2: GuardDutyClientTypes.DetectionRuleEc2Requirements?
+        /// The requirements for running the rule on Amazon ECS with the Fargate launch type.
+        public var ecsFargate: GuardDutyClientTypes.DetectionRuleEcsFargateRequirements?
+        /// The requirements for running the rule on Amazon EKS.
+        public var eks: GuardDutyClientTypes.DetectionRuleEksRequirements?
+
+        public init(
+            ec2: GuardDutyClientTypes.DetectionRuleEc2Requirements? = nil,
+            ecsFargate: GuardDutyClientTypes.DetectionRuleEcsFargateRequirements? = nil,
+            eks: GuardDutyClientTypes.DetectionRuleEksRequirements? = nil
+        ) {
+            self.ec2 = ec2
+            self.ecsFargate = ecsFargate
+            self.eks = eks
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains Runtime Monitoring-specific details for a custom detection rule.
+    public struct DetectionRuleRuntimeMonitoringDetails: Swift.Sendable {
+        /// The platforms on which the rule can run. The presence of a platform member indicates that the rule is supported on that platform; the absence of a member indicates that the rule cannot run on that platform at any agent version.
+        public var platforms: GuardDutyClientTypes.DetectionRuleRuntimePlatforms?
+
+        public init(
+            platforms: GuardDutyClientTypes.DetectionRuleRuntimePlatforms? = nil
+        ) {
+            self.platforms = platforms
         }
     }
 }
@@ -10826,6 +10912,8 @@ extension GuardDutyClientTypes {
         /// The time and date when the finding was created.
         /// This member is required.
         public var createdAt: Swift.String?
+        /// The name of the custom detection rule that generated this finding.
+        public var customDetectionRuleName: Swift.String?
         /// The description of the finding.
         public var description: Swift.String?
         /// The ID of the finding.
@@ -10862,6 +10950,7 @@ extension GuardDutyClientTypes {
             associatedAttackSequenceArn: Swift.String? = nil,
             confidence: Swift.Double? = nil,
             createdAt: Swift.String? = nil,
+            customDetectionRuleName: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             partition: Swift.String? = nil,
@@ -10879,6 +10968,7 @@ extension GuardDutyClientTypes {
             self.associatedAttackSequenceArn = associatedAttackSequenceArn
             self.confidence = confidence
             self.createdAt = createdAt
+            self.customDetectionRuleName = customDetectionRuleName
             self.description = description
             self.id = id
             self.partition = partition
@@ -11216,6 +11306,8 @@ extension GuardDutyClientTypes {
         /// The unique identifier for the rule.
         /// This member is required.
         public var ruleId: Swift.String?
+        /// Runtime Monitoring-specific details for the rule, including the platforms on which the rule can run and the minimum GuardDuty agent version required on each.
+        public var runtimeMonitoringDetails: GuardDutyClientTypes.DetectionRuleRuntimeMonitoringDetails?
         /// The schema version used by the rule definition.
         public var schema: GuardDutyClientTypes.RuleSchema?
         /// The Amazon Web Services service associated with the rule.
@@ -11242,6 +11334,7 @@ extension GuardDutyClientTypes {
             language: GuardDutyClientTypes.RuleLanguage? = nil,
             name: Swift.String? = nil,
             ruleId: Swift.String? = nil,
+            runtimeMonitoringDetails: GuardDutyClientTypes.DetectionRuleRuntimeMonitoringDetails? = nil,
             schema: GuardDutyClientTypes.RuleSchema? = nil,
             service: Swift.String? = nil,
             severity: GuardDutyClientTypes.DetectionRuleSeverity? = nil,
@@ -11257,6 +11350,7 @@ extension GuardDutyClientTypes {
             self.language = language
             self.name = name
             self.ruleId = ruleId
+            self.runtimeMonitoringDetails = runtimeMonitoringDetails
             self.schema = schema
             self.service = service
             self.severity = severity
@@ -22478,6 +22572,36 @@ extension GuardDutyClientTypes.Detection {
     }
 }
 
+extension GuardDutyClientTypes.DetectionRuleEc2Requirements {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectionRuleEc2Requirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectionRuleEc2Requirements()
+        value.minAgentVersion = try reader["minAgentVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectionRuleEcsFargateRequirements {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectionRuleEcsFargateRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectionRuleEcsFargateRequirements()
+        value.minAgentVersion = try reader["minAgentVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectionRuleEksRequirements {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectionRuleEksRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectionRuleEksRequirements()
+        value.minAgentVersion = try reader["minAgentVersion"].readIfPresent()
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.DetectionRuleFilter {
 
     static func write(value: GuardDutyClientTypes.DetectionRuleFilter?, to writer: SmithyJSON.Writer) throws {
@@ -22518,6 +22642,28 @@ extension GuardDutyClientTypes.DetectionRuleOrgConfigurationSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectionRuleRuntimeMonitoringDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectionRuleRuntimeMonitoringDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectionRuleRuntimeMonitoringDetails()
+        value.platforms = try reader["platforms"].readIfPresent(with: GuardDutyClientTypes.DetectionRuleRuntimePlatforms.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectionRuleRuntimePlatforms {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectionRuleRuntimePlatforms {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectionRuleRuntimePlatforms()
+        value.eks = try reader["eks"].readIfPresent(with: GuardDutyClientTypes.DetectionRuleEksRequirements.read(from:))
+        value.ec2 = try reader["ec2"].readIfPresent(with: GuardDutyClientTypes.DetectionRuleEc2Requirements.read(from:))
+        value.ecsFargate = try reader["ecsFargate"].readIfPresent(with: GuardDutyClientTypes.DetectionRuleEcsFargateRequirements.read(from:))
         return value
     }
 }
@@ -22893,6 +23039,7 @@ extension GuardDutyClientTypes.Finding {
         value.type = try reader["type"].readIfPresent() ?? ""
         value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
         value.associatedAttackSequenceArn = try reader["associatedAttackSequenceArn"].readIfPresent()
+        value.customDetectionRuleName = try reader["customDetectionRuleName"].readIfPresent()
         return value
     }
 }
@@ -24338,6 +24485,7 @@ extension GuardDutyClientTypes.RuleDetail {
         value.definition = try reader["definition"].readIfPresent(with: GuardDutyClientTypes.RuleDefinition.read(from:))
         value.language = try reader["language"].readIfPresent()
         value.schema = try reader["schema"].readIfPresent()
+        value.runtimeMonitoringDetails = try reader["runtimeMonitoringDetails"].readIfPresent(with: GuardDutyClientTypes.DetectionRuleRuntimeMonitoringDetails.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value

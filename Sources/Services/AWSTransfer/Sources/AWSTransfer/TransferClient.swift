@@ -5706,7 +5706,7 @@ extension TransferClient {
 
     /// Performs the `UpdateHostKey` operation on the `Transfer` service.
     ///
-    /// Updates the description for the host key that's specified by the ServerId and HostKeyId parameters.
+    /// Updates the host key that's specified by the ServerId and HostKeyId parameters. You can update the description of the host key, change where the host key is stored by specifying the StorageType, and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager. To change a host key's storage type from SERVICE_MANAGED to SECRETS_MANAGER, you must have the transfer:ExportHostKey permission. transfer:ExportHostKey is a permission-only action that has no corresponding API operation.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateHostKeyInput`)
     ///

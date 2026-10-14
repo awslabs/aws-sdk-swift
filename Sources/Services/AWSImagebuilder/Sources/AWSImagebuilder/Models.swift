@@ -517,6 +517,26 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
 
+    /// Identifies the Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, and how long Image Builder waits when the group has no instance available.
+    public struct AutoScalingGroupConfiguration: Swift.Sendable {
+        /// The number of seconds that Image Builder waits for an instance to become available in the group before the build fails. If you set this value to 0 or omit it, the build fails as soon as the group has no instance available.
+        public var capacityWaitTimeoutSeconds: Swift.Int?
+        /// The name of the Auto Scaling group, in the same account and Amazon Web Services Region as the infrastructure configuration. To specify a group, you must have permissions to describe it.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            capacityWaitTimeoutSeconds: Swift.Int? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.capacityWaitTimeoutSeconds = capacityWaitTimeoutSeconds
+            self.name = name
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
     public enum BuildType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `import`
         case importIso
@@ -2890,6 +2910,22 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
 
+    /// Settings for building on an instance that is already running, instead of an instance that Image Builder launches for the build.
+    public struct ParentInstanceConfiguration: Swift.Sendable {
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from. This is required when you specify parentInstance.
+        /// This member is required.
+        public var autoScalingGroup: ImagebuilderClientTypes.AutoScalingGroupConfiguration?
+
+        public init(
+            autoScalingGroup: ImagebuilderClientTypes.AutoScalingGroupConfiguration? = nil
+        ) {
+            self.autoScalingGroup = autoScalingGroup
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
     public enum TenancyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dedicated
         case `default`
@@ -2973,6 +3009,8 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
     /// The name of the infrastructure configuration. Infrastructure configuration names must be unique to your account in each Amazon Web Services Region. Image Builder generates the infrastructure configuration ARN from a normalized form of the name, so names that differ only in case, spaces, or underscores count as the same name.
     /// This member is required.
     public var name: Swift.String?
+    /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of launching a new instance. This applies only to the build phase. To use this feature, the execution role for the build must have permissions to describe the Auto Scaling group, tag the instance while it's still in the group, and detach it from the group. For more information, see [Build on an instance from an Auto Scaling group](https://docs.aws.amazon.com/imagebuilder/latest/userguide/infra-config-parent-instance.html) in the EC2 Image Builder User Guide.
+    public var parentInstance: ImagebuilderClientTypes.ParentInstanceConfiguration?
     /// The instance placement settings that define where the build and test instances that Image Builder launches during image creation run. These settings don't affect instances that you launch from the output image.
     public var placement: ImagebuilderClientTypes.Placement?
     /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process. Tags are formatted as key value pairs. Tag keys can't begin with aws: or match one of the following reserved keys: CreatedBy, Ec2ImageBuilderArn, Name, or Tags.
@@ -2985,6 +3023,8 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
     public var subnetId: Swift.String?
     /// The metadata tags to assign to the infrastructure configuration resource that Image Builder creates as output. Tags are formatted as key value pairs.
     public var tags: [Swift.String: Swift.String]?
+    /// Specifies whether Image Builder terminates build and test instances when image creation ends without a failure (success, cancellation, or expiration). Defaults to true.
+    public var terminateInstanceOnCompletion: Swift.Bool?
     /// Specifies whether to terminate the instance on failure. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. Defaults to true.
     public var terminateInstanceOnFailure: Swift.Bool?
 
@@ -2998,12 +3038,14 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
         keyPair: Swift.String? = nil,
         logging: ImagebuilderClientTypes.Logging? = nil,
         name: Swift.String? = nil,
+        parentInstance: ImagebuilderClientTypes.ParentInstanceConfiguration? = nil,
         placement: ImagebuilderClientTypes.Placement? = nil,
         resourceTags: [Swift.String: Swift.String]? = nil,
         securityGroupIds: [Swift.String]? = nil,
         snsTopicArn: Swift.String? = nil,
         subnetId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        terminateInstanceOnCompletion: Swift.Bool? = nil,
         terminateInstanceOnFailure: Swift.Bool? = nil
     ) {
         self.clientToken = clientToken
@@ -3015,12 +3057,14 @@ public struct CreateInfrastructureConfigurationInput: Swift.Sendable {
         self.keyPair = keyPair
         self.logging = logging
         self.name = name
+        self.parentInstance = parentInstance
         self.placement = placement
         self.resourceTags = resourceTags
         self.securityGroupIds = securityGroupIds
         self.snsTopicArn = snsTopicArn
         self.subnetId = subnetId
         self.tags = tags
+        self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
         self.terminateInstanceOnFailure = terminateInstanceOnFailure
     }
 }
@@ -4456,6 +4500,8 @@ extension ImagebuilderClientTypes {
         public var logging: ImagebuilderClientTypes.Logging?
         /// The name of the infrastructure configuration.
         public var name: Swift.String?
+        /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of launching a new instance. This applies only to the build phase.
+        public var parentInstance: ImagebuilderClientTypes.ParentInstanceConfiguration?
         /// The instance placement settings that define where the build and test instances that Image Builder launches during image creation run. These settings don't affect instances that you launch from the output image.
         public var placement: ImagebuilderClientTypes.Placement?
         /// The metadata tags assigned to the Amazon EC2 build and test instances that Image Builder launches during image creation.
@@ -4468,6 +4514,8 @@ extension ImagebuilderClientTypes {
         public var subnetId: Swift.String?
         /// The tags of the infrastructure configuration.
         public var tags: [Swift.String: Swift.String]?
+        /// Specifies whether Image Builder terminates build and test instances when image creation ends without a failure.
+        public var terminateInstanceOnCompletion: Swift.Bool?
         /// Indicates whether Image Builder terminates the build and test instances when the image build fails. When false, Image Builder retains the instance so that you can debug it.
         public var terminateInstanceOnFailure: Swift.Bool?
 
@@ -4482,12 +4530,14 @@ extension ImagebuilderClientTypes {
             keyPair: Swift.String? = nil,
             logging: ImagebuilderClientTypes.Logging? = nil,
             name: Swift.String? = nil,
+            parentInstance: ImagebuilderClientTypes.ParentInstanceConfiguration? = nil,
             placement: ImagebuilderClientTypes.Placement? = nil,
             resourceTags: [Swift.String: Swift.String]? = nil,
             securityGroupIds: [Swift.String]? = nil,
             snsTopicArn: Swift.String? = nil,
             subnetId: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
+            terminateInstanceOnCompletion: Swift.Bool? = nil,
             terminateInstanceOnFailure: Swift.Bool? = nil
         ) {
             self.arn = arn
@@ -4500,12 +4550,14 @@ extension ImagebuilderClientTypes {
             self.keyPair = keyPair
             self.logging = logging
             self.name = name
+            self.parentInstance = parentInstance
             self.placement = placement
             self.resourceTags = resourceTags
             self.securityGroupIds = securityGroupIds
             self.snsTopicArn = snsTopicArn
             self.subnetId = subnetId
             self.tags = tags
+            self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
             self.terminateInstanceOnFailure = terminateInstanceOnFailure
         }
     }
@@ -8799,6 +8851,8 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
     public var keyPair: Swift.String?
     /// The logging configuration of the infrastructure configuration. When you configure S3 logs, Image Builder writes logs from the build and test process to the specified bucket under the key prefix.
     public var logging: ImagebuilderClientTypes.Logging?
+    /// The Amazon EC2 Auto Scaling group that Image Builder takes the build instance from, instead of launching a new instance. This applies only to the build phase. To use this feature, the execution role for the build must have permissions to describe the Auto Scaling group, tag the instance while it's still in the group, and detach it from the group. For more information, see [Build on an instance from an Auto Scaling group](https://docs.aws.amazon.com/imagebuilder/latest/userguide/infra-config-parent-instance.html) in the EC2 Image Builder User Guide.
+    public var parentInstance: ImagebuilderClientTypes.ParentInstanceConfiguration?
     /// The instance placement settings that define where the build and test instances that Image Builder launches during image creation run. These settings don't affect instances that you launch from the output image.
     public var placement: ImagebuilderClientTypes.Placement?
     /// The metadata tags to assign to the Amazon EC2 instance that Image Builder launches during the build process. Tags are formatted as key value pairs. Tag keys can't begin with aws: or match one of the following reserved keys: CreatedBy, Ec2ImageBuilderArn, Name, or Tags.
@@ -8809,6 +8863,8 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
     public var snsTopicArn: Swift.String?
     /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI. If you specify subnetId, you must also specify one or more security group IDs in securityGroupIds. Otherwise, the request fails.
     public var subnetId: Swift.String?
+    /// Specifies whether Image Builder terminates build and test instances when image creation ends without a failure (success, cancellation, or expiration). Defaults to true.
+    public var terminateInstanceOnCompletion: Swift.Bool?
     /// Specifies whether to terminate the instance on failure. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. Defaults to true.
     public var terminateInstanceOnFailure: Swift.Bool?
 
@@ -8821,11 +8877,13 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
         instanceTypes: [Swift.String]? = nil,
         keyPair: Swift.String? = nil,
         logging: ImagebuilderClientTypes.Logging? = nil,
+        parentInstance: ImagebuilderClientTypes.ParentInstanceConfiguration? = nil,
         placement: ImagebuilderClientTypes.Placement? = nil,
         resourceTags: [Swift.String: Swift.String]? = nil,
         securityGroupIds: [Swift.String]? = nil,
         snsTopicArn: Swift.String? = nil,
         subnetId: Swift.String? = nil,
+        terminateInstanceOnCompletion: Swift.Bool? = nil,
         terminateInstanceOnFailure: Swift.Bool? = nil
     ) {
         self.clientToken = clientToken
@@ -8836,11 +8894,13 @@ public struct UpdateInfrastructureConfigurationInput: Swift.Sendable {
         self.instanceTypes = instanceTypes
         self.keyPair = keyPair
         self.logging = logging
+        self.parentInstance = parentInstance
         self.placement = placement
         self.resourceTags = resourceTags
         self.securityGroupIds = securityGroupIds
         self.snsTopicArn = snsTopicArn
         self.subnetId = subnetId
+        self.terminateInstanceOnCompletion = terminateInstanceOnCompletion
         self.terminateInstanceOnFailure = terminateInstanceOnFailure
     }
 }
@@ -9985,12 +10045,14 @@ extension CreateInfrastructureConfigurationInput {
         try writer["keyPair"].write(value.keyPair)
         try writer["logging"].write(value.logging, with: ImagebuilderClientTypes.Logging.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["parentInstance"].write(value.parentInstance, with: ImagebuilderClientTypes.ParentInstanceConfiguration.write(value:to:))
         try writer["placement"].write(value.placement, with: ImagebuilderClientTypes.Placement.write(value:to:))
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["snsTopicArn"].write(value.snsTopicArn)
         try writer["subnetId"].write(value.subnetId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["terminateInstanceOnCompletion"].write(value.terminateInstanceOnCompletion)
         try writer["terminateInstanceOnFailure"].write(value.terminateInstanceOnFailure)
     }
 }
@@ -10463,11 +10525,13 @@ extension UpdateInfrastructureConfigurationInput {
         try writer["instanceTypes"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["keyPair"].write(value.keyPair)
         try writer["logging"].write(value.logging, with: ImagebuilderClientTypes.Logging.write(value:to:))
+        try writer["parentInstance"].write(value.parentInstance, with: ImagebuilderClientTypes.ParentInstanceConfiguration.write(value:to:))
         try writer["placement"].write(value.placement, with: ImagebuilderClientTypes.Placement.write(value:to:))
         try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["snsTopicArn"].write(value.snsTopicArn)
         try writer["subnetId"].write(value.subnetId)
+        try writer["terminateInstanceOnCompletion"].write(value.terminateInstanceOnCompletion)
         try writer["terminateInstanceOnFailure"].write(value.terminateInstanceOnFailure)
     }
 }
@@ -13464,6 +13528,23 @@ extension ImagebuilderClientTypes.AutoDisablePolicy {
     }
 }
 
+extension ImagebuilderClientTypes.AutoScalingGroupConfiguration {
+
+    static func write(value: ImagebuilderClientTypes.AutoScalingGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityWaitTimeoutSeconds"].write(value.capacityWaitTimeoutSeconds)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.AutoScalingGroupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.AutoScalingGroupConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.capacityWaitTimeoutSeconds = try reader["capacityWaitTimeoutSeconds"].readIfPresent()
+        return value
+    }
+}
+
 extension ImagebuilderClientTypes.Component {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.Component {
@@ -14247,6 +14328,8 @@ extension ImagebuilderClientTypes.InfrastructureConfiguration {
         value.instanceMetadataOptions = try reader["instanceMetadataOptions"].readIfPresent(with: ImagebuilderClientTypes.InstanceMetadataOptions.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.placement = try reader["placement"].readIfPresent(with: ImagebuilderClientTypes.Placement.read(from:))
+        value.terminateInstanceOnCompletion = try reader["terminateInstanceOnCompletion"].readIfPresent()
+        value.parentInstance = try reader["parentInstance"].readIfPresent(with: ImagebuilderClientTypes.ParentInstanceConfiguration.read(from:))
         return value
     }
 }
@@ -14723,6 +14806,21 @@ extension ImagebuilderClientTypes.PackageVulnerabilityDetails {
         value.vendorCreatedAt = try reader["vendorCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vendorUpdatedAt = try reader["vendorUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.referenceUrls = try reader["referenceUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.ParentInstanceConfiguration {
+
+    static func write(value: ImagebuilderClientTypes.ParentInstanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoScalingGroup"].write(value.autoScalingGroup, with: ImagebuilderClientTypes.AutoScalingGroupConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ParentInstanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.ParentInstanceConfiguration()
+        value.autoScalingGroup = try reader["autoScalingGroup"].readIfPresent(with: ImagebuilderClientTypes.AutoScalingGroupConfiguration.read(from:))
         return value
     }
 }

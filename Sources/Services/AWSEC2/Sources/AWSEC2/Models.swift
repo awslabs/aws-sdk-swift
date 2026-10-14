@@ -12645,6 +12645,7 @@ extension EC2ClientTypes {
         case i8g8xlarge
         case i8gLarge
         case i8gMetal24xl
+        case i8gMetal48xl
         case i8gXlarge
         case i8ge12xlarge
         case i8ge18xlarge
@@ -13050,6 +13051,7 @@ extension EC2ClientTypes {
         case m9gd4xlarge
         case m9gd8xlarge
         case m9gdLarge
+        case m9gdMedium
         case m9gdMetal24xl
         case m9gdMetal48xl
         case m9gdXlarge
@@ -13298,11 +13300,13 @@ extension EC2ClientTypes {
         case r8gb16xlarge
         case r8gb24xlarge
         case r8gb2xlarge
+        case r8gb48xlarge
         case r8gb4xlarge
         case r8gb8xlarge
         case r8gbLarge
         case r8gbMedium
         case r8gbMetal24xl
+        case r8gbMetal48xl
         case r8gbXlarge
         case r8gd12xlarge
         case r8gd16xlarge
@@ -13464,11 +13468,16 @@ extension EC2ClientTypes {
         case t4gNano
         case t4gSmall
         case t4gXlarge
+        case t8iMedium
+        case t8iMicro
+        case t8iNano
+        case t8iSmall
         case trn12xlarge
         case trn132xlarge
         case trn1n32xlarge
         case trn23xlarge
         case trn248xlarge
+        case trn2u48xlarge
         case u7i12tb224xlarge
         case u7i6tb112xlarge
         case u7i8tb112xlarge
@@ -14077,6 +14086,7 @@ extension EC2ClientTypes {
                 .i8g8xlarge,
                 .i8gLarge,
                 .i8gMetal24xl,
+                .i8gMetal48xl,
                 .i8gXlarge,
                 .i8ge12xlarge,
                 .i8ge18xlarge,
@@ -14482,6 +14492,7 @@ extension EC2ClientTypes {
                 .m9gd4xlarge,
                 .m9gd8xlarge,
                 .m9gdLarge,
+                .m9gdMedium,
                 .m9gdMetal24xl,
                 .m9gdMetal48xl,
                 .m9gdXlarge,
@@ -14730,11 +14741,13 @@ extension EC2ClientTypes {
                 .r8gb16xlarge,
                 .r8gb24xlarge,
                 .r8gb2xlarge,
+                .r8gb48xlarge,
                 .r8gb4xlarge,
                 .r8gb8xlarge,
                 .r8gbLarge,
                 .r8gbMedium,
                 .r8gbMetal24xl,
+                .r8gbMetal48xl,
                 .r8gbXlarge,
                 .r8gd12xlarge,
                 .r8gd16xlarge,
@@ -14896,11 +14909,16 @@ extension EC2ClientTypes {
                 .t4gNano,
                 .t4gSmall,
                 .t4gXlarge,
+                .t8iMedium,
+                .t8iMicro,
+                .t8iNano,
+                .t8iSmall,
                 .trn12xlarge,
                 .trn132xlarge,
                 .trn1n32xlarge,
                 .trn23xlarge,
                 .trn248xlarge,
+                .trn2u48xlarge,
                 .u7i12tb224xlarge,
                 .u7i6tb112xlarge,
                 .u7i8tb112xlarge,
@@ -15515,6 +15533,7 @@ extension EC2ClientTypes {
             case .i8g8xlarge: return "i8g.8xlarge"
             case .i8gLarge: return "i8g.large"
             case .i8gMetal24xl: return "i8g.metal-24xl"
+            case .i8gMetal48xl: return "i8g.metal-48xl"
             case .i8gXlarge: return "i8g.xlarge"
             case .i8ge12xlarge: return "i8ge.12xlarge"
             case .i8ge18xlarge: return "i8ge.18xlarge"
@@ -15920,6 +15939,7 @@ extension EC2ClientTypes {
             case .m9gd4xlarge: return "m9gd.4xlarge"
             case .m9gd8xlarge: return "m9gd.8xlarge"
             case .m9gdLarge: return "m9gd.large"
+            case .m9gdMedium: return "m9gd.medium"
             case .m9gdMetal24xl: return "m9gd.metal-24xl"
             case .m9gdMetal48xl: return "m9gd.metal-48xl"
             case .m9gdXlarge: return "m9gd.xlarge"
@@ -16168,11 +16188,13 @@ extension EC2ClientTypes {
             case .r8gb16xlarge: return "r8gb.16xlarge"
             case .r8gb24xlarge: return "r8gb.24xlarge"
             case .r8gb2xlarge: return "r8gb.2xlarge"
+            case .r8gb48xlarge: return "r8gb.48xlarge"
             case .r8gb4xlarge: return "r8gb.4xlarge"
             case .r8gb8xlarge: return "r8gb.8xlarge"
             case .r8gbLarge: return "r8gb.large"
             case .r8gbMedium: return "r8gb.medium"
             case .r8gbMetal24xl: return "r8gb.metal-24xl"
+            case .r8gbMetal48xl: return "r8gb.metal-48xl"
             case .r8gbXlarge: return "r8gb.xlarge"
             case .r8gd12xlarge: return "r8gd.12xlarge"
             case .r8gd16xlarge: return "r8gd.16xlarge"
@@ -16334,11 +16356,16 @@ extension EC2ClientTypes {
             case .t4gNano: return "t4g.nano"
             case .t4gSmall: return "t4g.small"
             case .t4gXlarge: return "t4g.xlarge"
+            case .t8iMedium: return "t8i.medium"
+            case .t8iMicro: return "t8i.micro"
+            case .t8iNano: return "t8i.nano"
+            case .t8iSmall: return "t8i.small"
             case .trn12xlarge: return "trn1.2xlarge"
             case .trn132xlarge: return "trn1.32xlarge"
             case .trn1n32xlarge: return "trn1n.32xlarge"
             case .trn23xlarge: return "trn2.3xlarge"
             case .trn248xlarge: return "trn2.48xlarge"
+            case .trn2u48xlarge: return "trn2u.48xlarge"
             case .u7i12tb224xlarge: return "u7i-12tb.224xlarge"
             case .u7i6tb112xlarge: return "u7i-6tb.112xlarge"
             case .u7i8tb112xlarge: return "u7i-8tb.112xlarge"

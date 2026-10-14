@@ -2122,13 +2122,17 @@ extension LambdaClientTypes {
         public var functionName: Swift.String?
         /// The tenant identifier for the chained invocation.
         public var tenantId: Swift.String?
+        /// The optional X-Ray trace header to use when starting the chained invocation. If you omit this value, the child invocation inherits the parent durable execution's trace header. Specify this value on the START update for the chained invocation operation. For more information about the header format, see [Tracing header](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader) in the X-Ray Developer Guide.
+        public var xAmznTraceId: Swift.String?
 
         public init(
             functionName: Swift.String? = nil,
-            tenantId: Swift.String? = nil
+            tenantId: Swift.String? = nil,
+            xAmznTraceId: Swift.String? = nil
         ) {
             self.functionName = functionName
             self.tenantId = tenantId
+            self.xAmznTraceId = xAmznTraceId
         }
     }
 }
@@ -18755,6 +18759,7 @@ extension LambdaClientTypes.ChainedInvokeOptions {
         guard let value else { return }
         try writer["FunctionName"].write(value.functionName)
         try writer["TenantId"].write(value.tenantId)
+        try writer["XAmznTraceId"].write(value.xAmznTraceId)
     }
 }
 
