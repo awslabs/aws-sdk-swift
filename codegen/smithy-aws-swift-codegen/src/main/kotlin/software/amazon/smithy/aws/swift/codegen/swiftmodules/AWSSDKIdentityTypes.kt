@@ -22,6 +22,12 @@ object AWSSDKIdentityTypes {
     val AWSCredentialIdentity = runtimeSymbol("AWSCredentialIdentity", SwiftDeclaration.STRUCT)
     val CredentialFeatureIDInterceptorProvider = runtimeSymbol("CredentialFeatureIDInterceptorProvider", SwiftDeclaration.CLASS)
     val CredentialFeatureID = runtimeSymbol("CredentialFeatureID", SwiftDeclaration.ENUM)
+    val wrapCredentialIdentityResolver =
+        runtimeSymbol(
+            "wrapCredentialIdentityResolver",
+            SwiftDeclaration.FUNC,
+            spiNames = listOf("ClientConfigDefaultIdentityResolver"),
+        )
 }
 
 private fun runtimeSymbol(

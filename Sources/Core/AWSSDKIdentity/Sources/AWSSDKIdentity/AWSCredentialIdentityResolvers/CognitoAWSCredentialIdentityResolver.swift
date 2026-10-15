@@ -42,19 +42,7 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        // Return cached credentials if still valid
-        if cache.isValid(for: logins) {
-            return cache.credentials!
-        }
-
-        // Fetch fresh credentials
-        let credentials = try await fetchCredentials()
-
-        // Update cache
-        cache.credentials = credentials
-        cache.logins = logins
-
-        return credentials
+        try await fetchCredentials()
     }
 
     public func updateLogins(_ newLogins: [String: String]?) {
@@ -170,23 +158,11 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
 
     private struct CognitoCredentialsCache {
         var identityId: String?
-        var credentials: AWSCredentialIdentity?
         var logins: [String: String]?
 
         mutating func invalidate() {
             identityId = nil
-            credentials = nil
             logins = nil
-        }
-
-        func isValid(for currentLogins: [String: String]?) -> Bool {
-            guard let creds = credentials,
-                  let expiration = creds.expiration,
-                  expiration > Date(),
-                  logins == currentLogins else {
-                return false
-            }
-            return true
         }
 
         func hasValidIdentityId(for currentLogins: [String: String]?) -> Bool {
