@@ -4853,8 +4853,12 @@ extension DataZoneClientTypes {
 
     public enum GlueConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bigquery
+        /// A Databricks Unity Catalog (Iceberg REST) connection type.
+        case databricksicebergrestcatalog
         case documentdb
         case dynamodb
+        /// A generic Iceberg REST catalog connection type.
+        case icebergrestcatalog
         case mysql
         case opensearch
         case oracle
@@ -4862,6 +4866,8 @@ extension DataZoneClientTypes {
         case redshift
         case saphana
         case snowflake
+        /// A Snowflake Horizon (Iceberg REST) catalog connection type.
+        case snowflakeicebergrestcatalog
         case sqlserver
         case teradata
         case vertica
@@ -4870,8 +4876,10 @@ extension DataZoneClientTypes {
         public static var allCases: [GlueConnectionType] {
             return [
                 .bigquery,
+                .databricksicebergrestcatalog,
                 .documentdb,
                 .dynamodb,
+                .icebergrestcatalog,
                 .mysql,
                 .opensearch,
                 .oracle,
@@ -4879,6 +4887,7 @@ extension DataZoneClientTypes {
                 .redshift,
                 .saphana,
                 .snowflake,
+                .snowflakeicebergrestcatalog,
                 .sqlserver,
                 .teradata,
                 .vertica
@@ -4893,8 +4902,10 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bigquery: return "BIGQUERY"
+            case .databricksicebergrestcatalog: return "DATABRICKSICEBERGRESTCATALOG"
             case .documentdb: return "DOCUMENTDB"
             case .dynamodb: return "DYNAMODB"
+            case .icebergrestcatalog: return "ICEBERGRESTCATALOG"
             case .mysql: return "MYSQL"
             case .opensearch: return "OPENSEARCH"
             case .oracle: return "ORACLE"
@@ -4902,6 +4913,7 @@ extension DataZoneClientTypes {
             case .redshift: return "REDSHIFT"
             case .saphana: return "SAPHANA"
             case .snowflake: return "SNOWFLAKE"
+            case .snowflakeicebergrestcatalog: return "SNOWFLAKEICEBERGRESTCATALOG"
             case .sqlserver: return "SQLSERVER"
             case .teradata: return "TERADATA"
             case .vertica: return "VERTICA"
@@ -6747,12 +6759,16 @@ extension DataZoneClientTypes {
         case athena
         case bigquery
         case databricks
+        /// A Databricks Unity Catalog (Iceberg REST) connection type.
+        case databricksicebergrestcatalog
         case documentdb
         case dynamodb
         /// A Git connection type.
         case git
         case hyperpod
         case iam
+        /// A generic Iceberg REST catalog connection type.
+        case icebergrestcatalog
         case mlflow
         case mysql
         case opensearch
@@ -6762,6 +6778,8 @@ extension DataZoneClientTypes {
         case s3
         case saphana
         case snowflake
+        /// A Snowflake Horizon (Iceberg REST) catalog connection type.
+        case snowflakeicebergrestcatalog
         case spark
         case sqlserver
         case teradata
@@ -6776,11 +6794,13 @@ extension DataZoneClientTypes {
                 .athena,
                 .bigquery,
                 .databricks,
+                .databricksicebergrestcatalog,
                 .documentdb,
                 .dynamodb,
                 .git,
                 .hyperpod,
                 .iam,
+                .icebergrestcatalog,
                 .mlflow,
                 .mysql,
                 .opensearch,
@@ -6790,6 +6810,7 @@ extension DataZoneClientTypes {
                 .s3,
                 .saphana,
                 .snowflake,
+                .snowflakeicebergrestcatalog,
                 .spark,
                 .sqlserver,
                 .teradata,
@@ -6810,11 +6831,13 @@ extension DataZoneClientTypes {
             case .athena: return "ATHENA"
             case .bigquery: return "BIGQUERY"
             case .databricks: return "DATABRICKS"
+            case .databricksicebergrestcatalog: return "DATABRICKSICEBERGRESTCATALOG"
             case .documentdb: return "DOCUMENTDB"
             case .dynamodb: return "DYNAMODB"
             case .git: return "GIT"
             case .hyperpod: return "HYPERPOD"
             case .iam: return "IAM"
+            case .icebergrestcatalog: return "ICEBERGRESTCATALOG"
             case .mlflow: return "MLFLOW"
             case .mysql: return "MYSQL"
             case .opensearch: return "OPENSEARCH"
@@ -6824,6 +6847,7 @@ extension DataZoneClientTypes {
             case .s3: return "S3"
             case .saphana: return "SAPHANA"
             case .snowflake: return "SNOWFLAKE"
+            case .snowflakeicebergrestcatalog: return "SNOWFLAKEICEBERGRESTCATALOG"
             case .spark: return "SPARK"
             case .sqlserver: return "SQLSERVER"
             case .teradata: return "TERADATA"

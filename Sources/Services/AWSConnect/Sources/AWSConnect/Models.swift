@@ -4221,6 +4221,7 @@ extension ConnectClientTypes {
 
     public enum FileStatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case approved
+        case drafting
         case failed
         case processing
         case rejected
@@ -4229,6 +4230,7 @@ extension ConnectClientTypes {
         public static var allCases: [FileStatusType] {
             return [
                 .approved,
+                .drafting,
                 .failed,
                 .processing,
                 .rejected
@@ -4243,6 +4245,7 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .approved: return "APPROVED"
+            case .drafting: return "DRAFTING"
             case .failed: return "FAILED"
             case .processing: return "PROCESSING"
             case .rejected: return "REJECTED"
@@ -20413,6 +20416,35 @@ public struct EvaluateDataTableValuesOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    public enum ContentDisposition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachment
+        case inline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentDisposition] {
+            return [
+                .attachment,
+                .inline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "ATTACHMENT"
+            case .inline: return "INLINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Request to GetAttachedFile API.
 public struct GetAttachedFileInput: Swift.Sendable {
     /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
@@ -20424,6 +20456,8 @@ public struct GetAttachedFileInput: Swift.Sendable {
     /// The unique identifier of the Connect Customer instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// Specifies how a browser handles the file at the pre-signed URL. The valid values are the following: INLINE Displays the file in the browser. ATTACHMENT Downloads the file. This is the default.
+    public var urlContentDisposition: ConnectClientTypes.ContentDisposition?
     /// Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
     public var urlExpiryInSeconds: Swift.Int?
 
@@ -20431,11 +20465,13 @@ public struct GetAttachedFileInput: Swift.Sendable {
         associatedResourceArn: Swift.String? = nil,
         fileId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
+        urlContentDisposition: ConnectClientTypes.ContentDisposition? = nil,
         urlExpiryInSeconds: Swift.Int? = nil
     ) {
         self.associatedResourceArn = associatedResourceArn
         self.fileId = fileId
         self.instanceId = instanceId
+        self.urlContentDisposition = urlContentDisposition
         self.urlExpiryInSeconds = urlExpiryInSeconds
     }
 }
@@ -42872,6 +42908,10 @@ extension GetAttachedFileInput {
         }
         let associatedResourceArnQueryItem = Smithy.URIQueryItem(name: "associatedResourceArn".urlPercentEncoding(), value: Swift.String(associatedResourceArn).urlPercentEncoding())
         items.append(associatedResourceArnQueryItem)
+        if let urlContentDisposition = value.urlContentDisposition {
+            let urlContentDispositionQueryItem = Smithy.URIQueryItem(name: "urlContentDisposition".urlPercentEncoding(), value: Swift.String(urlContentDisposition.rawValue).urlPercentEncoding())
+            items.append(urlContentDispositionQueryItem)
+        }
         return items
     }
 }

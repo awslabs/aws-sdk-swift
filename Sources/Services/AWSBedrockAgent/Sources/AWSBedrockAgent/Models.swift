@@ -12422,6 +12422,712 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentClientTypes {
+
+    /// The instruction content, as a set of named fields. Every field is optional; at least one must be present. Service-side validation enforces per-field and aggregate size limits.
+    public struct RetrievalInstructionContent: Swift.Sendable {
+        /// How the answer is structured, including how sources are cited.
+        public var answerFormat: Swift.String?
+        /// Whether and how to answer: how strongly an answer must be supported, and what to do with questions outside scope.
+        public var answerPolicy: Swift.String?
+        /// Who the assistant is: identity, tone and language.
+        public var persona: Swift.String?
+        /// How to interpret and decompose the question, and what to prioritise when searching.
+        public var retrievalGuidance: Swift.String?
+
+        public init(
+            answerFormat: Swift.String? = nil,
+            answerPolicy: Swift.String? = nil,
+            persona: Swift.String? = nil,
+            retrievalGuidance: Swift.String? = nil
+        ) {
+            self.answerFormat = answerFormat
+            self.answerPolicy = answerPolicy
+            self.persona = persona
+            self.retrievalGuidance = retrievalGuidance
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.RetrievalInstructionContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+public struct CreateRetrievalInstructionInput: Swift.Sendable {
+    /// A caller-supplied token that makes a retried create return the existing resource rather than a second one. The window is 8 hours.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of a customer managed AWS Key Management Service (AWS KMS) key used to encrypt the instruction content at rest. If you omit it, the service uses an AWS owned key. You fix the key at create and cannot change it later.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// Specifies a description of the retrieval instruction.
+    public var description: Swift.String?
+    /// The instruction content, as a set of named fields. Get does not return this field until the create review passes.
+    /// This member is required.
+    public var instruction: BedrockAgentClientTypes.RetrievalInstructionContent?
+    /// Specifies the name of the retrieval instruction.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Tags for the retrieval instruction.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instruction: BedrockAgentClientTypes.RetrievalInstructionContent? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.description = description
+        self.instruction = instruction
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateRetrievalInstructionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRetrievalInstructionInput(clientToken: \(Swift.String(describing: clientToken)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The outcome or in-progress state of the most recent create or update of a retrieval instruction. Delete is synchronous and has no representation here. Independent of RetrievalInstructionStatus.
+    public enum RetrievalInstructionLastTransitionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createFailed
+        case createSuccessful
+        case creating
+        case updateFailed
+        case updateSuccessful
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrievalInstructionLastTransitionStatus] {
+            return [
+                .createFailed,
+                .createSuccessful,
+                .creating,
+                .updateFailed,
+                .updateSuccessful,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createFailed: return "CREATE_FAILED"
+            case .createSuccessful: return "CREATE_SUCCESSFUL"
+            case .creating: return "CREATING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateSuccessful: return "UPDATE_SUCCESSFUL"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Specifies whether you can use a retrieval instruction. You can resolve only an ACTIVE retrieval instruction at retrieval time. Monotone: INACTIVE to ACTIVE once, never back.
+    public enum RetrievalInstructionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrievalInstructionStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRetrievalInstructionOutput: Swift.Sendable {
+    /// When you created the retrieval instruction.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Always CREATING on this response. Poll GetRetrievalInstruction until this member is neither CREATING nor UPDATING, then read the outcome from it.
+    /// This member is required.
+    public var lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus?
+    /// The name of the retrieval instruction.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ARN of the newly created retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionArn: Swift.String?
+    /// The identifier of the newly created retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+    /// Always INACTIVE on this response. The content review has not run when this call returns, so the resource is not yet usable.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.RetrievalInstructionStatus?
+    /// When the retrieval instruction was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus? = nil,
+        name: Swift.String? = nil,
+        retrievalInstructionArn: Swift.String? = nil,
+        retrievalInstructionId: Swift.String? = nil,
+        status: BedrockAgentClientTypes.RetrievalInstructionStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.lastTransitionStatus = lastTransitionStatus
+        self.name = name
+        self.retrievalInstructionArn = retrievalInstructionArn
+        self.retrievalInstructionId = retrievalInstructionId
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension CreateRetrievalInstructionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRetrievalInstructionOutput(createdAt: \(Swift.String(describing: createdAt)), lastTransitionStatus: \(Swift.String(describing: lastTransitionStatus)), retrievalInstructionArn: \(Swift.String(describing: retrievalInstructionArn)), retrievalInstructionId: \(Swift.String(describing: retrievalInstructionId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateRetrievalInstructionVersionInput: Swift.Sendable {
+    /// A caller-supplied token that makes a retried call return the version created by the first call rather than a second version. The window is 8 hours.
+    public var clientToken: Swift.String?
+    /// A description of this version. Independent of the retrieval instruction's own description.
+    public var description: Swift.String?
+    /// The identifier of the retrieval instruction to version.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        retrievalInstructionId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.retrievalInstructionId = retrievalInstructionId
+    }
+}
+
+extension CreateRetrievalInstructionVersionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRetrievalInstructionVersionInput(clientToken: \(Swift.String(describing: clientToken)), retrievalInstructionId: \(Swift.String(describing: retrievalInstructionId)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateRetrievalInstructionVersionOutput: Swift.Sendable {
+    /// When this version was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of this version, when one was supplied.
+    public var description: Swift.String?
+    /// The ARN of the retrieval instruction. Versions do not have their own ARN.
+    /// This member is required.
+    public var retrievalInstructionArn: Swift.String?
+    /// The identifier of the retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+    /// The number of the version created. Versions are numbered from 1 and allocated monotonically; a number is never reused, even after the version is deleted.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        retrievalInstructionArn: Swift.String? = nil,
+        retrievalInstructionId: Swift.String? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.retrievalInstructionArn = retrievalInstructionArn
+        self.retrievalInstructionId = retrievalInstructionId
+        self.version = version
+    }
+}
+
+extension CreateRetrievalInstructionVersionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRetrievalInstructionVersionOutput(createdAt: \(Swift.String(describing: createdAt)), retrievalInstructionArn: \(Swift.String(describing: retrievalInstructionArn)), retrievalInstructionId: \(Swift.String(describing: retrievalInstructionId)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct DeleteRetrievalInstructionInput: Swift.Sendable {
+    /// The identifier of the retrieval instruction to delete.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+    /// The version to delete. Omit this field to delete the retrieval instruction itself, which you can do only when it has no versions; while any version exists the service rejects the request with ConflictException. You cannot delete DRAFT on its own; deleting the retrieval instruction removes it.
+    public var retrievalInstructionVersion: Swift.String?
+
+    public init(
+        retrievalInstructionId: Swift.String? = nil,
+        retrievalInstructionVersion: Swift.String? = nil
+    ) {
+        self.retrievalInstructionId = retrievalInstructionId
+        self.retrievalInstructionVersion = retrievalInstructionVersion
+    }
+}
+
+public struct DeleteRetrievalInstructionOutput: Swift.Sendable {
+    /// The ARN of the retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionArn: Swift.String?
+    /// The identifier of the deleted retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+    /// The version that you deleted. Absent when you deleted the whole retrieval instruction.
+    public var version: Swift.String?
+
+    public init(
+        retrievalInstructionArn: Swift.String? = nil,
+        retrievalInstructionId: Swift.String? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.retrievalInstructionArn = retrievalInstructionArn
+        self.retrievalInstructionId = retrievalInstructionId
+        self.version = version
+    }
+}
+
+public struct GetRetrievalInstructionInput: Swift.Sendable {
+    /// The identifier of the retrieval instruction to get.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+    /// The version to return: a version number, or DRAFT for the retrieval instruction's current reviewed content. When omitted, DRAFT is used. This default is permanent: omitting retrievalInstructionVersion will never resolve to a numbered version.
+    public var retrievalInstructionVersion: Swift.String?
+
+    public init(
+        retrievalInstructionId: Swift.String? = nil,
+        retrievalInstructionVersion: Swift.String? = nil
+    ) {
+        self.retrievalInstructionId = retrievalInstructionId
+        self.retrievalInstructionVersion = retrievalInstructionVersion
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// A machine-readable failure classification. See RetrievalInstructionFailureReason.code for the value semantics.
+    public enum RetrievalInstructionFailureReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientError
+        case contentRejected
+        case internalError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrievalInstructionFailureReasonCode] {
+            return [
+                .clientError,
+                .contentRejected,
+                .internalError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientError: return "CLIENT_ERROR"
+            case .contentRejected: return "CONTENT_REJECTED"
+            case .internalError: return "INTERNAL_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Identifies one field of RetrievalInstructionContent:
+    ///
+    /// * RETRIEVAL_GUIDANCE – retrievalGuidance
+    ///
+    /// * PERSONA – persona
+    ///
+    /// * ANSWER_FORMAT – answerFormat
+    ///
+    /// * ANSWER_POLICY – answerPolicy
+    public enum RetrievalInstructionFieldName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case answerFormat
+        case answerPolicy
+        case persona
+        case retrievalGuidance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetrievalInstructionFieldName] {
+            return [
+                .answerFormat,
+                .answerPolicy,
+                .persona,
+                .retrievalGuidance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .answerFormat: return "ANSWER_FORMAT"
+            case .answerPolicy: return "ANSWER_POLICY"
+            case .persona: return "PERSONA"
+            case .retrievalGuidance: return "RETRIEVAL_GUIDANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// One reason the most recent create or update did not succeed. code drives programmatic branching (fix the text, fix the configuration, or retry); message carries the specific cause.
+    public struct RetrievalInstructionFailureReason: Swift.Sendable {
+        /// Stable, machine-readable classification by fault attribution. Valid values:
+        ///
+        /// * CONTENT_REJECTED – The review rejected the named field's content; revise the text and resubmit.
+        ///
+        /// * CLIENT_ERROR – The review could not run for a customer-side reason, for example the customer managed AWS KMS key could not be used; fix the configuration and resubmit.
+        ///
+        /// * INTERNAL_ERROR – The review could not complete due to a service fault; retry the create or update.
+        ///
+        ///
+        /// New values may be added over time; your client should tolerate values it does not recognize and treat them as a failure.
+        /// This member is required.
+        public var code: BedrockAgentClientTypes.RetrievalInstructionFailureReasonCode?
+        /// The instruction field this entry is about. Present on review rejections of a specific field; absent when the failure applies to the whole review, because a client-side execution failure or a service fault has no single field.
+        public var fieldName: BedrockAgentClientTypes.RetrievalInstructionFieldName?
+        /// Human-readable explanation of the specific cause. Never contains the customer's own text.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: BedrockAgentClientTypes.RetrievalInstructionFailureReasonCode? = nil,
+            fieldName: BedrockAgentClientTypes.RetrievalInstructionFieldName? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.fieldName = fieldName
+            self.message = message
+        }
+    }
+}
+
+public struct GetRetrievalInstructionOutput: Swift.Sendable {
+    /// When the retrieval instruction was created. On a numbered version, when that version was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The ARN of the customer managed KMS key protecting this content, when one was supplied at create.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// A description of the retrieval instruction. On a numbered version, the description of that version.
+    public var description: Swift.String?
+    /// The reviewed content this instruction serves — what AgenticRetrieveStream resolves while status is ACTIVE. Absent until the first create review passes. Always present on a numbered version.
+    public var instruction: BedrockAgentClientTypes.RetrievalInstructionContent?
+    /// The outcome or in-progress state of the most recent create or update. CREATING or UPDATING means the operation is still running. Independent of status. Always has a value from the create 202 onward. On a numbered version this is always CREATE_SUCCESSFUL: a version is created once, from reviewed content, and is immutable.
+    /// This member is required.
+    public var lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus?
+    /// Why the most recent create or update was rejected. One entry for each rejected field, or a single entry when the review itself failed. Each entry has a machine-readable code and a message, and names the field when it applies to one. The service includes this field only when lastTransitionStatus is CREATE_FAILED or UPDATE_FAILED. Never present on a numbered version.
+    public var lastTransitionStatusReasons: [BedrockAgentClientTypes.RetrievalInstructionFailureReason]?
+    /// The largest version number that currently exists for this retrieval instruction, that is, the newest version you can retrieve. Present only on a DRAFT read, and only when at least one version exists. Because version numbers are never reused, deleting versions can leave gaps: this is the newest existing version, not a count and not the highest number ever created.
+    public var latestVersion: Swift.String?
+    /// The name of the retrieval instruction.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ARN of the retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionArn: Swift.String?
+    /// The identifier of the retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+    /// Specifies whether you can use the instruction. You can resolve only an ACTIVE instruction at retrieval time. Monotone: INACTIVE to ACTIVE once, never back. Numbered versions are always ACTIVE.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.RetrievalInstructionStatus?
+    /// When the retrieval instruction was last updated. Equal to createdAt on a numbered version, which is immutable.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The version this response describes: a version number, or DRAFT.
+    public var version: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instruction: BedrockAgentClientTypes.RetrievalInstructionContent? = nil,
+        lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus? = nil,
+        lastTransitionStatusReasons: [BedrockAgentClientTypes.RetrievalInstructionFailureReason]? = nil,
+        latestVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        retrievalInstructionArn: Swift.String? = nil,
+        retrievalInstructionId: Swift.String? = nil,
+        status: BedrockAgentClientTypes.RetrievalInstructionStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.description = description
+        self.instruction = instruction
+        self.lastTransitionStatus = lastTransitionStatus
+        self.lastTransitionStatusReasons = lastTransitionStatusReasons
+        self.latestVersion = latestVersion
+        self.name = name
+        self.retrievalInstructionArn = retrievalInstructionArn
+        self.retrievalInstructionId = retrievalInstructionId
+        self.status = status
+        self.updatedAt = updatedAt
+        self.version = version
+    }
+}
+
+extension GetRetrievalInstructionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetRetrievalInstructionOutput(createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), lastTransitionStatus: \(Swift.String(describing: lastTransitionStatus)), lastTransitionStatusReasons: \(Swift.String(describing: lastTransitionStatusReasons)), latestVersion: \(Swift.String(describing: latestVersion)), retrievalInstructionArn: \(Swift.String(describing: retrievalInstructionArn)), retrievalInstructionId: \(Swift.String(describing: retrievalInstructionId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRetrievalInstructionsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single page. The effective upper bound is enforced service-side.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous ListRetrievalInstructions response.
+    public var nextToken: Swift.String?
+    /// Return only instructions with this availability status.
+    public var status: BedrockAgentClientTypes.RetrievalInstructionStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: BedrockAgentClientTypes.RetrievalInstructionStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// A summary of a retrieval instruction, without the content.
+    public struct RetrievalInstructionSummary: Swift.Sendable {
+        /// When you created the retrieval instruction.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A description of the retrieval instruction.
+        public var description: Swift.String?
+        /// The outcome or in-progress state of the most recent create or update of the retrieval instruction.
+        /// This member is required.
+        public var lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus?
+        /// The name of the retrieval instruction.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ARN of the retrieval instruction.
+        /// This member is required.
+        public var retrievalInstructionArn: Swift.String?
+        /// The identifier of the retrieval instruction.
+        /// This member is required.
+        public var retrievalInstructionId: Swift.String?
+        /// Whether the instruction can be used. Only ACTIVE is resolvable at retrieval time.
+        /// This member is required.
+        public var status: BedrockAgentClientTypes.RetrievalInstructionStatus?
+        /// When the retrieval instruction was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus? = nil,
+            name: Swift.String? = nil,
+            retrievalInstructionArn: Swift.String? = nil,
+            retrievalInstructionId: Swift.String? = nil,
+            status: BedrockAgentClientTypes.RetrievalInstructionStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lastTransitionStatus = lastTransitionStatus
+            self.name = name
+            self.retrievalInstructionArn = retrievalInstructionArn
+            self.retrievalInstructionId = retrievalInstructionId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.RetrievalInstructionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RetrievalInstructionSummary(createdAt: \(Swift.String(describing: createdAt)), lastTransitionStatus: \(Swift.String(describing: lastTransitionStatus)), retrievalInstructionArn: \(Swift.String(describing: retrievalInstructionArn)), retrievalInstructionId: \(Swift.String(describing: retrievalInstructionId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListRetrievalInstructionsOutput: Swift.Sendable {
+    /// The pagination token to pass to the next ListRetrievalInstructions call, absent on the last page.
+    public var nextToken: Swift.String?
+    /// The retrieval instruction summaries in this page.
+    /// This member is required.
+    public var retrievalInstructionSummaries: [BedrockAgentClientTypes.RetrievalInstructionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        retrievalInstructionSummaries: [BedrockAgentClientTypes.RetrievalInstructionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.retrievalInstructionSummaries = retrievalInstructionSummaries
+    }
+}
+
+public struct ListRetrievalInstructionVersionsInput: Swift.Sendable {
+    /// Specifies the maximum number of versions to return in a single page. The service enforces the effective upper bound.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous ListRetrievalInstructionVersions response.
+    public var nextToken: Swift.String?
+    /// The identifier of the retrieval instruction whose versions to list.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        retrievalInstructionId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.retrievalInstructionId = retrievalInstructionId
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// A summary of one numbered version of a retrieval instruction, without the content.
+    public struct RetrievalInstructionVersionSummary: Swift.Sendable {
+        /// When this version was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The version number.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.version = version
+        }
+    }
+}
+
+public struct ListRetrievalInstructionVersionsOutput: Swift.Sendable {
+    /// The pagination token to pass to the next ListRetrievalInstructionVersions call, absent on the last page.
+    public var nextToken: Swift.String?
+    /// The version summaries in this page, newest first.
+    /// This member is required.
+    public var retrievalInstructionVersionSummaries: [BedrockAgentClientTypes.RetrievalInstructionVersionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        retrievalInstructionVersionSummaries: [BedrockAgentClientTypes.RetrievalInstructionVersionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.retrievalInstructionVersionSummaries = retrievalInstructionVersionSummaries
+    }
+}
+
+public struct UpdateRetrievalInstructionInput: Swift.Sendable {
+    /// A replacement description; applied together with the content when the review passes. Omit to clear.
+    public var description: Swift.String?
+    /// The replacement instruction content. This is a full replacement of all four fields, not a patch. During UPDATING, Get continues to return the previously-served content until the update review passes.
+    /// This member is required.
+    public var instruction: BedrockAgentClientTypes.RetrievalInstructionContent?
+    /// The identifier of the retrieval instruction to update.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instruction: BedrockAgentClientTypes.RetrievalInstructionContent? = nil,
+        retrievalInstructionId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.instruction = instruction
+        self.retrievalInstructionId = retrievalInstructionId
+    }
+}
+
+extension UpdateRetrievalInstructionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRetrievalInstructionInput(retrievalInstructionId: \(Swift.String(describing: retrievalInstructionId)), description: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateRetrievalInstructionOutput: Swift.Sendable {
+    /// When you created the retrieval instruction.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// Always UPDATING on this response. Poll GetRetrievalInstruction until this member is neither CREATING nor UPDATING, then read the outcome from it.
+    /// This member is required.
+    public var lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus?
+    /// The name of the retrieval instruction.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The ARN of the retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionArn: Swift.String?
+    /// The identifier of the retrieval instruction.
+    /// This member is required.
+    public var retrievalInstructionId: Swift.String?
+    /// Whether the instruction can be used. An update never lowers status. Unchanged from the previous value on this response.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.RetrievalInstructionStatus?
+    /// When the retrieval instruction was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        lastTransitionStatus: BedrockAgentClientTypes.RetrievalInstructionLastTransitionStatus? = nil,
+        name: Swift.String? = nil,
+        retrievalInstructionArn: Swift.String? = nil,
+        retrievalInstructionId: Swift.String? = nil,
+        status: BedrockAgentClientTypes.RetrievalInstructionStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.lastTransitionStatus = lastTransitionStatus
+        self.name = name
+        self.retrievalInstructionArn = retrievalInstructionArn
+        self.retrievalInstructionId = retrievalInstructionId
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+extension UpdateRetrievalInstructionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRetrievalInstructionOutput(createdAt: \(Swift.String(describing: createdAt)), lastTransitionStatus: \(Swift.String(describing: lastTransitionStatus)), retrievalInstructionArn: \(Swift.String(describing: retrievalInstructionArn)), retrievalInstructionId: \(Swift.String(describing: retrievalInstructionId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource for which to list tags.
     /// This member is required.
@@ -13276,6 +13982,23 @@ extension CreatePromptVersionInput {
     }
 }
 
+extension CreateRetrievalInstructionInput {
+
+    static func urlPathProvider(_ value: CreateRetrievalInstructionInput) -> Swift.String? {
+        return "/retrievalinstructions"
+    }
+}
+
+extension CreateRetrievalInstructionVersionInput {
+
+    static func urlPathProvider(_ value: CreateRetrievalInstructionVersionInput) -> Swift.String? {
+        guard let retrievalInstructionId = value.retrievalInstructionId else {
+            return nil
+        }
+        return "/retrievalinstructions/\(retrievalInstructionId.urlPercentEncoding())/versions"
+    }
+}
+
 extension CreateVpcConfigurationInput {
 
     static func urlPathProvider(_ value: CreateVpcConfigurationInput) -> Swift.String? {
@@ -13509,6 +14232,28 @@ extension DeleteResourcePolicyInput {
         if let expectedRevisionId = value.expectedRevisionId {
             let expectedRevisionIdQueryItem = Smithy.URIQueryItem(name: "expectedRevisionId".urlPercentEncoding(), value: Swift.String(expectedRevisionId).urlPercentEncoding())
             items.append(expectedRevisionIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteRetrievalInstructionInput {
+
+    static func urlPathProvider(_ value: DeleteRetrievalInstructionInput) -> Swift.String? {
+        guard let retrievalInstructionId = value.retrievalInstructionId else {
+            return nil
+        }
+        return "/retrievalinstructions/\(retrievalInstructionId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRetrievalInstructionInput {
+
+    static func queryItemProvider(_ value: DeleteRetrievalInstructionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let retrievalInstructionVersion = value.retrievalInstructionVersion {
+            let retrievalInstructionVersionQueryItem = Smithy.URIQueryItem(name: "retrievalInstructionVersion".urlPercentEncoding(), value: Swift.String(retrievalInstructionVersion).urlPercentEncoding())
+            items.append(retrievalInstructionVersionQueryItem)
         }
         return items
     }
@@ -13791,6 +14536,28 @@ extension GetResourcePolicyInput {
     }
 }
 
+extension GetRetrievalInstructionInput {
+
+    static func urlPathProvider(_ value: GetRetrievalInstructionInput) -> Swift.String? {
+        guard let retrievalInstructionId = value.retrievalInstructionId else {
+            return nil
+        }
+        return "/retrievalinstructions/\(retrievalInstructionId.urlPercentEncoding())"
+    }
+}
+
+extension GetRetrievalInstructionInput {
+
+    static func queryItemProvider(_ value: GetRetrievalInstructionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let retrievalInstructionVersion = value.retrievalInstructionVersion {
+            let retrievalInstructionVersionQueryItem = Smithy.URIQueryItem(name: "retrievalInstructionVersion".urlPercentEncoding(), value: Swift.String(retrievalInstructionVersion).urlPercentEncoding())
+            items.append(retrievalInstructionVersionQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetVpcConfigurationInput {
 
     static func urlPathProvider(_ value: GetVpcConfigurationInput) -> Swift.String? {
@@ -14016,6 +14783,59 @@ extension ListPromptsInput {
             let promptIdentifierQueryItem = Smithy.URIQueryItem(name: "promptIdentifier".urlPercentEncoding(), value: Swift.String(promptIdentifier).urlPercentEncoding())
             items.append(promptIdentifierQueryItem)
         }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRetrievalInstructionsInput {
+
+    static func urlPathProvider(_ value: ListRetrievalInstructionsInput) -> Swift.String? {
+        return "/retrievalinstructions"
+    }
+}
+
+extension ListRetrievalInstructionsInput {
+
+    static func queryItemProvider(_ value: ListRetrievalInstructionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRetrievalInstructionVersionsInput {
+
+    static func urlPathProvider(_ value: ListRetrievalInstructionVersionsInput) -> Swift.String? {
+        guard let retrievalInstructionId = value.retrievalInstructionId else {
+            return nil
+        }
+        return "/retrievalinstructions/\(retrievalInstructionId.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListRetrievalInstructionVersionsInput {
+
+    static func queryItemProvider(_ value: ListRetrievalInstructionVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -14290,6 +15110,16 @@ extension UpdatePromptInput {
     }
 }
 
+extension UpdateRetrievalInstructionInput {
+
+    static func urlPathProvider(_ value: UpdateRetrievalInstructionInput) -> Swift.String? {
+        guard let retrievalInstructionId = value.retrievalInstructionId else {
+            return nil
+        }
+        return "/retrievalinstructions/\(retrievalInstructionId.urlPercentEncoding())"
+    }
+}
+
 extension ValidateFlowDefinitionInput {
 
     static func urlPathProvider(_ value: ValidateFlowDefinitionInput) -> Swift.String? {
@@ -14454,6 +15284,28 @@ extension CreatePromptVersionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateRetrievalInstructionInput {
+
+    static func write(value: CreateRetrievalInstructionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["customerEncryptionKeyArn"].write(value.customerEncryptionKeyArn)
+        try writer["description"].write(value.description)
+        try writer["instruction"].write(value.instruction, with: BedrockAgentClientTypes.RetrievalInstructionContent.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateRetrievalInstructionVersionInput {
+
+    static func write(value: CreateRetrievalInstructionVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
     }
 }
 
@@ -14745,6 +15597,15 @@ extension UpdatePromptInput {
     }
 }
 
+extension UpdateRetrievalInstructionInput {
+
+    static func write(value: UpdateRetrievalInstructionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["instruction"].write(value.instruction, with: BedrockAgentClientTypes.RetrievalInstructionContent.write(value:to:))
+    }
+}
+
 extension ValidateFlowDefinitionInput {
 
     static func write(value: ValidateFlowDefinitionInput?, to writer: SmithyJSON.Writer) throws {
@@ -14942,6 +15803,40 @@ extension CreatePromptVersionOutput {
     }
 }
 
+extension CreateRetrievalInstructionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRetrievalInstructionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRetrievalInstructionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastTransitionStatus = try reader["lastTransitionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.retrievalInstructionArn = try reader["retrievalInstructionArn"].readIfPresent() ?? ""
+        value.retrievalInstructionId = try reader["retrievalInstructionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension CreateRetrievalInstructionVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRetrievalInstructionVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRetrievalInstructionVersionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.retrievalInstructionArn = try reader["retrievalInstructionArn"].readIfPresent() ?? ""
+        value.retrievalInstructionId = try reader["retrievalInstructionId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateVpcConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcConfigurationOutput {
@@ -15102,6 +15997,20 @@ extension DeleteResourcePolicyOutput {
         var value = DeleteResourcePolicyOutput()
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
         value.revisionId = try reader["revisionId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteRetrievalInstructionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRetrievalInstructionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteRetrievalInstructionOutput()
+        value.retrievalInstructionArn = try reader["retrievalInstructionArn"].readIfPresent() ?? ""
+        value.retrievalInstructionId = try reader["retrievalInstructionId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
@@ -15352,6 +16261,30 @@ extension GetResourcePolicyOutput {
     }
 }
 
+extension GetRetrievalInstructionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRetrievalInstructionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRetrievalInstructionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customerEncryptionKeyArn = try reader["customerEncryptionKeyArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.instruction = try reader["instruction"].readIfPresent(with: BedrockAgentClientTypes.RetrievalInstructionContent.read(from:))
+        value.lastTransitionStatus = try reader["lastTransitionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastTransitionStatusReasons = try reader["lastTransitionStatusReasons"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.RetrievalInstructionFailureReason.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.retrievalInstructionArn = try reader["retrievalInstructionArn"].readIfPresent() ?? ""
+        value.retrievalInstructionId = try reader["retrievalInstructionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
 extension GetVpcConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVpcConfigurationOutput {
@@ -15554,6 +16487,32 @@ extension ListPromptsOutput {
         var value = ListPromptsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.promptSummaries = try reader["promptSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.PromptSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRetrievalInstructionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRetrievalInstructionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRetrievalInstructionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.retrievalInstructionSummaries = try reader["retrievalInstructionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.RetrievalInstructionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListRetrievalInstructionVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRetrievalInstructionVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRetrievalInstructionVersionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.retrievalInstructionVersionSummaries = try reader["retrievalInstructionVersionSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.RetrievalInstructionVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15809,6 +16768,24 @@ extension UpdatePromptOutput {
     }
 }
 
+extension UpdateRetrievalInstructionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRetrievalInstructionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRetrievalInstructionOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastTransitionStatus = try reader["lastTransitionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.retrievalInstructionArn = try reader["retrievalInstructionArn"].readIfPresent() ?? ""
+        value.retrievalInstructionId = try reader["retrievalInstructionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension ValidateFlowDefinitionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ValidateFlowDefinitionOutput {
@@ -16057,6 +17034,45 @@ enum CreatePromptVersionOutputError {
     }
 }
 
+enum CreateRetrievalInstructionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRetrievalInstructionVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateVpcConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16286,6 +17302,25 @@ enum DeletePromptOutputError {
 }
 
 enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRetrievalInstructionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -16632,6 +17667,24 @@ enum GetResourcePolicyOutputError {
     }
 }
 
+enum GetRetrievalInstructionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetVpcConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16902,6 +17955,41 @@ enum ListKnowledgeBasesOutputError {
 }
 
 enum ListPromptsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRetrievalInstructionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRetrievalInstructionVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -17280,6 +18368,25 @@ enum UpdatePromptOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRetrievalInstructionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -20810,6 +21917,67 @@ extension BedrockAgentClientTypes.RetrievalFlowNodeServiceConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentClientTypes.RetrievalInstructionContent {
+
+    static func write(value: BedrockAgentClientTypes.RetrievalInstructionContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["answerFormat"].write(value.answerFormat)
+        try writer["answerPolicy"].write(value.answerPolicy)
+        try writer["persona"].write(value.persona)
+        try writer["retrievalGuidance"].write(value.retrievalGuidance)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RetrievalInstructionContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RetrievalInstructionContent()
+        value.retrievalGuidance = try reader["retrievalGuidance"].readIfPresent()
+        value.persona = try reader["persona"].readIfPresent()
+        value.answerFormat = try reader["answerFormat"].readIfPresent()
+        value.answerPolicy = try reader["answerPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RetrievalInstructionFailureReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RetrievalInstructionFailureReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RetrievalInstructionFailureReason()
+        value.fieldName = try reader["fieldName"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RetrievalInstructionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RetrievalInstructionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RetrievalInstructionSummary()
+        value.retrievalInstructionId = try reader["retrievalInstructionId"].readIfPresent() ?? ""
+        value.retrievalInstructionArn = try reader["retrievalInstructionArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastTransitionStatus = try reader["lastTransitionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RetrievalInstructionVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RetrievalInstructionVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.RetrievalInstructionVersionSummary()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 

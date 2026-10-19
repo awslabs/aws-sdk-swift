@@ -1396,6 +1396,26 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// The retrieval instruction, identified by its ID and version, that was applied to the request.
+    public struct AgenticRetrieveAppliedInstruction: Swift.Sendable {
+        /// The identifier of the retrieval instruction applied.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The version that was applied: a version number, or DRAFT. The service reports this version whenever it reports appliedInstruction, including DRAFT when the request did not specify a version.
+        public var version: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.id = id
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Configuration for a Bedrock guardrail applied during agentic retrieval.
     public struct AgenticRetrieveBedrockGuardrailConfiguration: Swift.Sendable {
         /// The unique identifier of the guardrail.
@@ -1842,6 +1862,26 @@ extension BedrockAgentRuntimeClientTypes {
             self.action = action
             self.id = id
             self.message = message
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The retrieval instruction, identified by its ID and optional version, to apply to this request.
+    public struct AgenticRetrieveInstructionConfiguration: Swift.Sendable {
+        /// The identifier of the retrieval instruction. The instruction must exist in the caller's account and its status must be ACTIVE.
+        /// This member is required.
+        public var retrievalInstructionId: Swift.String?
+        /// The version of the retrieval instruction to apply: a version number, or DRAFT for the instruction's current reviewed content. When omitted, DRAFT is used. This default is permanent.
+        public var version: Swift.String?
+
+        public init(
+            retrievalInstructionId: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.retrievalInstructionId = retrievalInstructionId
             self.version = version
         }
     }
@@ -2672,6 +2712,8 @@ extension BedrockAgentRuntimeClientTypes {
     public struct AgenticRetrieveTraceEventAttributes: Swift.Sendable {
         /// The list of actions taken during this step.
         public var actions: [BedrockAgentRuntimeClientTypes.AgenticRetrieveAction]?
+        /// The agent reports the retrieval instruction applied to this request on the first planning step.
+        public var appliedInstruction: BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction?
         /// Failures that occurred during this step.
         public var failures: [BedrockAgentRuntimeClientTypes.AgenticRetrieveFailure]?
         /// A human-readable message describing the trace event.
@@ -2692,6 +2734,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             actions: [BedrockAgentRuntimeClientTypes.AgenticRetrieveAction]? = nil,
+            appliedInstruction: BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction? = nil,
             failures: [BedrockAgentRuntimeClientTypes.AgenticRetrieveFailure]? = nil,
             message: Swift.String? = nil,
             retrievalMetadata: [BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceMetadata]? = nil,
@@ -2701,6 +2744,7 @@ extension BedrockAgentRuntimeClientTypes {
             warnings: [BedrockAgentRuntimeClientTypes.AgenticRetrieveWarning]? = nil
         ) {
             self.actions = actions
+            self.appliedInstruction = appliedInstruction
             self.failures = failures
             self.message = message
             self.retrievalMetadata = retrievalMetadata
@@ -11341,6 +11385,8 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Policy configuration for guardrails and content filtering.
     public var policyConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration?
+    /// A retrieval instruction to apply to this request.
+    public var retrievalInstructionConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration?
     /// The list of retrievers to use for agentic retrieval.
     /// This member is required.
     public var retrievers: [BedrockAgentRuntimeClientTypes.AgenticRetriever]?
@@ -11354,6 +11400,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
         messages: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMessage]? = nil,
         nextToken: Swift.String? = nil,
         policyConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration? = nil,
+        retrievalInstructionConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration? = nil,
         retrievers: [BedrockAgentRuntimeClientTypes.AgenticRetriever]? = nil,
         userContext: BedrockAgentRuntimeClientTypes.UserContext? = nil
     ) {
@@ -11363,6 +11410,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
         self.messages = messages
         self.nextToken = nextToken
         self.policyConfiguration = policyConfiguration
+        self.retrievalInstructionConfiguration = retrievalInstructionConfiguration
         self.retrievers = retrievers
         self.userContext = userContext
     }
@@ -11370,7 +11418,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
 
 extension AgenticRetrieveStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgenticRetrieveStreamInput(agenticRetrieveConfiguration: \(Swift.String(describing: agenticRetrieveConfiguration)), generateResponse: \(Swift.String(describing: generateResponse)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), messages: \(Swift.String(describing: messages)), nextToken: \(Swift.String(describing: nextToken)), policyConfiguration: \(Swift.String(describing: policyConfiguration)), retrievers: \(Swift.String(describing: retrievers)), userContext: \"CONTENT_REDACTED\")"}
+        "AgenticRetrieveStreamInput(agenticRetrieveConfiguration: \(Swift.String(describing: agenticRetrieveConfiguration)), generateResponse: \(Swift.String(describing: generateResponse)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), messages: \(Swift.String(describing: messages)), nextToken: \(Swift.String(describing: nextToken)), policyConfiguration: \(Swift.String(describing: policyConfiguration)), retrievalInstructionConfiguration: \(Swift.String(describing: retrievalInstructionConfiguration)), retrievers: \(Swift.String(describing: retrievers)), userContext: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -12416,6 +12464,7 @@ extension AgenticRetrieveStreamInput {
         try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nextToken"].write(value.nextToken)
         try writer["policyConfiguration"].write(value.policyConfiguration, with: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration.write(value:to:))
+        try writer["retrievalInstructionConfiguration"].write(value.retrievalInstructionConfiguration, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration.write(value:to:))
         try writer["retrievers"].writeList(value.retrievers, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgenticRetriever.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["userContext"].write(value.userContext, with: BedrockAgentRuntimeClientTypes.UserContext.write(value:to:))
     }
@@ -14462,6 +14511,17 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes.AgenticRetrieveBedrockGuardrailConfiguration {
 
     static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveBedrockGuardrailConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -14563,6 +14623,15 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveGuardrailWarning {
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["message"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["retrievalInstructionId"].write(value.retrievalInstructionId)
+        try writer["version"].write(value.version)
     }
 }
 
@@ -14796,6 +14865,7 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveTraceEventAttributes {
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.retrievalMetadata = try reader["retrievalMetadata"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.retrievalResponse = try reader["retrievalResponse"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveTraceResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appliedInstruction = try reader["appliedInstruction"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction.read(from:))
         return value
     }
 }

@@ -8489,7 +8489,7 @@ extension CloudWatchLogsClient {
     ///
     /// * Supported actions - Policy only supports logs:PutLogEvents and logs:CreateLogStream  actions
     ///
-    /// * Supported principals - Policy only applies when operations are invoked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals
+    /// * Supported principals - Policy only applies when operations are invoked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals)
     ///
     /// * Policy limits - An account can have a maximum of 10 policies without resourceARN and one per LogGroup resourceARN
     ///

@@ -10652,6 +10652,50 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The log level of the Service Connect proxy container. Valid values:
+    ///
+    /// * debug - Collects more detailed proxy logs for troubleshooting connectivity issues between services.
+    ///
+    /// * info - The default log level.
+    public enum ServiceConnectContainerLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case debug
+        case info
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectContainerLogLevel] {
+            return [
+                .debug,
+                .info
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .debug: return "debug"
+            case .info: return "info"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Contains a configuration setting for the Service Connect proxy container, such as the log level. Specify exactly one member in each object.
+    public enum ServiceConnectContainerConfiguration: Swift.Sendable {
+        /// The log level of the Service Connect proxy container. Set the log level to debug to collect more detailed proxy logs when you troubleshoot connectivity issues between services, and set it back to info when you finish. Debug logging increases the volume of logs that the proxy container writes. If you don't specify a log level, the default is info.
+        case loglevel(ECSClientTypes.ServiceConnectContainerLogLevel)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
     /// The header matching rules for test traffic routing in Amazon ECS blue/green deployments. These rules determine how incoming requests are matched based on HTTP headers to route test traffic to the new service revision.
     public struct ServiceConnectTestTrafficHeaderMatchRules: Swift.Sendable {
         /// The exact value that the HTTP header must match for the test traffic routing rule to apply. This provides precise control over which requests are routed to the new service revision during blue/green deployments.
@@ -10826,6 +10870,8 @@ extension ECSClientTypes {
     public struct ServiceConnectConfiguration: Swift.Sendable {
         /// The configuration for Service Connect access logging. Access logs capture detailed information about requests made to your service, including request patterns, response codes, and timing data. They can be useful for debugging connectivity issues, monitoring service performance, and auditing service-to-service communication for security and compliance purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
         public var accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration?
+        /// The settings for the Service Connect proxy container that Amazon ECS adds to each task in this service. Each object in the list sets exactly one setting, and each setting can appear only once in the list. Your changes to these settings apply only to tasks that Amazon ECS launches after you update the service. Your running tasks keep their existing settings until Amazon ECS replaces them. If you update the serviceConnectConfiguration of your service and don't include containerConfigurations, the proxy container settings return to their defaults.
+        public var containerConfigurations: [ECSClientTypes.ServiceConnectContainerConfiguration]?
         /// Specifies whether to use Service Connect with this service.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -10846,12 +10892,14 @@ extension ECSClientTypes {
 
         public init(
             accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration? = nil,
+            containerConfigurations: [ECSClientTypes.ServiceConnectContainerConfiguration]? = nil,
             enabled: Swift.Bool = false,
             logConfiguration: ECSClientTypes.LogConfiguration? = nil,
             namespace: Swift.String? = nil,
             services: [ECSClientTypes.ServiceConnectService]? = nil
         ) {
             self.accessLogConfiguration = accessLogConfiguration
+            self.containerConfigurations = containerConfigurations
             self.enabled = enabled
             self.logConfiguration = logConfiguration
             self.namespace = namespace

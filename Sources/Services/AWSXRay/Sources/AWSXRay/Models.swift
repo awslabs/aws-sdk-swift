@@ -3710,13 +3710,32 @@ public struct UpdateSamplingRuleOutput: Swift.Sendable {
     }
 }
 
+extension XRayClientTypes {
+
+    /// Contains the settings for the CloudWatch Logs log groups that X-Ray creates for Transaction Search.
+    public struct CloudWatchLogsConfiguration: Swift.Sendable {
+        /// The ARN of an AWS Key Management Service (AWS KMS) key that you create and manage, in the same account and Region, used to encrypt the aws/spans log group. Key IDs and alias ARNs are not supported. X-Ray applies the key only when it creates aws/spans. If the account already has an aws/spans log group, X-Ray fails the request with an InvalidRequestException and does not change the log group. To enable Transaction Search with the existing log group as it is, call UpdateTraceSegmentDestination again without SpansLogGroupKmsKeyId. To set or change the key of the existing log group, use the CloudWatch Logs AssociateKmsKey operation. You need kms:DescribeKey permission on the key, and the key policy must allow CloudWatch Logs to use the key. For more information, see [Encrypt log data in CloudWatch Logs using AWS Key Management Service](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html).
+        public var spansLogGroupKmsKeyId: Swift.String?
+
+        public init(
+            spansLogGroupKmsKeyId: Swift.String? = nil
+        ) {
+            self.spansLogGroupKmsKeyId = spansLogGroupKmsKeyId
+        }
+    }
+}
+
 public struct UpdateTraceSegmentDestinationInput: Swift.Sendable {
+    /// Specifies settings for the CloudWatch Logs log groups that X-Ray creates for Transaction Search. Specify this only when Destination is CloudWatchLogs.
+    public var cloudWatchLogsConfiguration: XRayClientTypes.CloudWatchLogsConfiguration?
     /// The configured destination of trace segments.
     public var destination: XRayClientTypes.TraceSegmentDestination?
 
     public init(
+        cloudWatchLogsConfiguration: XRayClientTypes.CloudWatchLogsConfiguration? = nil,
         destination: XRayClientTypes.TraceSegmentDestination? = nil
     ) {
+        self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
         self.destination = destination
     }
 }
@@ -4344,6 +4363,7 @@ extension UpdateTraceSegmentDestinationInput {
 
     static func write(value: UpdateTraceSegmentDestinationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CloudWatchLogsConfiguration"].write(value.cloudWatchLogsConfiguration, with: XRayClientTypes.CloudWatchLogsConfiguration.write(value:to:))
         try writer["Destination"].write(value.destination)
     }
 }
@@ -5587,6 +5607,14 @@ extension XRayClientTypes.BackendConnectionErrors {
         try writer["OtherCount"].write(value.otherCount)
         try writer["TimeoutCount"].write(value.timeoutCount)
         try writer["UnknownHostCount"].write(value.unknownHostCount)
+    }
+}
+
+extension XRayClientTypes.CloudWatchLogsConfiguration {
+
+    static func write(value: XRayClientTypes.CloudWatchLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SpansLogGroupKmsKeyId"].write(value.spansLogGroupKmsKeyId)
     }
 }
 

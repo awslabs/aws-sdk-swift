@@ -3151,6 +3151,7 @@ extension OpenSearchClientTypes {
     public enum TLSSecurityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyMinTls10201907
         case policyMinTls12201907
+        case policyMinTls12FipsPq202610
         case policyMinTls12Pfs202310
         case policyMinTls12Rfc9151Fips202408
         case sdkUnknown(Swift.String)
@@ -3159,6 +3160,7 @@ extension OpenSearchClientTypes {
             return [
                 .policyMinTls10201907,
                 .policyMinTls12201907,
+                .policyMinTls12FipsPq202610,
                 .policyMinTls12Pfs202310,
                 .policyMinTls12Rfc9151Fips202408
             ]
@@ -3173,6 +3175,7 @@ extension OpenSearchClientTypes {
             switch self {
             case .policyMinTls10201907: return "Policy-Min-TLS-1-0-2019-07"
             case .policyMinTls12201907: return "Policy-Min-TLS-1-2-2019-07"
+            case .policyMinTls12FipsPq202610: return "Policy-Min-TLS-1-2-FIPS-PQ-2026-10"
             case .policyMinTls12Pfs202310: return "Policy-Min-TLS-1-2-PFS-2023-10"
             case .policyMinTls12Rfc9151Fips202408: return "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
             case let .sdkUnknown(s): return s
@@ -3202,6 +3205,8 @@ extension OpenSearchClientTypes {
         /// * Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
         ///
         /// * Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS security policy that supports TLS version 1.3 with FIPS
+        ///
+        /// * Policy-Min-TLS-1-2-FIPS-PQ-2026-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with FIPS and post-quantum cipher suites
         public var tlsSecurityPolicy: OpenSearchClientTypes.TLSSecurityPolicy?
 
         public init(

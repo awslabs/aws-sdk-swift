@@ -61,6 +61,7 @@ extension CloudWatchLogsClient {
 extension DescribeDeliveriesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeDeliveriesInput {
         return DescribeDeliveriesInput(
+            deliverySourceNames: self.deliverySourceNames,
             limit: self.limit,
             nextToken: token
         )}
@@ -92,6 +93,7 @@ extension DescribeDeliveryDestinationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeDeliveryDestinationsInput {
         return DescribeDeliveryDestinationsInput(
             limit: self.limit,
+            names: self.names,
             nextToken: token
         )}
 }
@@ -122,7 +124,8 @@ extension DescribeDeliverySourcesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeDeliverySourcesInput {
         return DescribeDeliverySourcesInput(
             limit: self.limit,
-            nextToken: token
+            nextToken: token,
+            resourceArns: self.resourceArns
         )}
 }
 

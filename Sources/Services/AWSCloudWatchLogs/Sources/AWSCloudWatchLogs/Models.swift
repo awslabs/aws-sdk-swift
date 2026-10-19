@@ -2889,15 +2889,19 @@ public struct DescribeConfigurationTemplatesOutput: Swift.Sendable {
 }
 
 public struct DescribeDeliveriesInput: Swift.Sendable {
+    /// An array of delivery source names that filters the results to deliveries associated with any specified delivery source.
+    public var deliverySourceNames: [Swift.String]?
     /// Optionally specify the maximum number of deliveries to return in the response.
     public var limit: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
+        deliverySourceNames: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.deliverySourceNames = deliverySourceNames
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -2921,14 +2925,18 @@ public struct DescribeDeliveriesOutput: Swift.Sendable {
 public struct DescribeDeliveryDestinationsInput: Swift.Sendable {
     /// Optionally specify the maximum number of delivery destinations to return in the response.
     public var limit: Swift.Int?
+    /// An array of delivery destination names that filters the results to delivery destinations with any specified name.
+    public var names: [Swift.String]?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
+        names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.limit = limit
+        self.names = names
         self.nextToken = nextToken
     }
 }
@@ -2953,13 +2961,17 @@ public struct DescribeDeliverySourcesInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
+    /// An array of Amazon Resource Names (ARNs) that filters the results to delivery sources associated with any specified ARN.
+    public var resourceArns: [Swift.String]?
 
     public init(
         limit: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        resourceArns: [Swift.String]? = nil
     ) {
         self.limit = limit
         self.nextToken = nextToken
+        self.resourceArns = resourceArns
     }
 }
 
@@ -8137,7 +8149,11 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.
     ///
+    /// * For Amazon ECS, the valid value is ACTION_LOGS.
+    ///
     /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
+    ///
+    /// * For Amazon EventBridge Event Bus (Custom), the valid values are INFO_LOGS and ERROR_LOGS.
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
@@ -8145,7 +8161,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.
     ///
-    /// * For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.
+    /// * For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, PCS_SCHEDULER_AUDIT_LOGS, and PCS_SCALING_LOGS.
     ///
     /// * For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.
     ///
