@@ -368,6 +368,38 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    public enum AnomalyDetectorAdaptationSpeed: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fast
+        case normal
+        case slow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnomalyDetectorAdaptationSpeed] {
+            return [
+                .fast,
+                .normal,
+                .slow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fast: return "FAST"
+            case .normal: return "NORMAL"
+            case .slow: return "SLOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// Specifies one range of days or times to exclude from use for training an anomaly detection model.
     public struct Range: Swift.Sendable {
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
@@ -389,19 +421,71 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    public enum AnomalyDetectorOutlierFilteringStrength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case minimal
+        case moderate
+        case strict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnomalyDetectorOutlierFilteringStrength] {
+            return [
+                .minimal,
+                .moderate,
+                .strict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .minimal: return "MINIMAL"
+            case .moderate: return "MODERATE"
+            case .strict: return "STRICT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model and the time zone to use for the metric.
     public struct AnomalyDetectorConfiguration: Swift.Sendable {
+        /// The speed at which the anomaly detection model adapts to sustained changes in the metric's baseline. Faster adaptation lets the model track shifting workloads sooner, but increases the chance that the model treats a real, lasting change as normal. Valid values:
+        ///
+        /// * FAST - The model adapts quickly to sustained changes in the baseline.
+        ///
+        /// * NORMAL - The model adapts at a moderate pace. This is the default value.
+        ///
+        /// * SLOW - The model adapts slowly, reducing the risk of treating a real change as normal.
+        public var adaptationSpeed: CloudWatchClientTypes.AnomalyDetectorAdaptationSpeed?
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
         public var excludedTimeRanges: [CloudWatchClientTypes.Range]?
         /// The time zone to use for the metric. This is useful to enable the model to automatically account for daylight savings time changes if the metric is sensitive to such time changes. To specify a time zone, use the name of the time zone as specified in the standard tz database. For more information, see [tz database](https://en.wikipedia.org/wiki/Tz_database).
         public var metricTimezone: Swift.String?
+        /// The aggressiveness with which CloudWatch filters outliers from the metric data that the anomaly detection model uses. Stronger filtering excludes more extreme values, which can produce a tighter band of expected values but may also suppress legitimate spikes. Valid values:
+        ///
+        /// * MINIMAL - Excludes only the most extreme outliers.
+        ///
+        /// * MODERATE - Excludes a moderate range of outliers. This is the default value.
+        ///
+        /// * STRICT - Excludes a wider range of outliers, which can suppress legitimate spikes.
+        public var outlierFilteringStrength: CloudWatchClientTypes.AnomalyDetectorOutlierFilteringStrength?
 
         public init(
+            adaptationSpeed: CloudWatchClientTypes.AnomalyDetectorAdaptationSpeed? = nil,
             excludedTimeRanges: [CloudWatchClientTypes.Range]? = nil,
-            metricTimezone: Swift.String? = nil
+            metricTimezone: Swift.String? = nil,
+            outlierFilteringStrength: CloudWatchClientTypes.AnomalyDetectorOutlierFilteringStrength? = nil
         ) {
+            self.adaptationSpeed = adaptationSpeed
             self.excludedTimeRanges = excludedTimeRanges
             self.metricTimezone = metricTimezone
+            self.outlierFilteringStrength = outlierFilteringStrength
         }
     }
 }

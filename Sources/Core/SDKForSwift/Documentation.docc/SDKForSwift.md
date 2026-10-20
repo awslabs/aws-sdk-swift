@@ -419,10 +419,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSFSx](/sdk-for-swift/latest/api/awsfsx/documentation/awsfsx)
 
-[AWSFinspace](/sdk-for-swift/latest/api/awsfinspace/documentation/awsfinspace)
-
-[AWSFinspacedata](/sdk-for-swift/latest/api/awsfinspacedata/documentation/awsfinspacedata)
-
 [AWSFirehose](/sdk-for-swift/latest/api/awsfirehose/documentation/awsfirehose)
 
 [AWSFis](/sdk-for-swift/latest/api/awsfis/documentation/awsfis)
@@ -920,8 +916,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSTimestreamQuery](/sdk-for-swift/latest/api/awstimestreamquery/documentation/awstimestreamquery)
 
 [AWSTimestreamWrite](/sdk-for-swift/latest/api/awstimestreamwrite/documentation/awstimestreamwrite)
-
-[AWSTnb](/sdk-for-swift/latest/api/awstnb/documentation/awstnb)
 
 [AWSTranscribe](/sdk-for-swift/latest/api/awstranscribe/documentation/awstranscribe)
 

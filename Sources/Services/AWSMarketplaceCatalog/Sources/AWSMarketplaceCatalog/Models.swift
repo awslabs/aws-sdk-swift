@@ -1808,6 +1808,107 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    /// The filter for the EntityId of an express private offer configuration.
+    public struct ExpressPrivateOfferConfigurationEntityIdFilter: Swift.Sendable {
+        /// A list of EntityId values to filter on.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for the ProductId of an express private offer configuration.
+    public struct ExpressPrivateOfferConfigurationProductIdFilter: Swift.Sendable {
+        /// A list of ProductId values to filter on.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum ExpressPrivateOfferConfigurationStateString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressPrivateOfferConfigurationStateString] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for the State of an express private offer configuration.
+    public struct ExpressPrivateOfferConfigurationStateFilter: Swift.Sendable {
+        /// A list of State values to filter on. Valid values are ACTIVE and INACTIVE.
+        public var valueList: [MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateString]?
+
+        public init(
+            valueList: [MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateString]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter fields for the express private offer configuration entity.
+    public struct ExpressPrivateOfferConfigurationFilters: Swift.Sendable {
+        /// You can filter on the EntityId of an express private offer configuration.
+        public var entityId: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationEntityIdFilter?
+        /// You can filter on the ProductId of an express private offer configuration.
+        public var productId: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationProductIdFilter?
+        /// The state of the express private offer configuration to filter on. Valid values are the following:
+        ///
+        /// * ACTIVE – The configuration is active and you can use it to generate offers.
+        ///
+        /// * INACTIVE – The configuration is deprecated or deleted.
+        public var state: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateFilter?
+
+        public init(
+            entityId: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationEntityIdFilter? = nil,
+            productId: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationProductIdFilter? = nil,
+            state: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateFilter? = nil
+        ) {
+            self.entityId = entityId
+            self.productId = productId
+            self.state = state
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// The filter for machine learning product entity IDs.
     public struct MachineLearningProductEntityIdFilter: Swift.Sendable {
         /// A list of entity IDs to filter by. The operation returns machine learning products with entity IDs that match the values in this list.
@@ -3262,6 +3363,8 @@ extension MarketplaceCatalogClientTypes {
         case machinelearningproductfilters(MarketplaceCatalogClientTypes.MachineLearningProductFilters)
         /// A filter for offer sets.
         case offersetfilters(MarketplaceCatalogClientTypes.OfferSetFilters)
+        /// A filter for express private offer configurations.
+        case expressprivateofferconfigurationfilters(MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationFilters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3369,6 +3472,60 @@ extension MarketplaceCatalogClientTypes {
 
         public init(
             sortBy: MarketplaceCatalogClientTypes.DataProductSortBy? = nil,
+            sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
+        ) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum ExpressPrivateOfferConfigurationSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entityid
+        case lastmodifieddate
+        case productid
+        case state
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpressPrivateOfferConfigurationSortBy] {
+            return [
+                .entityid,
+                .lastmodifieddate,
+                .productid,
+                .state
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entityid: return "EntityId"
+            case .lastmodifieddate: return "LastModifiedDate"
+            case .productid: return "ProductId"
+            case .state: return "State"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The sort fields for express private offer configurations.
+    public struct ExpressPrivateOfferConfigurationSort: Swift.Sendable {
+        /// The field to sort by. Valid values are EntityId, LastModifiedDate, ProductId, and State.
+        public var sortBy: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSortBy?
+        /// The sorting order. Valid values are ASCENDING and DESCENDING.
+        public var sortOrder: MarketplaceCatalogClientTypes.SortOrder?
+
+        public init(
+            sortBy: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSortBy? = nil,
             sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
         ) {
             self.sortBy = sortBy
@@ -3743,6 +3900,8 @@ extension MarketplaceCatalogClientTypes {
         case machinelearningproductsort(MarketplaceCatalogClientTypes.MachineLearningProductSort)
         /// A sort for offer sets.
         case offersetsort(MarketplaceCatalogClientTypes.OfferSetSort)
+        /// A sort for express private offer configurations.
+        case expressprivateofferconfigurationsort(MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSort)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3855,6 +4014,29 @@ extension MarketplaceCatalogClientTypes {
         ) {
             self.productTitle = productTitle
             self.visibility = visibility
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Summarized information about an express private offer configuration.
+    public struct ExpressPrivateOfferConfigurationSummary: Swift.Sendable {
+        /// The product ID associated with the express private offer configuration.
+        public var productId: Swift.String?
+        /// The state of the express private offer configuration. Valid values are the following:
+        ///
+        /// * ACTIVE – The configuration is active and you can use it to generate offers.
+        ///
+        /// * INACTIVE – The configuration is deprecated or deleted.
+        public var state: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateString?
+
+        public init(
+            productId: Swift.String? = nil,
+            state: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateString? = nil
+        ) {
+            self.productId = productId
+            self.state = state
         }
     }
 }
@@ -4070,6 +4252,8 @@ extension MarketplaceCatalogClientTypes {
         public var entityId: Swift.String?
         /// The type of the entity.
         public var entityType: Swift.String?
+        /// An object that contains summary information about the express private offer configuration.
+        public var expressPrivateOfferConfigurationSummary: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary?
         /// The last time the entity was published, using ISO 8601 format (2018-02-27T13:45:22Z).
         public var lastModifiedDate: Swift.String?
         /// A summary of a machine learning product.
@@ -4094,6 +4278,7 @@ extension MarketplaceCatalogClientTypes {
             entityArn: Swift.String? = nil,
             entityId: Swift.String? = nil,
             entityType: Swift.String? = nil,
+            expressPrivateOfferConfigurationSummary: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary? = nil,
             lastModifiedDate: Swift.String? = nil,
             machineLearningProductSummary: MarketplaceCatalogClientTypes.MachineLearningProductSummary? = nil,
             name: Swift.String? = nil,
@@ -4109,6 +4294,7 @@ extension MarketplaceCatalogClientTypes {
             self.entityArn = entityArn
             self.entityId = entityId
             self.entityType = entityType
+            self.expressPrivateOfferConfigurationSummary = expressPrivateOfferConfigurationSummary
             self.lastModifiedDate = lastModifiedDate
             self.machineLearningProductSummary = machineLearningProductSummary
             self.name = name
@@ -5656,6 +5842,7 @@ extension MarketplaceCatalogClientTypes.EntitySummary {
         value.resaleAuthorizationSummary = try reader["ResaleAuthorizationSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary.read(from:))
         value.machineLearningProductSummary = try reader["MachineLearningProductSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.MachineLearningProductSummary.read(from:))
         value.offerSetSummary = try reader["OfferSetSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferSetSummary.read(from:))
+        value.expressPrivateOfferConfigurationSummary = try reader["ExpressPrivateOfferConfigurationSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary.read(from:))
         return value
     }
 }
@@ -5671,6 +5858,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
                 try writer["ContainerProductFilters"].write(containerproductfilters, with: MarketplaceCatalogClientTypes.ContainerProductFilters.write(value:to:))
             case let .dataproductfilters(dataproductfilters):
                 try writer["DataProductFilters"].write(dataproductfilters, with: MarketplaceCatalogClientTypes.DataProductFilters.write(value:to:))
+            case let .expressprivateofferconfigurationfilters(expressprivateofferconfigurationfilters):
+                try writer["ExpressPrivateOfferConfigurationFilters"].write(expressprivateofferconfigurationfilters, with: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationFilters.write(value:to:))
             case let .machinelearningproductfilters(machinelearningproductfilters):
                 try writer["MachineLearningProductFilters"].write(machinelearningproductfilters, with: MarketplaceCatalogClientTypes.MachineLearningProductFilters.write(value:to:))
             case let .offerfilters(offerfilters):
@@ -5698,6 +5887,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort {
                 try writer["ContainerProductSort"].write(containerproductsort, with: MarketplaceCatalogClientTypes.ContainerProductSort.write(value:to:))
             case let .dataproductsort(dataproductsort):
                 try writer["DataProductSort"].write(dataproductsort, with: MarketplaceCatalogClientTypes.DataProductSort.write(value:to:))
+            case let .expressprivateofferconfigurationsort(expressprivateofferconfigurationsort):
+                try writer["ExpressPrivateOfferConfigurationSort"].write(expressprivateofferconfigurationsort, with: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSort.write(value:to:))
             case let .machinelearningproductsort(machinelearningproductsort):
                 try writer["MachineLearningProductSort"].write(machinelearningproductsort, with: MarketplaceCatalogClientTypes.MachineLearningProductSort.write(value:to:))
             case let .offersetsort(offersetsort):
@@ -5732,6 +5923,60 @@ extension MarketplaceCatalogClientTypes.ErrorScope {
         var value = MarketplaceCatalogClientTypes.ErrorScope()
         value.name = try reader["Name"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationEntityIdFilter.write(value:to:))
+        try writer["ProductId"].write(value.productId, with: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationProductIdFilter.write(value:to:))
+        try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationProductIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationProductIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationStateString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }
