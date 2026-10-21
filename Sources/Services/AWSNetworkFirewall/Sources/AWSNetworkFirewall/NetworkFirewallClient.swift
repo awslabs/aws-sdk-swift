@@ -1217,6 +1217,7 @@ extension NetworkFirewallClient {
     /// __Possible Exceptions:__
     /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
     /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.
@@ -6313,6 +6314,7 @@ extension NetworkFirewallClient {
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
     /// - `InvalidTokenException` : The token you provided is stale or isn't valid for the operation.
+    /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ResourceNotFoundException` : Unable to locate a resource using the parameters that you provided.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateContainerAssociation(input: UpdateContainerAssociationInput) async throws -> UpdateContainerAssociationOutput {
@@ -6727,6 +6729,7 @@ extension NetworkFirewallClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+    /// - `InvalidOperationException` : The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
     /// * You specified an unsupported parameter name or value.

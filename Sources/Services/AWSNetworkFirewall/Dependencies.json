@@ -12,6 +12,7 @@
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
     "SmithyRetries",
-    "SmithyRetriesAPI"
+    "SmithyRetriesAPI",
+    "SmithyWaitersAPI"
   ]
 }

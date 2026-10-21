@@ -2038,6 +2038,74 @@ extension AutoScalingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeAccountSettings` operation on the `AutoScaling` service.
+    ///
+    /// Describes the current Amazon EC2 Auto Scaling account settings for your account. Account settings are a framework that allows you to enable or disable features for your account. The framework also gives you visibility into features that will be enforced by a given date, providing a time window to prepare for backwards-incompatible changes.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountSettingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAccountSettingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The NextToken value is not valid.
+    public func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAccountSettings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "autoscaling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountSettingsInput, DescribeAccountSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(DescribeAccountSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountSettingsOutput>(DescribeAccountSettingsOutput.httpOutput(from:), DescribeAccountSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountSettingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(serviceID: serviceName, version: AutoScalingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScaling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeAdjustmentTypes` operation on the `AutoScaling` service.
     ///
     /// Describes the available adjustment types for step scaling and simple scaling policies. The following adjustment types are supported:
@@ -4163,6 +4231,69 @@ extension AutoScalingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScaling")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "LaunchInstances")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutAccountSetting` operation on the `AutoScaling` service.
+    ///
+    /// Modifies an account setting for your account. You can use this operation to opt in or opt out of features provided through account settings when permitted. Account settings give you control over features that might have backwards-incompatible changes. When Amazon EC2 Auto Scaling introduces such changes, account settings allow you to test and adopt new features. Some account settings are enforced after a specified date. This means that after the enforcement date, you can no longer modify the setting.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutAccountSettingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutAccountSettingOutput`)
+    public func putAccountSetting(input: PutAccountSettingInput) async throws -> PutAccountSettingOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putAccountSetting")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "autoscaling")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutAccountSettingInput, PutAccountSettingOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(PutAccountSettingInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountSettingOutput>(PutAccountSettingOutput.httpOutput(from:), PutAccountSettingOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountSettingOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Auto Scaling", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutAccountSettingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutAccountSettingInput, PutAccountSettingOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: PutAccountSettingInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutAccountSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutAccountSettingInput, PutAccountSettingOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Auto Scaling"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutAccountSettingInput, PutAccountSettingOutput>(serviceID: serviceName, version: AutoScalingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "AutoScaling")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutAccountSetting")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

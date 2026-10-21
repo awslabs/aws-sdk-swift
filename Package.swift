@@ -1411,7 +1411,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSNetworkFirewall",
         "network-firewall.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI, .SmithyWaitersAPI]
     ),
     .init(
         "AWSNetworkFlowMonitor",

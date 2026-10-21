@@ -1687,13 +1687,15 @@ extension DataZoneClientTypes {
         case contributor
         case owner
         case projectCatalogSteward
+        case userCreatedDesignation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProjectDesignation] {
             return [
                 .contributor,
                 .owner,
-                .projectCatalogSteward
+                .projectCatalogSteward,
+                .userCreatedDesignation
             ]
         }
 
@@ -1707,6 +1709,7 @@ extension DataZoneClientTypes {
             case .contributor: return "CONTRIBUTOR"
             case .owner: return "OWNER"
             case .projectCatalogSteward: return "PROJECT_CATALOG_STEWARD"
+            case .userCreatedDesignation: return "USER_CREATED_DESIGNATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1754,15 +1757,19 @@ extension DataZoneClientTypes {
         public var projectGrantFilter: DataZoneClientTypes.ProjectGrantFilter?
         /// The project ID of the project policy grant principal.
         public var projectIdentifier: Swift.String?
+        /// The ID of the user-created designation granted to the project principal. Required when projectDesignation is USER_CREATED_DESIGNATION; must not be provided otherwise.
+        public var userCreatedDesignationId: Swift.String?
 
         public init(
             projectDesignation: DataZoneClientTypes.ProjectDesignation? = nil,
             projectGrantFilter: DataZoneClientTypes.ProjectGrantFilter? = nil,
-            projectIdentifier: Swift.String? = nil
+            projectIdentifier: Swift.String? = nil,
+            userCreatedDesignationId: Swift.String? = nil
         ) {
             self.projectDesignation = projectDesignation
             self.projectGrantFilter = projectGrantFilter
             self.projectIdentifier = projectIdentifier
+            self.userCreatedDesignationId = userCreatedDesignationId
         }
     }
 }
@@ -8359,6 +8366,133 @@ extension CreateDataSourceOutput: Swift.CustomDebugStringConvertible {
         "CreateDataSourceOutput(assetFormsOutput: \(Swift.String(describing: assetFormsOutput)), configuration: \(Swift.String(describing: configuration)), connectionId: \(Swift.String(describing: connectionId)), createdAt: \(Swift.String(describing: createdAt)), domainId: \(Swift.String(describing: domainId)), enableSetting: \(Swift.String(describing: enableSetting)), environmentId: \(Swift.String(describing: environmentId)), errorMessage: \(Swift.String(describing: errorMessage)), id: \(Swift.String(describing: id)), lastRunAt: \(Swift.String(describing: lastRunAt)), lastRunErrorMessage: \(Swift.String(describing: lastRunErrorMessage)), lastRunStatus: \(Swift.String(describing: lastRunStatus)), projectId: \(Swift.String(describing: projectId)), publishOnImport: \(Swift.String(describing: publishOnImport)), recommendation: \(Swift.String(describing: recommendation)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", schedule: \"CONTENT_REDACTED\")"}
 }
 
+public struct CreateDesignationInput: Swift.Sendable {
+    /// Whether deletion protection is enabled for this designation. Defaults to true when omitted.
+    public var deletionProtection: Swift.Bool?
+    /// A human-readable description of the designation and its intended use.
+    public var description: Swift.String?
+    /// The identifier of the Amazon DataZone domain in which the designation is created.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The name of the designation. The name must be unique within the domain.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Cedar permit policy that defines what actions holders of this designation are allowed to perform.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init(
+        deletionProtection: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil
+    ) {
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.name = name
+        self.policy = policy
+    }
+}
+
+extension CreateDesignationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDesignationInput(deletionProtection: \(Swift.String(describing: deletionProtection)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), name: \(Swift.String(describing: name)), policy: \(Swift.String(describing: policy)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The classification of a designation.
+    public enum DesignationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// System-defined designation that cannot be modified or deleted.
+        case managed
+        /// Created by a user via the CreateDesignation API.
+        case userCreated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DesignationType] {
+            return [
+                .managed,
+                .userCreated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managed: return "MANAGED"
+            case .userCreated: return "USER_CREATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// A designation defines a named role with a Cedar permit policy that controls what actions members holding this designation can perform within a project.
+public struct CreateDesignationOutput: Swift.Sendable {
+    /// The date and time when the designation was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the Amazon DataZone user who created the designation.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// Whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+    /// This member is required.
+    public var deletionProtection: Swift.Bool?
+    /// A human-readable description of the designation and its intended use.
+    public var description: Swift.String?
+    /// The classification of this designation. MANAGED designations are system-defined and cannot be modified or deleted.
+    /// This member is required.
+    public var designationType: DataZoneClientTypes.DesignationType?
+    /// The identifier of the Amazon DataZone domain in which the designation was created.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The unique ID of the designation.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The date and time when the designation was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the designation. The name is unique within the domain.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Cedar permit policy that governs what actions holders of this designation are allowed to perform.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        designationType: DataZoneClientTypes.DesignationType? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.designationType = designationType
+        self.domainId = domainId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.policy = policy
+    }
+}
+
+extension CreateDesignationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDesignationOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), designationType: \(Swift.String(describing: designationType)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), policy: \(Swift.String(describing: policy)), description: \"CONTENT_REDACTED\")"}
+}
+
 extension DataZoneClientTypes {
 
     public enum DomainVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -10424,6 +10558,7 @@ extension DataZoneClientTypes {
         case projectCatalogViewer
         case projectContributor
         case projectOwner
+        case userCreatedDesignation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UserDesignation] {
@@ -10432,7 +10567,8 @@ extension DataZoneClientTypes {
                 .projectCatalogSteward,
                 .projectCatalogViewer,
                 .projectContributor,
-                .projectOwner
+                .projectOwner,
+                .userCreatedDesignation
             ]
         }
 
@@ -10448,6 +10584,7 @@ extension DataZoneClientTypes {
             case .projectCatalogViewer: return "PROJECT_CATALOG_VIEWER"
             case .projectContributor: return "PROJECT_CONTRIBUTOR"
             case .projectOwner: return "PROJECT_OWNER"
+            case .userCreatedDesignation: return "USER_CREATED_DESIGNATION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10476,13 +10613,17 @@ extension DataZoneClientTypes {
         /// The details about a project member.
         /// This member is required.
         public var member: DataZoneClientTypes.Member?
+        /// The ID of the user-created designation to assign to this member when creating the project. Required when designation is USER_CREATED_DESIGNATION; must not be provided otherwise.
+        public var userCreatedDesignationId: Swift.String?
 
         public init(
             designation: DataZoneClientTypes.UserDesignation? = nil,
-            member: DataZoneClientTypes.Member? = nil
+            member: DataZoneClientTypes.Member? = nil,
+            userCreatedDesignationId: Swift.String? = nil
         ) {
             self.designation = designation
             self.member = member
+            self.userCreatedDesignationId = userCreatedDesignationId
         }
     }
 }
@@ -10867,17 +11008,21 @@ public struct CreateProjectMembershipInput: Swift.Sendable {
     /// The ID of the project for which this project membership was created.
     /// This member is required.
     public var projectIdentifier: Swift.String?
+    /// The ID of the user-created designation to assign to the project member. Required when designation is USER_CREATED_DESIGNATION; must not be provided otherwise.
+    public var userCreatedDesignationId: Swift.String?
 
     public init(
         designation: DataZoneClientTypes.UserDesignation? = nil,
         domainIdentifier: Swift.String? = nil,
         member: DataZoneClientTypes.Member? = nil,
-        projectIdentifier: Swift.String? = nil
+        projectIdentifier: Swift.String? = nil,
+        userCreatedDesignationId: Swift.String? = nil
     ) {
         self.designation = designation
         self.domainIdentifier = domainIdentifier
         self.member = member
         self.projectIdentifier = projectIdentifier
+        self.userCreatedDesignationId = userCreatedDesignationId
     }
 }
 
@@ -14175,6 +14320,28 @@ public struct DeleteDataExportConfigurationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteDesignationInput: Swift.Sendable {
+    /// The identifier of the Amazon DataZone domain that contains the designation to delete.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The unique ID of the designation to delete.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteDesignationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteEnvironmentInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in which the environment is deleted.
     /// This member is required.
@@ -15961,6 +16128,83 @@ public struct GetDataExportConfigurationOutput: Swift.Sendable {
         self.status = status
         self.updatedAt = updatedAt
     }
+}
+
+public struct GetDesignationInput: Swift.Sendable {
+    /// The identifier of the Amazon DataZone domain that contains the designation.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The unique ID of the designation to retrieve.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+/// A designation defines a named role with a Cedar permit policy that controls what actions members holding this designation can perform within a project.
+public struct GetDesignationOutput: Swift.Sendable {
+    /// The date and time when the designation was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the Amazon DataZone user who created the designation.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// Whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+    /// This member is required.
+    public var deletionProtection: Swift.Bool?
+    /// A human-readable description of the designation and its intended use.
+    public var description: Swift.String?
+    /// The classification of this designation. MANAGED designations are system-defined and cannot be modified or deleted.
+    /// This member is required.
+    public var designationType: DataZoneClientTypes.DesignationType?
+    /// The identifier of the Amazon DataZone domain that contains the designation.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The unique ID of the designation.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The date and time when the designation was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the designation. The name is unique within the domain.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Cedar permit policy that governs what actions holders of this designation are allowed to perform.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        designationType: DataZoneClientTypes.DesignationType? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.designationType = designationType
+        self.domainId = domainId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.policy = policy
+    }
+}
+
+extension GetDesignationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDesignationOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), designationType: \(Swift.String(describing: designationType)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), policy: \(Swift.String(describing: policy)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEnvironmentInput: Swift.Sendable {
@@ -18335,6 +18579,98 @@ public struct ListDataSourceRunActivitiesOutput: Swift.Sendable {
     }
 }
 
+public struct ListDesignationsInput: Swift.Sendable {
+    /// The identifier of the Amazon DataZone domain that contains the designations to list.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of designations to return in a single call to ListDesignations. If the number of designations exceeds MaxResults, the response includes a NextToken value. Use that token in a subsequent call to ListDesignations to retrieve the next set of designations. The default value is 20.
+    public var maxResults: Swift.Int?
+    /// If the results exceed the value of MaxResults, the previous call returns a pagination token. Specify this token in a subsequent call to ListDesignations to retrieve the next set of results. If not specified, the operation returns the first page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// Summary representation of a designation returned by list operations.
+    public struct DesignationSummary: Swift.Sendable {
+        /// The date and time when the designation was created.
+        public var createdAt: Foundation.Date?
+        /// The identifier of the Amazon DataZone user who created the designation.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// Whether deletion protection is enabled for this designation.
+        /// This member is required.
+        public var deletionProtection: Swift.Bool?
+        /// A human-readable description of the designation and its intended use.
+        public var description: Swift.String?
+        /// The classification of this designation.
+        public var designationType: DataZoneClientTypes.DesignationType?
+        /// The identifier of the Amazon DataZone domain that contains the designation.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The unique ID of the designation.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the designation. The name is unique within the domain.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The date and time when the designation was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
+            deletionProtection: Swift.Bool? = nil,
+            description: Swift.String? = nil,
+            designationType: DataZoneClientTypes.DesignationType? = nil,
+            domainId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.deletionProtection = deletionProtection
+            self.description = description
+            self.designationType = designationType
+            self.domainId = domainId
+            self.id = id
+            self.name = name
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension DataZoneClientTypes.DesignationSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DesignationSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), designationType: \(Swift.String(describing: designationType)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListDesignationsOutput: Swift.Sendable {
+    /// The designation summaries that ListDesignations returned. Each item contains summary information about a designation in the domain.
+    public var items: [DataZoneClientTypes.DesignationSummary]?
+    /// A pagination token that indicates that more results are available. Pass this token to a subsequent call to ListDesignations to retrieve the next page of results. If there are no more results, this value is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.DesignationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListEntityOwnersInput: Swift.Sendable {
     /// The ID of the domain where you want to list entity owners.
     /// This member is required.
@@ -19923,13 +20259,17 @@ extension DataZoneClientTypes {
         /// The membership details of a project member.
         /// This member is required.
         public var memberDetails: DataZoneClientTypes.MemberDetails?
+        /// The ID of the user-created designation held by the project member when designation is USER_CREATED_DESIGNATION.
+        public var userCreatedDesignationId: Swift.String?
 
         public init(
             designation: DataZoneClientTypes.UserDesignation? = nil,
-            memberDetails: DataZoneClientTypes.MemberDetails? = nil
+            memberDetails: DataZoneClientTypes.MemberDetails? = nil,
+            userCreatedDesignationId: Swift.String? = nil
         ) {
             self.designation = designation
             self.memberDetails = memberDetails
+            self.userCreatedDesignationId = userCreatedDesignationId
         }
     }
 }
@@ -22129,7 +22469,7 @@ extension DataZoneClientTypes {
 
     /// The notification configuration for a notebook run in Amazon SageMaker Unified Studio.
     public struct NotificationConfig: Swift.Sendable {
-        /// Notebook run states that trigger notifications. Ordering is not significant.
+        /// The notebook run states that trigger notifications. You can specify up to 7 states, and the ordering of the states is not significant.
         /// This member is required.
         public var notifyOn: [DataZoneClientTypes.NotifyOnState]?
 
@@ -25211,6 +25551,104 @@ extension UpdateConnectionOutput: Swift.CustomDebugStringConvertible {
         "UpdateConnectionOutput(configurations: \(Swift.String(describing: configurations)), connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
+public struct UpdateDesignationInput: Swift.Sendable {
+    /// Whether deletion protection is enabled for this designation. Omit to keep the existing value.
+    public var deletionProtection: Swift.Bool?
+    /// The updated human-readable description of the designation and its intended use.
+    public var description: Swift.String?
+    /// The identifier of the Amazon DataZone domain that contains the designation to update.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The unique ID of the designation to update.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The updated name of the designation. The name must be unique within the domain.
+    public var name: Swift.String?
+    /// The updated Cedar permit policy.
+    public var policy: Swift.String?
+
+    public init(
+        deletionProtection: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil
+    ) {
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.name = name
+        self.policy = policy
+    }
+}
+
+extension UpdateDesignationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDesignationInput(deletionProtection: \(Swift.String(describing: deletionProtection)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), name: \(Swift.String(describing: name)), policy: \(Swift.String(describing: policy)), description: \"CONTENT_REDACTED\")"}
+}
+
+/// A designation defines a named role with a Cedar permit policy that controls what actions members holding this designation can perform within a project.
+public struct UpdateDesignationOutput: Swift.Sendable {
+    /// The date and time when the designation was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the Amazon DataZone user who created the designation.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// Whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+    /// This member is required.
+    public var deletionProtection: Swift.Bool?
+    /// A human-readable description of the designation and its intended use.
+    public var description: Swift.String?
+    /// The classification of this designation. MANAGED designations are system-defined and cannot be modified or deleted.
+    /// This member is required.
+    public var designationType: DataZoneClientTypes.DesignationType?
+    /// The identifier of the Amazon DataZone domain that contains the designation.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The unique ID of the designation.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The date and time when the designation was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the designation. The name is unique within the domain.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Cedar permit policy that governs what actions holders of this designation are allowed to perform.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        description: Swift.String? = nil,
+        designationType: DataZoneClientTypes.DesignationType? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        policy: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.deletionProtection = deletionProtection
+        self.description = description
+        self.designationType = designationType
+        self.domainId = domainId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.policy = policy
+    }
+}
+
+extension UpdateDesignationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDesignationOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), deletionProtection: \(Swift.String(describing: deletionProtection)), designationType: \(Swift.String(describing: designationType)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), policy: \(Swift.String(describing: policy)), description: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateEnvironmentInput: Swift.Sendable {
     /// The blueprint version to which the environment should be updated. You can only specify the following string for this parameter: latest.
     public var blueprintVersion: Swift.String?
@@ -27190,6 +27628,16 @@ extension CreateDataSourceInput {
     }
 }
 
+extension CreateDesignationInput {
+
+    static func urlPathProvider(_ value: CreateDesignationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/designations"
+    }
+}
+
 extension CreateDomainInput {
 
     static func urlPathProvider(_ value: CreateDomainInput) -> Swift.String? {
@@ -27513,6 +27961,19 @@ extension DeleteDataSourceInput {
             items.append(clientTokenQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteDesignationInput {
+
+    static func urlPathProvider(_ value: DeleteDesignationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/designations/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -28039,6 +28500,19 @@ extension GetDataSourceRunInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/data-source-runs/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetDesignationInput {
+
+    static func urlPathProvider(_ value: GetDesignationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/designations/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -28853,6 +29327,32 @@ extension ListDataSourcesInput {
         if let status = value.status {
             let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
             items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDesignationsInput {
+
+    static func urlPathProvider(_ value: ListDesignationsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/designations"
+    }
+}
+
+extension ListDesignationsInput {
+
+    static func queryItemProvider(_ value: ListDesignationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -30340,6 +30840,19 @@ extension UpdateDataSourceInput {
     }
 }
 
+extension UpdateDesignationInput {
+
+    static func urlPathProvider(_ value: UpdateDesignationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/designations/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDomainInput {
 
     static func urlPathProvider(_ value: UpdateDomainInput) -> Swift.String? {
@@ -30773,6 +31286,17 @@ extension CreateDataSourceInput {
     }
 }
 
+extension CreateDesignationInput {
+
+    static func write(value: CreateDesignationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deletionProtection"].write(value.deletionProtection)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["policy"].write(value.policy)
+    }
+}
+
 extension CreateDomainInput {
 
     static func write(value: CreateDomainInput?, to writer: SmithyJSON.Writer) throws {
@@ -30953,6 +31477,7 @@ extension CreateProjectMembershipInput {
         guard let value else { return }
         try writer["designation"].write(value.designation)
         try writer["member"].write(value.member, with: DataZoneClientTypes.Member.write(value:to:))
+        try writer["userCreatedDesignationId"].write(value.userCreatedDesignationId)
     }
 }
 
@@ -31357,6 +31882,17 @@ extension UpdateDataSourceInput {
         try writer["recommendation"].write(value.recommendation, with: DataZoneClientTypes.RecommendationConfiguration.write(value:to:))
         try writer["retainPermissionsOnRevokeFailure"].write(value.retainPermissionsOnRevokeFailure)
         try writer["schedule"].write(value.schedule, with: DataZoneClientTypes.ScheduleConfiguration.write(value:to:))
+    }
+}
+
+extension UpdateDesignationInput {
+
+    static func write(value: UpdateDesignationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deletionProtection"].write(value.deletionProtection)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["policy"].write(value.policy)
     }
 }
 
@@ -31930,6 +32466,27 @@ extension CreateDataSourceOutput {
     }
 }
 
+extension CreateDesignationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDesignationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDesignationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? false
+        value.description = try reader["description"].readIfPresent()
+        value.designationType = try reader["designationType"].readIfPresent() ?? .sdkUnknown("")
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDomainOutput {
@@ -32447,6 +33004,13 @@ extension DeleteDataSourceOutput {
     }
 }
 
+extension DeleteDesignationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDesignationOutput {
+        return DeleteDesignationOutput()
+    }
+}
+
 extension DeleteDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainOutput {
@@ -32855,6 +33419,27 @@ extension GetDataSourceRunOutput {
         value.stoppedAt = try reader["stoppedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension GetDesignationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDesignationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDesignationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? false
+        value.description = try reader["description"].readIfPresent()
+        value.designationType = try reader["designationType"].readIfPresent() ?? .sdkUnknown("")
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policy = try reader["policy"].readIfPresent() ?? ""
         return value
     }
 }
@@ -33672,6 +34257,19 @@ extension ListDataSourcesOutput {
         let reader = responseReader
         var value = ListDataSourcesOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DataSourceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDesignationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDesignationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDesignationsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DesignationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -34497,6 +35095,27 @@ extension UpdateDataSourceOutput {
     }
 }
 
+extension UpdateDesignationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDesignationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDesignationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? false
+        value.description = try reader["description"].readIfPresent()
+        value.designationType = try reader["designationType"].readIfPresent() ?? .sdkUnknown("")
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension UpdateDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDomainOutput {
@@ -35289,6 +35908,27 @@ enum CreateDataSourceOutputError {
     }
 }
 
+enum CreateDesignationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -35845,6 +36485,26 @@ enum DeleteDataSourceOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDesignationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -36470,6 +37130,25 @@ enum GetDataSourceRunOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDesignationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -37214,6 +37893,25 @@ enum ListDataSourcesOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDesignationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -38244,6 +38942,26 @@ enum UpdateDataSourceOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDesignationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -40098,6 +40816,24 @@ extension DataZoneClientTypes.DeploymentProperties {
         var value = DataZoneClientTypes.DeploymentProperties()
         value.startTimeoutMinutes = try reader["startTimeoutMinutes"].readIfPresent()
         value.endTimeoutMinutes = try reader["endTimeoutMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DesignationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DesignationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DesignationSummary()
+        value.domainId = try reader["domainId"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.designationType = try reader["designationType"].readIfPresent()
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent() ?? false
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -42472,6 +43208,7 @@ extension DataZoneClientTypes.ProjectMember {
         var value = DataZoneClientTypes.ProjectMember()
         value.memberDetails = try reader["memberDetails"].readIfPresent(with: DataZoneClientTypes.MemberDetails.read(from:))
         value.designation = try reader["designation"].readIfPresent() ?? .sdkUnknown("")
+        value.userCreatedDesignationId = try reader["userCreatedDesignationId"].readIfPresent()
         return value
     }
 }
@@ -42482,6 +43219,7 @@ extension DataZoneClientTypes.ProjectMembershipAssignment {
         guard let value else { return }
         try writer["designation"].write(value.designation)
         try writer["member"].write(value.member, with: DataZoneClientTypes.Member.write(value:to:))
+        try writer["userCreatedDesignationId"].write(value.userCreatedDesignationId)
     }
 }
 
@@ -42492,12 +43230,14 @@ extension DataZoneClientTypes.ProjectPolicyGrantPrincipal {
         try writer["projectDesignation"].write(value.projectDesignation)
         try writer["projectGrantFilter"].write(value.projectGrantFilter, with: DataZoneClientTypes.ProjectGrantFilter.write(value:to:))
         try writer["projectIdentifier"].write(value.projectIdentifier)
+        try writer["userCreatedDesignationId"].write(value.userCreatedDesignationId)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ProjectPolicyGrantPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.ProjectPolicyGrantPrincipal()
         value.projectDesignation = try reader["projectDesignation"].readIfPresent() ?? .sdkUnknown("")
+        value.userCreatedDesignationId = try reader["userCreatedDesignationId"].readIfPresent()
         value.projectIdentifier = try reader["projectIdentifier"].readIfPresent()
         value.projectGrantFilter = try reader["projectGrantFilter"].readIfPresent(with: DataZoneClientTypes.ProjectGrantFilter.read(from:))
         return value

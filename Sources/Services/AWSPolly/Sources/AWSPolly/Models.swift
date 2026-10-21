@@ -419,6 +419,7 @@ extension PollyClientTypes {
         case amy
         case andres
         case aria
+        case arjun
         case arlet
         case arthur
         case astrid
@@ -429,11 +430,14 @@ extension PollyClientTypes {
         case burcu
         case camila
         case carla
+        case carlos
         case carmen
+        case carolina
         case celine
         case chantal
         case conchita
         case cristiano
+        case curtis
         case daniel
         case danielle
         case dora
@@ -452,6 +456,7 @@ extension PollyClientTypes {
         case hannah
         case hans
         case hiujin
+        case hyunduk
         case ida
         case ines
         case isabelle
@@ -468,11 +473,14 @@ extension PollyClientTypes {
         case karl
         case kazuha
         case kendra
+        case kenneth
         case kevin
+        case kiara
         case kimberly
         case laura
         case lea
         case lennart
+        case leo
         case liam
         case lisa
         case liv
@@ -490,6 +498,7 @@ extension PollyClientTypes {
         case miguel
         case mizuki
         case naja
+        case nate
         case niamh
         case nicole
         case ola
@@ -513,6 +522,7 @@ extension PollyClientTypes {
         case tatyana
         case thiago
         case tiffany
+        case tina
         case tomoko
         case vicki
         case vitoria
@@ -529,6 +539,7 @@ extension PollyClientTypes {
                 .amy,
                 .andres,
                 .aria,
+                .arjun,
                 .arlet,
                 .arthur,
                 .astrid,
@@ -539,11 +550,14 @@ extension PollyClientTypes {
                 .burcu,
                 .camila,
                 .carla,
+                .carlos,
                 .carmen,
+                .carolina,
                 .celine,
                 .chantal,
                 .conchita,
                 .cristiano,
+                .curtis,
                 .daniel,
                 .danielle,
                 .dora,
@@ -562,6 +576,7 @@ extension PollyClientTypes {
                 .hannah,
                 .hans,
                 .hiujin,
+                .hyunduk,
                 .ida,
                 .ines,
                 .isabelle,
@@ -578,11 +593,14 @@ extension PollyClientTypes {
                 .karl,
                 .kazuha,
                 .kendra,
+                .kenneth,
                 .kevin,
+                .kiara,
                 .kimberly,
                 .laura,
                 .lea,
                 .lennart,
+                .leo,
                 .liam,
                 .lisa,
                 .liv,
@@ -600,6 +618,7 @@ extension PollyClientTypes {
                 .miguel,
                 .mizuki,
                 .naja,
+                .nate,
                 .niamh,
                 .nicole,
                 .ola,
@@ -623,6 +642,7 @@ extension PollyClientTypes {
                 .tatyana,
                 .thiago,
                 .tiffany,
+                .tina,
                 .tomoko,
                 .vicki,
                 .vitoria,
@@ -645,6 +665,7 @@ extension PollyClientTypes {
             case .amy: return "Amy"
             case .andres: return "Andres"
             case .aria: return "Aria"
+            case .arjun: return "Arjun"
             case .arlet: return "Arlet"
             case .arthur: return "Arthur"
             case .astrid: return "Astrid"
@@ -655,11 +676,14 @@ extension PollyClientTypes {
             case .burcu: return "Burcu"
             case .camila: return "Camila"
             case .carla: return "Carla"
+            case .carlos: return "Carlos"
             case .carmen: return "Carmen"
+            case .carolina: return "Carolina"
             case .celine: return "Celine"
             case .chantal: return "Chantal"
             case .conchita: return "Conchita"
             case .cristiano: return "Cristiano"
+            case .curtis: return "Curtis"
             case .daniel: return "Daniel"
             case .danielle: return "Danielle"
             case .dora: return "Dora"
@@ -678,6 +702,7 @@ extension PollyClientTypes {
             case .hannah: return "Hannah"
             case .hans: return "Hans"
             case .hiujin: return "Hiujin"
+            case .hyunduk: return "Hyunduk"
             case .ida: return "Ida"
             case .ines: return "Ines"
             case .isabelle: return "Isabelle"
@@ -694,11 +719,14 @@ extension PollyClientTypes {
             case .karl: return "Karl"
             case .kazuha: return "Kazuha"
             case .kendra: return "Kendra"
+            case .kenneth: return "Kenneth"
             case .kevin: return "Kevin"
+            case .kiara: return "Kiara"
             case .kimberly: return "Kimberly"
             case .laura: return "Laura"
             case .lea: return "Lea"
             case .lennart: return "Lennart"
+            case .leo: return "Leo"
             case .liam: return "Liam"
             case .lisa: return "Lisa"
             case .liv: return "Liv"
@@ -716,6 +744,7 @@ extension PollyClientTypes {
             case .miguel: return "Miguel"
             case .mizuki: return "Mizuki"
             case .naja: return "Naja"
+            case .nate: return "Nate"
             case .niamh: return "Niamh"
             case .nicole: return "Nicole"
             case .ola: return "Ola"
@@ -739,6 +768,7 @@ extension PollyClientTypes {
             case .tatyana: return "Tatyana"
             case .thiago: return "Thiago"
             case .tiffany: return "Tiffany"
+            case .tina: return "Tina"
             case .tomoko: return "Tomoko"
             case .vicki: return "Vicki"
             case .vitoria: return "Vitoria"
@@ -883,7 +913,7 @@ extension PollyClientTypes {
 
     /// Contains metadata describing the lexicon such as the number of lexemes, language code, and so on. For more information, see [Managing Lexicons](https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html).
     public struct LexiconAttributes: Swift.Sendable {
-        /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
+        /// Phonetic alphabet used in the lexicon. Valid values are ipa, x-sampa, x-amazon-pinyin, x-amazon-jyutping, x-amazon-pron-kana, and x-amazon-yomigana.
         public var alphabet: Swift.String?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
         public var languageCode: PollyClientTypes.LanguageCode?
@@ -1544,7 +1574,7 @@ public struct MaxLexiconsNumberExceededException: ClientRuntime.ModeledError, AW
     }
 }
 
-/// The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
+/// The alphabet specified by the lexicon is not a supported alphabet. Valid values are ipa, x-sampa, x-amazon-pinyin, x-amazon-jyutping, x-amazon-pron-kana, and x-amazon-yomigana. Replace the unsupported alphabet with one of the valid values and resubmit your request.
 public struct UnsupportedPlsAlphabetException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1892,7 +1922,7 @@ public struct StartSpeechSynthesisStreamInput: Swift.Sendable {
     public var outputFormat: PollyClientTypes.OutputFormat?
     /// The audio frequency, specified in Hz.
     public var sampleRate: Swift.String?
-    /// The voice to use in synthesis. To get a list of available voice IDs, use the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/API/API_DescribeVoices.html) operation.
+    /// The voice to use in synthesis. To get a list of available voice IDs, use the [DescribeVoices](https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html) operation.
     /// This member is required.
     public var voiceId: PollyClientTypes.VoiceId?
 

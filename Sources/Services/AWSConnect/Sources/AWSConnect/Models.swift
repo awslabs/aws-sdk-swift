@@ -18972,6 +18972,35 @@ public struct DescribeSecurityProfileInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum SecurityProfileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityProfileType] {
+            return [
+                .awsManaged,
+                .customerManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains information about a security profile.
     public struct SecurityProfile: Swift.Sendable {
         /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
@@ -19000,6 +19029,8 @@ extension ConnectClientTypes {
         public var tagRestrictedResources: [Swift.String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
+        /// The type of the security profile: AWS_MANAGED or CUSTOMER_MANAGED.
+        public var type: ConnectClientTypes.SecurityProfileType?
 
         public init(
             allowedAccessControlHierarchyGroupId: Swift.String? = nil,
@@ -19014,7 +19045,8 @@ extension ConnectClientTypes {
             organizationResourceId: Swift.String? = nil,
             securityProfileName: Swift.String? = nil,
             tagRestrictedResources: [Swift.String]? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            tags: [Swift.String: Swift.String]? = nil,
+            type: ConnectClientTypes.SecurityProfileType? = nil
         ) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
@@ -19029,6 +19061,7 @@ extension ConnectClientTypes {
             self.securityProfileName = securityProfileName
             self.tagRestrictedResources = tagRestrictedResources
             self.tags = tags
+            self.type = type
         }
     }
 }
@@ -27748,19 +27781,23 @@ extension ConnectClientTypes {
         public var lastModifiedTime: Foundation.Date?
         /// The name of the security profile.
         public var name: Swift.String?
+        /// The type of the security profile: AWS_MANAGED or CUSTOMER_MANAGED.
+        public var type: ConnectClientTypes.SecurityProfileType?
 
         public init(
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            type: ConnectClientTypes.SecurityProfileType? = nil
         ) {
             self.arn = arn
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
+            self.type = type
         }
     }
 }
@@ -31784,6 +31821,8 @@ extension ConnectClientTypes {
         public var securityProfileName: Swift.String?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
+        /// The type of the security profile: AWS_MANAGED or CUSTOMER_MANAGED.
+        public var type: ConnectClientTypes.SecurityProfileType?
 
         public init(
             arn: Swift.String? = nil,
@@ -31791,7 +31830,8 @@ extension ConnectClientTypes {
             id: Swift.String? = nil,
             organizationResourceId: Swift.String? = nil,
             securityProfileName: Swift.String? = nil,
-            tags: [Swift.String: Swift.String]? = nil
+            tags: [Swift.String: Swift.String]? = nil,
+            type: ConnectClientTypes.SecurityProfileType? = nil
         ) {
             self.arn = arn
             self.description = description
@@ -31799,6 +31839,7 @@ extension ConnectClientTypes {
             self.organizationResourceId = organizationResourceId
             self.securityProfileName = securityProfileName
             self.tags = tags
+            self.type = type
         }
     }
 }
@@ -68574,6 +68615,7 @@ extension ConnectClientTypes.SecurityProfile {
         value.hierarchyRestrictedResources = try reader["HierarchyRestrictedResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedAccessControlHierarchyGroupId = try reader["AllowedAccessControlHierarchyGroupId"].readIfPresent()
         value.granularAccessControlConfiguration = try reader["GranularAccessControlConfiguration"].readIfPresent(with: ConnectClientTypes.GranularAccessControlConfiguration.read(from:))
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -68614,6 +68656,7 @@ extension ConnectClientTypes.SecurityProfileSearchSummary {
         value.securityProfileName = try reader["SecurityProfileName"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -68636,6 +68679,7 @@ extension ConnectClientTypes.SecurityProfileSummary {
         value.name = try reader["Name"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }

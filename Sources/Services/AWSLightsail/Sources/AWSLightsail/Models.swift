@@ -688,6 +688,13 @@ extension LightsailClientTypes {
         case clienttlsnegotiationerrorcount
         case databaseconnections
         case diskqueuedepth
+        case diskqueuelength
+        case diskreadbytes
+        case diskreadops
+        case disktotalreadtime
+        case disktotalwritetime
+        case diskwritebytes
+        case diskwriteops
         case freestoragespace
         case freeablememory
         case httpcodeInstance2xxCount
@@ -719,6 +726,13 @@ extension LightsailClientTypes {
                 .clienttlsnegotiationerrorcount,
                 .databaseconnections,
                 .diskqueuedepth,
+                .diskqueuelength,
+                .diskreadbytes,
+                .diskreadops,
+                .disktotalreadtime,
+                .disktotalwritetime,
+                .diskwritebytes,
+                .diskwriteops,
                 .freestoragespace,
                 .freeablememory,
                 .httpcodeInstance2xxCount,
@@ -756,6 +770,13 @@ extension LightsailClientTypes {
             case .clienttlsnegotiationerrorcount: return "ClientTLSNegotiationErrorCount"
             case .databaseconnections: return "DatabaseConnections"
             case .diskqueuedepth: return "DiskQueueDepth"
+            case .diskqueuelength: return "DiskQueueLength"
+            case .diskreadbytes: return "DiskReadBytes"
+            case .diskreadops: return "DiskReadOps"
+            case .disktotalreadtime: return "DiskTotalReadTime"
+            case .disktotalwritetime: return "DiskTotalWriteTime"
+            case .diskwritebytes: return "DiskWriteBytes"
+            case .diskwriteops: return "DiskWriteOps"
             case .freestoragespace: return "FreeStorageSpace"
             case .freeablememory: return "FreeableMemory"
             case .httpcodeInstance2xxCount: return "HTTPCode_Instance_2XX_Count"
@@ -9479,6 +9500,13 @@ extension LightsailClientTypes {
         case burstcapacitypercentage
         case burstcapacitytime
         case cpuutilization
+        case diskqueuelength
+        case diskreadbytes
+        case diskreadops
+        case disktotalreadtime
+        case disktotalwritetime
+        case diskwritebytes
+        case diskwriteops
         case metadatanotoken
         case networkin
         case networkout
@@ -9492,6 +9520,13 @@ extension LightsailClientTypes {
                 .burstcapacitypercentage,
                 .burstcapacitytime,
                 .cpuutilization,
+                .diskqueuelength,
+                .diskreadbytes,
+                .diskreadops,
+                .disktotalreadtime,
+                .disktotalwritetime,
+                .diskwritebytes,
+                .diskwriteops,
                 .metadatanotoken,
                 .networkin,
                 .networkout,
@@ -9511,6 +9546,13 @@ extension LightsailClientTypes {
             case .burstcapacitypercentage: return "BurstCapacityPercentage"
             case .burstcapacitytime: return "BurstCapacityTime"
             case .cpuutilization: return "CPUUtilization"
+            case .diskqueuelength: return "DiskQueueLength"
+            case .diskreadbytes: return "DiskReadBytes"
+            case .diskreadops: return "DiskReadOps"
+            case .disktotalreadtime: return "DiskTotalReadTime"
+            case .disktotalwritetime: return "DiskTotalWriteTime"
+            case .diskwritebytes: return "DiskWriteBytes"
+            case .diskwriteops: return "DiskWriteOps"
             case .metadatanotoken: return "MetadataNoToken"
             case .networkin: return "NetworkIn"
             case .networkout: return "NetworkOut"
@@ -9549,6 +9591,23 @@ public struct GetInstanceMetricDataInput: Swift.Sendable {
     /// * StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
     ///
     /// * MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
+    ///
+    /// * DiskReadOps - The number of read operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
+    ///
+    /// * DiskWriteOps - The number of write operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
+    ///
+    /// * DiskReadBytes - The number of bytes read from the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Bytes.
+    ///
+    /// * DiskWriteBytes - The number of bytes written to the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Bytes.
+    ///
+    /// * DiskTotalReadTime - The total number of seconds spent by all read operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Average. Unit: The published unit is Seconds.
+    ///
+    /// * DiskTotalWriteTime - The total number of seconds spent by all write operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Average. Unit: The published unit is Seconds.
+    ///
+    /// * DiskQueueLength - The number of read and write requests that are waiting to access the system disk of the instance. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Average. Unit: The published unit is Count.
+    ///
+    ///
+    /// For more information about system disk performance metrics, see [View system disk performance metrics for your Lightsail instance](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-disk-performance-metrics).
     /// This member is required.
     public var metricName: LightsailClientTypes.InstanceMetricName?
     /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
@@ -12763,7 +12822,7 @@ public struct PutAlarmInput: Swift.Sendable {
     public var evaluationPeriods: Swift.Int?
     /// The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type:
     ///
-    /// * Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System.
+    /// * Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, StatusCheckFailed_System, DiskReadOps, DiskWriteOps, DiskReadBytes, DiskWriteBytes, DiskTotalReadTime, DiskTotalWriteTime, and DiskQueueLength.
     ///
     /// * Load balancers: ClientTLSNegotiationErrorCount, HealthyHostCount, UnhealthyHostCount, HTTPCode_LB_4XX_Count, HTTPCode_LB_5XX_Count, HTTPCode_Instance_2XX_Count, HTTPCode_Instance_3XX_Count, HTTPCode_Instance_4XX_Count, HTTPCode_Instance_5XX_Count, InstanceResponseTime, RejectedConnectionCount, and RequestCount.
     ///

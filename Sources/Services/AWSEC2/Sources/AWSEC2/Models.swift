@@ -2545,6 +2545,45 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// Describes an entry in a transit gateway policy table.
+    public struct AnalysisTransitGatewayPolicyTableEntry: Swift.Sendable {
+        /// The destination CIDR block. If this value is not present, the entry matches any destination address.
+        public var destinationCidr: Swift.String?
+        /// The destination port range. If this value is not present, the entry matches any destination port.
+        public var destinationPortRange: EC2ClientTypes.PortRange?
+        /// The protocol number. A value of -1 means that the entry matches all protocols.
+        public var `protocol`: Swift.String?
+        /// The rule number for the policy table entry. Entries are evaluated in ascending order of rule number.
+        public var ruleNumber: Swift.Int?
+        /// The source CIDR block. If this value is not present, the entry matches any source address.
+        public var sourceCidr: Swift.String?
+        /// The source port range. If this value is not present, the entry matches any source port.
+        public var sourcePortRange: EC2ClientTypes.PortRange?
+        /// The ID of the transit gateway route table to which the entry routes matching traffic.
+        public var targetRouteTableId: Swift.String?
+
+        public init(
+            destinationCidr: Swift.String? = nil,
+            destinationPortRange: EC2ClientTypes.PortRange? = nil,
+            `protocol`: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil,
+            sourceCidr: Swift.String? = nil,
+            sourcePortRange: EC2ClientTypes.PortRange? = nil,
+            targetRouteTableId: Swift.String? = nil
+        ) {
+            self.destinationCidr = destinationCidr
+            self.destinationPortRange = destinationPortRange
+            self.`protocol` = `protocol`
+            self.ruleNumber = ruleNumber
+            self.sourceCidr = sourceCidr
+            self.sourcePortRange = sourcePortRange
+            self.targetRouteTableId = targetRouteTableId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes a route in a transit gateway route table.
     public struct TransitGatewayRouteTableRoute: Swift.Sendable {
         /// The ID of the route attachment.
@@ -2688,6 +2727,10 @@ extension EC2ClientTypes {
         public var transitGateway: EC2ClientTypes.AnalysisComponent?
         /// The transit gateway attachment.
         public var transitGatewayAttachment: EC2ClientTypes.AnalysisComponent?
+        /// The transit gateway policy table.
+        public var transitGatewayPolicyTable: EC2ClientTypes.AnalysisComponent?
+        /// The transit gateway policy table entry.
+        public var transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry?
         /// The transit gateway route table.
         public var transitGatewayRouteTable: EC2ClientTypes.AnalysisComponent?
         /// The transit gateway route table route.
@@ -2751,6 +2794,8 @@ extension EC2ClientTypes {
             subnetRouteTable: EC2ClientTypes.AnalysisComponent? = nil,
             transitGateway: EC2ClientTypes.AnalysisComponent? = nil,
             transitGatewayAttachment: EC2ClientTypes.AnalysisComponent? = nil,
+            transitGatewayPolicyTable: EC2ClientTypes.AnalysisComponent? = nil,
+            transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry? = nil,
             transitGatewayRouteTable: EC2ClientTypes.AnalysisComponent? = nil,
             transitGatewayRouteTableRoute: EC2ClientTypes.TransitGatewayRouteTableRoute? = nil,
             vpc: EC2ClientTypes.AnalysisComponent? = nil,
@@ -2806,6 +2851,8 @@ extension EC2ClientTypes {
             self.subnetRouteTable = subnetRouteTable
             self.transitGateway = transitGateway
             self.transitGatewayAttachment = transitGatewayAttachment
+            self.transitGatewayPolicyTable = transitGatewayPolicyTable
+            self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
             self.transitGatewayRouteTable = transitGatewayRouteTable
             self.transitGatewayRouteTableRoute = transitGatewayRouteTableRoute
             self.vpc = vpc
@@ -2888,6 +2935,8 @@ extension EC2ClientTypes {
         public var subnet: EC2ClientTypes.AnalysisComponent?
         /// The transit gateway.
         public var transitGateway: EC2ClientTypes.AnalysisComponent?
+        /// The entry in a transit gateway policy table.
+        public var transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry?
         /// The route in a transit gateway route table.
         public var transitGatewayRouteTableRoute: EC2ClientTypes.TransitGatewayRouteTableRoute?
         /// The component VPC.
@@ -2912,6 +2961,7 @@ extension EC2ClientTypes {
             sourceVpc: EC2ClientTypes.AnalysisComponent? = nil,
             subnet: EC2ClientTypes.AnalysisComponent? = nil,
             transitGateway: EC2ClientTypes.AnalysisComponent? = nil,
+            transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry? = nil,
             transitGatewayRouteTableRoute: EC2ClientTypes.TransitGatewayRouteTableRoute? = nil,
             vpc: EC2ClientTypes.AnalysisComponent? = nil
         ) {
@@ -2933,6 +2983,7 @@ extension EC2ClientTypes {
             self.sourceVpc = sourceVpc
             self.subnet = subnet
             self.transitGateway = transitGateway
+            self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
             self.transitGatewayRouteTableRoute = transitGatewayRouteTableRoute
             self.vpc = vpc
         }
@@ -55405,7 +55456,30 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    /// Describes the status of an instance, including system status, instance status, attached EBS status, and application status.
+    /// Provides a summary of the performance status check results for an instance.
+    public struct PerformanceStatusSummary: Swift.Sendable {
+        /// The date and time when the performance status became impaired.
+        public var impairedSince: Foundation.Date?
+        /// The recommended action to remediate the impaired instance, if one is available. This value is returned only when the instance is impaired.
+        public var remediation: Swift.String?
+        /// The current status.
+        public var status: EC2ClientTypes.SummaryStatus?
+
+        public init(
+            impairedSince: Foundation.Date? = nil,
+            remediation: Swift.String? = nil,
+            status: EC2ClientTypes.SummaryStatus? = nil
+        ) {
+            self.impairedSince = impairedSince
+            self.remediation = remediation
+            self.status = status
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the status of an instance, including system status, instance status, attached EBS status, application status, and performance status.
     public struct InstanceStatus: Swift.Sendable {
         /// Reports the application-level health status for the instance.
         public var applicationStatus: EC2ClientTypes.ApplicationStatusSummary?
@@ -55427,6 +55501,8 @@ extension EC2ClientTypes {
         public var `operator`: EC2ClientTypes.OperatorResponse?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public var outpostArn: Swift.String?
+        /// Reports the performance-related health status for the instance. This information is returned only when performance status checks are enabled for the instance.
+        public var performanceStatus: EC2ClientTypes.PerformanceStatusSummary?
         /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems.
         public var systemStatus: EC2ClientTypes.InstanceStatusSummary?
 
@@ -55441,6 +55517,7 @@ extension EC2ClientTypes {
             instanceStatus: EC2ClientTypes.InstanceStatusSummary? = nil,
             `operator`: EC2ClientTypes.OperatorResponse? = nil,
             outpostArn: Swift.String? = nil,
+            performanceStatus: EC2ClientTypes.PerformanceStatusSummary? = nil,
             systemStatus: EC2ClientTypes.InstanceStatusSummary? = nil
         ) {
             self.applicationStatus = applicationStatus
@@ -55453,6 +55530,7 @@ extension EC2ClientTypes {
             self.instanceStatus = instanceStatus
             self.`operator` = `operator`
             self.outpostArn = outpostArn
+            self.performanceStatus = performanceStatus
             self.systemStatus = systemStatus
         }
     }
@@ -79925,7 +80003,7 @@ public struct ModifyClientVpnEndpointInput: Swift.Sendable {
     public var connectionLogOptions: EC2ClientTypes.ConnectionLogOptions?
     /// A brief description of the Client VPN endpoint.
     public var description: Swift.String?
-    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list.
+    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To disable device posture and remove all device trust providers, specify false for Enabled.
     public var devicePostureOptions: EC2ClientTypes.DevicePostureOptions?
     /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
     public var disconnectOnSessionTimeout: Swift.Bool?
@@ -128632,6 +128710,22 @@ extension EC2ClientTypes.AnalysisSecurityGroupRule {
     }
 }
 
+extension EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry()
+        value.ruleNumber = try reader["ruleNumber"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.sourceCidr = try reader["sourceCidr"].readIfPresent()
+        value.destinationCidr = try reader["destinationCidr"].readIfPresent()
+        value.sourcePortRange = try reader["sourcePortRange"].readIfPresent(with: EC2ClientTypes.PortRange.read(from:))
+        value.destinationPortRange = try reader["destinationPortRange"].readIfPresent(with: EC2ClientTypes.PortRange.read(from:))
+        value.targetRouteTableId = try reader["targetRouteTableId"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.ApplicationStatus {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ApplicationStatus {
@@ -131518,6 +131612,8 @@ extension EC2ClientTypes.Explanation {
         value.transitGateway = try reader["transitGateway"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.transitGatewayRouteTable = try reader["transitGatewayRouteTable"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.transitGatewayRouteTableRoute = try reader["transitGatewayRouteTableRoute"].readIfPresent(with: EC2ClientTypes.TransitGatewayRouteTableRoute.read(from:))
+        value.transitGatewayPolicyTable = try reader["transitGatewayPolicyTable"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
+        value.transitGatewayPolicyTableEntry = try reader["transitGatewayPolicyTableEntry"].readIfPresent(with: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry.read(from:))
         value.transitGatewayAttachment = try reader["transitGatewayAttachment"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.componentAccount = try reader["componentAccount"].readIfPresent()
         value.componentRegion = try reader["componentRegion"].readIfPresent()
@@ -133783,6 +133879,7 @@ extension EC2ClientTypes.InstanceStatus {
         value.systemStatus = try reader["systemStatus"].readIfPresent(with: EC2ClientTypes.InstanceStatusSummary.read(from:))
         value.attachedEbsStatus = try reader["attachedEbsStatus"].readIfPresent(with: EC2ClientTypes.EbsStatusSummary.read(from:))
         value.applicationStatus = try reader["applicationStatus"].readIfPresent(with: EC2ClientTypes.ApplicationStatusSummary.read(from:))
+        value.performanceStatus = try reader["performanceStatus"].readIfPresent(with: EC2ClientTypes.PerformanceStatusSummary.read(from:))
         return value
     }
 }
@@ -136994,6 +137091,7 @@ extension EC2ClientTypes.PathComponent {
         value.additionalDetails = try reader["additionalDetailSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AdditionalDetail.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.transitGateway = try reader["transitGateway"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.transitGatewayRouteTableRoute = try reader["transitGatewayRouteTableRoute"].readIfPresent(with: EC2ClientTypes.TransitGatewayRouteTableRoute.read(from:))
+        value.transitGatewayPolicyTableEntry = try reader["transitGatewayPolicyTableEntry"].readIfPresent(with: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry.read(from:))
         value.explanations = try reader["explanationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Explanation.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.elasticLoadBalancerListener = try reader["elasticLoadBalancerListener"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.firewallStatelessRule = try reader["firewallStatelessRule"].readIfPresent(with: EC2ClientTypes.FirewallStatelessRule.read(from:))
@@ -137137,6 +137235,18 @@ extension EC2ClientTypes.PerformanceFactorReferenceRequest {
     static func write(value: EC2ClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["InstanceFamily"].write(value.instanceFamily)
+    }
+}
+
+extension EC2ClientTypes.PerformanceStatusSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PerformanceStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PerformanceStatusSummary()
+        value.status = try reader["status"].readIfPresent()
+        value.impairedSince = try reader["impairedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.remediation = try reader["remediation"].readIfPresent()
+        return value
     }
 }
 
