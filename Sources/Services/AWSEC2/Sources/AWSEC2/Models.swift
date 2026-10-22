@@ -36153,12 +36153,14 @@ extension EC2ClientTypes {
     public enum TransitGatewayRouteType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case propagated
         case `static`
+        case system
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TransitGatewayRouteType] {
             return [
                 .propagated,
-                .static
+                .static,
+                .system
             ]
         }
 
@@ -36171,6 +36173,7 @@ extension EC2ClientTypes {
             switch self {
             case .propagated: return "propagated"
             case .static: return "static"
+            case .system: return "system"
             case let .sdkUnknown(s): return s
             }
         }
@@ -65130,12 +65133,49 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TransitGatewayAttachmentNatGatewaySupportState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayAttachmentNatGatewaySupportState] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .disabling: return "disabling"
+            case .enabled: return "enabled"
+            case .enabling: return "enabling"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes an attachment between a resource and a transit gateway.
     public struct TransitGatewayAttachment: Swift.Sendable {
         /// The association.
         public var association: EC2ClientTypes.TransitGatewayAttachmentAssociation?
         /// The creation time.
         public var creationTime: Foundation.Date?
+        /// The state of NAT gateway support for the attachment. Only the owner of the transit gateway receives this parameter.
+        public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState?
         /// The ID of the resource.
         public var resourceId: Swift.String?
         /// The ID of the Amazon Web Services account that owns the resource.
@@ -65156,6 +65196,7 @@ extension EC2ClientTypes {
         public init(
             association: EC2ClientTypes.TransitGatewayAttachmentAssociation? = nil,
             creationTime: Foundation.Date? = nil,
+            natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState? = nil,
             resourceId: Swift.String? = nil,
             resourceOwnerId: Swift.String? = nil,
             resourceType: EC2ClientTypes.TransitGatewayAttachmentResourceType? = nil,
@@ -65167,6 +65208,7 @@ extension EC2ClientTypes {
         ) {
             self.association = association
             self.creationTime = creationTime
+            self.natGatewaySupport = natGatewaySupport
             self.resourceId = resourceId
             self.resourceOwnerId = resourceOwnerId
             self.resourceType = resourceType
@@ -77686,6 +77728,142 @@ public struct GetSubnetCidrReservationsOutput: Swift.Sendable {
     }
 }
 
+public struct GetTransitGatewayAttachmentNatConfigurationInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the transit gateway attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum TransitGatewayNatRuleState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activated
+        case deactivated
+        case deleting
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayNatRuleState] {
+            return [
+                .activated,
+                .deactivated,
+                .deleting,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "activated"
+            case .deactivated: return "deactivated"
+            case .deleting: return "deleting"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a NAT gateway rule for a transit gateway attachment, including the rule number, the source CIDR block, the translated CIDR block, and the state of the rule.
+    public struct TransitGatewayNatRule: Swift.Sendable {
+        /// The IPv4 CIDR block of the source addresses to translate.
+        public var matchSourceCidr: Swift.String?
+        /// The IPv4 CIDR block that the transit gateway translates the source addresses to.
+        public var natCidr: Swift.String?
+        /// The rule number.
+        public var ruleNumber: Swift.Int?
+        /// The state of the NAT gateway rule. The possible values are:
+        ///
+        /// * pending - The transit gateway is applying a change to the rule.
+        ///
+        /// * activated - The rule is in effect because NAT gateway support is enabled for the attachment.
+        ///
+        /// * deactivated - The rule isn't in effect because NAT gateway support is disabled for the attachment.
+        public var state: EC2ClientTypes.TransitGatewayNatRuleState?
+
+        public init(
+            matchSourceCidr: Swift.String? = nil,
+            natCidr: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil,
+            state: EC2ClientTypes.TransitGatewayNatRuleState? = nil
+        ) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+            self.state = state
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum TransitGatewayAttachmentNatSystemRouteSupportValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayAttachmentNatSystemRouteSupportValue] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "disable"
+            case .enable: return "enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTransitGatewayAttachmentNatConfigurationOutput: Swift.Sendable {
+    /// The NAT gateway rules for the attachment.
+    public var natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]?
+    /// The state of NAT gateway support for the attachment.
+    public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState?
+    /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates.
+    public var natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue?
+    /// The ID of the transit gateway attachment.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]? = nil,
+        natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState? = nil,
+        natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
 public struct GetTransitGatewayAttachmentPropagationsInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -83146,6 +83324,113 @@ public struct ModifyTransitGatewayOutput: Swift.Sendable {
         transitGateway: EC2ClientTypes.TransitGateway? = nil
     ) {
         self.transitGateway = transitGateway
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a NAT gateway rule to apply to a transit gateway attachment. A NAT gateway rule translates source addresses in the MatchSourceCidr range to the corresponding addresses in the NatCidr range.
+    public struct TransitGatewayNatRuleRequest: Swift.Sendable {
+        /// The IPv4 CIDR block of the source addresses to translate. The CIDR block can't overlap the multicast range (224.0.0.0/4) or the link-local range (169.254.0.0/16).
+        public var matchSourceCidr: Swift.String?
+        /// The IPv4 CIDR block to translate the source addresses to. The CIDR block must be in a private (RFC 1918) or shared address space (RFC 6598) range, and must have the same prefix length as MatchSourceCidr. The CIDR blocks in the rules for an attachment can't overlap each other.
+        public var natCidr: Swift.String?
+        /// The rule number. Valid values are 1 to 32766. Each rule number must be unique within the request.
+        public var ruleNumber: Swift.Int?
+
+        public init(
+            matchSourceCidr: Swift.String? = nil,
+            natCidr: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil
+        ) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum TransitGatewayAttachmentNatGatewaySupportValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayAttachmentNatGatewaySupportValue] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "disable"
+            case .enable: return "enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ModifyTransitGatewayAttachmentNatConfigurationInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The NAT gateway rules for the attachment. The rules that you specify replace all existing NAT gateway rules for the attachment. You can specify up to 50 rules for an attachment. If you omit this parameter, the existing rules don't change. To remove all rules, use ResetNatGatewayRules.
+    public var natGatewayRules: [EC2ClientTypes.TransitGatewayNatRuleRequest]?
+    /// Specifies whether to enable or disable NAT gateway support for the attachment. To enable NAT gateway support, the attachment must have at least one NAT gateway rule. You can't modify the NAT configuration while NAT gateway support is enabling or disabling. If you omit this parameter, the current value doesn't change.
+    public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportValue?
+    /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates. For VPC attachments, the transit gateway always installs these routes. You can enable or disable this option only for Amazon Web Services Direct Connect gateway attachments and Site-to-Site VPN attachments that use dynamic routing. For these attachments, the default is enable. If you omit this parameter, the current value doesn't change.
+    public var natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue?
+    /// Specifies whether to remove all NAT gateway rules from the attachment. If you omit this parameter, the transit gateway doesn't remove any rules. You can't specify this parameter together with NatGatewayRules. Because you can't enable NAT gateway support without rules, also set NatGatewaySupport to disable in the same request if NAT gateway support is currently enabled.
+    public var resetNatGatewayRules: Swift.Bool?
+    /// The ID of the transit gateway attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        natGatewayRules: [EC2ClientTypes.TransitGatewayNatRuleRequest]? = nil,
+        natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportValue? = nil,
+        natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue? = nil,
+        resetNatGatewayRules: Swift.Bool? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+        self.resetNatGatewayRules = resetNatGatewayRules
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct ModifyTransitGatewayAttachmentNatConfigurationOutput: Swift.Sendable {
+    /// The NAT gateway rules for the attachment.
+    public var natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]?
+    /// The state of NAT gateway support for the attachment.
+    public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState?
+    /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates.
+    public var natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue?
+    /// The ID of the transit gateway attachment.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]? = nil,
+        natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState? = nil,
+        natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
     }
 }
 
@@ -93963,6 +94248,13 @@ extension GetSubnetCidrReservationsInput {
     }
 }
 
+extension GetTransitGatewayAttachmentNatConfigurationInput {
+
+    static func urlPathProvider(_ value: GetTransitGatewayAttachmentNatConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetTransitGatewayAttachmentPropagationsInput {
 
     static func urlPathProvider(_ value: GetTransitGatewayAttachmentPropagationsInput) -> Swift.String? {
@@ -94526,6 +94818,13 @@ extension ModifyTrafficMirrorSessionInput {
 extension ModifyTransitGatewayInput {
 
     static func urlPathProvider(_ value: ModifyTransitGatewayInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyTransitGatewayAttachmentNatConfigurationInput {
+
+    static func urlPathProvider(_ value: ModifyTransitGatewayAttachmentNatConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -104737,6 +105036,17 @@ extension GetSubnetCidrReservationsInput {
     }
 }
 
+extension GetTransitGatewayAttachmentNatConfigurationInput {
+
+    static func write(value: GetTransitGatewayAttachmentNatConfigurationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("GetTransitGatewayAttachmentNatConfiguration")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension GetTransitGatewayAttachmentPropagationsInput {
 
     static func write(value: GetTransitGatewayAttachmentPropagationsInput?, to writer: SmithyFormURL.Writer) throws {
@@ -106063,6 +106373,23 @@ extension ModifyTransitGatewayInput {
         try writer["Options"].write(value.options, with: EC2ClientTypes.ModifyTransitGatewayOptions.write(value:to:))
         try writer["TransitGatewayId"].write(value.transitGatewayId)
         try writer["Action"].write("ModifyTransitGateway")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyTransitGatewayAttachmentNatConfigurationInput {
+
+    static func write(value: ModifyTransitGatewayAttachmentNatConfigurationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.natGatewayRules?.isEmpty ?? true) {
+            try writer["NatGatewayRule"].writeList(value.natGatewayRules, memberWritingClosure: EC2ClientTypes.TransitGatewayNatRuleRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["NatGatewaySupport"].write(value.natGatewaySupport)
+        try writer["NatSystemRouteSupport"].write(value.natSystemRouteSupport)
+        try writer["ResetNatGatewayRules"].write(value.resetNatGatewayRules)
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("ModifyTransitGatewayAttachmentNatConfiguration")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -115490,6 +115817,21 @@ extension GetSubnetCidrReservationsOutput {
     }
 }
 
+extension GetTransitGatewayAttachmentNatConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTransitGatewayAttachmentNatConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTransitGatewayAttachmentNatConfigurationOutput()
+        value.natGatewayRules = try reader["natGatewayRuleSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayNatRule.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.natGatewaySupport = try reader["natGatewaySupport"].readIfPresent()
+        value.natSystemRouteSupport = try reader["natSystemRouteSupport"].readIfPresent()
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
+        return value
+    }
+}
+
 extension GetTransitGatewayAttachmentPropagationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTransitGatewayAttachmentPropagationsOutput {
@@ -116484,6 +116826,21 @@ extension ModifyTransitGatewayOutput {
         let reader = responseReader
         var value = ModifyTransitGatewayOutput()
         value.transitGateway = try reader["transitGateway"].readIfPresent(with: EC2ClientTypes.TransitGateway.read(from:))
+        return value
+    }
+}
+
+extension ModifyTransitGatewayAttachmentNatConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayAttachmentNatConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyTransitGatewayAttachmentNatConfigurationOutput()
+        value.natGatewayRules = try reader["natGatewayRuleSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayNatRule.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.natGatewaySupport = try reader["natGatewaySupport"].readIfPresent()
+        value.natSystemRouteSupport = try reader["natSystemRouteSupport"].readIfPresent()
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
         return value
     }
 }
@@ -125805,6 +126162,19 @@ enum GetSubnetCidrReservationsOutputError {
     }
 }
 
+enum GetTransitGatewayAttachmentNatConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTransitGatewayAttachmentPropagationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -126846,6 +127216,19 @@ enum ModifyTrafficMirrorSessionOutputError {
 }
 
 enum ModifyTransitGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyTransitGatewayAttachmentNatConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -140346,6 +140729,7 @@ extension EC2ClientTypes.TransitGatewayAttachment {
         value.association = try reader["association"].readIfPresent(with: EC2ClientTypes.TransitGatewayAttachmentAssociation.read(from:))
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.natGatewaySupport = try reader["natGatewaySupport"].readIfPresent()
         return value
     }
 }
@@ -140663,6 +141047,29 @@ extension EC2ClientTypes.TransitGatewayMulticastRegisteredGroupSources {
         value.registeredNetworkInterfaceIds = try reader["registeredNetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.groupIpAddress = try reader["groupIpAddress"].readIfPresent()
         return value
+    }
+}
+
+extension EC2ClientTypes.TransitGatewayNatRule {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TransitGatewayNatRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TransitGatewayNatRule()
+        value.ruleNumber = try reader["ruleNumber"].readIfPresent()
+        value.matchSourceCidr = try reader["matchSourceCidr"].readIfPresent()
+        value.natCidr = try reader["natCidr"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.TransitGatewayNatRuleRequest {
+
+    static func write(value: EC2ClientTypes.TransitGatewayNatRuleRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MatchSourceCidr"].write(value.matchSourceCidr)
+        try writer["NatCidr"].write(value.natCidr)
+        try writer["RuleNumber"].write(value.ruleNumber)
     }
 }
 

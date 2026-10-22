@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct DeleteFeedPolicyOutput: Swift.Sendable {
@@ -949,6 +950,244 @@ public struct CreateFeedOutput: Swift.Sendable {
 
 extension ElementalInferenceClientTypes {
 
+    /// Removes the game from an event clipping output at the action's scheduled time. This is a type of ScheduleActionOperation, and the output must be an event clipping output.
+    public struct RemoveClippingDataSourceConfiguration: Swift.Sendable {
+        /// The name of the output that you want to remove the game from.
+        /// This member is required.
+        public var outputName: Swift.String?
+
+        public init(
+            outputName: Swift.String? = nil
+        ) {
+            self.outputName = outputName
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Attaches a game to an event clipping output at the action's scheduled time. This is a type of ScheduleActionOperation, and the output must be an event clipping output.
+    public struct UpdateClippingDataSourceConfiguration: Swift.Sendable {
+        /// The game that you want to attach to the output.
+        /// This member is required.
+        public var dataSourceConfiguration: ElementalInferenceClientTypes.DataSourceConfiguration?
+        /// The name of the output that you want to attach the game to.
+        /// This member is required.
+        public var outputName: Swift.String?
+
+        public init(
+            dataSourceConfiguration: ElementalInferenceClientTypes.DataSourceConfiguration? = nil,
+            outputName: Swift.String? = nil
+        ) {
+            self.dataSourceConfiguration = dataSourceConfiguration
+            self.outputName = outputName
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Enables or disables an output at the action's scheduled time. This is a type of ScheduleActionOperation.
+    public struct UpdateOutputStatus: Swift.Sendable {
+        /// The name of the output that you want to enable or disable. The output must exist in the feed when you create the action.
+        /// This member is required.
+        public var outputName: Swift.String?
+        /// Specifies whether the output is enabled or disabled after the action runs.
+        /// This member is required.
+        public var status: ElementalInferenceClientTypes.OutputStatus?
+
+        public init(
+            outputName: Swift.String? = nil,
+            status: ElementalInferenceClientTypes.OutputStatus? = nil
+        ) {
+            self.outputName = outputName
+            self.status = status
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Holds one typed configuration change that a schedule action makes to a feed. Each operation must contain exactly one property.
+    public enum ScheduleActionOperation: Swift.Sendable {
+        /// The operation type that enables or disables an output.
+        case updateoutputstatus(ElementalInferenceClientTypes.UpdateOutputStatus)
+        /// The operation type that attaches a game to an event clipping output.
+        case updateclippingdatasourceconfiguration(ElementalInferenceClientTypes.UpdateClippingDataSourceConfiguration)
+        /// The operation type that removes the game from an event clipping output.
+        case removeclippingdatasourceconfiguration(ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Sets the time at which a schedule action runs once. This is a type of ScheduleActionStartConfiguration.
+    public struct FixedModeScheduleActionStartSettings: Swift.Sendable {
+        /// The UTC time at which the action runs. Specify the time in whole seconds. For the range of times that you can specify, see the AWS Elemental Inference User Guide. This time is approximate. The change can take a few minutes to take effect on the media that the feed is processing.
+        /// This member is required.
+        public var scheduledAt: Foundation.Date?
+
+        public init(
+            scheduledAt: Foundation.Date? = nil
+        ) {
+            self.scheduledAt = scheduledAt
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Holds the typed start settings that determine when a schedule action runs. Currently, only fixed mode is supported.
+    public enum ScheduleActionStartConfiguration: Swift.Sendable {
+        /// The start settings type for an action that runs once, at a fixed time.
+        case fixedmodescheduleactionstartsettings(ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateScheduleActionInput: Swift.Sendable {
+    /// A name for the schedule action. The name must be unique within the feed. You can reuse the name of an action that you deleted.
+    /// This member is required.
+    public var actionName: Swift.String?
+    /// Specifies the ID of the feed that you want to add the schedule action to.
+    /// This member is required.
+    public var id: Swift.String?
+    /// Specifies the list of configuration changes that you want to make to the feed. Elemental Inference applies all the operations in an action together, in the order that you specify them. If any operation fails, Elemental Inference doesn't apply any of them.
+    /// This member is required.
+    public var operations: [ElementalInferenceClientTypes.ScheduleActionOperation]?
+    /// Specifies when the action runs.
+    /// This member is required.
+    public var startConfiguration: ElementalInferenceClientTypes.ScheduleActionStartConfiguration?
+
+    public init(
+        actionName: Swift.String? = nil,
+        id: Swift.String? = nil,
+        operations: [ElementalInferenceClientTypes.ScheduleActionOperation]? = nil,
+        startConfiguration: ElementalInferenceClientTypes.ScheduleActionStartConfiguration? = nil
+    ) {
+        self.actionName = actionName
+        self.id = id
+        self.operations = operations
+        self.startConfiguration = startConfiguration
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    public enum ScheduleActionErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalError
+        case invalidActionTarget
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleActionErrorCode] {
+            return [
+                .internalError,
+                .invalidActionTarget
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidActionTarget: return "INVALID_ACTION_TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Describes the cause of a schedule action failure, including the failure type and a description of what went wrong.
+    public struct ScheduleActionError: Swift.Sendable {
+        /// The type of failure. Valid values are the following: INVALID_ACTION_TARGET The action referred to something that didn't exist or wasn't valid at the scheduled time, for example an output that you deleted. INTERNAL_ERROR An unexpected error prevented the action from completing.
+        /// This member is required.
+        public var errorCode: ElementalInferenceClientTypes.ScheduleActionErrorCode?
+        /// A description of the failure.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: ElementalInferenceClientTypes.ScheduleActionErrorCode? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    public enum ScheduleActionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleActionStatus] {
+            return [
+                .completed,
+                .failed,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateScheduleActionOutput: Swift.Sendable {
+    /// The name that you specified.
+    /// This member is required.
+    public var actionName: Swift.String?
+    /// A description of why the action failed. Elemental Inference returns this property only when the status is FAILED.
+    public var error: ElementalInferenceClientTypes.ScheduleActionError?
+    /// The configuration changes that the action makes to the feed.
+    /// This member is required.
+    public var operations: [ElementalInferenceClientTypes.ScheduleActionOperation]?
+    /// Specifies when the action runs.
+    /// This member is required.
+    public var startConfiguration: ElementalInferenceClientTypes.ScheduleActionStartConfiguration?
+    /// The status of the action. After you create the action successfully, Elemental Inference sets the status to PENDING.
+    /// This member is required.
+    public var status: ElementalInferenceClientTypes.ScheduleActionStatus?
+
+    public init(
+        actionName: Swift.String? = nil,
+        error: ElementalInferenceClientTypes.ScheduleActionError? = nil,
+        operations: [ElementalInferenceClientTypes.ScheduleActionOperation]? = nil,
+        startConfiguration: ElementalInferenceClientTypes.ScheduleActionStartConfiguration? = nil,
+        status: ElementalInferenceClientTypes.ScheduleActionStatus? = nil
+    ) {
+        self.actionName = actionName
+        self.error = error
+        self.operations = operations
+        self.startConfiguration = startConfiguration
+        self.status = status
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
     public enum DataSourceSport: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case americanFootball
         case basketball
@@ -1053,6 +1292,35 @@ public struct DeleteFeedPolicyInput: Swift.Sendable {
         id: Swift.String? = nil
     ) {
         self.id = id
+    }
+}
+
+public struct DeleteScheduleActionInput: Swift.Sendable {
+    /// The name of the schedule action that you want to delete.
+    /// This member is required.
+    public var actionName: Swift.String?
+    /// The ID of the feed that holds the schedule action.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        actionName: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.actionName = actionName
+        self.id = id
+    }
+}
+
+public struct DeleteScheduleActionOutput: Swift.Sendable {
+    /// The name of the schedule action that Elemental Inference deleted.
+    /// This member is required.
+    public var actionName: Swift.String?
+
+    public init(
+        actionName: Swift.String? = nil
+    ) {
+        self.actionName = actionName
     }
 }
 
@@ -1448,6 +1716,77 @@ public struct ListFeedsOutput: Swift.Sendable {
     ) {
         self.feeds = feeds
         self.nextToken = nextToken
+    }
+}
+
+public struct ListScheduleActionsInput: Swift.Sendable {
+    /// The ID of the feed that you want to query.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return for each API request. If you don't specify MaxResults, Elemental Inference returns a maximum of 10 results for each page.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the batch of results that you want to see. To see the next batch, submit the request a second time and specify the NextToken value that Elemental Inference returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ElementalInferenceClientTypes {
+
+    /// Describes one schedule action on a feed, including the changes it makes and whether it has run yet. Elemental Inference returns this structure in the ListScheduleActions operation.
+    public struct ScheduleAction: Swift.Sendable {
+        /// The name of the schedule action. The name is unique within the feed.
+        /// This member is required.
+        public var actionName: Swift.String?
+        /// A description of why the action failed. Elemental Inference returns this property only when the status is FAILED.
+        public var error: ElementalInferenceClientTypes.ScheduleActionError?
+        /// The configuration changes that the action makes to the feed.
+        /// This member is required.
+        public var operations: [ElementalInferenceClientTypes.ScheduleActionOperation]?
+        /// Specifies when the action runs.
+        /// This member is required.
+        public var startConfiguration: ElementalInferenceClientTypes.ScheduleActionStartConfiguration?
+        /// The status of the action. Valid values are the following: PENDING The action is waiting for its scheduled time. COMPLETED Elemental Inference applied all the action's operations to the feed. FAILED Elemental Inference couldn't apply the action.
+        /// This member is required.
+        public var status: ElementalInferenceClientTypes.ScheduleActionStatus?
+
+        public init(
+            actionName: Swift.String? = nil,
+            error: ElementalInferenceClientTypes.ScheduleActionError? = nil,
+            operations: [ElementalInferenceClientTypes.ScheduleActionOperation]? = nil,
+            startConfiguration: ElementalInferenceClientTypes.ScheduleActionStartConfiguration? = nil,
+            status: ElementalInferenceClientTypes.ScheduleActionStatus? = nil
+        ) {
+            self.actionName = actionName
+            self.error = error
+            self.operations = operations
+            self.startConfiguration = startConfiguration
+            self.status = status
+        }
+    }
+}
+
+public struct ListScheduleActionsOutput: Swift.Sendable {
+    /// The token that identifies the next batch of results. Elemental Inference returns it only when more results are available.
+    public var nextToken: Swift.String?
+    /// A list of the schedule actions on the feed.
+    /// This member is required.
+    public var scheduleActions: [ElementalInferenceClientTypes.ScheduleAction]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        scheduleActions: [ElementalInferenceClientTypes.ScheduleAction]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.scheduleActions = scheduleActions
     }
 }
 
@@ -1893,6 +2232,16 @@ extension CreateFeedInput {
     }
 }
 
+extension CreateScheduleActionInput {
+
+    static func urlPathProvider(_ value: CreateScheduleActionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/feed/\(id.urlPercentEncoding())/schedule-actions"
+    }
+}
+
 extension DeleteDictionaryInput {
 
     static func urlPathProvider(_ value: DeleteDictionaryInput) -> Swift.String? {
@@ -1920,6 +2269,30 @@ extension DeleteFeedPolicyInput {
             return nil
         }
         return "/v1/feed/\(id.urlPercentEncoding())/policy"
+    }
+}
+
+extension DeleteScheduleActionInput {
+
+    static func urlPathProvider(_ value: DeleteScheduleActionInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/feed/\(id.urlPercentEncoding())/schedule-actions"
+    }
+}
+
+extension DeleteScheduleActionInput {
+
+    static func queryItemProvider(_ value: DeleteScheduleActionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let actionName = value.actionName else {
+            let message = "Creating a URL Query Item failed. actionName is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let actionNameQueryItem = Smithy.URIQueryItem(name: "actionName".urlPercentEncoding(), value: Swift.String(actionName).urlPercentEncoding())
+        items.append(actionNameQueryItem)
+        return items
     }
 }
 
@@ -2016,6 +2389,32 @@ extension ListFeedsInput {
 extension ListFeedsInput {
 
     static func queryItemProvider(_ value: ListFeedsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListScheduleActionsInput {
+
+    static func urlPathProvider(_ value: ListScheduleActionsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/v1/feed/\(id.urlPercentEncoding())/schedule-actions"
+    }
+}
+
+extension ListScheduleActionsInput {
+
+    static func queryItemProvider(_ value: ListScheduleActionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -2144,6 +2543,16 @@ extension CreateFeedInput {
     }
 }
 
+extension CreateScheduleActionInput {
+
+    static func write(value: CreateScheduleActionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionName"].write(value.actionName)
+        try writer["operations"].writeList(value.operations, memberWritingClosure: ElementalInferenceClientTypes.ScheduleActionOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startConfiguration"].write(value.startConfiguration, with: ElementalInferenceClientTypes.ScheduleActionStartConfiguration.write(value:to:))
+    }
+}
+
 extension DisassociateFeedInput {
 
     static func write(value: DisassociateFeedInput?, to writer: SmithyJSON.Writer) throws {
@@ -2253,6 +2662,22 @@ extension CreateFeedOutput {
     }
 }
 
+extension CreateScheduleActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateScheduleActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateScheduleActionOutput()
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
+        value.error = try reader["error"].readIfPresent(with: ElementalInferenceClientTypes.ScheduleActionError.read(from:))
+        value.operations = try reader["operations"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.ScheduleActionOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startConfiguration = try reader["startConfiguration"].readIfPresent(with: ElementalInferenceClientTypes.ScheduleActionStartConfiguration.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteDictionaryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDictionaryOutput {
@@ -2285,6 +2710,18 @@ extension DeleteFeedPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFeedPolicyOutput {
         return DeleteFeedPolicyOutput()
+    }
+}
+
+extension DeleteScheduleActionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteScheduleActionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteScheduleActionOutput()
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -2402,6 +2839,19 @@ extension ListFeedsOutput {
         var value = ListFeedsOutput()
         value.feeds = try reader["feeds"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.FeedSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListScheduleActionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListScheduleActionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListScheduleActionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.scheduleActions = try reader["scheduleActions"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.ScheduleAction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2548,6 +2998,26 @@ enum CreateFeedOutputError {
     }
 }
 
+enum CreateScheduleActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDictionaryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2595,6 +3065,25 @@ enum DeleteFeedPolicyOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteScheduleActionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
@@ -2732,6 +3221,24 @@ enum ListDictionariesOutputError {
 }
 
 enum ListFeedsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestException": return try TooManyRequestException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListScheduleActionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3140,6 +3647,21 @@ extension ElementalInferenceClientTypes.FeedSummary {
     }
 }
 
+extension ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings {
+
+    static func write(value: ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scheduledAt"].writeTimestamp(value.scheduledAt, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings()
+        value.scheduledAt = try reader["scheduledAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension ElementalInferenceClientTypes.FixtureSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.FixtureSummary {
@@ -3205,6 +3727,102 @@ extension ElementalInferenceClientTypes.OutputConfig {
     }
 }
 
+extension ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration {
+
+    static func write(value: ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputName"].write(value.outputName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration()
+        value.outputName = try reader["outputName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.ScheduleAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ScheduleAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.ScheduleAction()
+        value.actionName = try reader["actionName"].readIfPresent() ?? ""
+        value.startConfiguration = try reader["startConfiguration"].readIfPresent(with: ElementalInferenceClientTypes.ScheduleActionStartConfiguration.read(from:))
+        value.operations = try reader["operations"].readListIfPresent(memberReadingClosure: ElementalInferenceClientTypes.ScheduleActionOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.error = try reader["error"].readIfPresent(with: ElementalInferenceClientTypes.ScheduleActionError.read(from:))
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.ScheduleActionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ScheduleActionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.ScheduleActionError()
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElementalInferenceClientTypes.ScheduleActionOperation {
+
+    static func write(value: ElementalInferenceClientTypes.ScheduleActionOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .removeclippingdatasourceconfiguration(removeclippingdatasourceconfiguration):
+                try writer["removeClippingDataSourceConfiguration"].write(removeclippingdatasourceconfiguration, with: ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration.write(value:to:))
+            case let .updateclippingdatasourceconfiguration(updateclippingdatasourceconfiguration):
+                try writer["updateClippingDataSourceConfiguration"].write(updateclippingdatasourceconfiguration, with: ElementalInferenceClientTypes.UpdateClippingDataSourceConfiguration.write(value:to:))
+            case let .updateoutputstatus(updateoutputstatus):
+                try writer["updateOutputStatus"].write(updateoutputstatus, with: ElementalInferenceClientTypes.UpdateOutputStatus.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ScheduleActionOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "updateOutputStatus":
+                return .updateoutputstatus(try reader["updateOutputStatus"].read(with: ElementalInferenceClientTypes.UpdateOutputStatus.read(from:)))
+            case "updateClippingDataSourceConfiguration":
+                return .updateclippingdatasourceconfiguration(try reader["updateClippingDataSourceConfiguration"].read(with: ElementalInferenceClientTypes.UpdateClippingDataSourceConfiguration.read(from:)))
+            case "removeClippingDataSourceConfiguration":
+                return .removeclippingdatasourceconfiguration(try reader["removeClippingDataSourceConfiguration"].read(with: ElementalInferenceClientTypes.RemoveClippingDataSourceConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ElementalInferenceClientTypes.ScheduleActionStartConfiguration {
+
+    static func write(value: ElementalInferenceClientTypes.ScheduleActionStartConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fixedmodescheduleactionstartsettings(fixedmodescheduleactionstartsettings):
+                try writer["fixedModeScheduleActionStartSettings"].write(fixedmodescheduleactionstartsettings, with: ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.ScheduleActionStartConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fixedModeScheduleActionStartSettings":
+                return .fixedmodescheduleactionstartsettings(try reader["fixedModeScheduleActionStartSettings"].read(with: ElementalInferenceClientTypes.FixedModeScheduleActionStartSettings.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension ElementalInferenceClientTypes.SearchFilter {
 
     static func write(value: ElementalInferenceClientTypes.SearchFilter?, to writer: SmithyJSON.Writer) throws {
@@ -3252,6 +3870,23 @@ extension ElementalInferenceClientTypes.TemplateGroup {
     }
 }
 
+extension ElementalInferenceClientTypes.UpdateClippingDataSourceConfiguration {
+
+    static func write(value: ElementalInferenceClientTypes.UpdateClippingDataSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceConfiguration"].write(value.dataSourceConfiguration, with: ElementalInferenceClientTypes.DataSourceConfiguration.write(value:to:))
+        try writer["outputName"].write(value.outputName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.UpdateClippingDataSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.UpdateClippingDataSourceConfiguration()
+        value.outputName = try reader["outputName"].readIfPresent() ?? ""
+        value.dataSourceConfiguration = try reader["dataSourceConfiguration"].readIfPresent(with: ElementalInferenceClientTypes.DataSourceConfiguration.read(from:))
+        return value
+    }
+}
+
 extension ElementalInferenceClientTypes.UpdateOutput {
 
     static func write(value: ElementalInferenceClientTypes.UpdateOutput?, to writer: SmithyJSON.Writer) throws {
@@ -3261,6 +3896,23 @@ extension ElementalInferenceClientTypes.UpdateOutput {
         try writer["name"].write(value.name)
         try writer["outputConfig"].write(value.outputConfig, with: ElementalInferenceClientTypes.OutputConfig.write(value:to:))
         try writer["status"].write(value.status)
+    }
+}
+
+extension ElementalInferenceClientTypes.UpdateOutputStatus {
+
+    static func write(value: ElementalInferenceClientTypes.UpdateOutputStatus?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputName"].write(value.outputName)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ElementalInferenceClientTypes.UpdateOutputStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElementalInferenceClientTypes.UpdateOutputStatus()
+        value.outputName = try reader["outputName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

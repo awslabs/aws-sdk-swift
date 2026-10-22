@@ -313,6 +313,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSConnectParticipant](/sdk-for-swift/latest/api/awsconnectparticipant/documentation/awsconnectparticipant)
 
+[AWSContinuum](/sdk-for-swift/latest/api/awscontinuum/documentation/awscontinuum)
+
 [AWSControlCatalog](/sdk-for-swift/latest/api/awscontrolcatalog/documentation/awscontrolcatalog)
 
 [AWSControlTower](/sdk-for-swift/latest/api/awscontroltower/documentation/awscontroltower)

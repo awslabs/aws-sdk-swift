@@ -196,15 +196,195 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum CircuitBreakerMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CircuitBreakerMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies whether the circuit breaker monitors failures for the targets in a fallback chain.
+    public struct CircuitBreakerConfiguration: Swift.Sendable {
+        /// Specifies whether you want the circuit breaker turned on. To turn it off, set this value to DISABLED. The default is ENABLED.
+        public var mode: BedrockAgentCoreControlClientTypes.CircuitBreakerMode?
+
+        public init(
+            mode: BedrockAgentCoreControlClientTypes.CircuitBreakerMode? = .enabled
+        ) {
+            self.mode = mode
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    public enum FallbackError: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The gateway could not establish a connection to the destination (connection refused/reset, or connection timeout) — the attempt never reached the provider. Feeds the circuit breaker.
+        case connectionError
+        /// The destination accepted the connection but did not return the first response byte within firstByteTimeoutMilliseconds; the attempt is abandoned before any byte reaches the client. Feeds the circuit breaker.
+        case firstByteTimeout
+        /// Gateway-side: the target could not be routed to (target missing, or it does not support the request's API path). Deterministic — advances the chain but does NOT feed the breaker.
+        case unroutable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FallbackError] {
+            return [
+                .connectionError,
+                .firstByteTimeout,
+                .unroutable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connectionError: return "CONNECTION_ERROR"
+            case .firstByteTimeout: return "FIRST_BYTE_TIMEOUT"
+            case .unroutable: return "UNROUTABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The conditions that trigger a fallback to the next target. A fallback occurs if the response matches any of the specified status codes or errors.
+    public struct FallbackTriggers: Swift.Sendable {
+        /// The errors that trigger a fallback. You can specify the following:
+        ///
+        /// * CONNECTION_ERROR – The gateway couldn't connect to the target because the connection was refused, reset, or timed out. The request didn't reach the target.
+        ///
+        /// * FIRST_BYTE_TIMEOUT – The target accepted the connection but didn't return the first byte of the response within firstByteTimeoutMilliseconds. The gateway abandons the request before any of the response reaches you.
+        ///
+        /// * UNROUTABLE – The gateway couldn't route the request to the target, for example because the target doesn't exist or doesn't support the request path. These errors don't count toward the circuit breaker.
+        public var errors: [BedrockAgentCoreControlClientTypes.FallbackError]?
+        /// The HTTP status codes returned by the target that trigger a fallback. You can specify the following:
+        ///
+        /// * An exact status code – A three-digit code, such as 429.
+        ///
+        /// * A class of status codes – The first digit followed by XX, such as 5XX, which matches every code from 500 to 599.
+        ///
+        ///
+        /// Only 4XX and 5XX codes are supported. Throttling by the gateway itself doesn't trigger a fallback.
+        public var statusCodes: [Swift.String]?
+
+        public init(
+            errors: [BedrockAgentCoreControlClientTypes.FallbackError]? = nil,
+            statusCodes: [Swift.String]? = nil
+        ) {
+            self.errors = errors
+            self.statusCodes = statusCodes
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies a target to send the request to when the previous target in the fallback chain fails. Includes the target name, the model to send, and the conditions that trigger a fallback from this target to the next one.
+    public struct FallbackTarget: Swift.Sendable {
+        /// The maximum time, in milliseconds, from sending the request to this target until the first byte of the response body arrives. This setting isn't inherited from the route. If you don't specify a value, no timeout is enforced.
+        public var firstByteTimeoutMilliseconds: Swift.Int?
+        /// The model ID to send to this fallback target. If you don't specify a model, the gateway sends the model from the original request.
+        public var model: Swift.String?
+        /// The name of the gateway target to fall back to. The target must be an inference target.
+        /// This member is required.
+        public var targetName: Swift.String?
+        /// The status codes and errors from this target that cause the gateway to send the request to the next fallback target. This setting isn't inherited from the route. If you omit it, the gateway uses the default triggers: 5XX status codes and the CONNECTION_ERROR, FIRST_BYTE_TIMEOUT, and UNROUTABLE errors.
+        public var triggerOn: BedrockAgentCoreControlClientTypes.FallbackTriggers?
+
+        public init(
+            firstByteTimeoutMilliseconds: Swift.Int? = nil,
+            model: Swift.String? = nil,
+            targetName: Swift.String? = nil,
+            triggerOn: BedrockAgentCoreControlClientTypes.FallbackTriggers? = nil
+        ) {
+            self.firstByteTimeoutMilliseconds = firstByteTimeoutMilliseconds
+            self.model = model
+            self.targetName = targetName
+            self.triggerOn = triggerOn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.FallbackTarget: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FallbackTarget(firstByteTimeoutMilliseconds: \(Swift.String(describing: firstByteTimeoutMilliseconds)), model: \(Swift.String(describing: model)), triggerOn: \(Swift.String(describing: triggerOn)), targetName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The fallback configuration for a route to an inference target. Defines an ordered list of fallback targets to try when a request to the route's target fails, and the conditions that trigger a fallback. A fallback can occur only before the gateway sends the first byte of the response to the caller. After a streaming response starts, the gateway doesn't fall back.
+    public struct Fallback: Swift.Sendable {
+        /// Specifies whether the gateway temporarily stops sending your requests to a failing target. The circuit breaker tracks each combination of target and model separately. With the circuit breaker enabled, the gateway skips one or more targets and models that fail repeatedly, and your requests go to the next target in the chain. The gateway always tries the last remaining target in the chain. The gateway enables the circuit breaker by default.
+        public var circuitBreaker: BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration?
+        /// The maximum time, in milliseconds, from sending the request to the route's target until the first byte of the response body arrives. If the time expires, the gateway abandons the request and treats it as a FIRST_BYTE_TIMEOUT error. If you don't specify a value, no timeout is enforced.
+        public var firstByteTimeoutMilliseconds: Swift.Int?
+        /// The ordered list of fallback targets. The gateway tries each target in order until a response doesn't match that target's triggers, and returns that response to the caller. If every target fails, the gateway returns the last response. You can specify up to two fallback targets. Each combination of target and model, including the route's target, can appear only once.
+        /// This member is required.
+        public var targetFallback: [BedrockAgentCoreControlClientTypes.FallbackTarget]?
+        /// The status codes and errors from the route's target that cause the gateway to send the request to the first fallback target. If you omit triggerOn, the gateway falls back on 5XX status codes and on the CONNECTION_ERROR, FIRST_BYTE_TIMEOUT, and UNROUTABLE errors. If you specify triggerOn, only the status codes and errors that you list trigger a fallback.
+        public var triggerOn: BedrockAgentCoreControlClientTypes.FallbackTriggers?
+
+        public init(
+            circuitBreaker: BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration? = nil,
+            firstByteTimeoutMilliseconds: Swift.Int? = nil,
+            targetFallback: [BedrockAgentCoreControlClientTypes.FallbackTarget]? = nil,
+            triggerOn: BedrockAgentCoreControlClientTypes.FallbackTriggers? = nil
+        ) {
+            self.circuitBreaker = circuitBreaker
+            self.firstByteTimeoutMilliseconds = firstByteTimeoutMilliseconds
+            self.targetFallback = targetFallback
+            self.triggerOn = triggerOn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// A static route to a single gateway target.
     public struct StaticRoute: Swift.Sendable {
+        /// The fallback configuration for this route. Supported only for inference targets.
+        public var fallback: BedrockAgentCoreControlClientTypes.Fallback?
+        /// The model ID to send to the target. Supported only for inference targets. If you don't specify a model, the gateway sends the model from the original request.
+        public var model: Swift.String?
         /// The name of the target to route requests to.
         /// This member is required.
         public var targetName: Swift.String?
 
         public init(
+            fallback: BedrockAgentCoreControlClientTypes.Fallback? = nil,
+            model: Swift.String? = nil,
             targetName: Swift.String? = nil
         ) {
+            self.fallback = fallback
+            self.model = model
             self.targetName = targetName
         }
     }
@@ -212,7 +392,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.StaticRoute: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StaticRoute(targetName: \"CONTENT_REDACTED\")"}
+        "StaticRoute(fallback: \(Swift.String(describing: fallback)), model: \(Swift.String(describing: model)), targetName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -221,8 +401,12 @@ extension BedrockAgentCoreControlClientTypes {
     public struct TargetTrafficSplitEntry: Swift.Sendable {
         /// The description of this traffic split variant.
         public var description: Swift.String?
+        /// The fallback configuration for this variant. Supported only for inference targets.
+        public var fallback: BedrockAgentCoreControlClientTypes.Fallback?
         /// Key-value metadata associated with this traffic split variant.
         public var metadata: [Swift.String: Swift.String]?
+        /// The model ID to send to the target for this variant. Supported only for inference targets. If you don't specify a model, the gateway sends the model from the original request.
+        public var model: Swift.String?
         /// The name of this traffic split variant.
         /// This member is required.
         public var name: Swift.String?
@@ -235,13 +419,17 @@ extension BedrockAgentCoreControlClientTypes {
 
         public init(
             description: Swift.String? = nil,
+            fallback: BedrockAgentCoreControlClientTypes.Fallback? = nil,
             metadata: [Swift.String: Swift.String]? = nil,
+            model: Swift.String? = nil,
             name: Swift.String? = nil,
             targetName: Swift.String? = nil,
             weight: Swift.Int? = nil
         ) {
             self.description = description
+            self.fallback = fallback
             self.metadata = metadata
+            self.model = model
             self.name = name
             self.targetName = targetName
             self.weight = weight
@@ -251,7 +439,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.TargetTrafficSplitEntry: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TargetTrafficSplitEntry(description: \(Swift.String(describing: description)), metadata: \(Swift.String(describing: metadata)), name: \(Swift.String(describing: name)), weight: \(Swift.String(describing: weight)), targetName: \"CONTENT_REDACTED\")"}
+        "TargetTrafficSplitEntry(description: \(Swift.String(describing: description)), fallback: \(Swift.String(describing: fallback)), metadata: \(Swift.String(describing: metadata)), model: \(Swift.String(describing: model)), name: \(Swift.String(describing: name)), weight: \(Swift.String(describing: weight)), targetName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -7285,12 +7473,57 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The rating scale for one dimension of an LLM-as-a-judge evaluator, supporting either a numerical or a categorical scale.
+    public enum DimensionRatingScale: Swift.Sendable {
+        /// The numerical rating scale with defined score values and descriptions for quantitative evaluation of the dimension.
+        case numerical([BedrockAgentCoreControlClientTypes.NumericalScaleDefinition])
+        /// The categorical rating scale with named categories and definitions for qualitative evaluation of the dimension.
+        case categorical([BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A single dimension of an LLM-as-a-judge evaluator, defining what the evaluator model should judge for that dimension and how it should be scored.
+    public struct EvaluationDimension: Swift.Sendable {
+        /// The instruction to the evaluator model for this dimension, describing what the model should judge when scoring the dimension.
+        /// This member is required.
+        public var dimensionInstruction: Swift.String?
+        /// The name of the dimension. This name is unique within the evaluator and identifies the dimension's results.
+        /// This member is required.
+        public var dimensionName: Swift.String?
+        /// The rating scale for this dimension, which can be numerical or categorical. A dimension's rating scale cannot itself be multi-dimensional.
+        /// This member is required.
+        public var dimensionRatingScale: BedrockAgentCoreControlClientTypes.DimensionRatingScale?
+
+        public init(
+            dimensionInstruction: Swift.String? = nil,
+            dimensionName: Swift.String? = nil,
+            dimensionRatingScale: BedrockAgentCoreControlClientTypes.DimensionRatingScale? = nil
+        ) {
+            self.dimensionInstruction = dimensionInstruction
+            self.dimensionName = dimensionName
+            self.dimensionRatingScale = dimensionRatingScale
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.EvaluationDimension: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EvaluationDimension(dimensionName: \(Swift.String(describing: dimensionName)), dimensionInstruction: \"CONTENT_REDACTED\", dimensionRatingScale: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// The rating scale that defines how evaluators should score agent performance, supporting both numerical and categorical scales.
     public enum RatingScale: Swift.Sendable {
         /// The numerical rating scale with defined score values and descriptions for quantitative evaluation.
         case numerical([BedrockAgentCoreControlClientTypes.NumericalScaleDefinition])
         /// The categorical rating scale with named categories and definitions for qualitative evaluation.
         case categorical([BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition])
+        /// A list of dimensions that lets an LLM-as-a-judge evaluator score several dimensions of the same target in a single evaluation. Each dimension has its own instruction and rating scale, and produces its own result.
+        case multidimensional([BedrockAgentCoreControlClientTypes.EvaluationDimension])
         case sdkUnknown(Swift.String)
     }
 }
@@ -8729,7 +8962,7 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The configuration for a Model Context Protocol (MCP) gateway. This structure defines how the gateway implements the MCP protocol.
     public struct MCPGatewayConfiguration: Swift.Sendable {
-        /// Specifies whether pagination is disabled for the Model Context Protocol (MCP) tools/list operation. When set to true, the gateway returns the complete list of tools in a single response without a pagination cursor. When set to false or omitted, the gateway returns tools in paginated responses.
+        /// Specifies whether the gateway disables pagination for the Model Context Protocol (MCP) tools/list operation. When set to true, the gateway returns the complete list of tools in a single response without a pagination cursor. When set to false or omitted, the gateway returns tools in paginated responses. For information about changing this value on an existing gateway, see [UpdateGateway](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_UpdateGateway.html).
         public var disableMcpListToolsPagination: Swift.Bool?
         /// The instructions for using the Model Context Protocol gateway. These instructions provide guidance on how to interact with the gateway.
         public var instructions: Swift.String?
@@ -9538,6 +9771,75 @@ extension UpdateGatewayOutput: Swift.CustomDebugStringConvertible {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum MatchOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case stringequals
+        case stringlike
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatchOperator] {
+            return [
+                .stringequals,
+                .stringlike
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .stringequals: return "StringEquals"
+            case .stringlike: return "StringLike"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A model ID or pattern to match against the requested model, and the operator to use for the comparison.
+    public struct MatchModelEntry: Swift.Sendable {
+        /// The operator to use when comparing the requested model to the value:
+        ///
+        /// * StringEquals – Requires an exact match.
+        ///
+        /// * StringLike – Supports wildcard patterns using * and ?. This is the default.
+        public var `operator`: BedrockAgentCoreControlClientTypes.MatchOperator?
+        /// The model ID or pattern to match. With the StringLike operator, you can use * and ? as wildcards, for example anthropic.claude-*.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            `operator`: BedrockAgentCoreControlClientTypes.MatchOperator? = .stringlike,
+            value: Swift.String? = nil
+        ) {
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A condition that matches inference requests based on the requested model.
+    public struct MatchModels: Swift.Sendable {
+        /// A list of model entries. The condition is met if the requested model matches any of the entries.
+        /// This member is required.
+        public var anyOf: [BedrockAgentCoreControlClientTypes.MatchModelEntry]?
+
+        public init(
+            anyOf: [BedrockAgentCoreControlClientTypes.MatchModelEntry]? = nil
+        ) {
+            self.anyOf = anyOf
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// A condition that matches requests based on the request path.
     public struct MatchPaths: Swift.Sendable {
         /// A list of path patterns. The condition is met if the request path matches any of the patterns.
@@ -9629,12 +9931,14 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// A condition that determines when a gateway rule applies. Conditions can match on principals or request paths.
+    /// A condition that determines when a gateway rule applies. Conditions can match on principals, request paths, or the requested model.
     public enum Condition: Swift.Sendable {
         /// A condition that matches on the identity of the caller making the request.
         case matchprincipals(BedrockAgentCoreControlClientTypes.MatchPrincipals)
         /// A condition that matches on the request path.
         case matchpaths(BedrockAgentCoreControlClientTypes.MatchPaths)
+        /// A condition that matches on the model requested in an inference request.
+        case matchmodels(BedrockAgentCoreControlClientTypes.MatchModels)
         case sdkUnknown(Swift.String)
     }
 }
@@ -34620,6 +34924,21 @@ extension BedrockAgentCoreControlClientTypes.CertificateLocation {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration()
+        value.mode = try reader["mode"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.CircuitBreakerMode.enabled
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.ClaimMatchValueType {
 
     static func write(value: BedrockAgentCoreControlClientTypes.ClaimMatchValueType?, to writer: SmithyJSON.Writer) throws {
@@ -34883,6 +35202,8 @@ extension BedrockAgentCoreControlClientTypes.Condition {
     static func write(value: BedrockAgentCoreControlClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .matchmodels(matchmodels):
+                try writer["matchModels"].write(matchmodels, with: BedrockAgentCoreControlClientTypes.MatchModels.write(value:to:))
             case let .matchpaths(matchpaths):
                 try writer["matchPaths"].write(matchpaths, with: BedrockAgentCoreControlClientTypes.MatchPaths.write(value:to:))
             case let .matchprincipals(matchprincipals):
@@ -34900,6 +35221,8 @@ extension BedrockAgentCoreControlClientTypes.Condition {
                 return .matchprincipals(try reader["matchPrincipals"].read(with: BedrockAgentCoreControlClientTypes.MatchPrincipals.read(from:)))
             case "matchPaths":
                 return .matchpaths(try reader["matchPaths"].read(with: BedrockAgentCoreControlClientTypes.MatchPaths.read(from:)))
+            case "matchModels":
+                return .matchmodels(try reader["matchModels"].read(with: BedrockAgentCoreControlClientTypes.MatchModels.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -35623,6 +35946,34 @@ extension BedrockAgentCoreControlClientTypes.Descriptors {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.DimensionRatingScale {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.DimensionRatingScale?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .categorical(categorical):
+                try writer["categorical"].writeList(categorical, memberWritingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .numerical(numerical):
+                try writer["numerical"].writeList(numerical, memberWritingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.DimensionRatingScale {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "numerical":
+                return .numerical(try reader["numerical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "categorical":
+                return .categorical(try reader["categorical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.EbsVolumeConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.EbsVolumeConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -35873,6 +36224,25 @@ extension BedrockAgentCoreControlClientTypes.EpisodicReflectionOverride {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.EvaluationDimension {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.EvaluationDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dimensionInstruction"].write(value.dimensionInstruction)
+        try writer["dimensionName"].write(value.dimensionName)
+        try writer["dimensionRatingScale"].write(value.dimensionRatingScale, with: BedrockAgentCoreControlClientTypes.DimensionRatingScale.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.EvaluationDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.EvaluationDimension()
+        value.dimensionName = try reader["dimensionName"].readIfPresent() ?? ""
+        value.dimensionInstruction = try reader["dimensionInstruction"].readIfPresent() ?? ""
+        value.dimensionRatingScale = try reader["dimensionRatingScale"].readIfPresent(with: BedrockAgentCoreControlClientTypes.DimensionRatingScale.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.EvaluatorConfig {
 
     static func write(value: BedrockAgentCoreControlClientTypes.EvaluatorConfig?, to writer: SmithyJSON.Writer) throws {
@@ -36013,6 +36383,65 @@ extension BedrockAgentCoreControlClientTypes.ExtractionConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Fallback {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Fallback?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["circuitBreaker"].write(value.circuitBreaker, with: BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration.write(value:to:))
+        try writer["firstByteTimeoutMilliseconds"].write(value.firstByteTimeoutMilliseconds)
+        try writer["targetFallback"].writeList(value.targetFallback, memberWritingClosure: BedrockAgentCoreControlClientTypes.FallbackTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["triggerOn"].write(value.triggerOn, with: BedrockAgentCoreControlClientTypes.FallbackTriggers.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Fallback {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Fallback()
+        value.triggerOn = try reader["triggerOn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.FallbackTriggers.read(from:))
+        value.firstByteTimeoutMilliseconds = try reader["firstByteTimeoutMilliseconds"].readIfPresent()
+        value.circuitBreaker = try reader["circuitBreaker"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CircuitBreakerConfiguration.read(from:))
+        value.targetFallback = try reader["targetFallback"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.FallbackTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.FallbackTarget {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.FallbackTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["firstByteTimeoutMilliseconds"].write(value.firstByteTimeoutMilliseconds)
+        try writer["model"].write(value.model)
+        try writer["targetName"].write(value.targetName)
+        try writer["triggerOn"].write(value.triggerOn, with: BedrockAgentCoreControlClientTypes.FallbackTriggers.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.FallbackTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.FallbackTarget()
+        value.targetName = try reader["targetName"].readIfPresent() ?? ""
+        value.model = try reader["model"].readIfPresent()
+        value.triggerOn = try reader["triggerOn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.FallbackTriggers.read(from:))
+        value.firstByteTimeoutMilliseconds = try reader["firstByteTimeoutMilliseconds"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.FallbackTriggers {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.FallbackTriggers?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["errors"].writeList(value.errors, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockAgentCoreControlClientTypes.FallbackError>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statusCodes"].writeList(value.statusCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.FallbackTriggers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.FallbackTriggers()
+        value.statusCodes = try reader["statusCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockAgentCoreControlClientTypes.FallbackError>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -38052,6 +38481,38 @@ extension BedrockAgentCoreControlClientTypes.ManagedVpcResource {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.MatchModelEntry {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.MatchModelEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["operator"].write(value.`operator`)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MatchModelEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MatchModelEntry()
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.`operator` = try reader["operator"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.MatchOperator.stringlike
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.MatchModels {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.MatchModels?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["anyOf"].writeList(value.anyOf, memberWritingClosure: BedrockAgentCoreControlClientTypes.MatchModelEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MatchModels {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MatchModels()
+        value.anyOf = try reader["anyOf"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.MatchModelEntry.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.MatchPaths {
 
     static func write(value: BedrockAgentCoreControlClientTypes.MatchPaths?, to writer: SmithyJSON.Writer) throws {
@@ -39346,6 +39807,8 @@ extension BedrockAgentCoreControlClientTypes.RatingScale {
         switch value {
             case let .categorical(categorical):
                 try writer["categorical"].writeList(categorical, memberWritingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .multidimensional(multidimensional):
+                try writer["multiDimensional"].writeList(multidimensional, memberWritingClosure: BedrockAgentCoreControlClientTypes.EvaluationDimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .numerical(numerical):
                 try writer["numerical"].writeList(numerical, memberWritingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
@@ -39361,6 +39824,8 @@ extension BedrockAgentCoreControlClientTypes.RatingScale {
                 return .numerical(try reader["numerical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.NumericalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
             case "categorical":
                 return .categorical(try reader["categorical"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.CategoricalScaleDefinition.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "multiDimensional":
+                return .multidimensional(try reader["multiDimensional"].readList(memberReadingClosure: BedrockAgentCoreControlClientTypes.EvaluationDimension.read(from:), memberNodeInfo: "member", isFlattened: false))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -40181,6 +40646,8 @@ extension BedrockAgentCoreControlClientTypes.StaticRoute {
 
     static func write(value: BedrockAgentCoreControlClientTypes.StaticRoute?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["fallback"].write(value.fallback, with: BedrockAgentCoreControlClientTypes.Fallback.write(value:to:))
+        try writer["model"].write(value.model)
         try writer["targetName"].write(value.targetName)
     }
 
@@ -40188,6 +40655,8 @@ extension BedrockAgentCoreControlClientTypes.StaticRoute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.StaticRoute()
         value.targetName = try reader["targetName"].readIfPresent() ?? ""
+        value.model = try reader["model"].readIfPresent()
+        value.fallback = try reader["fallback"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Fallback.read(from:))
         return value
     }
 }
@@ -40466,7 +40935,9 @@ extension BedrockAgentCoreControlClientTypes.TargetTrafficSplitEntry {
     static func write(value: BedrockAgentCoreControlClientTypes.TargetTrafficSplitEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["fallback"].write(value.fallback, with: BedrockAgentCoreControlClientTypes.Fallback.write(value:to:))
         try writer["metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["model"].write(value.model)
         try writer["name"].write(value.name)
         try writer["targetName"].write(value.targetName)
         try writer["weight"].write(value.weight)
@@ -40475,9 +40946,11 @@ extension BedrockAgentCoreControlClientTypes.TargetTrafficSplitEntry {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TargetTrafficSplitEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.TargetTrafficSplitEntry()
+        value.targetName = try reader["targetName"].readIfPresent() ?? ""
+        value.model = try reader["model"].readIfPresent()
+        value.fallback = try reader["fallback"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Fallback.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.weight = try reader["weight"].readIfPresent() ?? 0
-        value.targetName = try reader["targetName"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value

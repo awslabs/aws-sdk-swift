@@ -11592,7 +11592,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `UpdateGateway` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Updates an existing gateway.
+    /// Updates an existing gateway. Replaces the entire gateway configuration. Any optional field that you omit, including fields in protocolConfiguration, is reset. For information about retrieving the current configuration, see [GetGateway](https://docs.aws.amazon.com/bedrock-agentcore-control/latest/APIReference/API_GetGateway.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInput`)
     ///

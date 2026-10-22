@@ -1474,6 +1474,38 @@ extension ListRealtimeContactAnalysisSegmentsV2Input: ClientRuntime.PaginateToke
         )}
 }
 extension ConnectClient {
+    /// Paginate over `[ListReplicationFindingsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReplicationFindingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReplicationFindingsOutput`
+    public func listReplicationFindingsPaginated(input: ListReplicationFindingsInput) -> ClientRuntime.PaginatorSequence<ListReplicationFindingsInput, ListReplicationFindingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListReplicationFindingsInput, ListReplicationFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReplicationFindings(input:))
+    }
+}
+
+extension ListReplicationFindingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListReplicationFindingsInput {
+        return ListReplicationFindingsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListReplicationFindingsInput, OperationStackOutput == ListReplicationFindingsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listReplicationFindingsPaginated`
+    /// to access the nested member `[ConnectClientTypes.ReplicationFinding]`
+    /// - Returns: `[ConnectClientTypes.ReplicationFinding]`
+    public func replicationFindingsList() async throws -> [ConnectClientTypes.ReplicationFinding] {
+        return try await self.asyncCompactMap { item in item.replicationFindingsList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListRoutingProfileManualAssignmentQueuesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

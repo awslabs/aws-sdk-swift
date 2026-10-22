@@ -22849,6 +22849,8 @@ public struct GetTrafficDistributionOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     public var id: Swift.String?
+    /// The timestamp of the most recent failover for the traffic distribution group. This value is updated each time UpdateTrafficDistribution is called to change the traffic distribution.
+    public var lastFailoverTime: Foundation.Date?
     /// The distribution that determines which Amazon Web Services Regions should be used to sign in agents in to both the instance and its replica(s).
     public var signInConfig: ConnectClientTypes.SignInConfig?
     /// The distribution of traffic between the instance and its replicas.
@@ -22858,12 +22860,14 @@ public struct GetTrafficDistributionOutput: Swift.Sendable {
         agentConfig: ConnectClientTypes.AgentConfig? = nil,
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
+        lastFailoverTime: Foundation.Date? = nil,
         signInConfig: ConnectClientTypes.SignInConfig? = nil,
         telephonyConfig: ConnectClientTypes.TelephonyConfig? = nil
     ) {
         self.agentConfig = agentConfig
         self.arn = arn
         self.id = id
+        self.lastFailoverTime = lastFailoverTime
         self.signInConfig = signInConfig
         self.telephonyConfig = telephonyConfig
     }
@@ -27161,6 +27165,148 @@ public struct ListRealtimeContactAnalysisSegmentsV2Output: Swift.Sendable {
         self.nextToken = nextToken
         self.segments = segments
         self.status = status
+    }
+}
+
+public struct ListReplicationFindingsInput: Swift.Sendable {
+    /// The identifier of the Connect Customer instance. You can provide either the instance ID or the full instance ARN. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The type of resource to list replication findings for. The following values are currently supported: AGENT, AGENT_GROUP, AGENT_GROUP_LEVEL, AGENT_STATE, ATTRIBUTE, CONTACT_FLOW, DATA_TABLE, DATA_TABLE_ATTRIBUTE, DATA_TABLE_RECORD, DATA_TABLE_VALUE, FLOW_MODULE, FLOW_MODULE_ALIAS, FLOW_MODULE_VERSION, METRIC, NOTIFICATION, OPERATING_HOURS, PHONE_NUMBER, PROMPT, QUEUE, REPORT, ROUTING_PROFILE, SECURITY_PROFILE, TASK_TEMPLATE, TEST_CASE, TRANSFER_DESTINATION, VIEW, and WORKSPACE. Additional resource types can be supported over time. Specifying a value that is not currently supported returns an InvalidRequestException.
+    /// This member is required.
+    public var resourceType: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceType = resourceType
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains an approximate count of the resources of a given type that are not yet in sync in a Region, along with the time the count was last calculated.
+    public struct ApproximateDriftedResourceCount: Swift.Sendable {
+        /// The approximate number of resources of the requested type that are not yet in sync in the Region. A value of zero means the resources are in sync.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The Amazon Web Services Region that the count applies to.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The time, in Unix epoch time, when the count was last calculated.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            count: Swift.Int? = nil,
+            region: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.count = count
+            self.region = region
+            self.timestamp = timestamp
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a resource that could not be replicated across the Regions of a Global Resiliency deployment, including the reason and any action required to resolve it.
+    public struct ReplicationFinding: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource that the finding is for.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The identifier of the resource that the finding is for.
+        /// This member is required.
+        public var id: Swift.String?
+        /// A human-readable description of the finding and the action, if any, required to resolve it.
+        public var message: Swift.String?
+        /// The name of the resource that the finding is for.
+        public var name: Swift.String?
+        /// The replication operation that produced the finding, such as a create, update, or delete of the resource.
+        public var operation: Swift.String?
+        /// A stable code that identifies the class of the finding. Use this code to look up the recommended steps to resolve the finding.
+        public var referenceCode: Swift.String?
+        /// The Amazon Web Services Region that the finding was detected in.
+        public var region: Swift.String?
+        /// The type of resource that the finding is for, such as QUEUE or ROUTING_PROFILE.
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            name: Swift.String? = nil,
+            operation: Swift.String? = nil,
+            referenceCode: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.message = message
+            self.name = name
+            self.operation = operation
+            self.referenceCode = referenceCode
+            self.region = region
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Indicates whether a resource type is being replicated and kept in sync in a specific Amazon Web Services Region of a Global Resiliency deployment.
+    public struct ResourceReplicationStatus: Swift.Sendable {
+        /// The Amazon Web Services Region that the replication status applies to.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The replication status of the resource type in the Region, such as ENABLED, BLOCKED, or DISABLED.
+        /// This member is required.
+        public var status: Swift.String?
+
+        public init(
+            region: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.region = region
+            self.status = status
+        }
+    }
+}
+
+public struct ListReplicationFindingsOutput: Swift.Sendable {
+    /// The approximate number of resources of the requested type that are not yet in sync, reported per Amazon Web Services Region. This count is independent of ReplicationFindingsList and can be higher than the number of findings returned. It is eventually consistent and can lag the current state of the instance. Each entry is the ApproximateDriftedResourceCount for one Region; a Region appears only when its count has been computed.
+    public var approximateDriftedResourceCounts: [ConnectClientTypes.ApproximateDriftedResourceCount]?
+    /// If there are additional results, this is the token for retrieving the next page of ReplicationFindingsList.
+    public var nextToken: Swift.String?
+    /// A list of replication findings for the requested resource type. Only findings that require your action are returned, so this list can be empty even when a drift count is nonzero. Results are paginated.
+    /// This member is required.
+    public var replicationFindingsList: [ConnectClientTypes.ReplicationFinding]?
+    /// The replication status of the requested resource type in each Amazon Web Services Region across which the Connect Customer instance is deployed for Global Resiliency, with one entry per Region. This set describes the overall replication state for the request and is returned in full on every page of results, so it does not change as you paginate.
+    public var resourceReplicationStatuses: [ConnectClientTypes.ResourceReplicationStatus]?
+
+    public init(
+        approximateDriftedResourceCounts: [ConnectClientTypes.ApproximateDriftedResourceCount]? = nil,
+        nextToken: Swift.String? = nil,
+        replicationFindingsList: [ConnectClientTypes.ReplicationFinding]? = nil,
+        resourceReplicationStatuses: [ConnectClientTypes.ResourceReplicationStatus]? = nil
+    ) {
+        self.approximateDriftedResourceCounts = approximateDriftedResourceCounts
+        self.nextToken = nextToken
+        self.replicationFindingsList = replicationFindingsList
+        self.resourceReplicationStatuses = resourceReplicationStatuses
     }
 }
 
@@ -44476,6 +44622,38 @@ extension ListRealtimeContactAnalysisSegmentsV2Input {
     }
 }
 
+extension ListReplicationFindingsInput {
+
+    static func urlPathProvider(_ value: ListReplicationFindingsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/replication-findings/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListReplicationFindingsInput {
+
+    static func queryItemProvider(_ value: ListReplicationFindingsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let resourceType = value.resourceType else {
+            let message = "Creating a URL Query Item failed. resourceType is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let resourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(resourceType).urlPercentEncoding())
+        items.append(resourceTypeQueryItem)
+        return items
+    }
+}
+
 extension ListRoutingProfileManualAssignmentQueuesInput {
 
     static func urlPathProvider(_ value: ListRoutingProfileManualAssignmentQueuesInput) -> Swift.String? {
@@ -51345,6 +51523,7 @@ extension GetTrafficDistributionOutput {
         value.agentConfig = try reader["AgentConfig"].readIfPresent(with: ConnectClientTypes.AgentConfig.read(from:))
         value.arn = try reader["Arn"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
+        value.lastFailoverTime = try reader["LastFailoverTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.signInConfig = try reader["SignInConfig"].readIfPresent(with: ConnectClientTypes.SignInConfig.read(from:))
         value.telephonyConfig = try reader["TelephonyConfig"].readIfPresent(with: ConnectClientTypes.TelephonyConfig.read(from:))
         return value
@@ -51988,6 +52167,21 @@ extension ListRealtimeContactAnalysisSegmentsV2Output {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.segments = try reader["Segments"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RealtimeContactAnalysisSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ListReplicationFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListReplicationFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListReplicationFindingsOutput()
+        value.approximateDriftedResourceCounts = try reader["ApproximateDriftedResourceCounts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ApproximateDriftedResourceCount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.replicationFindingsList = try reader["ReplicationFindingsList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ReplicationFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceReplicationStatuses = try reader["ResourceReplicationStatuses"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ResourceReplicationStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -58183,6 +58377,24 @@ enum ListRealtimeContactAnalysisSegmentsV2OutputError {
     }
 }
 
+enum ListReplicationFindingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListRoutingProfileManualAssignmentQueuesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -62049,6 +62261,18 @@ extension ConnectClientTypes.Application {
         value.namespace = try reader["Namespace"].readIfPresent()
         value.applicationPermissions = try reader["ApplicationPermissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ApproximateDriftedResourceCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ApproximateDriftedResourceCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ApproximateDriftedResourceCount()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -68077,6 +68301,23 @@ extension ConnectClientTypes.ReplicationConfiguration {
     }
 }
 
+extension ConnectClientTypes.ReplicationFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ReplicationFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ReplicationFinding()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.operation = try reader["Operation"].readIfPresent()
+        value.referenceCode = try reader["ReferenceCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.ReplicationStatusSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ReplicationStatusSummary {
@@ -68100,6 +68341,17 @@ extension ConnectClientTypes.RequiredFieldInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.RequiredFieldInfo()
         value.id = try reader["Id"].readIfPresent(with: ConnectClientTypes.TaskTemplateFieldIdentifier.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ResourceReplicationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ResourceReplicationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ResourceReplicationStatus()
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? ""
         return value
     }
 }

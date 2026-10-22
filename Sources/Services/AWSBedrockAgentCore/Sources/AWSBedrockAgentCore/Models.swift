@@ -3993,6 +3993,8 @@ extension BedrockAgentCoreClientTypes {
         public var errorCode: Swift.String?
         /// The error message describing what went wrong if the evaluation failed. Provides detailed information about evaluation failures to help diagnose and resolve issues with evaluator configuration or input data.
         public var errorMessage: Swift.String?
+        /// The name of the dimension that this result scores. This field is set only on results produced by an evaluator that uses a multi-dimensional rating scale, where each dimension is scored independently. For evaluators with a single rating scale, this field is absent.
+        public var evaluationDimensionName: Swift.String?
         /// The Amazon Resource Name (ARN) of the evaluator used to generate this result. For custom evaluators, this is the full ARN; for built-in evaluators, this follows the pattern Builtin.{EvaluatorName}.
         /// This member is required.
         public var evaluatorArn: Swift.String?
@@ -4017,6 +4019,7 @@ extension BedrockAgentCoreClientTypes {
             context: BedrockAgentCoreClientTypes.Context? = nil,
             errorCode: Swift.String? = nil,
             errorMessage: Swift.String? = nil,
+            evaluationDimensionName: Swift.String? = nil,
             evaluatorArn: Swift.String? = nil,
             evaluatorId: Swift.String? = nil,
             evaluatorName: Swift.String? = nil,
@@ -4029,6 +4032,7 @@ extension BedrockAgentCoreClientTypes {
             self.context = context
             self.errorCode = errorCode
             self.errorMessage = errorMessage
+            self.evaluationDimensionName = evaluationDimensionName
             self.evaluatorArn = evaluatorArn
             self.evaluatorId = evaluatorId
             self.evaluatorName = evaluatorName
@@ -4043,7 +4047,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes.EvaluationResultContent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EvaluationResultContent(context: \(Swift.String(describing: context)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), ignoredReferenceInputFields: \(Swift.String(describing: ignoredReferenceInputFields)), label: \(Swift.String(describing: label)), tokenUsage: \(Swift.String(describing: tokenUsage)), value: \(Swift.String(describing: value)), explanation: \"CONTENT_REDACTED\")"}
+        "EvaluationResultContent(context: \(Swift.String(describing: context)), errorCode: \(Swift.String(describing: errorCode)), errorMessage: \(Swift.String(describing: errorMessage)), evaluationDimensionName: \(Swift.String(describing: evaluationDimensionName)), evaluatorArn: \(Swift.String(describing: evaluatorArn)), evaluatorId: \(Swift.String(describing: evaluatorId)), evaluatorName: \(Swift.String(describing: evaluatorName)), ignoredReferenceInputFields: \(Swift.String(describing: ignoredReferenceInputFields)), label: \(Swift.String(describing: label)), tokenUsage: \(Swift.String(describing: tokenUsage)), value: \(Swift.String(describing: value)), explanation: \"CONTENT_REDACTED\")"}
 }
 
 public struct EvaluateOutput: Swift.Sendable {
@@ -4317,6 +4321,8 @@ extension BedrockAgentCoreClientTypes {
 
     /// Summary statistics for a single evaluator within a batch evaluation.
     public struct EvaluatorSummary: Swift.Sendable {
+        /// The name of the dimension that this summary covers. This field is set only for evaluators that use a multi-dimensional rating scale, where each dimension is summarized separately. For single-scale evaluators, this field is not set.
+        public var evaluationDimensionName: Swift.String?
         /// The unique identifier of the evaluator.
         public var evaluatorId: Swift.String?
         /// The aggregated statistics for this evaluator.
@@ -4327,11 +4333,13 @@ extension BedrockAgentCoreClientTypes {
         public var totalFailed: Swift.Int?
 
         public init(
+            evaluationDimensionName: Swift.String? = nil,
             evaluatorId: Swift.String? = nil,
             statistics: BedrockAgentCoreClientTypes.EvaluatorStatistics? = nil,
             totalEvaluated: Swift.Int? = nil,
             totalFailed: Swift.Int? = nil
         ) {
+            self.evaluationDimensionName = evaluationDimensionName
             self.evaluatorId = evaluatorId
             self.statistics = statistics
             self.totalEvaluated = totalEvaluated
@@ -17527,6 +17535,7 @@ extension BedrockAgentCoreClientTypes.EvaluationResultContent {
         value.evaluatorArn = try reader["evaluatorArn"].readIfPresent() ?? ""
         value.evaluatorId = try reader["evaluatorId"].readIfPresent() ?? ""
         value.evaluatorName = try reader["evaluatorName"].readIfPresent() ?? ""
+        value.evaluationDimensionName = try reader["evaluationDimensionName"].readIfPresent()
         value.explanation = try reader["explanation"].readIfPresent()
         value.context = try reader["context"].readIfPresent(with: BedrockAgentCoreClientTypes.Context.read(from:))
         value.value = try reader["value"].readIfPresent()
@@ -17597,6 +17606,7 @@ extension BedrockAgentCoreClientTypes.EvaluatorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreClientTypes.EvaluatorSummary()
         value.evaluatorId = try reader["evaluatorId"].readIfPresent()
+        value.evaluationDimensionName = try reader["evaluationDimensionName"].readIfPresent()
         value.statistics = try reader["statistics"].readIfPresent(with: BedrockAgentCoreClientTypes.EvaluatorStatistics.read(from:))
         value.totalEvaluated = try reader["totalEvaluated"].readIfPresent()
         value.totalFailed = try reader["totalFailed"].readIfPresent()

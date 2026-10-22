@@ -2268,7 +2268,7 @@ extension LambdaClientTypes {
         public var chainedInvokeOptions: LambdaClientTypes.ChainedInvokeOptions?
         /// Options for context operations.
         public var contextOptions: LambdaClientTypes.ContextOptions?
-        /// The error information for failed operations.
+        /// The error information for failed operations. The combined size of all error fields is limited to 1 MB.
         public var error: LambdaClientTypes.ErrorObject?
         /// The unique identifier for this operation.
         /// This member is required.
@@ -2277,7 +2277,7 @@ extension LambdaClientTypes {
         public var name: Swift.String?
         /// The unique identifier of the parent operation, if this operation is running within a child context.
         public var parentId: Swift.String?
-        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), 1 MB for asynchronous EXECUTION (Event invocationType) and CHAINED_INVOKE operations, and 256 KB for CONTEXT, STEP, WAIT, and CALLBACK operations.
+        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), and 1 MB for asynchronous EXECUTION (Event invocationType), CHAINED_INVOKE, CONTEXT, STEP, WAIT, and CALLBACK operations.
         public var payload: Swift.String?
         /// Options for step operations.
         public var stepOptions: LambdaClientTypes.StepOptions?
@@ -2756,16 +2756,16 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
     public var durableExecutionName: Swift.String?
     /// The date and time when the durable execution ended, in Unix timestamp format. This field is only present if the execution has completed (status is SUCCEEDED, FAILED, TIMED_OUT, or STOPPED).
     public var endTimestamp: Foundation.Date?
-    /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
+    /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 1 MB.
     public var error: LambdaClientTypes.ErrorObject?
     /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
     public var executionDataIncluded: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
     /// This member is required.
     public var functionArn: Swift.String?
-    /// The JSON input payload that was provided when the durable execution was started. For asynchronous invocations, this is limited to 256 KB. For synchronous invocations, this can be up to 6 MB.
+    /// The JSON input payload that you provided when you started the durable execution. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var inputPayload: Swift.String?
-    /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. The result is limited to 256 KB.
+    /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var result: Swift.String?
     /// The date and time when the durable execution started, in Unix timestamp format.
     /// This member is required.
@@ -3646,7 +3646,7 @@ public struct StopDurableExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
     public var durableExecutionArn: Swift.String?
-    /// Optional error details explaining why the execution is being stopped.
+    /// Optional error details explaining why the execution is being stopped. The combined size of all error fields is limited to 1 MB.
     public var error: LambdaClientTypes.ErrorObject?
 
     public init(
@@ -12271,7 +12271,7 @@ public struct SendDurableExecutionCallbackFailureInput: Swift.Sendable {
     /// The unique identifier for the callback operation.
     /// This member is required.
     public var callbackId: Swift.String?
-    /// Error details describing why the callback operation failed.
+    /// Error details describing why the callback operation failed. The combined size of all error fields is limited to 1 MB.
     public var error: LambdaClientTypes.ErrorObject?
 
     public init(
@@ -12309,7 +12309,7 @@ public struct SendDurableExecutionCallbackSuccessInput: Swift.Sendable {
     /// The unique identifier for the callback operation.
     /// This member is required.
     public var callbackId: Swift.String?
-    /// The result data from the successful callback operation. Maximum size is 256 KB.
+    /// The result data from the successful callback operation. Maximum size is 1 MB.
     public var result: Foundation.Data?
 
     public init(
