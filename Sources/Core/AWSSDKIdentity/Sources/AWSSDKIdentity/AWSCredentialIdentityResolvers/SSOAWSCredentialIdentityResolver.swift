@@ -160,9 +160,10 @@ private struct SSOBearerTokenLegacyResolver {
         let token = try loadToken(fileURL: tokenURL)
 
         guard Date() < token.expiresAt else {
-            throw ClientError.invalidValue(
-                "SSOAWSCredentialIdentityResolver: "
-                + "SSO token retrieved with legacy flow has expired."
+            throw NonRecoverableCredentialError(
+                actionableMessage: "SSOAWSCredentialIdentityResolver: "
+                    + "SSO token retrieved with legacy flow has expired. "
+                    + "Sign in again, for example with `aws sso login`."
             )
         }
 
@@ -193,9 +194,10 @@ private struct SSOBearerTokenLegacyResolver {
             let token = try decoder.decode(SSOToken.self, from: data)
             return token
         } catch {
-            throw ClientError.dataNotFound(
-                "SSOAWSCredentialIdentityResolver: "
-                + "Failed to load SSO token with legacy flow."
+            throw NonRecoverableCredentialError(
+                underlying: error,
+                actionableMessage: "SSOAWSCredentialIdentityResolver: "
+                    + "Failed to load SSO token with legacy flow. Sign in again, for example with `aws sso login`."
             )
         }
     }

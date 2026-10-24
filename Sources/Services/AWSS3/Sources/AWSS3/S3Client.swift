@@ -37,6 +37,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+@_spi(ClientConfigDefaultIdentityResolver) import func AWSSDKIdentity.wrapCredentialIdentityResolver
 import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
@@ -254,6 +255,7 @@ extension S3Client {
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(self.awsCredentialIdentityResolver)
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
         }
 
@@ -325,6 +327,7 @@ extension S3Client {
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(self.awsCredentialIdentityResolver)
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
         }
 
@@ -541,6 +544,7 @@ extension S3Client {
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(self.awsCredentialIdentityResolver)
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
         }
 
@@ -612,6 +616,7 @@ extension S3Client {
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
             self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
             self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            self.awsCredentialIdentityResolver = AWSSDKIdentity.wrapCredentialIdentityResolver(self.awsCredentialIdentityResolver)
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: S3Client.clientName)
         }
 

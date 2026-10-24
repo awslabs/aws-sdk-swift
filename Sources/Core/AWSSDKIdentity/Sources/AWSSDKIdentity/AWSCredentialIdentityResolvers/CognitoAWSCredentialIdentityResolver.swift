@@ -6,6 +6,7 @@
 //
 
 import class AwsCommonRuntimeKit.CredentialsProvider
+import class Foundation.NSLock
 import class Foundation.ProcessInfo
 import struct Smithy.Attributes
 import enum Smithy.ClientError
@@ -20,6 +21,9 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
     private var logins: [String: String]?
     private var cache = CognitoCredentialsCache()
     private nonisolated let client: CognitoIdentityClientProtocol
+
+    /// loginsChanged notifies the caches holding this resolver's credentials when `updateLogins` changes the logins.
+    nonisolated let loginsChanged = LoginsChangedHandlers()
 
     public init(
         identityPoolId: String? = nil,
@@ -42,26 +46,15 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        // Return cached credentials if still valid
-        if cache.isValid(for: logins) {
-            return cache.credentials!
-        }
-
-        // Fetch fresh credentials
-        let credentials = try await fetchCredentials()
-
-        // Update cache
-        cache.credentials = credentials
-        cache.logins = logins
-
-        return credentials
+        try await fetchCredentials()
     }
 
-    public func updateLogins(_ newLogins: [String: String]?) {
+    public func updateLogins(_ newLogins: [String: String]?) async {
         guard logins != newLogins else { return }
 
         logins = newLogins
         cache.invalidate()
+        await loginsChanged.notify()
     }
 
     private func fetchCredentials() async throws -> AWSCredentialIdentity {
@@ -170,23 +163,11 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
 
     private struct CognitoCredentialsCache {
         var identityId: String?
-        var credentials: AWSCredentialIdentity?
         var logins: [String: String]?
 
         mutating func invalidate() {
             identityId = nil
-            credentials = nil
             logins = nil
-        }
-
-        func isValid(for currentLogins: [String: String]?) -> Bool {
-            guard let creds = credentials,
-                  let expiration = creds.expiration,
-                  expiration > Date(),
-                  logins == currentLogins else {
-                return false
-            }
-            return true
         }
 
         func hasValidIdentityId(for currentLogins: [String: String]?) -> Bool {
@@ -249,5 +230,32 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
         self.client = cognitoClient
         self.logins = logins
         self.cache.logins = logins
+    }
+}
+
+/// LoginsChangedHandlers holds the caches to reset when the logins change; caches that are gone are dropped on each add.
+final class LoginsChangedHandlers: @unchecked Sendable {
+    private struct WeakCache {
+        weak var cache: CredentialsCache?
+    }
+
+    private let lock = NSLock()
+    private var caches: [WeakCache] = []
+
+    func add(_ cache: CredentialsCache) {
+        lock.lock()
+        defer { lock.unlock() }
+        caches.removeAll { $0.cache == nil }
+        caches.append(WeakCache(cache: cache))
+    }
+
+    func notify() async {
+        for cache in liveCaches() { await cache.reset() }
+    }
+
+    private func liveCaches() -> [CredentialsCache] {
+        lock.lock()
+        defer { lock.unlock() }
+        return caches.compactMap(\.cache)
     }
 }

@@ -14,6 +14,10 @@ import struct Foundation.TimeZone
 import struct Foundation.UUID
 import Smithy
 import SmithyHTTPAPI
+import struct SmithyIdentity.AWSCredentialIdentity
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import protocol SmithyIdentityAPI.IdentityInvalidator
+import protocol SmithyIdentityAPI.IdentityResolver
 
 private let AMZ_SDK_REQUEST_HEADER = "amz-sdk-request"
 
@@ -62,6 +66,26 @@ extension AmzSdkRequestMiddleware: Interceptor {
         let builder = context.getRequest().toBuilder()
         addHeader(builder: builder, context: context.getAttributes())
         context.updateRequest(updated: builder.build())
+    }
+
+    /// readAfterAttempt marks the signing credentials for refresh when the attempt failed with `ExpiredToken` or `InvalidToken`.
+    public func readAfterAttempt(
+        context: some AfterAttempt<InputType, OperationStackOutput, HTTPRequest, HTTPResponse>
+    ) async throws {
+        do {
+            _ = try context.getOutput()
+        } catch {
+            guard let code = (error as? ServiceError)?.errorCode,
+                  code == "ExpiredToken" || code == "InvalidToken" else { return }
+            let attributes = context.getAttributes()
+            guard let selected = attributes.selectedAuthScheme,
+                  let identity = selected.identity as? AWSCredentialIdentity,
+                  let resolver = attributes.getIdentityResolvers()?.get(
+                      key: AttributeKey<any IdentityResolver>(name: selected.schemeID)
+                  ) as? any AWSCredentialIdentityResolver & IdentityInvalidator
+            else { return }
+            await resolver.invalidate(identity)
+        }
     }
 }
 

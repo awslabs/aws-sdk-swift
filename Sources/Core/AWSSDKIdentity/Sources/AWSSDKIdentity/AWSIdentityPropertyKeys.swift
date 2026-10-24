@@ -36,4 +36,7 @@ public enum AWSIdentityPropertyKeys {
     public static let manuallyConfiguredCredentialFeatureIDs = AttributeKey<[String]>(
         name: "ManuallyConfiguredCredentialFeatureIDs"
     )
+
+    /// staleAccessKeyID is the access key of the credentials the cache is replacing, so a resolver with its own cache fetches new ones.
+    static let staleAccessKeyID = AttributeKey<String>(name: "StaleAccessKeyID")
 }
