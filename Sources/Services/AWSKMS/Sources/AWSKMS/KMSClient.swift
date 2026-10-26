@@ -1241,6 +1241,111 @@ extension KMSClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `Decapsulate` operation on the `KMS` service.
+    ///
+    /// Recovers the shared secret that was encapsulated with the public key of an ML-KEM KMS key. Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM), specified in [FIPS 203](https://csrc.nist.gov/pubs/fips/203/final) on the NIST website, is a post-quantum algorithm for establishing a shared secret between two parties. For an example of how two parties establish a shared secret over an insecure channel using ML-KEM, see [ML-KEM keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/pqkeys.html#mlkem) in the Key Management Service Developer Guide. The Decapsulate operation is not available in China Regions. Decapsulate returns the shared secret as a 32-byte value. You can use it directly as key material, or run it through a key derivation function to derive multiple keys and nonces. Decapsulate returns an InvalidCiphertextException when the length of the SharedSecretCiphertextBlob is inconsistent with the ML-KEM key spec. In all other cases, Decapsulate returns a 32-byte pseudo-random value. This is true even when the SharedSecretCiphertextBlob was created using a different ML-KEM key or altered from its original value. This behavior is a security feature called implicit rejection that helps protect against chosen-ciphertext attacks. Because a response does not indicate that the ciphertext and key are valid, confirm the two parties derived the same shared secret before using it. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Decapsulate](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    ///
+    /// * [Encapsulate]
+    ///
+    /// * [CreateKey]
+    ///
+    /// * [GetPublicKey]
+    ///
+    /// * [DescribeKey]
+    ///
+    ///
+    /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DecapsulateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DecapsulateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material. From the [Decapsulate] operation, the request was rejected because the length of the SharedSecretCiphertextBlob is inconsistent with the specified ML-KEM key spec.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    public func decapsulate(input: DecapsulateInput) async throws -> DecapsulateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KMSClient.decapsulateOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "decapsulate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DecapsulateInput, DecapsulateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DecapsulateInput, DecapsulateOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecapsulateInput, DecapsulateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DecapsulateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("KMS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DecapsulateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DecapsulateInput, DecapsulateOutput>(overrides: ["X-Amz-Target": "TrentService.Decapsulate"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DecapsulateInput, DecapsulateOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DecapsulateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DecapsulateInput, DecapsulateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DecapsulateInput, DecapsulateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "KMS"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DecapsulateInput, DecapsulateOutput>(serviceID: serviceName, version: KMSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KMS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Decapsulate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `Decrypt` operation on the `KMS` service.
     ///
     /// Decrypts ciphertext that was encrypted by a KMS key using any of the following operations:
@@ -1280,7 +1385,7 @@ extension KMSClient {
     /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
     /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
     /// - `IncorrectKeyException` : The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
-    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material. From the [Decapsulate] operation, the request was rejected because the length of the SharedSecretCiphertextBlob is inconsistent with the specified ML-KEM key spec.
     /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
     /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
     ///
@@ -1289,7 +1394,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -1700,7 +1805,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -2419,6 +2524,112 @@ extension KMSClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `Encapsulate` operation on the `KMS` service.
+    ///
+    /// Generates a shared secret and its encapsulated (ciphertext) form using the public key of an ML-KEM KMS key pair. Module-Lattice-Based Key-Encapsulation Mechanism (ML-KEM), specified in [FIPS 203](https://csrc.nist.gov/pubs/fips/203/final) on the NIST website, is a post-quantum algorithm for establishing a shared secret between two parties. For an example of how two parties establish a shared secret over an insecure channel using ML-KEM, see [ML-KEM keys in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/pqkeys.html#mlkem) in the Key Management Service Developer Guide. The Encapsulate operation is not available in China Regions. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:Encapsulate](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    ///
+    /// * [Decapsulate]
+    ///
+    /// * [DeriveSharedSecret]
+    ///
+    /// * [CreateKey]
+    ///
+    /// * [GetPublicKey]
+    ///
+    /// * [DescribeKey]
+    ///
+    ///
+    /// Eventual consistency: The KMS API follows an eventual consistency model. For more information, see [KMS eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/accessing-kms.html#programming-eventual-consistency).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EncapsulateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EncapsulateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyTimeoutException` : The system timed out while trying to fulfill the request. You can retry the request.
+    /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
+    /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
+    /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
+    /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
+    ///
+    /// * The KeyUsage value of the KMS key is incompatible with the API operation.
+    ///
+    /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
+    ///
+    ///
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
+    /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
+    ///
+    /// * The key state of the KMS key is not compatible with the operation. To find the key state, use the [DescribeKey] operation. For more information about which key states are compatible with each KMS operation, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide .
+    ///
+    /// * For cryptographic operations on KMS keys in custom key stores, this exception represents a general failure with many possible causes. To identify the cause, see the error message that accompanies the exception.
+    /// - `NotFoundException` : The request was rejected because the specified entity or resource could not be found.
+    public func encapsulate(input: EncapsulateInput) async throws -> EncapsulateOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KMSClient.encapsulateOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "encapsulate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EncapsulateInput, EncapsulateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EncapsulateInput, EncapsulateOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EncapsulateInput, EncapsulateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<EncapsulateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("KMS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EncapsulateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EncapsulateInput, EncapsulateOutput>(overrides: ["X-Amz-Target": "TrentService.Encapsulate"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EncapsulateInput, EncapsulateOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EncapsulateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EncapsulateInput, EncapsulateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EncapsulateInput, EncapsulateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "KMS"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EncapsulateInput, EncapsulateOutput>(serviceID: serviceName, version: KMSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KMS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "Encapsulate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `Encrypt` operation on the `KMS` service.
     ///
     /// Encrypts plaintext of up to 4,096 bytes using a KMS key. You can use a symmetric or asymmetric KMS key with a KeyUsage of ENCRYPT_DECRYPT. You can use this operation to encrypt small amounts of arbitrary data, such as a personal identifier or database password, or other sensitive information. You don't need to use the Encrypt operation to encrypt a data key. The [GenerateDataKey] and [GenerateDataKeyPair] operations return a plaintext data key and an encrypted copy of that data key. If you use a symmetric encryption KMS key, you can use an encryption context to add additional security to your encryption operation. If you specify an EncryptionContext when encrypting data, you must specify the same encryption context (a case-sensitive exact match) when decrypting the data. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. If you specify an asymmetric KMS key, you must also specify the encryption algorithm. The algorithm must be compatible with the KMS key spec. When you use an asymmetric KMS key to encrypt or reencrypt data, be sure to record the KMS key and encryption algorithm that you choose. You will be required to provide the same KMS key and encryption algorithm when you decrypt the data. If the KMS key and algorithm do not match the values used to encrypt the data, the decrypt operation fails. You are not required to supply the key ID and encryption algorithm when you decrypt with symmetric encryption KMS keys because KMS stores this information in the ciphertext blob. KMS cannot store metadata in ciphertext generated with asymmetric keys. The standard format for asymmetric key ciphertext does not include configurable fields. The maximum size of the data that you can encrypt varies with the type of KMS key and the encryption algorithm that you choose.
@@ -2489,7 +2700,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -2611,7 +2822,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -2684,7 +2895,7 @@ extension KMSClient {
 
     /// Performs the `GenerateDataKeyPair` operation on the `KMS` service.
     ///
-    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key, a plaintext private key, and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. You can use the data key pair to perform asymmetric cryptography and implement digital signatures outside of KMS. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the public key that GenerateDataKeyPair returns to encrypt data or verify a signature outside of KMS. Then, store the encrypted private key with the data. When you are ready to decrypt data or sign a message, you can use the [Decrypt] operation to decrypt the encrypted private key. To generate a data key pair, you must specify a symmetric encryption KMS key to encrypt the private key in a data key pair. You cannot use an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the [DescribeKey] operation. Use the KeyPairSpec parameter to choose an RSA or Elliptic Curve (ECC) data key pair. In China Regions, you can also choose an SM2 data key pair. KMS recommends that you use ECC key pairs for signing, and use RSA and SM2 key pairs for either encryption or signing, but not both. However, KMS cannot enforce any restrictions on the use of data key pairs outside of KMS. If you are using the data key pair to encrypt data, or for any operation where you don't immediately need a private key, consider using the [GenerateDataKeyPairWithoutPlaintext] operation. GenerateDataKeyPairWithoutPlaintext returns a plaintext public key and an encrypted private key, but omits the plaintext private key that you need only to decrypt ciphertext or sign a message. Later, when you need to decrypt the data or sign a message, use the [Decrypt] operation to decrypt the encrypted private key in the data key pair. GenerateDataKeyPair returns a unique data key pair for each request. The bytes in the keys are random; they are not related to the caller or the KMS key that is used to encrypt the private key. The public key is a DER-encoded X.509 SubjectPublicKeyInfo, as specified in [RFC 5280](https://tools.ietf.org/html/rfc5280). The private key is a DER-encoded PKCS8 PrivateKeyInfo, as specified in [RFC 5958](https://tools.ietf.org/html/rfc5958). GenerateDataKeyPair also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateDataKeyPair for an Amazon Web Services Nitro enclave or NitroTPM, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the attested environment. GenerateDataKeyPair returns the public data key and a copy of the private data key encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the private data key (PrivateKeyPlaintext), the response includes a copy of the private data key encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide. You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateDataKeyPair](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key, a plaintext private key, and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. You can use the data key pair to perform asymmetric cryptography and implement digital signatures outside of KMS. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the public key that GenerateDataKeyPair returns to encrypt data or verify a signature outside of KMS. Then, store the encrypted private key with the data. When you are ready to decrypt data or sign a message, you can use the [Decrypt] operation to decrypt the encrypted private key. To generate a data key pair, you must specify a symmetric encryption KMS key to encrypt the private key in a data key pair. You cannot use an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the [DescribeKey] operation. Use the KeyPairSpec parameter to choose an RSA or Elliptic Curve (ECC) data key pair. In China Regions, you can also choose an SM2 data key pair. KMS recommends that you use ECC key pairs for signing, and use RSA and SM2 key pairs for either encryption or signing, but not both. However, KMS cannot enforce any restrictions on the use of data key pairs outside of KMS. If you are using the data key pair to encrypt data, or for any operation where you don't immediately need a private key, consider using the [GenerateDataKeyPairWithoutPlaintext] operation. GenerateDataKeyPairWithoutPlaintext returns a plaintext public key and an encrypted private key, but omits the plaintext private key that you need only to decrypt ciphertext or sign a message. Later, when you need to decrypt the data or sign a message, use the [Decrypt] operation to decrypt the encrypted private key in the data key pair. GenerateDataKeyPair returns a unique data key pair for each request. The bytes in the keys are random; they are not related to the caller or the KMS key that is used to encrypt the private key. The public key is a DER-encoded X.509 SubjectPublicKeyInfo, as specified in [RFC 5280](https://tools.ietf.org/html/rfc5280). The private key is a DER-encoded PKCS8 PrivateKeyInfo, as specified in [RFC 5958](https://tools.ietf.org/html/rfc5958). For ML-KEM data key pairs, the DER-encoded PKCS8 PrivateKeyInfo contains the private key in seed format. As a result, the length of the private key is the same for all ML-KEM key pair specs. GenerateDataKeyPair also supports [Amazon Web Services Nitro Enclaves](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave.html), which provide an isolated compute environment in Amazon EC2. To call GenerateDataKeyPair for an Amazon Web Services Nitro enclave or NitroTPM, use the [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) or any Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document for the attested environment. GenerateDataKeyPair returns the public data key and a copy of the private data key encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the private data key (PrivateKeyPlaintext), the response includes a copy of the private data key encrypted under the public key from the attestation document (CiphertextForRecipient). For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide. You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateDataKeyPair](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [Decrypt]
     ///
@@ -2717,7 +2928,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -2791,7 +3002,7 @@ extension KMSClient {
 
     /// Performs the `GenerateDataKeyPairWithoutPlaintext` operation on the `KMS` service.
     ///
-    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. Unlike [GenerateDataKeyPair], this operation does not return a plaintext private key. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the public key that GenerateDataKeyPairWithoutPlaintext returns to encrypt data or verify a signature outside of KMS. Then, store the encrypted private key with the data. When you are ready to decrypt data or sign a message, you can use the [Decrypt] operation to decrypt the encrypted private key. To generate a data key pair, you must specify a symmetric encryption KMS key to encrypt the private key in a data key pair. You cannot use an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the [DescribeKey] operation. Use the KeyPairSpec parameter to choose an RSA or Elliptic Curve (ECC) data key pair. In China Regions, you can also choose an SM2 data key pair. KMS recommends that you use ECC key pairs for signing, and use RSA and SM2 key pairs for either encryption or signing, but not both. However, KMS cannot enforce any restrictions on the use of data key pairs outside of KMS. GenerateDataKeyPairWithoutPlaintext returns a unique data key pair for each request. The bytes in the key are not related to the caller or KMS key that is used to encrypt the private key. The public key is a DER-encoded X.509 SubjectPublicKeyInfo, as specified in [RFC 5280](https://tools.ietf.org/html/rfc5280). You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateDataKeyPairWithoutPlaintext](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// Returns a unique asymmetric data key pair for use outside of KMS. This operation returns a plaintext public key and a copy of the private key that is encrypted under the symmetric encryption KMS key you specify. Unlike [GenerateDataKeyPair], this operation does not return a plaintext private key. The bytes in the keys are random; they are not related to the caller or to the KMS key that is used to encrypt the private key. You can use the public key that GenerateDataKeyPairWithoutPlaintext returns to encrypt data or verify a signature outside of KMS. Then, store the encrypted private key with the data. When you are ready to decrypt data or sign a message, you can use the [Decrypt] operation to decrypt the encrypted private key. To generate a data key pair, you must specify a symmetric encryption KMS key to encrypt the private key in a data key pair. You cannot use an asymmetric KMS key or a KMS key in a custom key store. To get the type and origin of your KMS key, use the [DescribeKey] operation. Use the KeyPairSpec parameter to choose an RSA or Elliptic Curve (ECC) data key pair. In China Regions, you can also choose an SM2 data key pair. KMS recommends that you use ECC key pairs for signing, and use RSA and SM2 key pairs for either encryption or signing, but not both. However, KMS cannot enforce any restrictions on the use of data key pairs outside of KMS. GenerateDataKeyPairWithoutPlaintext returns a unique data key pair for each request. The bytes in the key are not related to the caller or KMS key that is used to encrypt the private key. The public key is a DER-encoded X.509 SubjectPublicKeyInfo, as specified in [RFC 5280](https://tools.ietf.org/html/rfc5280). For ML-KEM data key pairs, the DER-encoded PKCS8 PrivateKeyInfo contains the private key in seed format. As a result, the length of the private key is the same for all ML-KEM key pair specs. You can use an optional encryption context to add additional security to the encryption operation. If you specify an EncryptionContext, you must specify the same encryption context (a case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more information, see [Encryption Context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide. The KMS key that you use for this operation must be in a compatible key state. For details, see [Key states of KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide. Cross-account use: Yes. To perform this operation with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the value of the KeyId parameter. Required permissions: [kms:GenerateDataKeyPairWithoutPlaintext](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [Decrypt]
     ///
@@ -2824,7 +3035,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -2931,7 +3142,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -3023,7 +3234,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -3193,7 +3404,7 @@ extension KMSClient {
     /// * If the KeyLastUsage response element is empty and KeyCreationDate is before TrackingStartDate, there is no record of the key being used for a successful cryptographic operation since the TrackingStartDate. However, the key may have been used before tracking began. To determine whether the key was used before the TrackingStartDate, examine your past CloudTrail logs.
     ///
     ///
-    /// For multi-Region KMS keys, primary and replica keys track last usage independently. Each key in a multi-Region key set maintains its own usage information. The ReEncrypt operation uses two keys: a source key for decryption and a destination key for encryption. Usage information is recorded for both keys independently, each with the CloudTrail event ID from the respective key owner's account. Do not use GetKeyLastUsage as the sole indicator when scheduling a key for deletion. Instead, first [disable the key](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) and monitor CloudTrail for DisabledException entries, as there could be infrequent workflows that are dependent on the key. By looking for this exception, you can identify potential dependencies and workload failures before they occur. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:GetKeyLastUsage](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
+    /// For multi-Region KMS keys, primary and replica keys track last usage independently. Each key in a multi-Region key set maintains its own usage information. The ReEncrypt operation uses two keys: a source key for decryption and a destination key for encryption. Usage information is recorded for both keys independently, each with the CloudTrail event ID from the respective key owner's account. Do not use GetKeyLastUsage as the sole indicator when scheduling a key for deletion. Instead, first [disable the key](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) and monitor CloudTrail for DisabledException entries, as there could be infrequent workflows that are dependent on the key. By looking for this exception, you can identify potential dependencies and workload failures before they occur. CloudTrail remains the authoritative source for all API calls made to your key. Cross-account use: No. You cannot perform this operation on a KMS key in a different Amazon Web Services account. Required permissions: [kms:GetKeyLastUsage](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html) (key policy) Related operations:
     ///
     /// * [DescribeKey]
     ///
@@ -3597,7 +3808,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -3722,7 +3933,7 @@ extension KMSClient {
     /// - `ExpiredImportTokenException` : The request was rejected because the specified import token is expired. Use [GetParametersForImport] to get a new import token and public key, use the new public key to encrypt the key material, and then try the request again.
     /// - `IncorrectKeyMaterialException` : The request was rejected because the key material in the request is, expired, invalid, or does not meet expectations. For example, it is not the same key material that was previously imported or KMS expected new key material but the key material being imported is already associated with the KMS key.
     /// - `InvalidArnException` : The request was rejected because a specified ARN, or an ARN in a key policy, is not valid.
-    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material. From the [Decapsulate] operation, the request was rejected because the length of the SharedSecretCiphertextBlob is inconsistent with the specified ML-KEM key spec.
     /// - `InvalidImportTokenException` : The request was rejected because the provided import token is invalid or is associated with a different KMS key.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -4554,7 +4765,7 @@ extension KMSClient {
     /// - `DisabledException` : The request was rejected because the specified KMS key is not enabled.
     /// - `DryRunOperationException` : The request was rejected because the DryRun parameter was specified.
     /// - `IncorrectKeyException` : The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
-    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+    /// - `InvalidCiphertextException` : From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material. From the [Decapsulate] operation, the request was rejected because the length of the SharedSecretCiphertextBlob is inconsistent with the specified ML-KEM key spec.
     /// - `InvalidGrantTokenException` : The request was rejected because the specified grant token is not valid.
     /// - `InvalidKeyUsageException` : The request was rejected for one of the following reasons:
     ///
@@ -4563,7 +4774,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -5147,7 +5358,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource is not valid for this request. This exceptions means one of the following:
@@ -5835,7 +6046,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidSignatureException` : The request was rejected because the signature verification failed. Signature verification fails when it cannot confirm that signature was produced by signing the specified message with the specified KMS key and signing algorithm.
@@ -5928,7 +6139,7 @@ extension KMSClient {
     /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
     ///
     ///
-    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+    /// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
     /// - `KeyUnavailableException` : The request was rejected because the specified KMS key was not available. You can retry the request.
     /// - `KMSInternalException` : The request was rejected because an internal exception occurred. The request can be retried.
     /// - `KMSInvalidMacException` : The request was rejected because the HMAC verification failed. HMAC verification fails when the HMAC computed by using the specified message, HMAC KMS key, and MAC algorithm does not match the HMAC specified in the request.

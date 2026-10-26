@@ -15193,12 +15193,14 @@ extension SageMakerClientTypes {
     public enum DeepHealthCheckType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case instanceConnectivity
         case instanceStress
+        case multiNodeTrainingValidation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DeepHealthCheckType] {
             return [
                 .instanceConnectivity,
-                .instanceStress
+                .instanceStress,
+                .multiNodeTrainingValidation
             ]
         }
 
@@ -15211,6 +15213,7 @@ extension SageMakerClientTypes {
             switch self {
             case .instanceConnectivity: return "InstanceConnectivity"
             case .instanceStress: return "InstanceStress"
+            case .multiNodeTrainingValidation: return "MultiNodeTrainingValidation"
             case let .sdkUnknown(s): return s
             }
         }

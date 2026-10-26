@@ -3689,18 +3689,58 @@ public struct ListCustomerManagedPolicyReferencesInPermissionSetOutput: Swift.Se
     }
 }
 
+extension SSOAdminClientTypes {
+
+    public enum RegionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allRegions
+        case currentRegion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegionScope] {
+            return [
+                .allRegions,
+                .currentRegion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allRegions: return "ALL_REGIONS"
+            case .currentRegion: return "CURRENT_REGION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListInstancesInput: Swift.Sendable {
     /// The maximum number of results to display for the instance.
     public var maxResults: Swift.Int?
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     public var nextToken: Swift.String?
+    /// Specifies which Amazon Web Services Regions to list IAM Identity Center instances from. Valid values:
+    ///
+    /// * CURRENT_REGION - Lists only the instances in the Region that you call this API from.
+    ///
+    /// * ALL_REGIONS - Lists the instances that the caller owns or that are shared with the caller across all Regions.
+    ///
+    ///
+    /// If you don't specify a value, the default is CURRENT_REGION.
+    public var regionScope: SSOAdminClientTypes.RegionScope?
 
     public init(
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        regionScope: SSOAdminClientTypes.RegionScope? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.regionScope = regionScope
     }
 }
 
@@ -4350,7 +4390,7 @@ public struct UpdateInstanceInput: Swift.Sendable {
     public var instanceArn: Swift.String?
     /// Updates the instance name.
     public var name: Swift.String?
-    /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled. You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. These calls can be made in parallel.
+    /// Enables permission sets for this Identity Center instance. The only accepted value is true . After permission sets are enabled, they cannot be disabled. You can't set EncryptionConfiguration and PermissionSetsEnabled in the same request. To configure both, make two separate UpdateInstance calls. You can make these calls in parallel.
     public var permissionSetsEnabled: Swift.Bool?
 
     public init(

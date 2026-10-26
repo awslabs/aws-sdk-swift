@@ -5321,6 +5321,240 @@ extension LightsailClientTypes {
     }
 }
 
+extension LightsailClientTypes {
+
+    public enum WafPayloadTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case formEncoded
+        case json
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WafPayloadTypeEnum] {
+            return [
+                .formEncoded,
+                .json
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .formEncoded: return "FORM_ENCODED"
+            case .json: return "JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the HTTP status codes that your application returns to indicate successful and failed attempts. The Web Application Firewall (WAF) rule group uses these status codes to track successful and failed attempts.
+    public struct WafResponseInspection: Swift.Sendable {
+        /// The HTTP status codes that indicate a failed attempt (for example, 401). Constraints:
+        ///
+        /// * Must contain from 1 to 10 status codes.
+        ///
+        /// * Each status code must be from 0 to 999.
+        ///
+        /// * Can't contain a status code that is also in successCodes.
+        public var failureCodes: [Swift.Int]?
+        /// The HTTP status codes that indicate a successful attempt (for example, 200). Constraints:
+        ///
+        /// * Must contain from 1 to 10 status codes.
+        ///
+        /// * Each status code must be from 0 to 999.
+        ///
+        /// * Can't contain a status code that is also in failureCodes.
+        public var successCodes: [Swift.Int]?
+
+        public init(
+            failureCodes: [Swift.Int]? = nil,
+            successCodes: [Swift.Int]? = nil
+        ) {
+            self.failureCodes = failureCodes
+            self.successCodes = successCodes
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the configuration of the account creation fraud prevention Web Application Firewall (WAF) rule group. The rule group inspects account creation requests to your application.
+    public struct WafAcfpConfig: Swift.Sendable {
+        /// The path of the endpoint that accepts completed account creation forms (for example, /signup/submit). This endpoint must accept POST requests. Constraints:
+        ///
+        /// * Must start with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 256 characters.
+        public var creationPath: Swift.String?
+        /// The content type of the request body of account creation requests. The following content types are possible:
+        ///
+        /// * JSON – The request body is in JSON format.
+        ///
+        /// * FORM_ENCODED – The request body is form encoded.
+        public var payloadType: LightsailClientTypes.WafPayloadTypeEnum?
+        /// The path of the page that displays the account creation form (for example, /signup). Constraints:
+        ///
+        /// * Must start with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 256 characters.
+        public var registrationPagePath: Swift.String?
+        /// An object that describes the HTTP status codes that your application returns for successful and failed account creation attempts.
+        public var responseInspection: LightsailClientTypes.WafResponseInspection?
+
+        public init(
+            creationPath: Swift.String? = nil,
+            payloadType: LightsailClientTypes.WafPayloadTypeEnum? = nil,
+            registrationPagePath: Swift.String? = nil,
+            responseInspection: LightsailClientTypes.WafResponseInspection? = nil
+        ) {
+            self.creationPath = creationPath
+            self.payloadType = payloadType
+            self.registrationPagePath = registrationPagePath
+            self.responseInspection = responseInspection
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the configuration of the account takeover prevention Web Application Firewall (WAF) rule group. The rule group inspects login requests to the login path of your application.
+    public struct WafAtpConfig: Swift.Sendable {
+        /// The path of the login endpoint of your application (for example, /login). Login paths that start with the path that you specify are a match. Constraints:
+        ///
+        /// * Must start with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 256 characters.
+        public var loginPath: Swift.String?
+        /// The name of the field in the request body that contains the password (for example, /password for JSON or password for FORM_ENCODED). Constraints:
+        ///
+        /// * For a JSON payload, must be a JSON pointer that starts with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 512 characters.
+        public var passwordField: Swift.String?
+        /// The content type of the request body of login requests. The following content types are possible:
+        ///
+        /// * JSON – The request body is in JSON format.
+        ///
+        /// * FORM_ENCODED – The request body is form encoded.
+        public var payloadType: LightsailClientTypes.WafPayloadTypeEnum?
+        /// An object that describes the HTTP status codes that your application returns for successful and failed login attempts.
+        public var responseInspection: LightsailClientTypes.WafResponseInspection?
+        /// The name of the field in the request body that contains the username (for example, /username for JSON or username for FORM_ENCODED). Constraints:
+        ///
+        /// * For a JSON payload, must be a JSON pointer that starts with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 512 characters.
+        public var usernameField: Swift.String?
+
+        public init(
+            loginPath: Swift.String? = nil,
+            passwordField: Swift.String? = nil,
+            payloadType: LightsailClientTypes.WafPayloadTypeEnum? = nil,
+            responseInspection: LightsailClientTypes.WafResponseInspection? = nil,
+            usernameField: Swift.String? = nil
+        ) {
+            self.loginPath = loginPath
+            self.passwordField = passwordField
+            self.payloadType = payloadType
+            self.responseInspection = responseInspection
+            self.usernameField = usernameField
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum WafInspectionLevelEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case common
+        case targeted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WafInspectionLevelEnum] {
+            return [
+                .common,
+                .targeted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .common: return "COMMON"
+            case .targeted: return "TARGETED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the configuration of the bot control Web Application Firewall (WAF) rule group.
+    public struct WafBotControlConfig: Swift.Sendable {
+        /// The inspection level of the bot control rule group. The following inspection levels are possible:
+        ///
+        /// * COMMON – Detects a variety of bots that identify themselves, such as web scraping frameworks, search engines, and automated browsers.
+        ///
+        /// * TARGETED – Includes the COMMON protections, and adds detection for sophisticated bots that don't identify themselves. This level uses rate limiting, CAPTCHA, and background browser challenges.
+        public var inspectionLevel: LightsailClientTypes.WafInspectionLevelEnum?
+
+        public init(
+            inspectionLevel: LightsailClientTypes.WafInspectionLevelEnum? = nil
+        ) {
+            self.inspectionLevel = inspectionLevel
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes a Web Application Firewall (WAF) rule group for a Lightsail distribution. A WAF rule group is a set of rules managed by AWS. The rules inspect viewer requests and block requests that match them.
+    public struct WafRule: Swift.Sendable {
+        /// An object that describes the configuration of the account creation fraud prevention rule group. Constraints:
+        ///
+        /// * Define this parameter only when the name is AWSManagedRulesACFPRuleSet.
+        ///
+        /// * This parameter is required when the name is AWSManagedRulesACFPRuleSet.
+        public var acfpConfig: LightsailClientTypes.WafAcfpConfig?
+        /// An object that describes the configuration of the account takeover prevention rule group. Constraints:
+        ///
+        /// * Define this parameter only when the name is AWSManagedRulesATPRuleSet.
+        ///
+        /// * This parameter is required when the name is AWSManagedRulesATPRuleSet.
+        public var atpConfig: LightsailClientTypes.WafAtpConfig?
+        /// An object that describes the configuration of the bot control rule group. Constraints:
+        ///
+        /// * Define this parameter only when the name is AWSManagedRulesBotControlRuleSet.
+        ///
+        /// * This parameter is required when the name is AWSManagedRulesBotControlRuleSet.
+        public var botControlConfig: LightsailClientTypes.WafBotControlConfig?
+        /// The name of the WAF rule group (for example, AWSManagedRulesCommonRuleSet). For the WAF rule groups that you can specify for each bundle, see the wafRules parameter of the CreateDistribution action.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            acfpConfig: LightsailClientTypes.WafAcfpConfig? = nil,
+            atpConfig: LightsailClientTypes.WafAtpConfig? = nil,
+            botControlConfig: LightsailClientTypes.WafBotControlConfig? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.acfpConfig = acfpConfig
+            self.atpConfig = atpConfig
+            self.botControlConfig = botControlConfig
+            self.name = name
+        }
+    }
+}
+
 public struct CreateDistributionInput: Swift.Sendable {
     /// The bundle ID to use for the distribution. A distribution bundle describes the specifications of your distribution, such as the monthly cost and monthly network transfer quota. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
     /// This member is required.
@@ -5343,6 +5577,8 @@ public struct CreateDistributionInput: Swift.Sendable {
     public var distributionName: Swift.String?
     /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
     public var enablePrivateOriginAccess: Swift.Bool?
+    /// Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests. WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle.
+    public var enableWaf: Swift.Bool?
     /// The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -5352,6 +5588,12 @@ public struct CreateDistributionInput: Swift.Sendable {
     public var tags: [LightsailClientTypes.Tag]?
     /// The minimum TLS protocol version for the SSL/TLS certificate.
     public var viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
+    /// An array of objects that describe the WAF rule groups to enable for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:
+    ///
+    /// * medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.
+    ///
+    /// * large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
+    public var wafRules: [LightsailClientTypes.WafRule]?
 
     public init(
         bundleId: Swift.String? = nil,
@@ -5363,10 +5605,12 @@ public struct CreateDistributionInput: Swift.Sendable {
         defaultRootObject: Swift.String? = nil,
         distributionName: Swift.String? = nil,
         enablePrivateOriginAccess: Swift.Bool? = nil,
+        enableWaf: Swift.Bool? = nil,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
-        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
+        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil,
+        wafRules: [LightsailClientTypes.WafRule]? = nil
     ) {
         self.bundleId = bundleId
         self.cacheBehaviorSettings = cacheBehaviorSettings
@@ -5377,10 +5621,12 @@ public struct CreateDistributionInput: Swift.Sendable {
         self.defaultRootObject = defaultRootObject
         self.distributionName = distributionName
         self.enablePrivateOriginAccess = enablePrivateOriginAccess
+        self.enableWaf = enableWaf
         self.ipAddressType = ipAddressType
         self.origin = origin
         self.tags = tags
         self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+        self.wafRules = wafRules
     }
 }
 
@@ -5419,6 +5665,25 @@ extension LightsailClientTypes {
             self.regionName = regionName
             self.resourceType = resourceType
             self.responseTimeout = responseTimeout
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the Web Application Firewall (WAF) configuration of a Lightsail distribution.
+    public struct WafConfig: Swift.Sendable {
+        /// Specifies whether WAF is enabled for the distribution.
+        public var isWafEnabled: Swift.Bool?
+        /// An array of objects that describe the WAF rule groups enabled for the distribution.
+        public var wafRules: [LightsailClientTypes.WafRule]?
+
+        public init(
+            isWafEnabled: Swift.Bool? = nil,
+            wafRules: [LightsailClientTypes.WafRule]? = nil
+        ) {
+            self.isWafEnabled = isWafEnabled
+            self.wafRules = wafRules
         }
     }
 }
@@ -5473,6 +5738,8 @@ extension LightsailClientTypes {
         public var tags: [LightsailClientTypes.Tag]?
         /// The minimum TLS protocol version that the distribution can use to communicate with viewers.
         public var viewerMinimumTlsProtocolVersion: Swift.String?
+        /// An object that describes the Web Application Firewall (WAF) configuration of the distribution.
+        public var waf: LightsailClientTypes.WafConfig?
 
         public init(
             ableToUpdateBundle: Swift.Bool? = nil,
@@ -5497,7 +5764,8 @@ extension LightsailClientTypes {
             status: Swift.String? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
-            viewerMinimumTlsProtocolVersion: Swift.String? = nil
+            viewerMinimumTlsProtocolVersion: Swift.String? = nil,
+            waf: LightsailClientTypes.WafConfig? = nil
         ) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.alternativeDomainNames = alternativeDomainNames
@@ -5522,6 +5790,7 @@ extension LightsailClientTypes {
             self.supportCode = supportCode
             self.tags = tags
             self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+            self.waf = waf
         }
     }
 }
@@ -7326,6 +7595,8 @@ extension LightsailClientTypes {
         case http5xxerrorrate
         case requests
         case totalerrorrate
+        case wafallowedrequests
+        case wafblockedrequests
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DistributionMetricName] {
@@ -7335,7 +7606,9 @@ extension LightsailClientTypes {
                 .http4xxerrorrate,
                 .http5xxerrorrate,
                 .requests,
-                .totalerrorrate
+                .totalerrorrate,
+                .wafallowedrequests,
+                .wafblockedrequests
             ]
         }
 
@@ -7352,6 +7625,8 @@ extension LightsailClientTypes {
             case .http5xxerrorrate: return "Http5xxErrorRate"
             case .requests: return "Requests"
             case .totalerrorrate: return "TotalErrorRate"
+            case .wafallowedrequests: return "WafAllowedRequests"
+            case .wafblockedrequests: return "WafBlockedRequests"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8695,6 +8970,10 @@ public struct GetDistributionMetricDataInput: Swift.Sendable {
     /// * 4xxErrorRate - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found. Statistics: The most useful statistic is Average. Unit: The published unit is Percent.
     ///
     /// * 5xxErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable. Statistics: The most useful statistic is Average. Unit: The published unit is Percent.
+    ///
+    /// * WafAllowedRequests - The number of viewer requests that Web Application Firewall (WAF) allowed. This metric is available only when WAF is enabled for the distribution. Statistics: The most useful statistic is Sum. Unit: The published unit is None.
+    ///
+    /// * WafBlockedRequests - The number of viewer requests that WAF blocked. This metric is available only when WAF is enabled for the distribution. Statistics: The most useful statistic is Sum. Unit: The published unit is None.
     /// This member is required.
     public var metricName: LightsailClientTypes.DistributionMetricName?
     /// The granularity, in seconds, for the metric data points that will be returned.
@@ -13643,6 +13922,8 @@ public struct UpdateDistributionInput: Swift.Sendable {
     public var distributionName: Swift.String?
     /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint. When you include this parameter, you must also include the origin parameter with the resource name, even if the origin is not changing. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
     public var enablePrivateOriginAccess: Swift.Bool?
+    /// Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests. WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle. Setting this parameter to false disables WAF for the distribution and removes its WAF rule groups. You must enable the WAF rule groups again if you enable WAF again.
+    public var enableWaf: Swift.Bool?
     /// Indicates whether to enable the distribution.
     public var isEnabled: Swift.Bool?
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -13651,6 +13932,12 @@ public struct UpdateDistributionInput: Swift.Sendable {
     public var useDefaultCertificate: Swift.Bool?
     /// Use this parameter to update the minimum TLS protocol version for the SSL/TLS certificate that's attached to the distribution.
     public var viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
+    /// An array of objects that describe the WAF rule groups to enable for the distribution. The array that you specify replaces the existing WAF rule groups of the distribution. To keep a WAF rule group enabled, include it in the array. To disable all WAF rule groups, specify an empty array. You can specify this parameter only when WAF is enabled for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:
+    ///
+    /// * medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.
+    ///
+    /// * large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
+    public var wafRules: [LightsailClientTypes.WafRule]?
 
     public init(
         cacheBehaviorSettings: LightsailClientTypes.CacheSettings? = nil,
@@ -13661,10 +13948,12 @@ public struct UpdateDistributionInput: Swift.Sendable {
         defaultRootObject: Swift.String? = nil,
         distributionName: Swift.String? = nil,
         enablePrivateOriginAccess: Swift.Bool? = nil,
+        enableWaf: Swift.Bool? = nil,
         isEnabled: Swift.Bool? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
         useDefaultCertificate: Swift.Bool? = nil,
-        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
+        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil,
+        wafRules: [LightsailClientTypes.WafRule]? = nil
     ) {
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
@@ -13674,10 +13963,12 @@ public struct UpdateDistributionInput: Swift.Sendable {
         self.defaultRootObject = defaultRootObject
         self.distributionName = distributionName
         self.enablePrivateOriginAccess = enablePrivateOriginAccess
+        self.enableWaf = enableWaf
         self.isEnabled = isEnabled
         self.origin = origin
         self.useDefaultCertificate = useDefaultCertificate
         self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+        self.wafRules = wafRules
     }
 }
 

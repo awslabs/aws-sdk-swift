@@ -3345,6 +3345,253 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    /// A date range for filtering subsidiary authorizations by creation date.
+    public struct SubsidiaryAuthorizationCreatedDateFilterDateRange: Swift.Sendable {
+        /// The start date (inclusive) of the date range. The operation returns subsidiary authorizations created on or after this date.
+        public var afterValue: Swift.String?
+        /// The end date (inclusive) of the date range. The operation returns subsidiary authorizations created on or before this date.
+        public var beforeValue: Swift.String?
+
+        public init(
+            afterValue: Swift.String? = nil,
+            beforeValue: Swift.String? = nil
+        ) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for the date a subsidiary authorization was created.
+    public struct SubsidiaryAuthorizationCreatedDateFilter: Swift.Sendable {
+        /// A date range to filter by. The operation returns subsidiary authorizations with creation dates that fall within this range.
+        public var dateRange: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilterDateRange?
+
+        public init(
+            dateRange: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilterDateRange? = nil
+        ) {
+            self.dateRange = dateRange
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for subsidiary authorization entity IDs. Each ID begins with subauthz- followed by 13 alphanumeric characters.
+    public struct SubsidiaryAuthorizationEntityIdFilter: Swift.Sendable {
+        /// A list of entity IDs to filter by. The operation returns subsidiary authorizations with an entity ID that matches any value in this list. You can include up to 10 entity IDs in this list.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// A date range for filtering subsidiary authorizations by last modified date.
+    public struct SubsidiaryAuthorizationLastModifiedDateFilterDateRange: Swift.Sendable {
+        /// The start date (inclusive) of the date range. The operation returns subsidiary authorizations last modified on or after this date.
+        public var afterValue: Swift.String?
+        /// The end date (inclusive) of the date range. The operation returns subsidiary authorizations last modified on or before this date.
+        public var beforeValue: Swift.String?
+
+        public init(
+            afterValue: Swift.String? = nil,
+            beforeValue: Swift.String? = nil
+        ) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for the date a subsidiary authorization was last modified.
+    public struct SubsidiaryAuthorizationLastModifiedDateFilter: Swift.Sendable {
+        /// A date range to filter by. The operation returns subsidiary authorizations with last modified dates that fall within this range.
+        public var dateRange: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilterDateRange?
+
+        public init(
+            dateRange: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilterDateRange? = nil
+        ) {
+            self.dateRange = dateRange
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for subsidiary authorization names.
+    public struct SubsidiaryAuthorizationNameFilter: Swift.Sendable {
+        /// A list of names to filter by. The operation returns subsidiary authorizations with a name that matches any value in this list. You can include up to 10 names in this list.
+        public var valueList: [Swift.String]?
+        /// A partial name to filter by. The operation returns subsidiary authorizations whose name contains this value. The value must be at least 3 characters.
+        public var wildCardValue: Swift.String?
+
+        public init(
+            valueList: [Swift.String]? = nil,
+            wildCardValue: Swift.String? = nil
+        ) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for the IDs of resources that subsidiary authorizations apply to.
+    public struct SubsidiaryAuthorizationResourceIdFilter: Swift.Sendable {
+        /// A list of resource IDs to filter by. The operation returns subsidiary authorizations for resources with an ID that matches any value in this list. You can include up to 10 resource IDs in this list.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for the names of resources that subsidiary authorizations apply to.
+    public struct SubsidiaryAuthorizationResourceNameFilter: Swift.Sendable {
+        /// A list of resource names to filter by. The operation returns subsidiary authorizations for resources with a name that matches any value in this list. You can include up to 10 resource names in this list.
+        public var valueList: [Swift.String]?
+        /// A partial resource name to filter by. The operation returns subsidiary authorizations for resources whose name contains this value. The value must be at least 3 characters.
+        public var wildCardValue: Swift.String?
+
+        public init(
+            valueList: [Swift.String]? = nil,
+            wildCardValue: Swift.String? = nil
+        ) {
+            self.valueList = valueList
+            self.wildCardValue = wildCardValue
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    public enum SubsidiaryAuthorizationStatusString: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case draft
+        case restricted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubsidiaryAuthorizationStatusString] {
+            return [
+                .active,
+                .draft,
+                .restricted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .draft: return "Draft"
+            case .restricted: return "Restricted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for subsidiary authorization statuses.
+    public struct SubsidiaryAuthorizationStatusFilter: Swift.Sendable {
+        /// A list of statuses to filter by. The operation returns subsidiary authorizations with a status that matches a value in this list. Valid values are:
+        ///
+        /// * Draft - The subsidiary authorization was created but not yet released. The subsidiary account can't see it.
+        ///
+        /// * Active - The subsidiary account can use the subsidiary authorization to create offers for the authorized product.
+        ///
+        /// * Restricted - The subsidiary authorization was discarded while in Draft or revoked while Active. It can't be used to create new offers. This status is final.
+        public var valueList: [MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusString]?
+
+        public init(
+            valueList: [MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusString]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filter for the AWS account IDs of subsidiary accounts.
+    public struct SubsidiaryAuthorizationSubsidiaryAccountIdFilter: Swift.Sendable {
+        /// A list of AWS account IDs to filter by. The operation returns subsidiary authorizations whose subsidiary account ID matches any value in this list. You can include up to 10 account IDs in this list.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        ) {
+            self.valueList = valueList
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// The filters that you can use with the ListEntities operation to filter subsidiary authorizations. You can filter by EntityId, Status, ResourceId, ResourceName, Name, SubsidiaryAccountId, CreatedDate, and LastModifiedDate. You can add only one wildcard filter in a single ListEntities request.
+    public struct SubsidiaryAuthorizationFilters: Swift.Sendable {
+        /// A filter that matches subsidiary authorizations by creation date.
+        public var createdDate: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilter?
+        /// A filter that matches subsidiary authorizations by entity ID.
+        public var entityId: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationEntityIdFilter?
+        /// A filter that matches subsidiary authorizations by last modified date.
+        public var lastModifiedDate: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilter?
+        /// A filter that matches subsidiary authorizations by name.
+        public var name: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationNameFilter?
+        /// A filter that matches subsidiary authorizations by the ID of the authorized resource.
+        public var resourceId: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceIdFilter?
+        /// A filter that matches subsidiary authorizations by the name of the authorized resource.
+        public var resourceName: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceNameFilter?
+        /// A filter that matches subsidiary authorizations by status.
+        public var status: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusFilter?
+        /// A filter that matches subsidiary authorizations by the AWS account ID of the subsidiary account.
+        public var subsidiaryAccountId: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSubsidiaryAccountIdFilter?
+
+        public init(
+            createdDate: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilter? = nil,
+            entityId: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationEntityIdFilter? = nil,
+            lastModifiedDate: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilter? = nil,
+            name: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationNameFilter? = nil,
+            resourceId: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceIdFilter? = nil,
+            resourceName: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceNameFilter? = nil,
+            status: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusFilter? = nil,
+            subsidiaryAccountId: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSubsidiaryAccountIdFilter? = nil
+        ) {
+            self.createdDate = createdDate
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.status = status
+            self.subsidiaryAccountId = subsidiaryAccountId
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// Object containing all the filter fields per entity type.
     public enum EntityTypeFilters: Swift.Sendable {
         /// A filter for data products.
@@ -3365,6 +3612,8 @@ extension MarketplaceCatalogClientTypes {
         case offersetfilters(MarketplaceCatalogClientTypes.OfferSetFilters)
         /// A filter for express private offer configurations.
         case expressprivateofferconfigurationfilters(MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationFilters)
+        /// A filter for subsidiary authorizations.
+        case subsidiaryauthorizationfilters(MarketplaceCatalogClientTypes.SubsidiaryAuthorizationFilters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3882,6 +4131,66 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    public enum SubsidiaryAuthorizationSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createddate
+        case entityid
+        case lastmodifieddate
+        case resourceid
+        case status
+        case subsidiaryaccountid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubsidiaryAuthorizationSortBy] {
+            return [
+                .createddate,
+                .entityid,
+                .lastmodifieddate,
+                .resourceid,
+                .status,
+                .subsidiaryaccountid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .createddate: return "CreatedDate"
+            case .entityid: return "EntityId"
+            case .lastmodifieddate: return "LastModifiedDate"
+            case .resourceid: return "ResourceId"
+            case .status: return "Status"
+            case .subsidiaryaccountid: return "SubsidiaryAccountId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
+    /// Specifies the field to sort subsidiary authorizations by and the order (ascending or descending) to apply.
+    public struct SubsidiaryAuthorizationSort: Swift.Sendable {
+        /// The field to sort subsidiary authorizations by. Valid values are EntityId, Status, ResourceId, SubsidiaryAccountId, CreatedDate, and LastModifiedDate.
+        public var sortBy: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSortBy?
+        /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        public var sortOrder: MarketplaceCatalogClientTypes.SortOrder?
+
+        public init(
+            sortBy: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSortBy? = nil,
+            sortOrder: MarketplaceCatalogClientTypes.SortOrder? = nil
+        ) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// Object containing all the sort fields per entity type.
     public enum EntityTypeSort: Swift.Sendable {
         /// A sort for data products.
@@ -3902,6 +4211,8 @@ extension MarketplaceCatalogClientTypes {
         case offersetsort(MarketplaceCatalogClientTypes.OfferSetSort)
         /// A sort for express private offer configurations.
         case expressprivateofferconfigurationsort(MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSort)
+        /// A sort for subsidiary authorizations.
+        case subsidiaryauthorizationsort(MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSort)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3939,7 +4250,7 @@ public struct ListEntitiesInput: Swift.Sendable {
     /// The catalog related to the request. Fixed value: AWSMarketplace
     /// This member is required.
     public var catalog: Swift.String?
-    /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
+    /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution, SubsidiaryAuthorization.
     /// This member is required.
     public var entityType: Swift.String?
     /// A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
@@ -4238,6 +4549,47 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
+    /// An object that contains summary information about a subsidiary authorization, including its name, status, authorized resource, subsidiary account, and creation date. A subsidiary authorization lets a seller authorize one of its subsidiary accounts to create offers for one of its products.
+    public struct SubsidiaryAuthorizationSummary: Swift.Sendable {
+        /// The date the subsidiary authorization was created.
+        public var createdDate: Swift.String?
+        /// The name of the subsidiary authorization.
+        public var name: Swift.String?
+        /// The ID of the resource that the subsidiary authorization applies to. Currently, this is always a product ID, such as prod-example123.
+        public var resourceId: Swift.String?
+        /// The name of the resource that the subsidiary authorization applies to. Currently, this is always a product name.
+        public var resourceName: Swift.String?
+        /// The status of the subsidiary authorization. Valid values are:
+        ///
+        /// * Draft - The subsidiary authorization was created but not yet released. The subsidiary account can't see it.
+        ///
+        /// * Active - The subsidiary account can use the subsidiary authorization to create offers for the authorized product.
+        ///
+        /// * Restricted - The subsidiary authorization was discarded while in Draft or revoked while Active. It can't be used to create new offers. This status is final.
+        public var status: Swift.String?
+        /// The 12-digit AWS account ID of the subsidiary account.
+        public var subsidiaryAccountId: Swift.String?
+
+        public init(
+            createdDate: Swift.String? = nil,
+            name: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
+            status: Swift.String? = nil,
+            subsidiaryAccountId: Swift.String? = nil
+        ) {
+            self.createdDate = createdDate
+            self.name = name
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.status = status
+            self.subsidiaryAccountId = subsidiaryAccountId
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+
     /// This object is a container for common summary information about the entity. The summary doesn't contain the whole entity structure, but it does contain information common across all entities.
     public struct EntitySummary: Swift.Sendable {
         /// An object that contains summary information about the AMI product.
@@ -4268,6 +4620,8 @@ extension MarketplaceCatalogClientTypes {
         public var resaleAuthorizationSummary: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary?
         /// An object that contains summary information about the SaaS product.
         public var saaSProductSummary: MarketplaceCatalogClientTypes.SaaSProductSummary?
+        /// An object that contains summary information about the subsidiary authorization, such as its status and authorized resource, when the entity type is SubsidiaryAuthorization.
+        public var subsidiaryAuthorizationSummary: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSummary?
         /// The visibility status of the entity to buyers. This value can be Public (everyone can view the entity), Limited (the entity is visible to limited accounts only), or Restricted (the entity was published and then unpublished and only existing buyers can view it).
         public var visibility: Swift.String?
 
@@ -4286,6 +4640,7 @@ extension MarketplaceCatalogClientTypes {
             offerSummary: MarketplaceCatalogClientTypes.OfferSummary? = nil,
             resaleAuthorizationSummary: MarketplaceCatalogClientTypes.ResaleAuthorizationSummary? = nil,
             saaSProductSummary: MarketplaceCatalogClientTypes.SaaSProductSummary? = nil,
+            subsidiaryAuthorizationSummary: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSummary? = nil,
             visibility: Swift.String? = nil
         ) {
             self.amiProductSummary = amiProductSummary
@@ -4302,6 +4657,7 @@ extension MarketplaceCatalogClientTypes {
             self.offerSummary = offerSummary
             self.resaleAuthorizationSummary = resaleAuthorizationSummary
             self.saaSProductSummary = saaSProductSummary
+            self.subsidiaryAuthorizationSummary = subsidiaryAuthorizationSummary
             self.visibility = visibility
         }
     }
@@ -5843,6 +6199,7 @@ extension MarketplaceCatalogClientTypes.EntitySummary {
         value.machineLearningProductSummary = try reader["MachineLearningProductSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.MachineLearningProductSummary.read(from:))
         value.offerSetSummary = try reader["OfferSetSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferSetSummary.read(from:))
         value.expressPrivateOfferConfigurationSummary = try reader["ExpressPrivateOfferConfigurationSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.ExpressPrivateOfferConfigurationSummary.read(from:))
+        value.subsidiaryAuthorizationSummary = try reader["SubsidiaryAuthorizationSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSummary.read(from:))
         return value
     }
 }
@@ -5870,6 +6227,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
                 try writer["ResaleAuthorizationFilters"].write(resaleauthorizationfilters, with: MarketplaceCatalogClientTypes.ResaleAuthorizationFilters.write(value:to:))
             case let .saasproductfilters(saasproductfilters):
                 try writer["SaaSProductFilters"].write(saasproductfilters, with: MarketplaceCatalogClientTypes.SaaSProductFilters.write(value:to:))
+            case let .subsidiaryauthorizationfilters(subsidiaryauthorizationfilters):
+                try writer["SubsidiaryAuthorizationFilters"].write(subsidiaryauthorizationfilters, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationFilters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -5899,6 +6258,8 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort {
                 try writer["ResaleAuthorizationSort"].write(resaleauthorizationsort, with: MarketplaceCatalogClientTypes.ResaleAuthorizationSort.write(value:to:))
             case let .saasproductsort(saasproductsort):
                 try writer["SaaSProductSort"].write(saasproductsort, with: MarketplaceCatalogClientTypes.SaaSProductSort.write(value:to:))
+            case let .subsidiaryauthorizationsort(subsidiaryauthorizationsort):
+                try writer["SubsidiaryAuthorizationSort"].write(subsidiaryauthorizationsort, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSort.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -6694,6 +7055,129 @@ extension MarketplaceCatalogClientTypes.Sort {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedDate"].write(value.createdDate, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationCreatedDateFilter.write(value:to:))
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilter.write(value:to:))
+        try writer["Name"].write(value.name, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationNameFilter.write(value:to:))
+        try writer["ResourceId"].write(value.resourceId, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceIdFilter.write(value:to:))
+        try writer["ResourceName"].write(value.resourceName, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceNameFilter.write(value:to:))
+        try writer["Status"].write(value.status, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusFilter.write(value:to:))
+        try writer["SubsidiaryAccountId"].write(value.subsidiaryAccountId, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSubsidiaryAccountIdFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationNameFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationNameFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceNameFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationResourceNameFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.SubsidiaryAuthorizationStatusString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSubsidiaryAccountIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSubsidiaryAccountIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.SubsidiaryAuthorizationSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        value.subsidiaryAccountId = try reader["SubsidiaryAccountId"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readIfPresent()
+        return value
     }
 }
 

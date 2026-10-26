@@ -3962,6 +3962,1160 @@ extension MediaConnectClientTypes {
     }
 }
 
+extension MediaConnectClientTypes {
+
+    /// The configuration for automatic endpoint encryption. In this mode, MediaConnect determines the encryption key when the endpoint connects. This type does not require any additional settings.
+    public struct AutomaticEndpointEncryptionConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+public struct BatchGetDestinationEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of one or more destination endpoints to retrieve. You can specify from 1 to 20 ARNs.
+    /// This member is required.
+    public var arns: [Swift.String]?
+
+    public init(
+        arns: [Swift.String]? = nil
+    ) {
+        self.arns = arns
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A message associated with a router input, including a code and a message.
+    public struct RouterInputMessage: Swift.Sendable {
+        /// The code associated with the router input message.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message text associated with the router input message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum RouterInputState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case error
+        case migrating
+        case recovering
+        case standby
+        case starting
+        case stopping
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RouterInputState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .error,
+                .migrating,
+                .recovering,
+                .standby,
+                .starting,
+                .stopping,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .migrating: return "MIGRATING"
+            case .recovering: return "RECOVERING"
+            case .standby: return "STANDBY"
+            case .starting: return "STARTING"
+            case .stopping: return "STOPPING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of the router input that is associated with a destination endpoint.
+    public struct RouterInputDestinationEndpointAssociatedResourceDetails: Swift.Sendable {
+        /// The maximum bitrate of the router input, in bits per second.
+        /// This member is required.
+        public var maximumBitrate: Swift.Int?
+        /// The status messages for the router input.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.RouterInputMessage]?
+        /// The name of the router input.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The state of the router input.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterInputState?
+
+        public init(
+            maximumBitrate: Swift.Int? = nil,
+            messages: [MediaConnectClientTypes.RouterInputMessage]? = nil,
+            name: Swift.String? = nil,
+            state: MediaConnectClientTypes.RouterInputState? = nil
+        ) {
+            self.maximumBitrate = maximumBitrate
+            self.messages = messages
+            self.name = name
+            self.state = state
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The associated resource details for a standard destination endpoint. This type does not require any additional settings.
+    public struct StandardDestinationEndpointAssociatedResourceDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of the resource that is associated with a destination endpoint. This is a union type, so exactly one of its members is set, depending on the type of the destination endpoint.
+    public enum DestinationEndpointAssociatedResourceDetails: Swift.Sendable {
+        /// The associated resource details for a standard destination endpoint.
+        case standard(MediaConnectClientTypes.StandardDestinationEndpointAssociatedResourceDetails)
+        /// The associated resource details for a destination endpoint that represents a router input.
+        case routerinput(MediaConnectClientTypes.RouterInputDestinationEndpointAssociatedResourceDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a destination endpoint that represents a router input.
+    public struct RouterInputDestinationEndpointConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router input that the destination endpoint represents.
+        /// This member is required.
+        public var routerInputArn: Swift.String?
+
+        public init(
+            routerInputArn: Swift.String? = nil
+        ) {
+            self.routerInputArn = routerInputArn
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A rule that allows a specific CIDR block to connect to the public destination endpoint.
+    public struct PublicDestinationEndpointNetworkingConfigurationAllowRule: Swift.Sendable {
+        /// The CIDR block that is allowed to connect to the destination endpoint, in CIDR notation.
+        /// This member is required.
+        public var cidr: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil
+        ) {
+            self.cidr = cidr
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The networking configuration for a publicly accessible destination endpoint, including the CIDR blocks that are allowed to connect.
+    public struct PublicDestinationEndpointNetworkingConfiguration: Swift.Sendable {
+        /// The rules that specify which CIDR blocks can connect to the destination endpoint. You can specify up to 10 rules.
+        /// This member is required.
+        public var destinationAllowRules: [MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule]?
+
+        public init(
+            destinationAllowRules: [MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule]? = nil
+        ) {
+            self.destinationAllowRules = destinationAllowRules
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The networking configuration for a destination endpoint in a virtual private cloud (VPC).
+    public struct VpcDestinationEndpointNetworkingConfiguration: Swift.Sendable {
+        /// The IDs of the security groups to associate with the destination endpoint. You can specify from 1 to 5 security groups.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// The ID of the subnet to use for the destination endpoint.
+        /// This member is required.
+        public var subnetId: Swift.String?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The networking configuration for a standard destination endpoint. This is a union type, so exactly one of its members is set: public for a publicly accessible endpoint, or vpc for an endpoint in a virtual private cloud (VPC).
+    public enum StandardDestinationEndpointNetworkingConfiguration: Swift.Sendable {
+        /// The configuration for a publicly accessible destination endpoint.
+        case `public`(MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfiguration)
+        /// The configuration for a destination endpoint in a virtual private cloud (VPC).
+        case vpc(MediaConnectClientTypes.VpcDestinationEndpointNetworkingConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum DestinationEndpointNetworkingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DestinationEndpointNetworkingType] {
+            return [
+                .public,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "PUBLIC"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum DestinationEndpointProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rist
+        case rtp
+        case srtCaller
+        case srtListener
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DestinationEndpointProtocol] {
+            return [
+                .rist,
+                .rtp,
+                .srtCaller,
+                .srtListener
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rist: return "RIST"
+            case .rtp: return "RTP"
+            case .srtCaller: return "SRT_CALLER"
+            case .srtListener: return "SRT_LISTENER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a destination endpoint that uses the RIST protocol.
+    public struct RistStandardDestinationEndpointConfiguration: Swift.Sendable {
+        /// The IP address on which the destination endpoint receives content.
+        /// This member is required.
+        public var destinationAddress: Swift.String?
+        /// The port on which the destination endpoint receives content. The valid range is 1024 to 65531.
+        /// This member is required.
+        public var destinationIngestPort: Swift.Int?
+
+        public init(
+            destinationAddress: Swift.String? = nil,
+            destinationIngestPort: Swift.Int? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationIngestPort = destinationIngestPort
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum ForwardErrorCorrectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ForwardErrorCorrectionState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a destination endpoint that uses the RTP protocol.
+    public struct RtpStandardDestinationEndpointConfiguration: Swift.Sendable {
+        /// The IP address on which the destination endpoint receives content.
+        /// This member is required.
+        public var destinationAddress: Swift.String?
+        /// The port on which the destination endpoint receives content. The valid range is 1024 to 65531.
+        /// This member is required.
+        public var destinationIngestPort: Swift.Int?
+        /// Indicates whether forward error correction (FEC) is enabled for the destination endpoint.
+        /// This member is required.
+        public var forwardErrorCorrectionState: MediaConnectClientTypes.ForwardErrorCorrectionState?
+
+        public init(
+            destinationAddress: Swift.String? = nil,
+            destinationIngestPort: Swift.Int? = nil,
+            forwardErrorCorrectionState: MediaConnectClientTypes.ForwardErrorCorrectionState? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationIngestPort = destinationIngestPort
+            self.forwardErrorCorrectionState = forwardErrorCorrectionState
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration for the Secrets Manager secret that holds the key or passphrase used to encrypt an endpoint connection.
+    public struct EndpointEncryptionSecretConfiguration: Swift.Sendable {
+        /// The ARN of the Secrets Manager secret that holds the key or passphrase. The secret must be encrypted with a customer managed Amazon Web Services KMS key that is enabled and symmetric; it cannot use the Amazon Web Services managed key aws/secretsmanager. The secret must be in the same Amazon Web Services account and Region as the endpoint.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a destination endpoint that uses SRT in caller mode.
+    public struct SrtCallerStandardDestinationEndpointConfiguration: Swift.Sendable {
+        /// The configuration for the Secrets Manager secret that holds the key or passphrase used to encrypt an endpoint connection.
+        public var encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+        /// The port on which the source listens for the connection. The valid range is 3000 to 30000.
+        /// This member is required.
+        public var sourceListenerPort: Swift.Int?
+
+        public init(
+            encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil,
+            sourceListenerPort: Swift.Int? = nil
+        ) {
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.sourceListenerPort = sourceListenerPort
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a destination endpoint that uses SRT in listener mode.
+    public struct SrtListenerStandardDestinationEndpointConfiguration: Swift.Sendable {
+        /// The IP address on which the destination endpoint listens for incoming connections.
+        /// This member is required.
+        public var destinationAddress: Swift.String?
+        /// The port on which the destination endpoint listens for incoming connections. The valid range is 0 to 65531.
+        /// This member is required.
+        public var destinationIngestPort: Swift.Int?
+        /// The configuration for the Secrets Manager secret that holds the key or passphrase used to encrypt an endpoint connection.
+        public var encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+        /// The stream ID that identifies the content for the SRT connection.
+        public var streamId: Swift.String?
+
+        public init(
+            destinationAddress: Swift.String? = nil,
+            destinationIngestPort: Swift.Int? = nil,
+            encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil,
+            streamId: Swift.String? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationIngestPort = destinationIngestPort
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.streamId = streamId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The protocol configuration for a standard destination endpoint. This is a union type, so exactly one of its members is set, depending on the protocol that the destination endpoint uses.
+    public enum StandardDestinationEndpointProtocolConfiguration: Swift.Sendable {
+        /// The configuration settings for a destination endpoint that uses the RIST protocol.
+        case rist(MediaConnectClientTypes.RistStandardDestinationEndpointConfiguration)
+        /// The configuration settings for a destination endpoint that uses SRT in listener mode.
+        case srtlistener(MediaConnectClientTypes.SrtListenerStandardDestinationEndpointConfiguration)
+        /// The configuration settings for a destination endpoint that uses SRT in caller mode.
+        case srtcaller(MediaConnectClientTypes.SrtCallerStandardDestinationEndpointConfiguration)
+        /// The configuration settings for a destination endpoint that uses the RTP protocol.
+        case rtp(MediaConnectClientTypes.RtpStandardDestinationEndpointConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a standard destination endpoint.
+    public struct StandardDestinationEndpointConfiguration: Swift.Sendable {
+        /// The networking configuration for the destination endpoint, which determines whether it is publicly accessible or in a virtual private cloud (VPC).
+        /// This member is required.
+        public var destinationNetworkingConfiguration: MediaConnectClientTypes.StandardDestinationEndpointNetworkingConfiguration?
+        /// The networking type of the destination endpoint. Valid values include the following:
+        ///
+        /// * PUBLIC – The destination endpoint is publicly accessible.
+        ///
+        /// * VPC – The destination endpoint is in a virtual private cloud (VPC).
+        public var destinationNetworkingType: MediaConnectClientTypes.DestinationEndpointNetworkingType?
+        /// The name of the destination endpoint.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The protocol used by the destination endpoint. Valid values include the following:
+        ///
+        /// * RTP – Real-time Transport Protocol.
+        ///
+        /// * RIST – Reliable Internet Stream Transport.
+        ///
+        /// * SRT_CALLER – Secure Reliable Transport (SRT) in caller mode.
+        ///
+        /// * SRT_LISTENER – Secure Reliable Transport (SRT) in listener mode.
+        public var `protocol`: MediaConnectClientTypes.DestinationEndpointProtocol?
+        /// The protocol configuration for the destination endpoint.
+        /// This member is required.
+        public var protocolConfiguration: MediaConnectClientTypes.StandardDestinationEndpointProtocolConfiguration?
+
+        public init(
+            destinationNetworkingConfiguration: MediaConnectClientTypes.StandardDestinationEndpointNetworkingConfiguration? = nil,
+            destinationNetworkingType: MediaConnectClientTypes.DestinationEndpointNetworkingType? = nil,
+            name: Swift.String? = nil,
+            `protocol`: MediaConnectClientTypes.DestinationEndpointProtocol? = nil,
+            protocolConfiguration: MediaConnectClientTypes.StandardDestinationEndpointProtocolConfiguration? = nil
+        ) {
+            self.destinationNetworkingConfiguration = destinationNetworkingConfiguration
+            self.destinationNetworkingType = destinationNetworkingType
+            self.name = name
+            self.`protocol` = `protocol`
+            self.protocolConfiguration = protocolConfiguration
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a destination endpoint. This is a union type, so exactly one of its members is set, depending on the type of the destination endpoint.
+    public enum DestinationEndpointConfiguration: Swift.Sendable {
+        /// The configuration settings for a standard destination endpoint, which represents an external destination.
+        case standard(MediaConnectClientTypes.StandardDestinationEndpointConfiguration)
+        /// The configuration settings for a destination endpoint that represents a router input.
+        case routerinput(MediaConnectClientTypes.RouterInputDestinationEndpointConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum EndpointEncryptionSecretType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes128Key
+        case aes192Key
+        case aes256Key
+        case srtPassphrase
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointEncryptionSecretType] {
+            return [
+                .aes128Key,
+                .aes192Key,
+                .aes256Key,
+                .srtPassphrase
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes128Key: return "AES_128_KEY"
+            case .aes192Key: return "AES_192_KEY"
+            case .aes256Key: return "AES_256_KEY"
+            case .srtPassphrase: return "SRT_PASSPHRASE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The endpoint encryption configuration for connections that use a key or passphrase that you store in Secrets Manager.
+    public struct SecretsManagerEndpointEncryptionConfiguration: Swift.Sendable {
+        /// The Secrets Manager secret that holds the key or passphrase used to encrypt the connection.
+        /// This member is required.
+        public var encryptionSecret: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration?
+        /// The type of secret used to encrypt the connection. Valid values include the following:
+        ///
+        /// * AES_128_KEY – A 128-bit AES encryption key.
+        ///
+        /// * AES_192_KEY – A 192-bit AES encryption key.
+        ///
+        /// * AES_256_KEY – A 256-bit AES encryption key.
+        ///
+        /// * SRT_PASSPHRASE – An SRT passphrase.
+        public var encryptionSecretType: MediaConnectClientTypes.EndpointEncryptionSecretType?
+
+        public init(
+            encryptionSecret: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration? = nil,
+            encryptionSecretType: MediaConnectClientTypes.EndpointEncryptionSecretType? = nil
+        ) {
+            self.encryptionSecret = encryptionSecret
+            self.encryptionSecretType = encryptionSecretType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+    public enum EndpointEncryptionConfiguration: Swift.Sendable {
+        /// The encryption configuration for a connection that uses a key or passphrase that you store in Secrets Manager.
+        case secretsmanager(MediaConnectClientTypes.SecretsManagerEndpointEncryptionConfiguration)
+        /// The configuration for automatic encryption, where MediaConnect determines the encryption key when the endpoint connects.
+        case automatic(MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum EndpointEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointEncryptionType] {
+            return [
+                .automatic,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum SourceEndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case routerOutput
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceEndpointType] {
+            return [
+                .routerOutput,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .routerOutput: return "ROUTER_OUTPUT"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The connection details for a destination endpoint that represents a router input.
+    public struct RouterInputDestinationEndpointConnectionDetails: Swift.Sendable {
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        public var sourceEncryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of encryption that the source uses for the connection.
+        public var sourceEncryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The type of the connected source endpoint.
+        public var sourceEndpointType: MediaConnectClientTypes.SourceEndpointType?
+
+        public init(
+            sourceEncryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            sourceEncryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            sourceEndpointType: MediaConnectClientTypes.SourceEndpointType? = nil
+        ) {
+            self.sourceEncryptionConfiguration = sourceEncryptionConfiguration
+            self.sourceEncryptionType = sourceEncryptionType
+            self.sourceEndpointType = sourceEndpointType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The connection details for a standard destination endpoint.
+    public struct StandardDestinationEndpointConnectionDetails: Swift.Sendable {
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        public var sourceEncryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of encryption that the source uses for the connection.
+        public var sourceEncryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The type of the connected source endpoint.
+        public var sourceEndpointType: MediaConnectClientTypes.SourceEndpointType?
+        /// The IP address of the source that is connected to the destination endpoint.
+        public var sourceIpAddress: Swift.String?
+        /// The port on which the source listens for the connection.
+        public var sourceListenerPort: Swift.Int?
+
+        public init(
+            sourceEncryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            sourceEncryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            sourceEndpointType: MediaConnectClientTypes.SourceEndpointType? = nil,
+            sourceIpAddress: Swift.String? = nil,
+            sourceListenerPort: Swift.Int? = nil
+        ) {
+            self.sourceEncryptionConfiguration = sourceEncryptionConfiguration
+            self.sourceEncryptionType = sourceEncryptionType
+            self.sourceEndpointType = sourceEndpointType
+            self.sourceIpAddress = sourceIpAddress
+            self.sourceListenerPort = sourceListenerPort
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The connection details for a destination endpoint. After the destination endpoint connects to a source endpoint, MediaConnect populates these details to describe the connected source. This is a union type, so exactly one of its members is set, depending on the destination endpoint type.
+    public enum DestinationEndpointConnectionDetails: Swift.Sendable {
+        /// The connection details for a standard destination endpoint.
+        case standard(MediaConnectClientTypes.StandardDestinationEndpointConnectionDetails)
+        /// The connection details for a destination endpoint that represents a router input.
+        case routerinput(MediaConnectClientTypes.RouterInputDestinationEndpointConnectionDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum DestinationEndpointConnectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case connecting
+        case disconnected
+        case disconnecting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DestinationEndpointConnectionState] {
+            return [
+                .connected,
+                .connecting,
+                .disconnected,
+                .disconnecting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .connecting: return "CONNECTING"
+            case .disconnected: return "DISCONNECTED"
+            case .disconnecting: return "DISCONNECTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum DestinationEndpointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case routerInput
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DestinationEndpointType] {
+            return [
+                .routerInput,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .routerInput: return "ROUTER_INPUT"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum EndpointLifecycle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case managed
+        case unmanaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointLifecycle] {
+            return [
+                .managed,
+                .unmanaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .managed: return "MANAGED"
+            case .unmanaged: return "UNMANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A status message for a destination endpoint.
+    public struct DestinationEndpointMessage: Swift.Sendable {
+        /// The message code.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message text.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum DestinationEndpointRegistrationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deregistering
+        case registered
+        case registering
+        case registrationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DestinationEndpointRegistrationState] {
+            return [
+                .deregistering,
+                .registered,
+                .registering,
+                .registrationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deregistering: return "DEREGISTERING"
+            case .registered: return "REGISTERED"
+            case .registering: return "REGISTERING"
+            case .registrationFailed: return "REGISTRATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The cross-account sharing details for an endpoint that another account shares with this account.
+    public struct ConsumedResourceShareDetails: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that owns the shared endpoint.
+        /// This member is required.
+        public var ownerAccountId: Swift.String?
+
+        public init(
+            ownerAccountId: Swift.String? = nil
+        ) {
+            self.ownerAccountId = ownerAccountId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum ResourceShareState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case shared
+        case unshared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceShareState] {
+            return [
+                .shared,
+                .unshared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .shared: return "SHARED"
+            case .unshared: return "UNSHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The cross-account sharing details for an endpoint that this account owns and shares with other accounts.
+    public struct OwnedResourceShareDetails: Swift.Sendable {
+        /// The sharing state of the endpoint. Valid values include the following:
+        ///
+        /// * SHARED – The endpoint is shared with one or more accounts.
+        ///
+        /// * UNSHARED – The endpoint is not shared with other accounts.
+        /// This member is required.
+        public var shareState: MediaConnectClientTypes.ResourceShareState?
+
+        public init(
+            shareState: MediaConnectClientTypes.ResourceShareState? = nil
+        ) {
+            self.shareState = shareState
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The cross-account sharing details for an endpoint. Endpoints are shared through Resource Access Manager (RAM). This is a union type, so exactly one of its members is set: owned when this account owns the endpoint and shares it with other accounts, or consumed when this account consumes an endpoint that another account shares. To change how an endpoint is shared, use RAM.
+    public enum ResourceShareDetails: Swift.Sendable {
+        /// The sharing details for an endpoint that this account owns and shares with other accounts through RAM.
+        case owned(MediaConnectClientTypes.OwnedResourceShareDetails)
+        /// The sharing details for an endpoint that another account shares with this account through RAM.
+        case consumed(MediaConnectClientTypes.ConsumedResourceShareDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum ResourceShareOwnership: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case consumed
+        case owned
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceShareOwnership] {
+            return [
+                .consumed,
+                .owned
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .consumed: return "CONSUMED"
+            case .owned: return "OWNED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of a destination endpoint in MediaConnect, including its configuration, state, and connection details.
+    public struct DestinationEndpoint: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the destination endpoint.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The details of the resource that is associated with the destination endpoint.
+        /// This member is required.
+        public var associatedResourceDetails: MediaConnectClientTypes.DestinationEndpointAssociatedResourceDetails?
+        /// The Availability Zone in which the destination endpoint is located.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone in which the destination endpoint is located.
+        public var availabilityZoneId: Swift.String?
+        /// The configuration settings for the destination endpoint.
+        /// This member is required.
+        public var configuration: MediaConnectClientTypes.DestinationEndpointConfiguration?
+        /// The Amazon Resource Name (ARN) of the source endpoint that is connected to the destination endpoint.
+        public var connectedSource: Swift.String?
+        /// The connection details for the destination endpoint.
+        public var connectionDetails: MediaConnectClientTypes.DestinationEndpointConnectionDetails?
+        /// The connection state of the destination endpoint. Valid values include the following:
+        ///
+        /// * CONNECTED – The destination endpoint is connected to a source endpoint.
+        ///
+        /// * DISCONNECTED – The destination endpoint isn't connected to a source endpoint.
+        ///
+        /// * CONNECTING – The destination endpoint is connecting to a source endpoint.
+        ///
+        /// * DISCONNECTING – The destination endpoint is disconnecting from a source endpoint.
+        /// This member is required.
+        public var connectionState: MediaConnectClientTypes.DestinationEndpointConnectionState?
+        /// The date and time when the destination endpoint was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        public var decryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of decryption used for the destination endpoint connection.
+        public var decryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The description of the destination endpoint.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The type of the destination endpoint. Valid values include the following:
+        ///
+        /// * STANDARD – A destination endpoint that represents an external destination over a standard protocol, such as RTP, RIST, or SRT.
+        ///
+        /// * ROUTER_INPUT – A destination endpoint that represents a router input.
+        /// This member is required.
+        public var destinationType: MediaConnectClientTypes.DestinationEndpointType?
+        /// The unique identifier of the destination endpoint.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The entity that manages the lifecycle of the destination endpoint.
+        /// This member is required.
+        public var lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle?
+        /// The status messages for the destination endpoint.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.DestinationEndpointMessage]?
+        /// The name of the destination endpoint.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Amazon Web Services Region in which the destination endpoint is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The registration state of the destination endpoint. Valid values include the following:
+        ///
+        /// * REGISTERED – The destination endpoint is registered and ready to use.
+        ///
+        /// * REGISTERING – MediaConnect is registering the destination endpoint.
+        ///
+        /// * DEREGISTERING – MediaConnect is deregistering the destination endpoint.
+        ///
+        /// * REGISTRATION_FAILED – MediaConnect couldn't register the destination endpoint.
+        /// This member is required.
+        public var registrationState: MediaConnectClientTypes.DestinationEndpointRegistrationState?
+        /// The cross-account sharing details for an endpoint. Endpoints are shared through Resource Access Manager (RAM). This is a union type, so exactly one of its members is set: owned when this account owns the endpoint and shares it with other accounts, or consumed when this account consumes an endpoint that another account shares. To change how an endpoint is shared, use RAM.
+        /// This member is required.
+        public var resourceShareDetails: MediaConnectClientTypes.ResourceShareDetails?
+        /// Indicates whether this account owns the destination endpoint or consumes it from another account through RAM.
+        /// This member is required.
+        public var resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership?
+        /// The tags associated with the destination endpoint. Each tag is a key-value pair.
+        /// This member is required.
+        public var tags: [Swift.String: Swift.String]?
+        /// The date and time when the destination endpoint was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            associatedResourceDetails: MediaConnectClientTypes.DestinationEndpointAssociatedResourceDetails? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            configuration: MediaConnectClientTypes.DestinationEndpointConfiguration? = nil,
+            connectedSource: Swift.String? = nil,
+            connectionDetails: MediaConnectClientTypes.DestinationEndpointConnectionDetails? = nil,
+            connectionState: MediaConnectClientTypes.DestinationEndpointConnectionState? = nil,
+            createdAt: Foundation.Date? = nil,
+            decryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            decryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            description: Swift.String? = nil,
+            destinationType: MediaConnectClientTypes.DestinationEndpointType? = nil,
+            id: Swift.String? = nil,
+            lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle? = nil,
+            messages: [MediaConnectClientTypes.DestinationEndpointMessage]? = nil,
+            name: Swift.String? = nil,
+            regionName: Swift.String? = nil,
+            registrationState: MediaConnectClientTypes.DestinationEndpointRegistrationState? = nil,
+            resourceShareDetails: MediaConnectClientTypes.ResourceShareDetails? = nil,
+            resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.associatedResourceDetails = associatedResourceDetails
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.configuration = configuration
+            self.connectedSource = connectedSource
+            self.connectionDetails = connectionDetails
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.decryptionConfiguration = decryptionConfiguration
+            self.decryptionType = decryptionType
+            self.description = description
+            self.destinationType = destinationType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messages = messages
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareDetails = resourceShareDetails
+            self.resourceShareOwnership = resourceShareOwnership
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// An error for a destination endpoint that MediaConnect couldn't retrieve in a BatchGetDestinationEndpoint request.
+    public struct BatchGetDestinationEndpointError: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the destination endpoint that MediaConnect couldn't retrieve.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The error code.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A description of the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+public struct BatchGetDestinationEndpointOutput: Swift.Sendable {
+    /// The destination endpoints that MediaConnect successfully retrieved.
+    /// This member is required.
+    public var destinationEndpoints: [MediaConnectClientTypes.DestinationEndpoint]?
+    /// The errors for any destination endpoints that MediaConnect couldn't retrieve.
+    /// This member is required.
+    public var errors: [MediaConnectClientTypes.BatchGetDestinationEndpointError]?
+
+    public init(
+        destinationEndpoints: [MediaConnectClientTypes.DestinationEndpoint]? = nil,
+        errors: [MediaConnectClientTypes.BatchGetDestinationEndpointError]? = nil
+    ) {
+        self.destinationEndpoints = destinationEndpoints
+        self.errors = errors
+    }
+}
+
 public struct BatchGetRouterInputInput: Swift.Sendable {
     /// The Amazon Resource Names (ARNs) of the router inputs you want to retrieve information about.
     /// This member is required.
@@ -4002,6 +5156,39 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Configuration settings for a router input that is represented by a destination endpoint.
+    public struct DestinationEndpointRouterInputConfiguration: Swift.Sendable {
+        /// The entity that manages the lifecycle of the associated destination endpoint. Valid values include the following:
+        ///
+        /// * MANAGED – MediaConnect manages the lifecycle of the associated destination endpoint.
+        ///
+        /// * UNMANAGED – You manage the lifecycle of the associated destination endpoint.
+        /// This member is required.
+        public var endpointLifecycleManagement: MediaConnectClientTypes.EndpointLifecycle?
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        /// This member is required.
+        public var sourceTransitDecryption: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of transit decryption applied to the source content that this router input receives. Valid values include the following:
+        ///
+        /// * SECRETS_MANAGER – The decryption key or passphrase is stored in Secrets Manager.
+        ///
+        /// * AUTOMATIC – MediaConnect determines the decryption key when the endpoint connects.
+        public var sourceTransitDecryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+
+        public init(
+            endpointLifecycleManagement: MediaConnectClientTypes.EndpointLifecycle? = nil,
+            sourceTransitDecryption: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            sourceTransitDecryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil
+        ) {
+            self.endpointLifecycleManagement = endpointLifecycleManagement
+            self.sourceTransitDecryption = sourceTransitDecryption
+            self.sourceTransitDecryptionType = sourceTransitDecryptionType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The configuration settings for a router input using the RIST (Reliable Internet Stream Transport) protocol, including the port and recovery latency.
     public struct RistRouterInputConfiguration: Swift.Sendable {
         /// The port number used for the RIST protocol in the router input configuration.
@@ -4017,35 +5204,6 @@ extension MediaConnectClientTypes {
         ) {
             self.port = port
             self.recoveryLatencyMilliseconds = recoveryLatencyMilliseconds
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    public enum ForwardErrorCorrectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ForwardErrorCorrectionState] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "DISABLED"
-            case .enabled: return "ENABLED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -4480,6 +5638,8 @@ extension MediaConnectClientTypes {
 
     /// The configuration settings for a router input.
     public enum RouterInputConfiguration: Swift.Sendable {
+        /// Configuration settings for a router input that is represented by a destination endpoint.
+        case destinationendpoint(MediaConnectClientTypes.DestinationEndpointRouterInputConfiguration)
         /// The configuration settings for a standard router input, including the protocol, protocol-specific configuration, network interface, and availability zone.
         case standard(MediaConnectClientTypes.StandardRouterInputConfiguration)
         /// Configuration settings for connecting a router input to a MediaLive channel output. To connect the router input to the MediaLive channel output, provide all three of mediaLiveChannelArn, mediaLivePipelineId, and mediaLiveChannelOutputName. To disconnect it, call the update operation and omit all three fields while keeping this configuration object. You can't change sourceTransitDecryption while the router input is connected to a MediaLive channel output. To change it, first disconnect the router input, then update the decryption.
@@ -4648,6 +5808,7 @@ extension MediaConnectClientTypes {
 extension MediaConnectClientTypes {
 
     public enum RouterInputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case destinationEndpoint
         case failover
         case mediaconnectFlow
         case medialiveChannel
@@ -4657,6 +5818,7 @@ extension MediaConnectClientTypes {
 
         public static var allCases: [RouterInputType] {
             return [
+                .destinationEndpoint,
                 .failover,
                 .mediaconnectFlow,
                 .medialiveChannel,
@@ -4672,6 +5834,7 @@ extension MediaConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .destinationEndpoint: return "DESTINATION_ENDPOINT"
             case .failover: return "FAILOVER"
             case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
             case .medialiveChannel: return "MEDIALIVE_CHANNEL"
@@ -4862,27 +6025,6 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// A message associated with a router input, including a code and a message.
-    public struct RouterInputMessage: Swift.Sendable {
-        /// The code associated with the router input message.
-        /// This member is required.
-        public var code: Swift.String?
-        /// The message text associated with the router input message.
-        /// This member is required.
-        public var message: Swift.String?
-
-        public init(
-            code: Swift.String? = nil,
-            message: Swift.String? = nil
-        ) {
-            self.code = code
-            self.message = message
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
     public enum RoutingScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case global
         case regional
@@ -4912,54 +6054,10 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    public enum RouterInputState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case creating
-        case deleting
-        case error
-        case migrating
-        case recovering
-        case standby
-        case starting
-        case stopping
-        case updating
-        case sdkUnknown(Swift.String)
+    /// Configuration details for a router input stream that is represented by a destination endpoint.
+    public struct DestinationEndpointRouterInputStreamDetails: Swift.Sendable {
 
-        public static var allCases: [RouterInputState] {
-            return [
-                .active,
-                .creating,
-                .deleting,
-                .error,
-                .migrating,
-                .recovering,
-                .standby,
-                .starting,
-                .stopping,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .error: return "ERROR"
-            case .migrating: return "MIGRATING"
-            case .recovering: return "RECOVERING"
-            case .standby: return "STANDBY"
-            case .starting: return "STARTING"
-            case .stopping: return "STOPPING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
+        public init() { }
     }
 }
 
@@ -5082,6 +6180,8 @@ extension MediaConnectClientTypes {
 
     /// Configuration details for the router input stream.
     public enum RouterInputStreamDetails: Swift.Sendable {
+        /// Configuration details for a router input stream that is represented by a destination endpoint.
+        case destinationendpoint(MediaConnectClientTypes.DestinationEndpointRouterInputStreamDetails)
         /// Configuration details for a standard router input stream type.
         case standard(MediaConnectClientTypes.StandardRouterInputStreamDetails)
         /// Configuration details for a MediaLive channel when used as a router input source.
@@ -5202,6 +6302,8 @@ extension MediaConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the router input.
         /// This member is required.
         public var arn: Swift.String?
+        /// The Amazon Resource Names (ARNs) of one or more destination endpoints that are associated with this router input.
+        public var associatedDestinationEndpointArns: [Swift.String]?
         /// The Availability Zone of the router input.
         /// This member is required.
         public var availabilityZone: Swift.String?
@@ -5289,6 +6391,7 @@ extension MediaConnectClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            associatedDestinationEndpointArns: [Swift.String]? = nil,
             availabilityZone: Swift.String? = nil,
             configuration: MediaConnectClientTypes.RouterInputConfiguration? = nil,
             contentQualityAnalysisConfiguration: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration? = nil,
@@ -5316,6 +6419,7 @@ extension MediaConnectClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
+            self.associatedDestinationEndpointArns = associatedDestinationEndpointArns
             self.availabilityZone = availabilityZone
             self.configuration = configuration
             self.contentQualityAnalysisConfiguration = contentQualityAnalysisConfiguration
@@ -5740,6 +6844,39 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Configuration settings for a router output that is represented by a source endpoint.
+    public struct SourceEndpointRouterOutputConfiguration: Swift.Sendable {
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        /// This member is required.
+        public var destinationTransitEncryption: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of transit encryption applied to the destination content that this router output sends. Valid values include the following:
+        ///
+        /// * SECRETS_MANAGER – The encryption key or passphrase is stored in Secrets Manager.
+        ///
+        /// * AUTOMATIC – MediaConnect determines the encryption key when the endpoint connects.
+        public var destinationTransitEncryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The entity that manages the lifecycle of the associated source endpoint. Valid values include the following:
+        ///
+        /// * MANAGED – MediaConnect manages the lifecycle of the associated source endpoint.
+        ///
+        /// * UNMANAGED – You manage the lifecycle of the associated source endpoint.
+        /// This member is required.
+        public var endpointLifecycleManagement: MediaConnectClientTypes.EndpointLifecycle?
+
+        public init(
+            destinationTransitEncryption: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            destinationTransitEncryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            endpointLifecycleManagement: MediaConnectClientTypes.EndpointLifecycle? = nil
+        ) {
+            self.destinationTransitEncryption = destinationTransitEncryption
+            self.destinationTransitEncryptionType = destinationTransitEncryptionType
+            self.endpointLifecycleManagement = endpointLifecycleManagement
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     public enum RouterOutputProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rist
         case rtmpPush
@@ -6050,6 +7187,8 @@ extension MediaConnectClientTypes {
         case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration)
         /// Configuration settings for connecting a router output to a MediaLive input. To connect the router output to the MediaLive input, provide both mediaLiveInputArn and mediaLivePipelineId. To disconnect it, call the update operation and omit both fields while keeping this configuration object. You can't change destinationTransitEncryption while the router output is connected to a MediaLive input. To change it, first disconnect the router output, then update the encryption.
         case medialiveinput(MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration)
+        /// Configuration settings for a router output that is represented by a source endpoint.
+        case sourceendpoint(MediaConnectClientTypes.SourceEndpointRouterOutputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6129,6 +7268,7 @@ extension MediaConnectClientTypes {
     public enum RouterOutputType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mediaconnectFlow
         case medialiveInput
+        case sourceEndpoint
         case standard
         case sdkUnknown(Swift.String)
 
@@ -6136,6 +7276,7 @@ extension MediaConnectClientTypes {
             return [
                 .mediaconnectFlow,
                 .medialiveInput,
+                .sourceEndpoint,
                 .standard
             ]
         }
@@ -6149,6 +7290,7 @@ extension MediaConnectClientTypes {
             switch self {
             case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
             case .medialiveInput: return "MEDIALIVE_INPUT"
+            case .sourceEndpoint: return "SOURCE_ENDPOINT"
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
             }
@@ -6261,6 +7403,15 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// Configuration details for a router output stream that is represented by a source endpoint.
+    public struct SourceEndpointRouterOutputStreamDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Configuration details for a standard router output stream type. Contains information about the destination IP address and connection state for basic output routing.
     public struct StandardRouterOutputStreamDetails: Swift.Sendable {
         /// The IP address where the output stream will be sent. This is the destination address that will receive the routed media content.
@@ -6284,6 +7435,8 @@ extension MediaConnectClientTypes {
         case mediaconnectflow(MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails)
         /// Configuration details for a MediaLive input when used as a router output destination.
         case medialiveinput(MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails)
+        /// Configuration details for a router output stream that is represented by a source endpoint.
+        case sourceendpoint(MediaConnectClientTypes.SourceEndpointRouterOutputStreamDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6333,6 +7486,8 @@ extension MediaConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the router output.
         /// This member is required.
         public var arn: Swift.String?
+        /// The Amazon Resource Names (ARNs) of one or more source endpoints that are associated with this router output.
+        public var associatedSourceEndpointArns: [Swift.String]?
         /// The Availability Zone of the router output.
         /// This member is required.
         public var availabilityZone: Swift.String?
@@ -6414,6 +7569,7 @@ extension MediaConnectClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            associatedSourceEndpointArns: [Swift.String]? = nil,
             availabilityZone: Swift.String? = nil,
             configuration: MediaConnectClientTypes.RouterOutputConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
@@ -6439,6 +7595,7 @@ extension MediaConnectClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
+            self.associatedSourceEndpointArns = associatedSourceEndpointArns
             self.availabilityZone = availabilityZone
             self.configuration = configuration
             self.createdAt = createdAt
@@ -6480,6 +7637,731 @@ public struct BatchGetRouterOutputOutput: Swift.Sendable {
     ) {
         self.errors = errors
         self.routerOutputs = routerOutputs
+    }
+}
+
+public struct BatchGetSourceEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Names (ARNs) of one or more source endpoints to retrieve. You can specify from 1 to 20 ARNs.
+    /// This member is required.
+    public var arns: [Swift.String]?
+
+    public init(
+        arns: [Swift.String]? = nil
+    ) {
+        self.arns = arns
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// An error for a source endpoint that MediaConnect couldn't retrieve in a BatchGetSourceEndpoint request.
+    public struct BatchGetSourceEndpointError: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source endpoint that MediaConnect couldn't retrieve.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The error code.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A description of the error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of the router output that is associated with a source endpoint.
+    public struct RouterOutputSourceEndpointAssociatedResourceDetails: Swift.Sendable {
+        /// The maximum bitrate of the router output, in bits per second.
+        /// This member is required.
+        public var maximumBitrate: Swift.Int?
+        /// The status messages for the router output.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.RouterOutputMessage]?
+        /// The name of the router output.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The state of the router output.
+        /// This member is required.
+        public var state: MediaConnectClientTypes.RouterOutputState?
+
+        public init(
+            maximumBitrate: Swift.Int? = nil,
+            messages: [MediaConnectClientTypes.RouterOutputMessage]? = nil,
+            name: Swift.String? = nil,
+            state: MediaConnectClientTypes.RouterOutputState? = nil
+        ) {
+            self.maximumBitrate = maximumBitrate
+            self.messages = messages
+            self.name = name
+            self.state = state
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The associated resource details for a standard source endpoint. This type does not require any additional settings.
+    public struct StandardSourceEndpointAssociatedResourceDetails: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of the resource that is associated with a source endpoint. This is a union type, so exactly one of its members is set, depending on the type of the source endpoint.
+    public enum SourceEndpointAssociatedResourceDetails: Swift.Sendable {
+        /// The associated resource details for a standard source endpoint.
+        case standard(MediaConnectClientTypes.StandardSourceEndpointAssociatedResourceDetails)
+        /// The associated resource details for a source endpoint that represents a router output.
+        case routeroutput(MediaConnectClientTypes.RouterOutputSourceEndpointAssociatedResourceDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a source endpoint that represents a router output.
+    public struct RouterOutputSourceEndpointConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the router output that the source endpoint represents.
+        /// This member is required.
+        public var routerOutputArn: Swift.String?
+
+        public init(
+            routerOutputArn: Swift.String? = nil
+        ) {
+            self.routerOutputArn = routerOutputArn
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum SourceEndpointProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rist
+        case rtp
+        case srtCaller
+        case srtListener
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceEndpointProtocol] {
+            return [
+                .rist,
+                .rtp,
+                .srtCaller,
+                .srtListener
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rist: return "RIST"
+            case .rtp: return "RTP"
+            case .srtCaller: return "SRT_CALLER"
+            case .srtListener: return "SRT_LISTENER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a source endpoint that uses the RIST protocol.
+    public struct RistStandardSourceEndpointConfiguration: Swift.Sendable {
+        /// The port on the destination that receives the content. The valid range is 3000 to 30000.
+        /// This member is required.
+        public var destinationIngestPort: Swift.Int?
+        /// The amount of time, in milliseconds, that the source endpoint allows for recovering lost packets. The valid range is 10 to 10000.
+        /// This member is required.
+        public var recoveryLatencyMilliseconds: Swift.Int?
+
+        public init(
+            destinationIngestPort: Swift.Int? = nil,
+            recoveryLatencyMilliseconds: Swift.Int? = nil
+        ) {
+            self.destinationIngestPort = destinationIngestPort
+            self.recoveryLatencyMilliseconds = recoveryLatencyMilliseconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a source endpoint that uses the RTP protocol.
+    public struct RtpStandardSourceEndpointConfiguration: Swift.Sendable {
+        /// The port on the destination that receives the content. The valid range is 3000 to 30000.
+        /// This member is required.
+        public var destinationIngestPort: Swift.Int?
+        /// Indicates whether forward error correction (FEC) is enabled for the source endpoint.
+        /// This member is required.
+        public var forwardErrorCorrectionState: MediaConnectClientTypes.ForwardErrorCorrectionState?
+
+        public init(
+            destinationIngestPort: Swift.Int? = nil,
+            forwardErrorCorrectionState: MediaConnectClientTypes.ForwardErrorCorrectionState? = nil
+        ) {
+            self.destinationIngestPort = destinationIngestPort
+            self.forwardErrorCorrectionState = forwardErrorCorrectionState
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a source endpoint that uses SRT in caller mode.
+    public struct SrtCallerStandardSourceEndpointConfiguration: Swift.Sendable {
+        /// The port on which the destination listens for the connection. The valid range is 3000 to 30000.
+        /// This member is required.
+        public var destinationIngestPort: Swift.Int?
+        /// The configuration for the Secrets Manager secret that holds the key or passphrase used to encrypt an endpoint connection.
+        public var encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+
+        public init(
+            destinationIngestPort: Swift.Int? = nil,
+            encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil
+        ) {
+            self.destinationIngestPort = destinationIngestPort
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a source endpoint that uses SRT in listener mode.
+    public struct SrtListenerStandardSourceEndpointConfiguration: Swift.Sendable {
+        /// The configuration for the Secrets Manager secret that holds the key or passphrase used to encrypt an endpoint connection.
+        public var encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration?
+        /// The minimum latency, in milliseconds, for the SRT connection. The valid range is 10 to 10000.
+        /// This member is required.
+        public var minimumLatencyMilliseconds: Swift.Int?
+        /// The IP address that the source endpoint listens on for incoming connections.
+        /// This member is required.
+        public var sourceAddress: Swift.String?
+        /// The port that the source endpoint listens on for incoming connections. The valid range is 1024 to 65535.
+        /// This member is required.
+        public var sourceListenerPort: Swift.Int?
+        /// The stream ID that identifies the content for the SRT connection.
+        public var streamId: Swift.String?
+
+        public init(
+            encryptionPassphrase: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration? = nil,
+            minimumLatencyMilliseconds: Swift.Int? = nil,
+            sourceAddress: Swift.String? = nil,
+            sourceListenerPort: Swift.Int? = nil,
+            streamId: Swift.String? = nil
+        ) {
+            self.encryptionPassphrase = encryptionPassphrase
+            self.minimumLatencyMilliseconds = minimumLatencyMilliseconds
+            self.sourceAddress = sourceAddress
+            self.sourceListenerPort = sourceListenerPort
+            self.streamId = streamId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The protocol configuration for a standard source endpoint. This is a union type, so exactly one of its members is set, depending on the protocol that the source endpoint uses.
+    public enum StandardSourceEndpointProtocolConfiguration: Swift.Sendable {
+        /// The configuration settings for a source endpoint that uses the RIST protocol.
+        case rist(MediaConnectClientTypes.RistStandardSourceEndpointConfiguration)
+        /// The configuration settings for a source endpoint that uses SRT in listener mode.
+        case srtlistener(MediaConnectClientTypes.SrtListenerStandardSourceEndpointConfiguration)
+        /// The configuration settings for a source endpoint that uses SRT in caller mode.
+        case srtcaller(MediaConnectClientTypes.SrtCallerStandardSourceEndpointConfiguration)
+        /// The configuration settings for a source endpoint that uses the RTP protocol.
+        case rtp(MediaConnectClientTypes.RtpStandardSourceEndpointConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A rule that allows a specific CIDR block to connect to the public source endpoint.
+    public struct PublicSourceEndpointNetworkingConfigurationAllowRule: Swift.Sendable {
+        /// The CIDR block that is allowed to connect to the source endpoint, in CIDR notation.
+        /// This member is required.
+        public var cidr: Swift.String?
+
+        public init(
+            cidr: Swift.String? = nil
+        ) {
+            self.cidr = cidr
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The networking configuration for a publicly accessible source endpoint, including the CIDR blocks that are allowed to connect.
+    public struct PublicSourceEndpointNetworkingConfiguration: Swift.Sendable {
+        /// The rules that specify which CIDR blocks can connect to the source endpoint. You can specify up to 10 rules.
+        /// This member is required.
+        public var sourceAllowRules: [MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule]?
+
+        public init(
+            sourceAllowRules: [MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule]? = nil
+        ) {
+            self.sourceAllowRules = sourceAllowRules
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The networking configuration for a source endpoint in a virtual private cloud (VPC).
+    public struct VpcSourceEndpointNetworkingConfiguration: Swift.Sendable {
+        /// The IDs of the security groups to associate with the source endpoint. You can specify from 1 to 5 security groups.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// The ID of the subnet to use for the source endpoint.
+        /// This member is required.
+        public var subnetId: Swift.String?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The networking configuration for a standard source endpoint. This is a union type, so exactly one of its members is set: public for a publicly accessible endpoint, or vpc for an endpoint in a virtual private cloud (VPC).
+    public enum StandardSourceEndpointNetworkingConfiguration: Swift.Sendable {
+        /// The configuration for a publicly accessible source endpoint.
+        case `public`(MediaConnectClientTypes.PublicSourceEndpointNetworkingConfiguration)
+        /// The configuration for a source endpoint in a virtual private cloud (VPC).
+        case vpc(MediaConnectClientTypes.VpcSourceEndpointNetworkingConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum SourceEndpointNetworkingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceEndpointNetworkingType] {
+            return [
+                .public,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "PUBLIC"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a standard source endpoint.
+    public struct StandardSourceEndpointConfiguration: Swift.Sendable {
+        /// The name of the source endpoint.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The protocol used by the source endpoint. Valid values include the following:
+        ///
+        /// * RTP – Real-time Transport Protocol.
+        ///
+        /// * RIST – Reliable Internet Stream Transport.
+        ///
+        /// * SRT_CALLER – Secure Reliable Transport (SRT) in caller mode.
+        ///
+        /// * SRT_LISTENER – Secure Reliable Transport (SRT) in listener mode.
+        public var `protocol`: MediaConnectClientTypes.SourceEndpointProtocol?
+        /// The protocol configuration for the source endpoint.
+        /// This member is required.
+        public var protocolConfiguration: MediaConnectClientTypes.StandardSourceEndpointProtocolConfiguration?
+        /// The networking configuration for the source endpoint, which determines whether it is publicly accessible or in a virtual private cloud (VPC).
+        /// This member is required.
+        public var sourceNetworkingConfiguration: MediaConnectClientTypes.StandardSourceEndpointNetworkingConfiguration?
+        /// The networking type of the source endpoint. Valid values include the following:
+        ///
+        /// * PUBLIC – The source endpoint is publicly accessible.
+        ///
+        /// * VPC – The source endpoint is in a virtual private cloud (VPC).
+        public var sourceNetworkingType: MediaConnectClientTypes.SourceEndpointNetworkingType?
+
+        public init(
+            name: Swift.String? = nil,
+            `protocol`: MediaConnectClientTypes.SourceEndpointProtocol? = nil,
+            protocolConfiguration: MediaConnectClientTypes.StandardSourceEndpointProtocolConfiguration? = nil,
+            sourceNetworkingConfiguration: MediaConnectClientTypes.StandardSourceEndpointNetworkingConfiguration? = nil,
+            sourceNetworkingType: MediaConnectClientTypes.SourceEndpointNetworkingType? = nil
+        ) {
+            self.name = name
+            self.`protocol` = `protocol`
+            self.protocolConfiguration = protocolConfiguration
+            self.sourceNetworkingConfiguration = sourceNetworkingConfiguration
+            self.sourceNetworkingType = sourceNetworkingType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The configuration settings for a source endpoint. This is a union type, so exactly one of its members is set, depending on the type of the source endpoint.
+    public enum SourceEndpointConfiguration: Swift.Sendable {
+        /// The configuration settings for a standard source endpoint, which represents an external source.
+        case standard(MediaConnectClientTypes.StandardSourceEndpointConfiguration)
+        /// The configuration settings for a source endpoint that represents a router output.
+        case routeroutput(MediaConnectClientTypes.RouterOutputSourceEndpointConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The connection details for a source endpoint that represents a router output.
+    public struct RouterOutputSourceEndpointConnectionDetails: Swift.Sendable {
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        public var destinationDecryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of decryption that the destination uses for the connection.
+        public var destinationDecryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The type of the connected destination endpoint.
+        public var destinationEndpointType: MediaConnectClientTypes.DestinationEndpointType?
+
+        public init(
+            destinationDecryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            destinationDecryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            destinationEndpointType: MediaConnectClientTypes.DestinationEndpointType? = nil
+        ) {
+            self.destinationDecryptionConfiguration = destinationDecryptionConfiguration
+            self.destinationDecryptionType = destinationDecryptionType
+            self.destinationEndpointType = destinationEndpointType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The connection details for a standard source endpoint.
+    public struct StandardSourceEndpointConnectionDetails: Swift.Sendable {
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        public var destinationDecryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of decryption that the destination uses for the connection.
+        public var destinationDecryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The type of the connected destination endpoint.
+        public var destinationEndpointType: MediaConnectClientTypes.DestinationEndpointType?
+        /// The port on the destination that receives the content.
+        public var destinationIngestPort: Swift.Int?
+        /// The IP address of the destination that receives the content.
+        public var destinationIpAddress: Swift.String?
+
+        public init(
+            destinationDecryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            destinationDecryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            destinationEndpointType: MediaConnectClientTypes.DestinationEndpointType? = nil,
+            destinationIngestPort: Swift.Int? = nil,
+            destinationIpAddress: Swift.String? = nil
+        ) {
+            self.destinationDecryptionConfiguration = destinationDecryptionConfiguration
+            self.destinationDecryptionType = destinationDecryptionType
+            self.destinationEndpointType = destinationEndpointType
+            self.destinationIngestPort = destinationIngestPort
+            self.destinationIpAddress = destinationIpAddress
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The connection details for a source endpoint. After the source endpoint connects to a destination endpoint, MediaConnect populates these details to describe the connected destination and how the source delivers content to it. This is a union type, so exactly one of its members is set, depending on the source endpoint type.
+    public enum SourceEndpointConnectionDetails: Swift.Sendable {
+        /// The connection details for a standard source endpoint.
+        case standard(MediaConnectClientTypes.StandardSourceEndpointConnectionDetails)
+        /// The connection details for a source endpoint that represents a router output.
+        case routeroutput(MediaConnectClientTypes.RouterOutputSourceEndpointConnectionDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum SourceEndpointConnectionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case connecting
+        case disconnected
+        case disconnecting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceEndpointConnectionState] {
+            return [
+                .connected,
+                .connecting,
+                .disconnected,
+                .disconnecting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .connecting: return "CONNECTING"
+            case .disconnected: return "DISCONNECTED"
+            case .disconnecting: return "DISCONNECTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A status message for a source endpoint.
+    public struct SourceEndpointMessage: Swift.Sendable {
+        /// The message code.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message text.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    public enum SourceEndpointRegistrationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deregistering
+        case registered
+        case registering
+        case registrationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SourceEndpointRegistrationState] {
+            return [
+                .deregistering,
+                .registered,
+                .registering,
+                .registrationFailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deregistering: return "DEREGISTERING"
+            case .registered: return "REGISTERED"
+            case .registering: return "REGISTERING"
+            case .registrationFailed: return "REGISTRATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The details of a source endpoint in MediaConnect, including its configuration, state, and connection details.
+    public struct SourceEndpoint: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source endpoint.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The details of the resource that is associated with the source endpoint.
+        /// This member is required.
+        public var associatedResourceDetails: MediaConnectClientTypes.SourceEndpointAssociatedResourceDetails?
+        /// The Availability Zone in which the source endpoint is located.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone in which the source endpoint is located.
+        public var availabilityZoneId: Swift.String?
+        /// The configuration settings for the source endpoint.
+        /// This member is required.
+        public var configuration: MediaConnectClientTypes.SourceEndpointConfiguration?
+        /// The Amazon Resource Names (ARNs) of the destination endpoints that are connected to the source endpoint.
+        /// This member is required.
+        public var connectedDestinations: [Swift.String]?
+        /// The connection details for the source endpoint.
+        public var connectionDetails: MediaConnectClientTypes.SourceEndpointConnectionDetails?
+        /// The connection state of the source endpoint. Valid values include the following:
+        ///
+        /// * CONNECTED – The source endpoint is connected to a destination endpoint.
+        ///
+        /// * DISCONNECTED – The source endpoint isn't connected to a destination endpoint.
+        ///
+        /// * CONNECTING – The source endpoint is connecting to a destination endpoint.
+        ///
+        /// * DISCONNECTING – The source endpoint is disconnecting from a destination endpoint.
+        /// This member is required.
+        public var connectionState: MediaConnectClientTypes.SourceEndpointConnectionState?
+        /// The date and time when the source endpoint was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the source endpoint.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The encryption settings for an endpoint connection. This is a union type, so exactly one of its members is set: secretsManager when you store the encryption key or passphrase in Secrets Manager, or automatic when you let MediaConnect determine the encryption key when the endpoint connects.
+        public var encryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration?
+        /// The type of encryption used for the source endpoint connection.
+        public var encryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The unique identifier of the source endpoint.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The entity that manages the lifecycle of the source endpoint.
+        /// This member is required.
+        public var lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle?
+        /// The status messages for the source endpoint.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.SourceEndpointMessage]?
+        /// The name of the source endpoint.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Amazon Web Services Region in which the source endpoint is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The registration state of the source endpoint. Valid values include the following:
+        ///
+        /// * REGISTERED – The source endpoint is registered and ready to use.
+        ///
+        /// * REGISTERING – MediaConnect is registering the source endpoint.
+        ///
+        /// * DEREGISTERING – MediaConnect is deregistering the source endpoint.
+        ///
+        /// * REGISTRATION_FAILED – MediaConnect couldn't register the source endpoint.
+        /// This member is required.
+        public var registrationState: MediaConnectClientTypes.SourceEndpointRegistrationState?
+        /// The cross-account sharing details for an endpoint. Endpoints are shared through Resource Access Manager (RAM). This is a union type, so exactly one of its members is set: owned when this account owns the endpoint and shares it with other accounts, or consumed when this account consumes an endpoint that another account shares. To change how an endpoint is shared, use RAM.
+        /// This member is required.
+        public var resourceShareDetails: MediaConnectClientTypes.ResourceShareDetails?
+        /// Indicates whether this account owns the source endpoint or consumes it from another account through RAM.
+        /// This member is required.
+        public var resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership?
+        /// The type of the source endpoint. Valid values include the following:
+        ///
+        /// * STANDARD – A source endpoint that represents an external source over a standard protocol, such as RTP, RIST, or SRT.
+        ///
+        /// * ROUTER_OUTPUT – A source endpoint that represents a router output.
+        /// This member is required.
+        public var sourceType: MediaConnectClientTypes.SourceEndpointType?
+        /// The tags associated with the source endpoint. Each tag is a key-value pair.
+        /// This member is required.
+        public var tags: [Swift.String: Swift.String]?
+        /// The date and time when the source endpoint was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            associatedResourceDetails: MediaConnectClientTypes.SourceEndpointAssociatedResourceDetails? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            configuration: MediaConnectClientTypes.SourceEndpointConfiguration? = nil,
+            connectedDestinations: [Swift.String]? = nil,
+            connectionDetails: MediaConnectClientTypes.SourceEndpointConnectionDetails? = nil,
+            connectionState: MediaConnectClientTypes.SourceEndpointConnectionState? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            encryptionConfiguration: MediaConnectClientTypes.EndpointEncryptionConfiguration? = nil,
+            encryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            id: Swift.String? = nil,
+            lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle? = nil,
+            messages: [MediaConnectClientTypes.SourceEndpointMessage]? = nil,
+            name: Swift.String? = nil,
+            regionName: Swift.String? = nil,
+            registrationState: MediaConnectClientTypes.SourceEndpointRegistrationState? = nil,
+            resourceShareDetails: MediaConnectClientTypes.ResourceShareDetails? = nil,
+            resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership? = nil,
+            sourceType: MediaConnectClientTypes.SourceEndpointType? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.associatedResourceDetails = associatedResourceDetails
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.configuration = configuration
+            self.connectedDestinations = connectedDestinations
+            self.connectionDetails = connectionDetails
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.encryptionType = encryptionType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messages = messages
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareDetails = resourceShareDetails
+            self.resourceShareOwnership = resourceShareOwnership
+            self.sourceType = sourceType
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct BatchGetSourceEndpointOutput: Swift.Sendable {
+    /// The errors for any source endpoints that MediaConnect couldn't retrieve.
+    /// This member is required.
+    public var errors: [MediaConnectClientTypes.BatchGetSourceEndpointError]?
+    /// The source endpoints that MediaConnect successfully retrieved.
+    /// This member is required.
+    public var sourceEndpoints: [MediaConnectClientTypes.SourceEndpoint]?
+
+    public init(
+        errors: [MediaConnectClientTypes.BatchGetSourceEndpointError]? = nil,
+        sourceEndpoints: [MediaConnectClientTypes.SourceEndpoint]? = nil
+    ) {
+        self.errors = errors
+        self.sourceEndpoints = sourceEndpoints
     }
 }
 
@@ -7214,6 +9096,50 @@ public struct UpdateBridgeStateOutput: Swift.Sendable {
     ) {
         self.bridgeArn = bridgeArn
         self.desiredState = desiredState
+    }
+}
+
+public struct ConnectEndpointsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the destination endpoint to connect.
+    /// This member is required.
+    public var destinationEndpointArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the source endpoint to connect.
+    /// This member is required.
+    public var sourceEndpointArn: Swift.String?
+
+    public init(
+        destinationEndpointArn: Swift.String? = nil,
+        sourceEndpointArn: Swift.String? = nil
+    ) {
+        self.destinationEndpointArn = destinationEndpointArn
+        self.sourceEndpointArn = sourceEndpointArn
+    }
+}
+
+public struct ConnectEndpointsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connected destination endpoint.
+    /// This member is required.
+    public var destinationEndpointArn: Swift.String?
+    /// The name of the connected destination endpoint.
+    /// This member is required.
+    public var destinationEndpointName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the connected source endpoint.
+    /// This member is required.
+    public var sourceEndpointArn: Swift.String?
+    /// The name of the connected source endpoint.
+    /// This member is required.
+    public var sourceEndpointName: Swift.String?
+
+    public init(
+        destinationEndpointArn: Swift.String? = nil,
+        destinationEndpointName: Swift.String? = nil,
+        sourceEndpointArn: Swift.String? = nil,
+        sourceEndpointName: Swift.String? = nil
+    ) {
+        self.destinationEndpointArn = destinationEndpointArn
+        self.destinationEndpointName = destinationEndpointName
+        self.sourceEndpointArn = sourceEndpointArn
+        self.sourceEndpointName = sourceEndpointName
     }
 }
 
@@ -8154,6 +10080,35 @@ public struct DeleteRouterOutputOutput: Swift.Sendable {
     }
 }
 
+public struct DeregisterDestinationEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the destination endpoint to deregister.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct DeregisterDestinationEndpointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the destination endpoint that was deregistered.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the destination endpoint that was deregistered.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.name = name
+    }
+}
+
 public struct DeregisterGatewayInstanceInput: Swift.Sendable {
     /// Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
     public var force: Swift.Bool?
@@ -8182,6 +10137,35 @@ public struct DeregisterGatewayInstanceOutput: Swift.Sendable {
     ) {
         self.gatewayInstanceArn = gatewayInstanceArn
         self.instanceState = instanceState
+    }
+}
+
+public struct DeregisterSourceEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the source endpoint to deregister.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct DeregisterSourceEndpointOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the source endpoint that was deregistered.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The name of the source endpoint that was deregistered.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.name = name
     }
 }
 
@@ -8528,6 +10512,335 @@ public struct DescribeReservationOutput: Swift.Sendable {
         reservation: MediaConnectClientTypes.Reservation? = nil
     ) {
         self.reservation = reservation
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A filter to apply when listing destination endpoints. This is a union type, so exactly one of its members is set.
+    public enum DestinationEndpointFilter: Swift.Sendable {
+        /// Filters the results to destination endpoints in the specified Amazon Web Services Regions.
+        case regionnames([Swift.String])
+        /// Filters the results to destination endpoints of the specified types.
+        case destinationtypes([MediaConnectClientTypes.DestinationEndpointType])
+        /// Filters the results to destination endpoints whose names contain the specified strings.
+        case namecontains([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct DisconnectEndpointsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the destination endpoint to disconnect.
+    /// This member is required.
+    public var destinationEndpointArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the source endpoint to disconnect.
+    /// This member is required.
+    public var sourceEndpointArn: Swift.String?
+
+    public init(
+        destinationEndpointArn: Swift.String? = nil,
+        sourceEndpointArn: Swift.String? = nil
+    ) {
+        self.destinationEndpointArn = destinationEndpointArn
+        self.sourceEndpointArn = sourceEndpointArn
+    }
+}
+
+public struct DisconnectEndpointsOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the disconnected destination endpoint.
+    /// This member is required.
+    public var destinationEndpointArn: Swift.String?
+    /// The name of the disconnected destination endpoint.
+    /// This member is required.
+    public var destinationEndpointName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the disconnected source endpoint.
+    /// This member is required.
+    public var sourceEndpointArn: Swift.String?
+    /// The name of the disconnected source endpoint.
+    /// This member is required.
+    public var sourceEndpointName: Swift.String?
+
+    public init(
+        destinationEndpointArn: Swift.String? = nil,
+        destinationEndpointName: Swift.String? = nil,
+        sourceEndpointArn: Swift.String? = nil,
+        sourceEndpointName: Swift.String? = nil
+    ) {
+        self.destinationEndpointArn = destinationEndpointArn
+        self.destinationEndpointName = destinationEndpointName
+        self.sourceEndpointArn = sourceEndpointArn
+        self.sourceEndpointName = sourceEndpointName
+    }
+}
+
+public struct GetDestinationEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the destination endpoint to retrieve.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetDestinationEndpointOutput: Swift.Sendable {
+    /// The details of the destination endpoint.
+    /// This member is required.
+    public var destinationEndpoint: MediaConnectClientTypes.DestinationEndpoint?
+
+    public init(
+        destinationEndpoint: MediaConnectClientTypes.DestinationEndpoint? = nil
+    ) {
+        self.destinationEndpoint = destinationEndpoint
+    }
+}
+
+public struct ListDestinationEndpointsInput: Swift.Sendable {
+    /// The filters to apply to the list of destination endpoints.
+    public var filters: [MediaConnectClientTypes.DestinationEndpointFilter]?
+    /// The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the next page of results to return. Use the token that a previous request returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [MediaConnectClientTypes.DestinationEndpointFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A summary of a destination endpoint that the ListDestinationEndpoints operation returns.
+    public struct ListedDestinationEndpoint: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the destination endpoint.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resource that is associated with the destination endpoint.
+        public var associatedResourceArn: Swift.String?
+        /// The Availability Zone in which the destination endpoint is located.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone in which the destination endpoint is located.
+        public var availabilityZoneId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the source endpoint that is connected to the destination endpoint.
+        public var connectedSource: Swift.String?
+        /// The connection state of the destination endpoint. Valid values include the following:
+        ///
+        /// * CONNECTED – The destination endpoint is connected to a source endpoint.
+        ///
+        /// * DISCONNECTED – The destination endpoint isn't connected to a source endpoint.
+        ///
+        /// * CONNECTING – The destination endpoint is connecting to a source endpoint.
+        ///
+        /// * DISCONNECTING – The destination endpoint is disconnecting from a source endpoint.
+        /// This member is required.
+        public var connectionState: MediaConnectClientTypes.DestinationEndpointConnectionState?
+        /// The date and time when the destination endpoint was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The type of decryption used for the destination endpoint connection.
+        public var decryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The type of the destination endpoint. Valid values include the following:
+        ///
+        /// * STANDARD – A destination endpoint that represents an external destination over a standard protocol, such as RTP, RIST, or SRT.
+        ///
+        /// * ROUTER_INPUT – A destination endpoint that represents a router input.
+        /// This member is required.
+        public var destinationType: MediaConnectClientTypes.DestinationEndpointType?
+        /// The unique identifier of the destination endpoint.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The entity that manages the lifecycle of the destination endpoint.
+        /// This member is required.
+        public var lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle?
+        /// The number of status messages for the destination endpoint.
+        /// This member is required.
+        public var messageCount: Swift.Int?
+        /// The name of the destination endpoint.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Amazon Web Services Region in which the destination endpoint is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The registration state of the destination endpoint. Valid values include the following:
+        ///
+        /// * REGISTERED – The destination endpoint is registered and ready to use.
+        ///
+        /// * REGISTERING – MediaConnect is registering the destination endpoint.
+        ///
+        /// * DEREGISTERING – MediaConnect is deregistering the destination endpoint.
+        ///
+        /// * REGISTRATION_FAILED – MediaConnect couldn't register the destination endpoint.
+        /// This member is required.
+        public var registrationState: MediaConnectClientTypes.DestinationEndpointRegistrationState?
+        /// Indicates whether this account owns the destination endpoint or consumes it from another account through RAM.
+        /// This member is required.
+        public var resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership?
+        /// The sharing state of the destination endpoint.
+        /// This member is required.
+        public var resourceShareState: MediaConnectClientTypes.ResourceShareState?
+        /// The date and time when the destination endpoint was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            associatedResourceArn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            connectedSource: Swift.String? = nil,
+            connectionState: MediaConnectClientTypes.DestinationEndpointConnectionState? = nil,
+            createdAt: Foundation.Date? = nil,
+            decryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            destinationType: MediaConnectClientTypes.DestinationEndpointType? = nil,
+            id: Swift.String? = nil,
+            lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle? = nil,
+            messageCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            regionName: Swift.String? = nil,
+            registrationState: MediaConnectClientTypes.DestinationEndpointRegistrationState? = nil,
+            resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership? = nil,
+            resourceShareState: MediaConnectClientTypes.ResourceShareState? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.associatedResourceArn = associatedResourceArn
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.connectedSource = connectedSource
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.decryptionType = decryptionType
+            self.destinationType = destinationType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messageCount = messageCount
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareOwnership = resourceShareOwnership
+            self.resourceShareState = resourceShareState
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListDestinationEndpointsOutput: Swift.Sendable {
+    /// The destination endpoints that match the request.
+    /// This member is required.
+    public var destinationEndpoints: [MediaConnectClientTypes.ListedDestinationEndpoint]?
+    /// The token to use in the next request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        destinationEndpoints: [MediaConnectClientTypes.ListedDestinationEndpoint]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.destinationEndpoints = destinationEndpoints
+        self.nextToken = nextToken
+    }
+}
+
+/// The request would cause you to exceed a service quota for destination endpoints. Delete unused destination endpoints or request a quota increase, then try your request again.
+public struct DestinationEndpointServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DestinationEndpointServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct RegisterDestinationEndpointInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The configuration settings for the destination endpoint.
+    /// This member is required.
+    public var configuration: MediaConnectClientTypes.DestinationEndpointConfiguration?
+    /// A description to help you identify the destination endpoint.
+    public var description: Swift.String?
+    /// The name of the Amazon Web Services Region in which to register the destination endpoint. Defaults to the current region if not specified.
+    public var regionName: Swift.String?
+    /// The tags to apply to the destination endpoint. Each tag is a key-value pair.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.DestinationEndpointConfiguration? = nil,
+        description: Swift.String? = nil,
+        regionName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.description = description
+        self.regionName = regionName
+        self.tags = tags
+    }
+}
+
+public struct RegisterDestinationEndpointOutput: Swift.Sendable {
+    /// The details of the destination endpoint that was registered.
+    /// This member is required.
+    public var destinationEndpoint: MediaConnectClientTypes.DestinationEndpoint?
+
+    public init(
+        destinationEndpoint: MediaConnectClientTypes.DestinationEndpoint? = nil
+    ) {
+        self.destinationEndpoint = destinationEndpoint
+    }
+}
+
+public struct UpdateDestinationEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the destination endpoint to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The updated configuration settings for the destination endpoint.
+    public var configuration: MediaConnectClientTypes.DestinationEndpointConfiguration?
+    /// A description to help you identify the destination endpoint.
+    public var description: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.DestinationEndpointConfiguration? = nil,
+        description: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.configuration = configuration
+        self.description = description
+    }
+}
+
+public struct UpdateDestinationEndpointOutput: Swift.Sendable {
+    /// The details of the updated destination endpoint.
+    /// This member is required.
+    public var destinationEndpoint: MediaConnectClientTypes.DestinationEndpoint?
+
+    public init(
+        destinationEndpoint: MediaConnectClientTypes.DestinationEndpoint? = nil
+    ) {
+        self.destinationEndpoint = destinationEndpoint
     }
 }
 
@@ -9609,6 +11922,30 @@ public struct GetRouterOutputOutput: Swift.Sendable {
     }
 }
 
+public struct GetSourceEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the source endpoint to retrieve.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetSourceEndpointOutput: Swift.Sendable {
+    /// The details of the source endpoint.
+    /// This member is required.
+    public var sourceEndpoint: MediaConnectClientTypes.SourceEndpoint?
+
+    public init(
+        sourceEndpoint: MediaConnectClientTypes.SourceEndpoint? = nil
+    ) {
+        self.sourceEndpoint = sourceEndpoint
+    }
+}
+
 extension MediaConnectClientTypes {
 
     /// A summary of a router input, including its name, type, ARN, ID, state, and other key details. This structure is used in the response of the ListRouterInputs operation.
@@ -9845,6 +12182,123 @@ extension MediaConnectClientTypes {
             self.routedState = routedState
             self.routingScope = routingScope
             self.state = state
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A summary of a source endpoint that the ListSourceEndpoints operation returns.
+    public struct ListedSourceEndpoint: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the source endpoint.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the resource that is associated with the source endpoint.
+        public var associatedResourceArn: Swift.String?
+        /// The Availability Zone in which the source endpoint is located.
+        public var availabilityZone: Swift.String?
+        /// The ID of the Availability Zone in which the source endpoint is located.
+        public var availabilityZoneId: Swift.String?
+        /// The number of destination endpoints that are connected to the source endpoint.
+        /// This member is required.
+        public var connectedDestinationCount: Swift.Int?
+        /// The connection state of the source endpoint. Valid values include the following:
+        ///
+        /// * CONNECTED – The source endpoint is connected to a destination endpoint.
+        ///
+        /// * DISCONNECTED – The source endpoint isn't connected to a destination endpoint.
+        ///
+        /// * CONNECTING – The source endpoint is connecting to a destination endpoint.
+        ///
+        /// * DISCONNECTING – The source endpoint is disconnecting from a destination endpoint.
+        /// This member is required.
+        public var connectionState: MediaConnectClientTypes.SourceEndpointConnectionState?
+        /// The date and time when the source endpoint was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The type of encryption used for the source endpoint connection.
+        public var encryptionType: MediaConnectClientTypes.EndpointEncryptionType?
+        /// The unique identifier of the source endpoint.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The entity that manages the lifecycle of the source endpoint.
+        /// This member is required.
+        public var lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle?
+        /// The number of status messages for the source endpoint.
+        /// This member is required.
+        public var messageCount: Swift.Int?
+        /// The name of the source endpoint.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The name of the Amazon Web Services Region in which the source endpoint is located.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The registration state of the source endpoint. Valid values include the following:
+        ///
+        /// * REGISTERED – The source endpoint is registered and ready to use.
+        ///
+        /// * REGISTERING – MediaConnect is registering the source endpoint.
+        ///
+        /// * DEREGISTERING – MediaConnect is deregistering the source endpoint.
+        ///
+        /// * REGISTRATION_FAILED – MediaConnect couldn't register the source endpoint.
+        /// This member is required.
+        public var registrationState: MediaConnectClientTypes.SourceEndpointRegistrationState?
+        /// Indicates whether this account owns the source endpoint or consumes it from another account through RAM.
+        /// This member is required.
+        public var resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership?
+        /// The sharing state of the source endpoint.
+        /// This member is required.
+        public var resourceShareState: MediaConnectClientTypes.ResourceShareState?
+        /// The type of the source endpoint. Valid values include the following:
+        ///
+        /// * STANDARD – A source endpoint that represents an external source over a standard protocol, such as RTP, RIST, or SRT.
+        ///
+        /// * ROUTER_OUTPUT – A source endpoint that represents a router output.
+        /// This member is required.
+        public var sourceType: MediaConnectClientTypes.SourceEndpointType?
+        /// The date and time when the source endpoint was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            associatedResourceArn: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            connectedDestinationCount: Swift.Int? = nil,
+            connectionState: MediaConnectClientTypes.SourceEndpointConnectionState? = nil,
+            createdAt: Foundation.Date? = nil,
+            encryptionType: MediaConnectClientTypes.EndpointEncryptionType? = nil,
+            id: Swift.String? = nil,
+            lifecycleManagement: MediaConnectClientTypes.EndpointLifecycle? = nil,
+            messageCount: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            regionName: Swift.String? = nil,
+            registrationState: MediaConnectClientTypes.SourceEndpointRegistrationState? = nil,
+            resourceShareOwnership: MediaConnectClientTypes.ResourceShareOwnership? = nil,
+            resourceShareState: MediaConnectClientTypes.ResourceShareState? = nil,
+            sourceType: MediaConnectClientTypes.SourceEndpointType? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.associatedResourceArn = associatedResourceArn
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.connectedDestinationCount = connectedDestinationCount
+            self.connectionState = connectionState
+            self.createdAt = createdAt
+            self.encryptionType = encryptionType
+            self.id = id
+            self.lifecycleManagement = lifecycleManagement
+            self.messageCount = messageCount
+            self.name = name
+            self.regionName = regionName
+            self.registrationState = registrationState
+            self.resourceShareOwnership = resourceShareOwnership
+            self.resourceShareState = resourceShareState
+            self.sourceType = sourceType
             self.updatedAt = updatedAt
         }
     }
@@ -10094,6 +12548,55 @@ public struct ListRouterOutputsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.routerOutputs = routerOutputs
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// A filter to apply when listing source endpoints. This is a union type, so exactly one of its members is set.
+    public enum SourceEndpointFilter: Swift.Sendable {
+        /// Filters the results to source endpoints in the specified Amazon Web Services Regions.
+        case regionnames([Swift.String])
+        /// Filters the results to source endpoints of the specified types.
+        case sourcetypes([MediaConnectClientTypes.SourceEndpointType])
+        /// Filters the results to source endpoints whose names contain the specified strings.
+        case namecontains([Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListSourceEndpointsInput: Swift.Sendable {
+    /// The filters to apply to the list of source endpoints.
+    public var filters: [MediaConnectClientTypes.SourceEndpointFilter]?
+    /// The maximum number of results to return in a single request. The valid range is 1 to 100. If you don't specify a value, the service returns up to 100 results.
+    public var maxResults: Swift.Int?
+    /// The token that identifies the next page of results to return. Use the token that a previous request returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        filters: [MediaConnectClientTypes.SourceEndpointFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListSourceEndpointsOutput: Swift.Sendable {
+    /// The token to use in the next request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The source endpoints that match the request.
+    /// This member is required.
+    public var sourceEndpoints: [MediaConnectClientTypes.ListedSourceEndpoint]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sourceEndpoints: [MediaConnectClientTypes.ListedSourceEndpoint]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sourceEndpoints = sourceEndpoints
     }
 }
 
@@ -10612,6 +13115,102 @@ public struct UpdateRouterOutputOutput: Swift.Sendable {
     }
 }
 
+/// The request would cause you to exceed a service quota for source endpoints. Delete unused source endpoints or request a quota increase, then try your request again.
+public struct SourceEndpointServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SourceEndpointServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct RegisterSourceEndpointInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The configuration settings for the source endpoint.
+    /// This member is required.
+    public var configuration: MediaConnectClientTypes.SourceEndpointConfiguration?
+    /// A description to help you identify the source endpoint.
+    public var description: Swift.String?
+    /// The name of the Amazon Web Services Region in which to register the source endpoint. Defaults to the current region if not specified.
+    public var regionName: Swift.String?
+    /// The tags to apply to the source endpoint. Each tag is a key-value pair.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.SourceEndpointConfiguration? = nil,
+        description: Swift.String? = nil,
+        regionName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.description = description
+        self.regionName = regionName
+        self.tags = tags
+    }
+}
+
+public struct RegisterSourceEndpointOutput: Swift.Sendable {
+    /// The details of the source endpoint that was registered.
+    /// This member is required.
+    public var sourceEndpoint: MediaConnectClientTypes.SourceEndpoint?
+
+    public init(
+        sourceEndpoint: MediaConnectClientTypes.SourceEndpoint? = nil
+    ) {
+        self.sourceEndpoint = sourceEndpoint
+    }
+}
+
+public struct UpdateSourceEndpointInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the source endpoint to update.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The updated configuration settings for the source endpoint.
+    public var configuration: MediaConnectClientTypes.SourceEndpointConfiguration?
+    /// A description to help you identify the source endpoint.
+    public var description: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        configuration: MediaConnectClientTypes.SourceEndpointConfiguration? = nil,
+        description: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.configuration = configuration
+        self.description = description
+    }
+}
+
+public struct UpdateSourceEndpointOutput: Swift.Sendable {
+    /// The details of the updated source endpoint.
+    /// This member is required.
+    public var sourceEndpoint: MediaConnectClientTypes.SourceEndpoint?
+
+    public init(
+        sourceEndpoint: MediaConnectClientTypes.SourceEndpoint? = nil
+    ) {
+        self.sourceEndpoint = sourceEndpoint
+    }
+}
+
 public struct TagGlobalResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the global resource to tag.
     /// This member is required.
@@ -10740,6 +13339,29 @@ extension AddFlowVpcInterfacesInput {
     }
 }
 
+extension BatchGetDestinationEndpointInput {
+
+    static func urlPathProvider(_ value: BatchGetDestinationEndpointInput) -> Swift.String? {
+        return "/v1/destinationEndpoints"
+    }
+}
+
+extension BatchGetDestinationEndpointInput {
+
+    static func queryItemProvider(_ value: BatchGetDestinationEndpointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let arns = value.arns else {
+            let message = "Creating a URL Query Item failed. arns is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        arns.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "arns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
 extension BatchGetRouterInputInput {
 
     static func urlPathProvider(_ value: BatchGetRouterInputInput) -> Swift.String? {
@@ -10806,6 +13428,39 @@ extension BatchGetRouterOutputInput {
             items.append(queryItem)
         }
         return items
+    }
+}
+
+extension BatchGetSourceEndpointInput {
+
+    static func urlPathProvider(_ value: BatchGetSourceEndpointInput) -> Swift.String? {
+        return "/v1/sourceEndpoints"
+    }
+}
+
+extension BatchGetSourceEndpointInput {
+
+    static func queryItemProvider(_ value: BatchGetSourceEndpointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let arns = value.arns else {
+            let message = "Creating a URL Query Item failed. arns is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        arns.forEach { queryItemValue in
+            let queryItem = Smithy.URIQueryItem(name: "arns".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension ConnectEndpointsInput {
+
+    static func urlPathProvider(_ value: ConnectEndpointsInput) -> Swift.String? {
+        guard let destinationEndpointArn = value.destinationEndpointArn else {
+            return nil
+        }
+        return "/v1/connectEndpoints/\(destinationEndpointArn.urlPercentEncoding())"
     }
 }
 
@@ -10911,6 +13566,16 @@ extension DeleteRouterOutputInput {
     }
 }
 
+extension DeregisterDestinationEndpointInput {
+
+    static func urlPathProvider(_ value: DeregisterDestinationEndpointInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/destinationEndpoint/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension DeregisterGatewayInstanceInput {
 
     static func urlPathProvider(_ value: DeregisterGatewayInstanceInput) -> Swift.String? {
@@ -10930,6 +13595,16 @@ extension DeregisterGatewayInstanceInput {
             items.append(forceQueryItem)
         }
         return items
+    }
+}
+
+extension DeregisterSourceEndpointInput {
+
+    static func urlPathProvider(_ value: DeregisterSourceEndpointInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/sourceEndpoint/\(arn.urlPercentEncoding())"
     }
 }
 
@@ -11013,6 +13688,26 @@ extension DescribeReservationInput {
     }
 }
 
+extension DisconnectEndpointsInput {
+
+    static func urlPathProvider(_ value: DisconnectEndpointsInput) -> Swift.String? {
+        guard let destinationEndpointArn = value.destinationEndpointArn else {
+            return nil
+        }
+        return "/v1/disconnectEndpoints/\(destinationEndpointArn.urlPercentEncoding())"
+    }
+}
+
+extension GetDestinationEndpointInput {
+
+    static func urlPathProvider(_ value: GetDestinationEndpointInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/destinationEndpoint/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension GetRouterInputInput {
 
     static func urlPathProvider(_ value: GetRouterInputInput) -> Swift.String? {
@@ -11063,6 +13758,16 @@ extension GetRouterOutputInput {
     }
 }
 
+extension GetSourceEndpointInput {
+
+    static func urlPathProvider(_ value: GetSourceEndpointInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/sourceEndpoint/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension GrantFlowEntitlementsInput {
 
     static func urlPathProvider(_ value: GrantFlowEntitlementsInput) -> Swift.String? {
@@ -11095,6 +13800,29 @@ extension ListBridgesInput {
         if let filterArn = value.filterArn {
             let filterArnQueryItem = Smithy.URIQueryItem(name: "filterArn".urlPercentEncoding(), value: Swift.String(filterArn).urlPercentEncoding())
             items.append(filterArnQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDestinationEndpointsInput {
+
+    static func urlPathProvider(_ value: ListDestinationEndpointsInput) -> Swift.String? {
+        return "/v1/destinationEndpoints"
+    }
+}
+
+extension ListDestinationEndpointsInput {
+
+    static func queryItemProvider(_ value: ListDestinationEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -11311,6 +14039,29 @@ extension ListRouterOutputsInput {
     }
 }
 
+extension ListSourceEndpointsInput {
+
+    static func urlPathProvider(_ value: ListSourceEndpointsInput) -> Swift.String? {
+        return "/v1/sourceEndpoints"
+    }
+}
+
+extension ListSourceEndpointsInput {
+
+    static func queryItemProvider(_ value: ListSourceEndpointsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTagsForGlobalResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForGlobalResourceInput) -> Swift.String? {
@@ -11338,6 +14089,20 @@ extension PurchaseOfferingInput {
             return nil
         }
         return "/v1/offerings/\(offeringArn.urlPercentEncoding())"
+    }
+}
+
+extension RegisterDestinationEndpointInput {
+
+    static func urlPathProvider(_ value: RegisterDestinationEndpointInput) -> Swift.String? {
+        return "/v1/destinationEndpoint"
+    }
+}
+
+extension RegisterSourceEndpointInput {
+
+    static func urlPathProvider(_ value: RegisterSourceEndpointInput) -> Swift.String? {
+        return "/v1/sourceEndpoint"
     }
 }
 
@@ -11640,6 +14405,16 @@ extension UpdateBridgeStateInput {
     }
 }
 
+extension UpdateDestinationEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateDestinationEndpointInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/destinationEndpoint/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension UpdateFlowInput {
 
     static func urlPathProvider(_ value: UpdateFlowInput) -> Swift.String? {
@@ -11742,6 +14517,16 @@ extension UpdateRouterOutputInput {
     }
 }
 
+extension UpdateSourceEndpointInput {
+
+    static func urlPathProvider(_ value: UpdateSourceEndpointInput) -> Swift.String? {
+        guard let arn = value.arn else {
+            return nil
+        }
+        return "/v1/sourceEndpoint/\(arn.urlPercentEncoding())"
+    }
+}
+
 extension AddBridgeOutputsInput {
 
     static func write(value: AddBridgeOutputsInput?, to writer: SmithyJSON.Writer) throws {
@@ -11787,6 +14572,14 @@ extension AddFlowVpcInterfacesInput {
     static func write(value: AddFlowVpcInterfacesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["vpcInterfaces"].writeList(value.vpcInterfaces, memberWritingClosure: MediaConnectClientTypes.VpcInterfaceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectEndpointsInput {
+
+    static func write(value: ConnectEndpointsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceEndpointArn"].write(value.sourceEndpointArn)
     }
 }
 
@@ -11885,11 +14678,27 @@ extension CreateRouterOutputInput {
     }
 }
 
+extension DisconnectEndpointsInput {
+
+    static func write(value: DisconnectEndpointsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceEndpointArn"].write(value.sourceEndpointArn)
+    }
+}
+
 extension GrantFlowEntitlementsInput {
 
     static func write(value: GrantFlowEntitlementsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["entitlements"].writeList(value.entitlements, memberWritingClosure: MediaConnectClientTypes.GrantEntitlementRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListDestinationEndpointsInput {
+
+    static func write(value: ListDestinationEndpointsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: MediaConnectClientTypes.DestinationEndpointFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11917,12 +14726,44 @@ extension ListRouterOutputsInput {
     }
 }
 
+extension ListSourceEndpointsInput {
+
+    static func write(value: ListSourceEndpointsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: MediaConnectClientTypes.SourceEndpointFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension PurchaseOfferingInput {
 
     static func write(value: PurchaseOfferingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["reservationName"].write(value.reservationName)
         try writer["start"].write(value.start)
+    }
+}
+
+extension RegisterDestinationEndpointInput {
+
+    static func write(value: RegisterDestinationEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.DestinationEndpointConfiguration.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["regionName"].write(value.regionName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension RegisterSourceEndpointInput {
+
+    static func write(value: RegisterSourceEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.SourceEndpointConfiguration.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["regionName"].write(value.regionName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -11982,6 +14823,15 @@ extension UpdateBridgeStateInput {
     static func write(value: UpdateBridgeStateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["desiredState"].write(value.desiredState)
+    }
+}
+
+extension UpdateDestinationEndpointInput {
+
+    static func write(value: UpdateDestinationEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.DestinationEndpointConfiguration.write(value:to:))
+        try writer["description"].write(value.description)
     }
 }
 
@@ -12124,6 +14974,15 @@ extension UpdateRouterOutputInput {
     }
 }
 
+extension UpdateSourceEndpointInput {
+
+    static func write(value: UpdateSourceEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: MediaConnectClientTypes.SourceEndpointConfiguration.write(value:to:))
+        try writer["description"].write(value.description)
+    }
+}
+
 extension AddBridgeOutputsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddBridgeOutputsOutput {
@@ -12202,6 +15061,19 @@ extension AddFlowVpcInterfacesOutput {
     }
 }
 
+extension BatchGetDestinationEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetDestinationEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetDestinationEndpointOutput()
+        value.destinationEndpoints = try reader["destinationEndpoints"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.DestinationEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BatchGetDestinationEndpointError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchGetRouterInputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetRouterInputOutput {
@@ -12237,6 +15109,34 @@ extension BatchGetRouterOutputOutput {
         var value = BatchGetRouterOutputOutput()
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BatchGetRouterOutputError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.routerOutputs = try reader["routerOutputs"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BatchGetSourceEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetSourceEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetSourceEndpointOutput()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.BatchGetSourceEndpointError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourceEndpoints = try reader["sourceEndpoints"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.SourceEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ConnectEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ConnectEndpointsOutput()
+        value.destinationEndpointArn = try reader["destinationEndpointArn"].readIfPresent() ?? ""
+        value.destinationEndpointName = try reader["destinationEndpointName"].readIfPresent() ?? ""
+        value.sourceEndpointArn = try reader["sourceEndpointArn"].readIfPresent() ?? ""
+        value.sourceEndpointName = try reader["sourceEndpointName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12392,6 +15292,19 @@ extension DeleteRouterOutputOutput {
     }
 }
 
+extension DeregisterDestinationEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterDestinationEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeregisterDestinationEndpointOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DeregisterGatewayInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterGatewayInstanceOutput {
@@ -12401,6 +15314,19 @@ extension DeregisterGatewayInstanceOutput {
         var value = DeregisterGatewayInstanceOutput()
         value.gatewayInstanceArn = try reader["gatewayInstanceArn"].readIfPresent()
         value.instanceState = try reader["instanceState"].readIfPresent()
+        return value
+    }
+}
+
+extension DeregisterSourceEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterSourceEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeregisterSourceEndpointOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12506,6 +15432,33 @@ extension DescribeReservationOutput {
     }
 }
 
+extension DisconnectEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisconnectEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisconnectEndpointsOutput()
+        value.destinationEndpointArn = try reader["destinationEndpointArn"].readIfPresent() ?? ""
+        value.destinationEndpointName = try reader["destinationEndpointName"].readIfPresent() ?? ""
+        value.sourceEndpointArn = try reader["sourceEndpointArn"].readIfPresent() ?? ""
+        value.sourceEndpointName = try reader["sourceEndpointName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetDestinationEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDestinationEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDestinationEndpointOutput()
+        value.destinationEndpoint = try reader["destinationEndpoint"].readIfPresent(with: MediaConnectClientTypes.DestinationEndpoint.read(from:))
+        return value
+    }
+}
+
 extension GetRouterInputOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRouterInputOutput {
@@ -12570,6 +15523,18 @@ extension GetRouterOutputOutput {
     }
 }
 
+extension GetSourceEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSourceEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSourceEndpointOutput()
+        value.sourceEndpoint = try reader["sourceEndpoint"].readIfPresent(with: MediaConnectClientTypes.SourceEndpoint.read(from:))
+        return value
+    }
+}
+
 extension GrantFlowEntitlementsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GrantFlowEntitlementsOutput {
@@ -12591,6 +15556,19 @@ extension ListBridgesOutput {
         let reader = responseReader
         var value = ListBridgesOutput()
         value.bridges = try reader["bridges"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.ListedBridge.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDestinationEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDestinationEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDestinationEndpointsOutput()
+        value.destinationEndpoints = try reader["destinationEndpoints"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.ListedDestinationEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -12713,6 +15691,19 @@ extension ListRouterOutputsOutput {
     }
 }
 
+extension ListSourceEndpointsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSourceEndpointsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSourceEndpointsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sourceEndpoints = try reader["sourceEndpoints"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.ListedSourceEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTagsForGlobalResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForGlobalResourceOutput {
@@ -12745,6 +15736,30 @@ extension PurchaseOfferingOutput {
         let reader = responseReader
         var value = PurchaseOfferingOutput()
         value.reservation = try reader["reservation"].readIfPresent(with: MediaConnectClientTypes.Reservation.read(from:))
+        return value
+    }
+}
+
+extension RegisterDestinationEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterDestinationEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterDestinationEndpointOutput()
+        value.destinationEndpoint = try reader["destinationEndpoint"].readIfPresent(with: MediaConnectClientTypes.DestinationEndpoint.read(from:))
+        return value
+    }
+}
+
+extension RegisterSourceEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterSourceEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterSourceEndpointOutput()
+        value.sourceEndpoint = try reader["sourceEndpoint"].readIfPresent(with: MediaConnectClientTypes.SourceEndpoint.read(from:))
         return value
     }
 }
@@ -13050,6 +16065,18 @@ extension UpdateBridgeStateOutput {
     }
 }
 
+extension UpdateDestinationEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDestinationEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDestinationEndpointOutput()
+        value.destinationEndpoint = try reader["destinationEndpoint"].readIfPresent(with: MediaConnectClientTypes.DestinationEndpoint.read(from:))
+        return value
+    }
+}
+
 extension UpdateFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFlowOutput {
@@ -13159,6 +16186,18 @@ extension UpdateRouterOutputOutput {
         let reader = responseReader
         var value = UpdateRouterOutputOutput()
         value.routerOutput = try reader["routerOutput"].readIfPresent(with: MediaConnectClientTypes.RouterOutput.read(from:))
+        return value
+    }
+}
+
+extension UpdateSourceEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSourceEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSourceEndpointOutput()
+        value.sourceEndpoint = try reader["sourceEndpoint"].readIfPresent(with: MediaConnectClientTypes.SourceEndpoint.read(from:))
         return value
     }
 }
@@ -13280,6 +16319,24 @@ enum AddFlowVpcInterfacesOutputError {
     }
 }
 
+enum BatchGetDestinationEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchGetRouterInputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13327,6 +16384,44 @@ enum BatchGetRouterOutputOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetSourceEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ConnectEndpointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13572,7 +16667,47 @@ enum DeleteRouterOutputOutputError {
     }
 }
 
+enum DeregisterDestinationEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeregisterGatewayInstanceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeregisterSourceEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13745,6 +16880,46 @@ enum DescribeReservationOutputError {
     }
 }
 
+enum DisconnectEndpointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDestinationEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetRouterInputOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13843,6 +17018,25 @@ enum GetRouterOutputOutputError {
     }
 }
 
+enum GetSourceEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GrantFlowEntitlementsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13864,6 +17058,24 @@ enum GrantFlowEntitlementsOutputError {
 }
 
 enum ListBridgesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDestinationEndpointsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14039,6 +17251,24 @@ enum ListRouterOutputsOutputError {
     }
 }
 
+enum ListSourceEndpointsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForGlobalResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14084,6 +17314,46 @@ enum PurchaseOfferingOutputError {
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterDestinationEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DestinationEndpointServiceQuotaExceededException": return try DestinationEndpointServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterSourceEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "SourceEndpointServiceQuotaExceededException": return try SourceEndpointServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -14547,6 +17817,26 @@ enum UpdateBridgeStateOutputError {
     }
 }
 
+enum UpdateDestinationEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateFlowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14702,6 +17992,26 @@ enum UpdateRouterNetworkInterfaceOutputError {
 }
 
 enum UpdateRouterOutputOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateSourceEndpointOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14916,6 +18226,32 @@ extension GrantFlowEntitlements420Exception {
     }
 }
 
+extension DestinationEndpointServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> DestinationEndpointServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = DestinationEndpointServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SourceEndpointServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> SourceEndpointServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = SourceEndpointServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.AddBridgeFlowSourceRequest {
 
     static func write(value: MediaConnectClientTypes.AddBridgeFlowSourceRequest?, to writer: SmithyJSON.Writer) throws {
@@ -15068,6 +18404,31 @@ extension MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration {
     }
 }
 
+extension MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration()
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetDestinationEndpointError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetDestinationEndpointError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetDestinationEndpointError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.BatchGetRouterInputError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterInputError {
@@ -15097,6 +18458,18 @@ extension MediaConnectClientTypes.BatchGetRouterOutputError {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetRouterOutputError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.BatchGetRouterOutputError()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.BatchGetSourceEndpointError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.BatchGetSourceEndpointError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.BatchGetSourceEndpointError()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.code = try reader["code"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
@@ -15246,6 +18619,16 @@ extension MediaConnectClientTypes.ColorInformation {
     }
 }
 
+extension MediaConnectClientTypes.ConsumedResourceShareDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ConsumedResourceShareDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ConsumedResourceShareDetails()
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration {
 
     static func write(value: MediaConnectClientTypes.ContentQualityAnalysisFeatureConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -15298,6 +18681,153 @@ extension MediaConnectClientTypes.DestinationConfigurationRequest {
         try writer["destinationIp"].write(value.destinationIp)
         try writer["destinationPort"].write(value.destinationPort)
         try writer["interface"].write(value.interface, with: MediaConnectClientTypes.InterfaceRequest.write(value:to:))
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.DestinationEndpoint()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleManagement = try reader["lifecycleManagement"].readIfPresent() ?? .sdkUnknown("")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.DestinationEndpointMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.DestinationEndpointConfiguration.read(from:))
+        value.resourceShareOwnership = try reader["resourceShareOwnership"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceShareDetails = try reader["resourceShareDetails"].readIfPresent(with: MediaConnectClientTypes.ResourceShareDetails.read(from:))
+        value.registrationState = try reader["registrationState"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionDetails = try reader["connectionDetails"].readIfPresent(with: MediaConnectClientTypes.DestinationEndpointConnectionDetails.read(from:))
+        value.connectionState = try reader["connectionState"].readIfPresent() ?? .sdkUnknown("")
+        value.connectedSource = try reader["connectedSource"].readIfPresent()
+        value.decryptionType = try reader["decryptionType"].readIfPresent()
+        value.decryptionConfiguration = try reader["decryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        value.associatedResourceDetails = try reader["associatedResourceDetails"].readIfPresent(with: MediaConnectClientTypes.DestinationEndpointAssociatedResourceDetails.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpointAssociatedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationEndpointAssociatedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardDestinationEndpointAssociatedResourceDetails.read(from:)))
+            case "routerInput":
+                return .routerinput(try reader["routerInput"].read(with: MediaConnectClientTypes.RouterInputDestinationEndpointAssociatedResourceDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.DestinationEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .routerinput(routerinput):
+                try writer["routerInput"].write(routerinput, with: MediaConnectClientTypes.RouterInputDestinationEndpointConfiguration.write(value:to:))
+            case let .standard(standard):
+                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardDestinationEndpointConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardDestinationEndpointConfiguration.read(from:)))
+            case "routerInput":
+                return .routerinput(try reader["routerInput"].read(with: MediaConnectClientTypes.RouterInputDestinationEndpointConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpointConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationEndpointConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardDestinationEndpointConnectionDetails.read(from:)))
+            case "routerInput":
+                return .routerinput(try reader["routerInput"].read(with: MediaConnectClientTypes.RouterInputDestinationEndpointConnectionDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpointFilter {
+
+    static func write(value: MediaConnectClientTypes.DestinationEndpointFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .destinationtypes(destinationtypes):
+                try writer["destinationTypes"].writeList(destinationtypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConnectClientTypes.DestinationEndpointType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .namecontains(namecontains):
+                try writer["nameContains"].writeList(namecontains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .regionnames(regionnames):
+                try writer["regionNames"].writeList(regionnames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpointMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationEndpointMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.DestinationEndpointMessage()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpointRouterInputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.DestinationEndpointRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpointLifecycleManagement"].write(value.endpointLifecycleManagement)
+        try writer["sourceTransitDecryption"].write(value.sourceTransitDecryption, with: MediaConnectClientTypes.EndpointEncryptionConfiguration.write(value:to:))
+        try writer["sourceTransitDecryptionType"].write(value.sourceTransitDecryptionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationEndpointRouterInputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.DestinationEndpointRouterInputConfiguration()
+        value.endpointLifecycleManagement = try reader["endpointLifecycleManagement"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceTransitDecryptionType = try reader["sourceTransitDecryptionType"].readIfPresent()
+        value.sourceTransitDecryption = try reader["sourceTransitDecryption"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.DestinationEndpointRouterInputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.DestinationEndpointRouterInputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.DestinationEndpointRouterInputStreamDetails()
     }
 }
 
@@ -15376,6 +18906,49 @@ extension MediaConnectClientTypes.Encryption {
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.secretArn = try reader["secretArn"].readIfPresent()
         value.url = try reader["url"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.EndpointEncryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.EndpointEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .automatic(automatic):
+                try writer["automatic"].write(automatic, with: MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration.write(value:to:))
+            case let .secretsmanager(secretsmanager):
+                try writer["secretsManager"].write(secretsmanager, with: MediaConnectClientTypes.SecretsManagerEndpointEncryptionConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EndpointEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "secretsManager":
+                return .secretsmanager(try reader["secretsManager"].read(with: MediaConnectClientTypes.SecretsManagerEndpointEncryptionConfiguration.read(from:)))
+            case "automatic":
+                return .automatic(try reader["automatic"].read(with: MediaConnectClientTypes.AutomaticEndpointEncryptionConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.EndpointEncryptionSecretConfiguration {
+
+    static func write(value: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EndpointEncryptionSecretConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.EndpointEncryptionSecretConfiguration()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -15797,6 +19370,33 @@ extension MediaConnectClientTypes.ListedBridge {
     }
 }
 
+extension MediaConnectClientTypes.ListedDestinationEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedDestinationEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ListedDestinationEndpoint()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleManagement = try reader["lifecycleManagement"].readIfPresent() ?? .sdkUnknown("")
+        value.messageCount = try reader["messageCount"].readIfPresent() ?? 0
+        value.resourceShareOwnership = try reader["resourceShareOwnership"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceShareState = try reader["resourceShareState"].readIfPresent() ?? .sdkUnknown("")
+        value.registrationState = try reader["registrationState"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionState = try reader["connectionState"].readIfPresent() ?? .sdkUnknown("")
+        value.decryptionType = try reader["decryptionType"].readIfPresent()
+        value.connectedSource = try reader["connectedSource"].readIfPresent()
+        value.associatedResourceArn = try reader["associatedResourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.ListedEntitlement {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedEntitlement {
@@ -15916,6 +19516,33 @@ extension MediaConnectClientTypes.ListedRouterOutput {
         value.networkInterfaceArn = try reader["networkInterfaceArn"].readIfPresent()
         value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
         value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.ListedSourceEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ListedSourceEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.ListedSourceEndpoint()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleManagement = try reader["lifecycleManagement"].readIfPresent() ?? .sdkUnknown("")
+        value.messageCount = try reader["messageCount"].readIfPresent() ?? 0
+        value.resourceShareOwnership = try reader["resourceShareOwnership"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceShareState = try reader["resourceShareState"].readIfPresent() ?? .sdkUnknown("")
+        value.registrationState = try reader["registrationState"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionState = try reader["connectionState"].readIfPresent() ?? .sdkUnknown("")
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.connectedDestinationCount = try reader["connectedDestinationCount"].readIfPresent() ?? 0
+        value.associatedResourceArn = try reader["associatedResourceArn"].readIfPresent()
         return value
     }
 }
@@ -16492,6 +20119,16 @@ extension MediaConnectClientTypes.Output {
     }
 }
 
+extension MediaConnectClientTypes.OwnedResourceShareDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.OwnedResourceShareDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.OwnedResourceShareDetails()
+        value.shareState = try reader["shareState"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
 
     static func write(value: MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -16505,6 +20142,36 @@ extension MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration {
         var value = MediaConnectClientTypes.PreferredDayTimeMaintenanceConfiguration()
         value.day = try reader["day"].readIfPresent() ?? .sdkUnknown("")
         value.time = try reader["time"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAllowRules"].writeList(value.destinationAllowRules, memberWritingClosure: MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfiguration()
+        value.destinationAllowRules = try reader["destinationAllowRules"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule {
+
+    static func write(value: MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfigurationAllowRule()
+        value.cidr = try reader["cidr"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16534,6 +20201,36 @@ extension MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicRouterNetworkInterfaceRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.PublicRouterNetworkInterfaceRule()
+        value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicSourceEndpointNetworkingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.PublicSourceEndpointNetworkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceAllowRules"].writeList(value.sourceAllowRules, memberWritingClosure: MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicSourceEndpointNetworkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicSourceEndpointNetworkingConfiguration()
+        value.sourceAllowRules = try reader["sourceAllowRules"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule {
+
+    static func write(value: MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.PublicSourceEndpointNetworkingConfigurationAllowRule()
         value.cidr = try reader["cidr"].readIfPresent() ?? ""
         return value
     }
@@ -16571,6 +20268,22 @@ extension MediaConnectClientTypes.Reservation {
         value.resourceSpecification = try reader["resourceSpecification"].readIfPresent(with: MediaConnectClientTypes.ResourceSpecification.read(from:))
         value.start = try reader["start"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension MediaConnectClientTypes.ResourceShareDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.ResourceShareDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "owned":
+                return .owned(try reader["owned"].read(with: MediaConnectClientTypes.OwnedResourceShareDetails.read(from:)))
+            case "consumed":
+                return .consumed(try reader["consumed"].read(with: MediaConnectClientTypes.ConsumedResourceShareDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -16615,6 +20328,40 @@ extension MediaConnectClientTypes.RistRouterOutputConfiguration {
         var value = MediaConnectClientTypes.RistRouterOutputConfiguration()
         value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
         value.destinationPort = try reader["destinationPort"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RistStandardDestinationEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RistStandardDestinationEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationIngestPort"].write(value.destinationIngestPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistStandardDestinationEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RistStandardDestinationEndpointConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationIngestPort = try reader["destinationIngestPort"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RistStandardSourceEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RistStandardSourceEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationIngestPort"].write(value.destinationIngestPort)
+        try writer["recoveryLatencyMilliseconds"].write(value.recoveryLatencyMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RistStandardSourceEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RistStandardSourceEndpointConfiguration()
+        value.destinationIngestPort = try reader["destinationIngestPort"].readIfPresent() ?? 0
+        value.recoveryLatencyMilliseconds = try reader["recoveryLatencyMilliseconds"].readIfPresent() ?? 0
         return value
     }
 }
@@ -16674,6 +20421,7 @@ extension MediaConnectClientTypes.RouterInput {
         value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
         value.contentQualityAnalysisType = try reader["contentQualityAnalysisType"].readIfPresent() ?? .sdkUnknown("")
         value.contentQualityAnalysisConfiguration = try reader["contentQualityAnalysisConfiguration"].readIfPresent(with: MediaConnectClientTypes.RouterContentQualityAnalysisConfiguration.read(from:))
+        value.associatedDestinationEndpointArns = try reader["associatedDestinationEndpointArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16683,6 +20431,8 @@ extension MediaConnectClientTypes.RouterInputConfiguration {
     static func write(value: MediaConnectClientTypes.RouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .destinationendpoint(destinationendpoint):
+                try writer["destinationEndpoint"].write(destinationendpoint, with: MediaConnectClientTypes.DestinationEndpointRouterInputConfiguration.write(value:to:))
             case let .failover(failover):
                 try writer["failover"].write(failover, with: MediaConnectClientTypes.FailoverRouterInputConfiguration.write(value:to:))
             case let .mediaconnectflow(mediaconnectflow):
@@ -16702,6 +20452,8 @@ extension MediaConnectClientTypes.RouterInputConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
+            case "destinationEndpoint":
+                return .destinationendpoint(try reader["destinationEndpoint"].read(with: MediaConnectClientTypes.DestinationEndpointRouterInputConfiguration.read(from:)))
             case "standard":
                 return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputConfiguration.read(from:)))
             case "mediaLiveChannel":
@@ -16715,6 +20467,46 @@ extension MediaConnectClientTypes.RouterInputConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputDestinationEndpointAssociatedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputDestinationEndpointAssociatedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputDestinationEndpointAssociatedResourceDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterInputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputDestinationEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterInputDestinationEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["routerInputArn"].write(value.routerInputArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputDestinationEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputDestinationEndpointConfiguration()
+        value.routerInputArn = try reader["routerInputArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterInputDestinationEndpointConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterInputDestinationEndpointConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterInputDestinationEndpointConnectionDetails()
+        value.sourceEncryptionType = try reader["sourceEncryptionType"].readIfPresent()
+        value.sourceEncryptionConfiguration = try reader["sourceEncryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        value.sourceEndpointType = try reader["sourceEndpointType"].readIfPresent()
+        return value
     }
 }
 
@@ -16818,6 +20610,8 @@ extension MediaConnectClientTypes.RouterInputStreamDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
+            case "destinationEndpoint":
+                return .destinationendpoint(try reader["destinationEndpoint"].read(with: MediaConnectClientTypes.DestinationEndpointRouterInputStreamDetails.read(from:)))
             case "standard":
                 return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardRouterInputStreamDetails.read(from:)))
             case "mediaLiveChannel":
@@ -16987,6 +20781,7 @@ extension MediaConnectClientTypes.RouterOutput {
         value.maintenanceScheduleType = try reader["maintenanceScheduleType"].readIfPresent()
         value.maintenanceSchedule = try reader["maintenanceSchedule"].readIfPresent(with: MediaConnectClientTypes.MaintenanceSchedule.read(from:))
         value.fabricConfiguration = try reader["fabricConfiguration"].readIfPresent(with: MediaConnectClientTypes.FabricConfiguration.read(from:))
+        value.associatedSourceEndpointArns = try reader["associatedSourceEndpointArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17000,6 +20795,8 @@ extension MediaConnectClientTypes.RouterOutputConfiguration {
                 try writer["mediaConnectFlow"].write(mediaconnectflow, with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.write(value:to:))
             case let .medialiveinput(medialiveinput):
                 try writer["mediaLiveInput"].write(medialiveinput, with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.write(value:to:))
+            case let .sourceendpoint(sourceendpoint):
+                try writer["sourceEndpoint"].write(sourceendpoint, with: MediaConnectClientTypes.SourceEndpointRouterOutputConfiguration.write(value:to:))
             case let .standard(standard):
                 try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardRouterOutputConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -17017,6 +20814,8 @@ extension MediaConnectClientTypes.RouterOutputConfiguration {
                 return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputConfiguration.read(from:)))
             case "mediaLiveInput":
                 return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputConfiguration.read(from:)))
+            case "sourceEndpoint":
+                return .sourceendpoint(try reader["sourceEndpoint"].read(with: MediaConnectClientTypes.SourceEndpointRouterOutputConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -17097,6 +20896,46 @@ extension MediaConnectClientTypes.RouterOutputProtocolConfiguration {
     }
 }
 
+extension MediaConnectClientTypes.RouterOutputSourceEndpointAssociatedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputSourceEndpointAssociatedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutputSourceEndpointAssociatedResourceDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.maximumBitrate = try reader["maximumBitrate"].readIfPresent() ?? 0
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.RouterOutputMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputSourceEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RouterOutputSourceEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["routerOutputArn"].write(value.routerOutputArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputSourceEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutputSourceEndpointConfiguration()
+        value.routerOutputArn = try reader["routerOutputArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RouterOutputSourceEndpointConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputSourceEndpointConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RouterOutputSourceEndpointConnectionDetails()
+        value.destinationDecryptionType = try reader["destinationDecryptionType"].readIfPresent()
+        value.destinationDecryptionConfiguration = try reader["destinationDecryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        value.destinationEndpointType = try reader["destinationEndpointType"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.RouterOutputStreamDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RouterOutputStreamDetails {
@@ -17109,6 +20948,8 @@ extension MediaConnectClientTypes.RouterOutputStreamDetails {
                 return .mediaconnectflow(try reader["mediaConnectFlow"].read(with: MediaConnectClientTypes.MediaConnectFlowRouterOutputStreamDetails.read(from:)))
             case "mediaLiveInput":
                 return .medialiveinput(try reader["mediaLiveInput"].read(with: MediaConnectClientTypes.MediaLiveInputRouterOutputStreamDetails.read(from:)))
+            case "sourceEndpoint":
+                return .sourceendpoint(try reader["sourceEndpoint"].read(with: MediaConnectClientTypes.SourceEndpointRouterOutputStreamDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -17174,6 +21015,42 @@ extension MediaConnectClientTypes.RtpRouterOutputConfiguration {
     }
 }
 
+extension MediaConnectClientTypes.RtpStandardDestinationEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtpStandardDestinationEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationIngestPort"].write(value.destinationIngestPort)
+        try writer["forwardErrorCorrectionState"].write(value.forwardErrorCorrectionState)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpStandardDestinationEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtpStandardDestinationEndpointConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationIngestPort = try reader["destinationIngestPort"].readIfPresent() ?? 0
+        value.forwardErrorCorrectionState = try reader["forwardErrorCorrectionState"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.RtpStandardSourceEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.RtpStandardSourceEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationIngestPort"].write(value.destinationIngestPort)
+        try writer["forwardErrorCorrectionState"].write(value.forwardErrorCorrectionState)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.RtpStandardSourceEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.RtpStandardSourceEndpointConfiguration()
+        value.destinationIngestPort = try reader["destinationIngestPort"].readIfPresent() ?? 0
+        value.forwardErrorCorrectionState = try reader["forwardErrorCorrectionState"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
 
     static func write(value: MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -17187,6 +21064,23 @@ extension MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration {
         var value = MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration()
         value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SecretsManagerEndpointEncryptionConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SecretsManagerEndpointEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionSecret"].write(value.encryptionSecret, with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.write(value:to:))
+        try writer["encryptionSecretType"].write(value.encryptionSecretType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SecretsManagerEndpointEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SecretsManagerEndpointEncryptionConfiguration()
+        value.encryptionSecretType = try reader["encryptionSecretType"].readIfPresent()
+        value.encryptionSecret = try reader["encryptionSecret"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.read(from:))
         return value
     }
 }
@@ -17292,6 +21186,153 @@ extension MediaConnectClientTypes.Source {
     }
 }
 
+extension MediaConnectClientTypes.SourceEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourceEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SourceEndpoint()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lifecycleManagement = try reader["lifecycleManagement"].readIfPresent() ?? .sdkUnknown("")
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.SourceEndpointMessage.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.configuration = try reader["configuration"].readIfPresent(with: MediaConnectClientTypes.SourceEndpointConfiguration.read(from:))
+        value.resourceShareOwnership = try reader["resourceShareOwnership"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceShareDetails = try reader["resourceShareDetails"].readIfPresent(with: MediaConnectClientTypes.ResourceShareDetails.read(from:))
+        value.registrationState = try reader["registrationState"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionState = try reader["connectionState"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionDetails = try reader["connectionDetails"].readIfPresent(with: MediaConnectClientTypes.SourceEndpointConnectionDetails.read(from:))
+        value.connectedDestinations = try reader["connectedDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        value.associatedResourceDetails = try reader["associatedResourceDetails"].readIfPresent(with: MediaConnectClientTypes.SourceEndpointAssociatedResourceDetails.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SourceEndpointAssociatedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourceEndpointAssociatedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardSourceEndpointAssociatedResourceDetails.read(from:)))
+            case "routerOutput":
+                return .routeroutput(try reader["routerOutput"].read(with: MediaConnectClientTypes.RouterOutputSourceEndpointAssociatedResourceDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.SourceEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SourceEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .routeroutput(routeroutput):
+                try writer["routerOutput"].write(routeroutput, with: MediaConnectClientTypes.RouterOutputSourceEndpointConfiguration.write(value:to:))
+            case let .standard(standard):
+                try writer["standard"].write(standard, with: MediaConnectClientTypes.StandardSourceEndpointConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourceEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardSourceEndpointConfiguration.read(from:)))
+            case "routerOutput":
+                return .routeroutput(try reader["routerOutput"].read(with: MediaConnectClientTypes.RouterOutputSourceEndpointConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.SourceEndpointConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourceEndpointConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "standard":
+                return .standard(try reader["standard"].read(with: MediaConnectClientTypes.StandardSourceEndpointConnectionDetails.read(from:)))
+            case "routerOutput":
+                return .routeroutput(try reader["routerOutput"].read(with: MediaConnectClientTypes.RouterOutputSourceEndpointConnectionDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.SourceEndpointFilter {
+
+    static func write(value: MediaConnectClientTypes.SourceEndpointFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .namecontains(namecontains):
+                try writer["nameContains"].writeList(namecontains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .regionnames(regionnames):
+                try writer["regionNames"].writeList(regionnames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sourcetypes(sourcetypes):
+                try writer["sourceTypes"].writeList(sourcetypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConnectClientTypes.SourceEndpointType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MediaConnectClientTypes.SourceEndpointMessage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourceEndpointMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SourceEndpointMessage()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SourceEndpointRouterOutputConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SourceEndpointRouterOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationTransitEncryption"].write(value.destinationTransitEncryption, with: MediaConnectClientTypes.EndpointEncryptionConfiguration.write(value:to:))
+        try writer["destinationTransitEncryptionType"].write(value.destinationTransitEncryptionType)
+        try writer["endpointLifecycleManagement"].write(value.endpointLifecycleManagement)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourceEndpointRouterOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SourceEndpointRouterOutputConfiguration()
+        value.endpointLifecycleManagement = try reader["endpointLifecycleManagement"].readIfPresent() ?? .sdkUnknown("")
+        value.destinationTransitEncryptionType = try reader["destinationTransitEncryptionType"].readIfPresent()
+        value.destinationTransitEncryption = try reader["destinationTransitEncryption"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SourceEndpointRouterOutputStreamDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SourceEndpointRouterOutputStreamDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.SourceEndpointRouterOutputStreamDetails()
+    }
+}
+
 extension MediaConnectClientTypes.SourcePriority {
 
     static func write(value: MediaConnectClientTypes.SourcePriority?, to writer: SmithyJSON.Writer) throws {
@@ -17349,6 +21390,44 @@ extension MediaConnectClientTypes.SrtCallerRouterOutputConfiguration {
         value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
         value.streamId = try reader["streamId"].readIfPresent()
         value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.SrtEncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtCallerStandardDestinationEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtCallerStandardDestinationEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionPassphrase"].write(value.encryptionPassphrase, with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["sourceListenerPort"].write(value.sourceListenerPort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerStandardDestinationEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtCallerStandardDestinationEndpointConfiguration()
+        value.sourceListenerPort = try reader["sourceListenerPort"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.encryptionPassphrase = try reader["encryptionPassphrase"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtCallerStandardSourceEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtCallerStandardSourceEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationIngestPort"].write(value.destinationIngestPort)
+        try writer["encryptionPassphrase"].write(value.encryptionPassphrase, with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtCallerStandardSourceEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtCallerStandardSourceEndpointConfiguration()
+        value.destinationIngestPort = try reader["destinationIngestPort"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.encryptionPassphrase = try reader["encryptionPassphrase"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.read(from:))
         return value
     }
 }
@@ -17421,6 +21500,161 @@ extension MediaConnectClientTypes.SrtListenerRouterOutputConfiguration {
     }
 }
 
+extension MediaConnectClientTypes.SrtListenerStandardDestinationEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtListenerStandardDestinationEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationAddress"].write(value.destinationAddress)
+        try writer["destinationIngestPort"].write(value.destinationIngestPort)
+        try writer["encryptionPassphrase"].write(value.encryptionPassphrase, with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["streamId"].write(value.streamId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerStandardDestinationEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtListenerStandardDestinationEndpointConfiguration()
+        value.destinationAddress = try reader["destinationAddress"].readIfPresent() ?? ""
+        value.destinationIngestPort = try reader["destinationIngestPort"].readIfPresent() ?? 0
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.encryptionPassphrase = try reader["encryptionPassphrase"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.SrtListenerStandardSourceEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.SrtListenerStandardSourceEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionPassphrase"].write(value.encryptionPassphrase, with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.write(value:to:))
+        try writer["minimumLatencyMilliseconds"].write(value.minimumLatencyMilliseconds)
+        try writer["sourceAddress"].write(value.sourceAddress)
+        try writer["sourceListenerPort"].write(value.sourceListenerPort)
+        try writer["streamId"].write(value.streamId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.SrtListenerStandardSourceEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.SrtListenerStandardSourceEndpointConfiguration()
+        value.sourceListenerPort = try reader["sourceListenerPort"].readIfPresent() ?? 0
+        value.sourceAddress = try reader["sourceAddress"].readIfPresent() ?? ""
+        value.minimumLatencyMilliseconds = try reader["minimumLatencyMilliseconds"].readIfPresent() ?? 0
+        value.streamId = try reader["streamId"].readIfPresent()
+        value.encryptionPassphrase = try reader["encryptionPassphrase"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionSecretConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardDestinationEndpointAssociatedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardDestinationEndpointAssociatedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.StandardDestinationEndpointAssociatedResourceDetails()
+    }
+}
+
+extension MediaConnectClientTypes.StandardDestinationEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardDestinationEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationNetworkingConfiguration"].write(value.destinationNetworkingConfiguration, with: MediaConnectClientTypes.StandardDestinationEndpointNetworkingConfiguration.write(value:to:))
+        try writer["destinationNetworkingType"].write(value.destinationNetworkingType)
+        try writer["name"].write(value.name)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.StandardDestinationEndpointProtocolConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardDestinationEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardDestinationEndpointConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.destinationNetworkingConfiguration = try reader["destinationNetworkingConfiguration"].readIfPresent(with: MediaConnectClientTypes.StandardDestinationEndpointNetworkingConfiguration.read(from:))
+        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.StandardDestinationEndpointProtocolConfiguration.read(from:))
+        value.destinationNetworkingType = try reader["destinationNetworkingType"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardDestinationEndpointConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardDestinationEndpointConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardDestinationEndpointConnectionDetails()
+        value.sourceIpAddress = try reader["sourceIpAddress"].readIfPresent()
+        value.sourceListenerPort = try reader["sourceListenerPort"].readIfPresent()
+        value.sourceEncryptionType = try reader["sourceEncryptionType"].readIfPresent()
+        value.sourceEncryptionConfiguration = try reader["sourceEncryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        value.sourceEndpointType = try reader["sourceEndpointType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardDestinationEndpointNetworkingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardDestinationEndpointNetworkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`public`(`public`):
+                try writer["public"].write(`public`, with: MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfiguration.write(value:to:))
+            case let .vpc(vpc):
+                try writer["vpc"].write(vpc, with: MediaConnectClientTypes.VpcDestinationEndpointNetworkingConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardDestinationEndpointNetworkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "public":
+                return .`public`(try reader["public"].read(with: MediaConnectClientTypes.PublicDestinationEndpointNetworkingConfiguration.read(from:)))
+            case "vpc":
+                return .vpc(try reader["vpc"].read(with: MediaConnectClientTypes.VpcDestinationEndpointNetworkingConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.StandardDestinationEndpointProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardDestinationEndpointProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistStandardDestinationEndpointConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpStandardDestinationEndpointConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerStandardDestinationEndpointConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerStandardDestinationEndpointConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardDestinationEndpointProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistStandardDestinationEndpointConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerStandardDestinationEndpointConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerStandardDestinationEndpointConfiguration.read(from:)))
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpStandardDestinationEndpointConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension MediaConnectClientTypes.StandardRouterInputConfiguration {
 
     static func write(value: MediaConnectClientTypes.StandardRouterInputConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -17476,6 +21710,115 @@ extension MediaConnectClientTypes.StandardRouterOutputStreamDetails {
         var value = MediaConnectClientTypes.StandardRouterOutputStreamDetails()
         value.destinationIpAddress = try reader["destinationIpAddress"].readIfPresent()
         return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardSourceEndpointAssociatedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardSourceEndpointAssociatedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaConnectClientTypes.StandardSourceEndpointAssociatedResourceDetails()
+    }
+}
+
+extension MediaConnectClientTypes.StandardSourceEndpointConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardSourceEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["protocolConfiguration"].write(value.protocolConfiguration, with: MediaConnectClientTypes.StandardSourceEndpointProtocolConfiguration.write(value:to:))
+        try writer["sourceNetworkingConfiguration"].write(value.sourceNetworkingConfiguration, with: MediaConnectClientTypes.StandardSourceEndpointNetworkingConfiguration.write(value:to:))
+        try writer["sourceNetworkingType"].write(value.sourceNetworkingType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardSourceEndpointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardSourceEndpointConfiguration()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.sourceNetworkingConfiguration = try reader["sourceNetworkingConfiguration"].readIfPresent(with: MediaConnectClientTypes.StandardSourceEndpointNetworkingConfiguration.read(from:))
+        value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: MediaConnectClientTypes.StandardSourceEndpointProtocolConfiguration.read(from:))
+        value.sourceNetworkingType = try reader["sourceNetworkingType"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardSourceEndpointConnectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardSourceEndpointConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.StandardSourceEndpointConnectionDetails()
+        value.destinationIpAddress = try reader["destinationIpAddress"].readIfPresent()
+        value.destinationIngestPort = try reader["destinationIngestPort"].readIfPresent()
+        value.destinationDecryptionType = try reader["destinationDecryptionType"].readIfPresent()
+        value.destinationDecryptionConfiguration = try reader["destinationDecryptionConfiguration"].readIfPresent(with: MediaConnectClientTypes.EndpointEncryptionConfiguration.read(from:))
+        value.destinationEndpointType = try reader["destinationEndpointType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.StandardSourceEndpointNetworkingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardSourceEndpointNetworkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`public`(`public`):
+                try writer["public"].write(`public`, with: MediaConnectClientTypes.PublicSourceEndpointNetworkingConfiguration.write(value:to:))
+            case let .vpc(vpc):
+                try writer["vpc"].write(vpc, with: MediaConnectClientTypes.VpcSourceEndpointNetworkingConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardSourceEndpointNetworkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "public":
+                return .`public`(try reader["public"].read(with: MediaConnectClientTypes.PublicSourceEndpointNetworkingConfiguration.read(from:)))
+            case "vpc":
+                return .vpc(try reader["vpc"].read(with: MediaConnectClientTypes.VpcSourceEndpointNetworkingConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MediaConnectClientTypes.StandardSourceEndpointProtocolConfiguration {
+
+    static func write(value: MediaConnectClientTypes.StandardSourceEndpointProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .rist(rist):
+                try writer["rist"].write(rist, with: MediaConnectClientTypes.RistStandardSourceEndpointConfiguration.write(value:to:))
+            case let .rtp(rtp):
+                try writer["rtp"].write(rtp, with: MediaConnectClientTypes.RtpStandardSourceEndpointConfiguration.write(value:to:))
+            case let .srtcaller(srtcaller):
+                try writer["srtCaller"].write(srtcaller, with: MediaConnectClientTypes.SrtCallerStandardSourceEndpointConfiguration.write(value:to:))
+            case let .srtlistener(srtlistener):
+                try writer["srtListener"].write(srtlistener, with: MediaConnectClientTypes.SrtListenerStandardSourceEndpointConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.StandardSourceEndpointProtocolConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "rist":
+                return .rist(try reader["rist"].read(with: MediaConnectClientTypes.RistStandardSourceEndpointConfiguration.read(from:)))
+            case "srtListener":
+                return .srtlistener(try reader["srtListener"].read(with: MediaConnectClientTypes.SrtListenerStandardSourceEndpointConfiguration.read(from:)))
+            case "srtCaller":
+                return .srtcaller(try reader["srtCaller"].read(with: MediaConnectClientTypes.SrtCallerStandardSourceEndpointConfiguration.read(from:)))
+            case "rtp":
+                return .rtp(try reader["rtp"].read(with: MediaConnectClientTypes.RtpStandardSourceEndpointConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -17717,6 +22060,23 @@ extension MediaConnectClientTypes.VideoMonitoringSetting {
     }
 }
 
+extension MediaConnectClientTypes.VpcDestinationEndpointNetworkingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.VpcDestinationEndpointNetworkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetId"].write(value.subnetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcDestinationEndpointNetworkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VpcDestinationEndpointNetworkingConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension MediaConnectClientTypes.VpcInterface {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcInterface {
@@ -17771,6 +22131,23 @@ extension MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConnectClientTypes.VpcRouterNetworkInterfaceConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.VpcSourceEndpointNetworkingConfiguration {
+
+    static func write(value: MediaConnectClientTypes.VpcSourceEndpointNetworkingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetId"].write(value.subnetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.VpcSourceEndpointNetworkingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.VpcSourceEndpointNetworkingConfiguration()
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.subnetId = try reader["subnetId"].readIfPresent() ?? ""
         return value

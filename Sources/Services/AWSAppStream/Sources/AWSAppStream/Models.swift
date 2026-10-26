@@ -1084,6 +1084,7 @@ extension AppStreamClientTypes {
         case rockyLinux8
         case ubuntuPro2404
         case windows
+        case windows11
         case windowsServer2016
         case windowsServer2019
         case windowsServer2022
@@ -1097,6 +1098,7 @@ extension AppStreamClientTypes {
                 .rockyLinux8,
                 .ubuntuPro2404,
                 .windows,
+                .windows11,
                 .windowsServer2016,
                 .windowsServer2019,
                 .windowsServer2022,
@@ -1116,6 +1118,7 @@ extension AppStreamClientTypes {
             case .rockyLinux8: return "ROCKY_LINUX8"
             case .ubuntuPro2404: return "UBUNTU_PRO_2404"
             case .windows: return "WINDOWS"
+            case .windows11: return "WINDOWS_11"
             case .windowsServer2016: return "WINDOWS_SERVER_2016"
             case .windowsServer2019: return "WINDOWS_SERVER_2019"
             case .windowsServer2022: return "WINDOWS_SERVER_2022"

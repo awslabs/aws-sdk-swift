@@ -40,6 +40,11 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteFailoverSlateConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeletePlaybackRestrictionPolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -584,6 +589,8 @@ extension IvsClientTypes {
         public var authorized: Swift.Bool
         /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
         public var containerFormat: IvsClientTypes.ContainerFormat?
+        /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. Default: "" (empty string, no failover slate configuration is applied).
+        public var failoverSlateConfigurationArn: Swift.String?
         /// Channel ingest endpoint, part of the definition of an ingest server, used when you set up streaming software.
         public var ingestEndpoint: Swift.String?
         /// Whether the channel allows insecure RTMP ingest. Default: false.
@@ -614,6 +621,7 @@ extension IvsClientTypes {
             arn: Swift.String? = nil,
             authorized: Swift.Bool = false,
             containerFormat: IvsClientTypes.ContainerFormat? = nil,
+            failoverSlateConfigurationArn: Swift.String? = nil,
             ingestEndpoint: Swift.String? = nil,
             insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
@@ -631,6 +639,7 @@ extension IvsClientTypes {
             self.arn = arn
             self.authorized = authorized
             self.containerFormat = containerFormat
+            self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
             self.ingestEndpoint = ingestEndpoint
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
@@ -1284,6 +1293,8 @@ public struct CreateChannelInput: Swift.Sendable {
     public var authorized: Swift.Bool
     /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
     public var containerFormat: IvsClientTypes.ContainerFormat?
+    /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. Default: "" (empty string, no failover slate configuration is applied).
+    public var failoverSlateConfigurationArn: Swift.String?
     /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
@@ -1307,6 +1318,7 @@ public struct CreateChannelInput: Swift.Sendable {
         adConfigurationArn: Swift.String? = nil,
         authorized: Swift.Bool = false,
         containerFormat: IvsClientTypes.ContainerFormat? = nil,
+        failoverSlateConfigurationArn: Swift.String? = nil,
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration? = nil,
@@ -1320,6 +1332,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.adConfigurationArn = adConfigurationArn
         self.authorized = authorized
         self.containerFormat = containerFormat
+        self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.multitrackInputConfiguration = multitrackInputConfiguration
@@ -1344,6 +1357,121 @@ public struct CreateChannelOutput: Swift.Sendable {
     ) {
         self.channel = channel
         self.streamKey = streamKey
+    }
+}
+
+public struct CreateFailoverSlateConfigurationInput: Swift.Sendable {
+    /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+    public var activationThresholdSeconds: Swift.Int?
+    /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+    public var maxSlateDisplaySeconds: Swift.Int?
+    /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+    public var minSlateDisplaySeconds: Swift.Int?
+    /// Failover-slate-configuration name. The value does not need to be unique.
+    public var name: Swift.String?
+    /// Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        activationThresholdSeconds: Swift.Int? = nil,
+        maxSlateDisplaySeconds: Swift.Int? = nil,
+        minSlateDisplaySeconds: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.activationThresholdSeconds = activationThresholdSeconds
+        self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+        self.minSlateDisplaySeconds = minSlateDisplaySeconds
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension IvsClientTypes {
+
+    public enum FailoverSlateConfigurationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case createFailed
+        case creating
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailoverSlateConfigurationState] {
+            return [
+                .created,
+                .createFailed,
+                .creating,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IvsClientTypes {
+
+    /// Object specifying a failover slate configuration.
+    public struct FailoverSlateConfiguration: Swift.Sendable {
+        /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+        public var activationThresholdSeconds: Swift.Int?
+        /// Failover-slate-configuration ARN.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+        public var maxSlateDisplaySeconds: Swift.Int?
+        /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+        public var minSlateDisplaySeconds: Swift.Int?
+        /// Failover-slate-configuration name.
+        public var name: Swift.String?
+        /// Current state of the failover slate configuration.
+        /// This member is required.
+        public var state: IvsClientTypes.FailoverSlateConfigurationState?
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            activationThresholdSeconds: Swift.Int? = nil,
+            arn: Swift.String? = nil,
+            maxSlateDisplaySeconds: Swift.Int? = nil,
+            minSlateDisplaySeconds: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            state: IvsClientTypes.FailoverSlateConfigurationState? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.activationThresholdSeconds = activationThresholdSeconds
+            self.arn = arn
+            self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+            self.minSlateDisplaySeconds = minSlateDisplaySeconds
+            self.name = name
+            self.state = state
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateFailoverSlateConfigurationOutput: Swift.Sendable {
+    /// The failover slate configuration that was created.
+    /// This member is required.
+    public var failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration?
+
+    public init(
+        failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration? = nil
+    ) {
+        self.failoverSlateConfiguration = failoverSlateConfiguration
     }
 }
 
@@ -1832,6 +1960,18 @@ public struct DeleteChannelInput: Swift.Sendable {
     }
 }
 
+public struct DeleteFailoverSlateConfigurationInput: Swift.Sendable {
+    /// ARN of the failover slate configuration to be deleted.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
 public struct DeletePlaybackKeyPairInput: Swift.Sendable {
     /// ARN of the key pair to be deleted.
     /// This member is required.
@@ -1928,6 +2068,30 @@ public struct GetChannelOutput: Swift.Sendable {
         channel: IvsClientTypes.Channel? = nil
     ) {
         self.channel = channel
+    }
+}
+
+public struct GetFailoverSlateConfigurationInput: Swift.Sendable {
+    /// ARN of the failover slate configuration to be retrieved.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetFailoverSlateConfigurationOutput: Swift.Sendable {
+    /// The failover slate configuration that was retrieved.
+    /// This member is required.
+    public var failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration?
+
+    public init(
+        failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration? = nil
+    ) {
+        self.failoverSlateConfiguration = failoverSlateConfiguration
     }
 }
 
@@ -2422,6 +2586,8 @@ extension IvsClientTypes {
         public var channel: IvsClientTypes.Channel?
         /// Time when the channel went offline. This is an ISO 8601 timestamp; note that this is returned as a string. For live streams, this is NULL.
         public var endTime: Foundation.Date?
+        /// The properties of the failover slate configuration at the time of going live.
+        public var failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration?
         /// The properties of the incoming RTMP stream. Note: ingestConfiguration is deprecated in favor of ingestConfigurations but retained to ensure backward compatibility. If multitrack is not enabled, ingestConfiguration and ingestConfigurations contain the same data, namely information about Track0 (the sole track). If multitrack is enabled, ingestConfiguration contains data for only the first track (Track0) and ingestConfigurations contains data for all tracks.
         public var ingestConfiguration: IvsClientTypes.IngestConfiguration?
         /// The properties of the incoming RTMP stream. If multitrack is enabled, ingestConfigurations contains data for all tracks; otherwise, it contains data only for Track0 (the sole track).
@@ -2438,6 +2604,7 @@ extension IvsClientTypes {
         public init(
             channel: IvsClientTypes.Channel? = nil,
             endTime: Foundation.Date? = nil,
+            failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration? = nil,
             ingestConfiguration: IvsClientTypes.IngestConfiguration? = nil,
             ingestConfigurations: IvsClientTypes.IngestConfigurations? = nil,
             recordingConfiguration: IvsClientTypes.RecordingConfiguration? = nil,
@@ -2447,6 +2614,7 @@ extension IvsClientTypes {
         ) {
             self.channel = channel
             self.endTime = endTime
+            self.failoverSlateConfiguration = failoverSlateConfiguration
             self.ingestConfiguration = ingestConfiguration
             self.ingestConfigurations = ingestConfigurations
             self.recordingConfiguration = recordingConfiguration
@@ -2561,6 +2729,8 @@ public struct ListAdConfigurationsOutput: Swift.Sendable {
 public struct ListChannelsInput: Swift.Sendable {
     /// Filters the channel list to match the specified ad configuration ARN.
     public var filterByAdConfigurationArn: Swift.String?
+    /// Filters the channel list to match the specified failover-slate-configuration ARN.
+    public var filterByFailoverSlateConfigurationArn: Swift.String?
     /// Filters the channel list to match the specified name.
     public var filterByName: Swift.String?
     /// Filters the channel list to match the specified policy.
@@ -2574,6 +2744,7 @@ public struct ListChannelsInput: Swift.Sendable {
 
     public init(
         filterByAdConfigurationArn: Swift.String? = nil,
+        filterByFailoverSlateConfigurationArn: Swift.String? = nil,
         filterByName: Swift.String? = nil,
         filterByPlaybackRestrictionPolicyArn: Swift.String? = nil,
         filterByRecordingConfigurationArn: Swift.String? = nil,
@@ -2581,6 +2752,7 @@ public struct ListChannelsInput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.filterByAdConfigurationArn = filterByAdConfigurationArn
+        self.filterByFailoverSlateConfigurationArn = filterByFailoverSlateConfigurationArn
         self.filterByName = filterByName
         self.filterByPlaybackRestrictionPolicyArn = filterByPlaybackRestrictionPolicyArn
         self.filterByRecordingConfigurationArn = filterByRecordingConfigurationArn
@@ -2599,6 +2771,8 @@ extension IvsClientTypes {
         public var arn: Swift.String?
         /// Whether the channel is private (enabled for playback authorization). Default: false.
         public var authorized: Swift.Bool
+        /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. Default: "" (empty string, no failover slate configuration is applied).
+        public var failoverSlateConfigurationArn: Swift.String?
         /// Whether the channel allows insecure RTMP ingest. Default: false.
         public var insecureIngest: Swift.Bool
         /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
@@ -2620,6 +2794,7 @@ extension IvsClientTypes {
             adConfigurationArn: Swift.String? = nil,
             arn: Swift.String? = nil,
             authorized: Swift.Bool = false,
+            failoverSlateConfigurationArn: Swift.String? = nil,
             insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
             name: Swift.String? = nil,
@@ -2632,6 +2807,7 @@ extension IvsClientTypes {
             self.adConfigurationArn = adConfigurationArn
             self.arn = arn
             self.authorized = authorized
+            self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.name = name
@@ -2656,6 +2832,78 @@ public struct ListChannelsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.channels = channels
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListFailoverSlateConfigurationsInput: Swift.Sendable {
+    /// Maximum number of failover slate configurations to return. Default: your service quota or 100, whichever is smaller.
+    public var maxResults: Swift.Int?
+    /// The first failover slate configuration to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IvsClientTypes {
+
+    /// Summary information about a failover slate configuration.
+    public struct FailoverSlateConfigurationSummary: Swift.Sendable {
+        /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+        public var activationThresholdSeconds: Swift.Int?
+        /// Failover-slate-configuration ARN.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+        public var maxSlateDisplaySeconds: Swift.Int?
+        /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+        public var minSlateDisplaySeconds: Swift.Int?
+        /// Failover-slate-configuration name.
+        public var name: Swift.String?
+        /// Current state of the failover slate configuration.
+        /// This member is required.
+        public var state: IvsClientTypes.FailoverSlateConfigurationState?
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Best practices and strategies](https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html) in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            activationThresholdSeconds: Swift.Int? = nil,
+            arn: Swift.String? = nil,
+            maxSlateDisplaySeconds: Swift.Int? = nil,
+            minSlateDisplaySeconds: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            state: IvsClientTypes.FailoverSlateConfigurationState? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.activationThresholdSeconds = activationThresholdSeconds
+            self.arn = arn
+            self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+            self.minSlateDisplaySeconds = minSlateDisplaySeconds
+            self.name = name
+            self.state = state
+            self.tags = tags
+        }
+    }
+}
+
+public struct ListFailoverSlateConfigurationsOutput: Swift.Sendable {
+    /// List of the matching failover slate configurations.
+    /// This member is required.
+    public var failoverSlateConfigurations: [IvsClientTypes.FailoverSlateConfigurationSummary]?
+    /// If there are more failover slate configurations than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+
+    public init(
+        failoverSlateConfigurations: [IvsClientTypes.FailoverSlateConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.failoverSlateConfigurations = failoverSlateConfigurations
         self.nextToken = nextToken
     }
 }
@@ -3290,6 +3538,8 @@ public struct UpdateChannelInput: Swift.Sendable {
     public var authorized: Swift.Bool
     /// Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
     public var containerFormat: IvsClientTypes.ContainerFormat?
+    /// Failover-slate-configuration ARN. A valid ARN value here both specifies the ARN and enables failover slate. If this is set to an empty string, failover slate configuration is disabled.
+    public var failoverSlateConfigurationArn: Swift.String?
     /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
@@ -3312,6 +3562,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         arn: Swift.String? = nil,
         authorized: Swift.Bool = false,
         containerFormat: IvsClientTypes.ContainerFormat? = nil,
+        failoverSlateConfigurationArn: Swift.String? = nil,
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         multitrackInputConfiguration: IvsClientTypes.MultitrackInputConfiguration? = nil,
@@ -3325,6 +3576,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         self.arn = arn
         self.authorized = authorized
         self.containerFormat = containerFormat
+        self.failoverSlateConfigurationArn = failoverSlateConfigurationArn
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.multitrackInputConfiguration = multitrackInputConfiguration
@@ -3344,6 +3596,46 @@ public struct UpdateChannelOutput: Swift.Sendable {
         channel: IvsClientTypes.Channel? = nil
     ) {
         self.channel = channel
+    }
+}
+
+public struct UpdateFailoverSlateConfigurationInput: Swift.Sendable {
+    /// Number of seconds of ingest interruption before the failover slate activates. Minimum: 3. Maximum: 5. Default: 3.
+    public var activationThresholdSeconds: Swift.Int?
+    /// ARN of the failover slate configuration to be updated.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// Maximum number of seconds that the failover slate displays. Minimum: 60. Maximum: 180. Default: 60.
+    public var maxSlateDisplaySeconds: Swift.Int?
+    /// Minimum number of seconds that the failover slate displays after activation. Minimum: 3. Maximum: 10. Default: 3.
+    public var minSlateDisplaySeconds: Swift.Int?
+    /// Failover-slate-configuration name. The value does not need to be unique.
+    public var name: Swift.String?
+
+    public init(
+        activationThresholdSeconds: Swift.Int? = nil,
+        arn: Swift.String? = nil,
+        maxSlateDisplaySeconds: Swift.Int? = nil,
+        minSlateDisplaySeconds: Swift.Int? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.activationThresholdSeconds = activationThresholdSeconds
+        self.arn = arn
+        self.maxSlateDisplaySeconds = maxSlateDisplaySeconds
+        self.minSlateDisplaySeconds = minSlateDisplaySeconds
+        self.name = name
+    }
+}
+
+public struct UpdateFailoverSlateConfigurationOutput: Swift.Sendable {
+    /// Object specifying the updated failover slate configuration.
+    /// This member is required.
+    public var failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration?
+
+    public init(
+        failoverSlateConfiguration: IvsClientTypes.FailoverSlateConfiguration? = nil
+    ) {
+        self.failoverSlateConfiguration = failoverSlateConfiguration
     }
 }
 
@@ -3421,6 +3713,13 @@ extension CreateChannelInput {
     }
 }
 
+extension CreateFailoverSlateConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateFailoverSlateConfigurationInput) -> Swift.String? {
+        return "/CreateFailoverSlateConfiguration"
+    }
+}
+
 extension CreatePlaybackRestrictionPolicyInput {
 
     static func urlPathProvider(_ value: CreatePlaybackRestrictionPolicyInput) -> Swift.String? {
@@ -3453,6 +3752,13 @@ extension DeleteChannelInput {
 
     static func urlPathProvider(_ value: DeleteChannelInput) -> Swift.String? {
         return "/DeleteChannel"
+    }
+}
+
+extension DeleteFailoverSlateConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteFailoverSlateConfigurationInput) -> Swift.String? {
+        return "/DeleteFailoverSlateConfiguration"
     }
 }
 
@@ -3495,6 +3801,13 @@ extension GetChannelInput {
 
     static func urlPathProvider(_ value: GetChannelInput) -> Swift.String? {
         return "/GetChannel"
+    }
+}
+
+extension GetFailoverSlateConfigurationInput {
+
+    static func urlPathProvider(_ value: GetFailoverSlateConfigurationInput) -> Swift.String? {
+        return "/GetFailoverSlateConfiguration"
     }
 }
 
@@ -3565,6 +3878,13 @@ extension ListChannelsInput {
 
     static func urlPathProvider(_ value: ListChannelsInput) -> Swift.String? {
         return "/ListChannels"
+    }
+}
+
+extension ListFailoverSlateConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListFailoverSlateConfigurationsInput) -> Swift.String? {
+        return "/ListFailoverSlateConfigurations"
     }
 }
 
@@ -3691,6 +4011,13 @@ extension UpdateChannelInput {
     }
 }
 
+extension UpdateFailoverSlateConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateFailoverSlateConfigurationInput) -> Swift.String? {
+        return "/UpdateFailoverSlateConfiguration"
+    }
+}
+
 extension UpdatePlaybackRestrictionPolicyInput {
 
     static func urlPathProvider(_ value: UpdatePlaybackRestrictionPolicyInput) -> Swift.String? {
@@ -3740,6 +4067,7 @@ extension CreateChannelInput {
         try writer["adConfigurationArn"].write(value.adConfigurationArn)
         try writer["authorized"].write(value.authorized)
         try writer["containerFormat"].write(value.containerFormat)
+        try writer["failoverSlateConfigurationArn"].write(value.failoverSlateConfigurationArn)
         try writer["insecureIngest"].write(value.insecureIngest)
         try writer["latencyMode"].write(value.latencyMode)
         try writer["multitrackInputConfiguration"].write(value.multitrackInputConfiguration, with: IvsClientTypes.MultitrackInputConfiguration.write(value:to:))
@@ -3749,6 +4077,18 @@ extension CreateChannelInput {
         try writer["recordingConfigurationArn"].write(value.recordingConfigurationArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["type"].write(value.type)
+    }
+}
+
+extension CreateFailoverSlateConfigurationInput {
+
+    static func write(value: CreateFailoverSlateConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activationThresholdSeconds"].write(value.activationThresholdSeconds)
+        try writer["maxSlateDisplaySeconds"].write(value.maxSlateDisplaySeconds)
+        try writer["minSlateDisplaySeconds"].write(value.minSlateDisplaySeconds)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -3802,6 +4142,14 @@ extension DeleteChannelInput {
     }
 }
 
+extension DeleteFailoverSlateConfigurationInput {
+
+    static func write(value: DeleteFailoverSlateConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+}
+
 extension DeletePlaybackKeyPairInput {
 
     static func write(value: DeletePlaybackKeyPairInput?, to writer: SmithyJSON.Writer) throws {
@@ -3845,6 +4193,14 @@ extension GetAdConfigurationInput {
 extension GetChannelInput {
 
     static func write(value: GetChannelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+}
+
+extension GetFailoverSlateConfigurationInput {
+
+    static func write(value: GetFailoverSlateConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
     }
@@ -3932,9 +4288,19 @@ extension ListChannelsInput {
     static func write(value: ListChannelsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filterByAdConfigurationArn"].write(value.filterByAdConfigurationArn)
+        try writer["filterByFailoverSlateConfigurationArn"].write(value.filterByFailoverSlateConfigurationArn)
         try writer["filterByName"].write(value.filterByName)
         try writer["filterByPlaybackRestrictionPolicyArn"].write(value.filterByPlaybackRestrictionPolicyArn)
         try writer["filterByRecordingConfigurationArn"].write(value.filterByRecordingConfigurationArn)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListFailoverSlateConfigurationsInput {
+
+    static func write(value: ListFailoverSlateConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -4051,6 +4417,7 @@ extension UpdateChannelInput {
         try writer["arn"].write(value.arn)
         try writer["authorized"].write(value.authorized)
         try writer["containerFormat"].write(value.containerFormat)
+        try writer["failoverSlateConfigurationArn"].write(value.failoverSlateConfigurationArn)
         try writer["insecureIngest"].write(value.insecureIngest)
         try writer["latencyMode"].write(value.latencyMode)
         try writer["multitrackInputConfiguration"].write(value.multitrackInputConfiguration, with: IvsClientTypes.MultitrackInputConfiguration.write(value:to:))
@@ -4059,6 +4426,18 @@ extension UpdateChannelInput {
         try writer["preset"].write(value.preset)
         try writer["recordingConfigurationArn"].write(value.recordingConfigurationArn)
         try writer["type"].write(value.type)
+    }
+}
+
+extension UpdateFailoverSlateConfigurationInput {
+
+    static func write(value: UpdateFailoverSlateConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activationThresholdSeconds"].write(value.activationThresholdSeconds)
+        try writer["arn"].write(value.arn)
+        try writer["maxSlateDisplaySeconds"].write(value.maxSlateDisplaySeconds)
+        try writer["minSlateDisplaySeconds"].write(value.minSlateDisplaySeconds)
+        try writer["name"].write(value.name)
     }
 }
 
@@ -4200,6 +4579,18 @@ extension CreateChannelOutput {
     }
 }
 
+extension CreateFailoverSlateConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFailoverSlateConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateFailoverSlateConfigurationOutput()
+        value.failoverSlateConfiguration = try reader["failoverSlateConfiguration"].readIfPresent(with: IvsClientTypes.FailoverSlateConfiguration.read(from:))
+        return value
+    }
+}
+
 extension CreatePlaybackRestrictionPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePlaybackRestrictionPolicyOutput {
@@ -4247,6 +4638,13 @@ extension DeleteChannelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChannelOutput {
         return DeleteChannelOutput()
+    }
+}
+
+extension DeleteFailoverSlateConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFailoverSlateConfigurationOutput {
+        return DeleteFailoverSlateConfigurationOutput()
     }
 }
 
@@ -4298,6 +4696,18 @@ extension GetChannelOutput {
         let reader = responseReader
         var value = GetChannelOutput()
         value.channel = try reader["channel"].readIfPresent(with: IvsClientTypes.Channel.read(from:))
+        return value
+    }
+}
+
+extension GetFailoverSlateConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFailoverSlateConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFailoverSlateConfigurationOutput()
+        value.failoverSlateConfiguration = try reader["failoverSlateConfiguration"].readIfPresent(with: IvsClientTypes.FailoverSlateConfiguration.read(from:))
         return value
     }
 }
@@ -4419,6 +4829,19 @@ extension ListChannelsOutput {
         let reader = responseReader
         var value = ListChannelsOutput()
         value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: IvsClientTypes.ChannelSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFailoverSlateConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFailoverSlateConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFailoverSlateConfigurationsOutput()
+        value.failoverSlateConfigurations = try reader["failoverSlateConfigurations"].readListIfPresent(memberReadingClosure: IvsClientTypes.FailoverSlateConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -4573,6 +4996,18 @@ extension UpdateChannelOutput {
     }
 }
 
+extension UpdateFailoverSlateConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFailoverSlateConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateFailoverSlateConfigurationOutput()
+        value.failoverSlateConfiguration = try reader["failoverSlateConfiguration"].readIfPresent(with: IvsClientTypes.FailoverSlateConfiguration.read(from:))
+        return value
+    }
+}
+
 extension UpdatePlaybackRestrictionPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePlaybackRestrictionPolicyOutput {
@@ -4673,6 +5108,25 @@ enum CreateChannelOutputError {
     }
 }
 
+enum CreateFailoverSlateConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreatePlaybackRestrictionPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4757,6 +5211,24 @@ enum DeleteChannelOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "PendingVerification": return try PendingVerification.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteFailoverSlateConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4860,6 +5332,23 @@ enum GetChannelOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFailoverSlateConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5030,6 +5519,22 @@ enum ListChannelsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFailoverSlateConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5267,6 +5772,27 @@ enum UpdateChannelOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "PendingVerification": return try PendingVerification.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateFailoverSlateConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5807,6 +6333,7 @@ extension IvsClientTypes.Channel {
         value.multitrackInputConfiguration = try reader["multitrackInputConfiguration"].readIfPresent(with: IvsClientTypes.MultitrackInputConfiguration.read(from:))
         value.containerFormat = try reader["containerFormat"].readIfPresent()
         value.adConfigurationArn = try reader["adConfigurationArn"].readIfPresent()
+        value.failoverSlateConfigurationArn = try reader["failoverSlateConfigurationArn"].readIfPresent()
         return value
     }
 }
@@ -5827,6 +6354,7 @@ extension IvsClientTypes.ChannelSummary {
         value.preset = try reader["preset"].readIfPresent()
         value.playbackRestrictionPolicyArn = try reader["playbackRestrictionPolicyArn"].readIfPresent()
         value.adConfigurationArn = try reader["adConfigurationArn"].readIfPresent()
+        value.failoverSlateConfigurationArn = try reader["failoverSlateConfigurationArn"].readIfPresent()
         return value
     }
 }
@@ -5842,6 +6370,38 @@ extension IvsClientTypes.DestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IvsClientTypes.DestinationConfiguration()
         value.s3 = try reader["s3"].readIfPresent(with: IvsClientTypes.S3DestinationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IvsClientTypes.FailoverSlateConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.FailoverSlateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IvsClientTypes.FailoverSlateConfiguration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.activationThresholdSeconds = try reader["activationThresholdSeconds"].readIfPresent()
+        value.minSlateDisplaySeconds = try reader["minSlateDisplaySeconds"].readIfPresent()
+        value.maxSlateDisplaySeconds = try reader["maxSlateDisplaySeconds"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension IvsClientTypes.FailoverSlateConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IvsClientTypes.FailoverSlateConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IvsClientTypes.FailoverSlateConfigurationSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.activationThresholdSeconds = try reader["activationThresholdSeconds"].readIfPresent()
+        value.minSlateDisplaySeconds = try reader["minSlateDisplaySeconds"].readIfPresent()
+        value.maxSlateDisplaySeconds = try reader["maxSlateDisplaySeconds"].readIfPresent()
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6123,6 +6683,7 @@ extension IvsClientTypes.StreamSession {
         value.ingestConfigurations = try reader["ingestConfigurations"].readIfPresent(with: IvsClientTypes.IngestConfigurations.read(from:))
         value.recordingConfiguration = try reader["recordingConfiguration"].readIfPresent(with: IvsClientTypes.RecordingConfiguration.read(from:))
         value.truncatedEvents = try reader["truncatedEvents"].readListIfPresent(memberReadingClosure: IvsClientTypes.StreamEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failoverSlateConfiguration = try reader["failoverSlateConfiguration"].readIfPresent(with: IvsClientTypes.FailoverSlateConfiguration.read(from:))
         return value
     }
 }

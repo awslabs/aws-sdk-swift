@@ -3196,15 +3196,49 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// Indicates the current configuration of Gateway API custom resource definition (CRD) management on your EKS Auto Mode cluster. For example, if CRD management is enabled or disabled. For more information, see EKS Auto Mode load balancing capability in the Amazon EKS User Guide.
+    public struct CrdManagementConfiguration: Swift.Sendable {
+        /// Indicates if Gateway API CRD management is enabled on your EKS Auto Mode cluster. If CRD management is enabled, EKS Auto Mode will create and update the Gateway API CRDs in your EKS Auto Mode cluster.
+        public var managed: Swift.Bool?
+
+        public init(
+            managed: Swift.Bool? = nil
+        ) {
+            self.managed = managed
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// Indicates the current configuration of the Kubernetes Gateway API for the load balancing capability on your EKS Auto Mode cluster. For more information, see EKS Auto Mode load balancing capability in the Amazon EKS User Guide.
+    public struct GatewayApiConfiguration: Swift.Sendable {
+        /// Indicates the current configuration of Gateway API custom resource definition (CRD) management on your EKS Auto Mode cluster. For example, if CRD management is enabled or disabled.
+        public var crds: EKSClientTypes.CrdManagementConfiguration?
+
+        public init(
+            crds: EKSClientTypes.CrdManagementConfiguration? = nil
+        ) {
+            self.crds = crds
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     /// Indicates the current configuration of the load balancing capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. For more information, see EKS Auto Mode load balancing capability in the Amazon EKS User Guide.
     public struct ElasticLoadBalancing: Swift.Sendable {
         /// Indicates if the load balancing capability is enabled on your EKS Auto Mode cluster. If the load balancing capability is enabled, EKS Auto Mode will create and delete load balancers in your Amazon Web Services account.
         public var enabled: Swift.Bool?
+        /// Indicates the current configuration of the Kubernetes Gateway API for the load balancing capability on your EKS Auto Mode cluster. For more information, see EKS Auto Mode load balancing capability in the Amazon EKS User Guide.
+        public var gatewayApi: EKSClientTypes.GatewayApiConfiguration?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            gatewayApi: EKSClientTypes.GatewayApiConfiguration? = nil
         ) {
             self.enabled = enabled
+            self.gatewayApi = gatewayApi
         }
     }
 }
@@ -13959,6 +13993,21 @@ extension EKSClientTypes.ControlPlaneScalingTierInfo {
     }
 }
 
+extension EKSClientTypes.CrdManagementConfiguration {
+
+    static func write(value: EKSClientTypes.CrdManagementConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["managed"].write(value.managed)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.CrdManagementConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.CrdManagementConfiguration()
+        value.managed = try reader["managed"].readIfPresent()
+        return value
+    }
+}
+
 extension EKSClientTypes.CreateAccessConfigRequest {
 
     static func write(value: EKSClientTypes.CreateAccessConfigRequest?, to writer: SmithyJSON.Writer) throws {
@@ -14048,12 +14097,14 @@ extension EKSClientTypes.ElasticLoadBalancing {
     static func write(value: EKSClientTypes.ElasticLoadBalancing?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
+        try writer["gatewayApi"].write(value.gatewayApi, with: EKSClientTypes.GatewayApiConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.ElasticLoadBalancing {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EKSClientTypes.ElasticLoadBalancing()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.gatewayApi = try reader["gatewayApi"].readIfPresent(with: EKSClientTypes.GatewayApiConfiguration.read(from:))
         return value
     }
 }
@@ -14159,6 +14210,21 @@ extension EKSClientTypes.FargateProfileSelector {
         var value = EKSClientTypes.FargateProfileSelector()
         value.namespace = try reader["namespace"].readIfPresent()
         value.labels = try reader["labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension EKSClientTypes.GatewayApiConfiguration {
+
+    static func write(value: EKSClientTypes.GatewayApiConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["crds"].write(value.crds, with: EKSClientTypes.CrdManagementConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.GatewayApiConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.GatewayApiConfiguration()
+        value.crds = try reader["crds"].readIfPresent(with: EKSClientTypes.CrdManagementConfiguration.read(from:))
         return value
     }
 }

@@ -27099,6 +27099,79 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateOutboundEmailContactMessage` operation on the `Connect` service.
+    ///
+    /// Updates the draft outbound email message for a contact. Use this operation to save changes to an in-progress outbound email reply before you send it. This operation applies only to contacts with an OUTBOUND or AGENT_REPLY initiation method; it isn't supported for flow-initiated emails.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateOutboundEmailContactMessageInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateOutboundEmailContactMessageOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateOutboundEmailContactMessage(input: UpdateOutboundEmailContactMessageInput) async throws -> UpdateOutboundEmailContactMessageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateOutboundEmailContactMessage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>(UpdateOutboundEmailContactMessageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateOutboundEmailContactMessageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOutboundEmailContactMessageOutput>(UpdateOutboundEmailContactMessageOutput.httpOutput(from:), UpdateOutboundEmailContactMessageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOutboundEmailContactMessageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateOutboundEmailContactMessageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateOutboundEmailContactMessageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Connect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateOutboundEmailContactMessageInput, UpdateOutboundEmailContactMessageOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateOutboundEmailContactMessage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateParticipantAuthentication` operation on the `Connect` service.
     ///
     /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents:

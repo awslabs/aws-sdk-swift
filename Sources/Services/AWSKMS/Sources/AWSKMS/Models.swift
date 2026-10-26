@@ -1239,9 +1239,11 @@ extension KMSClientTypes {
 
     public enum GrantOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creategrant
+        case decapsulate
         case decrypt
         case derivesharedsecret
         case describekey
+        case encapsulate
         case encrypt
         case generatedatakey
         case generatedatakeypair
@@ -1260,9 +1262,11 @@ extension KMSClientTypes {
         public static var allCases: [GrantOperation] {
             return [
                 .creategrant,
+                .decapsulate,
                 .decrypt,
                 .derivesharedsecret,
                 .describekey,
+                .encapsulate,
                 .encrypt,
                 .generatedatakey,
                 .generatedatakeypair,
@@ -1287,9 +1291,11 @@ extension KMSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .creategrant: return "CreateGrant"
+            case .decapsulate: return "Decapsulate"
             case .decrypt: return "Decrypt"
             case .derivesharedsecret: return "DeriveSharedSecret"
             case .describekey: return "DescribeKey"
+            case .encapsulate: return "Encapsulate"
             case .encrypt: return "Encrypt"
             case .generatedatakey: return "GenerateDataKey"
             case .generatedatakeypair: return "GenerateDataKeyPair"
@@ -1603,6 +1609,9 @@ extension KMSClientTypes {
         case mlDsa44
         case mlDsa65
         case mlDsa87
+        case mlKem1024
+        case mlKem512
+        case mlKem768
         case rsa2048
         case rsa3072
         case rsa4096
@@ -1624,6 +1633,9 @@ extension KMSClientTypes {
                 .mlDsa44,
                 .mlDsa65,
                 .mlDsa87,
+                .mlKem1024,
+                .mlKem512,
+                .mlKem768,
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
@@ -1651,6 +1663,9 @@ extension KMSClientTypes {
             case .mlDsa44: return "ML_DSA_44"
             case .mlDsa65: return "ML_DSA_65"
             case .mlDsa87: return "ML_DSA_87"
+            case .mlKem1024: return "ML_KEM_1024"
+            case .mlKem512: return "ML_KEM_512"
+            case .mlKem768: return "ML_KEM_768"
             case .rsa2048: return "RSA_2048"
             case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
@@ -1665,6 +1680,7 @@ extension KMSClientTypes {
 extension KMSClientTypes {
 
     public enum KeyUsageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case encapsulateDecapsulate
         case encryptDecrypt
         case generateVerifyMac
         case keyAgreement
@@ -1673,6 +1689,7 @@ extension KMSClientTypes {
 
         public static var allCases: [KeyUsageType] {
             return [
+                .encapsulateDecapsulate,
                 .encryptDecrypt,
                 .generateVerifyMac,
                 .keyAgreement,
@@ -1687,6 +1704,7 @@ extension KMSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .encapsulateDecapsulate: return "ENCAPSULATE_DECAPSULATE"
             case .encryptDecrypt: return "ENCRYPT_DECRYPT"
             case .generateVerifyMac: return "GENERATE_VERIFY_MAC"
             case .keyAgreement: return "KEY_AGREEMENT"
@@ -1832,6 +1850,17 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     ///
     ///
+    /// * Asymmetric ML-KEM key pairs (establishing shared secrets)
+    ///
+    /// * ML_KEM_512
+    ///
+    /// * ML_KEM_768
+    ///
+    /// * ML_KEM_1024
+    ///
+    ///
+    /// The ML-KEM key specs are not available in China Regions.
+    ///
     /// * SM2 key pairs (encryption and decryption -or- signing and verification -or- deriving shared secrets)
     ///
     /// * SM2 (China Regions only)
@@ -1849,6 +1878,8 @@ public struct CreateKeyInput: Swift.Sendable {
     /// * For asymmetric KMS keys with ECC_SECG_P256K1 key pairs, specify SIGN_VERIFY.
     ///
     /// * For asymmetric KMS keys with ML-DSA key pairs, specify SIGN_VERIFY.
+    ///
+    /// * For asymmetric KMS keys with ML-KEM key pairs, specify ENCAPSULATE_DECAPSULATE.
     ///
     /// * For asymmetric KMS keys with SM2 key pairs (China Regions only), specify ENCRYPT_DECRYPT, SIGN_VERIFY, or KEY_AGREEMENT.
     public var keyUsage: KMSClientTypes.KeyUsageType?
@@ -1894,6 +1925,32 @@ public struct CreateKeyInput: Swift.Sendable {
         self.policy = policy
         self.tags = tags
         self.xksKeyId = xksKeyId
+    }
+}
+
+extension KMSClientTypes {
+
+    public enum EncapsulationAlgorithmSpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mlKem
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncapsulationAlgorithmSpec] {
+            return [
+                .mlKem
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mlKem: return "ML_KEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -2271,6 +2328,8 @@ extension KMSClientTypes {
         public var description: Swift.String?
         /// Specifies whether the KMS key is enabled. When KeyState is Enabled this value is true, otherwise it is false.
         public var enabled: Swift.Bool
+        /// The key encapsulation algorithm that the KMS key supports. This field appears only for KMS keys with a KeyUsage value of ENCAPSULATE_DECAPSULATE.
+        public var encapsulationAlgorithms: [KMSClientTypes.EncapsulationAlgorithmSpec]?
         /// The encryption algorithms that the KMS key supports. You cannot use the KMS key with other encryption algorithms within KMS. This value is present only when the KeyUsage of the KMS key is ENCRYPT_DECRYPT.
         public var encryptionAlgorithms: [KMSClientTypes.EncryptionAlgorithmSpec]?
         /// Specifies whether the KMS key's key material expires. This value is present only when Origin is EXTERNAL, otherwise this value is omitted.
@@ -2322,6 +2381,7 @@ extension KMSClientTypes {
             deletionDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             enabled: Swift.Bool = false,
+            encapsulationAlgorithms: [KMSClientTypes.EncapsulationAlgorithmSpec]? = nil,
             encryptionAlgorithms: [KMSClientTypes.EncryptionAlgorithmSpec]? = nil,
             expirationModel: KMSClientTypes.ExpirationModelType? = nil,
             keyAgreementAlgorithms: [KMSClientTypes.KeyAgreementAlgorithmSpec]? = nil,
@@ -2349,6 +2409,7 @@ extension KMSClientTypes {
             self.deletionDate = deletionDate
             self.description = description
             self.enabled = enabled
+            self.encapsulationAlgorithms = encapsulationAlgorithms
             self.encryptionAlgorithms = encryptionAlgorithms
             self.expirationModel = expirationModel
             self.keyAgreementAlgorithms = keyAgreementAlgorithms
@@ -2554,6 +2615,9 @@ extension KMSClientTypes {
         case eccNistP384
         case eccNistP521
         case eccSecgP256k1
+        case mlKem1024
+        case mlKem512
+        case mlKem768
         case rsa2048
         case rsa3072
         case rsa4096
@@ -2567,6 +2631,9 @@ extension KMSClientTypes {
                 .eccNistP384,
                 .eccNistP521,
                 .eccSecgP256k1,
+                .mlKem1024,
+                .mlKem512,
+                .mlKem768,
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
@@ -2586,6 +2653,9 @@ extension KMSClientTypes {
             case .eccNistP384: return "ECC_NIST_P384"
             case .eccNistP521: return "ECC_NIST_P521"
             case .eccSecgP256k1: return "ECC_SECG_P256K1"
+            case .mlKem1024: return "ML_KEM_1024"
+            case .mlKem512: return "ML_KEM_512"
+            case .mlKem768: return "ML_KEM_768"
             case .rsa2048: return "RSA_2048"
             case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
@@ -2625,30 +2695,7 @@ extension KMSClientTypes {
     }
 }
 
-/// The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
-public struct IncorrectKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "IncorrectKeyException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material.
+/// From the [Decrypt] or [ReEncrypt] operation, the request was rejected because the specified ciphertext, or additional authenticated data incorporated into the ciphertext, such as the encryption context, is corrupted, missing, or otherwise invalid. From the [ImportKeyMaterial] operation, the request was rejected because KMS could not decrypt the encrypted (wrapped) key material. From the [Decapsulate] operation, the request was rejected because the length of the SharedSecretCiphertextBlob is inconsistent with the specified ML-KEM key spec.
 public struct InvalidCiphertextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2678,7 +2725,7 @@ public struct InvalidCiphertextException: ClientRuntime.ModeledError, AWSClientR
 /// * The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).
 ///
 ///
-/// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
+/// For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. For deriving key agreement secrets, the KeyUsage must be KEY_AGREEMENT. For encapsulating and decapsulating shared secrets, the KeyUsage must be ENCAPSULATE_DECAPSULATE. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To find the encryption or signing algorithms supported for a particular KMS key, use the [DescribeKey] operation.
 public struct InvalidKeyUsageException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2711,6 +2758,89 @@ public struct KeyUnavailableException: ClientRuntime.ModeledError, AWSClientRunt
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "KeyUnavailable" }
     public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DecapsulateInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
+    /// Specifies the key encapsulation algorithm used to recover the shared secret. The only valid value is ML_KEM.
+    /// This member is required.
+    public var encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec?
+    /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/using-grant-token.html) in the Key Management Service Developer Guide.
+    public var grantTokens: [Swift.String]?
+    /// Identifies the asymmetric ML-KEM KMS key whose public key was used to produce the encapsulated shared secret. KMS uses the private key in the specified key pair to decapsulate the shared secret. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    ///
+    /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    /// * Alias name: alias/ExampleAlias
+    ///
+    /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+    ///
+    ///
+    /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
+    /// This member is required.
+    public var keyId: Swift.String?
+    /// The encapsulated (ciphertext) form of the shared secret to recover. This is the SharedSecretCiphertextBlob value that the [Encapsulate] operation returns. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+    /// This member is required.
+    public var sharedSecretCiphertextBlob: Foundation.Data?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec? = nil,
+        grantTokens: [Swift.String]? = nil,
+        keyId: Swift.String? = nil,
+        sharedSecretCiphertextBlob: Foundation.Data? = nil
+    ) {
+        self.dryRun = dryRun
+        self.encapsulationAlgorithm = encapsulationAlgorithm
+        self.grantTokens = grantTokens
+        self.keyId = keyId
+        self.sharedSecretCiphertextBlob = sharedSecretCiphertextBlob
+    }
+}
+
+public struct DecapsulateOutput: Swift.Sendable {
+    /// The key encapsulation algorithm used to recover the shared secret.
+    public var encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec?
+    /// The identifier of the ML-KEM KMS key used to decapsulate the shared secret.
+    public var keyId: Swift.String?
+    /// The plaintext shared secret recovered from the encapsulated form. It is a 32-byte value that matches the shared secret held by the encapsulating party. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+    public var sharedSecret: Foundation.Data?
+
+    public init(
+        encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec? = nil,
+        keyId: Swift.String? = nil,
+        sharedSecret: Foundation.Data? = nil
+    ) {
+        self.encapsulationAlgorithm = encapsulationAlgorithm
+        self.keyId = keyId
+        self.sharedSecret = sharedSecret
+    }
+}
+
+/// The request was rejected because the specified KMS key cannot decrypt the data. The KeyId in a [Decrypt] request and the SourceKeyId in a [ReEncrypt] request must identify the same KMS key that was used to encrypt the ciphertext.
+public struct IncorrectKeyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "IncorrectKeyException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -3211,6 +3341,65 @@ public struct EnableKeyRotationInput: Swift.Sendable {
     }
 }
 
+public struct EncapsulateInput: Swift.Sendable {
+    /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
+    public var dryRun: Swift.Bool?
+    /// Specifies the key encapsulation algorithm used to generate the shared secret and its encapsulated form. The only valid value is ML_KEM.
+    /// This member is required.
+    public var encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec?
+    /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/using-grant-token.html) in the Key Management Service Developer Guide.
+    public var grantTokens: [Swift.String]?
+    /// Identifies an asymmetric ML-KEM KMS key. KMS uses the public key in the specified key pair to encapsulate the shared secret. ML-KEM KMS keys have a KeySpec value of ML_KEM_512, ML_KEM_768, or ML_KEM_1024 and a KeyUsage value of ENCAPSULATE_DECAPSULATE. To find the KeySpec and KeyUsage of a KMS key, use the [DescribeKey] operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    ///
+    /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    /// * Alias name: alias/ExampleAlias
+    ///
+    /// * Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+    ///
+    ///
+    /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
+    /// This member is required.
+    public var keyId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec? = nil,
+        grantTokens: [Swift.String]? = nil,
+        keyId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.encapsulationAlgorithm = encapsulationAlgorithm
+        self.grantTokens = grantTokens
+        self.keyId = keyId
+    }
+}
+
+public struct EncapsulateOutput: Swift.Sendable {
+    /// The key encapsulation algorithm used to generate the shared secret.
+    public var encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec?
+    /// The identifier of the ML-KEM KMS key used to encapsulate the shared secret.
+    public var keyId: Swift.String?
+    /// The plaintext shared secret. It is a 32-byte cryptographically random value that both parties can use directly as key material or pass through a key derivation function to generate multiple keys and nonces. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded.
+    public var sharedSecret: Foundation.Data?
+    /// The encapsulated form of the shared secret. Pass this value to the [Decapsulate] operation to recover the shared secret. When you use the HTTP API or the Amazon Web Services CLI, the value is Base64-encoded. Otherwise, it is not Base64-encoded. The length of SharedSecretCiphertextBlob depends on the ML-KEM key spec. Before Base64 encoding, the encapsulated shared secret is 768 bytes for ML_KEM_512, 1088 bytes for ML_KEM_768, and 1568 bytes for ML_KEM_1024.
+    public var sharedSecretCiphertextBlob: Foundation.Data?
+
+    public init(
+        encapsulationAlgorithm: KMSClientTypes.EncapsulationAlgorithmSpec? = nil,
+        keyId: Swift.String? = nil,
+        sharedSecret: Foundation.Data? = nil,
+        sharedSecretCiphertextBlob: Foundation.Data? = nil
+    ) {
+        self.encapsulationAlgorithm = encapsulationAlgorithm
+        self.keyId = keyId
+        self.sharedSecret = sharedSecret
+        self.sharedSecretCiphertextBlob = sharedSecretCiphertextBlob
+    }
+}
+
 public struct EncryptInput: Swift.Sendable {
     /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
     public var dryRun: Swift.Bool?
@@ -3392,7 +3581,7 @@ public struct GenerateDataKeyPairInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
+    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. The ML-KEM key specs are not available in China Regions.
     /// This member is required.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
     /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM. To call GenerateDataKeyPair generate an attestation document use either [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) for an Amazon Web Services Nitro Enclaves or [Amazon Web Services NitroTPM tools](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/attestation-get-doc.html) for Amazon Web Services NitroTPM. Then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the attested environment. When you use this parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the plaintext private data key under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The CiphertextBlob field in the response contains a copy of the private data key encrypted under the KMS key specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
@@ -3471,7 +3660,7 @@ public struct GenerateDataKeyPairWithoutPlaintextInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions.
+    /// Determines the type of data key pair that is generated. The KMS rule that restricts the use of asymmetric RSA and SM2 KMS keys to encrypt and decrypt or to sign and verify (but not both), the rule that permits you to use ECC KMS keys only to sign and verify, and the rule that permits you to use ML-DSA key pairs to sign and verify only are not effective on data key pairs, which are used outside of KMS. The SM2 key spec is only available in China Regions. The ML-KEM key specs are not available in China Regions.
     /// This member is required.
     public var keyPairSpec: KMSClientTypes.DataKeyPairSpec?
 
@@ -3684,8 +3873,10 @@ public struct GetKeyLastUsageInput: Swift.Sendable {
 extension KMSClientTypes {
 
     public enum KeyLastUsageTrackingOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case decapsulate
         case decrypt
         case derivesharedsecret
+        case encapsulate
         case encrypt
         case generatedatakey
         case generatedatakeypair
@@ -3700,8 +3891,10 @@ extension KMSClientTypes {
 
         public static var allCases: [KeyLastUsageTrackingOperation] {
             return [
+                .decapsulate,
                 .decrypt,
                 .derivesharedsecret,
+                .encapsulate,
                 .encrypt,
                 .generatedatakey,
                 .generatedatakeypair,
@@ -3722,8 +3915,10 @@ extension KMSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .decapsulate: return "Decapsulate"
             case .decrypt: return "Decrypt"
             case .derivesharedsecret: return "DeriveSharedSecret"
+            case .encapsulate: return "Encapsulate"
             case .encrypt: return "Encrypt"
             case .generatedatakey: return "GenerateDataKey"
             case .generatedatakeypair: return "GenerateDataKeyPair"
@@ -3772,7 +3967,7 @@ public struct GetKeyLastUsageOutput: Swift.Sendable {
     public var keyCreationDate: Foundation.Date?
     /// The globally unique identifier for the KMS key.
     public var keyId: Swift.String?
-    /// Contains usage information about the last time the KMS key was used for a successful cryptographic operation. If the key has not been used since tracking began, this response element is empty.
+    /// Contains usage information about the last time the KMS key was used for a successful cryptographic operation. If the key has not been used since tracking began, this response element is an empty object.
     public var keyLastUsage: KMSClientTypes.KeyLastUsageData?
     /// The date from which KMS began recording cryptographic activity for this key, or the date the KMS key was created, whichever is later.
     public var trackingStartDate: Foundation.Date?
@@ -4002,6 +4197,8 @@ public struct GetPublicKeyOutput: Swift.Sendable {
     /// Instead, use the KeySpec field in the GetPublicKey response. The KeySpec and CustomerMasterKeySpec fields have the same value. We recommend that you use the KeySpec field in your code. However, to avoid breaking changes, KMS supports both fields.
     @available(*, deprecated, message: "This field has been deprecated. Instead, use the KeySpec field.")
     public var customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec?
+    /// The key encapsulation algorithm used to establish a shared secret. This field is present only when the KMS key has a KeyUsage value of ENCAPSULATE_DECAPSULATE.
+    public var encapsulationAlgorithms: [KMSClientTypes.EncapsulationAlgorithmSpec]?
     /// The encryption algorithms that KMS supports for this key. This information is critical. If a public key encrypts data outside of KMS by using an unsupported encryption algorithm, the ciphertext cannot be decrypted. This field appears in the response only when the KeyUsage of the public key is ENCRYPT_DECRYPT.
     public var encryptionAlgorithms: [KMSClientTypes.EncryptionAlgorithmSpec]?
     /// The key agreement algorithm used to derive a shared secret. This field is present only when the KMS key has a KeyUsage value of KEY_AGREEMENT.
@@ -4019,6 +4216,7 @@ public struct GetPublicKeyOutput: Swift.Sendable {
 
     public init(
         customerMasterKeySpec: KMSClientTypes.CustomerMasterKeySpec? = nil,
+        encapsulationAlgorithms: [KMSClientTypes.EncapsulationAlgorithmSpec]? = nil,
         encryptionAlgorithms: [KMSClientTypes.EncryptionAlgorithmSpec]? = nil,
         keyAgreementAlgorithms: [KMSClientTypes.KeyAgreementAlgorithmSpec]? = nil,
         keyId: Swift.String? = nil,
@@ -4028,6 +4226,7 @@ public struct GetPublicKeyOutput: Swift.Sendable {
         signingAlgorithms: [KMSClientTypes.SigningAlgorithmSpec]? = nil
     ) {
         self.customerMasterKeySpec = customerMasterKeySpec
+        self.encapsulationAlgorithms = encapsulationAlgorithms
         self.encryptionAlgorithms = encryptionAlgorithms
         self.keyAgreementAlgorithms = keyAgreementAlgorithms
         self.keyId = keyId

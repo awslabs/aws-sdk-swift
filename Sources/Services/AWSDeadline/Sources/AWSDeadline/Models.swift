@@ -117,21 +117,8 @@ extension DeadlineClientTypes {
         ///
         /// * grid:r580 - [NVIDIA vGPU software 19](https://docs.nvidia.com/vgpu/19.0/index.html)
         ///
-        /// * grid:r570 - [NVIDIA vGPU software 18](https://docs.nvidia.com/vgpu/18.0/index.html)
         ///
-        /// * grid:r535 - [NVIDIA vGPU software 16](https://docs.nvidia.com/vgpu/16.0/index.html)
-        ///
-        ///
-        /// If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception. Not all runtimes are compatible with all accelerator types:
-        ///
-        /// * t4 and a10g: Support all runtimes (grid:r580, grid:r570, grid:r535)
-        ///
-        /// * l4 and l40s: Only support grid:r570 and newer
-        ///
-        /// * rtx-pro-server-6000: Only supports grid:r580
-        ///
-        ///
-        /// All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet. When you specify latest, it resolves to grid:r580 for all currently supported accelerators.
+        /// If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception. All accelerator types support grid:r580. All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet. When you specify latest, it resolves to grid:r580 for all currently supported accelerators.
         public var runtime: Swift.String?
 
         public init(
@@ -817,7 +804,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToFarmInput: Swift.Sendable {
     /// The ID of the farm to associate with the member.
     /// This member is required.
@@ -859,7 +845,6 @@ public struct AssociateMemberToFarmOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToFleetInput: Swift.Sendable {
     /// The farm ID of the fleet to associate with the member.
     /// This member is required.
@@ -906,7 +891,6 @@ public struct AssociateMemberToFleetOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToJobInput: Swift.Sendable {
     /// The farm ID of the job to associate with the member.
     /// This member is required.
@@ -958,7 +942,6 @@ public struct AssociateMemberToJobOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Shared member fields for Associate inputs and {Resource}Member response structures. principalId is excluded because it has @httpLabel on inputs but not on responses.
 public struct AssociateMemberToQueueInput: Swift.Sendable {
     /// The farm ID of the queue to associate with the member.
     /// This member is required.
@@ -1059,7 +1042,6 @@ extension DeadlineClientTypes.AwsCredentials: Swift.CustomDebugStringConvertible
     }
 }
 
-/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeFleetRoleForReadOutput: Swift.Sendable {
     /// The credentials for the fleet role.
     /// This member is required.
@@ -1181,7 +1163,6 @@ public struct AssumeFleetRoleForWorkerInput: Swift.Sendable {
     }
 }
 
-/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeFleetRoleForWorkerOutput: Swift.Sendable {
     /// The credentials for the worker.
     /// This member is required.
@@ -1217,7 +1198,6 @@ public struct AssumeQueueRoleForReadInput: Swift.Sendable {
     }
 }
 
-/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeQueueRoleForReadOutput: Swift.Sendable {
     /// The credentials for the queue role.
     /// This member is required.
@@ -1253,7 +1233,6 @@ public struct AssumeQueueRoleForUserInput: Swift.Sendable {
     }
 }
 
-/// Shared response body for AssumeRole operations where credentials are required. AssumeQueueRoleForWorkerResponse is excluded because credentials is optional there because Queue.roleArn is optional, so the mixin's @required trait would be incorrect.
 public struct AssumeQueueRoleForUserOutput: Swift.Sendable {
     /// The credentials for the queue role that a user has access to.
     /// This member is required.
@@ -4826,7 +4805,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateBudgetInput: Swift.Sendable {
     /// The budget actions to specify what happens when the budget runs out.
     /// This member is required.
@@ -4881,7 +4859,6 @@ extension CreateBudgetInput: Swift.CustomDebugStringConvertible {
         "CreateBudgetInput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), tags: \(Swift.String(describing: tags)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), description: \"CONTENT_REDACTED\")"}
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateBudgetOutput: Swift.Sendable {
     /// The budget ID.
     /// This member is required.
@@ -5008,7 +4985,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetBudgetOutput: Swift.Sendable {
     /// The budget actions for the budget.
     /// This member is required.
@@ -5091,7 +5067,6 @@ extension GetBudgetOutput: Swift.CustomDebugStringConvertible {
         "GetBudgetOutput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), queueStoppedAt: \(Swift.String(describing: queueStoppedAt)), schedule: \(Swift.String(describing: schedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListBudgetsInput: Swift.Sendable {
     /// The farm ID associated with the budgets.
     /// This member is required.
@@ -5189,7 +5164,6 @@ extension DeadlineClientTypes.BudgetSummary: Swift.CustomDebugStringConvertible 
         "BudgetSummary(approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), budgetId: \(Swift.String(describing: budgetId)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), usages: \(Swift.String(describing: usages)), description: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListBudgetsOutput: Swift.Sendable {
     /// The budgets to include on the list.
     /// This member is required.
@@ -5472,7 +5446,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateFarmInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
@@ -5510,7 +5483,6 @@ extension CreateFarmInput: Swift.CustomDebugStringConvertible {
         "CreateFarmInput(clientToken: \(Swift.String(describing: clientToken)), costScaleFactor: \(Swift.String(describing: costScaleFactor)), displayName: \(Swift.String(describing: displayName)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateFarmOutput: Swift.Sendable {
     /// The farm ID.
     /// This member is required.
@@ -5900,7 +5872,7 @@ extension DeadlineClientTypes {
     public struct ServiceManagedEc2InstanceCapabilities: Swift.Sendable {
         /// Describes the GPU accelerator capabilities required for worker host instances in this fleet.
         public var acceleratorCapabilities: DeadlineClientTypes.AcceleratorCapabilities?
-        /// The allowable Amazon EC2 instance types.
+        /// The allowable Amazon EC2 instance types. If you specify allowedInstanceTypes, you can't specify excludedInstanceTypes.
         public var allowedInstanceTypes: [Swift.String]?
         /// The CPU architecture type.
         /// This member is required.
@@ -5909,7 +5881,7 @@ extension DeadlineClientTypes {
         public var customAmounts: [DeadlineClientTypes.FleetAmountCapability]?
         /// The custom capability attributes to require for instances in this fleet.
         public var customAttributes: [DeadlineClientTypes.FleetAttributeCapability]?
-        /// The instance types to exclude from the fleet.
+        /// The instance types to exclude from the fleet. If you specify excludedInstanceTypes, you can't specify allowedInstanceTypes.
         public var excludedInstanceTypes: [Swift.String]?
         /// The memory, as MiB, for the Amazon EC2 instance type.
         /// This member is required.
@@ -6007,7 +5979,7 @@ extension DeadlineClientTypes {
     public struct PersistentVolumeConfiguration: Swift.Sendable {
         /// The IOPS per persistent volume. The default is 3000.
         public var iops: Swift.Int?
-        /// The number of hours a persistent volume can remain unused before it is deleted. The default is 168 (7 days).
+        /// The number of hours a persistent volume can remain unused before it is deleted. The default is 12.
         public var lastUsedTtlHours: Swift.Int?
         /// The file system path where the persistent volume is mounted on the worker instance.
         /// This member is required.
@@ -6122,7 +6094,6 @@ extension DeadlineClientTypes.HostConfiguration: Swift.CustomDebugStringConverti
         "HostConfiguration(scriptTimeoutSeconds: \(Swift.String(describing: scriptTimeoutSeconds)), scriptBody: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateFleetInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
@@ -6180,7 +6151,6 @@ extension CreateFleetInput: Swift.CustomDebugStringConvertible {
         "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateFleetOutput: Swift.Sendable {
     /// The fleet ID.
     /// This member is required.
@@ -6305,7 +6275,6 @@ extension CreateJobInput: Swift.CustomDebugStringConvertible {
         "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), nameOverride: \(Swift.String(describing: nameOverride)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), tags: \(Swift.String(describing: tags)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), descriptionOverride: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateJobOutput: Swift.Sendable {
     /// The job ID.
     /// This member is required.
@@ -6348,7 +6317,6 @@ public struct CreateLicenseEndpointInput: Swift.Sendable {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateLicenseEndpointOutput: Swift.Sendable {
     /// The license endpoint ID.
     /// This member is required.
@@ -6452,7 +6420,6 @@ public struct CreateMonitorInput: Swift.Sendable {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateMonitorOutput: Swift.Sendable {
     /// The Amazon Resource Name that IAM Identity Center assigns to the monitor.
     /// This member is required.
@@ -6638,7 +6605,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared displayName + description for Create operations where both are present. displayName is @required here - this mixin is Create-only by design (Update has optional displayName).
 public struct CreateQueueInput: Swift.Sendable {
     /// The storage profile IDs to include in the queue.
     public var allowedStorageProfileIds: [Swift.String]?
@@ -6701,7 +6667,6 @@ extension CreateQueueInput: Swift.CustomDebugStringConvertible {
         "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), schedulingConfiguration: \(Swift.String(describing: schedulingConfiguration)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateQueueOutput: Swift.Sendable {
     /// The queue ID.
     /// This member is required.
@@ -7038,7 +7003,6 @@ public struct CreateWorkerInput: Swift.Sendable {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct CreateWorkerOutput: Swift.Sendable {
     /// The worker ID.
     /// This member is required.
@@ -7077,7 +7041,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct DeleteQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID of the farm that holds the queue-fleet association.
     /// This member is required.
@@ -7345,7 +7308,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetFleetOutput: Swift.Sendable {
     /// The Auto Scaling status of the fleet. Either GROWING, STEADY, or SHRINKING.
     public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
@@ -7445,7 +7407,6 @@ extension GetFleetOutput: Swift.CustomDebugStringConvertible {
         "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFleetMembersInput: Swift.Sendable {
     /// The farm ID of the fleet.
     /// This member is required.
@@ -7512,7 +7473,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFleetMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -7529,7 +7489,6 @@ public struct ListFleetMembersOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFleetsInput: Swift.Sendable {
     /// The display names of a list of fleets. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var displayName: Swift.String?
@@ -7643,7 +7602,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFleetsOutput: Swift.Sendable {
     /// The fleets on the list.
     /// This member is required.
@@ -7834,7 +7792,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetVolumeOutput: Swift.Sendable {
     /// The worker ID of the worker the volume is attached to.
     public var attachedWorkerId: Swift.String?
@@ -7906,7 +7863,6 @@ public struct GetVolumeOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListVolumesInput: Swift.Sendable {
     /// The farm ID of the farm that contains the fleet.
     /// This member is required.
@@ -7977,7 +7933,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListVolumesOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8043,7 +7998,6 @@ public struct GetWorkerInput: Swift.Sendable {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetWorkerOutput: Swift.Sendable {
     /// The date and time the resource was created.
     /// This member is required.
@@ -8097,7 +8051,6 @@ public struct GetWorkerOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionsForWorkerInput: Swift.Sendable {
     /// The farm ID for the session.
     /// This member is required.
@@ -8172,7 +8125,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionsForWorkerOutput: Swift.Sendable {
     /// The token for the next set of results, or null to start from the beginning.
     public var nextToken: Swift.String?
@@ -8189,7 +8141,6 @@ public struct ListSessionsForWorkerOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListWorkersInput: Swift.Sendable {
     /// The farm ID connected to the workers.
     /// This member is required.
@@ -8272,7 +8223,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListWorkersOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -8590,7 +8540,6 @@ public struct GetFarmInput: Swift.Sendable {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetFarmOutput: Swift.Sendable {
     /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
     /// This member is required.
@@ -8661,7 +8610,6 @@ public struct GetLimitInput: Swift.Sendable {
     }
 }
 
-/// Domain fields for Limit summary/response shapes, ordered before timestamps.
 public struct GetLimitOutput: Swift.Sendable {
     /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
     /// This member is required.
@@ -8792,7 +8740,6 @@ extension GetStorageProfileOutput: Swift.CustomDebugStringConvertible {
         "GetStorageProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), osFamily: \(Swift.String(describing: osFamily)), storageProfileId: \(Swift.String(describing: storageProfileId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), fileSystemLocations: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFarmMembersInput: Swift.Sendable {
     /// The farm ID.
     /// This member is required.
@@ -8849,7 +8796,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFarmMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -8866,7 +8812,6 @@ public struct ListFarmMembersOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListFarmsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -8929,7 +8874,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListFarmsOutput: Swift.Sendable {
     /// Farms on the list.
     /// This member is required.
@@ -8946,7 +8890,6 @@ public struct ListFarmsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListLimitsInput: Swift.Sendable {
     /// The unique identifier of the farm that contains the limits.
     /// This member is required.
@@ -9026,7 +8969,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListLimitsOutput: Swift.Sendable {
     /// A list of limits that the farm contains.
     /// This member is required.
@@ -9043,7 +8985,6 @@ public struct ListLimitsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStorageProfilesInput: Swift.Sendable {
     /// The farm ID of the storage profile.
     /// This member is required.
@@ -9090,7 +9031,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStorageProfilesOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -9261,7 +9201,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetQueueOutput: Swift.Sendable {
     /// The storage profile IDs for the queue.
     public var allowedStorageProfileIds: [Swift.String]?
@@ -9539,7 +9478,6 @@ public struct GetJobInput: Swift.Sendable {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetJobOutput: Swift.Sendable {
     /// The attachments for the job.
     public var attachments: DeadlineClientTypes.Attachments?
@@ -9678,7 +9616,6 @@ public struct GetSessionInput: Swift.Sendable {
     }
 }
 
-/// Session lifecycle/status fields, ordered after IDs in session shapes.
 public struct GetSessionOutput: Swift.Sendable {
     /// The date and time the resource ended running.
     public var endedAt: Foundation.Date?
@@ -10045,7 +9982,6 @@ extension GetTaskOutput: Swift.CustomDebugStringConvertible {
         "GetTaskOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobMembersInput: Swift.Sendable {
     /// The farm ID of the job to list.
     /// This member is required.
@@ -10122,7 +10058,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -10139,7 +10074,6 @@ public struct ListJobMembersOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobParameterDefinitionsInput: Swift.Sendable {
     /// The farm ID of the job to list.
     /// This member is required.
@@ -10170,7 +10104,6 @@ public struct ListJobParameterDefinitionsInput: Swift.Sendable {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
     /// Lists parameter definitions of a job.
     /// This member is required.
@@ -10187,7 +10120,6 @@ public struct ListJobParameterDefinitionsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListJobsInput: Swift.Sendable {
     /// The farm ID for the jobs.
     /// This member is required.
@@ -10331,7 +10263,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListJobsOutput: Swift.Sendable {
     /// The jobs on the list.
     /// This member is required.
@@ -10348,7 +10279,6 @@ public struct ListJobsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionActionsInput: Swift.Sendable {
     /// The farm ID for the session actions list.
     /// This member is required.
@@ -10525,7 +10455,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionActionsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -10542,7 +10471,6 @@ public struct ListSessionActionsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListSessionsInput: Swift.Sendable {
     /// The farm ID for the list of sessions.
     /// This member is required.
@@ -10625,7 +10553,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListSessionsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -10727,7 +10654,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepConsumersOutput: Swift.Sendable {
     /// The consumers on the list.
     /// This member is required.
@@ -10800,7 +10726,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepDependenciesOutput: Swift.Sendable {
     /// The dependencies on the list.
     /// This member is required.
@@ -10817,7 +10742,6 @@ public struct ListStepDependenciesOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStepsInput: Swift.Sendable {
     /// The farm ID to include on the list of steps.
     /// This member is required.
@@ -10946,7 +10870,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStepsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -10963,7 +10886,6 @@ public struct ListStepsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListTasksInput: Swift.Sendable {
     /// The farm ID connected to the tasks.
     /// This member is required.
@@ -11067,7 +10989,6 @@ extension DeadlineClientTypes.TaskSummary: Swift.CustomDebugStringConvertible {
         "TaskSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListTasksOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -11280,7 +11201,6 @@ public struct UpdateTaskOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueEnvironmentsInput: Swift.Sendable {
     /// The farm ID for the queue environment list.
     /// This member is required.
@@ -11332,7 +11252,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueEnvironmentsOutput: Swift.Sendable {
     /// The environments to include in the queue environments list.
     /// This member is required.
@@ -11349,7 +11268,6 @@ public struct ListQueueEnvironmentsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueMembersInput: Swift.Sendable {
     /// The farm ID for the queue.
     /// This member is required.
@@ -11416,7 +11334,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueMembersOutput: Swift.Sendable {
     /// The members on the list.
     /// This member is required.
@@ -11433,7 +11350,6 @@ public struct ListQueueMembersOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueuesInput: Swift.Sendable {
     /// The farm ID of the queue.
     /// This member is required.
@@ -11526,7 +11442,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueuesOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -11543,7 +11458,6 @@ public struct ListQueuesOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListStorageProfilesForQueueInput: Swift.Sendable {
     /// The farm ID of the queue's storage profile.
     /// This member is required.
@@ -11569,7 +11483,6 @@ public struct ListStorageProfilesForQueueInput: Swift.Sendable {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListStorageProfilesForQueueOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -11829,7 +11742,6 @@ public struct UpdateStorageProfileOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct GetQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID of the farm that contains the queue-fleet association.
     /// This member is required.
@@ -11887,7 +11799,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Domain fields for QueueFleetAssociation summary/response shapes, ordered before timestamps.
 public struct GetQueueFleetAssociationOutput: Swift.Sendable {
     /// The date and time the resource was created.
     /// This member is required.
@@ -11985,7 +11896,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Domain fields for QueueLimitAssociation summary/response shapes, ordered before timestamps.
 public struct GetQueueLimitAssociationOutput: Swift.Sendable {
     /// The Unix timestamp of the date and time that the association was created.
     /// This member is required.
@@ -12026,7 +11936,6 @@ public struct GetQueueLimitAssociationOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct GetSessionsStatisticsAggregationInput: Swift.Sendable {
     /// The identifier returned by the StartSessionsStatisticsAggregation operation that identifies the aggregated statistics.
     /// This member is required.
@@ -12212,7 +12121,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct GetSessionsStatisticsAggregationOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -12323,7 +12231,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetLicenseEndpointOutput: Swift.Sendable {
     /// The DNS name.
     public var dnsName: Swift.String?
@@ -12362,7 +12269,6 @@ public struct GetLicenseEndpointOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListLicenseEndpointsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -12405,7 +12311,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListLicenseEndpointsOutput: Swift.Sendable {
     /// The license endpoints.
     /// This member is required.
@@ -12422,7 +12327,6 @@ public struct ListLicenseEndpointsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMeteredProductsInput: Swift.Sendable {
     /// The license endpoint ID to include on the list of metered products.
     /// This member is required.
@@ -12474,7 +12378,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListMeteredProductsOutput: Swift.Sendable {
     /// The metered products to list.
     /// This member is required.
@@ -12513,7 +12416,6 @@ public struct PutMeteredProductOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListAvailableMeteredProductsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -12529,7 +12431,6 @@ public struct ListAvailableMeteredProductsInput: Swift.Sendable {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListAvailableMeteredProductsOutput: Swift.Sendable {
     /// The metered products.
     /// This member is required.
@@ -12581,7 +12482,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMembershipsInput: Swift.Sendable {
     /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Amazon Web Services Region in which you make the request.
     public var identityCenterRegion: Swift.String?
@@ -12630,7 +12530,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListMembershipsOutput: Swift.Sendable {
     /// The memberships associated with the specified principal.
     /// This member is required.
@@ -12647,7 +12546,6 @@ public struct ListMembershipsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueFleetAssociationsInput: Swift.Sendable {
     /// The farm ID for the queue-fleet association list.
     /// This member is required.
@@ -12728,7 +12626,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -12745,7 +12642,6 @@ public struct ListQueueFleetAssociationsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListQueueLimitAssociationsInput: Swift.Sendable {
     /// The unique identifier of the farm that contains the limits and associations.
     /// This member is required.
@@ -12826,7 +12722,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListQueueLimitAssociationsOutput: Swift.Sendable {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
@@ -12895,7 +12790,6 @@ public struct GetMonitorInput: Swift.Sendable {
     }
 }
 
-/// Mixin that adds an optional ARN field to response structures. Apply to SummaryMixins (flows into Get, Summary, and BatchGet) and Create outputs.
 public struct GetMonitorOutput: Swift.Sendable {
     /// The UNIX timestamp of the date and time that the monitor was created.
     /// This member is required.
@@ -12984,7 +12878,6 @@ public struct GetMonitorSettingsOutput: Swift.Sendable {
     }
 }
 
-/// Shared pagination fields for List operation inputs (nextToken + maxResults).
 public struct ListMonitorsInput: Swift.Sendable {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
@@ -13068,7 +12961,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared pagination field for List operation outputs (nextToken).
 public struct ListMonitorsOutput: Swift.Sendable {
     /// A list of MonitorSummary objects that describe your monitors in the Deadline Cloud.
     /// This member is required.
@@ -13517,7 +13409,6 @@ extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertib
         "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchJobsOutput: Swift.Sendable {
     /// The jobs in the search.
     /// This member is required.
@@ -13638,7 +13529,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchStepsOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -13728,7 +13618,6 @@ extension DeadlineClientTypes.TaskSearchSummary: Swift.CustomDebugStringConverti
         "TaskSearchSummary(endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), jobId: \(Swift.String(describing: jobId)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
-/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchTasksOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -13793,7 +13682,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared output fields for all Search operations (nextItemOffset, totalResults).
 public struct SearchWorkersOutput: Swift.Sendable {
     /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
@@ -14073,7 +13961,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Identifier mixin for queue-fleet association operations. Composes QueueIdentifierMixin (farmId + queueId) and adds fleetId.
 public struct UpdateQueueFleetAssociationInput: Swift.Sendable {
     /// The farm ID to update.
     /// This member is required.
@@ -14211,7 +14098,6 @@ extension DeadlineClientTypes {
     }
 }
 
-/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchJobsInput: Swift.Sendable {
     /// The farm ID of the job.
     /// This member is required.
@@ -14246,7 +14132,6 @@ public struct SearchJobsInput: Swift.Sendable {
     }
 }
 
-/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchStepsInput: Swift.Sendable {
     /// The farm ID to use for the step search.
     /// This member is required.
@@ -14285,7 +14170,6 @@ public struct SearchStepsInput: Swift.Sendable {
     }
 }
 
-/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchTasksInput: Swift.Sendable {
     /// The farm ID of the task.
     /// This member is required.
@@ -14324,7 +14208,6 @@ public struct SearchTasksInput: Swift.Sendable {
     }
 }
 
-/// Shared input fields for all Search operations (filterExpressions, sortExpressions, itemOffset, pageSize).
 public struct SearchWorkersInput: Swift.Sendable {
     /// The farm ID in the workers search.
     /// This member is required.

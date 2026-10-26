@@ -351,7 +351,8 @@ extension ListInstancesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListInstancesInput {
         return ListInstancesInput(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            regionScope: self.regionScope
         )}
 }
 
