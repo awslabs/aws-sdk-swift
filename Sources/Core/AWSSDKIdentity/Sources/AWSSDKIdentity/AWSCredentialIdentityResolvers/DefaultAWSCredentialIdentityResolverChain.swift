@@ -10,7 +10,6 @@ import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
 @_spi(SmithyIdentity) import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import protocol SmithyIdentityAPI.IdentityInvalidator
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.
@@ -46,7 +45,7 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
         try await cache.getIdentity(identityProperties: identityProperties)
     }
 
-    public func invalidate(_ identity: AWSCredentialIdentity) async {
+    func invalidate(_ identity: AWSCredentialIdentity) async {
         await cache.invalidate(identity)
     }
 }

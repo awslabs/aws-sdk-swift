@@ -280,6 +280,7 @@ class CredentialRefreshSEPTests: XCTestCase {
                     label: stepLabel,
                     subject: subject,
                     source: source,
+                    clock: clock,
                     cachedBefore: lastKnownAccessKey
                 )
             default:
@@ -332,6 +333,7 @@ class CredentialRefreshSEPTests: XCTestCase {
         label: String,
         subject: CredentialsCache,
         source: MockCredentialSource,
+        clock: MockCredentialClock,
         cachedBefore: String?
     ) async -> String? {
         guard let expected = step.expected else {
@@ -353,7 +355,7 @@ class CredentialRefreshSEPTests: XCTestCase {
         }
 
         // rateLimited is the backoff state before the call, so check it before getIdentity.
-        let rateLimited = await subject.rateLimited
+        let rateLimited = await subject.rateLimited(at: clock.now())
         let callsBefore = await source.calls()
 
         var thrown: Error?
@@ -411,4 +413,10 @@ class CredentialRefreshSEPTests: XCTestCase {
         }
         return try JSONDecoder().decode([SEPCase].self, from: try Data(contentsOf: url))
     }
+}
+
+extension CredentialsCache {
+    var advisoryWindow: TimeInterval? { entry?.advisoryWindow }
+
+    func rateLimited(at now: Date) -> Bool { entry?.rateLimited(now) ?? false }
 }

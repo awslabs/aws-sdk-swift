@@ -13,12 +13,7 @@ public func wrapCredentialIdentityResolver(
     _ resolver: any AWSCredentialIdentityResolver
 ) -> any AWSCredentialIdentityResolver {
     guard resolver is RefreshLifecycleEligible else { return resolver }
-
-    let cache = CredentialsCache(source: resolver)
-    if let cognito = resolver as? CognitoAWSCredentialIdentityResolver {
-        cognito.loginsChanged.add(cache)
-    }
-    return cache
+    return CredentialsCache(source: resolver)
 }
 
 /// RefreshLifecycleEligible marks the SDK resolvers that get the refresh lifecycle.
@@ -30,5 +25,4 @@ extension SSOAWSCredentialIdentityResolver: RefreshLifecycleEligible {}
 extension LoginAWSCredentialIdentityResolver: RefreshLifecycleEligible {}
 extension ECSAWSCredentialIdentityResolver: RefreshLifecycleEligible {}
 extension IMDSAWSCredentialIdentityResolver: RefreshLifecycleEligible {}
-extension CognitoAWSCredentialIdentityResolver: RefreshLifecycleEligible {}
 extension ProfileAWSCredentialIdentityResolver: RefreshLifecycleEligible {}

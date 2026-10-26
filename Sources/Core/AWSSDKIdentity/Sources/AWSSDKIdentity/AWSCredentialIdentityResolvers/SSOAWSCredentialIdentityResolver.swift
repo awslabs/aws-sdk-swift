@@ -73,11 +73,18 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         if let ssoSessionName {
             region = try getProperty(ssoSessionName, .ssoSession, "sso_region", fileBasedConfig)
             tokenFeatureIDs = [CredentialFeatureID.CREDENTIALS_PROFILE_SSO.rawValue]
-            ssoToken = try await SSOBearerTokenIdentityResolver(
-                profileName: resolvedProfileName,
-                configFilePath: configFilePath,
-                credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs
-            ).getIdentity(identityProperties: identityProperties)
+            do {
+                ssoToken = try await SSOBearerTokenIdentityResolver(
+                    profileName: resolvedProfileName,
+                    configFilePath: configFilePath,
+                    credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs
+                ).getIdentity(identityProperties: identityProperties)
+            } catch let error as ClientError {
+                throw NonRecoverableCredentialError(
+                    underlying: error,
+                    actionableMessage: "Failed to resolve SSO token. Sign in again, for example with `aws sso login`."
+                )
+            }
         } else { // Handle Legacy token flow.
             region = try getProperty(resolvedProfileName, .profile, "sso_region", fileBasedConfig)
             tokenFeatureIDs = [CredentialFeatureID.CREDENTIALS_PROFILE_SSO_LEGACY.rawValue]

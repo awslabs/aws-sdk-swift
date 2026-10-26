@@ -21,6 +21,7 @@ object AWSSDKIdentityTypes {
     val IdentityProvidingSTSClientError = runtimeSymbol("IdentityProvidingSTSClientError", SwiftDeclaration.ENUM)
     val AWSCredentialIdentity = runtimeSymbol("AWSCredentialIdentity", SwiftDeclaration.STRUCT)
     val CredentialFeatureIDInterceptorProvider = runtimeSymbol("CredentialFeatureIDInterceptorProvider", SwiftDeclaration.CLASS)
+    val CredentialInvalidationInterceptor = runtimeSymbol("CredentialInvalidationInterceptor", SwiftDeclaration.STRUCT)
     val CredentialFeatureID = runtimeSymbol("CredentialFeatureID", SwiftDeclaration.ENUM)
     val wrapCredentialIdentityResolver =
         runtimeSymbol(

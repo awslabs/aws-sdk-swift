@@ -10,7 +10,6 @@ import struct Foundation.TimeInterval
 import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import protocol SmithyIdentityAPI.IdentityInvalidator
 
 // Refresh timing values for the credentials cache.
 private let refreshBackoffMin: TimeInterval = 300
@@ -27,7 +26,7 @@ private let longAdvisoryWindow: TimeInterval = 60 * 60
 /// CredentialsCache caches the credentials from an SDK credential resolver and refreshes them before they expire.
 actor CredentialsCache: AWSCredentialIdentityResolver, IdentityInvalidator {
     /// CacheEntry holds the cached credentials, their advisory window, any refresh backoff, and any cached non-recoverable error.
-    private struct CacheEntry {
+    struct CacheEntry {
         var credentials: AWSCredentialIdentity?
         var effectiveExpiration: Date?
         var advisoryWindow: TimeInterval = 0
@@ -69,15 +68,9 @@ actor CredentialsCache: AWSCredentialIdentityResolver, IdentityInvalidator {
     private let now: @Sendable () -> Date
     private let fixedBackoff: TimeInterval?
     private let logger = SwiftLogger(label: "CredentialsCache")
-    private var entry: CacheEntry?
+    var entry: CacheEntry?
     private var status: RefreshStatus = .idle
     private var resetCount = 0
-
-    /// advisoryWindow is the advisory window of the cached credentials.
-    var advisoryWindow: TimeInterval? { entry?.advisoryWindow } // swiftlint:disable:this unused_declaration
-
-    /// rateLimited reports whether the backoff from a failed refresh is still active.
-    var rateLimited: Bool { entry?.rateLimited(now()) ?? false } // swiftlint:disable:this unused_declaration
 
     init(
         source: any AWSCredentialIdentityResolver,
@@ -165,7 +158,7 @@ actor CredentialsCache: AWSCredentialIdentityResolver, IdentityInvalidator {
         // A reset during the fetch means these credentials are for the old logins, so they aren't cached.
         guard resetCount == startCount else { return credentials }
 
-        if let expiration = credentials.expiration, expiration <= self.now() {
+        if entry?.credentials != nil, let expiration = credentials.expiration, expiration <= self.now() {
             return try failedRefresh(AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "CredentialsCache: credential source returned credentials that have already expired."
             ))
