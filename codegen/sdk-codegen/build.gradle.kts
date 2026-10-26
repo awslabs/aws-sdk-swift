@@ -78,6 +78,13 @@ fun generateSmithyBuild(services: List<AwsService>): String {
     require(services.isNotEmpty()) {
         "No services discovered. Verify aws.services and aws.protocols properties in local.build. Aborting."
     }
+    // bdd-bytecoder.py from SwiftPM's checkout of aws-crt-swift, used to compile services' endpointBdd traits.
+    // Run `swift package resolve` first so the checkout exists.
+    val bddBytecoder =
+        rootProject.file(".build/checkouts/aws-crt-swift/aws-common-runtime/aws-c-sdkutils/compiler/bdd-bytecoder.py")
+    val bddSettings =
+        """,
+                      "bddBytecoderPath": "${bddBytecoder.absolutePath.replace("\\", "\\\\")}""""
     val projections = services.joinToString(",") { service ->
         // escape windows paths for valid json
         val absModelPath = service.modelFile.absolutePath.replace("\\", "\\\\")
@@ -104,7 +111,7 @@ fun generateSmithyBuild(services: List<AwsService>): String {
                       "visibility": "${service.visibility}",
                       "internalClient": ${service.internalClient},
                       "operations": [${service.operations.map { "\"$it\"" }.joinToString(", ")}],
-                      "modelPath": "${service.modelFile.relativeTo(rootProject.projectDir)}"
+                      "modelPath": "${service.modelFile.relativeTo(rootProject.projectDir)}"$bddSettings
                     }
                 }
             }

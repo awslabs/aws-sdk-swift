@@ -16,6 +16,9 @@ if [ -x "$(command -v osascript)" ]; then
   osascript -e 'quit app "Xcode"'
 fi
 
+# Download Swift package dependencies; codegen uses the BDD bytecode compiler from the aws-crt-swift checkout
+swift package resolve
+
 # Delete all previous Smithy build products
 rm -rf codegen/sdk-codegen/build/smithyprojections/sdk-codegen/*
 
