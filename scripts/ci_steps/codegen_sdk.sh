@@ -2,9 +2,6 @@
 
 set -e
 
-# Download Swift package dependencies; codegen uses the BDD bytecode compiler from the aws-crt-swift checkout
-swift package resolve
-
 # Delete all generated services & their tests
 rm -rf Sources/Services/*
 rm -rf Tests/Services/*
