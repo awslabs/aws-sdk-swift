@@ -16603,6 +16603,48 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum OnBehalfOfClientAuthenticationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noClient
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OnBehalfOfClientAuthenticationMethod] {
+            return [
+                .noClient
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noClient: return "NO_CLIENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Specifies the client authentication method to use for the on-behalf-of token exchange.
+    public struct OnBehalfOfAuthenticationConfig: Swift.Sendable {
+        /// The client authentication method to use during the on-behalf-of token exchange. The NO_CLIENT option omits the clientId and clientSecret during the on-behalf-of token exchange with the identity provider.
+        /// This member is required.
+        public var clientAuthenticationMethod: BedrockAgentCoreControlClientTypes.OnBehalfOfClientAuthenticationMethod?
+
+        public init(
+            clientAuthenticationMethod: BedrockAgentCoreControlClientTypes.OnBehalfOfClientAuthenticationMethod? = nil
+        ) {
+            self.clientAuthenticationMethod = clientAuthenticationMethod
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for RFC 8693 token exchange.
     public struct TokenExchangeGrantTypeConfigType: Swift.Sendable {
         /// The content type for the actor token in the token exchange.
@@ -16628,14 +16670,18 @@ extension BedrockAgentCoreControlClientTypes {
         /// The grant type for the on-behalf-of token exchange.
         /// This member is required.
         public var grantType: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeGrantTypeType?
+        /// Specify the client authentication configuration to use for the on-behalf-of token exchange. With this configuration, you override the provider level client authentication method for the on-behalf-of exchange with the identity provider. If you don't specify this configuration, we use the provider level client authentication method.
+        public var onBehalfOfAuthenticationConfig: BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig?
         /// Configuration specific to the TOKEN_EXCHANGE grant type (RFC 8693).
         public var tokenExchangeGrantTypeConfig: BedrockAgentCoreControlClientTypes.TokenExchangeGrantTypeConfigType?
 
         public init(
             grantType: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeGrantTypeType? = nil,
+            onBehalfOfAuthenticationConfig: BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig? = nil,
             tokenExchangeGrantTypeConfig: BedrockAgentCoreControlClientTypes.TokenExchangeGrantTypeConfigType? = nil
         ) {
             self.grantType = grantType
+            self.onBehalfOfAuthenticationConfig = onBehalfOfAuthenticationConfig
             self.tokenExchangeGrantTypeConfig = tokenExchangeGrantTypeConfig
         }
     }
@@ -23679,6 +23725,40 @@ extension UpdateRegistryOutput: Swift.CustomDebugStringConvertible {
         "UpdateRegistryOutput(approvalConfiguration: \(Swift.String(describing: approvalConfiguration)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), name: \(Swift.String(describing: name)), registryArn: \(Swift.String(describing: registryArn)), registryId: \(Swift.String(describing: registryId)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\")"}
 }
 
+public struct ResetTokenVaultKeyMaterialInput: Swift.Sendable {
+    /// The unique identifier of the token vault to reset. To reset your account's default token vault, specify default.
+    /// This member is required.
+    public var tokenVaultId: Swift.String?
+
+    public init(
+        tokenVaultId: Swift.String? = nil
+    ) {
+        self.tokenVaultId = tokenVaultId
+    }
+}
+
+public struct ResetTokenVaultKeyMaterialOutput: Swift.Sendable {
+    /// The KMS configuration for the token vault after the reset. The token vault uses an Amazon Web Services managed key.
+    /// This member is required.
+    public var kmsConfiguration: BedrockAgentCoreControlClientTypes.KmsConfiguration?
+    /// The timestamp when the token vault was last modified.
+    /// This member is required.
+    public var lastModifiedDate: Foundation.Date?
+    /// The ID of the token vault.
+    /// This member is required.
+    public var tokenVaultId: Swift.String?
+
+    public init(
+        kmsConfiguration: BedrockAgentCoreControlClientTypes.KmsConfiguration? = nil,
+        lastModifiedDate: Foundation.Date? = nil,
+        tokenVaultId: Swift.String? = nil
+    ) {
+        self.kmsConfiguration = kmsConfiguration
+        self.lastModifiedDate = lastModifiedDate
+        self.tokenVaultId = tokenVaultId
+    }
+}
+
 /// Exception thrown when a resource is modified concurrently by multiple requests.
 public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -26657,6 +26737,13 @@ extension PutResourcePolicyInput {
     }
 }
 
+extension ResetTokenVaultKeyMaterialInput {
+
+    static func urlPathProvider(_ value: ResetTokenVaultKeyMaterialInput) -> Swift.String? {
+        return "/identities/reset-token-vault-key-material"
+    }
+}
+
 extension RotatePaymentConnectorCredentialsInput {
 
     static func urlPathProvider(_ value: RotatePaymentConnectorCredentialsInput) -> Swift.String? {
@@ -27633,6 +27720,14 @@ extension PutResourcePolicyInput {
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["policy"].write(value.policy)
+    }
+}
+
+extension ResetTokenVaultKeyMaterialInput {
+
+    static func write(value: ResetTokenVaultKeyMaterialInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tokenVaultId"].write(value.tokenVaultId)
     }
 }
 
@@ -30205,6 +30300,20 @@ extension PutResourcePolicyOutput {
     }
 }
 
+extension ResetTokenVaultKeyMaterialOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResetTokenVaultKeyMaterialOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ResetTokenVaultKeyMaterialOutput()
+        value.kmsConfiguration = try reader["kmsConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.KmsConfiguration.read(from:))
+        value.lastModifiedDate = try reader["lastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tokenVaultId = try reader["tokenVaultId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension RotatePaymentConnectorCredentialsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RotatePaymentConnectorCredentialsOutput {
@@ -31416,6 +31525,7 @@ enum CreateWorkloadIdentityOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -33363,6 +33473,26 @@ enum PutResourcePolicyOutputError {
     }
 }
 
+enum ResetTokenVaultKeyMaterialOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RotatePaymentConnectorCredentialsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -33392,6 +33522,7 @@ enum SetTokenVaultCMKOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -34030,6 +34161,7 @@ enum UpdateWorkloadIdentityOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -39267,11 +39399,27 @@ extension BedrockAgentCoreControlClientTypes.OAuthCredentialProvider {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientAuthenticationMethod"].write(value.clientAuthenticationMethod)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig()
+        value.clientAuthenticationMethod = try reader["clientAuthenticationMethod"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType {
 
     static func write(value: BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["grantType"].write(value.grantType)
+        try writer["onBehalfOfAuthenticationConfig"].write(value.onBehalfOfAuthenticationConfig, with: BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig.write(value:to:))
         try writer["tokenExchangeGrantTypeConfig"].write(value.tokenExchangeGrantTypeConfig, with: BedrockAgentCoreControlClientTypes.TokenExchangeGrantTypeConfigType.write(value:to:))
     }
 
@@ -39280,6 +39428,7 @@ extension BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType {
         var value = BedrockAgentCoreControlClientTypes.OnBehalfOfTokenExchangeConfigType()
         value.grantType = try reader["grantType"].readIfPresent() ?? .sdkUnknown("")
         value.tokenExchangeGrantTypeConfig = try reader["tokenExchangeGrantTypeConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TokenExchangeGrantTypeConfigType.read(from:))
+        value.onBehalfOfAuthenticationConfig = try reader["onBehalfOfAuthenticationConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.OnBehalfOfAuthenticationConfig.read(from:))
         return value
     }
 }

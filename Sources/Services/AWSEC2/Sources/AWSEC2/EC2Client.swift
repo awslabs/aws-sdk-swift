@@ -37360,6 +37360,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetImageFindings` operation on the `EC2` service.
+    ///
+    /// Describes the Amazon Inspector vulnerability findings for the specified AMI. You can get findings for AMIs that you own, AMIs that are shared with you, and public AMIs. Amazon Inspector returns findings only for AMIs that it has scanned.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetImageFindingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetImageFindingsOutput`)
+    public func getImageFindings(input: GetImageFindingsInput) async throws -> GetImageFindingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getImageFindings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetImageFindingsInput, GetImageFindingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(GetImageFindingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImageFindingsInput, GetImageFindingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetImageFindingsInput, GetImageFindingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImageFindingsOutput>(GetImageFindingsOutput.httpOutput(from:), GetImageFindingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetImageFindingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetImageFindingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetImageFindingsInput, GetImageFindingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetImageFindingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetImageFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetImageFindingsInput, GetImageFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetImageFindings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetInstanceMetadataDefaults` operation on the `EC2` service.
     ///
     /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services  Region. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.

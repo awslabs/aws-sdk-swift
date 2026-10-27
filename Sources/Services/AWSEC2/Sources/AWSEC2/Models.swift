@@ -51447,6 +51447,33 @@ public struct DescribeImagesInput: Swift.Sendable {
     ///
     /// * root-device-type - The type of the root device volume (ebs | instance-store).
     ///
+    /// * scan-result.critical-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a critical severity finding on the AMI.
+    ///
+    /// * scan-result.finding-scan-date - The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), of the most recent Amazon Inspector scan of the AMI.
+    ///
+    /// * scan-result.high-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a high severity finding on the AMI.
+    ///
+    /// * scan-result.highest-finding-severity-label - The highest severity among the AMI's Amazon Inspector findings, whether or not a fix is available. The valid values are the following Amazon Inspector severity levels:
+    ///
+    /// * informational - CVSS score of 0.
+    ///
+    /// * low - CVSS score of 0.1 to 3.9.
+    ///
+    /// * medium - CVSS score of 4.0 to 6.9.
+    ///
+    /// * high - CVSS score of 7.0 to 8.9.
+    ///
+    /// * critical - CVSS score of 9.0 to 10.0.
+    ///
+    ///
+    ///
+    ///
+    /// * scan-result.informational-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for an informational severity finding on the AMI.
+    ///
+    /// * scan-result.low-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a low severity finding on the AMI.
+    ///
+    /// * scan-result.medium-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a medium severity finding on the AMI.
+    ///
     /// * source-image-id - The ID of the source AMI from which the AMI was created.
     ///
     /// * source-image-region - The Region of the source AMI.
@@ -51756,6 +51783,96 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum SeverityLabel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SeverityLabel] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "critical"
+            case .high: return "high"
+            case .informational: return "informational"
+            case .low: return "low"
+            case .medium: return "medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The Amazon Inspector scan results for an AMI. This information is present only for AMIs that Amazon Inspector has scanned. When you share an AMI with other accounts, organizations, or organizational units (OUs), or make it public, its scan results are available to the accounts that can use the AMI. The fix-available dates are specific to the AMI. Each date reflects when a fix became available for a finding on that AMI, not when the vendor released the fix. As a result, a date can be later than the vendor's release date, and AMIs with the same vulnerability can have different dates.
+    public struct ScanResults: Swift.Sendable {
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a critical severity finding on the AMI. This value is present only if the AMI has at least one critical severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var criticalFixAvailableSince: Foundation.Date?
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), of the most recent Amazon Inspector scan of the AMI.
+        public var findingScanDate: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a high severity finding on the AMI. This value is present only if the AMI has at least one high severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var highFixAvailableSince: Foundation.Date?
+        /// The highest severity among the AMI's Amazon Inspector findings, whether or not a fix is available. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. This value is present only if the AMI has at least one finding.
+        public var highestFindingSeverityLabel: EC2ClientTypes.SeverityLabel?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for an informational severity finding on the AMI. This value is present only if the AMI has at least one informational severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var informationalFixAvailableSince: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a low severity finding on the AMI. This value is present only if the AMI has at least one low severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var lowFixAvailableSince: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a medium severity finding on the AMI. This value is present only if the AMI has at least one medium severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var mediumFixAvailableSince: Foundation.Date?
+
+        public init(
+            criticalFixAvailableSince: Foundation.Date? = nil,
+            findingScanDate: Foundation.Date? = nil,
+            highFixAvailableSince: Foundation.Date? = nil,
+            highestFindingSeverityLabel: EC2ClientTypes.SeverityLabel? = nil,
+            informationalFixAvailableSince: Foundation.Date? = nil,
+            lowFixAvailableSince: Foundation.Date? = nil,
+            mediumFixAvailableSince: Foundation.Date? = nil
+        ) {
+            self.criticalFixAvailableSince = criticalFixAvailableSince
+            self.findingScanDate = findingScanDate
+            self.highFixAvailableSince = highFixAvailableSince
+            self.highestFindingSeverityLabel = highestFindingSeverityLabel
+            self.informationalFixAvailableSince = informationalFixAvailableSince
+            self.lowFixAvailableSince = lowFixAvailableSince
+            self.mediumFixAvailableSince = mediumFixAvailableSince
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum ImageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deregistered
@@ -51924,6 +52041,8 @@ extension EC2ClientTypes {
         public var rootDeviceName: Swift.String?
         /// The type of root device used by the AMI. The AMI can use an Amazon EBS volume or an instance store volume.
         public var rootDeviceType: EC2ClientTypes.DeviceType?
+        /// The Amazon Inspector scan results for the AMI. This information is present only for AMIs that Amazon Inspector has scanned. When you share an AMI with other accounts, organizations, or organizational units (OUs), or make it public, its scan results are available to the accounts that can use the AMI.
+        public var scanResults: EC2ClientTypes.ScanResults?
         /// The ID of the source AMI from which the AMI was created.
         public var sourceImageId: Swift.String?
         /// The Region of the source AMI.
@@ -51976,6 +52095,7 @@ extension EC2ClientTypes {
             ramdiskId: Swift.String? = nil,
             rootDeviceName: Swift.String? = nil,
             rootDeviceType: EC2ClientTypes.DeviceType? = nil,
+            scanResults: EC2ClientTypes.ScanResults? = nil,
             sourceImageId: Swift.String? = nil,
             sourceImageRegion: Swift.String? = nil,
             sourceInstanceId: Swift.String? = nil,
@@ -52017,6 +52137,7 @@ extension EC2ClientTypes {
             self.ramdiskId = ramdiskId
             self.rootDeviceName = rootDeviceName
             self.rootDeviceType = rootDeviceType
+            self.scanResults = scanResults
             self.sourceImageId = sourceImageId
             self.sourceImageRegion = sourceImageRegion
             self.sourceInstanceId = sourceInstanceId
@@ -71615,6 +71736,58 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity. They can also limit, for each severity, the days since Amazon Inspector reported a fix as available. The severity limit applies to all findings, whether or not a fix is available. The day limits for each severity apply only to findings that have a fix available. A scanned AMI that has no fix-available finding of a given severity meets that severity's day limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+    public struct ScanResultCondition: Swift.Sendable {
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a critical severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no critical severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceCriticalFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a high severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no high severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceHighFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for an informational severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no informational severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceInformationalFixAvailable: Swift.Int?
+        /// The maximum number of days that have elapsed since Amazon Inspector last scanned the AMI. For example, a value of 7 allows AMIs that were scanned within the last 7 days. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLastFindingScan: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a low severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no low severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLowFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a medium severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no medium severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceMediumFixAvailable: Swift.Int?
+        /// The maximum severity that an AMI's Amazon Inspector findings can have for the AMI to be allowed. Findings count whether or not a fix is available. For example, a value of medium allows AMIs whose highest severity is informational, low, or medium. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. A scanned AMI that has no findings meets this limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+        public var maximumSeverityLabel: EC2ClientTypes.SeverityLabel?
+
+        public init(
+            maxDaysSinceCriticalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceHighFixAvailable: Swift.Int? = nil,
+            maxDaysSinceInformationalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceLastFindingScan: Swift.Int? = nil,
+            maxDaysSinceLowFixAvailable: Swift.Int? = nil,
+            maxDaysSinceMediumFixAvailable: Swift.Int? = nil,
+            maximumSeverityLabel: EC2ClientTypes.SeverityLabel? = nil
+        ) {
+            self.maxDaysSinceCriticalFixAvailable = maxDaysSinceCriticalFixAvailable
+            self.maxDaysSinceHighFixAvailable = maxDaysSinceHighFixAvailable
+            self.maxDaysSinceInformationalFixAvailable = maxDaysSinceInformationalFixAvailable
+            self.maxDaysSinceLastFindingScan = maxDaysSinceLastFindingScan
+            self.maxDaysSinceLowFixAvailable = maxDaysSinceLowFixAvailable
+            self.maxDaysSinceMediumFixAvailable = maxDaysSinceMediumFixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. For more information, see [How Allowed AMIs works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html#how-allowed-amis-works) in the Amazon EC2 User Guide.
     public struct ImageCriterion: Swift.Sendable {
         /// The maximum age for allowed images.
@@ -71653,6 +71826,8 @@ extension EC2ClientTypes {
         public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
+        /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity, the number of days since Amazon Inspector last scanned the AMI, and the number of days since Amazon Inspector reported a fix as available.
+        public var scanResultCondition: EC2ClientTypes.ScanResultCondition?
 
         public init(
             creationDateCondition: EC2ClientTypes.CreationDateCondition? = nil,
@@ -71660,7 +71835,8 @@ extension EC2ClientTypes {
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
             imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]? = nil,
-            marketplaceProductCodes: [Swift.String]? = nil
+            marketplaceProductCodes: [Swift.String]? = nil,
+            scanResultCondition: EC2ClientTypes.ScanResultCondition? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
@@ -71668,6 +71844,7 @@ extension EC2ClientTypes {
             self.imageProviders = imageProviders
             self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
+            self.scanResultCondition = scanResultCondition
         }
     }
 }
@@ -73894,6 +74071,101 @@ public struct GetImageBlockPublicAccessStateOutput: Swift.Sendable {
     ) {
         self.imageBlockPublicAccessState = imageBlockPublicAccessState
         self.managedBy = managedBy
+    }
+}
+
+public struct GetImageFindingsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an Amazon Inspector vulnerability finding for an AMI.
+    public struct ImageFinding: Swift.Sendable {
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), when Amazon Inspector first observed the finding.
+        public var firstObservedAt: Foundation.Date?
+        /// Specifies whether a fix is available for the finding. This value is true when Amazon Inspector reports a full or partial fix for the finding.
+        public var fixAvailable: Swift.Bool?
+        /// The file paths in the AMI that are affected by the finding. Amazon EC2 returns up to 10 file paths for each finding.
+        public var paths: [Swift.String]?
+        /// The Amazon Inspector score for the finding.
+        public var score: Swift.Double?
+        /// The severity of the finding. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide.
+        public var severityLabel: EC2ClientTypes.SeverityLabel?
+        /// The ID of the Amazon EBS snapshot of the AMI in which the finding was detected.
+        public var snapshotId: Swift.String?
+        /// The title of the finding.
+        public var title: Swift.String?
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), when Amazon Inspector last updated the finding.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            firstObservedAt: Foundation.Date? = nil,
+            fixAvailable: Swift.Bool? = nil,
+            paths: [Swift.String]? = nil,
+            score: Swift.Double? = nil,
+            severityLabel: EC2ClientTypes.SeverityLabel? = nil,
+            snapshotId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
+            self.paths = paths
+            self.score = score
+            self.severityLabel = severityLabel
+            self.snapshotId = snapshotId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetImageFindingsOutput: Swift.Sendable {
+    /// The Amazon Inspector findings for the AMI.
+    public var imageFindings: [EC2ClientTypes.ImageFinding]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        imageFindings: [EC2ClientTypes.ImageFinding]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.imageFindings = imageFindings
+        self.nextToken = nextToken
     }
 }
 
@@ -86594,6 +86866,58 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity. They can also limit, for each severity, the days since Amazon Inspector reported a fix as available. The severity limit applies to all findings, whether or not a fix is available. The day limits for each severity apply only to findings that have a fix available. A scanned AMI that has no fix-available finding of a given severity meets that severity's day limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+    public struct ScanResultConditionRequest: Swift.Sendable {
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a critical severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no critical severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceCriticalFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a high severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no high severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceHighFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for an informational severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no informational severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceInformationalFixAvailable: Swift.Int?
+        /// The maximum number of days that have elapsed since Amazon Inspector last scanned the AMI. For example, a value of 7 allows AMIs that were scanned within the last 7 days. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLastFindingScan: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a low severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no low severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLowFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a medium severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no medium severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceMediumFixAvailable: Swift.Int?
+        /// The maximum severity that an AMI's Amazon Inspector findings can have for the AMI to be allowed. Findings count whether or not a fix is available. For example, a value of medium allows AMIs whose highest severity is informational, low, or medium. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. A scanned AMI that has no findings meets this limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+        public var maximumSeverityLabel: EC2ClientTypes.SeverityLabel?
+
+        public init(
+            maxDaysSinceCriticalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceHighFixAvailable: Swift.Int? = nil,
+            maxDaysSinceInformationalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceLastFindingScan: Swift.Int? = nil,
+            maxDaysSinceLowFixAvailable: Swift.Int? = nil,
+            maxDaysSinceMediumFixAvailable: Swift.Int? = nil,
+            maximumSeverityLabel: EC2ClientTypes.SeverityLabel? = nil
+        ) {
+            self.maxDaysSinceCriticalFixAvailable = maxDaysSinceCriticalFixAvailable
+            self.maxDaysSinceHighFixAvailable = maxDaysSinceHighFixAvailable
+            self.maxDaysSinceInformationalFixAvailable = maxDaysSinceInformationalFixAvailable
+            self.maxDaysSinceLastFindingScan = maxDaysSinceLastFindingScan
+            self.maxDaysSinceLowFixAvailable = maxDaysSinceLowFixAvailable
+            self.maxDaysSinceMediumFixAvailable = maxDaysSinceMediumFixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. The ImageCriteria can include up to:
     ///
     /// * 10 ImageCriterion
@@ -86648,6 +86972,8 @@ extension EC2ClientTypes {
         public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
+        /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity, the number of days since Amazon Inspector last scanned the AMI, and the number of days since Amazon Inspector reported a fix as available.
+        public var scanResultCondition: EC2ClientTypes.ScanResultConditionRequest?
 
         public init(
             creationDateCondition: EC2ClientTypes.CreationDateConditionRequest? = nil,
@@ -86655,7 +86981,8 @@ extension EC2ClientTypes {
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
             imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]? = nil,
-            marketplaceProductCodes: [Swift.String]? = nil
+            marketplaceProductCodes: [Swift.String]? = nil,
+            scanResultCondition: EC2ClientTypes.ScanResultConditionRequest? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
@@ -86663,6 +86990,7 @@ extension EC2ClientTypes {
             self.imageProviders = imageProviders
             self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
+            self.scanResultCondition = scanResultCondition
         }
     }
 }
@@ -93971,6 +94299,13 @@ extension GetImageAncestryInput {
 extension GetImageBlockPublicAccessStateInput {
 
     static func urlPathProvider(_ value: GetImageBlockPublicAccessStateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetImageFindingsInput {
+
+    static func urlPathProvider(_ value: GetImageFindingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -104450,6 +104785,19 @@ extension GetImageBlockPublicAccessStateInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("GetImageBlockPublicAccessState")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetImageFindingsInput {
+
+    static func write(value: GetImageFindingsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetImageFindings")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -115300,6 +115648,19 @@ extension GetImageBlockPublicAccessStateOutput {
     }
 }
 
+extension GetImageFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetImageFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetImageFindingsOutput()
+        value.imageFindings = try reader["imageFindingSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageFinding.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension GetInstanceMetadataDefaultsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInstanceMetadataDefaultsOutput {
@@ -125655,6 +126016,19 @@ enum GetImageBlockPublicAccessStateOutputError {
     }
 }
 
+enum GetImageFindingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInstanceMetadataDefaultsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -132974,6 +133348,7 @@ extension EC2ClientTypes.Image {
         value.freeTierEligible = try reader["freeTierEligible"].readIfPresent()
         value.publicSsmParameterName = try reader["publicSsmParameterName"].readIfPresent()
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.scanResults = try reader["scanResults"].readIfPresent(with: EC2ClientTypes.ScanResults.read(from:))
         value.instanceTypeSpecification = try reader["instanceTypeSpecification"].readIfPresent(with: EC2ClientTypes.InstanceTypeSpecification.read(from:))
         value.imageId = try reader["imageId"].readIfPresent()
         value.imageLocation = try reader["imageLocation"].readIfPresent()
@@ -133016,6 +133391,7 @@ extension EC2ClientTypes.ImageCriterion {
         value.deprecationTimeCondition = try reader["deprecationTimeCondition"].readIfPresent(with: EC2ClientTypes.DeprecationTimeCondition.read(from:))
         value.creationDateCondition = try reader["creationDateCondition"].readIfPresent(with: EC2ClientTypes.CreationDateCondition.read(from:))
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermarkFilterResponse.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.scanResultCondition = try reader["scanResultCondition"].readIfPresent(with: EC2ClientTypes.ScanResultCondition.read(from:))
         return value
     }
 }
@@ -133038,6 +133414,7 @@ extension EC2ClientTypes.ImageCriterionRequest {
         if !(value.marketplaceProductCodes?.isEmpty ?? true) {
             try writer["MarketplaceProductCode"].writeList(value.marketplaceProductCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
+        try writer["ScanResultCondition"].write(value.scanResultCondition, with: EC2ClientTypes.ScanResultConditionRequest.write(value:to:))
     }
 }
 
@@ -133051,6 +133428,23 @@ extension EC2ClientTypes.ImageDiskContainer {
         try writer["SnapshotId"].write(value.snapshotId)
         try writer["Url"].write(value.url)
         try writer["UserBucket"].write(value.userBucket, with: EC2ClientTypes.UserBucket.write(value:to:))
+    }
+}
+
+extension EC2ClientTypes.ImageFinding {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ImageFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ImageFinding()
+        value.fixAvailable = try reader["fixAvailable"].readIfPresent()
+        value.score = try reader["score"].readIfPresent()
+        value.firstObservedAt = try reader["firstObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.title = try reader["title"].readIfPresent()
+        value.paths = try reader["pathSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.severityLabel = try reader["severityLabel"].readIfPresent()
+        value.snapshotId = try reader["snapshotId"].readIfPresent()
+        return value
     }
 }
 
@@ -139028,6 +139422,52 @@ extension EC2ClientTypes.S3Storage {
         value.`prefix` = try reader["prefix"].readIfPresent()
         value.uploadPolicy = try reader["uploadPolicy"].readIfPresent()
         value.uploadPolicySignature = try reader["uploadPolicySignature"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ScanResultCondition {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ScanResultCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ScanResultCondition()
+        value.maxDaysSinceLastFindingScan = try reader["maxDaysSinceLastFindingScan"].readIfPresent()
+        value.maximumSeverityLabel = try reader["maximumSeverityLabel"].readIfPresent()
+        value.maxDaysSinceInformationalFixAvailable = try reader["maxDaysSinceInformationalFixAvailable"].readIfPresent()
+        value.maxDaysSinceLowFixAvailable = try reader["maxDaysSinceLowFixAvailable"].readIfPresent()
+        value.maxDaysSinceMediumFixAvailable = try reader["maxDaysSinceMediumFixAvailable"].readIfPresent()
+        value.maxDaysSinceHighFixAvailable = try reader["maxDaysSinceHighFixAvailable"].readIfPresent()
+        value.maxDaysSinceCriticalFixAvailable = try reader["maxDaysSinceCriticalFixAvailable"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ScanResultConditionRequest {
+
+    static func write(value: EC2ClientTypes.ScanResultConditionRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDaysSinceCriticalFixAvailable"].write(value.maxDaysSinceCriticalFixAvailable)
+        try writer["MaxDaysSinceHighFixAvailable"].write(value.maxDaysSinceHighFixAvailable)
+        try writer["MaxDaysSinceInformationalFixAvailable"].write(value.maxDaysSinceInformationalFixAvailable)
+        try writer["MaxDaysSinceLastFindingScan"].write(value.maxDaysSinceLastFindingScan)
+        try writer["MaxDaysSinceLowFixAvailable"].write(value.maxDaysSinceLowFixAvailable)
+        try writer["MaxDaysSinceMediumFixAvailable"].write(value.maxDaysSinceMediumFixAvailable)
+        try writer["MaximumSeverityLabel"].write(value.maximumSeverityLabel)
+    }
+}
+
+extension EC2ClientTypes.ScanResults {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ScanResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ScanResults()
+        value.highestFindingSeverityLabel = try reader["highestFindingSeverityLabel"].readIfPresent()
+        value.findingScanDate = try reader["findingScanDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.informationalFixAvailableSince = try reader["informationalFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lowFixAvailableSince = try reader["lowFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.mediumFixAvailableSince = try reader["mediumFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.highFixAvailableSince = try reader["highFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.criticalFixAvailableSince = try reader["criticalFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

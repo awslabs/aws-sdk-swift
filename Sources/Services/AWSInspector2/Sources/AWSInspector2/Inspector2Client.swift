@@ -3558,6 +3558,78 @@ extension Inspector2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetOnDemandScanStatus` operation on the `Inspector2` service.
+    ///
+    /// Retrieves the status of a specific on-demand scan for a resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetOnDemandScanStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetOnDemandScanStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ResourceNotFoundException` : The operation tried to access an invalid resource. Make sure the resource is specified correctly.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func getOnDemandScanStatus(input: GetOnDemandScanStatusInput) async throws -> GetOnDemandScanStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getOnDemandScanStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>(GetOnDemandScanStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetOnDemandScanStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOnDemandScanStatusOutput>(GetOnDemandScanStatusOutput.httpOutput(from:), GetOnDemandScanStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetOnDemandScanStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOnDemandScanStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOnDemandScanStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOnDemandScanStatusInput, GetOnDemandScanStatusOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOnDemandScanStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetSbomExport` operation on the `Inspector2` service.
     ///
     /// Gets details of a software bill of materials (SBOM) report.
@@ -4832,6 +4904,77 @@ extension Inspector2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListOnDemandScans` operation on the `Inspector2` service.
+    ///
+    /// Lists the on-demand scans for a resource.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListOnDemandScansInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListOnDemandScansOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func listOnDemandScans(input: ListOnDemandScansInput) async throws -> ListOnDemandScansOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listOnDemandScans")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListOnDemandScansInput, ListOnDemandScansOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>(ListOnDemandScansInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListOnDemandScansInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOnDemandScansOutput>(ListOnDemandScansOutput.httpOutput(from:), ListOnDemandScansOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListOnDemandScansOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOnDemandScansOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOnDemandScansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListOnDemandScansInput, ListOnDemandScansOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListOnDemandScans")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `Inspector2` service.
     ///
     /// Lists all tags attached to a given resource.
@@ -5404,6 +5547,79 @@ extension Inspector2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartOnDemandScan` operation on the `Inspector2` service.
+    ///
+    /// Starts an on-demand scan of the specified resource, such as an Amazon Machine Image (AMI).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartOnDemandScanInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartOnDemandScanOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `ConflictException` : A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.
+    public func startOnDemandScan(input: StartOnDemandScanInput) async throws -> StartOnDemandScanOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startOnDemandScan")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "inspector2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartOnDemandScanInput, StartOnDemandScanOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>(StartOnDemandScanInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartOnDemandScanInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOnDemandScanOutput>(StartOnDemandScanOutput.httpOutput(from:), StartOnDemandScanOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartOnDemandScanOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Inspector2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartOnDemandScanOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartOnDemandScanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Inspector2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartOnDemandScanInput, StartOnDemandScanOutput>(serviceID: serviceName, version: Inspector2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Inspector2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartOnDemandScan")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StopCisSession` operation on the `Inspector2` service.
     ///
     /// Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
@@ -5847,6 +6063,7 @@ extension Inspector2Client {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
+    /// - `ConflictException` : A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
     /// - `InternalServerException` : The request has failed due to an internal failure of the Amazon Inspector service.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The request has failed validation due to missing required fields or having invalid inputs.

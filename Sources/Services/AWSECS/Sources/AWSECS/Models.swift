@@ -2671,6 +2671,79 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// Describes how a GPU on a container instance is shared between containers.
+    public enum GpuSharingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// One container has exclusive use of the GPU. Amazon ECS assigns GPUs this way to containers that specify value instead of sharingStrategy for the GPU resource type.
+        case dedicated
+        /// No containers are assigned to the GPU, and all of its memory is available.
+        case idle
+        /// One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS). While the GPU is in this mode, Amazon ECS assigns it only to containers that use the nvidiaMps sharing strategy.
+        case nvidiaMps
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GpuSharingMode] {
+            return [
+                .dedicated,
+                .idle,
+                .nvidiaMps
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicated: return "DEDICATED"
+            case .idle: return "IDLE"
+            case .nvidiaMps: return "NVIDIA_MPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The state of a GPU on a container instance, including its sharing mode and the memory that's available for new containers.
+    public struct GpuDevice: Swift.Sendable {
+        /// The number of containers that Amazon ECS assigned to the GPU. This value is 0 when the sharing mode is IDLE and 1 when the sharing mode is DEDICATED. Amazon ECS counts the containers that it assigned to the GPU, not the processes that are running on it.
+        public var containerCount: Swift.Int?
+        /// The ID of the GPU. This ID matches the GPU IDs in the gpuIds of the containers that Amazon ECS assigned to the GPU.
+        public var gpuId: Swift.String?
+        /// The amount of GPU memory, in MiB, that's available to allocate to new containers that use the nvidiaMps sharing strategy. Amazon ECS calculates this value from the memory that it allocated to containers on the GPU, not from the memory that the containers use.
+        public var remainingMemoryInMiB: Swift.Int?
+        /// How the GPU is shared between containers. Valid values:
+        ///
+        /// * IDLE - No containers are assigned to the GPU, and all of its memory is available.
+        ///
+        /// * NVIDIA_MPS - One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS).
+        ///
+        /// * DEDICATED - One container has exclusive use of the GPU.
+        public var sharingMode: ECSClientTypes.GpuSharingMode?
+        /// The total amount of GPU memory, in MiB, that the Amazon ECS container agent reported for the GPU. This is the memory that's available to containers, and it can be less than the nominal memory of the GPU.
+        public var totalMemoryInMiB: Swift.Int?
+
+        public init(
+            containerCount: Swift.Int? = nil,
+            gpuId: Swift.String? = nil,
+            remainingMemoryInMiB: Swift.Int? = nil,
+            sharingMode: ECSClientTypes.GpuSharingMode? = nil,
+            totalMemoryInMiB: Swift.Int? = nil
+        ) {
+            self.containerCount = containerCount
+            self.gpuId = gpuId
+            self.remainingMemoryInMiB = remainingMemoryInMiB
+            self.sharingMode = sharingMode
+            self.totalMemoryInMiB = totalMemoryInMiB
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum InstanceHealthCheckState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case impaired
         case initializing
@@ -2865,6 +2938,8 @@ extension ECSClientTypes {
         public var containerInstanceArn: Swift.String?
         /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the Amazon Web Services Systems Manager managed instance ID.
         public var ec2InstanceId: Swift.String?
+        /// The state of each GPU on the container instance, including its sharing mode and available memory. This field is present only for container instances that support GPU sharing.
+        public var gpuDevices: [ECSClientTypes.GpuDevice]?
         /// An object representing the health status of the container instance.
         public var healthStatus: ECSClientTypes.ContainerInstanceHealthStatus?
         /// The number of tasks on the container instance that are in the PENDING status.
@@ -2910,6 +2985,7 @@ extension ECSClientTypes {
             capacityProviderName: Swift.String? = nil,
             containerInstanceArn: Swift.String? = nil,
             ec2InstanceId: Swift.String? = nil,
+            gpuDevices: [ECSClientTypes.GpuDevice]? = nil,
             healthStatus: ECSClientTypes.ContainerInstanceHealthStatus? = nil,
             pendingTasksCount: Swift.Int = 0,
             registeredAt: Foundation.Date? = nil,
@@ -2929,6 +3005,7 @@ extension ECSClientTypes {
             self.capacityProviderName = capacityProviderName
             self.containerInstanceArn = containerInstanceArn
             self.ec2InstanceId = ec2InstanceId
+            self.gpuDevices = gpuDevices
             self.healthStatus = healthStatus
             self.pendingTasksCount = pendingTasksCount
             self.registeredAt = registeredAt
@@ -7208,6 +7285,36 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The GPU memory and compute limits for a container that shares a GPU by using NVIDIA Multi-Process Service (MPS). Amazon ECS assigns the container a single GPU that has enough memory available. Other containers that use MPS can share the same GPU.
+    public struct NvidiaMpsAllocation: Swift.Sendable {
+        /// The maximum percentage of the GPU's compute capacity that the container can use. Amazon ECS sets the CUDA_MPS_ACTIVE_THREAD_PERCENTAGE environment variable in the container to this value. This value is a limit, not a reservation. If you don't specify this parameter, Amazon ECS doesn't set CUDA_MPS_ACTIVE_THREAD_PERCENTAGE, and the active thread percentage of the MPS server on the container instance applies. By default, this is 100 percent.
+        public var maxComputePercent: Swift.Int?
+        /// The amount of GPU memory, in MiB, to allocate to the container. Amazon ECS assigns the container a GPU that has at least the specified amount of memory available, and sets the CUDA_MPS_PINNED_DEVICE_MEM_LIMIT environment variable in the container to limit its memory to this amount. The memory must be available on a single GPU. If more than one container in a task uses nvidiaMps, Amazon ECS assigns them the same GPU, which must have enough memory available for all of them.
+        /// This member is required.
+        public var memory: Swift.Int?
+
+        public init(
+            maxComputePercent: Swift.Int? = nil,
+            memory: Swift.Int? = nil
+        ) {
+            self.maxComputePercent = maxComputePercent
+            self.memory = memory
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The strategy that a container uses to share a GPU with other containers. Specify exactly one member.
+    public enum SharingStrategy: Swift.Sendable {
+        /// Shares a GPU between containers by using NVIDIA Multi-Process Service (MPS). You specify the GPU memory to allocate to the container and, optionally, the maximum percentage of the GPU's compute capacity that the container can use.
+        case nvidiamps(ECSClientTypes.NvidiaMpsAllocation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gpu
         case inferenceAccelerator
@@ -7242,17 +7349,20 @@ extension ECSClientTypes {
 
     /// The type and amount of a resource to assign to a container. The supported resource types are GPUs, Neuron devices, and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
     public struct ResourceRequirement: Swift.Sendable {
+        /// The strategy that the container uses to share a GPU with other containers. Specify a sharing strategy only when the type is GPU. For a GPU resource requirement, specify either value or sharingStrategy, but not both. If you don't specify a sharing strategy, the container has exclusive use of each GPU that Amazon ECS assigns to it. The containers in a task that request GPUs must all use the same option. You can use GPU sharing with tasks that run on Amazon EC2 instances or Amazon ECS Managed Instances. Task definitions that require EXTERNAL compatibility don't support GPU sharing.
+        public var sharingStrategy: ECSClientTypes.SharingStrategy?
         /// The type of resource to assign to a container.
         /// This member is required.
         public var type: ECSClientTypes.ResourceType?
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
-        /// This member is required.
+        /// The value for the specified resource type. You must specify this parameter unless the type is GPU and you specify sharingStrategy. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
         public var value: Swift.String?
 
         public init(
+            sharingStrategy: ECSClientTypes.SharingStrategy? = nil,
             type: ECSClientTypes.ResourceType? = nil,
-            value: Swift.String? = nil
+            value: Swift.String? = ""
         ) {
+            self.sharingStrategy = sharingStrategy
             self.type = type
             self.value = value
         }
@@ -15475,6 +15585,8 @@ extension ECSClientTypes {
         public var exitCode: Swift.Int?
         /// The IDs of each GPU assigned to the container.
         public var gpuIds: [Swift.String]?
+        /// The GPU sharing strategy that the task definition specifies for the container. This field is present only for containers whose resource requirements include sharingStrategy.
+        public var gpuSharingStrategy: ECSClientTypes.SharingStrategy?
         /// The health status of the container. If health checks aren't configured for this container in its task definition, then it reports the health status as UNKNOWN.
         public var healthStatus: ECSClientTypes.HealthStatus?
         /// The image used for the container.
@@ -15509,6 +15621,7 @@ extension ECSClientTypes {
             cpu: Swift.String? = nil,
             exitCode: Swift.Int? = nil,
             gpuIds: [Swift.String]? = nil,
+            gpuSharingStrategy: ECSClientTypes.SharingStrategy? = nil,
             healthStatus: ECSClientTypes.HealthStatus? = nil,
             image: Swift.String? = nil,
             imageDigest: Swift.String? = nil,
@@ -15528,6 +15641,7 @@ extension ECSClientTypes {
             self.cpu = cpu
             self.exitCode = exitCode
             self.gpuIds = gpuIds
+            self.gpuSharingStrategy = gpuSharingStrategy
             self.healthStatus = healthStatus
             self.image = image
             self.imageDigest = imageDigest
