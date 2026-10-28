@@ -2396,6 +2396,102 @@ public struct ListWorkspaceInstancesOutput: Swift.Sendable {
     }
 }
 
+/// The volume has a previous modification that is still in progress, or has reached the limit of four modifications in a rolling 24-hour period. Wait for the current modification to finish, or wait until the time indicated in the error message, and then retry the request.
+public struct VolumeModificationRateExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Specifies the reason that the modification request was rejected.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Specifies the identifier of the volume for which the modification request was rejected.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// Specifies the type of the resource for which the modification request was rejected.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "VolumeModificationRateExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+/// Contains the parameters for modifying a volume, including the target size, volume type, IOPS, or throughput.
+public struct ModifyVolumeInput: Swift.Sendable {
+    /// Unique token to ensure idempotent volume modification, preventing duplicate volume modifications.
+    public var clientToken: Swift.String?
+    /// Specifies the target IOPS rate of the volume. This parameter is valid only for gp3, io1, and io2 volumes. If you don't specify IOPS and keep the same volume type, the current IOPS rate is retained.
+    public var iops: Swift.Int?
+    /// Specifies the target size of the volume, in GiB. The target size must be greater than or equal to the current size of the volume. If you don't specify a size, the current size is retained.
+    public var sizeInGB: Swift.Int?
+    /// Specifies the target throughput of the volume, in MiB/s. This parameter is valid only for gp3 volumes. If you don't specify throughput and the volume remains gp3, the current throughput is retained.
+    public var throughput: Swift.Int?
+    /// Specifies the identifier of the volume to modify.
+    /// This member is required.
+    public var volumeId: Swift.String?
+    /// Specifies the target Amazon Elastic Block Store (Amazon EBS) volume type. If you don't specify a volume type, the current volume type is retained.
+    public var volumeType: WorkspacesInstancesClientTypes.VolumeTypeEnum?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        iops: Swift.Int? = nil,
+        sizeInGB: Swift.Int? = nil,
+        throughput: Swift.Int? = nil,
+        volumeId: Swift.String? = nil,
+        volumeType: WorkspacesInstancesClientTypes.VolumeTypeEnum? = nil
+    ) {
+        self.clientToken = clientToken
+        self.iops = iops
+        self.sizeInGB = sizeInGB
+        self.throughput = throughput
+        self.volumeId = volumeId
+        self.volumeType = volumeType
+    }
+}
+
+/// Contains the target configuration of the volume after the modification, including the size, volume type, IOPS, and throughput where applicable.
+public struct ModifyVolumeOutput: Swift.Sendable {
+    /// Specifies the target IOPS rate of the volume.
+    public var targetIops: Swift.Int?
+    /// Specifies the target size of the volume, in GiB.
+    public var targetSize: Swift.Int?
+    /// Specifies the target throughput of the volume, in MiB/s.
+    public var targetThroughput: Swift.Int?
+    /// Specifies the target Amazon EBS volume type.
+    public var targetVolumeType: WorkspacesInstancesClientTypes.VolumeTypeEnum?
+    /// Specifies the identifier of the modified volume.
+    public var volumeId: Swift.String?
+
+    public init(
+        targetIops: Swift.Int? = nil,
+        targetSize: Swift.Int? = nil,
+        targetThroughput: Swift.Int? = nil,
+        targetVolumeType: WorkspacesInstancesClientTypes.VolumeTypeEnum? = nil,
+        volumeId: Swift.String? = nil
+    ) {
+        self.targetIops = targetIops
+        self.targetSize = targetSize
+        self.targetThroughput = targetThroughput
+        self.targetVolumeType = targetVolumeType
+        self.volumeId = volumeId
+    }
+}
+
 /// Specifies tags to add to a WorkSpace Instance.
 public struct TagResourceInput: Swift.Sendable {
     /// Tags to be added to the WorkSpace Instance.

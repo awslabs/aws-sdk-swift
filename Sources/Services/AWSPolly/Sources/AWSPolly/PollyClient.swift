@@ -1038,7 +1038,7 @@ extension PollyClient {
     /// - `MaxLexemeLengthExceededException` : The maximum size of the lexeme would be exceeded by this operation.
     /// - `MaxLexiconsNumberExceededException` : The maximum number of lexicons would be exceeded by this operation.
     /// - `ServiceFailureException` : An unknown condition has caused a service failure.
-    /// - `UnsupportedPlsAlphabetException` : The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
+    /// - `UnsupportedPlsAlphabetException` : The alphabet specified by the lexicon is not a supported alphabet. Valid values are ipa, x-sampa, x-amazon-pinyin, x-amazon-jyutping, x-amazon-pron-kana, and x-amazon-yomigana. Replace the unsupported alphabet with one of the valid values and resubmit your request.
     /// - `UnsupportedPlsLanguageException` : The language specified in the lexicon is unsupported. For a list of supported languages, see [Lexicon Attributes](https://docs.aws.amazon.com/polly/latest/dg/API_LexiconAttributes.html).
     public func putLexicon(input: PutLexiconInput) async throws -> PutLexiconOutput {
         let context = Smithy.ContextBuilder()
@@ -1100,7 +1100,7 @@ extension PollyClient {
     ///
     /// Synthesizes UTF-8 input, plain text, or SSML over a bidirectional streaming connection. Specify synthesis parameters in HTTP/2 headers, send text incrementally as events on the input stream, and receive synthesized audio as it becomes available. This operation serves as a bidirectional counterpart to SynthesizeSpeech:
     ///
-    /// * [SynthesizeSpeech](https://docs.aws.amazon.com/polly/latest/API/API_SynthesizeSpeech.html)
+    /// * [SynthesizeSpeech](https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `StartSpeechSynthesisStreamInput`)
     ///

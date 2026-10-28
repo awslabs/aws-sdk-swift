@@ -45,6 +45,8 @@ public struct DefaultSigninAuthSchemeResolver: SigninAuthSchemeResolver {
                 }
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigv4Option)
+            case "createOAuth2TokenWithTokenExchange":
+                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "introspectOAuth2TokenWithIAM":
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "signin")

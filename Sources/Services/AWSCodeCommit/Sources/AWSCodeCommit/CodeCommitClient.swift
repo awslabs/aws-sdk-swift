@@ -4903,7 +4903,7 @@ extension CodeCommitClient {
 
     /// Performs the `ListTagsForResource` operation on the `CodeCommit` service.
     ///
-    /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -4913,9 +4913,9 @@ extension CodeCommitClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -5991,7 +5991,7 @@ extension CodeCommitClient {
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
     /// - `InvalidCommentIdException` : The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-    /// - `InvalidReactionValueException` : The value of the reaction is not valid. For more information, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
+    /// - `InvalidReactionValueException` : The value of the reaction is not valid. For more information, see the [ CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
     /// - `ReactionLimitExceededException` : The number of reactions has been exceeded. Reactions are limited to one reaction per user for each individual comment ID.
     /// - `ReactionValueRequiredException` : A reaction value is required.
     public func putCommentReaction(input: PutCommentReactionInput) async throws -> PutCommentReactionOutput {
@@ -6255,7 +6255,7 @@ extension CodeCommitClient {
 
     /// Performs the `TagResource` operation on the `CodeCommit` service.
     ///
-    /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -6265,11 +6265,11 @@ extension CodeCommitClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `InvalidSystemTagUsageException` : The specified tag is not valid. Key names cannot be prefixed with aws:.
     /// - `InvalidTagsMapException` : The map of tags is not valid.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `TagPolicyException` : The tag policy is not valid.
     /// - `TagsMapRequiredException` : A map of tags is required.
     /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
@@ -6431,7 +6431,7 @@ extension CodeCommitClient {
 
     /// Performs the `UntagResource` operation on the `CodeCommit` service.
     ///
-    /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
@@ -6441,11 +6441,11 @@ extension CodeCommitClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `InvalidSystemTagUsageException` : The specified tag is not valid. Key names cannot be prefixed with aws:.
     /// - `InvalidTagKeysListException` : The list of tags is not valid.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [ CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `TagKeysListRequiredException` : A list of tag keys is required. The list cannot be empty or null.
     /// - `TagPolicyException` : The tag policy is not valid.
     /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.

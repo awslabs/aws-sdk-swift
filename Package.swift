@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.257.0"
+let clientRuntimeVersion: Version = "0.259.0"
 let crtVersion: Version = "0.64.0"
 
 let excludeRuntimeUnitTests = false
@@ -569,6 +569,11 @@ private let serviceClientData: [ServiceClientData] = [
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
+        "AWSContinuum",
+        "continuum.json",
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
+    ),
+    .init(
         "AWSControlCatalog",
         "controlcatalog.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
@@ -832,16 +837,6 @@ private let serviceClientData: [ServiceClientData] = [
         "AWSFSx",
         "fsx.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
-    ),
-    .init(
-        "AWSFinspace",
-        "finspace.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
-    ),
-    .init(
-        "AWSFinspacedata",
-        "finspace-data.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI]
     ),
     .init(
         "AWSFirehose",
@@ -1421,7 +1416,7 @@ private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSNetworkFirewall",
         "network-firewall.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI, .SmithyWaitersAPI]
     ),
     .init(
         "AWSNetworkFlowMonitor",
@@ -2087,11 +2082,6 @@ private let serviceClientData: [ServiceClientData] = [
         "AWSTimestreamWrite",
         "timestream-write.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyAWSJSON, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyRetries, .SmithyRetriesAPI]
-    ),
-    .init(
-        "AWSTnb",
-        "tnb.json",
-        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
     ),
     .init(
         "AWSTranscribe",

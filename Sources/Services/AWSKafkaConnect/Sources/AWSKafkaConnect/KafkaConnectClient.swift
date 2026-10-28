@@ -1696,6 +1696,78 @@ extension KafkaConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PauseConnector` operation on the `KafkaConnect` service.
+    ///
+    /// Pauses the specified connector. The operation runs asynchronously. To track the pause, pass the connector operation ARN from the response to DescribeConnectorOperation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PauseConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PauseConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ConflictException` : HTTP Status Code 409: Conflict. A resource with this name already exists. Retry your request with another name.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
+    public func pauseConnector(input: PauseConnectorInput) async throws -> PauseConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "pauseConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kafkaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PauseConnectorInput, PauseConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PauseConnectorInput, PauseConnectorOutput>(PauseConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PauseConnectorInput, PauseConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseConnectorOutput>(PauseConnectorOutput.httpOutput(from:), PauseConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseConnectorInput, PauseConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PauseConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("KafkaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PauseConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PauseConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PauseConnectorInput, PauseConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PauseConnectorInput, PauseConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "KafkaConnect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PauseConnectorInput, PauseConnectorOutput>(serviceID: serviceName, version: KafkaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KafkaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PauseConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RestartConnector` operation on the `KafkaConnect` service.
     ///
     /// Restarts the specified connector. By default, this operation restarts the connector and all of its tasks. This operation is asynchronous and returns a connector operation ARN that you can pass to DescribeConnectorOperation to track the state of the restart.
@@ -1756,6 +1828,78 @@ extension KafkaConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KafkaConnect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestartConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ResumeConnector` operation on the `KafkaConnect` service.
+    ///
+    /// Resumes the specified paused connector. The operation runs asynchronously. To track the resume, pass the connector operation ARN from the response to DescribeConnectorOperation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ResumeConnectorInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ResumeConnectorOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ConflictException` : HTTP Status Code 409: Conflict. A resource with this name already exists. Retry your request with another name.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
+    public func resumeConnector(input: ResumeConnectorInput) async throws -> ResumeConnectorOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "resumeConnector")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kafkaconnect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ResumeConnectorInput, ResumeConnectorOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResumeConnectorInput, ResumeConnectorOutput>(ResumeConnectorInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResumeConnectorInput, ResumeConnectorOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeConnectorOutput>(ResumeConnectorOutput.httpOutput(from:), ResumeConnectorOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeConnectorInput, ResumeConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ResumeConnectorOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("KafkaConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResumeConnectorOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResumeConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResumeConnectorInput, ResumeConnectorOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResumeConnectorInput, ResumeConnectorOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "KafkaConnect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResumeConnectorInput, ResumeConnectorOutput>(serviceID: serviceName, version: KafkaConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KafkaConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResumeConnector")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

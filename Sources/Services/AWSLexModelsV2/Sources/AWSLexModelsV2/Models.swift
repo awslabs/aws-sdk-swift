@@ -2393,12 +2393,14 @@ extension LexModelsV2ClientTypes {
 
     /// Defines the operational mode for Assisted Natural Language Understanding. This enum determines how the enhanced NLU capabilities integrate with standard intent recognition.
     public enum AssistedNluMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dialogmanager
         case fallback
         case primary
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssistedNluMode] {
             return [
+                .dialogmanager,
                 .fallback,
                 .primary
             ]
@@ -2411,6 +2413,7 @@ extension LexModelsV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .dialogmanager: return "DialogManager"
             case .fallback: return "Fallback"
             case .primary: return "Primary"
             case let .sdkUnknown(s): return s
@@ -6249,7 +6252,7 @@ extension LexModelsV2ClientTypes {
 
     /// Configures the Assisted Natural Language Understanding (NLU) feature for your bot. This specification determines whether enhanced intent recognition and utterance understanding capabilities are active.
     public struct NluImprovementSpecification: Swift.Sendable {
-        /// Specifies the mode for Assisted NLU operation. Use Primary to make Assisted NLU the primary intent recognition method, or Fallback to use it only when standard NLU confidence is low.
+        /// Specifies the mode for Assisted NLU operation. Use Primary to make Assisted NLU the primary intent recognition method, Fallback to use it only when standard NLU confidence is low, or DialogManager to use a large language model to manage the conversation, including intent recognition, slot elicitation, and confirmation.
         public var assistedNluMode: LexModelsV2ClientTypes.AssistedNluMode?
         /// Determines whether the Assisted NLU feature is enabled for the bot. When set to true, Amazon Lex uses advanced models to improve intent recognition and slot resolution, with the default being false.
         /// This member is required.
@@ -7508,13 +7511,11 @@ extension LexModelsV2ClientTypes {
     public struct WaitAndContinueSpecification: Swift.Sendable {
         /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used. If the active field isn't specified, the default is true.
         public var active: Swift.Bool?
-        /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation.
-        /// This member is required.
+        /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation. Required unless the bot locale's assistedNluMode is DialogManager.
         public var continueResponse: LexModelsV2ClientTypes.ResponseSpecification?
         /// A response that Amazon Lex sends periodically to the user to indicate that the bot is still waiting for input from the user.
         public var stillWaitingResponse: LexModelsV2ClientTypes.StillWaitingResponseSpecification?
-        /// The response that Amazon Lex sends to indicate that the bot is waiting for the conversation to continue.
-        /// This member is required.
+        /// The response that Amazon Lex sends to indicate that the bot is waiting for the conversation to continue. Required unless the bot locale's assistedNluMode is DialogManager.
         public var waitingResponse: LexModelsV2ClientTypes.ResponseSpecification?
 
         public init(
@@ -7661,7 +7662,7 @@ extension LexModelsV2ClientTypes {
 
     /// Contains information about whether assisted slot resolution is turned on for the slot or not.
     public struct SlotResolutionSetting: Swift.Sendable {
-        /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
+        /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex V2 defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
         /// This member is required.
         public var slotResolutionStrategy: LexModelsV2ClientTypes.SlotResolutionStrategy?
 
@@ -16519,8 +16520,7 @@ extension LexModelsV2ClientTypes {
         public var failureNextStep: LexModelsV2ClientTypes.DialogState?
         /// Specifies a list of message groups that Amazon Lex uses to respond the user input.
         public var failureResponse: LexModelsV2ClientTypes.ResponseSpecification?
-        /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information.
-        /// This member is required.
+        /// Prompts the user to confirm the intent. This question should have a yes or no answer. Amazon Lex uses this prompt to ensure that the user acknowledges that the intent is ready for fulfillment. For example, with the OrderPizza intent, you might want to confirm that the order is correct before placing it. For other intents, such as intents that simply respond to user questions, you might not need to ask the user for confirmation before providing the information. Required unless the bot locale's assistedNluMode is DialogManager, in which case Amazon Lex generates the confirmation prompt.
         public var promptSpecification: LexModelsV2ClientTypes.PromptSpecification?
 
         public init(
@@ -16896,7 +16896,7 @@ public struct CreateIntentInput: Swift.Sendable {
     public var parentIntentSignature: Swift.String?
     /// Qinconnect intent configuration details for the create intent request.
     public var qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration?
-    /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+    /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex V2 can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza". In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
     public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
@@ -17164,7 +17164,7 @@ public struct UpdateIntentInput: Swift.Sendable {
     public var parentIntentSignature: Swift.String?
     /// Qinconnect intent configuration details for the update intent request.
     public var qInConnectIntentConfiguration: LexModelsV2ClientTypes.QInConnectIntentConfiguration?
-    /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+    /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex V2 can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// New utterances used to invoke the intent.
     public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?

@@ -2604,6 +2604,35 @@ extension TransferClientTypes {
 
 extension TransferClientTypes {
 
+    public enum HostKeyStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case secretsManager
+        case serviceManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HostKeyStorageType] {
+            return [
+                .secretsManager,
+                .serviceManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .secretsManager: return "SECRETS_MANAGER"
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum SftpAuthenticationMethods: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case password
         case publicKey
@@ -3069,6 +3098,8 @@ public struct CreateServerInput: Swift.Sendable {
     public var endpointType: TransferClientTypes.EndpointType?
     /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Manage host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
     public var hostKey: Swift.String?
+    /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
+    public var hostKeyStorageType: TransferClientTypes.HostKeyStorageType?
     /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Cannot be specified when IdentityProviderType is set to SERVICE_MANAGED.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
     /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
@@ -3147,6 +3178,7 @@ public struct CreateServerInput: Swift.Sendable {
         endpointDetails: TransferClientTypes.EndpointDetails? = nil,
         endpointType: TransferClientTypes.EndpointType? = nil,
         hostKey: Swift.String? = nil,
+        hostKeyStorageType: TransferClientTypes.HostKeyStorageType? = nil,
         identityProviderDetails: TransferClientTypes.IdentityProviderDetails? = nil,
         identityProviderType: TransferClientTypes.IdentityProviderType? = nil,
         ipAddressType: TransferClientTypes.IpAddressType? = nil,
@@ -3166,6 +3198,7 @@ public struct CreateServerInput: Swift.Sendable {
         self.endpointDetails = endpointDetails
         self.endpointType = endpointType
         self.hostKey = hostKey
+        self.hostKeyStorageType = hostKeyStorageType
         self.identityProviderDetails = identityProviderDetails
         self.identityProviderType = identityProviderType
         self.ipAddressType = ipAddressType
@@ -4359,6 +4392,10 @@ extension TransferClientTypes {
         public var hostKeyFingerprint: Swift.String?
         /// A unique identifier for the host key.
         public var hostKeyId: Swift.String?
+        /// The ARN of the Secrets Manager secret that stores the host key material, when StorageType is SECRETS_MANAGER.
+        public var secretId: Swift.String?
+        /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER).
+        public var storageType: TransferClientTypes.HostKeyStorageType?
         /// Key-value pairs that can be used to group and search for host keys.
         public var tags: [TransferClientTypes.Tag]?
         /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:
@@ -4380,6 +4417,8 @@ extension TransferClientTypes {
             description: Swift.String? = nil,
             hostKeyFingerprint: Swift.String? = nil,
             hostKeyId: Swift.String? = nil,
+            secretId: Swift.String? = nil,
+            storageType: TransferClientTypes.HostKeyStorageType? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
             type: Swift.String? = nil
         ) {
@@ -4388,6 +4427,8 @@ extension TransferClientTypes {
             self.description = description
             self.hostKeyFingerprint = hostKeyFingerprint
             self.hostKeyId = hostKeyId
+            self.secretId = secretId
+            self.storageType = storageType
             self.tags = tags
             self.type = type
         }
@@ -5273,21 +5314,29 @@ public struct ImportHostKeyInput: Swift.Sendable {
     /// The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
     /// This member is required.
     public var hostKeyBody: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager.
+    public var kmsKey: Swift.String?
     /// The identifier of the server that contains the host key that you are importing.
     /// This member is required.
     public var serverId: Swift.String?
+    /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
+    public var storageType: TransferClientTypes.HostKeyStorageType?
     /// Key-value pairs that can be used to group and search for host keys.
     public var tags: [TransferClientTypes.Tag]?
 
     public init(
         description: Swift.String? = nil,
         hostKeyBody: Swift.String? = nil,
+        kmsKey: Swift.String? = nil,
         serverId: Swift.String? = nil,
+        storageType: TransferClientTypes.HostKeyStorageType? = nil,
         tags: [TransferClientTypes.Tag]? = nil
     ) {
         self.description = description
         self.hostKeyBody = hostKeyBody
+        self.kmsKey = kmsKey
         self.serverId = serverId
+        self.storageType = storageType
         self.tags = tags
     }
 }
@@ -5464,6 +5513,10 @@ extension TransferClientTypes {
         public var fingerprint: Swift.String?
         /// A unique identifier for the host key.
         public var hostKeyId: Swift.String?
+        /// The ARN of the Secrets Manager secret that stores the host key material, when StorageType is SECRETS_MANAGER.
+        public var secretId: Swift.String?
+        /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER).
+        public var storageType: TransferClientTypes.HostKeyStorageType?
         /// The encryption algorithm that is used for the host key. The Type parameter is specified by using one of the following values:
         ///
         /// * ssh-rsa
@@ -5483,6 +5536,8 @@ extension TransferClientTypes {
             description: Swift.String? = nil,
             fingerprint: Swift.String? = nil,
             hostKeyId: Swift.String? = nil,
+            secretId: Swift.String? = nil,
+            storageType: TransferClientTypes.HostKeyStorageType? = nil,
             type: Swift.String? = nil
         ) {
             self.arn = arn
@@ -5490,6 +5545,8 @@ extension TransferClientTypes {
             self.description = description
             self.fingerprint = fingerprint
             self.hostKeyId = hostKeyId
+            self.secretId = secretId
+            self.storageType = storageType
             self.type = type
         }
     }
@@ -6622,23 +6679,30 @@ public struct UpdateAccessOutput: Swift.Sendable {
 
 public struct UpdateHostKeyInput: Swift.Sendable {
     /// An updated description for the host key.
-    /// This member is required.
     public var description: Swift.String?
     /// The identifier of the host key that you are updating.
     /// This member is required.
     public var hostKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the Secrets Manager secret that stores the host key. If you specify a customer managed key, its key policy must allow the AWSServiceRoleForTransfer service-linked role to decrypt the secret. If you don't specify a value, Transfer Family uses the Amazon Web Services managed key for Secrets Manager.
+    public var kmsKey: Swift.String?
     /// The identifier of the server that contains the host key that you are updating.
     /// This member is required.
     public var serverId: Swift.String?
+    /// Specifies whether the host key is stored by Transfer Family (SERVICE_MANAGED) or in Secrets Manager (SECRETS_MANAGER). When you specify SECRETS_MANAGER, Transfer Family stores the private host key material in an Secrets Manager secret.
+    public var storageType: TransferClientTypes.HostKeyStorageType?
 
     public init(
         description: Swift.String? = nil,
         hostKeyId: Swift.String? = nil,
-        serverId: Swift.String? = nil
+        kmsKey: Swift.String? = nil,
+        serverId: Swift.String? = nil,
+        storageType: TransferClientTypes.HostKeyStorageType? = nil
     ) {
         self.description = description
         self.hostKeyId = hostKeyId
+        self.kmsKey = kmsKey
         self.serverId = serverId
+        self.storageType = storageType
     }
 }
 

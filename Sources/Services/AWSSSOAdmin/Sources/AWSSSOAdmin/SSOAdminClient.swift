@@ -6572,7 +6572,7 @@ extension SSOAdminClient {
     /// * Enable permission sets for the instance by specifying PermissionSetsEnabled.
     ///
     ///
-    /// A request that specifies both EncryptionConfiguration and PermissionSetsEnabled returns a ValidationException. To perform both operations, call UpdateInstance separately for each. The two calls can be made in parallel.
+    /// If you specify both EncryptionConfiguration and PermissionSetsEnabled in a request, the request returns a ValidationException. To perform both operations, call UpdateInstance separately for each. You can make the two calls in parallel.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateInstanceInput`)
     ///

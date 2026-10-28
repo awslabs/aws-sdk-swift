@@ -1698,7 +1698,7 @@ extension ARCRegionswitchClient {
 
     /// Performs the `ListServiceQuotaWarnings` operation on the `ARCRegionswitch` service.
     ///
-    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+    /// Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan. Returns the warnings for the plans that you own and for plans that are shared with your account through Resource Access Manager (RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceQuotaWarningsInput`)
     ///

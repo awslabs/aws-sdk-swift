@@ -25,23 +25,30 @@ extension SigninClientTypes {
 
     /// OAuth 2.0 error codes returned by the server Standard OAuth 2.0 error codes used in error responses to indicate the specific type of error that occurred during token operations.
     package enum OAuth2ErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        /// Authorization code has expired
+        /// Authorization code has expired.
         case authcodeExpired
-        /// Request conflicts with current state of the resource
+        /// Request conflicts with the current state of the resource.
         case conflict
-        /// Insufficient permissions to perform this operation
+        /// Insufficient permissions to perform this operation.
         case insufficientPermissions
-        /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed
+        /// The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed.
         case invalidRequest
-        /// Requested resource was not found
+        case oauthInvalidGrant
+        case oauthInvalidRequest
+        case oauthInvalidScope
+        case oauthInvalidTarget
+        case oauthRateExceeded
+        case oauthServiceUnavailable
+        case oauthUnsupportedGrantType
+        /// Requested resource was not found.
         case resourceNotFound
-        /// Internal server error occurred
+        /// Internal server error occurred.
         case serverError
-        /// Request would cause a service quota to be exceeded
+        /// Request would cause a service quota to be exceeded.
         case serviceQuotaExceeded
-        /// Token has expired and needs to be refreshed
+        /// Token has expired.
         case tokenExpired
-        /// User credentials have been changed
+        /// User credentials have been changed.
         case userCredentialsChanged
         case sdkUnknown(Swift.String)
 
@@ -51,6 +58,13 @@ extension SigninClientTypes {
                 .conflict,
                 .insufficientPermissions,
                 .invalidRequest,
+                .oauthInvalidGrant,
+                .oauthInvalidRequest,
+                .oauthInvalidScope,
+                .oauthInvalidTarget,
+                .oauthRateExceeded,
+                .oauthServiceUnavailable,
+                .oauthUnsupportedGrantType,
                 .resourceNotFound,
                 .serverError,
                 .serviceQuotaExceeded,
@@ -70,6 +84,13 @@ extension SigninClientTypes {
             case .conflict: return "CONFLICT"
             case .insufficientPermissions: return "INSUFFICIENT_PERMISSIONS"
             case .invalidRequest: return "INVALID_REQUEST"
+            case .oauthInvalidGrant: return "invalid_grant"
+            case .oauthInvalidRequest: return "invalid_request"
+            case .oauthInvalidScope: return "invalid_scope"
+            case .oauthInvalidTarget: return "invalid_target"
+            case .oauthRateExceeded: return "rate_exceeded"
+            case .oauthServiceUnavailable: return "service_unavailable"
+            case .oauthUnsupportedGrantType: return "unsupported_grant_type"
             case .resourceNotFound: return "RESOURCE_NOT_FOUND"
             case .serverError: return "server_error"
             case .serviceQuotaExceeded: return "SERVICE_QUOTA_EXCEEDED"
@@ -81,21 +102,14 @@ extension SigninClientTypes {
     }
 }
 
-/// Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-///
-/// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-///
-/// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-///
-///
-/// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+/// You do not have sufficient access to perform this action.
 package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     package struct Properties: Swift.Sendable {
-        /// OAuth 2.0 error code indicating the specific type of access denial Can be TOKEN_EXPIRED, AUTHCODE_EXPIRED, USER_CREDENTIALS_CHANGED, or INSUFFICIENT_PERMISSIONS
+        /// One of TOKEN_EXPIRED, AUTHCODE_EXPIRED, USER_CREDENTIALS_CHANGED, or INSUFFICIENT_PERMISSIONS.
         /// This member is required.
         public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
-        /// Detailed message explaining the access denial Provides specific information about why access was denied
+        /// The reason access was denied.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -120,15 +134,15 @@ package struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension SigninClientTypes {
 
-    /// AWS credentials structure containing temporary access credentials Scoped, temporary AWS credentials with a 15-minute duration.
+    /// Contains the scoped, temporary AWS credentials used to sign requests with SigV4. Valid for 15 minutes.
     package struct AccessToken: Swift.Sendable {
-        /// AWS access key ID for temporary credentials
+        /// The AWS access key ID for the temporary credentials.
         /// This member is required.
         public var accessKeyId: Swift.String?
-        /// AWS secret access key for temporary credentials
+        /// The AWS secret access key used to sign requests.
         /// This member is required.
         public var secretAccessKey: Swift.String?
-        /// AWS session token for temporary credentials
+        /// The session token that validates the temporary security credentials.
         /// This member is required.
         public var sessionToken: Swift.String?
 
@@ -150,14 +164,14 @@ extension SigninClientTypes.AccessToken: Swift.CustomDebugStringConvertible {
     }
 }
 
-/// Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+/// The request failed because of an internal server error.
 package struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     package struct Properties: Swift.Sendable {
-        /// OAuth 2.0 error code indicating server error Will be SERVER_ERROR for internal server errors
+        /// Will be server_error.
         /// This member is required.
         public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
-        /// Detailed message explaining the server error May include error details for debugging purposes
+        /// The server error detail.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -180,27 +194,14 @@ package struct InternalServerException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-///
-/// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-///
-///
-/// Possible causes:
-///
-/// * Too many token requests from the same client
-///
-/// * Rate limiting based on client_id or IP address
-///
-/// * Abuse prevention mechanisms triggered
-///
-/// * Service protection against excessive token generation
+/// The request failed because you exceeded the request rate limit for this operation.
 package struct TooManyRequestsError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     package struct Properties: Swift.Sendable {
-        /// OAuth 2.0 error code indicating the specific type of error Will be INVALID_REQUEST for rate limiting scenarios
+        /// Will be rate_exceeded.
         /// This member is required.
         public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
-        /// Detailed message about the rate limiting May include retry-after information or rate limit details
+        /// Details about the rate limit.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -223,14 +224,14 @@ package struct TooManyRequestsError: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+/// The request failed because it contains a malformed, missing, or invalid parameter.
 package struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     package struct Properties: Swift.Sendable {
-        /// OAuth 2.0 error code indicating validation failure Will be INVALID_REQUEST for validation errors
+        /// The specific code depends on which validation failed.
         /// This member is required.
         public internal(set) var error: SigninClientTypes.OAuth2ErrorCode? = nil
-        /// Detailed message explaining the validation failure Provides specific information about which validation failed
+        /// The validation constraint that failed.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
     }
@@ -255,25 +256,25 @@ package struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime
 
 extension SigninClientTypes {
 
-    /// Request body payload for CreateOAuth2Token operation The operation type is determined by the grant_type parameter:
-    ///
-    /// * grant_type=authorization_code: Requires code, redirect_uri, code_verifier
-    ///
-    /// * grant_type=refresh_token: Requires refresh_token
+    /// The request body for creating an OAuth 2.0 token. Supports both the authorization code and refresh token flows, selected by the "grant_type" parameter.
     package struct CreateOAuth2TokenRequestBody: Swift.Sendable {
-        /// The client identifier (ARN) used during Sign-In onboarding Required for both authorization code and refresh token flows
+        /// The OAuth 2.0 client identifier. Expected values: "arn:aws:signin:::devtools/same-device" or "arn:aws:signin:::devtools/cross-device".
         /// This member is required.
         public var clientId: Swift.String?
-        /// The authorization code received from /v1/authorize Required only when grant_type=authorization_code
+        /// The authorization code received from the "/v1/authorize" endpoint. Required when "grant_type=authorization_code".
         public var code: Swift.String?
-        /// PKCE code verifier to prove possession of the original code challenge Required only when grant_type=authorization_code
+        /// The PKCE code verifier that proves possession of the original code challenge. Required when "grant_type=authorization_code".
         public var codeVerifier: Swift.String?
-        /// OAuth 2.0 grant type - determines which flow is used Must be "authorization_code" or "refresh_token"
+        /// The OAuth 2.0 grant type. Supported values:
+        ///
+        /// * "authorization_code" - Exchange an authorization code for tokens.
+        ///
+        /// * "refresh_token" - Use a refresh token to obtain a new access token.
         /// This member is required.
         public var grantType: Swift.String?
-        /// The redirect URI that must match the original authorization request Required only when grant_type=authorization_code
+        /// The redirect URI that was used in the original authorization request. Must match exactly. Required when "grant_type=authorization_code".
         public var redirectUri: Swift.String?
-        /// The refresh token returned from auth_code redemption Required only when grant_type=refresh_token
+        /// The refresh token issued by a previous token response. Required when "grant_type=refresh_token".
         public var refreshToken: Swift.String?
 
         public init(
@@ -301,7 +302,7 @@ extension SigninClientTypes.CreateOAuth2TokenRequestBody: Swift.CustomDebugStrin
 
 /// Input structure for CreateOAuth2Token operation Contains flattened token operation inputs for both authorization code and refresh token flows. The operation type is determined by the grant_type parameter in the request body.
 package struct CreateOAuth2TokenInput: Swift.Sendable {
-    /// Flattened token operation inputs The specific operation is determined by grant_type in the request body
+    /// Flattened token operation inputs. The "grant_type" in the request body determines the specific operation.
     /// This member is required.
     public var tokenInput: SigninClientTypes.CreateOAuth2TokenRequestBody?
 
@@ -314,24 +315,20 @@ package struct CreateOAuth2TokenInput: Swift.Sendable {
 
 extension SigninClientTypes {
 
-    /// Response body payload for CreateOAuth2Token operation The response content depends on the grant_type from the request:
-    ///
-    /// * grant_type=authorization_code: Returns all fields including refresh_token and id_token
-    ///
-    /// * grant_type=refresh_token: Returns access_token, token_type, expires_in, refresh_token (no id_token)
+    /// The response body for an OAuth 2.0 token request. The fields returned depend on the "grant_type". The authorization code flow returns "refresh_token" and "id_token". The refresh token flow omits "id_token".
     package struct CreateOAuth2TokenResponseBody: Swift.Sendable {
-        /// Scoped-down AWS credentials (15 minute duration) Present for both authorization code redemption and token refresh
+        /// The access token issued by the authorization server. The token contains temporary AWS security credentials that you use to sign requests with SigV4.
         /// This member is required.
         public var accessToken: SigninClientTypes.AccessToken?
-        /// Time to expiry in seconds (maximum 900) Present for both authorization code redemption and token refresh
+        /// The number of seconds until the access token expires. Maximum value is 900 seconds (15 minutes).
         /// This member is required.
         public var expiresIn: Swift.Int?
-        /// ID token containing user identity information Present only in authorization code redemption response (grant_type=authorization_code) Not included in token refresh responses
+        /// A JSON Web Token (JWT) containing user identity claims. Present only when "grant_type=authorization_code". Not included in refresh token responses.
         public var idToken: Swift.String?
-        /// Encrypted refresh token with cnf.jkt (SHA-256 thumbprint of presented jwk) Always present in responses (required for both flows)
+        /// A refresh token that can be used to obtain new access tokens without re-authenticating.
         /// This member is required.
         public var refreshToken: Swift.String?
-        /// Token type indicating this is AWS SigV4 credentials Value is "aws_sigv4" for both flows
+        /// The type of token issued. Value is "aws_sigv4".
         /// This member is required.
         public var tokenType: Swift.String?
 
@@ -358,7 +355,7 @@ extension SigninClientTypes.CreateOAuth2TokenResponseBody: Swift.CustomDebugStri
 
 /// Output structure for CreateOAuth2Token operation Contains flattened token operation outputs for both authorization code and refresh token flows. The response content depends on the grant_type from the original request.
 package struct CreateOAuth2TokenOutput: Swift.Sendable {
-    /// Flattened token operation outputs The specific response fields depend on the grant_type used in the request
+    /// Flattened token operation outputs. The specific response fields depend on the grant_type used in the request.
     /// This member is required.
     public var tokenOutput: SigninClientTypes.CreateOAuth2TokenResponseBody?
 

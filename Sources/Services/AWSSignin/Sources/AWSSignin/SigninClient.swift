@@ -617,39 +617,7 @@ extension SigninClient {
 extension SigninClient {
     /// Performs the `CreateOAuth2Token` operation on the `Signin` service.
     ///
-    /// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, supporting both:
-    ///
-    /// * Authorization code redemption (grant_type=authorization_code) - NOT idempotent
-    ///
-    /// * Token refresh (grant_type=refresh_token) - Idempotent within token validity window
-    ///
-    ///
-    /// The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempotent):
-    ///
-    /// * JSON or form-encoded body with client_id, grant_type=authorization_code, code, redirect_uri, code_verifier
-    ///
-    /// * Returns access_token, token_type, expires_in, refresh_token, and id_token
-    ///
-    /// * Each authorization code can only be used ONCE for security (prevents replay attacks)
-    ///
-    ///
-    /// Token Refresh Flow (Idempotent):
-    ///
-    /// * JSON or form-encoded body with client_id, grant_type=refresh_token, refresh_token
-    ///
-    /// * Returns access_token, token_type, expires_in, and refresh_token (no id_token)
-    ///
-    /// * Multiple calls with same refresh_token return consistent results within validity window
-    ///
-    ///
-    /// Authentication and authorization:
-    ///
-    /// * Confidential clients: sigv4 signing required with signin:ExchangeToken permissions
-    ///
-    /// * CLI clients (public): authn/authz skipped based on client_id & grant_type
-    ///
-    ///
-    /// Note: This operation cannot be marked as @idempotent because it handles both idempotent (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
+    /// Exchanges an authorization code or refresh token for an OAuth 2.0 access token and refresh token.
     ///
     /// - Parameter input: Input structure for CreateOAuth2Token operation Contains flattened token operation inputs for both authorization code and refresh token flows. The operation type is determined by the grant_type parameter in the request body. (Type: `CreateOAuth2TokenInput`)
     ///
@@ -658,30 +626,10 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func createOAuth2Token(input: CreateOAuth2TokenInput) async throws -> CreateOAuth2TokenOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -738,39 +686,19 @@ extension SigninClient {
 
     /// Performs the `CreateOAuth2TokenWithIAM` operation on the `Signin` service.
     ///
-    /// Grants permission to exchange client credentials for an OAuth 2.0 access token scoped to a resource that can be used to access AWS services from applications
+    /// Exchanges client credentials for an OAuth 2.0 access token scoped to a resource, which you can use to access AWS services from applications.
     ///
     /// - Parameter input: Input structure for CreateOAuth2TokenWithIAM operation (Type: `CreateOAuth2TokenWithIAMInput`)
     ///
-    /// - Returns: Output structure for CreateOAuth2TokenWithIAM operation Contains the JWT access token, token type, and expiration per RFC 6749 §5.1. (Type: `CreateOAuth2TokenWithIAMOutput`)
+    /// - Returns: Output structure for CreateOAuth2TokenWithIAM operation Contains the access token, token type, and expiration as defined in RFC 6749 §5.1. (Type: `CreateOAuth2TokenWithIAMOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func createOAuth2TokenWithIAM(input: CreateOAuth2TokenWithIAMInput) async throws -> CreateOAuth2TokenWithIAMOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -828,6 +756,78 @@ extension SigninClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateOAuth2TokenWithTokenExchange` operation on the `Signin` service.
+    ///
+    /// Exchanges a supported token for an OAuth 2.0 access token scoped to a resource, which you can use to access AWS services from applications.
+    ///
+    /// - Parameter input: Input structure for CreateOAuth2TokenWithTokenExchange operation (Type: `CreateOAuth2TokenWithTokenExchangeInput`)
+    ///
+    /// - Returns: Output structure for CreateOAuth2TokenWithTokenExchange operation. Contains the access token, issued token type, token type, and expiration as defined in RFC 6749 §5.1 and RFC 8693 §2.2.1. (Type: `CreateOAuth2TokenWithTokenExchangeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request failed because of an internal server error.
+    /// - `InvalidGrantException` : The request failed because the provided grant is invalid or expired.
+    /// - `InvalidScopeException` : The request failed because the requested scope is invalid or exceeds the scope that can be granted.
+    /// - `ServiceUnavailableException` : The request failed because a dependency is temporarily unavailable. You can retry the request.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
+    public func createOAuth2TokenWithTokenExchange(input: CreateOAuth2TokenWithTokenExchangeInput) async throws -> CreateOAuth2TokenWithTokenExchangeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createOAuth2TokenWithTokenExchange")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>(CreateOAuth2TokenWithTokenExchangeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>(CreateOAuth2TokenWithTokenExchangeInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateOAuth2TokenWithTokenExchangeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOAuth2TokenWithTokenExchangeOutput>(CreateOAuth2TokenWithTokenExchangeOutput.httpOutput(from:), CreateOAuth2TokenWithTokenExchangeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateOAuth2TokenWithTokenExchangeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isOAuthEndpoint: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateOAuth2TokenWithTokenExchangeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateOAuth2TokenWithTokenExchangeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateOAuth2TokenWithTokenExchangeInput, CreateOAuth2TokenWithTokenExchangeOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateOAuth2TokenWithTokenExchange")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteConsoleAuthorizationConfiguration` operation on the `Signin` service.
     ///
     /// Delete console authorization configuration with automatic scope detection
@@ -839,31 +839,11 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
     /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func deleteConsoleAuthorizationConfiguration(input: DeleteConsoleAuthorizationConfigurationInput) async throws -> DeleteConsoleAuthorizationConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -931,31 +911,11 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
     /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func deleteResourcePermissionStatement(input: DeleteResourcePermissionStatementInput) async throws -> DeleteResourcePermissionStatementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1024,31 +984,11 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
     /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func getConsoleAuthorizationConfiguration(input: GetConsoleAuthorizationConfigurationInput) async throws -> GetConsoleAuthorizationConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1116,30 +1056,10 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
     /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1195,7 +1115,7 @@ extension SigninClient {
 
     /// Performs the `IntrospectOAuth2TokenWithIAM` operation on the `Signin` service.
     ///
-    /// Grants permission to inspect the metadata and state of an OAuth 2.0 access token or refresh token Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated endpoint. Inspects the metadata of an access_token or refresh_token issued by AWS Sign-In and returns the claims associated with it. Inactive token semantics (RFC 7662 §2.2): when the supplied token is unknown, expired, revoked, malformed, or owned by a different account, the response body is exactly { "active": false } with all other claims omitted.
+    /// Inspects the metadata and active state of an OAuth 2.0 access token or refresh token. Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated endpoint. Returns the claims associated with a token issued by AWS Sign-In.
     ///
     /// - Parameter input: Input structure for IntrospectOAuth2TokenWithIAM operation RFC 7662 §2.1 introspection request. Contains the token to inspect and an optional hint about the token's type. (Type: `IntrospectOAuth2TokenWithIAMInput`)
     ///
@@ -1204,30 +1124,10 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func introspectOAuth2TokenWithIAM(input: IntrospectOAuth2TokenWithIAMInput) async throws -> IntrospectOAuth2TokenWithIAMOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1296,31 +1196,11 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
     /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func listResourcePermissionStatements(input: ListResourcePermissionStatementsInput) async throws -> ListResourcePermissionStatementsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1388,32 +1268,12 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : Error thrown when request conflicts with current state HTTP Status Code: 409 Conflict Used when the request conflicts with the current state of the resource
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `InternalServerException` : The request failed because of an internal server error.
     /// - `ResourceNotFoundException` : Error thrown when requested resource is not found HTTP Status Code: 404 Not Found Used when the specified resource does not exist
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func putConsoleAuthorizationConfiguration(input: PutConsoleAuthorizationConfigurationInput) async throws -> PutConsoleAuthorizationConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1481,32 +1341,12 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : Error thrown when request conflicts with current state HTTP Status Code: 409 Conflict Used when the request conflicts with the current state of the resource
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
+    /// - `InternalServerException` : The request failed because of an internal server error.
     /// - `ServiceQuotaExceededException` : Error thrown when service quota is exceeded HTTP Status Code: 402 Payment Required (used as quota exceeded indicator) Used when the request would cause a service quota to be exceeded
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func putResourcePermissionStatement(input: PutResourcePermissionStatementInput) async throws -> PutResourcePermissionStatementOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1566,7 +1406,7 @@ extension SigninClient {
 
     /// Performs the `RevokeOAuth2TokenWithIAM` operation on the `Signin` service.
     ///
-    /// Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token chain so that the refresh_token can no longer be used to mint new access_tokens. Idempotency: revoking an already-revoked, expired, or otherwise invalid token still returns 200 OK with an empty body. Only the refresh_token type is accepted.
+    /// Revokes an OAuth 2.0 refresh token and its associated token chain.
     ///
     /// - Parameter input: Input structure for RevokeOAuth2TokenWithIAM operation RFC 7009 §2.1 revocation request. Contains the refresh_token to revoke. (Type: `RevokeOAuth2TokenWithIAMInput`)
     ///
@@ -1575,30 +1415,10 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func revokeOAuth2TokenWithIAM(input: RevokeOAuth2TokenWithIAMInput) async throws -> RevokeOAuth2TokenWithIAMOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

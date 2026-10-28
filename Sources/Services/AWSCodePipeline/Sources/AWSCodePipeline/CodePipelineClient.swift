@@ -2292,7 +2292,7 @@ extension CodePipelineClient {
 
     /// Performs the `ListRuleTypes` operation on the `CodePipeline` service.
     ///
-    /// Lists the rules for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+    /// Lists the rules for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).For more information about rules, see the [ CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRuleTypesInput`)
     ///

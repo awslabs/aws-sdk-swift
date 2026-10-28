@@ -36051,6 +36051,89 @@ extension QuickSightClientTypes.OAuthClientCredentials: Swift.CustomDebugStringC
 
 extension QuickSightClientTypes {
 
+    /// The client credentials for connecting to a Microsoft OneDrive data source using two-legged OAuth (2LO) certificate-based authentication. OneDrive connections access files stored in your OneDrive storage. The tenant ID and client ID are supplied through OneDriveParameters.
+    public struct OneDriveClientCredentials: Swift.Sendable {
+        /// The thumbprint of the certificate used for two-legged OAuth (2LO) authentication to OneDrive. This field is required.
+        /// This member is required.
+        public var certThumbprint: Swift.String?
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used to encrypt the OneDrive certificate credentials. This field is required.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            certThumbprint: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.certThumbprint = certThumbprint
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension QuickSightClientTypes.OneDriveClientCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OneDriveClientCredentials(certThumbprint: \"CONTENT_REDACTED\", kmsKeyArn: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The service account credentials used for Google Workspace domain-wide delegation. Use this structure when you authenticate a data source connection using domain-wide delegation across your Google Workspace domain.
+    public struct ServiceAccountCredentials: Swift.Sendable {
+        /// The email address of the Google Workspace administrator account that the service account impersonates through domain-wide delegation. This field is required.
+        /// This member is required.
+        public var adminAccountEmail: Swift.String?
+        /// The client email address of the Google service account used for domain-wide delegation. This field is required.
+        /// This member is required.
+        public var clientEmail: Swift.String?
+        /// The private key of the Google service account used for domain-wide delegation. This field is required.
+        /// This member is required.
+        public var serviceAccountPrivateKey: Swift.String?
+
+        public init(
+            adminAccountEmail: Swift.String? = nil,
+            clientEmail: Swift.String? = nil,
+            serviceAccountPrivateKey: Swift.String? = nil
+        ) {
+            self.adminAccountEmail = adminAccountEmail
+            self.clientEmail = clientEmail
+            self.serviceAccountPrivateKey = serviceAccountPrivateKey
+        }
+    }
+}
+
+extension QuickSightClientTypes.ServiceAccountCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServiceAccountCredentials(adminAccountEmail: \(Swift.String(describing: adminAccountEmail)), clientEmail: \(Swift.String(describing: clientEmail)), serviceAccountPrivateKey: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The client credentials for connecting to a Microsoft SharePoint data source using two-legged OAuth (2LO) certificate-based authentication. SharePoint connections access documents stored in SharePoint sites and libraries. The tenant ID and client ID are supplied through SharePointParameters.
+    public struct SharePointClientCredentials: Swift.Sendable {
+        /// The thumbprint of the certificate used for two-legged OAuth (2LO) authentication to SharePoint. This field is required.
+        /// This member is required.
+        public var certThumbprint: Swift.String?
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) key used to encrypt the SharePoint certificate credentials. This field is required.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            certThumbprint: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.certThumbprint = certThumbprint
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension QuickSightClientTypes.SharePointClientCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SharePointClientCredentials(certThumbprint: \"CONTENT_REDACTED\", kmsKeyArn: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
     /// The credentials for authenticating with a web proxy server.
     public struct WebProxyCredentials: Swift.Sendable {
         /// The password for authenticating with the web proxy server.
@@ -36082,8 +36165,14 @@ extension QuickSightClientTypes {
         public var keyPairCredentials: QuickSightClientTypes.KeyPairCredentials?
         /// The OAuth client credentials for connecting to a data source using OAuth 2.0 client credentials (2LO) authentication. For more information, see [OAuthClientCredentials](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_OAuthClientCredentials.html).
         public var oAuthClientCredentials: QuickSightClientTypes.OAuthClientCredentials?
+        /// The client credentials for connecting to a Microsoft OneDrive data source using two-legged OAuth (2LO) certificate-based authentication.
+        public var oneDriveClientCredentials: QuickSightClientTypes.OneDriveClientCredentials?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public var secretArn: Swift.String?
+        /// The service account credentials for connecting to a data source that uses Google Workspace domain-wide delegation.
+        public var serviceAccountCredentials: QuickSightClientTypes.ServiceAccountCredentials?
+        /// The client credentials for connecting to a Microsoft SharePoint data source using two-legged OAuth (2LO) certificate-based authentication.
+        public var sharePointClientCredentials: QuickSightClientTypes.SharePointClientCredentials?
         /// The credentials for connecting through a web proxy server.
         public var webProxyCredentials: QuickSightClientTypes.WebProxyCredentials?
 
@@ -36092,14 +36181,20 @@ extension QuickSightClientTypes {
             credentialPair: QuickSightClientTypes.CredentialPair? = nil,
             keyPairCredentials: QuickSightClientTypes.KeyPairCredentials? = nil,
             oAuthClientCredentials: QuickSightClientTypes.OAuthClientCredentials? = nil,
+            oneDriveClientCredentials: QuickSightClientTypes.OneDriveClientCredentials? = nil,
             secretArn: Swift.String? = nil,
+            serviceAccountCredentials: QuickSightClientTypes.ServiceAccountCredentials? = nil,
+            sharePointClientCredentials: QuickSightClientTypes.SharePointClientCredentials? = nil,
             webProxyCredentials: QuickSightClientTypes.WebProxyCredentials? = nil
         ) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
             self.keyPairCredentials = keyPairCredentials
             self.oAuthClientCredentials = oAuthClientCredentials
+            self.oneDriveClientCredentials = oneDriveClientCredentials
             self.secretArn = secretArn
+            self.serviceAccountCredentials = serviceAccountCredentials
+            self.sharePointClientCredentials = sharePointClientCredentials
             self.webProxyCredentials = webProxyCredentials
         }
     }
@@ -83283,7 +83378,10 @@ extension QuickSightClientTypes.DataSourceCredentials {
         try writer["CredentialPair"].write(value.credentialPair, with: QuickSightClientTypes.CredentialPair.write(value:to:))
         try writer["KeyPairCredentials"].write(value.keyPairCredentials, with: QuickSightClientTypes.KeyPairCredentials.write(value:to:))
         try writer["OAuthClientCredentials"].write(value.oAuthClientCredentials, with: QuickSightClientTypes.OAuthClientCredentials.write(value:to:))
+        try writer["OneDriveClientCredentials"].write(value.oneDriveClientCredentials, with: QuickSightClientTypes.OneDriveClientCredentials.write(value:to:))
         try writer["SecretArn"].write(value.secretArn)
+        try writer["ServiceAccountCredentials"].write(value.serviceAccountCredentials, with: QuickSightClientTypes.ServiceAccountCredentials.write(value:to:))
+        try writer["SharePointClientCredentials"].write(value.sharePointClientCredentials, with: QuickSightClientTypes.SharePointClientCredentials.write(value:to:))
         try writer["WebProxyCredentials"].write(value.webProxyCredentials, with: QuickSightClientTypes.WebProxyCredentials.write(value:to:))
     }
 }
@@ -90250,6 +90348,15 @@ extension QuickSightClientTypes.OAuthParameters {
     }
 }
 
+extension QuickSightClientTypes.OneDriveClientCredentials {
+
+    static func write(value: QuickSightClientTypes.OneDriveClientCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertThumbprint"].write(value.certThumbprint)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+}
+
 extension QuickSightClientTypes.OneDriveParameters {
 
     static func write(value: QuickSightClientTypes.OneDriveParameters?, to writer: SmithyJSON.Writer) throws {
@@ -93580,6 +93687,16 @@ extension QuickSightClientTypes.SeriesItem {
     }
 }
 
+extension QuickSightClientTypes.ServiceAccountCredentials {
+
+    static func write(value: QuickSightClientTypes.ServiceAccountCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdminAccountEmail"].write(value.adminAccountEmail)
+        try writer["ClientEmail"].write(value.clientEmail)
+        try writer["ServiceAccountPrivateKey"].write(value.serviceAccountPrivateKey)
+    }
+}
+
 extension QuickSightClientTypes.ServiceNowParameters {
 
     static func write(value: QuickSightClientTypes.ServiceNowParameters?, to writer: SmithyJSON.Writer) throws {
@@ -93658,6 +93775,15 @@ extension QuickSightClientTypes.SharedViewConfigurations {
     static func write(value: QuickSightClientTypes.SharedViewConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+    }
+}
+
+extension QuickSightClientTypes.SharePointClientCredentials {
+
+    static func write(value: QuickSightClientTypes.SharePointClientCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertThumbprint"].write(value.certThumbprint)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
     }
 }
 

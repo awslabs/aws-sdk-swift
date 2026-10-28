@@ -3643,6 +3643,8 @@ extension DynamoDBClientTypes {
         public var creationDateTime: Foundation.Date?
         /// Indicates whether deletion protection is enabled (true) or disabled (false) on the table.
         public var deletionProtectionEnabled: Swift.Bool?
+        /// Specifies whether disassociation protection is enabled (true) or disabled (false) for the local global table replica. Protection is enabled by default.
+        public var disassociationProtectionEnabled: Swift.Bool?
         /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:
         ///
         /// * Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.) You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)
@@ -3775,7 +3777,7 @@ extension DynamoDBClientTypes {
         public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
         /// The provisioned throughput settings for the table, consisting of read and write capacity units, along with data about increases and decreases.
         public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughputDescription?
-        /// Represents replicas of the table.
+        /// Represents replicas of the table. After a successful disassociation, this list is absent or empty. To confirm disassociation, also verify that TableStatus is ACTIVE.
         public var replicas: [DynamoDBClientTypes.ReplicaDescription]?
         /// Contains details for the restore.
         public var restoreSummary: DynamoDBClientTypes.RestoreSummary?
@@ -3842,6 +3844,7 @@ extension DynamoDBClientTypes {
             billingModeSummary: DynamoDBClientTypes.BillingModeSummary? = nil,
             creationDateTime: Foundation.Date? = nil,
             deletionProtectionEnabled: Swift.Bool? = nil,
+            disassociationProtectionEnabled: Swift.Bool? = nil,
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexDescription]? = nil,
             globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode? = nil,
             globalTableVersion: Swift.String? = nil,
@@ -3872,6 +3875,7 @@ extension DynamoDBClientTypes {
             self.billingModeSummary = billingModeSummary
             self.creationDateTime = creationDateTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.disassociationProtectionEnabled = disassociationProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.globalTableVersion = globalTableVersion
@@ -5436,6 +5440,54 @@ public struct DisableKinesisStreamingDestinationOutput: Swift.Sendable {
     }
 }
 
+extension DynamoDBClientTypes {
+
+    /// Specifies how pending replication is handled before a replica is disassociated. WAIT_FOR_REPLICATION is the only supported value.
+    public enum DisassociationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case waitForReplication
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DisassociationMode] {
+            return [
+                .waitForReplication
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .waitForReplication: return "WAIT_FOR_REPLICATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
+    /// The parameters for disassociating the local replica from a global table using Version 2019.11.21 with multi-Region eventual consistency (MREC). After disassociation completes, the replica remains a standalone regional table that keeps its data, indexes, and table settings. For request requirements, see [UpdateTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html). For prerequisites, the protection update, and completion checks, see [Disassociating a global table replica](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables-disassociate.html) in the Amazon DynamoDB Developer Guide.
+    public struct DisassociateReplicationGroupMemberAction: Swift.Sendable {
+        /// The mode for handling pending replication before disassociation completes. You must specify WAIT_FOR_REPLICATION. For more information, see [Disassociating a global table replica](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables-disassociate.html) in the Amazon DynamoDB Developer Guide.
+        /// This member is required.
+        public var disassociationMode: DynamoDBClientTypes.DisassociationMode?
+        /// The Region of the replica to disassociate. Set this value to the Region where you send the UpdateTable request. You must use credentials for the account that owns the replica.
+        /// This member is required.
+        public var regionName: Swift.String?
+
+        public init(
+            disassociationMode: DynamoDBClientTypes.DisassociationMode? = nil,
+            regionName: Swift.String? = nil
+        ) {
+            self.disassociationMode = disassociationMode
+            self.regionName = regionName
+        }
+    }
+}
+
 /// There was an attempt to insert an item with the same primary key as an item that already exists in the DynamoDB table.
 public struct DuplicateItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -6903,23 +6955,29 @@ extension DynamoDBClientTypes {
     ///
     /// * An existing replica to be deleted. The request invokes the DeleteTableReplica action in the destination Region, deleting the replica and all if its items in the destination Region.
     ///
+    /// * The local replica to be disassociated from a global table and retained as a standalone regional table.
     ///
-    /// When you manually remove a table or global table replica, you do not automatically remove any associated scalable targets, scaling policies, or CloudWatch alarms.
+    ///
+    /// Each ReplicationGroupUpdate contains exactly one action. A Disassociate action must be the only replica update in the request; including other updates causes the request to fail. When you manually remove a table or global table replica, you do not automatically remove any associated scalable targets, scaling policies, or CloudWatch alarms.
     public struct ReplicationGroupUpdate: Swift.Sendable {
         /// The parameters required for creating a replica for the table.
         public var create: DynamoDBClientTypes.CreateReplicationGroupMemberAction?
         /// The parameters required for deleting a replica for the table.
         public var delete: DynamoDBClientTypes.DeleteReplicationGroupMemberAction?
+        /// The parameters for disassociating the local replica from the global table and retaining it as a standalone regional table.
+        public var disassociate: DynamoDBClientTypes.DisassociateReplicationGroupMemberAction?
         /// The parameters required for updating a replica for the table.
         public var update: DynamoDBClientTypes.UpdateReplicationGroupMemberAction?
 
         public init(
             create: DynamoDBClientTypes.CreateReplicationGroupMemberAction? = nil,
             delete: DynamoDBClientTypes.DeleteReplicationGroupMemberAction? = nil,
+            disassociate: DynamoDBClientTypes.DisassociateReplicationGroupMemberAction? = nil,
             update: DynamoDBClientTypes.UpdateReplicationGroupMemberAction? = nil
         ) {
             self.create = create
             self.delete = delete
+            self.disassociate = disassociate
             self.update = update
         }
     }
@@ -6956,6 +7014,8 @@ public struct UpdateTableInput: Swift.Sendable {
     public var billingMode: DynamoDBClientTypes.BillingMode?
     /// Indicates whether deletion protection is to be enabled (true) or disabled (false) on the table.
     public var deletionProtectionEnabled: Swift.Bool?
+    /// Specifies whether disassociation protection is enabled (true) or disabled (false) for the local replica of a multi-Region eventual consistency (MREC) global table using Version 2019.11.21. Disassociation protection is enabled by default. If you omit this parameter, the existing setting is unchanged. This setting is independent of DeletionProtectionEnabled. You can't combine this change with any other change in the same UpdateTable request.
+    public var disassociationProtectionEnabled: Swift.Bool?
     /// An array of one or more global secondary indexes for the table. For each index in the array, you can request one action:
     ///
     /// * Create - add a new global secondary index to the table.
@@ -6995,7 +7055,7 @@ public struct UpdateTableInput: Swift.Sendable {
     public var onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput?
     /// The new provisioned throughput settings for the specified table or index.
     public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
-    /// A list of replica update actions (create, delete, or update) for the table.
+    /// A list of replica update actions (create, delete, update, or disassociate) for the table.
     public var replicaUpdates: [DynamoDBClientTypes.ReplicationGroupUpdate]?
     /// The new server-side encryption settings for the specified table.
     public var sseSpecification: DynamoDBClientTypes.SSESpecification?
@@ -7015,6 +7075,7 @@ public struct UpdateTableInput: Swift.Sendable {
         attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]? = nil,
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
+        disassociationProtectionEnabled: Swift.Bool? = nil,
         globalSecondaryIndexUpdates: [DynamoDBClientTypes.GlobalSecondaryIndexUpdate]? = nil,
         globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode? = nil,
         globalTableWitnessUpdates: [DynamoDBClientTypes.GlobalTableWitnessGroupUpdate]? = nil,
@@ -7032,6 +7093,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.attributeDefinitions = attributeDefinitions
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
+        self.disassociationProtectionEnabled = disassociationProtectionEnabled
         self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
         self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
         self.globalTableWitnessUpdates = globalTableWitnessUpdates

@@ -2706,6 +2706,7 @@ extension Resiliencehubv2Client {
     /// - `ConflictException` : Conflict — resource already exists.
     /// - `InternalServerException` : Internal service error.
     /// - `ResourceNotFoundException` : Resource not found.
+    /// - `ServiceQuotaExceededException` : Service quota exceeded.
     /// - `ValidationException` : Validation error — invalid input parameters.
     public func importApp(input: ImportAppInput) async throws -> ImportAppOutput {
         let context = Smithy.ContextBuilder()
@@ -2779,6 +2780,7 @@ extension Resiliencehubv2Client {
     /// - `ConflictException` : Conflict — resource already exists.
     /// - `InternalServerException` : Internal service error.
     /// - `ResourceNotFoundException` : Resource not found.
+    /// - `ServiceQuotaExceededException` : Service quota exceeded.
     /// - `ValidationException` : Validation error — invalid input parameters.
     public func importPolicy(input: ImportPolicyInput) async throws -> ImportPolicyOutput {
         let context = Smithy.ContextBuilder()

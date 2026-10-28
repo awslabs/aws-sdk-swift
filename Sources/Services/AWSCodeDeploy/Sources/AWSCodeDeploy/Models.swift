@@ -648,6 +648,42 @@ extension CodeDeployClientTypes {
     }
 }
 
+extension CodeDeployClientTypes {
+
+    /// An Amazon EC2 Auto Scaling process that CodeDeploy can suspend during an in-place deployment. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions.
+    public enum AutoScalingGroupProcess: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azRebalance
+        case instanceRefresh
+        case scheduledActions
+        case terminate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoScalingGroupProcess] {
+            return [
+                .azRebalance,
+                .instanceRefresh,
+                .scheduledActions,
+                .terminate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azRebalance: return "AZRebalance"
+            case .instanceRefresh: return "InstanceRefresh"
+            case .scheduledActions: return "ScheduledActions"
+            case .terminate: return "Terminate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The maximum number of names or IDs allowed for this request (100) was exceeded.
 public struct BatchLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1394,6 +1430,21 @@ extension CodeDeployClientTypes {
 
 extension CodeDeployClientTypes {
 
+    /// Options that control how CodeDeploy manages Amazon EC2 Auto Scaling groups during a deployment.
+    public struct EC2DeploymentOptions: Swift.Sendable {
+        /// The Amazon EC2 Auto Scaling processes to suspend during the deployment. CodeDeploy suspends these processes before it deploys to instances in an Auto Scaling group, and resumes them when the deployment succeeds, fails, or is stopped. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions. This parameter applies only to in-place deployments on the EC2/On-premises compute platform. If the list is empty, or if the deployment does not target instances in an Auto Scaling group, no processes are suspended. The service role for the deployment group must have permission to call autoscaling:SuspendProcesses and autoscaling:ResumeProcesses on the target Auto Scaling groups. If the processes cannot be suspended, the deployment fails before any instance is updated. If you suspend ScheduledActions, scheduled actions with a start time during the deployment are skipped and do not run after the process resumes. If CodeDeploy cannot resume the processes, the deployment fails and the processes stay suspended until you resume them with the Auto Scaling ResumeProcesses action. While Terminate is suspended, Auto Scaling does not replace unhealthy instances. If you suspend Terminate, configure a trigger that notifies you when a deployment fails.
+        public var autoScalingGroupProcessesToSuspend: [CodeDeployClientTypes.AutoScalingGroupProcess]?
+
+        public init(
+            autoScalingGroupProcessesToSuspend: [CodeDeployClientTypes.AutoScalingGroupProcess]? = nil
+        ) {
+            self.autoScalingGroupProcessesToSuspend = autoScalingGroupProcessesToSuspend
+        }
+    }
+}
+
+extension CodeDeployClientTypes {
+
     public enum EC2TagFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case keyAndValue
         case keyOnly
@@ -1857,6 +1908,8 @@ extension CodeDeployClientTypes {
         public var deploymentGroupName: Swift.String?
         /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
         public var deploymentStyle: CodeDeployClientTypes.DeploymentStyle?
+        /// Options that control how CodeDeploy manages Amazon EC2 Auto Scaling groups during a deployment.
+        public var ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions?
         /// The Amazon EC2 tags on which to filter. The deployment group includes EC2 instances with any of the specified tags.
         public var ec2TagFilters: [CodeDeployClientTypes.EC2TagFilter]?
         /// Information about groups of tags applied to an Amazon EC2 instance. The deployment group includes only Amazon EC2 instances identified by all of the tag groups. Cannot be used in the same call as ec2TagFilters.
@@ -1895,6 +1948,7 @@ extension CodeDeployClientTypes {
             deploymentGroupId: Swift.String? = nil,
             deploymentGroupName: Swift.String? = nil,
             deploymentStyle: CodeDeployClientTypes.DeploymentStyle? = nil,
+            ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions? = nil,
             ec2TagFilters: [CodeDeployClientTypes.EC2TagFilter]? = nil,
             ec2TagSet: CodeDeployClientTypes.EC2TagSet? = nil,
             ecsServices: [CodeDeployClientTypes.ECSService]? = nil,
@@ -1919,6 +1973,7 @@ extension CodeDeployClientTypes {
             self.deploymentGroupId = deploymentGroupId
             self.deploymentGroupName = deploymentGroupName
             self.deploymentStyle = deploymentStyle
+            self.ec2DeploymentOptions = ec2DeploymentOptions
             self.ec2TagFilters = ec2TagFilters
             self.ec2TagSet = ec2TagSet
             self.ecsServices = ecsServices
@@ -2841,6 +2896,8 @@ extension CodeDeployClientTypes {
         public var deploymentStyle: CodeDeployClientTypes.DeploymentStyle?
         /// A comment about the deployment.
         public var description: Swift.String?
+        /// Options that control how CodeDeploy manages Amazon EC2 Auto Scaling groups during a deployment.
+        public var ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions?
         /// Information about any error associated with this deployment.
         public var errorInformation: CodeDeployClientTypes.ErrorInformation?
         /// The unique ID for an external resource (for example, a CloudFormation stack ID) that is linked to this deployment.
@@ -2895,6 +2952,7 @@ extension CodeDeployClientTypes {
             deploymentStatusMessages: [Swift.String]? = nil,
             deploymentStyle: CodeDeployClientTypes.DeploymentStyle? = nil,
             description: Swift.String? = nil,
+            ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions? = nil,
             errorInformation: CodeDeployClientTypes.ErrorInformation? = nil,
             externalId: Swift.String? = nil,
             fileExistsBehavior: CodeDeployClientTypes.FileExistsBehavior? = nil,
@@ -2927,6 +2985,7 @@ extension CodeDeployClientTypes {
             self.deploymentStatusMessages = deploymentStatusMessages
             self.deploymentStyle = deploymentStyle
             self.description = description
+            self.ec2DeploymentOptions = ec2DeploymentOptions
             self.errorInformation = errorInformation
             self.externalId = externalId
             self.fileExistsBehavior = fileExistsBehavior
@@ -4009,6 +4068,30 @@ public struct InvalidAutoScalingGroupException: ClientRuntime.ModeledError, AWSC
     }
 }
 
+/// The autoScalingGroupProcessesToSuspend list in ec2DeploymentOptions contains a process that is not valid. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions. Process names are case sensitive.
+public struct InvalidAutoScalingGroupProcessToSuspendException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message that corresponds to the exception thrown by CodeDeploy.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAutoScalingGroupProcessToSuspendException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The deployment configuration name was specified in an invalid format.
 public struct InvalidDeploymentConfigNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4330,6 +4413,8 @@ public struct CreateDeploymentInput: Swift.Sendable {
     public var deploymentMode: CodeDeployClientTypes.DeploymentMode?
     /// A comment about the deployment.
     public var description: Swift.String?
+    /// Options that control how CodeDeploy manages Amazon EC2 Auto Scaling groups during a deployment.
+    public var ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions?
     /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:
     ///
     /// * DISALLOW: The deployment fails. This is also the default behavior if no option is specified.
@@ -4356,6 +4441,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         deploymentGroupName: Swift.String? = nil,
         deploymentMode: CodeDeployClientTypes.DeploymentMode? = nil,
         description: Swift.String? = nil,
+        ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions? = nil,
         fileExistsBehavior: CodeDeployClientTypes.FileExistsBehavior? = nil,
         ignoreApplicationStopFailures: Swift.Bool? = false,
         overrideAlarmConfiguration: CodeDeployClientTypes.AlarmConfiguration? = nil,
@@ -4369,6 +4455,7 @@ public struct CreateDeploymentInput: Swift.Sendable {
         self.deploymentGroupName = deploymentGroupName
         self.deploymentMode = deploymentMode
         self.description = description
+        self.ec2DeploymentOptions = ec2DeploymentOptions
         self.fileExistsBehavior = fileExistsBehavior
         self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
         self.overrideAlarmConfiguration = overrideAlarmConfiguration
@@ -5133,6 +5220,8 @@ public struct CreateDeploymentGroupInput: Swift.Sendable {
     public var deploymentGroupName: Swift.String?
     /// Information about the type of deployment, in-place or blue/green, that you want to run and whether to route deployment traffic behind a load balancer.
     public var deploymentStyle: CodeDeployClientTypes.DeploymentStyle?
+    /// Options that control how CodeDeploy manages Amazon EC2 Auto Scaling groups during a deployment.
+    public var ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions?
     /// The Amazon EC2 tags on which to filter. The deployment group includes Amazon EC2 instances with any of the specified tags. Cannot be used in the same call as ec2TagSet.
     public var ec2TagFilters: [CodeDeployClientTypes.EC2TagFilter]?
     /// Information about groups of tags applied to Amazon EC2 instances. The deployment group includes only Amazon EC2 instances identified by all the tag groups. Cannot be used in the same call as ec2TagFilters.
@@ -5166,6 +5255,7 @@ public struct CreateDeploymentGroupInput: Swift.Sendable {
         deploymentConfigName: Swift.String? = nil,
         deploymentGroupName: Swift.String? = nil,
         deploymentStyle: CodeDeployClientTypes.DeploymentStyle? = nil,
+        ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions? = nil,
         ec2TagFilters: [CodeDeployClientTypes.EC2TagFilter]? = nil,
         ec2TagSet: CodeDeployClientTypes.EC2TagSet? = nil,
         ecsServices: [CodeDeployClientTypes.ECSService]? = nil,
@@ -5186,6 +5276,7 @@ public struct CreateDeploymentGroupInput: Swift.Sendable {
         self.deploymentConfigName = deploymentConfigName
         self.deploymentGroupName = deploymentGroupName
         self.deploymentStyle = deploymentStyle
+        self.ec2DeploymentOptions = ec2DeploymentOptions
         self.ec2TagFilters = ec2TagFilters
         self.ec2TagSet = ec2TagSet
         self.ecsServices = ecsServices
@@ -7212,6 +7303,8 @@ public struct UpdateDeploymentGroupInput: Swift.Sendable {
     public var deploymentConfigName: Swift.String?
     /// Information about the type of deployment, either in-place or blue/green, you want to run and whether to route deployment traffic behind a load balancer.
     public var deploymentStyle: CodeDeployClientTypes.DeploymentStyle?
+    /// Options that control how CodeDeploy manages Amazon EC2 Auto Scaling groups during a deployment.
+    public var ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions?
     /// The replacement set of Amazon EC2 tags on which to filter, if you want to change them. To keep the existing tags, enter their names. To remove tags, do not enter any tag names.
     public var ec2TagFilters: [CodeDeployClientTypes.EC2TagFilter]?
     /// Information about groups of tags applied to on-premises instances. The deployment group includes only Amazon EC2 instances identified by all the tag groups.
@@ -7244,6 +7337,7 @@ public struct UpdateDeploymentGroupInput: Swift.Sendable {
         currentDeploymentGroupName: Swift.String? = nil,
         deploymentConfigName: Swift.String? = nil,
         deploymentStyle: CodeDeployClientTypes.DeploymentStyle? = nil,
+        ec2DeploymentOptions: CodeDeployClientTypes.EC2DeploymentOptions? = nil,
         ec2TagFilters: [CodeDeployClientTypes.EC2TagFilter]? = nil,
         ec2TagSet: CodeDeployClientTypes.EC2TagSet? = nil,
         ecsServices: [CodeDeployClientTypes.ECSService]? = nil,
@@ -7264,6 +7358,7 @@ public struct UpdateDeploymentGroupInput: Swift.Sendable {
         self.currentDeploymentGroupName = currentDeploymentGroupName
         self.deploymentConfigName = deploymentConfigName
         self.deploymentStyle = deploymentStyle
+        self.ec2DeploymentOptions = ec2DeploymentOptions
         self.ec2TagFilters = ec2TagFilters
         self.ec2TagSet = ec2TagSet
         self.ecsServices = ecsServices

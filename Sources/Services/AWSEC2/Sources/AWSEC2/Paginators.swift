@@ -4780,6 +4780,38 @@ extension PaginatorSequence where OperationStackInput == GetGroupsForCapacityRes
     }
 }
 extension EC2Client {
+    /// Paginate over `[GetImageFindingsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetImageFindingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetImageFindingsOutput`
+    public func getImageFindingsPaginated(input: GetImageFindingsInput) -> ClientRuntime.PaginatorSequence<GetImageFindingsInput, GetImageFindingsOutput> {
+        return ClientRuntime.PaginatorSequence<GetImageFindingsInput, GetImageFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getImageFindings(input:))
+    }
+}
+
+extension GetImageFindingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetImageFindingsInput {
+        return GetImageFindingsInput(
+            dryRun: self.dryRun,
+            imageId: self.imageId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetImageFindingsInput, OperationStackOutput == GetImageFindingsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getImageFindingsPaginated`
+    /// to access the nested member `[EC2ClientTypes.ImageFinding]`
+    /// - Returns: `[EC2ClientTypes.ImageFinding]`
+    public func imageFindings() async throws -> [EC2ClientTypes.ImageFinding] {
+        return try await self.asyncCompactMap { item in item.imageFindings }
+    }
+}
+extension EC2Client {
     /// Paginate over `[GetInstanceTypesFromInstanceRequirementsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

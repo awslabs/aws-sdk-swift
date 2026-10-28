@@ -6981,6 +6981,35 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    public enum ImageValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customerManaged
+        case serviceManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageValidationMode] {
+            return [
+                .customerManaged,
+                .serviceManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// The client branding attributes to import for iOS device types. These attributes are displayed on the iOS client login screen. Client branding attributes are public facing. Ensure you do not include sensitive information.
     public struct IosImportClientBrandingAttributes: Swift.Sendable {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
@@ -7161,6 +7190,8 @@ public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
     /// The options for image import source.
     /// This member is required.
     public var imageSource: WorkSpacesClientTypes.ImageSourceIdentifier?
+    /// The image validation mode for the WorkSpace image import.
+    public var imageValidationMode: WorkSpacesClientTypes.ImageValidationMode?
     /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
@@ -7181,6 +7212,7 @@ public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
         imageDescription: Swift.String? = nil,
         imageName: Swift.String? = nil,
         imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
+        imageValidationMode: WorkSpacesClientTypes.ImageValidationMode? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         osVersion: WorkSpacesClientTypes.OSVersion? = nil,
         platform: WorkSpacesClientTypes.Platform? = nil,
@@ -7191,6 +7223,7 @@ public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
         self.imageDescription = imageDescription
         self.imageName = imageName
         self.imageSource = imageSource
+        self.imageValidationMode = imageValidationMode
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.osVersion = osVersion
         self.platform = platform

@@ -3487,6 +3487,23 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct RevokeConnectionTokenInput: Swift.Sendable {
+    /// The ID of the connection token to revoke.
+    /// This member is required.
+    public var tokenId: Swift.String?
+
+    public init(
+        tokenId: Swift.String? = nil
+    ) {
+        self.tokenId = tokenId
+    }
+}
+
+public struct RevokeConnectionTokenOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StartCompositionInput: Swift.Sendable {
     /// Array of destination configuration.
     /// This member is required.
@@ -4020,6 +4037,13 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension RevokeConnectionTokenInput {
+
+    static func urlPathProvider(_ value: RevokeConnectionTokenInput) -> Swift.String? {
+        return "/RevokeConnectionToken"
+    }
+}
+
 extension StartCompositionInput {
 
     static func urlPathProvider(_ value: StartCompositionInput) -> Swift.String? {
@@ -4387,6 +4411,14 @@ extension ListStorageConfigurationsInput {
         guard let value else { return }
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension RevokeConnectionTokenInput {
+
+    static func write(value: RevokeConnectionTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tokenId"].write(value.tokenId)
     }
 }
 
@@ -4831,6 +4863,13 @@ extension ListTagsForResourceOutput {
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
+    }
+}
+
+extension RevokeConnectionTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeConnectionTokenOutput {
+        return RevokeConnectionTokenOutput()
     }
 }
 
@@ -5496,6 +5535,22 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RevokeConnectionTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

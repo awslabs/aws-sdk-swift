@@ -3631,12 +3631,20 @@ extension TimestreamInfluxDBClientTypes {
         public var replicationInterval: TimestreamInfluxDBClientTypes.Duration?
         /// The interval at which retention policies are checked and enforced. Enter as a human-readable time–for example: 30m or 1h. Default: 30m
         public var retentionCheckInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// The time-based trigger that controls how often the ingester creates snapshots. This value is also used on query nodes as the bucket rotation interval for the replica buffer.
+        public var snapshotDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// The maximum size of the active snapshot bucket before it is rotated for snapshotting.
+        public var snapshotSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
         /// Specifies the number of snapshotted WAL files to retain in the object store. Flushing the WAL files does not clear the WAL files immediately; they are deleted when the number of snapshotted WAL files exceeds this number. Default: 300
         public var snapshottedWalFilesToKeep: Swift.Int?
         /// Limits the concurrency level for table index cache operations. Default: 8
         public var tableIndexCacheConcurrencyLimit: Swift.Int?
         /// Specifies the maximum number of entries in the table index cache. Default: 1000
         public var tableIndexCacheMaxEntries: Swift.Int?
+        /// Specifies whether to migrate the cluster from the Parquet storage engine to PachaTree. This action cannot be reversed. To create a new cluster on Parquet, set this to false.
+        public var upgradePachaTree: Swift.Bool?
+        /// The maximum size, in bytes, of the in-memory WAL buffer before a flush is triggered regardless of the flush interval. Increase this value if WAL files are flushed before the interval elapses.
+        public var walBufferSize: Swift.Int?
         /// Specifies the maximum number of write requests that can be buffered before a flush must be executed and succeed. Default: 100000
         public var walMaxWriteBufferSize: Swift.Int?
         /// Concurrency limit during WAL replay. Setting this number too high can lead to OOM. The default is dynamically determined. Default: max(num_cpus, 10)
@@ -3694,9 +3702,13 @@ extension TimestreamInfluxDBClientTypes {
             queryOnlyInstances: Swift.Int? = nil,
             replicationInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
             retentionCheckInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            snapshotDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            snapshotSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
             snapshottedWalFilesToKeep: Swift.Int? = nil,
             tableIndexCacheConcurrencyLimit: Swift.Int? = nil,
             tableIndexCacheMaxEntries: Swift.Int? = nil,
+            upgradePachaTree: Swift.Bool? = nil,
+            walBufferSize: Swift.Int? = nil,
             walMaxWriteBufferSize: Swift.Int? = nil,
             walReplayConcurrencyLimit: Swift.Int? = nil,
             walReplayFailOnError: Swift.Bool? = nil,
@@ -3749,9 +3761,13 @@ extension TimestreamInfluxDBClientTypes {
             self.queryOnlyInstances = queryOnlyInstances
             self.replicationInterval = replicationInterval
             self.retentionCheckInterval = retentionCheckInterval
+            self.snapshotDuration = snapshotDuration
+            self.snapshotSize = snapshotSize
             self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
             self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
             self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.upgradePachaTree = upgradePachaTree
+            self.walBufferSize = walBufferSize
             self.walMaxWriteBufferSize = walMaxWriteBufferSize
             self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
             self.walReplayFailOnError = walReplayFailOnError

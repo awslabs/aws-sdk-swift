@@ -1634,15 +1634,71 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum ResourceCriticality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case unknown
+        case veryHigh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceCriticality] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .unknown,
+                .veryHigh
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case .unknown: return "Unknown"
+            case .veryHigh: return "Very High"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Allows you to define the structure for modifying specific fields of resources.
+    public struct AutomationRulesResourceFieldsUpdateV2: Swift.Sendable {
+        /// The criticality level to be assigned to resources that match the automation rule criteria.
+        /// This member is required.
+        public var criticality: SecurityHubClientTypes.ResourceCriticality?
+
+        public init(
+            criticality: SecurityHubClientTypes.ResourceCriticality? = nil
+        ) {
+            self.criticality = criticality
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum AutomationRulesActionTypeV2: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case externalIntegration
         case findingFieldsUpdate
+        case resourceFieldsUpdate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomationRulesActionTypeV2] {
             return [
                 .externalIntegration,
-                .findingFieldsUpdate
+                .findingFieldsUpdate,
+                .resourceFieldsUpdate
             ]
         }
 
@@ -1655,6 +1711,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .externalIntegration: return "EXTERNAL_INTEGRATION"
             case .findingFieldsUpdate: return "FINDING_FIELDS_UPDATE"
+            case .resourceFieldsUpdate: return "RESOURCE_FIELDS_UPDATE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1669,6 +1726,8 @@ extension SecurityHubClientTypes {
         public var externalIntegrationConfiguration: SecurityHubClientTypes.ExternalIntegrationConfiguration?
         /// The changes to be applied to fields in a security finding when an automation rule is triggered.
         public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2?
+        /// The changes to be applied to resource fields when an automation rule is triggered.
+        public var resourceFieldsUpdate: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2?
         /// The category of action to be executed by the automation rule.
         /// This member is required.
         public var type: SecurityHubClientTypes.AutomationRulesActionTypeV2?
@@ -1676,10 +1735,12 @@ extension SecurityHubClientTypes {
         public init(
             externalIntegrationConfiguration: SecurityHubClientTypes.ExternalIntegrationConfiguration? = nil,
             findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2? = nil,
+            resourceFieldsUpdate: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2? = nil,
             type: SecurityHubClientTypes.AutomationRulesActionTypeV2? = nil
         ) {
             self.externalIntegrationConfiguration = externalIntegrationConfiguration
             self.findingFieldsUpdate = findingFieldsUpdate
+            self.resourceFieldsUpdate = resourceFieldsUpdate
             self.type = type
         }
     }
@@ -23730,6 +23791,8 @@ extension SecurityHubClientTypes {
         case findingInfoTitle
         case findingInfoTypes
         case findingInfoUid
+        case impact
+        case likelihood
         case malwareName
         case malwareScanInfoUid
         case malwareSeverity
@@ -23743,6 +23806,7 @@ extension SecurityHubClientTypes {
         case resourcesCloudFunctionRuntime
         case resourcesCloudFunctionUserUid
         case resourcesCloudPartition
+        case resourcesCriticality
         case resourcesDeviceEncryptionDetailsKeyUid
         case resourcesDeviceImageUid
         case resourcesImageArchitecture
@@ -23810,6 +23874,8 @@ extension SecurityHubClientTypes {
                 .findingInfoTitle,
                 .findingInfoTypes,
                 .findingInfoUid,
+                .impact,
+                .likelihood,
                 .malwareName,
                 .malwareScanInfoUid,
                 .malwareSeverity,
@@ -23823,6 +23889,7 @@ extension SecurityHubClientTypes {
                 .resourcesCloudFunctionRuntime,
                 .resourcesCloudFunctionUserUid,
                 .resourcesCloudPartition,
+                .resourcesCriticality,
                 .resourcesDeviceEncryptionDetailsKeyUid,
                 .resourcesDeviceImageUid,
                 .resourcesImageArchitecture,
@@ -23896,6 +23963,8 @@ extension SecurityHubClientTypes {
             case .findingInfoTitle: return "finding_info.title"
             case .findingInfoTypes: return "finding_info.types"
             case .findingInfoUid: return "finding_info.uid"
+            case .impact: return "impact"
+            case .likelihood: return "likelihood"
             case .malwareName: return "malware.name"
             case .malwareScanInfoUid: return "malware_scan_info.uid"
             case .malwareSeverity: return "malware.severity"
@@ -23909,6 +23978,7 @@ extension SecurityHubClientTypes {
             case .resourcesCloudFunctionRuntime: return "resources.cloud_function.runtime"
             case .resourcesCloudFunctionUserUid: return "resources.cloud_function.user.uid"
             case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesCriticality: return "resources.criticality"
             case .resourcesDeviceEncryptionDetailsKeyUid: return "resources.device.encryption_details.key_uid"
             case .resourcesDeviceImageUid: return "resources.device.image.uid"
             case .resourcesImageArchitecture: return "resources.image.architecture"
@@ -24686,6 +24756,297 @@ public struct CreateAutomationRuleOutput: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    public enum ResourcesDateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourceCreationTimeDt
+        case resourceDetailCaptureTimeDt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesDateField] {
+            return [
+                .resourceCreationTimeDt,
+                .resourceDetailCaptureTimeDt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourceCreationTimeDt: return "ResourceCreationTime"
+            case .resourceDetailCaptureTimeDt: return "ResourceDetailCaptureTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the filtering of Amazon Web Services resources based on date and timestamp attributes.
+    public struct ResourcesDateFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesDateField?
+        /// A date filter for querying findings.
+        public var filter: SecurityHubClientTypes.DateFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesDateField? = nil,
+            filter: SecurityHubClientTypes.DateFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesMapField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesMapField] {
+            return [
+                .tag
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tag: return "ResourceTags"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on key-value map attributes.
+    public struct ResourcesMapFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesMapField?
+        /// A map filter for filtering Security Hub CSPM findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
+        public var filter: SecurityHubClientTypes.MapFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesMapField? = nil,
+            filter: SecurityHubClientTypes.MapFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesNumberField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case selfHostedAiAgentFrameworkResourceCount
+        case selfHostedAiAgentResourceCount
+        case selfHostedAiAgentToolsAndIdentityResourceCount
+        case selfHostedAiDevelopmentResourceCount
+        case selfHostedAiExternalEndpointResourceCount
+        case selfHostedAiModelResourceCount
+        case selfHostedAiModelServingResourceCount
+        case selfHostedTotalAiResourceCount
+        case severityCritical
+        case severityFatal
+        case severityHigh
+        case severityInformational
+        case severityLow
+        case severityMedium
+        case severityOther
+        case severityUnknown
+        case totalFindings
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesNumberField] {
+            return [
+                .selfHostedAiAgentFrameworkResourceCount,
+                .selfHostedAiAgentResourceCount,
+                .selfHostedAiAgentToolsAndIdentityResourceCount,
+                .selfHostedAiDevelopmentResourceCount,
+                .selfHostedAiExternalEndpointResourceCount,
+                .selfHostedAiModelResourceCount,
+                .selfHostedAiModelServingResourceCount,
+                .selfHostedTotalAiResourceCount,
+                .severityCritical,
+                .severityFatal,
+                .severityHigh,
+                .severityInformational,
+                .severityLow,
+                .severityMedium,
+                .severityOther,
+                .severityUnknown,
+                .totalFindings
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .selfHostedAiAgentFrameworkResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
+            case .selfHostedAiAgentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
+            case .selfHostedAiAgentToolsAndIdentityResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
+            case .selfHostedAiDevelopmentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
+            case .selfHostedAiExternalEndpointResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
+            case .selfHostedAiModelResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
+            case .selfHostedAiModelServingResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
+            case .selfHostedTotalAiResourceCount: return "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
+            case .severityCritical: return "FindingsSummary.Severities.Critical"
+            case .severityFatal: return "FindingsSummary.Severities.Fatal"
+            case .severityHigh: return "FindingsSummary.Severities.High"
+            case .severityInformational: return "FindingsSummary.Severities.Informational"
+            case .severityLow: return "FindingsSummary.Severities.Low"
+            case .severityMedium: return "FindingsSummary.Severities.Medium"
+            case .severityOther: return "FindingsSummary.Severities.Other"
+            case .severityUnknown: return "FindingsSummary.Severities.Unknown"
+            case .totalFindings: return "FindingsSummary.TotalFindings"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on numerical values.
+    public struct ResourcesNumberFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesNumberField?
+        /// A number filter for querying findings.
+        public var filter: SecurityHubClientTypes.NumberFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesNumberField? = nil,
+            filter: SecurityHubClientTypes.NumberFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case accountName
+        case canonicalId
+        case discoveryType
+        case findingType
+        case hostResourceGuid
+        case hostResourceType
+        case productName
+        case region
+        case resourceCategory
+        case resourceCloudPartition
+        case resourceCriticality
+        case resourceGuid
+        case resourceId
+        case resourceName
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
+        case resourceSubCategory
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesStringField] {
+            return [
+                .accountId,
+                .accountName,
+                .canonicalId,
+                .discoveryType,
+                .findingType,
+                .hostResourceGuid,
+                .hostResourceType,
+                .productName,
+                .region,
+                .resourceCategory,
+                .resourceCloudPartition,
+                .resourceCriticality,
+                .resourceGuid,
+                .resourceId,
+                .resourceName,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
+                .resourceSubCategory,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .accountName: return "AccountName"
+            case .canonicalId: return "ResourceInfo.AIDetails.CanonicalId"
+            case .discoveryType: return "DiscoveryType"
+            case .findingType: return "FindingsSummary.FindingType"
+            case .hostResourceGuid: return "ResourceInfo.AIDetails.HostResourceGuid"
+            case .hostResourceType: return "ResourceInfo.AIDetails.HostResourceType"
+            case .productName: return "FindingsSummary.ProductName"
+            case .region: return "Region"
+            case .resourceCategory: return "ResourceCategory"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceCriticality: return "ResourceCriticality"
+            case .resourceGuid: return "ResourceGuid"
+            case .resourceId: return "ResourceId"
+            case .resourceName: return "ResourceName"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
+            case .resourceSubCategory: return "ResourceSubCategory"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on string field values.
+    public struct ResourcesStringFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesStringField?
+        /// A string filter for filtering Security Hub CSPM findings.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
 public struct CreateAutomationRuleV2Output: Swift.Sendable {
     /// The ARN of the V2 automation rule.
     public var ruleArn: Swift.String?
@@ -25272,6 +25633,59 @@ public struct CreateTicketV2Output: Swift.Sendable {
     ) {
         self.ticketId = ticketId
         self.ticketSrcUrl = ticketSrcUrl
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum CriticalitySourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automationRule
+        case resourceName
+        case tagInference
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CriticalitySourceType] {
+            return [
+                .automationRule,
+                .resourceName,
+                .tagInference
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automationRule: return "AutomationRule"
+            case .resourceName: return "ResourceName"
+            case .tagInference: return "TagInference"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Details the source and reason of a criticality.
+    public struct CriticalitySource: Swift.Sendable {
+        /// The reason the criticality was assigned.
+        /// This member is required.
+        public var reason: Swift.String?
+        /// The source of the criticality.
+        /// This member is required.
+        public var source: SecurityHubClientTypes.CriticalitySourceType?
+
+        public init(
+            reason: Swift.String? = nil,
+            source: SecurityHubClientTypes.CriticalitySourceType? = nil
+        ) {
+            self.reason = reason
+            self.source = source
+        }
     }
 }
 
@@ -28315,10 +28729,13 @@ extension SecurityHubClientTypes {
         case findingInfoRelatedEventsTraitsCategory
         case findingInfoTitle
         case findingInfoTypes
+        case impact
+        case likelihood
         case metadataProductName
         case metadataProductUid
         case metadataProductVendorName
         case resourcesCloudPartition
+        case resourcesCriticality
         case resourcesName
         case resourcesOwnerAccountName
         case resourcesOwnerAccountUid
@@ -28350,10 +28767,13 @@ extension SecurityHubClientTypes {
                 .findingInfoRelatedEventsTraitsCategory,
                 .findingInfoTitle,
                 .findingInfoTypes,
+                .impact,
+                .likelihood,
                 .metadataProductName,
                 .metadataProductUid,
                 .metadataProductVendorName,
                 .resourcesCloudPartition,
+                .resourcesCriticality,
                 .resourcesName,
                 .resourcesOwnerAccountName,
                 .resourcesOwnerAccountUid,
@@ -28391,10 +28811,13 @@ extension SecurityHubClientTypes {
             case .findingInfoRelatedEventsTraitsCategory: return "finding_info.related_events.traits.category"
             case .findingInfoTitle: return "finding_info.title"
             case .findingInfoTypes: return "finding_info.types"
+            case .impact: return "impact"
+            case .likelihood: return "likelihood"
             case .metadataProductName: return "metadata.product.name"
             case .metadataProductUid: return "metadata.product.uid"
             case .metadataProductVendorName: return "metadata.product.vendor_name"
             case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesCriticality: return "resources.criticality"
             case .resourcesName: return "resources.name"
             case .resourcesOwnerAccountName: return "resources.owner.account.name"
             case .resourcesOwnerAccountUid: return "resources.owner.account.uid"
@@ -29811,294 +30234,6 @@ public struct GetRemediationsV2Output: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    public enum ResourcesDateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case resourceCreationTimeDt
-        case resourceDetailCaptureTimeDt
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesDateField] {
-            return [
-                .resourceCreationTimeDt,
-                .resourceDetailCaptureTimeDt
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .resourceCreationTimeDt: return "ResourceCreationTime"
-            case .resourceDetailCaptureTimeDt: return "ResourceDetailCaptureTime"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables the filtering of Amazon Web Services resources based on date and timestamp attributes.
-    public struct ResourcesDateFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesDateField?
-        /// A date filter for querying findings.
-        public var filter: SecurityHubClientTypes.DateFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesDateField? = nil,
-            filter: SecurityHubClientTypes.DateFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    public enum ResourcesMapField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case tag
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesMapField] {
-            return [
-                .tag
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .tag: return "ResourceTags"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables filtering of Amazon Web Services resources based on key-value map attributes.
-    public struct ResourcesMapFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesMapField?
-        /// A map filter for filtering Security Hub CSPM findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
-        public var filter: SecurityHubClientTypes.MapFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesMapField? = nil,
-            filter: SecurityHubClientTypes.MapFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    public enum ResourcesNumberField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case selfHostedAiAgentFrameworkResourceCount
-        case selfHostedAiAgentResourceCount
-        case selfHostedAiAgentToolsAndIdentityResourceCount
-        case selfHostedAiDevelopmentResourceCount
-        case selfHostedAiExternalEndpointResourceCount
-        case selfHostedAiModelResourceCount
-        case selfHostedAiModelServingResourceCount
-        case selfHostedTotalAiResourceCount
-        case severityCritical
-        case severityFatal
-        case severityHigh
-        case severityInformational
-        case severityLow
-        case severityMedium
-        case severityOther
-        case severityUnknown
-        case totalFindings
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesNumberField] {
-            return [
-                .selfHostedAiAgentFrameworkResourceCount,
-                .selfHostedAiAgentResourceCount,
-                .selfHostedAiAgentToolsAndIdentityResourceCount,
-                .selfHostedAiDevelopmentResourceCount,
-                .selfHostedAiExternalEndpointResourceCount,
-                .selfHostedAiModelResourceCount,
-                .selfHostedAiModelServingResourceCount,
-                .selfHostedTotalAiResourceCount,
-                .severityCritical,
-                .severityFatal,
-                .severityHigh,
-                .severityInformational,
-                .severityLow,
-                .severityMedium,
-                .severityOther,
-                .severityUnknown,
-                .totalFindings
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .selfHostedAiAgentFrameworkResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
-            case .selfHostedAiAgentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
-            case .selfHostedAiAgentToolsAndIdentityResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
-            case .selfHostedAiDevelopmentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
-            case .selfHostedAiExternalEndpointResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
-            case .selfHostedAiModelResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
-            case .selfHostedAiModelServingResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
-            case .selfHostedTotalAiResourceCount: return "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
-            case .severityCritical: return "FindingsSummary.Severities.Critical"
-            case .severityFatal: return "FindingsSummary.Severities.Fatal"
-            case .severityHigh: return "FindingsSummary.Severities.High"
-            case .severityInformational: return "FindingsSummary.Severities.Informational"
-            case .severityLow: return "FindingsSummary.Severities.Low"
-            case .severityMedium: return "FindingsSummary.Severities.Medium"
-            case .severityOther: return "FindingsSummary.Severities.Other"
-            case .severityUnknown: return "FindingsSummary.Severities.Unknown"
-            case .totalFindings: return "FindingsSummary.TotalFindings"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables filtering of Amazon Web Services resources based on numerical values.
-    public struct ResourcesNumberFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesNumberField?
-        /// A number filter for querying findings.
-        public var filter: SecurityHubClientTypes.NumberFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesNumberField? = nil,
-            filter: SecurityHubClientTypes.NumberFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    public enum ResourcesStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accountId
-        case accountName
-        case canonicalId
-        case discoveryType
-        case findingType
-        case hostResourceGuid
-        case hostResourceType
-        case productName
-        case region
-        case resourceCategory
-        case resourceCloudPartition
-        case resourceGuid
-        case resourceId
-        case resourceName
-        case resourceOwnerAccountId
-        case resourceOwnerOrgId
-        case resourceProvider
-        case resourceRegion
-        case resourceSubCategory
-        case resourceType
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesStringField] {
-            return [
-                .accountId,
-                .accountName,
-                .canonicalId,
-                .discoveryType,
-                .findingType,
-                .hostResourceGuid,
-                .hostResourceType,
-                .productName,
-                .region,
-                .resourceCategory,
-                .resourceCloudPartition,
-                .resourceGuid,
-                .resourceId,
-                .resourceName,
-                .resourceOwnerAccountId,
-                .resourceOwnerOrgId,
-                .resourceProvider,
-                .resourceRegion,
-                .resourceSubCategory,
-                .resourceType
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accountId: return "AccountId"
-            case .accountName: return "AccountName"
-            case .canonicalId: return "ResourceInfo.AIDetails.CanonicalId"
-            case .discoveryType: return "DiscoveryType"
-            case .findingType: return "FindingsSummary.FindingType"
-            case .hostResourceGuid: return "ResourceInfo.AIDetails.HostResourceGuid"
-            case .hostResourceType: return "ResourceInfo.AIDetails.HostResourceType"
-            case .productName: return "FindingsSummary.ProductName"
-            case .region: return "Region"
-            case .resourceCategory: return "ResourceCategory"
-            case .resourceCloudPartition: return "ResourceCloudPartition"
-            case .resourceGuid: return "ResourceGuid"
-            case .resourceId: return "ResourceId"
-            case .resourceName: return "ResourceName"
-            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
-            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
-            case .resourceProvider: return "ResourceProvider"
-            case .resourceRegion: return "ResourceRegion"
-            case .resourceSubCategory: return "ResourceSubCategory"
-            case .resourceType: return "ResourceType"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables filtering of Amazon Web Services resources based on string field values.
-    public struct ResourcesStringFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesStringField?
-        /// A string filter for filtering Security Hub CSPM findings.
-        public var filter: SecurityHubClientTypes.StringFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesStringField? = nil,
-            filter: SecurityHubClientTypes.StringFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
     public enum ResourceGroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
         case accountName
@@ -30109,6 +30244,7 @@ extension SecurityHubClientTypes {
         case region
         case resourceCategory
         case resourceCloudPartition
+        case resourceCriticality
         case resourceName
         case resourceOwnerAccountId
         case resourceOwnerOrgId
@@ -30129,6 +30265,7 @@ extension SecurityHubClientTypes {
                 .region,
                 .resourceCategory,
                 .resourceCloudPartition,
+                .resourceCriticality,
                 .resourceName,
                 .resourceOwnerAccountId,
                 .resourceOwnerOrgId,
@@ -30155,6 +30292,7 @@ extension SecurityHubClientTypes {
             case .region: return "Region"
             case .resourceCategory: return "ResourceCategory"
             case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceCriticality: return "ResourceCriticality"
             case .resourceName: return "ResourceName"
             case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
             case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
@@ -30575,6 +30713,8 @@ extension SecurityHubClientTypes {
         public var accountId: Swift.String?
         /// The name of the Amazon Web Services account that's associated with the resource.
         public var accountName: Swift.String?
+        /// The sources of criticalities determined from a resource.
+        public var criticalitySources: [SecurityHubClientTypes.CriticalitySource]?
         /// Specifies how the resource was discovered. If the value is Managed, the resource is natively provided by a cloud service provider. If the value is SelfHosted, the resource is hosted on customer-managed infrastructure, such as a compute instance or container image.
         public var discoveryType: SecurityHubClientTypes.DiscoveryType?
         /// An aggregated view of security findings associated with a resource.
@@ -30591,6 +30731,8 @@ extension SecurityHubClientTypes {
         public var resourceConfig: Smithy.Document?
         /// The time when the resource was created.
         public var resourceCreationTimeDt: Swift.String?
+        /// The criticality assigned to a resource.
+        public var resourceCriticality: SecurityHubClientTypes.ResourceCriticality?
         /// The timestamp when information about the resource was captured.
         /// This member is required.
         public var resourceDetailCaptureTimeDt: Swift.String?
@@ -30622,6 +30764,7 @@ extension SecurityHubClientTypes {
         public init(
             accountId: Swift.String? = nil,
             accountName: Swift.String? = nil,
+            criticalitySources: [SecurityHubClientTypes.CriticalitySource]? = nil,
             discoveryType: SecurityHubClientTypes.DiscoveryType? = nil,
             findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]? = nil,
             region: Swift.String? = nil,
@@ -30629,6 +30772,7 @@ extension SecurityHubClientTypes {
             resourceCloudPartition: Swift.String? = nil,
             resourceConfig: Smithy.Document? = nil,
             resourceCreationTimeDt: Swift.String? = nil,
+            resourceCriticality: SecurityHubClientTypes.ResourceCriticality? = nil,
             resourceDetailCaptureTimeDt: Swift.String? = nil,
             resourceGuid: Swift.String? = nil,
             resourceId: Swift.String? = nil,
@@ -30644,6 +30788,7 @@ extension SecurityHubClientTypes {
         ) {
             self.accountId = accountId
             self.accountName = accountName
+            self.criticalitySources = criticalitySources
             self.discoveryType = discoveryType
             self.findingsSummary = findingsSummary
             self.region = region
@@ -30651,6 +30796,7 @@ extension SecurityHubClientTypes {
             self.resourceCloudPartition = resourceCloudPartition
             self.resourceConfig = resourceConfig
             self.resourceCreationTimeDt = resourceCreationTimeDt
+            self.resourceCriticality = resourceCriticality
             self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
             self.resourceGuid = resourceGuid
             self.resourceId = resourceId
@@ -32365,16 +32511,6 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Defines the parameters and conditions used to evaluate and filter security findings.
-    public indirect enum Criteria: Swift.Sendable {
-        /// The filtering conditions that align with OCSF standards.
-        case ocsffindingcriteria(SecurityHubClientTypes.OcsfFindingFilters)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension SecurityHubClientTypes {
-
     /// The configuration for a findings export: the output format, an optional set of filters, and the fields to include.
     public struct FindingsOutput: Swift.Sendable {
         /// An optional set of OCSF finding filters that restrict which findings are exported. The filter structure is the same as the one used by GetFindingsV2. If you omit this member, Security Hub exports all findings available to the caller. When echoed by GetExportJobV2, relative date ranges are returned unresolved.
@@ -32563,133 +32699,6 @@ extension SecurityHubClientTypes {
     }
 }
 
-public struct CreateAutomationRuleV2Input: Swift.Sendable {
-    /// A list of actions to be performed when the rule criteria is met.
-    /// This member is required.
-    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
-    /// A unique identifier used to ensure idempotency.
-    public var clientToken: Swift.String?
-    /// The filtering type and configuration of the automation rule.
-    /// This member is required.
-    public var criteria: SecurityHubClientTypes.Criteria?
-    /// A description of the V2 automation rule.
-    /// This member is required.
-    public var description: Swift.String?
-    /// The name of the V2 automation rule.
-    /// This member is required.
-    public var ruleName: Swift.String?
-    /// The value for the rule priority.
-    /// This member is required.
-    public var ruleOrder: Swift.Float?
-    /// The status of the V2 automation rule.
-    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
-    /// A list of key-value pairs associated with the V2 automation rule.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
-        clientToken: Swift.String? = nil,
-        criteria: SecurityHubClientTypes.Criteria? = nil,
-        description: Swift.String? = nil,
-        ruleName: Swift.String? = nil,
-        ruleOrder: Swift.Float? = nil,
-        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.actions = actions
-        self.clientToken = clientToken
-        self.criteria = criteria
-        self.description = description
-        self.ruleName = ruleName
-        self.ruleOrder = ruleOrder
-        self.ruleStatus = ruleStatus
-        self.tags = tags
-    }
-}
-
-public struct GetAutomationRuleV2Output: Swift.Sendable {
-    /// A list of actions performed when the rule criteria is met.
-    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
-    /// The timestamp when the V2 automation rule was created.
-    public var createdAt: Foundation.Date?
-    /// The filtering type and configuration of the V2 automation rule.
-    public var criteria: SecurityHubClientTypes.Criteria?
-    /// A description of the automation rule.
-    public var description: Swift.String?
-    /// The ARN of the V2 automation rule.
-    public var ruleArn: Swift.String?
-    /// The ID of the V2 automation rule.
-    public var ruleId: Swift.String?
-    /// The name of the V2 automation rule.
-    public var ruleName: Swift.String?
-    /// The value for the rule priority.
-    public var ruleOrder: Swift.Float?
-    /// The status of the V2 automation automation rule.
-    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
-    /// The timestamp when the V2 automation rule was updated.
-    public var updatedAt: Foundation.Date?
-
-    public init(
-        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
-        createdAt: Foundation.Date? = nil,
-        criteria: SecurityHubClientTypes.Criteria? = nil,
-        description: Swift.String? = nil,
-        ruleArn: Swift.String? = nil,
-        ruleId: Swift.String? = nil,
-        ruleName: Swift.String? = nil,
-        ruleOrder: Swift.Float? = nil,
-        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
-        updatedAt: Foundation.Date? = nil
-    ) {
-        self.actions = actions
-        self.createdAt = createdAt
-        self.criteria = criteria
-        self.description = description
-        self.ruleArn = ruleArn
-        self.ruleId = ruleId
-        self.ruleName = ruleName
-        self.ruleOrder = ruleOrder
-        self.ruleStatus = ruleStatus
-        self.updatedAt = updatedAt
-    }
-}
-
-public struct UpdateAutomationRuleV2Input: Swift.Sendable {
-    /// A list of actions to be performed when the rule criteria is met.
-    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
-    /// The filtering type and configuration of the automation rule.
-    public var criteria: SecurityHubClientTypes.Criteria?
-    /// A description of the automation rule.
-    public var description: Swift.String?
-    /// The ARN of the automation rule.
-    /// This member is required.
-    public var identifier: Swift.String?
-    /// The name of the automation rule.
-    public var ruleName: Swift.String?
-    /// Represents a value for the rule priority.
-    public var ruleOrder: Swift.Float?
-    /// The status of the automation rule.
-    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
-
-    public init(
-        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
-        criteria: SecurityHubClientTypes.Criteria? = nil,
-        description: Swift.String? = nil,
-        identifier: Swift.String? = nil,
-        ruleName: Swift.String? = nil,
-        ruleOrder: Swift.Float? = nil,
-        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil
-    ) {
-        self.actions = actions
-        self.criteria = criteria
-        self.description = description
-        self.identifier = identifier
-        self.ruleName = ruleName
-        self.ruleOrder = ruleOrder
-        self.ruleStatus = ruleStatus
-    }
-}
-
 public struct GetExportJobV2Output: Swift.Sendable {
     /// The category of data that the export job produces.
     /// This member is required.
@@ -32820,6 +32829,145 @@ public struct StartExportJobV2Input: Swift.Sendable {
         self.name = name
         self.outputConfiguration = outputConfiguration
         self.scopes = scopes
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the parameters and conditions used to evaluate and filter security findings or resources.
+    public indirect enum Criteria: Swift.Sendable {
+        /// The filtering conditions that align with OCSF standards.
+        case ocsffindingcriteria(SecurityHubClientTypes.OcsfFindingFilters)
+        /// The filtering conditions for resources.
+        case resourcecriteria(SecurityHubClientTypes.ResourcesFilters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateAutomationRuleV2Input: Swift.Sendable {
+    /// A list of actions to be performed when the rule criteria is met.
+    /// This member is required.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// A unique identifier used to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The filtering type and configuration of the automation rule.
+    /// This member is required.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the V2 automation rule.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The name of the V2 automation rule.
+    /// This member is required.
+    public var ruleName: Swift.String?
+    /// The value for the rule priority.
+    /// This member is required.
+    public var ruleOrder: Swift.Float?
+    /// The status of the V2 automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+    /// A list of key-value pairs associated with the V2 automation rule.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        clientToken: Swift.String? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.actions = actions
+        self.clientToken = clientToken
+        self.criteria = criteria
+        self.description = description
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+        self.tags = tags
+    }
+}
+
+public struct GetAutomationRuleV2Output: Swift.Sendable {
+    /// A list of actions performed when the rule criteria is met.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// The timestamp when the V2 automation rule was created.
+    public var createdAt: Foundation.Date?
+    /// The filtering type and configuration of the V2 automation rule.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the automation rule.
+    public var description: Swift.String?
+    /// The ARN of the V2 automation rule.
+    public var ruleArn: Swift.String?
+    /// The ID of the V2 automation rule.
+    public var ruleId: Swift.String?
+    /// The name of the V2 automation rule.
+    public var ruleName: Swift.String?
+    /// The value for the rule priority.
+    public var ruleOrder: Swift.Float?
+    /// The status of the V2 automation automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+    /// The timestamp when the V2 automation rule was updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        createdAt: Foundation.Date? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        ruleArn: Swift.String? = nil,
+        ruleId: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.actions = actions
+        self.createdAt = createdAt
+        self.criteria = criteria
+        self.description = description
+        self.ruleArn = ruleArn
+        self.ruleId = ruleId
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct UpdateAutomationRuleV2Input: Swift.Sendable {
+    /// A list of actions to be performed when the rule criteria is met.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// The filtering type and configuration of the automation rule.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the automation rule.
+    public var description: Swift.String?
+    /// The ARN of the automation rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the automation rule.
+    public var ruleName: Swift.String?
+    /// Represents a value for the rule priority.
+    public var ruleOrder: Swift.Float?
+    /// The status of the automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil
+    ) {
+        self.actions = actions
+        self.criteria = criteria
+        self.description = description
+        self.identifier = identifier
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
     }
 }
 
@@ -39195,6 +39343,7 @@ extension SecurityHubClientTypes.AutomationRulesActionV2 {
         guard let value else { return }
         try writer["ExternalIntegrationConfiguration"].write(value.externalIntegrationConfiguration, with: SecurityHubClientTypes.ExternalIntegrationConfiguration.write(value:to:))
         try writer["FindingFieldsUpdate"].write(value.findingFieldsUpdate, with: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2.write(value:to:))
+        try writer["ResourceFieldsUpdate"].write(value.resourceFieldsUpdate, with: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2.write(value:to:))
         try writer["Type"].write(value.type)
     }
 
@@ -39204,6 +39353,7 @@ extension SecurityHubClientTypes.AutomationRulesActionV2 {
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.findingFieldsUpdate = try reader["FindingFieldsUpdate"].readIfPresent(with: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2.read(from:))
         value.externalIntegrationConfiguration = try reader["ExternalIntegrationConfiguration"].readIfPresent(with: SecurityHubClientTypes.ExternalIntegrationConfiguration.read(from:))
+        value.resourceFieldsUpdate = try reader["ResourceFieldsUpdate"].readIfPresent(with: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2.read(from:))
         return value
     }
 }
@@ -39405,6 +39555,21 @@ extension SecurityHubClientTypes.AutomationRulesMetadataV2 {
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AutomationRulesActionTypeObjectV2.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2 {
+
+    static func write(value: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Criticality"].write(value.criticality)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2()
+        value.criticality = try reader["Criticality"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -51204,6 +51369,8 @@ extension SecurityHubClientTypes.Criteria {
         switch value {
             case let .ocsffindingcriteria(ocsffindingcriteria):
                 try writer["OcsfFindingCriteria"].write(ocsffindingcriteria, with: SecurityHubClientTypes.OcsfFindingFilters.write(value:to:))
+            case let .resourcecriteria(resourcecriteria):
+                try writer["ResourceCriteria"].write(resourcecriteria, with: SecurityHubClientTypes.ResourcesFilters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -51215,9 +51382,22 @@ extension SecurityHubClientTypes.Criteria {
         switch name {
             case "OcsfFindingCriteria":
                 return .ocsffindingcriteria(try reader["OcsfFindingCriteria"].read(with: SecurityHubClientTypes.OcsfFindingFilters.read(from:)))
+            case "ResourceCriteria":
+                return .resourcecriteria(try reader["ResourceCriteria"].read(with: SecurityHubClientTypes.ResourcesFilters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SecurityHubClientTypes.CriticalitySource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CriticalitySource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.CriticalitySource()
+        value.source = try reader["Source"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["Reason"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -53769,6 +53949,8 @@ extension SecurityHubClientTypes.ResourceResult {
         value.resourceSubCategory = try reader["ResourceSubCategory"].readIfPresent()
         value.discoveryType = try reader["DiscoveryType"].readIfPresent()
         value.resourceInfo = try reader["ResourceInfo"].readIfPresent(with: SecurityHubClientTypes.ResourceInfo.read(from:))
+        value.resourceCriticality = try reader["ResourceCriticality"].readIfPresent()
+        value.criticalitySources = try reader["CriticalitySources"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.CriticalitySource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -53783,6 +53965,18 @@ extension SecurityHubClientTypes.ResourcesCompositeFilter {
         try writer["NumberFilters"].writeList(value.numberFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Operator"].write(value.`operator`)
         try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesCompositeFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesCompositeFilter()
+        value.stringFilters = try reader["StringFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dateFilters = try reader["DateFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesDateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numberFilters = try reader["NumberFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesNumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapFilters = try reader["MapFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nestedCompositeFilters = try reader["NestedCompositeFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent()
+        return value
     }
 }
 
@@ -53811,6 +54005,14 @@ extension SecurityHubClientTypes.ResourcesDateFilter {
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.DateFilter.write(value:to:))
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesDateFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesDateFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.DateFilter.read(from:))
+        return value
+    }
 }
 
 extension SecurityHubClientTypes.ResourceSeverityBreakdown {
@@ -53837,6 +54039,14 @@ extension SecurityHubClientTypes.ResourcesFilters {
         try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CompositeOperator"].write(value.compositeOperator)
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesFilters()
+        value.compositeFilters = try reader["CompositeFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.compositeOperator = try reader["CompositeOperator"].readIfPresent()
+        return value
+    }
 }
 
 extension SecurityHubClientTypes.ResourcesMapFilter {
@@ -53845,6 +54055,14 @@ extension SecurityHubClientTypes.ResourcesMapFilter {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.MapFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesMapFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesMapFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.MapFilter.read(from:))
+        return value
     }
 }
 
@@ -53855,6 +54073,14 @@ extension SecurityHubClientTypes.ResourcesNumberFilter {
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.NumberFilter.write(value:to:))
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesNumberFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesNumberFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.NumberFilter.read(from:))
+        return value
+    }
 }
 
 extension SecurityHubClientTypes.ResourcesStringFilter {
@@ -53863,6 +54089,14 @@ extension SecurityHubClientTypes.ResourcesStringFilter {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesStringFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesStringFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.StringFilter.read(from:))
+        return value
     }
 }
 

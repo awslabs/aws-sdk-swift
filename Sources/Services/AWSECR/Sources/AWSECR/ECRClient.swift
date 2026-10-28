@@ -2324,6 +2324,83 @@ extension ECRClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeReplicationBackfillResults` operation on the `ECR` service.
+    ///
+    /// Returns the status, progress, and per-image results for a replication backfill. The backfill to describe is identified by the replicationBackfillId returned by the [StartReplicationBackfill] operation. The per-image results are available only after the replication backfill reaches a terminal status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeReplicationBackfillResultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeReplicationBackfillResultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ReplicationBackfillNotFoundException` : The specified replication backfill could not be found. Check the specified replication backfill ID and ensure that you are operating on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func describeReplicationBackfillResults(input: DescribeReplicationBackfillResultsInput) async throws -> DescribeReplicationBackfillResultsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.describeReplicationBackfillResultsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeReplicationBackfillResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationBackfillResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeReplicationBackfillResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.DescribeReplicationBackfillResults"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeReplicationBackfillResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeReplicationBackfillResultsInput, DescribeReplicationBackfillResultsOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeReplicationBackfillResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeRepositories` operation on the `ECR` service.
     ///
     /// Describes image repositories in a registry.
@@ -3477,6 +3554,82 @@ extension ECRClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListReplicationBackfills` operation on the `ECR` service.
+    ///
+    /// Lists the replication backfills for a registry, including their status and progress. Replication backfills that have reached a terminal status are retained for 90 days after they end, after which they are no longer returned.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListReplicationBackfillsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListReplicationBackfillsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func listReplicationBackfills(input: ListReplicationBackfillsInput) async throws -> ListReplicationBackfillsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.listReplicationBackfillsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listReplicationBackfills")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListReplicationBackfillsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReplicationBackfillsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.ListReplicationBackfills"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReplicationBackfillsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListReplicationBackfillsInput, ListReplicationBackfillsOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListReplicationBackfills")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `ECR` service.
     ///
     /// List the tags for an Amazon ECR resource.
@@ -4550,6 +4703,162 @@ extension ECRClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartLifecyclePolicyPreview")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartReplicationBackfill` operation on the `ECR` service.
+    ///
+    /// Starts a replication backfill for a registry. A replication backfill replicates a registry's existing images that match its replication configuration to the specified destination. Use the [DescribeReplicationBackfillResults] operation to monitor the progress of a replication backfill, and to retrieve its per-image results after it reaches a terminal status. The destination must already be configured in the registry's replication configuration. Only one replication backfill can be in progress for a given destination Region at a time. Starting a replication backfill for a destination Region that already has one in progress fails with a ReplicationBackfillInProgressException. In addition, a registry can have at most 10 replication backfills in progress at once. Starting a replication backfill that would exceed this limit fails with a LimitExceededException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartReplicationBackfillInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartReplicationBackfillOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LimitExceededException` : The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR service quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+    /// - `ReplicationBackfillInProgressException` : A replication backfill is already in progress for the specified destination Region. This occurs because only one replication backfill can be in progress for a given destination Region at a time. Wait for the in progress backfill to reach a terminal status, or stop it with the [StopReplicationBackfill] operation, before starting another one.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func startReplicationBackfill(input: StartReplicationBackfillInput) async throws -> StartReplicationBackfillOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.startReplicationBackfillOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startReplicationBackfill")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartReplicationBackfillOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartReplicationBackfillOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.StartReplicationBackfill"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartReplicationBackfillOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartReplicationBackfillInput, StartReplicationBackfillOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartReplicationBackfill")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopReplicationBackfill` operation on the `ECR` service.
+    ///
+    /// Stops an in progress replication backfill for a registry. The backfill to stop is identified by the replicationBackfillId returned by the [StartReplicationBackfill] operation. Images that have already been replicated are not affected, and replications that are already in progress continue to completion.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopReplicationBackfillInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopReplicationBackfillOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ReplicationBackfillInvalidStatusException` : The requested operation can't be performed on the replication backfill because it is not in a valid status for that operation. For example, you can't stop a replication backfill that has already reached a terminal status. Use the [DescribeReplicationBackfillResults] operation to check the current status before retrying.
+    /// - `ReplicationBackfillNotFoundException` : The specified replication backfill could not be found. Check the specified replication backfill ID and ensure that you are operating on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
+    public func stopReplicationBackfill(input: StopReplicationBackfillInput) async throws -> StopReplicationBackfillOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ECRClient.stopReplicationBackfillOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopReplicationBackfill")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ecr")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopReplicationBackfillOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ECR", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopReplicationBackfillOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>(overrides: ["X-Amz-Target": "AmazonEC2ContainerRegistry_V20150921.StopReplicationBackfill"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopReplicationBackfillOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ECR"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopReplicationBackfillInput, StopReplicationBackfillOutput>(serviceID: serviceName, version: ECRClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ECR")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopReplicationBackfill")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

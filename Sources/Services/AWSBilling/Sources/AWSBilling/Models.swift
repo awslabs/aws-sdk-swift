@@ -85,6 +85,22 @@ extension BillingClientTypes {
 
 extension BillingClientTypes {
 
+    /// A recipient copied as a viewer on the executive approval request, in addition to the approver.
+    public struct AdditionalRecipient: Swift.Sendable {
+        /// The email address of the recipient. This value is 3–256 characters and must be a valid email address.
+        /// This member is required.
+        public var email: Swift.String?
+
+        public init(
+            email: Swift.String? = nil
+        ) {
+            self.email = email
+        }
+    }
+}
+
+extension BillingClientTypes {
+
     /// A monetary amount with a currency code. Used throughout the Billing API to represent credit balances, allocations, and adjustments.
     public struct Amount: Swift.Sendable {
         /// The amount as a decimal string (for example, "743.21"). Negative values represent credits that reduce a bill.
@@ -133,27 +149,29 @@ extension BillingClientTypes {
     }
 }
 
-/// Exception thrown when a billing view's health status prevents an operation from being performed. This may occur if the billing view is in a state other than HEALTHY.
-public struct BillingViewHealthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension BillingClientTypes {
 
-    public struct Properties: Swift.Sendable {
+    /// Information about the executive approver who signs off on an investment attestation.
+    public struct ApproverDetails: Swift.Sendable {
+        /// The email address of the approver. This value is 3–256 characters and must be a valid email address.
         /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
+        public var email: Swift.String?
+        /// The name of the approver as it appears on the contract. This value can be up to 256 characters.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The title of the approver, such as Chief Financial Officer. This value can be up to 256 characters.
+        /// This member is required.
+        public var title: Swift.String?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "BillingViewHealthStatusException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+        public init(
+            email: Swift.String? = nil,
+            name: Swift.String? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.email = email
+            self.name = name
+            self.title = title
+        }
     }
 }
 
@@ -246,50 +264,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         self.properties.message = message
         self.properties.resourceId = resourceId
         self.properties.resourceType = resourceType
-    }
-}
-
-/// You've reached the limit of resources you can create, or exceeded the size of an individual resource.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The container for the quotaCode.
-        /// This member is required.
-        public internal(set) var quotaCode: Swift.String? = nil
-        /// The ID of the resource.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of Amazon Web Services resource.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-        /// The container for the serviceCode.
-        /// This member is required.
-        public internal(set) var serviceCode: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "BillingServiceQuotaExceeded" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        quotaCode: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil,
-        serviceCode: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.quotaCode = quotaCode
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-        self.properties.serviceCode = serviceCode
     }
 }
 
@@ -406,6 +380,96 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+public struct AssociateContractInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the contract to associate with your account.
+    /// This member is required.
+    public var contractArn: Swift.String?
+    /// The contract ID from the contract document. It can be found in the top right corner of your contract's pages. This value confirms that you have access to the contract you are associating.
+    /// This member is required.
+    public var contractDocumentId: Swift.String?
+
+    public init(
+        contractArn: Swift.String? = nil,
+        contractDocumentId: Swift.String? = nil
+    ) {
+        self.contractArn = contractArn
+        self.contractDocumentId = contractDocumentId
+    }
+}
+
+public struct AssociateContractOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Exception thrown when a billing view's health status prevents an operation from being performed. This may occur if the billing view is in a state other than HEALTHY.
+public struct BillingViewHealthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillingViewHealthStatusException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// You've reached the limit of resources you can create, or exceeded the size of an individual resource.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The container for the quotaCode.
+        /// This member is required.
+        public internal(set) var quotaCode: Swift.String? = nil
+        /// The ID of the resource.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of Amazon Web Services resource.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+        /// The container for the serviceCode.
+        /// This member is required.
+        public internal(set) var serviceCode: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BillingServiceQuotaExceeded" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        quotaCode: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil,
+        serviceCode: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.quotaCode = quotaCode
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+        self.properties.serviceCode = serviceCode
+    }
+}
+
 public struct AssociateSourceViewsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the billing view to associate source views with.
     /// This member is required.
@@ -433,6 +497,137 @@ public struct AssociateSourceViewsOutput: Swift.Sendable {
     ) {
         self.arn = arn
     }
+}
+
+extension BillingClientTypes {
+
+    /// Indicates whether a contract is associated with your account. A value of ASSOCIATED indicates that the contract is associated with your account. A value of NOT_ASSOCIATED indicates that the contract is not associated with your account.
+    public enum AssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case notAssociated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationStatus] {
+            return [
+                .associated,
+                .notAssociated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .notAssociated: return "NOT_ASSOCIATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A quantity-based attestation value, such as a count of workloads migrated.
+    public struct AttestationQuantity: Swift.Sendable {
+        /// The unit of the attestation, such as workloads migrated. This value is 1–1000 characters.
+        /// This member is required.
+        public var attestationUnit: Swift.String?
+        /// The number of units being attested, expressed as a decimal string to preserve precision. The value is digits with an optional decimal point and is 1–1000 characters.
+        /// This member is required.
+        public var attestationVolume: Swift.String?
+
+        public init(
+            attestationUnit: Swift.String? = nil,
+            attestationVolume: Swift.String? = nil
+        ) {
+            self.attestationUnit = attestationUnit
+            self.attestationVolume = attestationVolume
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The value being attested. This is a union in which exactly one member is set. Set attestationAmount to attest a monetary amount directly, or set attestationQuantities to attest one or more quantities that are converted to a value using the investment's multipliers.
+    public enum AttestationValue: Swift.Sendable {
+        /// The value attested as a monetary amount. This form is valid only when the investment has no multiplier.
+        case attestationamount(BillingClientTypes.Amount)
+        /// The value attested as one or more quantities, each with its own unit. The list contains at most 50 quantities.
+        case attestationquantities([BillingClientTypes.AttestationQuantity])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BillingClientTypes {
+
+    /// An allocation of an investment disbursement to a specific recipient account. The account is the target account that receives the investment, not your account.
+    public struct InvestmentDistribution: Swift.Sendable {
+        /// The recipient Amazon Web Services account ID that receives this portion of the investment. This must be one of the eligible investment accounts on the contract.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The monetary value allocated to the recipient account.
+        /// This member is required.
+        public var investmentAmount: BillingClientTypes.Amount?
+
+        public init(
+            accountId: Swift.String? = nil,
+            investmentAmount: BillingClientTypes.Amount? = nil
+        ) {
+            self.accountId = accountId
+            self.investmentAmount = investmentAmount
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The details of an investment attestation submission, including the value being attested and how the resulting investment is distributed.
+    public struct AttestationDetails: Swift.Sendable {
+        /// The value being attested, expressed as either a monetary amount or one or more quantities. Exactly one form is set.
+        /// This member is required.
+        public var attestationValue: BillingClientTypes.AttestationValue?
+        /// The distribution of the resulting investment across the eligible investment accounts on the contract. If you omit this value, the full investment is allocated to the single eligible investment account on the contract. This value is required when multiple investment accounts are eligible. When you provide this value, the sum of all distributions must equal the resulting monetary investment value (the attested amount, or the value computed from the attested quantities using the investment multipliers). The list contains at most 200 distributions.
+        public var investmentDistributions: [BillingClientTypes.InvestmentDistribution]?
+
+        public init(
+            attestationValue: BillingClientTypes.AttestationValue? = nil,
+            investmentDistributions: [BillingClientTypes.InvestmentDistribution]? = nil
+        ) {
+            self.attestationValue = attestationValue
+            self.investmentDistributions = investmentDistributions
+        }
+    }
+}
+
+public struct CancelContractualInvestmentAttestationInput: Swift.Sendable {
+    /// The identifier of the investment attestation to cancel.
+    /// This member is required.
+    public var attestationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the contract that contains the attested investment.
+    /// This member is required.
+    public var contractArn: Swift.String?
+    /// The reason for the cancellation. This value can be 1 to 80 characters.
+    /// This member is required.
+    public var reason: Swift.String?
+
+    public init(
+        attestationId: Swift.String? = nil,
+        contractArn: Swift.String? = nil,
+        reason: Swift.String? = nil
+    ) {
+        self.attestationId = attestationId
+        self.contractArn = contractArn
+        self.reason = reason
+    }
+}
+
+public struct CancelContractualInvestmentAttestationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension BillingClientTypes {
@@ -639,6 +834,67 @@ public struct CreateBillingViewOutput: Swift.Sendable {
     }
 }
 
+public struct CreateContractualInvestmentAttestationInput: Swift.Sendable {
+    /// The email addresses to copy as viewers on the executive approval request.
+    public var additionalRecipients: [BillingClientTypes.AdditionalRecipient]?
+    /// The details of the executive who authorized the attestation, under the terms of the private pricing contract. The executive receives a click-to-accept email to confirm the attestation.
+    /// This member is required.
+    public var approverDetails: BillingClientTypes.ApproverDetails?
+    /// The details of the attestation, including the value being claimed and how the resulting investment is distributed across investment accounts.
+    /// This member is required.
+    public var attestationDetails: BillingClientTypes.AttestationDetails?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry completes without performing any further actions.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the contract that contains the investment being attested.
+    /// This member is required.
+    public var contractArn: Swift.String?
+    /// The contract ID from the contract document, located in the top-right corner of the private pricing contract pages. This value confirms that you have access to the contract.
+    /// This member is required.
+    public var contractDocumentId: Swift.String?
+    /// The date on which the investment is disbursed to the investment accounts. The disbursement date is subject to review timelines.
+    public var investmentDisbursedAt: Foundation.Date?
+    /// The identifier of the investment (outcome) being attested.
+    /// This member is required.
+    public var investmentId: Swift.String?
+    /// The identifier of the investment summary being attested. This is the parent to the investmentId.
+    /// This member is required.
+    public var investmentSummaryId: Swift.String?
+
+    public init(
+        additionalRecipients: [BillingClientTypes.AdditionalRecipient]? = nil,
+        approverDetails: BillingClientTypes.ApproverDetails? = nil,
+        attestationDetails: BillingClientTypes.AttestationDetails? = nil,
+        clientToken: Swift.String? = nil,
+        contractArn: Swift.String? = nil,
+        contractDocumentId: Swift.String? = nil,
+        investmentDisbursedAt: Foundation.Date? = nil,
+        investmentId: Swift.String? = nil,
+        investmentSummaryId: Swift.String? = nil
+    ) {
+        self.additionalRecipients = additionalRecipients
+        self.approverDetails = approverDetails
+        self.attestationDetails = attestationDetails
+        self.clientToken = clientToken
+        self.contractArn = contractArn
+        self.contractDocumentId = contractDocumentId
+        self.investmentDisbursedAt = investmentDisbursedAt
+        self.investmentId = investmentId
+        self.investmentSummaryId = investmentSummaryId
+    }
+}
+
+public struct CreateContractualInvestmentAttestationOutput: Swift.Sendable {
+    /// The identifier of the submitted attestation.
+    /// This member is required.
+    public var attestationId: Swift.String?
+
+    public init(
+        attestationId: Swift.String? = nil
+    ) {
+        self.attestationId = attestationId
+    }
+}
+
 public struct DeleteBillingViewInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
     /// This member is required.
@@ -665,6 +921,23 @@ public struct DeleteBillingViewOutput: Swift.Sendable {
     ) {
         self.arn = arn
     }
+}
+
+public struct DisassociateContractInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the contract to disassociate from your account.
+    /// This member is required.
+    public var contractArn: Swift.String?
+
+    public init(
+        contractArn: Swift.String? = nil
+    ) {
+        self.contractArn = contractArn
+    }
+}
+
+public struct DisassociateContractOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DisassociateSourceViewsInput: Swift.Sendable {
@@ -1136,6 +1409,144 @@ public struct GetBillingViewOutput: Swift.Sendable {
         billingView: BillingClientTypes.BillingViewElement? = nil
     ) {
         self.billingView = billingView
+    }
+}
+
+public struct GetContractInformationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the contract to retrieve information about.
+    /// This member is required.
+    public var contractArn: Swift.String?
+
+    public init(
+        contractArn: Swift.String? = nil
+    ) {
+        self.contractArn = contractArn
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A restriction that limits the self-service actions you can take on a contract. A contract with no restrictions supports all self-service actions.
+    public enum ContractRestriction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attestationSelfServiceBlocked
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContractRestriction] {
+            return [
+                .attestationSelfServiceBlocked
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attestationSelfServiceBlocked: return "ATTESTATION_SELF_SERVICE_BLOCKED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A time period bounded by an inclusive start date and an inclusive end date.
+    public struct Interval: Swift.Sendable {
+        /// The end date of the interval. This date is included in the interval.
+        /// This member is required.
+        public var endDateInclusive: Foundation.Date?
+        /// The start date of the interval. This date is included in the interval.
+        /// This member is required.
+        public var startDateInclusive: Foundation.Date?
+
+        public init(
+            endDateInclusive: Foundation.Date? = nil,
+            startDateInclusive: Foundation.Date? = nil
+        ) {
+            self.endDateInclusive = endDateInclusive
+            self.startDateInclusive = startDateInclusive
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A legal entity on a private pricing contract. It can be found on your contract's signature page.
+    public struct LegalEntity: Swift.Sendable {
+        /// The name of the legal entity as it appears on the contract document. This value can be up to 256 characters.
+        /// This member is required.
+        public var legalEntityName: Swift.String?
+
+        public init(
+            legalEntityName: Swift.String? = nil
+        ) {
+            self.legalEntityName = legalEntityName
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The details of a private pricing addendum contract.
+    public struct PrivatePricingAddendum: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the private pricing addendum.
+        /// This member is required.
+        public var contractArn: Swift.String?
+        /// The restrictions that limit the self-service actions you can take on the private pricing addendum. An empty or absent value indicates that no restrictions apply. The list contains at most 10 restrictions.
+        public var contractRestrictions: [BillingClientTypes.ContractRestriction]?
+        /// The contract term period of the private pricing addendum, expressed as an interval with an inclusive start date and an inclusive end date.
+        /// This member is required.
+        public var contractTerm: BillingClientTypes.Interval?
+        /// The payer accounts that are eligible under the private pricing addendum. The list contains at most 100 account IDs.
+        /// This member is required.
+        public var eligiblePayerAccounts: [Swift.String]?
+        /// The accounts that are eligible to receive investments under the private pricing addendum. An InvestmentDistribution must target one of these accounts. The list contains at most 100 account IDs.
+        /// This member is required.
+        public var investmentAccounts: [Swift.String]?
+        /// The legal entities on the private pricing addendum. The list contains at most 10 legal entities.
+        /// This member is required.
+        public var legalEntities: [BillingClientTypes.LegalEntity]?
+
+        public init(
+            contractArn: Swift.String? = nil,
+            contractRestrictions: [BillingClientTypes.ContractRestriction]? = nil,
+            contractTerm: BillingClientTypes.Interval? = nil,
+            eligiblePayerAccounts: [Swift.String]? = nil,
+            investmentAccounts: [Swift.String]? = nil,
+            legalEntities: [BillingClientTypes.LegalEntity]? = nil
+        ) {
+            self.contractArn = contractArn
+            self.contractRestrictions = contractRestrictions
+            self.contractTerm = contractTerm
+            self.eligiblePayerAccounts = eligiblePayerAccounts
+            self.investmentAccounts = investmentAccounts
+            self.legalEntities = legalEntities
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The details of a contract returned by GetContractInformation. This is a union in which exactly one member is set, corresponding to the contract type. For a private pricing addendum, the privatePricingAddendum member is set. Check which member is present to determine the contract type.
+    public enum ContractDetails: Swift.Sendable {
+        /// The details of a private pricing addendum contract. This member is set when the contract is a private pricing addendum.
+        case privatepricingaddendum(BillingClientTypes.PrivatePricingAddendum)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetContractInformationOutput: Swift.Sendable {
+    /// The contract details such as term (duration), eligible payer accounts, investment accounts, and legal entities.
+    /// This member is required.
+    public var contract: BillingClientTypes.ContractDetails?
+
+    public init(
+        contract: BillingClientTypes.ContractDetails? = nil
+    ) {
+        self.contract = contract
     }
 }
 
@@ -2335,6 +2746,543 @@ public struct ListBusinessSupportSubscriptionHistoryOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.subscriptionContracts = subscriptionContracts
+    }
+}
+
+public struct ListContractsInput: Swift.Sendable {
+    /// The maximum number of contracts to return in a single call. Minimum value of 1, maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The classification of a private pricing contract. A value of Cross-Service indicates that the contract terms apply across multiple Amazon Web Services services. A value of Service-Specific indicates that the contract terms apply to a specific Amazon Web Services service. A value of Other indicates that the contract terms apply to other arrangements.
+    public enum ContractType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crossService
+        case other
+        case serviceSpecific
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContractType] {
+            return [
+                .crossService,
+                .other,
+                .serviceSpecific
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crossService: return "Cross-Service"
+            case .other: return "Other"
+            case .serviceSpecific: return "Service-Specific"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A summary of a private pricing contract visible to your account. ListContracts returns these summaries.
+    public struct ContractSummary: Swift.Sendable {
+        /// Indicates whether the contract is currently associated with your account. Valid values are ASSOCIATED and NOT_ASSOCIATED. ASSOCIATED means the contract is associated with your account. NOT_ASSOCIATED means the contract is not associated with your account.
+        /// This member is required.
+        public var associationStatus: BillingClientTypes.AssociationStatus?
+        /// The Amazon Resource Name (ARN) of the contract. Pass this value to operations such as GetContractInformation, ListContractualInvestmentSummaries, and AssociateContract.
+        /// This member is required.
+        public var contractArn: Swift.String?
+        /// The contract term period of the contract, expressed as an interval with an inclusive start date and an inclusive end date.
+        /// This member is required.
+        public var contractTerm: BillingClientTypes.Interval?
+        /// The classification of the contract. Valid values are Cross-Service, Service-Specific, and Other. Cross-Service applies across multiple Amazon Web Services services. Service-Specific applies to a specific Amazon Web Services service. Other applies to other arrangements.
+        public var contractType: BillingClientTypes.ContractType?
+        /// The time when the contract was last associated with your account.
+        public var lastUpdatedAt: Foundation.Date?
+
+        public init(
+            associationStatus: BillingClientTypes.AssociationStatus? = nil,
+            contractArn: Swift.String? = nil,
+            contractTerm: BillingClientTypes.Interval? = nil,
+            contractType: BillingClientTypes.ContractType? = nil,
+            lastUpdatedAt: Foundation.Date? = nil
+        ) {
+            self.associationStatus = associationStatus
+            self.contractArn = contractArn
+            self.contractTerm = contractTerm
+            self.contractType = contractType
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+    }
+}
+
+public struct ListContractsOutput: Swift.Sendable {
+    /// The list of contracts that your Amazon Web Services account is an eligible payer account of.
+    /// This member is required.
+    public var items: [BillingClientTypes.ContractSummary]?
+    /// The pagination token to use on subsequent calls to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [BillingClientTypes.ContractSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContractualInvestmentAttestationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the contract whose attestations you want to list.
+    /// This member is required.
+    public var contractArn: Swift.String?
+    /// The identifier of a specific investment summary to filter the attestations by. If omitted, attestations for all investment summaries in the contract are returned.
+    public var investmentSummaryId: Swift.String?
+    /// The maximum number of attestations to return in a single call. Minimum value of 1, maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        contractArn: Swift.String? = nil,
+        investmentSummaryId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contractArn = contractArn
+        self.investmentSummaryId = investmentSummaryId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The current state of a submitted investment attestation in its lifecycle. Valid values are PENDING_REVIEW, PENDING_C_LEVEL_APPROVAL, PENDING_CANCELLATION, REJECTED, CANCELLED, and DISBURSED. The values DISBURSED, REJECTED, and CANCELLED are terminal. The values PENDING_REVIEW, PENDING_C_LEVEL_APPROVAL, and PENDING_CANCELLATION indicate the attestation is still in progress.
+    public enum InvestmentAttestationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case disbursed
+        case pendingCancellation
+        case pendingCLevelApproval
+        case pendingReview
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvestmentAttestationStatus] {
+            return [
+                .cancelled,
+                .disbursed,
+                .pendingCancellation,
+                .pendingCLevelApproval,
+                .pendingReview,
+                .rejected
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .disbursed: return "DISBURSED"
+            case .pendingCancellation: return "PENDING_CANCELLATION"
+            case .pendingCLevelApproval: return "PENDING_C_LEVEL_APPROVAL"
+            case .pendingReview: return "PENDING_REVIEW"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A summary of a submitted investment attestation, as returned by ListContractualInvestmentAttestations.
+    public struct InvestmentAttestation: Swift.Sendable {
+        /// The identifier of the attestation. This value is returned by CreateContractualInvestmentAttestation and is used to cancel the attestation with CancelContractualInvestmentAttestation. This value is 1–36 characters.
+        /// This member is required.
+        public var attestationId: Swift.String?
+        /// The current status of the attestation. Valid values are PENDING_REVIEW, PENDING_C_LEVEL_APPROVAL, PENDING_CANCELLATION, REJECTED, CANCELLED, and DISBURSED. The values DISBURSED, REJECTED, and CANCELLED are terminal. The other values indicate the attestation is still in progress.
+        /// This member is required.
+        public var attestationStatus: BillingClientTypes.InvestmentAttestationStatus?
+        /// The date on which the attestation was submitted.
+        /// This member is required.
+        public var attestedAt: Foundation.Date?
+        /// The monetary value attested.
+        public var attestedValue: BillingClientTypes.Amount?
+        /// The start date on which the investment is disbursed to the investment accounts. This is not the same as the time of disbursement, but reflects the date you submitted with the attestation.
+        public var investmentDisbursedAt: Foundation.Date?
+        /// The distribution of the attested investment across the eligible investment accounts. The list contains at most 200 distributions.
+        public var investmentDistributions: [BillingClientTypes.InvestmentDistribution]?
+        /// The identifier of the investment that was attested, as returned by ListContractualInvestments.
+        /// This member is required.
+        public var investmentId: Swift.String?
+        /// The name of the investment summary that contains the attested outcome. This value is 1–400 characters.
+        /// This member is required.
+        public var investmentName: Swift.String?
+        /// The identifier of the investment summary that was attested, as returned by ListContractualInvestmentSummaries.
+        /// This member is required.
+        public var investmentSummaryId: Swift.String?
+        /// Indicates whether the attestation can be canceled with CancelContractualInvestmentAttestation.
+        public var isCancellable: Swift.Bool?
+        /// The description of the attested outcome. This value is 1–2048 characters.
+        /// This member is required.
+        public var outcomeDescription: Swift.String?
+        /// The reasons the attestation was rejected. This value is present only when attestationStatus is REJECTED. The list contains at most 30 reasons.
+        public var rejectionReasons: [Swift.String]?
+        /// The date on which the attestation was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            attestationId: Swift.String? = nil,
+            attestationStatus: BillingClientTypes.InvestmentAttestationStatus? = nil,
+            attestedAt: Foundation.Date? = nil,
+            attestedValue: BillingClientTypes.Amount? = nil,
+            investmentDisbursedAt: Foundation.Date? = nil,
+            investmentDistributions: [BillingClientTypes.InvestmentDistribution]? = nil,
+            investmentId: Swift.String? = nil,
+            investmentName: Swift.String? = nil,
+            investmentSummaryId: Swift.String? = nil,
+            isCancellable: Swift.Bool? = nil,
+            outcomeDescription: Swift.String? = nil,
+            rejectionReasons: [Swift.String]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.attestationId = attestationId
+            self.attestationStatus = attestationStatus
+            self.attestedAt = attestedAt
+            self.attestedValue = attestedValue
+            self.investmentDisbursedAt = investmentDisbursedAt
+            self.investmentDistributions = investmentDistributions
+            self.investmentId = investmentId
+            self.investmentName = investmentName
+            self.investmentSummaryId = investmentSummaryId
+            self.isCancellable = isCancellable
+            self.outcomeDescription = outcomeDescription
+            self.rejectionReasons = rejectionReasons
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListContractualInvestmentAttestationsOutput: Swift.Sendable {
+    /// The list of investment attestations submitted under the contract.
+    /// This member is required.
+    public var items: [BillingClientTypes.InvestmentAttestation]?
+    /// The pagination token to use on subsequent calls to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [BillingClientTypes.InvestmentAttestation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContractualInvestmentsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the contract that contains the investment summary.
+    /// This member is required.
+    public var contractArn: Swift.String?
+    /// The identifier of the investment summary whose investments you want to list.
+    /// This member is required.
+    public var investmentSummaryId: Swift.String?
+    /// The maximum number of investments to return in a single call. Minimum value of 1, maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        contractArn: Swift.String? = nil,
+        investmentSummaryId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contractArn = contractArn
+        self.investmentSummaryId = investmentSummaryId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BillingClientTypes {
+
+    /// An investment with a fixed value that is disbursed on a schedule. This corresponds to the MILESTONE_BASED investment type.
+    public struct MilestoneBasedInvestment: Swift.Sendable {
+        /// The date on which the investment is disbursed to the investment accounts.
+        /// This member is required.
+        public var investmentDisbursedAt: Foundation.Date?
+        /// The identifier of the investment, as returned by ListContractualInvestments. This value is 1–36 characters.
+        /// This member is required.
+        public var investmentId: Swift.String?
+        /// The total value of the investment, including its currency and amount.
+        /// This member is required.
+        public var investmentValue: BillingClientTypes.Amount?
+
+        public init(
+            investmentDisbursedAt: Foundation.Date? = nil,
+            investmentId: Swift.String? = nil,
+            investmentValue: BillingClientTypes.Amount? = nil
+        ) {
+            self.investmentDisbursedAt = investmentDisbursedAt
+            self.investmentId = investmentId
+            self.investmentValue = investmentValue
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The type of an investment multiplier. A value of PERCENTAGE applies a percentage of a value, expressed as a decimal string. A value of CURRENCY_AMOUNT applies a currency amount per unit of attestation input.
+    public enum MultiplierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case currencyAmount
+        case percentage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultiplierType] {
+            return [
+                .currencyAmount,
+                .percentage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .currencyAmount: return "CURRENCY_AMOUNT"
+            case .percentage: return "PERCENTAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A multiplier used to convert attestation input into an investment value.
+    public struct InvestmentMultiplier: Swift.Sendable {
+        /// The unit of the attestation input that the multiplier applies to, such as workloads migrated. This value is 1–1000 characters. The terms of the contract define this value.
+        /// This member is required.
+        public var investmentAttestationInputUnit: Swift.String?
+        /// The type of the multiplier. A value of PERCENTAGE applies a percentage of a value. A value of CURRENCY_AMOUNT applies a currency amount per unit of attestation input. The terms of the contract define this value.
+        /// This member is required.
+        public var multiplierType: BillingClientTypes.MultiplierType?
+        /// The multiplier value, expressed as a decimal string to preserve precision. The value is digits with an optional decimal point and is 1–1000 characters. The terms of the contract define this value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            investmentAttestationInputUnit: Swift.String? = nil,
+            multiplierType: BillingClientTypes.MultiplierType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.investmentAttestationInputUnit = investmentAttestationInputUnit
+            self.multiplierType = multiplierType
+            self.value = value
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// A restriction that caps the value that can be disbursed for an investment. The cap applies for each attestation window.
+    public struct InvestmentRestriction: Swift.Sendable {
+        /// The maximum monetary amount allowed under the restriction.
+        /// This member is required.
+        public var amount: BillingClientTypes.Amount?
+
+        public init(
+            amount: BillingClientTypes.Amount? = nil
+        ) {
+            self.amount = amount
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// An investment that is awarded upon completion of a defined outcome. This corresponds to the OUTCOME_BASED investment type and is claimed through CreateContractualInvestmentAttestation.
+    public struct OutcomeBasedInvestment: Swift.Sendable {
+        /// The time window, expressed as an interval with inclusive start and end dates, during which outcomes can be attested to.
+        /// This member is required.
+        public var attestationWindow: BillingClientTypes.Interval?
+        /// The total value already disbursed against the investment. This value can be distributed among the investment accounts distribution.
+        /// This member is required.
+        public var disbursedValue: BillingClientTypes.Amount?
+        /// The identifier of the investment, as returned by ListContractualInvestments. This value is 1–36 characters.
+        /// This member is required.
+        public var investmentId: Swift.String?
+        /// The multipliers used to compute the investment value from the attestation input. The list contains at most 200 multipliers. Multipliers are derived from the terms of the private pricing contract.
+        public var investmentMultipliers: [BillingClientTypes.InvestmentMultiplier]?
+        /// The restrictions that cap the value that can be disbursed for the investment. The list contains at most 10 restrictions.
+        public var investmentRestrictions: [BillingClientTypes.InvestmentRestriction]?
+        /// The description of what must be completed to attest the outcome. This value is 1–2048 characters.
+        /// This member is required.
+        public var outcomeDescription: Swift.String?
+
+        public init(
+            attestationWindow: BillingClientTypes.Interval? = nil,
+            disbursedValue: BillingClientTypes.Amount? = nil,
+            investmentId: Swift.String? = nil,
+            investmentMultipliers: [BillingClientTypes.InvestmentMultiplier]? = nil,
+            investmentRestrictions: [BillingClientTypes.InvestmentRestriction]? = nil,
+            outcomeDescription: Swift.String? = nil
+        ) {
+            self.attestationWindow = attestationWindow
+            self.disbursedValue = disbursedValue
+            self.investmentId = investmentId
+            self.investmentMultipliers = investmentMultipliers
+            self.investmentRestrictions = investmentRestrictions
+            self.outcomeDescription = outcomeDescription
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// An investment within an investment summary. This is a union in which exactly one member is set. The milestoneBasedInvestment member represents a fixed, scheduled investment. The outcomeBasedInvestment member represents an attestable investment awarded upon completion of a defined outcome. Check which member is present to determine the investment type.
+    public enum Investment: Swift.Sendable {
+        /// An investment with a fixed value that is disbursed on a schedule. This member is set for a milestone-based investment and corresponds to the MILESTONE_BASED investment type.
+        case milestonebasedinvestment(BillingClientTypes.MilestoneBasedInvestment)
+        /// An investment that is awarded upon completion of a defined outcome. This member is set for an outcome-based (attestable) investment and corresponds to the OUTCOME_BASED investment type.
+        case outcomebasedinvestment(BillingClientTypes.OutcomeBasedInvestment)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct ListContractualInvestmentsOutput: Swift.Sendable {
+    /// The list of investments for the investment summary.
+    /// This member is required.
+    public var items: [BillingClientTypes.Investment]?
+    /// The pagination token to use on subsequent calls to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [BillingClientTypes.Investment]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContractualInvestmentSummariesInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the contract whose investment summaries you want to list.
+    /// This member is required.
+    public var contractArn: Swift.String?
+    /// The maximum number of investment summaries to return in a single call. Minimum value of 1, maximum value of 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        contractArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contractArn = contractArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BillingClientTypes {
+
+    /// The type of an investment summary. A value of MILESTONE_BASED indicates a fixed investment amount disbursed on a schedule. A value of OUTCOME_BASED indicates an investment awarded based on the completion of a defined outcome or milestone.
+    public enum InvestmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case milestoneBased
+        case outcomeBased
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvestmentType] {
+            return [
+                .milestoneBased,
+                .outcomeBased
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .milestoneBased: return "MILESTONE_BASED"
+            case .outcomeBased: return "OUTCOME_BASED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingClientTypes {
+
+    /// Detailed information about an investment summary within a contract or a private pricing addendum.
+    public struct InvestmentSummary: Swift.Sendable {
+        /// The name of the investment summary, used to reference the investment against a term in the physical contract. This value is 1–400 characters.
+        /// This member is required.
+        public var investmentName: Swift.String?
+        /// The identifier of the investment summary. Pass this value to ListContractualInvestments to list the investments within the summary, and to CreateContractualInvestmentAttestation to attest an investment. This value is 1–36 characters.
+        /// This member is required.
+        public var investmentSummaryId: Swift.String?
+        /// The type of the investment summary. Valid values are MILESTONE_BASED and OUTCOME_BASED. OUTCOME_BASED investments can be attested to, upon completion of outcomes. MILESTONE_BASED are automatically triggered by Amazon Web Services, based on the time schedule in the contract.
+        /// This member is required.
+        public var investmentType: BillingClientTypes.InvestmentType?
+        /// The maximum monetary value that can be disbursed against the investment summary, inclusive of all outcomes combined under the summary.
+        public var maxAllowedInvestmentDisbursementValue: BillingClientTypes.Amount?
+
+        public init(
+            investmentName: Swift.String? = nil,
+            investmentSummaryId: Swift.String? = nil,
+            investmentType: BillingClientTypes.InvestmentType? = nil,
+            maxAllowedInvestmentDisbursementValue: BillingClientTypes.Amount? = nil
+        ) {
+            self.investmentName = investmentName
+            self.investmentSummaryId = investmentSummaryId
+            self.investmentType = investmentType
+            self.maxAllowedInvestmentDisbursementValue = maxAllowedInvestmentDisbursementValue
+        }
+    }
+}
+
+public struct ListContractualInvestmentSummariesOutput: Swift.Sendable {
+    /// The list of investment summaries under the contract. It includes the investment name, maximum investment amount, and investment type. It does not provide investment details. Use this to know if the contract has investment terms and what type.
+    /// This member is required.
+    public var items: [BillingClientTypes.InvestmentSummary]?
+    /// The pagination token to use on subsequent calls to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [BillingClientTypes.InvestmentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
     }
 }
 

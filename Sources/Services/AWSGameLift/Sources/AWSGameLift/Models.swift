@@ -1102,6 +1102,8 @@ extension GameLiftClientTypes {
         case c7iLarge
         case c7iXlarge
         case c8a2xlarge
+        case c8a4xlarge
+        case c8a8xlarge
         case c8aLarge
         case c8aMedium
         case c8aXlarge
@@ -1116,9 +1118,13 @@ extension GameLiftClientTypes {
         case c8gMedium
         case c8gXlarge
         case c8i2xlarge
+        case c8i4xlarge
+        case c8i8xlarge
         case c8iLarge
         case c8iXlarge
         case c9g2xlarge
+        case c9g4xlarge
+        case c9g8xlarge
         case c9gLarge
         case c9gMedium
         case c9gXlarge
@@ -1284,6 +1290,8 @@ extension GameLiftClientTypes {
         case m7iLarge
         case m7iXlarge
         case m8a2xlarge
+        case m8a4xlarge
+        case m8a8xlarge
         case m8aLarge
         case m8aMedium
         case m8aXlarge
@@ -1298,10 +1306,15 @@ extension GameLiftClientTypes {
         case m8gMedium
         case m8gXlarge
         case m8i2xlarge
+        case m8i4xlarge
+        case m8i8xlarge
         case m8iLarge
         case m8iXlarge
         case m9g2xlarge
+        case m9g4xlarge
+        case m9g8xlarge
         case m9gLarge
+        case m9gMedium
         case m9gXlarge
         case r32xlarge
         case r34xlarge
@@ -1632,6 +1645,8 @@ extension GameLiftClientTypes {
                 .c7iLarge,
                 .c7iXlarge,
                 .c8a2xlarge,
+                .c8a4xlarge,
+                .c8a8xlarge,
                 .c8aLarge,
                 .c8aMedium,
                 .c8aXlarge,
@@ -1646,9 +1661,13 @@ extension GameLiftClientTypes {
                 .c8gMedium,
                 .c8gXlarge,
                 .c8i2xlarge,
+                .c8i4xlarge,
+                .c8i8xlarge,
                 .c8iLarge,
                 .c8iXlarge,
                 .c9g2xlarge,
+                .c9g4xlarge,
+                .c9g8xlarge,
                 .c9gLarge,
                 .c9gMedium,
                 .c9gXlarge,
@@ -1814,6 +1833,8 @@ extension GameLiftClientTypes {
                 .m7iLarge,
                 .m7iXlarge,
                 .m8a2xlarge,
+                .m8a4xlarge,
+                .m8a8xlarge,
                 .m8aLarge,
                 .m8aMedium,
                 .m8aXlarge,
@@ -1828,10 +1849,15 @@ extension GameLiftClientTypes {
                 .m8gMedium,
                 .m8gXlarge,
                 .m8i2xlarge,
+                .m8i4xlarge,
+                .m8i8xlarge,
                 .m8iLarge,
                 .m8iXlarge,
                 .m9g2xlarge,
+                .m9g4xlarge,
+                .m9g8xlarge,
                 .m9gLarge,
+                .m9gMedium,
                 .m9gXlarge,
                 .r32xlarge,
                 .r34xlarge,
@@ -2168,6 +2194,8 @@ extension GameLiftClientTypes {
             case .c7iLarge: return "c7i.large"
             case .c7iXlarge: return "c7i.xlarge"
             case .c8a2xlarge: return "c8a.2xlarge"
+            case .c8a4xlarge: return "c8a.4xlarge"
+            case .c8a8xlarge: return "c8a.8xlarge"
             case .c8aLarge: return "c8a.large"
             case .c8aMedium: return "c8a.medium"
             case .c8aXlarge: return "c8a.xlarge"
@@ -2182,9 +2210,13 @@ extension GameLiftClientTypes {
             case .c8gMedium: return "c8g.medium"
             case .c8gXlarge: return "c8g.xlarge"
             case .c8i2xlarge: return "c8i.2xlarge"
+            case .c8i4xlarge: return "c8i.4xlarge"
+            case .c8i8xlarge: return "c8i.8xlarge"
             case .c8iLarge: return "c8i.large"
             case .c8iXlarge: return "c8i.xlarge"
             case .c9g2xlarge: return "c9g.2xlarge"
+            case .c9g4xlarge: return "c9g.4xlarge"
+            case .c9g8xlarge: return "c9g.8xlarge"
             case .c9gLarge: return "c9g.large"
             case .c9gMedium: return "c9g.medium"
             case .c9gXlarge: return "c9g.xlarge"
@@ -2350,6 +2382,8 @@ extension GameLiftClientTypes {
             case .m7iLarge: return "m7i.large"
             case .m7iXlarge: return "m7i.xlarge"
             case .m8a2xlarge: return "m8a.2xlarge"
+            case .m8a4xlarge: return "m8a.4xlarge"
+            case .m8a8xlarge: return "m8a.8xlarge"
             case .m8aLarge: return "m8a.large"
             case .m8aMedium: return "m8a.medium"
             case .m8aXlarge: return "m8a.xlarge"
@@ -2364,10 +2398,15 @@ extension GameLiftClientTypes {
             case .m8gMedium: return "m8g.medium"
             case .m8gXlarge: return "m8g.xlarge"
             case .m8i2xlarge: return "m8i.2xlarge"
+            case .m8i4xlarge: return "m8i.4xlarge"
+            case .m8i8xlarge: return "m8i.8xlarge"
             case .m8iLarge: return "m8i.large"
             case .m8iXlarge: return "m8i.xlarge"
             case .m9g2xlarge: return "m9g.2xlarge"
+            case .m9g4xlarge: return "m9g.4xlarge"
+            case .m9g8xlarge: return "m9g.8xlarge"
             case .m9gLarge: return "m9g.large"
+            case .m9gMedium: return "m9g.medium"
             case .m9gXlarge: return "m9g.xlarge"
             case .r32xlarge: return "r3.2xlarge"
             case .r34xlarge: return "r3.4xlarge"

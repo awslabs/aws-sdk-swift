@@ -2545,6 +2545,45 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// Describes an entry in a transit gateway policy table.
+    public struct AnalysisTransitGatewayPolicyTableEntry: Swift.Sendable {
+        /// The destination CIDR block. If this value is not present, the entry matches any destination address.
+        public var destinationCidr: Swift.String?
+        /// The destination port range. If this value is not present, the entry matches any destination port.
+        public var destinationPortRange: EC2ClientTypes.PortRange?
+        /// The protocol number. A value of -1 means that the entry matches all protocols.
+        public var `protocol`: Swift.String?
+        /// The rule number for the policy table entry. Entries are evaluated in ascending order of rule number.
+        public var ruleNumber: Swift.Int?
+        /// The source CIDR block. If this value is not present, the entry matches any source address.
+        public var sourceCidr: Swift.String?
+        /// The source port range. If this value is not present, the entry matches any source port.
+        public var sourcePortRange: EC2ClientTypes.PortRange?
+        /// The ID of the transit gateway route table to which the entry routes matching traffic.
+        public var targetRouteTableId: Swift.String?
+
+        public init(
+            destinationCidr: Swift.String? = nil,
+            destinationPortRange: EC2ClientTypes.PortRange? = nil,
+            `protocol`: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil,
+            sourceCidr: Swift.String? = nil,
+            sourcePortRange: EC2ClientTypes.PortRange? = nil,
+            targetRouteTableId: Swift.String? = nil
+        ) {
+            self.destinationCidr = destinationCidr
+            self.destinationPortRange = destinationPortRange
+            self.`protocol` = `protocol`
+            self.ruleNumber = ruleNumber
+            self.sourceCidr = sourceCidr
+            self.sourcePortRange = sourcePortRange
+            self.targetRouteTableId = targetRouteTableId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes a route in a transit gateway route table.
     public struct TransitGatewayRouteTableRoute: Swift.Sendable {
         /// The ID of the route attachment.
@@ -2688,6 +2727,10 @@ extension EC2ClientTypes {
         public var transitGateway: EC2ClientTypes.AnalysisComponent?
         /// The transit gateway attachment.
         public var transitGatewayAttachment: EC2ClientTypes.AnalysisComponent?
+        /// The transit gateway policy table.
+        public var transitGatewayPolicyTable: EC2ClientTypes.AnalysisComponent?
+        /// The transit gateway policy table entry.
+        public var transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry?
         /// The transit gateway route table.
         public var transitGatewayRouteTable: EC2ClientTypes.AnalysisComponent?
         /// The transit gateway route table route.
@@ -2751,6 +2794,8 @@ extension EC2ClientTypes {
             subnetRouteTable: EC2ClientTypes.AnalysisComponent? = nil,
             transitGateway: EC2ClientTypes.AnalysisComponent? = nil,
             transitGatewayAttachment: EC2ClientTypes.AnalysisComponent? = nil,
+            transitGatewayPolicyTable: EC2ClientTypes.AnalysisComponent? = nil,
+            transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry? = nil,
             transitGatewayRouteTable: EC2ClientTypes.AnalysisComponent? = nil,
             transitGatewayRouteTableRoute: EC2ClientTypes.TransitGatewayRouteTableRoute? = nil,
             vpc: EC2ClientTypes.AnalysisComponent? = nil,
@@ -2806,6 +2851,8 @@ extension EC2ClientTypes {
             self.subnetRouteTable = subnetRouteTable
             self.transitGateway = transitGateway
             self.transitGatewayAttachment = transitGatewayAttachment
+            self.transitGatewayPolicyTable = transitGatewayPolicyTable
+            self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
             self.transitGatewayRouteTable = transitGatewayRouteTable
             self.transitGatewayRouteTableRoute = transitGatewayRouteTableRoute
             self.vpc = vpc
@@ -2888,6 +2935,8 @@ extension EC2ClientTypes {
         public var subnet: EC2ClientTypes.AnalysisComponent?
         /// The transit gateway.
         public var transitGateway: EC2ClientTypes.AnalysisComponent?
+        /// The entry in a transit gateway policy table.
+        public var transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry?
         /// The route in a transit gateway route table.
         public var transitGatewayRouteTableRoute: EC2ClientTypes.TransitGatewayRouteTableRoute?
         /// The component VPC.
@@ -2912,6 +2961,7 @@ extension EC2ClientTypes {
             sourceVpc: EC2ClientTypes.AnalysisComponent? = nil,
             subnet: EC2ClientTypes.AnalysisComponent? = nil,
             transitGateway: EC2ClientTypes.AnalysisComponent? = nil,
+            transitGatewayPolicyTableEntry: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry? = nil,
             transitGatewayRouteTableRoute: EC2ClientTypes.TransitGatewayRouteTableRoute? = nil,
             vpc: EC2ClientTypes.AnalysisComponent? = nil
         ) {
@@ -2933,6 +2983,7 @@ extension EC2ClientTypes {
             self.sourceVpc = sourceVpc
             self.subnet = subnet
             self.transitGateway = transitGateway
+            self.transitGatewayPolicyTableEntry = transitGatewayPolicyTableEntry
             self.transitGatewayRouteTableRoute = transitGatewayRouteTableRoute
             self.vpc = vpc
         }
@@ -12645,6 +12696,7 @@ extension EC2ClientTypes {
         case i8g8xlarge
         case i8gLarge
         case i8gMetal24xl
+        case i8gMetal48xl
         case i8gXlarge
         case i8ge12xlarge
         case i8ge18xlarge
@@ -13050,6 +13102,7 @@ extension EC2ClientTypes {
         case m9gd4xlarge
         case m9gd8xlarge
         case m9gdLarge
+        case m9gdMedium
         case m9gdMetal24xl
         case m9gdMetal48xl
         case m9gdXlarge
@@ -13298,11 +13351,13 @@ extension EC2ClientTypes {
         case r8gb16xlarge
         case r8gb24xlarge
         case r8gb2xlarge
+        case r8gb48xlarge
         case r8gb4xlarge
         case r8gb8xlarge
         case r8gbLarge
         case r8gbMedium
         case r8gbMetal24xl
+        case r8gbMetal48xl
         case r8gbXlarge
         case r8gd12xlarge
         case r8gd16xlarge
@@ -13464,11 +13519,16 @@ extension EC2ClientTypes {
         case t4gNano
         case t4gSmall
         case t4gXlarge
+        case t8iMedium
+        case t8iMicro
+        case t8iNano
+        case t8iSmall
         case trn12xlarge
         case trn132xlarge
         case trn1n32xlarge
         case trn23xlarge
         case trn248xlarge
+        case trn2u48xlarge
         case u7i12tb224xlarge
         case u7i6tb112xlarge
         case u7i8tb112xlarge
@@ -14077,6 +14137,7 @@ extension EC2ClientTypes {
                 .i8g8xlarge,
                 .i8gLarge,
                 .i8gMetal24xl,
+                .i8gMetal48xl,
                 .i8gXlarge,
                 .i8ge12xlarge,
                 .i8ge18xlarge,
@@ -14482,6 +14543,7 @@ extension EC2ClientTypes {
                 .m9gd4xlarge,
                 .m9gd8xlarge,
                 .m9gdLarge,
+                .m9gdMedium,
                 .m9gdMetal24xl,
                 .m9gdMetal48xl,
                 .m9gdXlarge,
@@ -14730,11 +14792,13 @@ extension EC2ClientTypes {
                 .r8gb16xlarge,
                 .r8gb24xlarge,
                 .r8gb2xlarge,
+                .r8gb48xlarge,
                 .r8gb4xlarge,
                 .r8gb8xlarge,
                 .r8gbLarge,
                 .r8gbMedium,
                 .r8gbMetal24xl,
+                .r8gbMetal48xl,
                 .r8gbXlarge,
                 .r8gd12xlarge,
                 .r8gd16xlarge,
@@ -14896,11 +14960,16 @@ extension EC2ClientTypes {
                 .t4gNano,
                 .t4gSmall,
                 .t4gXlarge,
+                .t8iMedium,
+                .t8iMicro,
+                .t8iNano,
+                .t8iSmall,
                 .trn12xlarge,
                 .trn132xlarge,
                 .trn1n32xlarge,
                 .trn23xlarge,
                 .trn248xlarge,
+                .trn2u48xlarge,
                 .u7i12tb224xlarge,
                 .u7i6tb112xlarge,
                 .u7i8tb112xlarge,
@@ -15515,6 +15584,7 @@ extension EC2ClientTypes {
             case .i8g8xlarge: return "i8g.8xlarge"
             case .i8gLarge: return "i8g.large"
             case .i8gMetal24xl: return "i8g.metal-24xl"
+            case .i8gMetal48xl: return "i8g.metal-48xl"
             case .i8gXlarge: return "i8g.xlarge"
             case .i8ge12xlarge: return "i8ge.12xlarge"
             case .i8ge18xlarge: return "i8ge.18xlarge"
@@ -15920,6 +15990,7 @@ extension EC2ClientTypes {
             case .m9gd4xlarge: return "m9gd.4xlarge"
             case .m9gd8xlarge: return "m9gd.8xlarge"
             case .m9gdLarge: return "m9gd.large"
+            case .m9gdMedium: return "m9gd.medium"
             case .m9gdMetal24xl: return "m9gd.metal-24xl"
             case .m9gdMetal48xl: return "m9gd.metal-48xl"
             case .m9gdXlarge: return "m9gd.xlarge"
@@ -16168,11 +16239,13 @@ extension EC2ClientTypes {
             case .r8gb16xlarge: return "r8gb.16xlarge"
             case .r8gb24xlarge: return "r8gb.24xlarge"
             case .r8gb2xlarge: return "r8gb.2xlarge"
+            case .r8gb48xlarge: return "r8gb.48xlarge"
             case .r8gb4xlarge: return "r8gb.4xlarge"
             case .r8gb8xlarge: return "r8gb.8xlarge"
             case .r8gbLarge: return "r8gb.large"
             case .r8gbMedium: return "r8gb.medium"
             case .r8gbMetal24xl: return "r8gb.metal-24xl"
+            case .r8gbMetal48xl: return "r8gb.metal-48xl"
             case .r8gbXlarge: return "r8gb.xlarge"
             case .r8gd12xlarge: return "r8gd.12xlarge"
             case .r8gd16xlarge: return "r8gd.16xlarge"
@@ -16334,11 +16407,16 @@ extension EC2ClientTypes {
             case .t4gNano: return "t4g.nano"
             case .t4gSmall: return "t4g.small"
             case .t4gXlarge: return "t4g.xlarge"
+            case .t8iMedium: return "t8i.medium"
+            case .t8iMicro: return "t8i.micro"
+            case .t8iNano: return "t8i.nano"
+            case .t8iSmall: return "t8i.small"
             case .trn12xlarge: return "trn1.2xlarge"
             case .trn132xlarge: return "trn1.32xlarge"
             case .trn1n32xlarge: return "trn1n.32xlarge"
             case .trn23xlarge: return "trn2.3xlarge"
             case .trn248xlarge: return "trn2.48xlarge"
+            case .trn2u48xlarge: return "trn2u.48xlarge"
             case .u7i12tb224xlarge: return "u7i-12tb.224xlarge"
             case .u7i6tb112xlarge: return "u7i-6tb.112xlarge"
             case .u7i8tb112xlarge: return "u7i-8tb.112xlarge"
@@ -36075,12 +36153,14 @@ extension EC2ClientTypes {
     public enum TransitGatewayRouteType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case propagated
         case `static`
+        case system
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TransitGatewayRouteType] {
             return [
                 .propagated,
-                .static
+                .static,
+                .system
             ]
         }
 
@@ -36093,6 +36173,7 @@ extension EC2ClientTypes {
             switch self {
             case .propagated: return "propagated"
             case .static: return "static"
+            case .system: return "system"
             case let .sdkUnknown(s): return s
             }
         }
@@ -51366,6 +51447,33 @@ public struct DescribeImagesInput: Swift.Sendable {
     ///
     /// * root-device-type - The type of the root device volume (ebs | instance-store).
     ///
+    /// * scan-result.critical-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a critical severity finding on the AMI.
+    ///
+    /// * scan-result.finding-scan-date - The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), of the most recent Amazon Inspector scan of the AMI.
+    ///
+    /// * scan-result.high-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a high severity finding on the AMI.
+    ///
+    /// * scan-result.highest-finding-severity-label - The highest severity among the AMI's Amazon Inspector findings, whether or not a fix is available. The valid values are the following Amazon Inspector severity levels:
+    ///
+    /// * informational - CVSS score of 0.
+    ///
+    /// * low - CVSS score of 0.1 to 3.9.
+    ///
+    /// * medium - CVSS score of 4.0 to 6.9.
+    ///
+    /// * high - CVSS score of 7.0 to 8.9.
+    ///
+    /// * critical - CVSS score of 9.0 to 10.0.
+    ///
+    ///
+    ///
+    ///
+    /// * scan-result.informational-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for an informational severity finding on the AMI.
+    ///
+    /// * scan-result.low-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a low severity finding on the AMI.
+    ///
+    /// * scan-result.medium-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a medium severity finding on the AMI.
+    ///
     /// * source-image-id - The ID of the source AMI from which the AMI was created.
     ///
     /// * source-image-region - The Region of the source AMI.
@@ -51675,6 +51783,96 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum SeverityLabel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SeverityLabel] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "critical"
+            case .high: return "high"
+            case .informational: return "informational"
+            case .low: return "low"
+            case .medium: return "medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The Amazon Inspector scan results for an AMI. This information is present only for AMIs that Amazon Inspector has scanned. When you share an AMI with other accounts, organizations, or organizational units (OUs), or make it public, its scan results are available to the accounts that can use the AMI. The fix-available dates are specific to the AMI. Each date reflects when a fix became available for a finding on that AMI, not when the vendor released the fix. As a result, a date can be later than the vendor's release date, and AMIs with the same vulnerability can have different dates.
+    public struct ScanResults: Swift.Sendable {
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a critical severity finding on the AMI. This value is present only if the AMI has at least one critical severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var criticalFixAvailableSince: Foundation.Date?
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), of the most recent Amazon Inspector scan of the AMI.
+        public var findingScanDate: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a high severity finding on the AMI. This value is present only if the AMI has at least one high severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var highFixAvailableSince: Foundation.Date?
+        /// The highest severity among the AMI's Amazon Inspector findings, whether or not a fix is available. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. This value is present only if the AMI has at least one finding.
+        public var highestFindingSeverityLabel: EC2ClientTypes.SeverityLabel?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for an informational severity finding on the AMI. This value is present only if the AMI has at least one informational severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var informationalFixAvailableSince: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a low severity finding on the AMI. This value is present only if the AMI has at least one low severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var lowFixAvailableSince: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a medium severity finding on the AMI. This value is present only if the AMI has at least one medium severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var mediumFixAvailableSince: Foundation.Date?
+
+        public init(
+            criticalFixAvailableSince: Foundation.Date? = nil,
+            findingScanDate: Foundation.Date? = nil,
+            highFixAvailableSince: Foundation.Date? = nil,
+            highestFindingSeverityLabel: EC2ClientTypes.SeverityLabel? = nil,
+            informationalFixAvailableSince: Foundation.Date? = nil,
+            lowFixAvailableSince: Foundation.Date? = nil,
+            mediumFixAvailableSince: Foundation.Date? = nil
+        ) {
+            self.criticalFixAvailableSince = criticalFixAvailableSince
+            self.findingScanDate = findingScanDate
+            self.highFixAvailableSince = highFixAvailableSince
+            self.highestFindingSeverityLabel = highestFindingSeverityLabel
+            self.informationalFixAvailableSince = informationalFixAvailableSince
+            self.lowFixAvailableSince = lowFixAvailableSince
+            self.mediumFixAvailableSince = mediumFixAvailableSince
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum ImageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deregistered
@@ -51843,6 +52041,8 @@ extension EC2ClientTypes {
         public var rootDeviceName: Swift.String?
         /// The type of root device used by the AMI. The AMI can use an Amazon EBS volume or an instance store volume.
         public var rootDeviceType: EC2ClientTypes.DeviceType?
+        /// The Amazon Inspector scan results for the AMI. This information is present only for AMIs that Amazon Inspector has scanned. When you share an AMI with other accounts, organizations, or organizational units (OUs), or make it public, its scan results are available to the accounts that can use the AMI.
+        public var scanResults: EC2ClientTypes.ScanResults?
         /// The ID of the source AMI from which the AMI was created.
         public var sourceImageId: Swift.String?
         /// The Region of the source AMI.
@@ -51895,6 +52095,7 @@ extension EC2ClientTypes {
             ramdiskId: Swift.String? = nil,
             rootDeviceName: Swift.String? = nil,
             rootDeviceType: EC2ClientTypes.DeviceType? = nil,
+            scanResults: EC2ClientTypes.ScanResults? = nil,
             sourceImageId: Swift.String? = nil,
             sourceImageRegion: Swift.String? = nil,
             sourceInstanceId: Swift.String? = nil,
@@ -51936,6 +52137,7 @@ extension EC2ClientTypes {
             self.ramdiskId = ramdiskId
             self.rootDeviceName = rootDeviceName
             self.rootDeviceType = rootDeviceType
+            self.scanResults = scanResults
             self.sourceImageId = sourceImageId
             self.sourceImageRegion = sourceImageRegion
             self.sourceInstanceId = sourceInstanceId
@@ -55378,7 +55580,30 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
-    /// Describes the status of an instance, including system status, instance status, attached EBS status, and application status.
+    /// Provides a summary of the performance status check results for an instance.
+    public struct PerformanceStatusSummary: Swift.Sendable {
+        /// The date and time when the performance status became impaired.
+        public var impairedSince: Foundation.Date?
+        /// The recommended action to remediate the impaired instance, if one is available. This value is returned only when the instance is impaired.
+        public var remediation: Swift.String?
+        /// The current status.
+        public var status: EC2ClientTypes.SummaryStatus?
+
+        public init(
+            impairedSince: Foundation.Date? = nil,
+            remediation: Swift.String? = nil,
+            status: EC2ClientTypes.SummaryStatus? = nil
+        ) {
+            self.impairedSince = impairedSince
+            self.remediation = remediation
+            self.status = status
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the status of an instance, including system status, instance status, attached EBS status, application status, and performance status.
     public struct InstanceStatus: Swift.Sendable {
         /// Reports the application-level health status for the instance.
         public var applicationStatus: EC2ClientTypes.ApplicationStatusSummary?
@@ -55400,6 +55625,8 @@ extension EC2ClientTypes {
         public var `operator`: EC2ClientTypes.OperatorResponse?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public var outpostArn: Swift.String?
+        /// Reports the performance-related health status for the instance. This information is returned only when performance status checks are enabled for the instance.
+        public var performanceStatus: EC2ClientTypes.PerformanceStatusSummary?
         /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems.
         public var systemStatus: EC2ClientTypes.InstanceStatusSummary?
 
@@ -55414,6 +55641,7 @@ extension EC2ClientTypes {
             instanceStatus: EC2ClientTypes.InstanceStatusSummary? = nil,
             `operator`: EC2ClientTypes.OperatorResponse? = nil,
             outpostArn: Swift.String? = nil,
+            performanceStatus: EC2ClientTypes.PerformanceStatusSummary? = nil,
             systemStatus: EC2ClientTypes.InstanceStatusSummary? = nil
         ) {
             self.applicationStatus = applicationStatus
@@ -55426,6 +55654,7 @@ extension EC2ClientTypes {
             self.instanceStatus = instanceStatus
             self.`operator` = `operator`
             self.outpostArn = outpostArn
+            self.performanceStatus = performanceStatus
             self.systemStatus = systemStatus
         }
     }
@@ -65025,12 +65254,49 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum TransitGatewayAttachmentNatGatewaySupportState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayAttachmentNatGatewaySupportState] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .disabling: return "disabling"
+            case .enabled: return "enabled"
+            case .enabling: return "enabling"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// Describes an attachment between a resource and a transit gateway.
     public struct TransitGatewayAttachment: Swift.Sendable {
         /// The association.
         public var association: EC2ClientTypes.TransitGatewayAttachmentAssociation?
         /// The creation time.
         public var creationTime: Foundation.Date?
+        /// The state of NAT gateway support for the attachment. Only the owner of the transit gateway receives this parameter.
+        public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState?
         /// The ID of the resource.
         public var resourceId: Swift.String?
         /// The ID of the Amazon Web Services account that owns the resource.
@@ -65051,6 +65317,7 @@ extension EC2ClientTypes {
         public init(
             association: EC2ClientTypes.TransitGatewayAttachmentAssociation? = nil,
             creationTime: Foundation.Date? = nil,
+            natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState? = nil,
             resourceId: Swift.String? = nil,
             resourceOwnerId: Swift.String? = nil,
             resourceType: EC2ClientTypes.TransitGatewayAttachmentResourceType? = nil,
@@ -65062,6 +65329,7 @@ extension EC2ClientTypes {
         ) {
             self.association = association
             self.creationTime = creationTime
+            self.natGatewaySupport = natGatewaySupport
             self.resourceId = resourceId
             self.resourceOwnerId = resourceOwnerId
             self.resourceType = resourceType
@@ -71468,6 +71736,58 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity. They can also limit, for each severity, the days since Amazon Inspector reported a fix as available. The severity limit applies to all findings, whether or not a fix is available. The day limits for each severity apply only to findings that have a fix available. A scanned AMI that has no fix-available finding of a given severity meets that severity's day limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+    public struct ScanResultCondition: Swift.Sendable {
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a critical severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no critical severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceCriticalFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a high severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no high severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceHighFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for an informational severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no informational severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceInformationalFixAvailable: Swift.Int?
+        /// The maximum number of days that have elapsed since Amazon Inspector last scanned the AMI. For example, a value of 7 allows AMIs that were scanned within the last 7 days. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLastFindingScan: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a low severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no low severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLowFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a medium severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no medium severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceMediumFixAvailable: Swift.Int?
+        /// The maximum severity that an AMI's Amazon Inspector findings can have for the AMI to be allowed. Findings count whether or not a fix is available. For example, a value of medium allows AMIs whose highest severity is informational, low, or medium. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. A scanned AMI that has no findings meets this limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+        public var maximumSeverityLabel: EC2ClientTypes.SeverityLabel?
+
+        public init(
+            maxDaysSinceCriticalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceHighFixAvailable: Swift.Int? = nil,
+            maxDaysSinceInformationalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceLastFindingScan: Swift.Int? = nil,
+            maxDaysSinceLowFixAvailable: Swift.Int? = nil,
+            maxDaysSinceMediumFixAvailable: Swift.Int? = nil,
+            maximumSeverityLabel: EC2ClientTypes.SeverityLabel? = nil
+        ) {
+            self.maxDaysSinceCriticalFixAvailable = maxDaysSinceCriticalFixAvailable
+            self.maxDaysSinceHighFixAvailable = maxDaysSinceHighFixAvailable
+            self.maxDaysSinceInformationalFixAvailable = maxDaysSinceInformationalFixAvailable
+            self.maxDaysSinceLastFindingScan = maxDaysSinceLastFindingScan
+            self.maxDaysSinceLowFixAvailable = maxDaysSinceLowFixAvailable
+            self.maxDaysSinceMediumFixAvailable = maxDaysSinceMediumFixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. For more information, see [How Allowed AMIs works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html#how-allowed-amis-works) in the Amazon EC2 User Guide.
     public struct ImageCriterion: Swift.Sendable {
         /// The maximum age for allowed images.
@@ -71506,6 +71826,8 @@ extension EC2ClientTypes {
         public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
+        /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity, the number of days since Amazon Inspector last scanned the AMI, and the number of days since Amazon Inspector reported a fix as available.
+        public var scanResultCondition: EC2ClientTypes.ScanResultCondition?
 
         public init(
             creationDateCondition: EC2ClientTypes.CreationDateCondition? = nil,
@@ -71513,7 +71835,8 @@ extension EC2ClientTypes {
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
             imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]? = nil,
-            marketplaceProductCodes: [Swift.String]? = nil
+            marketplaceProductCodes: [Swift.String]? = nil,
+            scanResultCondition: EC2ClientTypes.ScanResultCondition? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
@@ -71521,6 +71844,7 @@ extension EC2ClientTypes {
             self.imageProviders = imageProviders
             self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
+            self.scanResultCondition = scanResultCondition
         }
     }
 }
@@ -73747,6 +74071,101 @@ public struct GetImageBlockPublicAccessStateOutput: Swift.Sendable {
     ) {
         self.imageBlockPublicAccessState = imageBlockPublicAccessState
         self.managedBy = managedBy
+    }
+}
+
+public struct GetImageFindingsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an Amazon Inspector vulnerability finding for an AMI.
+    public struct ImageFinding: Swift.Sendable {
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), when Amazon Inspector first observed the finding.
+        public var firstObservedAt: Foundation.Date?
+        /// Specifies whether a fix is available for the finding. This value is true when Amazon Inspector reports a full or partial fix for the finding.
+        public var fixAvailable: Swift.Bool?
+        /// The file paths in the AMI that are affected by the finding. Amazon EC2 returns up to 10 file paths for each finding.
+        public var paths: [Swift.String]?
+        /// The Amazon Inspector score for the finding.
+        public var score: Swift.Double?
+        /// The severity of the finding. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide.
+        public var severityLabel: EC2ClientTypes.SeverityLabel?
+        /// The ID of the Amazon EBS snapshot of the AMI in which the finding was detected.
+        public var snapshotId: Swift.String?
+        /// The title of the finding.
+        public var title: Swift.String?
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), when Amazon Inspector last updated the finding.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            firstObservedAt: Foundation.Date? = nil,
+            fixAvailable: Swift.Bool? = nil,
+            paths: [Swift.String]? = nil,
+            score: Swift.Double? = nil,
+            severityLabel: EC2ClientTypes.SeverityLabel? = nil,
+            snapshotId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
+            self.paths = paths
+            self.score = score
+            self.severityLabel = severityLabel
+            self.snapshotId = snapshotId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetImageFindingsOutput: Swift.Sendable {
+    /// The Amazon Inspector findings for the AMI.
+    public var imageFindings: [EC2ClientTypes.ImageFinding]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        imageFindings: [EC2ClientTypes.ImageFinding]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.imageFindings = imageFindings
+        self.nextToken = nextToken
     }
 }
 
@@ -77581,6 +78000,142 @@ public struct GetSubnetCidrReservationsOutput: Swift.Sendable {
     }
 }
 
+public struct GetTransitGatewayAttachmentNatConfigurationInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the transit gateway attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum TransitGatewayNatRuleState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activated
+        case deactivated
+        case deleting
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayNatRuleState] {
+            return [
+                .activated,
+                .deactivated,
+                .deleting,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "activated"
+            case .deactivated: return "deactivated"
+            case .deleting: return "deleting"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a NAT gateway rule for a transit gateway attachment, including the rule number, the source CIDR block, the translated CIDR block, and the state of the rule.
+    public struct TransitGatewayNatRule: Swift.Sendable {
+        /// The IPv4 CIDR block of the source addresses to translate.
+        public var matchSourceCidr: Swift.String?
+        /// The IPv4 CIDR block that the transit gateway translates the source addresses to.
+        public var natCidr: Swift.String?
+        /// The rule number.
+        public var ruleNumber: Swift.Int?
+        /// The state of the NAT gateway rule. The possible values are:
+        ///
+        /// * pending - The transit gateway is applying a change to the rule.
+        ///
+        /// * activated - The rule is in effect because NAT gateway support is enabled for the attachment.
+        ///
+        /// * deactivated - The rule isn't in effect because NAT gateway support is disabled for the attachment.
+        public var state: EC2ClientTypes.TransitGatewayNatRuleState?
+
+        public init(
+            matchSourceCidr: Swift.String? = nil,
+            natCidr: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil,
+            state: EC2ClientTypes.TransitGatewayNatRuleState? = nil
+        ) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+            self.state = state
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum TransitGatewayAttachmentNatSystemRouteSupportValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayAttachmentNatSystemRouteSupportValue] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "disable"
+            case .enable: return "enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTransitGatewayAttachmentNatConfigurationOutput: Swift.Sendable {
+    /// The NAT gateway rules for the attachment.
+    public var natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]?
+    /// The state of NAT gateway support for the attachment.
+    public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState?
+    /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates.
+    public var natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue?
+    /// The ID of the transit gateway attachment.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]? = nil,
+        natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState? = nil,
+        natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
 public struct GetTransitGatewayAttachmentPropagationsInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -79898,7 +80453,7 @@ public struct ModifyClientVpnEndpointInput: Swift.Sendable {
     public var connectionLogOptions: EC2ClientTypes.ConnectionLogOptions?
     /// A brief description of the Client VPN endpoint.
     public var description: Swift.String?
-    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To remove all device trust providers, specify an empty list.
+    /// The device posture options for the Client VPN endpoint. Specifying this parameter replaces the entire device posture configuration for the endpoint. To disable device posture and remove all device trust providers, specify false for Enabled.
     public var devicePostureOptions: EC2ClientTypes.DevicePostureOptions?
     /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
     public var disconnectOnSessionTimeout: Swift.Bool?
@@ -83041,6 +83596,113 @@ public struct ModifyTransitGatewayOutput: Swift.Sendable {
         transitGateway: EC2ClientTypes.TransitGateway? = nil
     ) {
         self.transitGateway = transitGateway
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a NAT gateway rule to apply to a transit gateway attachment. A NAT gateway rule translates source addresses in the MatchSourceCidr range to the corresponding addresses in the NatCidr range.
+    public struct TransitGatewayNatRuleRequest: Swift.Sendable {
+        /// The IPv4 CIDR block of the source addresses to translate. The CIDR block can't overlap the multicast range (224.0.0.0/4) or the link-local range (169.254.0.0/16).
+        public var matchSourceCidr: Swift.String?
+        /// The IPv4 CIDR block to translate the source addresses to. The CIDR block must be in a private (RFC 1918) or shared address space (RFC 6598) range, and must have the same prefix length as MatchSourceCidr. The CIDR blocks in the rules for an attachment can't overlap each other.
+        public var natCidr: Swift.String?
+        /// The rule number. Valid values are 1 to 32766. Each rule number must be unique within the request.
+        public var ruleNumber: Swift.Int?
+
+        public init(
+            matchSourceCidr: Swift.String? = nil,
+            natCidr: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil
+        ) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum TransitGatewayAttachmentNatGatewaySupportValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayAttachmentNatGatewaySupportValue] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "disable"
+            case .enable: return "enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ModifyTransitGatewayAttachmentNatConfigurationInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The NAT gateway rules for the attachment. The rules that you specify replace all existing NAT gateway rules for the attachment. You can specify up to 50 rules for an attachment. If you omit this parameter, the existing rules don't change. To remove all rules, use ResetNatGatewayRules.
+    public var natGatewayRules: [EC2ClientTypes.TransitGatewayNatRuleRequest]?
+    /// Specifies whether to enable or disable NAT gateway support for the attachment. To enable NAT gateway support, the attachment must have at least one NAT gateway rule. You can't modify the NAT configuration while NAT gateway support is enabling or disabling. If you omit this parameter, the current value doesn't change.
+    public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportValue?
+    /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates. For VPC attachments, the transit gateway always installs these routes. You can enable or disable this option only for Amazon Web Services Direct Connect gateway attachments and Site-to-Site VPN attachments that use dynamic routing. For these attachments, the default is enable. If you omit this parameter, the current value doesn't change.
+    public var natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue?
+    /// Specifies whether to remove all NAT gateway rules from the attachment. If you omit this parameter, the transit gateway doesn't remove any rules. You can't specify this parameter together with NatGatewayRules. Because you can't enable NAT gateway support without rules, also set NatGatewaySupport to disable in the same request if NAT gateway support is currently enabled.
+    public var resetNatGatewayRules: Swift.Bool?
+    /// The ID of the transit gateway attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        natGatewayRules: [EC2ClientTypes.TransitGatewayNatRuleRequest]? = nil,
+        natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportValue? = nil,
+        natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue? = nil,
+        resetNatGatewayRules: Swift.Bool? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+        self.resetNatGatewayRules = resetNatGatewayRules
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct ModifyTransitGatewayAttachmentNatConfigurationOutput: Swift.Sendable {
+    /// The NAT gateway rules for the attachment.
+    public var natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]?
+    /// The state of NAT gateway support for the attachment.
+    public var natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState?
+    /// Specifies whether the transit gateway installs routes for the NAT CIDRs in the route tables to which the attachment propagates.
+    public var natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue?
+    /// The ID of the transit gateway attachment.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        natGatewayRules: [EC2ClientTypes.TransitGatewayNatRule]? = nil,
+        natGatewaySupport: EC2ClientTypes.TransitGatewayAttachmentNatGatewaySupportState? = nil,
+        natSystemRouteSupport: EC2ClientTypes.TransitGatewayAttachmentNatSystemRouteSupportValue? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
     }
 }
 
@@ -86204,6 +86866,58 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity. They can also limit, for each severity, the days since Amazon Inspector reported a fix as available. The severity limit applies to all findings, whether or not a fix is available. The day limits for each severity apply only to findings that have a fix available. A scanned AMI that has no fix-available finding of a given severity meets that severity's day limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+    public struct ScanResultConditionRequest: Swift.Sendable {
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a critical severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no critical severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceCriticalFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a high severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no high severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceHighFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for an informational severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no informational severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceInformationalFixAvailable: Swift.Int?
+        /// The maximum number of days that have elapsed since Amazon Inspector last scanned the AMI. For example, a value of 7 allows AMIs that were scanned within the last 7 days. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLastFindingScan: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a low severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no low severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLowFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a medium severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no medium severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceMediumFixAvailable: Swift.Int?
+        /// The maximum severity that an AMI's Amazon Inspector findings can have for the AMI to be allowed. Findings count whether or not a fix is available. For example, a value of medium allows AMIs whose highest severity is informational, low, or medium. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. A scanned AMI that has no findings meets this limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+        public var maximumSeverityLabel: EC2ClientTypes.SeverityLabel?
+
+        public init(
+            maxDaysSinceCriticalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceHighFixAvailable: Swift.Int? = nil,
+            maxDaysSinceInformationalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceLastFindingScan: Swift.Int? = nil,
+            maxDaysSinceLowFixAvailable: Swift.Int? = nil,
+            maxDaysSinceMediumFixAvailable: Swift.Int? = nil,
+            maximumSeverityLabel: EC2ClientTypes.SeverityLabel? = nil
+        ) {
+            self.maxDaysSinceCriticalFixAvailable = maxDaysSinceCriticalFixAvailable
+            self.maxDaysSinceHighFixAvailable = maxDaysSinceHighFixAvailable
+            self.maxDaysSinceInformationalFixAvailable = maxDaysSinceInformationalFixAvailable
+            self.maxDaysSinceLastFindingScan = maxDaysSinceLastFindingScan
+            self.maxDaysSinceLowFixAvailable = maxDaysSinceLowFixAvailable
+            self.maxDaysSinceMediumFixAvailable = maxDaysSinceMediumFixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. The ImageCriteria can include up to:
     ///
     /// * 10 ImageCriterion
@@ -86258,6 +86972,8 @@ extension EC2ClientTypes {
         public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
+        /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity, the number of days since Amazon Inspector last scanned the AMI, and the number of days since Amazon Inspector reported a fix as available.
+        public var scanResultCondition: EC2ClientTypes.ScanResultConditionRequest?
 
         public init(
             creationDateCondition: EC2ClientTypes.CreationDateConditionRequest? = nil,
@@ -86265,7 +86981,8 @@ extension EC2ClientTypes {
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
             imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]? = nil,
-            marketplaceProductCodes: [Swift.String]? = nil
+            marketplaceProductCodes: [Swift.String]? = nil,
+            scanResultCondition: EC2ClientTypes.ScanResultConditionRequest? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
@@ -86273,6 +86990,7 @@ extension EC2ClientTypes {
             self.imageProviders = imageProviders
             self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
+            self.scanResultCondition = scanResultCondition
         }
     }
 }
@@ -93585,6 +94303,13 @@ extension GetImageBlockPublicAccessStateInput {
     }
 }
 
+extension GetImageFindingsInput {
+
+    static func urlPathProvider(_ value: GetImageFindingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetInstanceMetadataDefaultsInput {
 
     static func urlPathProvider(_ value: GetInstanceMetadataDefaultsInput) -> Swift.String? {
@@ -93854,6 +94579,13 @@ extension GetSpotPlacementScoresInput {
 extension GetSubnetCidrReservationsInput {
 
     static func urlPathProvider(_ value: GetSubnetCidrReservationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetTransitGatewayAttachmentNatConfigurationInput {
+
+    static func urlPathProvider(_ value: GetTransitGatewayAttachmentNatConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -94421,6 +95153,13 @@ extension ModifyTrafficMirrorSessionInput {
 extension ModifyTransitGatewayInput {
 
     static func urlPathProvider(_ value: ModifyTransitGatewayInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyTransitGatewayAttachmentNatConfigurationInput {
+
+    static func urlPathProvider(_ value: ModifyTransitGatewayAttachmentNatConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -104050,6 +104789,19 @@ extension GetImageBlockPublicAccessStateInput {
     }
 }
 
+extension GetImageFindingsInput {
+
+    static func write(value: GetImageFindingsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetImageFindings")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension GetInstanceMetadataDefaultsInput {
 
     static func write(value: GetInstanceMetadataDefaultsInput?, to writer: SmithyFormURL.Writer) throws {
@@ -104628,6 +105380,17 @@ extension GetSubnetCidrReservationsInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["SubnetId"].write(value.subnetId)
         try writer["Action"].write("GetSubnetCidrReservations")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetTransitGatewayAttachmentNatConfigurationInput {
+
+    static func write(value: GetTransitGatewayAttachmentNatConfigurationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("GetTransitGatewayAttachmentNatConfiguration")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -105958,6 +106721,23 @@ extension ModifyTransitGatewayInput {
         try writer["Options"].write(value.options, with: EC2ClientTypes.ModifyTransitGatewayOptions.write(value:to:))
         try writer["TransitGatewayId"].write(value.transitGatewayId)
         try writer["Action"].write("ModifyTransitGateway")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyTransitGatewayAttachmentNatConfigurationInput {
+
+    static func write(value: ModifyTransitGatewayAttachmentNatConfigurationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.natGatewayRules?.isEmpty ?? true) {
+            try writer["NatGatewayRule"].writeList(value.natGatewayRules, memberWritingClosure: EC2ClientTypes.TransitGatewayNatRuleRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["NatGatewaySupport"].write(value.natGatewaySupport)
+        try writer["NatSystemRouteSupport"].write(value.natSystemRouteSupport)
+        try writer["ResetNatGatewayRules"].write(value.resetNatGatewayRules)
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("ModifyTransitGatewayAttachmentNatConfiguration")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -114868,6 +115648,19 @@ extension GetImageBlockPublicAccessStateOutput {
     }
 }
 
+extension GetImageFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetImageFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetImageFindingsOutput()
+        value.imageFindings = try reader["imageFindingSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageFinding.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension GetInstanceMetadataDefaultsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInstanceMetadataDefaultsOutput {
@@ -115381,6 +116174,21 @@ extension GetSubnetCidrReservationsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.subnetIpv4CidrReservations = try reader["subnetIpv4CidrReservationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.SubnetCidrReservation.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.subnetIpv6CidrReservations = try reader["subnetIpv6CidrReservationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.SubnetCidrReservation.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension GetTransitGatewayAttachmentNatConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTransitGatewayAttachmentNatConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTransitGatewayAttachmentNatConfigurationOutput()
+        value.natGatewayRules = try reader["natGatewayRuleSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayNatRule.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.natGatewaySupport = try reader["natGatewaySupport"].readIfPresent()
+        value.natSystemRouteSupport = try reader["natSystemRouteSupport"].readIfPresent()
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
         return value
     }
 }
@@ -116379,6 +117187,21 @@ extension ModifyTransitGatewayOutput {
         let reader = responseReader
         var value = ModifyTransitGatewayOutput()
         value.transitGateway = try reader["transitGateway"].readIfPresent(with: EC2ClientTypes.TransitGateway.read(from:))
+        return value
+    }
+}
+
+extension ModifyTransitGatewayAttachmentNatConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayAttachmentNatConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyTransitGatewayAttachmentNatConfigurationOutput()
+        value.natGatewayRules = try reader["natGatewayRuleSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayNatRule.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.natGatewaySupport = try reader["natGatewaySupport"].readIfPresent()
+        value.natSystemRouteSupport = try reader["natSystemRouteSupport"].readIfPresent()
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
         return value
     }
 }
@@ -125193,6 +126016,19 @@ enum GetImageBlockPublicAccessStateOutputError {
     }
 }
 
+enum GetImageFindingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInstanceMetadataDefaultsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -125688,6 +126524,19 @@ enum GetSpotPlacementScoresOutputError {
 }
 
 enum GetSubnetCidrReservationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTransitGatewayAttachmentNatConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -126741,6 +127590,19 @@ enum ModifyTrafficMirrorSessionOutputError {
 }
 
 enum ModifyTransitGatewayOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyTransitGatewayAttachmentNatConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -128601,6 +129463,22 @@ extension EC2ClientTypes.AnalysisSecurityGroupRule {
         value.portRange = try reader["portRange"].readIfPresent(with: EC2ClientTypes.PortRange.read(from:))
         value.prefixListId = try reader["prefixListId"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry()
+        value.ruleNumber = try reader["ruleNumber"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.sourceCidr = try reader["sourceCidr"].readIfPresent()
+        value.destinationCidr = try reader["destinationCidr"].readIfPresent()
+        value.sourcePortRange = try reader["sourcePortRange"].readIfPresent(with: EC2ClientTypes.PortRange.read(from:))
+        value.destinationPortRange = try reader["destinationPortRange"].readIfPresent(with: EC2ClientTypes.PortRange.read(from:))
+        value.targetRouteTableId = try reader["targetRouteTableId"].readIfPresent()
         return value
     }
 }
@@ -131491,6 +132369,8 @@ extension EC2ClientTypes.Explanation {
         value.transitGateway = try reader["transitGateway"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.transitGatewayRouteTable = try reader["transitGatewayRouteTable"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.transitGatewayRouteTableRoute = try reader["transitGatewayRouteTableRoute"].readIfPresent(with: EC2ClientTypes.TransitGatewayRouteTableRoute.read(from:))
+        value.transitGatewayPolicyTable = try reader["transitGatewayPolicyTable"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
+        value.transitGatewayPolicyTableEntry = try reader["transitGatewayPolicyTableEntry"].readIfPresent(with: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry.read(from:))
         value.transitGatewayAttachment = try reader["transitGatewayAttachment"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.componentAccount = try reader["componentAccount"].readIfPresent()
         value.componentRegion = try reader["componentRegion"].readIfPresent()
@@ -132468,6 +133348,7 @@ extension EC2ClientTypes.Image {
         value.freeTierEligible = try reader["freeTierEligible"].readIfPresent()
         value.publicSsmParameterName = try reader["publicSsmParameterName"].readIfPresent()
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.scanResults = try reader["scanResults"].readIfPresent(with: EC2ClientTypes.ScanResults.read(from:))
         value.instanceTypeSpecification = try reader["instanceTypeSpecification"].readIfPresent(with: EC2ClientTypes.InstanceTypeSpecification.read(from:))
         value.imageId = try reader["imageId"].readIfPresent()
         value.imageLocation = try reader["imageLocation"].readIfPresent()
@@ -132510,6 +133391,7 @@ extension EC2ClientTypes.ImageCriterion {
         value.deprecationTimeCondition = try reader["deprecationTimeCondition"].readIfPresent(with: EC2ClientTypes.DeprecationTimeCondition.read(from:))
         value.creationDateCondition = try reader["creationDateCondition"].readIfPresent(with: EC2ClientTypes.CreationDateCondition.read(from:))
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermarkFilterResponse.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.scanResultCondition = try reader["scanResultCondition"].readIfPresent(with: EC2ClientTypes.ScanResultCondition.read(from:))
         return value
     }
 }
@@ -132532,6 +133414,7 @@ extension EC2ClientTypes.ImageCriterionRequest {
         if !(value.marketplaceProductCodes?.isEmpty ?? true) {
             try writer["MarketplaceProductCode"].writeList(value.marketplaceProductCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
+        try writer["ScanResultCondition"].write(value.scanResultCondition, with: EC2ClientTypes.ScanResultConditionRequest.write(value:to:))
     }
 }
 
@@ -132545,6 +133428,23 @@ extension EC2ClientTypes.ImageDiskContainer {
         try writer["SnapshotId"].write(value.snapshotId)
         try writer["Url"].write(value.url)
         try writer["UserBucket"].write(value.userBucket, with: EC2ClientTypes.UserBucket.write(value:to:))
+    }
+}
+
+extension EC2ClientTypes.ImageFinding {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ImageFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ImageFinding()
+        value.fixAvailable = try reader["fixAvailable"].readIfPresent()
+        value.score = try reader["score"].readIfPresent()
+        value.firstObservedAt = try reader["firstObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.title = try reader["title"].readIfPresent()
+        value.paths = try reader["pathSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.severityLabel = try reader["severityLabel"].readIfPresent()
+        value.snapshotId = try reader["snapshotId"].readIfPresent()
+        return value
     }
 }
 
@@ -133756,6 +134656,7 @@ extension EC2ClientTypes.InstanceStatus {
         value.systemStatus = try reader["systemStatus"].readIfPresent(with: EC2ClientTypes.InstanceStatusSummary.read(from:))
         value.attachedEbsStatus = try reader["attachedEbsStatus"].readIfPresent(with: EC2ClientTypes.EbsStatusSummary.read(from:))
         value.applicationStatus = try reader["applicationStatus"].readIfPresent(with: EC2ClientTypes.ApplicationStatusSummary.read(from:))
+        value.performanceStatus = try reader["performanceStatus"].readIfPresent(with: EC2ClientTypes.PerformanceStatusSummary.read(from:))
         return value
     }
 }
@@ -136967,6 +137868,7 @@ extension EC2ClientTypes.PathComponent {
         value.additionalDetails = try reader["additionalDetailSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AdditionalDetail.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.transitGateway = try reader["transitGateway"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.transitGatewayRouteTableRoute = try reader["transitGatewayRouteTableRoute"].readIfPresent(with: EC2ClientTypes.TransitGatewayRouteTableRoute.read(from:))
+        value.transitGatewayPolicyTableEntry = try reader["transitGatewayPolicyTableEntry"].readIfPresent(with: EC2ClientTypes.AnalysisTransitGatewayPolicyTableEntry.read(from:))
         value.explanations = try reader["explanationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Explanation.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.elasticLoadBalancerListener = try reader["elasticLoadBalancerListener"].readIfPresent(with: EC2ClientTypes.AnalysisComponent.read(from:))
         value.firewallStatelessRule = try reader["firewallStatelessRule"].readIfPresent(with: EC2ClientTypes.FirewallStatelessRule.read(from:))
@@ -137110,6 +138012,18 @@ extension EC2ClientTypes.PerformanceFactorReferenceRequest {
     static func write(value: EC2ClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["InstanceFamily"].write(value.instanceFamily)
+    }
+}
+
+extension EC2ClientTypes.PerformanceStatusSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PerformanceStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PerformanceStatusSummary()
+        value.status = try reader["status"].readIfPresent()
+        value.impairedSince = try reader["impairedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.remediation = try reader["remediation"].readIfPresent()
+        return value
     }
 }
 
@@ -138508,6 +139422,52 @@ extension EC2ClientTypes.S3Storage {
         value.`prefix` = try reader["prefix"].readIfPresent()
         value.uploadPolicy = try reader["uploadPolicy"].readIfPresent()
         value.uploadPolicySignature = try reader["uploadPolicySignature"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ScanResultCondition {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ScanResultCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ScanResultCondition()
+        value.maxDaysSinceLastFindingScan = try reader["maxDaysSinceLastFindingScan"].readIfPresent()
+        value.maximumSeverityLabel = try reader["maximumSeverityLabel"].readIfPresent()
+        value.maxDaysSinceInformationalFixAvailable = try reader["maxDaysSinceInformationalFixAvailable"].readIfPresent()
+        value.maxDaysSinceLowFixAvailable = try reader["maxDaysSinceLowFixAvailable"].readIfPresent()
+        value.maxDaysSinceMediumFixAvailable = try reader["maxDaysSinceMediumFixAvailable"].readIfPresent()
+        value.maxDaysSinceHighFixAvailable = try reader["maxDaysSinceHighFixAvailable"].readIfPresent()
+        value.maxDaysSinceCriticalFixAvailable = try reader["maxDaysSinceCriticalFixAvailable"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ScanResultConditionRequest {
+
+    static func write(value: EC2ClientTypes.ScanResultConditionRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDaysSinceCriticalFixAvailable"].write(value.maxDaysSinceCriticalFixAvailable)
+        try writer["MaxDaysSinceHighFixAvailable"].write(value.maxDaysSinceHighFixAvailable)
+        try writer["MaxDaysSinceInformationalFixAvailable"].write(value.maxDaysSinceInformationalFixAvailable)
+        try writer["MaxDaysSinceLastFindingScan"].write(value.maxDaysSinceLastFindingScan)
+        try writer["MaxDaysSinceLowFixAvailable"].write(value.maxDaysSinceLowFixAvailable)
+        try writer["MaxDaysSinceMediumFixAvailable"].write(value.maxDaysSinceMediumFixAvailable)
+        try writer["MaximumSeverityLabel"].write(value.maximumSeverityLabel)
+    }
+}
+
+extension EC2ClientTypes.ScanResults {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ScanResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ScanResults()
+        value.highestFindingSeverityLabel = try reader["highestFindingSeverityLabel"].readIfPresent()
+        value.findingScanDate = try reader["findingScanDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.informationalFixAvailableSince = try reader["informationalFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lowFixAvailableSince = try reader["lowFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.mediumFixAvailableSince = try reader["mediumFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.highFixAvailableSince = try reader["highFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.criticalFixAvailableSince = try reader["criticalFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -140209,6 +141169,7 @@ extension EC2ClientTypes.TransitGatewayAttachment {
         value.association = try reader["association"].readIfPresent(with: EC2ClientTypes.TransitGatewayAttachmentAssociation.read(from:))
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.natGatewaySupport = try reader["natGatewaySupport"].readIfPresent()
         return value
     }
 }
@@ -140526,6 +141487,29 @@ extension EC2ClientTypes.TransitGatewayMulticastRegisteredGroupSources {
         value.registeredNetworkInterfaceIds = try reader["registeredNetworkInterfaceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.groupIpAddress = try reader["groupIpAddress"].readIfPresent()
         return value
+    }
+}
+
+extension EC2ClientTypes.TransitGatewayNatRule {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TransitGatewayNatRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TransitGatewayNatRule()
+        value.ruleNumber = try reader["ruleNumber"].readIfPresent()
+        value.matchSourceCidr = try reader["matchSourceCidr"].readIfPresent()
+        value.natCidr = try reader["natCidr"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.TransitGatewayNatRuleRequest {
+
+    static func write(value: EC2ClientTypes.TransitGatewayNatRuleRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MatchSourceCidr"].write(value.matchSourceCidr)
+        try writer["NatCidr"].write(value.natCidr)
+        try writer["RuleNumber"].write(value.ruleNumber)
     }
 }
 

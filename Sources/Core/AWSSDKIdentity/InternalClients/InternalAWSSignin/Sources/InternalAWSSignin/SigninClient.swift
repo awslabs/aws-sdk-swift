@@ -614,39 +614,7 @@ extension SigninClient {
 extension SigninClient {
     /// Performs the `CreateOAuth2Token` operation on the `Signin` service.
     ///
-    /// CreateOAuth2Token API Path: /v1/token Request Method: POST Content-Type: application/json or application/x-www-form-urlencoded This API implements OAuth 2.0 flows for AWS Sign-In CLI clients, supporting both:
-    ///
-    /// * Authorization code redemption (grant_type=authorization_code) - NOT idempotent
-    ///
-    /// * Token refresh (grant_type=refresh_token) - Idempotent within token validity window
-    ///
-    ///
-    /// The operation behavior is determined by the grant_type parameter in the request body: Authorization Code Flow (NOT Idempotent):
-    ///
-    /// * JSON or form-encoded body with client_id, grant_type=authorization_code, code, redirect_uri, code_verifier
-    ///
-    /// * Returns access_token, token_type, expires_in, refresh_token, and id_token
-    ///
-    /// * Each authorization code can only be used ONCE for security (prevents replay attacks)
-    ///
-    ///
-    /// Token Refresh Flow (Idempotent):
-    ///
-    /// * JSON or form-encoded body with client_id, grant_type=refresh_token, refresh_token
-    ///
-    /// * Returns access_token, token_type, expires_in, and refresh_token (no id_token)
-    ///
-    /// * Multiple calls with same refresh_token return consistent results within validity window
-    ///
-    ///
-    /// Authentication and authorization:
-    ///
-    /// * Confidential clients: sigv4 signing required with signin:ExchangeToken permissions
-    ///
-    /// * CLI clients (public): authn/authz skipped based on client_id & grant_type
-    ///
-    ///
-    /// Note: This operation cannot be marked as @idempotent because it handles both idempotent (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
+    /// Exchanges an authorization code or refresh token for an OAuth 2.0 access token and refresh token.
     ///
     /// - Parameter input: Input structure for CreateOAuth2Token operation Contains flattened token operation inputs for both authorization code and refresh token flows. The operation type is determined by the grant_type parameter in the request body. (Type: `CreateOAuth2TokenInput`)
     ///
@@ -655,30 +623,10 @@ extension SigninClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : Error thrown for access denied scenarios with flexible HTTP status mapping Runtime HTTP Status Code Mapping:
-    ///
-    /// * HTTP 401 (Unauthorized): TOKEN_EXPIRED, AUTHCODE_EXPIRED
-    ///
-    /// * HTTP 403 (Forbidden): USER_CREDENTIALS_CHANGED, INSUFFICIENT_PERMISSIONS
-    ///
-    ///
-    /// The specific HTTP status code is determined at runtime based on the error enum value. Consumers should use the error field to determine the specific access denial reason.
-    /// - `InternalServerException` : Error thrown when an internal server error occurs HTTP Status Code: 500 Internal Server Error Used for unexpected server-side errors that prevent request processing.
-    /// - `TooManyRequestsError` : Error thrown when rate limit is exceeded HTTP Status Code: 429 Too Many Requests Possible OAuth2ErrorCode values:
-    ///
-    /// * INVALID_REQUEST: Rate limiting, too many requests, abuse prevention
-    ///
-    ///
-    /// Possible causes:
-    ///
-    /// * Too many token requests from the same client
-    ///
-    /// * Rate limiting based on client_id or IP address
-    ///
-    /// * Abuse prevention mechanisms triggered
-    ///
-    /// * Service protection against excessive token generation
-    /// - `ValidationException` : Error thrown when request validation fails HTTP Status Code: 400 Bad Request Used for request validation errors such as malformed parameters, missing required fields, or invalid parameter values.
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
     public func createOAuth2Token(input: CreateOAuth2TokenInput) async throws -> CreateOAuth2TokenOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

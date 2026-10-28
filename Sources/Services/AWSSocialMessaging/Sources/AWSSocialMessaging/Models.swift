@@ -1148,6 +1148,10 @@ extension SocialMessagingClientTypes {
         public var arn: Swift.String?
         /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
         public var datasetId: Swift.String?
+        /// The Direct Send enforcement status for the WhatsApp Business Account. Enforcement applies when an account repeatedly sends messages in a category that does not match the content. This field is not present when no enforcement is active.
+        public var directSendEnforcementStatus: Swift.String?
+        /// The time when the current Direct Send enforcement is expected to lift. This field is not present for permanent enforcement or when no enforcement is active.
+        public var directSendEnforcementStatusExpiresAt: Foundation.Date?
         /// The event destinations for the linked WhatsApp Business Account.
         /// This member is required.
         public var eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]?
@@ -1175,6 +1179,8 @@ extension SocialMessagingClientTypes {
         public init(
             arn: Swift.String? = nil,
             datasetId: Swift.String? = nil,
+            directSendEnforcementStatus: Swift.String? = nil,
+            directSendEnforcementStatusExpiresAt: Foundation.Date? = nil,
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
@@ -1186,6 +1192,8 @@ extension SocialMessagingClientTypes {
         ) {
             self.arn = arn
             self.datasetId = datasetId
+            self.directSendEnforcementStatus = directSendEnforcementStatus
+            self.directSendEnforcementStatusExpiresAt = directSendEnforcementStatusExpiresAt
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -1972,6 +1980,10 @@ extension SocialMessagingClientTypes {
         public var arn: Swift.String?
         /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
         public var datasetId: Swift.String?
+        /// The Direct Send enforcement status for the WhatsApp Business Account. Enforcement applies when an account repeatedly sends messages in a category that does not match the content. This field is not present when no enforcement is active.
+        public var directSendEnforcementStatus: Swift.String?
+        /// The time when the current Direct Send enforcement is expected to lift. This field is not present for permanent enforcement or when no enforcement is active.
+        public var directSendEnforcementStatusExpiresAt: Foundation.Date?
         /// The event destinations for the linked WhatsApp Business Account.
         /// This member is required.
         public var eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]?
@@ -1996,6 +2008,8 @@ extension SocialMessagingClientTypes {
         public init(
             arn: Swift.String? = nil,
             datasetId: Swift.String? = nil,
+            directSendEnforcementStatus: Swift.String? = nil,
+            directSendEnforcementStatusExpiresAt: Foundation.Date? = nil,
             eventDestinations: [SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination]? = nil,
             id: Swift.String? = nil,
             linkDate: Foundation.Date? = nil,
@@ -2006,6 +2020,8 @@ extension SocialMessagingClientTypes {
         ) {
             self.arn = arn
             self.datasetId = datasetId
+            self.directSendEnforcementStatus = directSendEnforcementStatus
+            self.directSendEnforcementStatusExpiresAt = directSendEnforcementStatusExpiresAt
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -2195,6 +2211,8 @@ extension SocialMessagingClientTypes {
 
     /// Provides a summary of a WhatsApp message template's key attributes.
     public struct TemplateSummary: Swift.Sendable {
+        /// The category that the template content actually belongs to, when it differs from the template's current category. This field is present only when the template has been flagged as miscategorized.
+        public var correctCategory: Swift.String?
         /// The numeric ID assigned to the template by Meta.
         public var metaTemplateId: Swift.String?
         /// The category of the template (for example, UTILITY or MARKETING).
@@ -2205,22 +2223,28 @@ extension SocialMessagingClientTypes {
         public var templateName: Swift.String?
         /// The quality score assigned to the template by Meta.
         public var templateQualityScore: Swift.String?
+        /// The source of the template. A value of AUTO_GENERATED indicates that the template was created automatically from a message that you sent. This field is not present for templates that you created manually.
+        public var templateSource: Swift.String?
         /// The current status of the template (for example, APPROVED, PENDING, or REJECTED).
         public var templateStatus: Swift.String?
 
         public init(
+            correctCategory: Swift.String? = nil,
             metaTemplateId: Swift.String? = nil,
             templateCategory: Swift.String? = nil,
             templateLanguage: Swift.String? = nil,
             templateName: Swift.String? = nil,
             templateQualityScore: Swift.String? = nil,
+            templateSource: Swift.String? = nil,
             templateStatus: Swift.String? = nil
         ) {
+            self.correctCategory = correctCategory
             self.metaTemplateId = metaTemplateId
             self.templateCategory = templateCategory
             self.templateLanguage = templateLanguage
             self.templateName = templateName
             self.templateQualityScore = templateQualityScore
+            self.templateSource = templateSource
             self.templateStatus = templateStatus
         }
     }
@@ -5003,6 +5027,8 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
+        value.directSendEnforcementStatus = try reader["directSendEnforcementStatus"].readIfPresent()
+        value.directSendEnforcementStatusExpiresAt = try reader["directSendEnforcementStatusExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.datasetId = try reader["datasetId"].readIfPresent()
         value.phoneNumbers = try reader["phoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
@@ -5035,6 +5061,8 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.marketingMessagesOnboardingStatus = try reader["marketingMessagesOnboardingStatus"].readIfPresent()
+        value.directSendEnforcementStatus = try reader["directSendEnforcementStatus"].readIfPresent()
+        value.directSendEnforcementStatusExpiresAt = try reader["directSendEnforcementStatusExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.datasetId = try reader["datasetId"].readIfPresent()
         return value
     }
@@ -5205,6 +5233,8 @@ extension SocialMessagingClientTypes.TemplateSummary {
         value.templateQualityScore = try reader["templateQualityScore"].readIfPresent()
         value.templateLanguage = try reader["templateLanguage"].readIfPresent()
         value.templateCategory = try reader["templateCategory"].readIfPresent()
+        value.templateSource = try reader["templateSource"].readIfPresent()
+        value.correctCategory = try reader["correctCategory"].readIfPresent()
         return value
     }
 }

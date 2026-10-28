@@ -941,126 +941,6 @@ public struct UpdateDataTransformationProfileOutput: Swift.Sendable {
     }
 }
 
-/// The agent message does not fit within the current conversation context. Start a new conversation or provide a message that relates to the current profile customization session.
-public struct AgentMessageOutOfContextException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "AgentMessageOutOfContextException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The specified conversation identifier does not exist. Verify the conversation ID or omit it to start a new conversation.
-public struct ConversationNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConversationNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The requested operation is not yet available. Check the service documentation for a list of supported operations.
-public struct NotImplementedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NotImplementedOperationException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// You are not authorized to make this request. Verify that your Amazon Web Services credentials are valid and that you have the required permissions.
-public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnauthorizedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The content type in your request is not supported. Use a supported content type for this operation.
-public struct UnsupportedMIMETypeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "UnsupportedMIMETypeException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension HealthLakeClientTypes {
 
     public enum AgentInputMessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1125,44 +1005,59 @@ public struct UpdateProfileWithAgentInput: Swift.Sendable {
     /// The unique identifier of the profile to update via the agent.
     /// This member is required.
     public var profileId: Swift.String?
-    /// The source data format for the transformation.
-    /// This member is required.
-    public var sourceFormat: HealthLakeClientTypes.SourceFormat?
 
     public init(
         conversationId: Swift.String? = nil,
         inputMessage: HealthLakeClientTypes.AgentInputMessage? = nil,
-        profileId: Swift.String? = nil,
-        sourceFormat: HealthLakeClientTypes.SourceFormat? = nil
+        profileId: Swift.String? = nil
     ) {
         self.conversationId = conversationId
         self.inputMessage = inputMessage
         self.profileId = profileId
-        self.sourceFormat = sourceFormat
     }
 }
 
 extension HealthLakeClientTypes {
 
-    public enum AgentOutputMessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case choices
-        case complete
-        case error
-        case initialGreeting
-        case normal
-        case options
-        case userConfirmationRequest
+    /// Contains the final response event from the agent, including the response message, response options, and conversation ID.
+    public struct EndOfOutputEvent: Swift.Sendable {
+        /// The conversation ID of the request. You can use this ID to continue the profile mapping based on this request's context at a later time.
+        public var conversationId: Swift.String?
+        /// The final response message from the agent.
+        /// This member is required.
+        public var finalResponseMessage: Swift.String?
+        /// The response options that you can use to easily answer follow-up questions from the agent.
+        public var options: [Swift.String]?
+
+        public init(
+            conversationId: Swift.String? = nil,
+            finalResponseMessage: Swift.String? = nil,
+            options: [Swift.String]? = nil
+        ) {
+            self.conversationId = conversationId
+            self.finalResponseMessage = finalResponseMessage
+            self.options = options
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    public enum AgentErrorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessdeniedexception
+        case internalserverexception
+        case resourcenotfoundexception
+        case throttlingexception
+        case validationexception
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [AgentOutputMessageType] {
+        public static var allCases: [AgentErrorType] {
             return [
-                .choices,
-                .complete,
-                .error,
-                .initialGreeting,
-                .normal,
-                .options,
-                .userConfirmationRequest
+                .accessdeniedexception,
+                .internalserverexception,
+                .resourcenotfoundexception,
+                .throttlingexception,
+                .validationexception
             ]
         }
 
@@ -1173,13 +1068,11 @@ extension HealthLakeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .choices: return "choices"
-            case .complete: return "complete"
-            case .error: return "error"
-            case .initialGreeting: return "INITIAL_GREETING"
-            case .normal: return "normal"
-            case .options: return "options"
-            case .userConfirmationRequest: return "confirmation"
+            case .accessdeniedexception: return "AccessDeniedException"
+            case .internalserverexception: return "InternalServerException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .throttlingexception: return "ThrottlingException"
+            case .validationexception: return "ValidationException"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1188,44 +1081,94 @@ extension HealthLakeClientTypes {
 
 extension HealthLakeClientTypes {
 
-    /// Represents a response message from the agent during chat-based profile customization.
-    public struct AgentOutputMessage: Swift.Sendable {
-        /// The text of the agent's response.
+    /// The type of an event that returns an exception encountered while serving the request.
+    public struct ErrorEvent: Swift.Sendable {
+        /// The type of the exception.
         /// This member is required.
-        public var body: Swift.String?
-        /// A list of selectable options presented when the response type is options.
-        public var optionsList: [Swift.String]?
-        /// The type of output message, which indicates how to interpret the agent's response.
+        public var error: HealthLakeClientTypes.AgentErrorType?
+        /// The exception message.
         /// This member is required.
-        public var type: HealthLakeClientTypes.AgentOutputMessageType?
+        public var message: Swift.String?
 
         public init(
-            body: Swift.String? = nil,
-            optionsList: [Swift.String]? = nil,
-            type: HealthLakeClientTypes.AgentOutputMessageType? = nil
+            error: HealthLakeClientTypes.AgentErrorType? = nil,
+            message: Swift.String? = nil
         ) {
-            self.body = body
-            self.optionsList = optionsList
-            self.type = type
+            self.error = error
+            self.message = message
         }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The type for a periodically emitted event to keep the connection alive.
+    public struct HeartbeatEvent: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The type for an incremental progress update from the agent.
+    public struct ProgressEvent: Swift.Sendable {
+        /// An incremental progress update message by the agent
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// The type for an incremental text update from the agent.
+    public struct TextMessageEvent: Swift.Sendable {
+        /// An incremental text update from the agent.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension HealthLakeClientTypes {
+
+    /// Represents the response stream type from the agent during chat-based profile customization.
+    public enum AgentOutputMessageStream: Swift.Sendable {
+        /// An incremental text update from the agent.
+        case textmessageevent(HealthLakeClientTypes.TextMessageEvent)
+        /// An incremental progress update from the agent.
+        case progressevent(HealthLakeClientTypes.ProgressEvent)
+        /// Periodically emitted event to keep the connection alive.
+        case heartbeatevent(HealthLakeClientTypes.HeartbeatEvent)
+        /// An exception encountered while serving the request.
+        case errorevent(HealthLakeClientTypes.ErrorEvent)
+        /// The final event in the response stream from the agent during chat-based profile customization. The caller can assume that the stream has ended upon receiving this event.
+        case endofoutputevent(HealthLakeClientTypes.EndOfOutputEvent)
+        case sdkUnknown(Swift.String)
     }
 }
 
 /// The response from the UpdateProfileWithAgent operation.
 public struct UpdateProfileWithAgentOutput: Swift.Sendable {
-    /// The response message from the agent.
+    /// The streaming response from the agent.
     /// This member is required.
-    public var agentResponse: HealthLakeClientTypes.AgentOutputMessage?
-    /// The conversation identifier to use for follow-up messages in this conversation.
-    /// This member is required.
-    public var conversationId: Swift.String?
+    public var agentResponse: AsyncThrowingStream<HealthLakeClientTypes.AgentOutputMessageStream, Swift.Error>?
 
     public init(
-        agentResponse: HealthLakeClientTypes.AgentOutputMessage? = nil,
-        conversationId: Swift.String? = nil
+        agentResponse: AsyncThrowingStream<HealthLakeClientTypes.AgentOutputMessageStream, Swift.Error>? = nil
     ) {
         self.agentResponse = agentResponse
-        self.conversationId = conversationId
     }
 }
 

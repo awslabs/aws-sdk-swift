@@ -1444,6 +1444,7 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidAutoRollbackConfigException` : The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
     /// - `InvalidAutoScalingGroupException` : The Auto Scaling group was specified in an invalid format or does not exist.
+    /// - `InvalidAutoScalingGroupProcessToSuspendException` : The autoScalingGroupProcessesToSuspend list in ec2DeploymentOptions contains a process that is not valid. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions. Process names are case sensitive.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
@@ -1645,6 +1646,7 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidAutoRollbackConfigException` : The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
     /// - `InvalidAutoScalingGroupException` : The Auto Scaling group was specified in an invalid format or does not exist.
+    /// - `InvalidAutoScalingGroupProcessToSuspendException` : The autoScalingGroupProcessesToSuspend list in ec2DeploymentOptions contains a process that is not valid. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions. Process names are case sensitive.
     /// - `InvalidBlueGreenDeploymentConfigurationException` : The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see [CreateDeploymentConfig].
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
@@ -4350,6 +4352,7 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidAutoRollbackConfigException` : The automatic rollback configuration was specified in an invalid format. For example, automatic rollback is enabled, but an invalid triggering event type or no event types were listed.
     /// - `InvalidAutoScalingGroupException` : The Auto Scaling group was specified in an invalid format or does not exist.
+    /// - `InvalidAutoScalingGroupProcessToSuspendException` : The autoScalingGroupProcessesToSuspend list in ec2DeploymentOptions contains a process that is not valid. Valid values are Terminate, AZRebalance, InstanceRefresh, and ScheduledActions. Process names are case sensitive.
     /// - `InvalidBlueGreenDeploymentConfigurationException` : The configuration for the blue/green deployment group was provided in an invalid format. For information about deployment configuration format, see [CreateDeploymentConfig].
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.

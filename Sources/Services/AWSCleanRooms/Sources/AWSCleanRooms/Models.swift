@@ -7451,6 +7451,68 @@ public struct UpdateConfiguredTableAssociationAnalysisRuleOutput: Swift.Sendable
 
 extension CleanRoomsClientTypes {
 
+    /// Details about Delta Sharing Connector for Databricks
+    public struct DatabricksDeltaSharingConnection: Swift.Sendable {
+        /// The base URL of a Delta Sharing server that hosts shared datasets.
+        /// This member is required.
+        public var deltaShareEndpoint: Swift.String?
+        /// Name of the Share used for OpenSharing (Delta Sharing) the Databricks Table.
+        /// This member is required.
+        public var shareName: Swift.String?
+
+        public init(
+            deltaShareEndpoint: Swift.String? = nil,
+            shareName: Swift.String? = nil
+        ) {
+            self.deltaShareEndpoint = deltaShareEndpoint
+            self.shareName = shareName
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Type of the connector to be used for connecting to Databricks. Supported connector: Delta Sharing
+    public enum DatabricksConnectionType: Swift.Sendable {
+        /// Details about Connector for Databricks
+        case deltasharing(CleanRoomsClientTypes.DatabricksDeltaSharingConnection)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A reference to a table within Databricks.
+    public struct DatabricksTableReference: Swift.Sendable {
+        /// Type of the connector to be used for connecting to Databricks. Supported connector: Delta Sharing
+        /// This member is required.
+        public var connectionType: CleanRoomsClientTypes.DatabricksConnectionType?
+        /// Name of the Schema within Databricks.
+        /// This member is required.
+        public var schemaName: Swift.String?
+        /// Name of the Table within Databricks.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// URL for the Databricks Workspace.
+        /// This member is required.
+        public var workspaceUrl: Swift.String?
+
+        public init(
+            connectionType: CleanRoomsClientTypes.DatabricksConnectionType? = nil,
+            schemaName: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            workspaceUrl: Swift.String? = nil
+        ) {
+            self.connectionType = connectionType
+            self.schemaName = schemaName
+            self.tableName = tableName
+            self.workspaceUrl = workspaceUrl
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// A reference to a table within an Glue data catalog.
     public struct GlueTableReference: Swift.Sendable {
         /// The name of the database the Glue table belongs to.
@@ -7556,6 +7618,8 @@ extension CleanRoomsClientTypes {
         case snowflake(CleanRoomsClientTypes.SnowflakeTableReference)
         /// If present, a reference to the Athena table referred to by this table reference.
         case athena(CleanRoomsClientTypes.AthenaTableReference)
+        /// If present, a reference to the Databricks table referred to by this table reference.
+        case databricks(CleanRoomsClientTypes.DatabricksTableReference)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7633,6 +7697,41 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum TableReferenceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case athena
+        case databricks
+        case glue
+        case snowflake
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableReferenceType] {
+            return [
+                .athena,
+                .databricks,
+                .glue,
+                .snowflake
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .athena: return "ATHENA"
+            case .databricks: return "DATABRICKS"
+            case .glue: return "GLUE"
+            case .snowflake: return "SNOWFLAKE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// A table that has been configured for use in a collaboration.
     public struct ConfiguredTable: Swift.Sendable {
         /// The columns within the underlying Glue table that can be used within collaborations.
@@ -7663,6 +7762,8 @@ extension CleanRoomsClientTypes {
         /// The table that this configured table represents.
         /// This member is required.
         public var tableReference: CleanRoomsClientTypes.TableReference?
+        /// Type of the Configured Table DataSource, example: Glue, Snowflake, Athena, Databricks
+        public var tableType: CleanRoomsClientTypes.TableReferenceType?
         /// The time the configured table was last updated
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -7678,6 +7779,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
             tableReference: CleanRoomsClientTypes.TableReference? = nil,
+            tableType: CleanRoomsClientTypes.TableReferenceType? = nil,
             updateTime: Foundation.Date? = nil
         ) {
             self.allowedColumns = allowedColumns
@@ -7690,6 +7792,7 @@ extension CleanRoomsClientTypes {
             self.name = name
             self.selectedAnalysisMethods = selectedAnalysisMethods
             self.tableReference = tableReference
+            self.tableType = tableType
             self.updateTime = updateTime
         }
     }
@@ -7939,6 +8042,8 @@ extension CleanRoomsClientTypes {
         public var name: Swift.String?
         /// The selected analysis methods for the configured table summary.
         public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
+        /// Type of the Configured Table DataSource, example: Glue, Snowflake, Athena, Databricks
+        public var tableType: CleanRoomsClientTypes.TableReferenceType?
         /// The time the configured table was last updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -7951,6 +8056,7 @@ extension CleanRoomsClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
+            tableType: CleanRoomsClientTypes.TableReferenceType? = nil,
             updateTime: Foundation.Date? = nil
         ) {
             self.analysisMethod = analysisMethod
@@ -7960,6 +8066,7 @@ extension CleanRoomsClientTypes {
             self.id = id
             self.name = name
             self.selectedAnalysisMethods = selectedAnalysisMethods
+            self.tableType = tableType
             self.updateTime = updateTime
         }
     }
@@ -19563,6 +19670,7 @@ extension CleanRoomsClientTypes.ConfiguredTable {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.tableReference = try reader["tableReference"].readIfPresent(with: CleanRoomsClientTypes.TableReference.read(from:))
+        value.tableType = try reader["tableType"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -19825,6 +19933,7 @@ extension CleanRoomsClientTypes.ConfiguredTableSummary {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.tableType = try reader["tableType"].readIfPresent()
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
@@ -19915,6 +20024,68 @@ extension CleanRoomsClientTypes.ConsolidatedPolicyV1 {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.DatabricksConnectionType {
+
+    static func write(value: CleanRoomsClientTypes.DatabricksConnectionType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .deltasharing(deltasharing):
+                try writer["deltaSharing"].write(deltasharing, with: CleanRoomsClientTypes.DatabricksDeltaSharingConnection.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DatabricksConnectionType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "deltaSharing":
+                return .deltasharing(try reader["deltaSharing"].read(with: CleanRoomsClientTypes.DatabricksDeltaSharingConnection.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.DatabricksDeltaSharingConnection {
+
+    static func write(value: CleanRoomsClientTypes.DatabricksDeltaSharingConnection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deltaShareEndpoint"].write(value.deltaShareEndpoint)
+        try writer["shareName"].write(value.shareName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DatabricksDeltaSharingConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.DatabricksDeltaSharingConnection()
+        value.deltaShareEndpoint = try reader["deltaShareEndpoint"].readIfPresent() ?? ""
+        value.shareName = try reader["shareName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.DatabricksTableReference {
+
+    static func write(value: CleanRoomsClientTypes.DatabricksTableReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectionType"].write(value.connectionType, with: CleanRoomsClientTypes.DatabricksConnectionType.write(value:to:))
+        try writer["schemaName"].write(value.schemaName)
+        try writer["tableName"].write(value.tableName)
+        try writer["workspaceUrl"].write(value.workspaceUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DatabricksTableReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.DatabricksTableReference()
+        value.schemaName = try reader["schemaName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.workspaceUrl = try reader["workspaceUrl"].readIfPresent() ?? ""
+        value.connectionType = try reader["connectionType"].readIfPresent(with: CleanRoomsClientTypes.DatabricksConnectionType.read(from:))
+        return value
     }
 }
 
@@ -22146,6 +22317,8 @@ extension CleanRoomsClientTypes.TableReference {
         switch value {
             case let .athena(athena):
                 try writer["athena"].write(athena, with: CleanRoomsClientTypes.AthenaTableReference.write(value:to:))
+            case let .databricks(databricks):
+                try writer["databricks"].write(databricks, with: CleanRoomsClientTypes.DatabricksTableReference.write(value:to:))
             case let .glue(glue):
                 try writer["glue"].write(glue, with: CleanRoomsClientTypes.GlueTableReference.write(value:to:))
             case let .snowflake(snowflake):
@@ -22165,6 +22338,8 @@ extension CleanRoomsClientTypes.TableReference {
                 return .snowflake(try reader["snowflake"].read(with: CleanRoomsClientTypes.SnowflakeTableReference.read(from:)))
             case "athena":
                 return .athena(try reader["athena"].read(with: CleanRoomsClientTypes.AthenaTableReference.read(from:)))
+            case "databricks":
+                return .databricks(try reader["databricks"].read(with: CleanRoomsClientTypes.DatabricksTableReference.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

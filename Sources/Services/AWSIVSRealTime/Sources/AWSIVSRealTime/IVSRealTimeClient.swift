@@ -2817,6 +2817,76 @@ extension IVSRealTimeClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RevokeConnectionToken` operation on the `IVSRealTime` service.
+    ///
+    /// Revokes the specified connection token so that it can no longer connect to a stage. This operation disconnects any participant currently connected with the revoked token.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RevokeConnectionTokenInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RevokeConnectionTokenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func revokeConnectionToken(input: RevokeConnectionTokenInput) async throws -> RevokeConnectionTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "revokeConnectionToken")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ivs")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RevokeConnectionTokenInput, RevokeConnectionTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>(RevokeConnectionTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RevokeConnectionTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeConnectionTokenOutput>(RevokeConnectionTokenOutput.httpOutput(from:), RevokeConnectionTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RevokeConnectionTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IVS RealTime", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RevokeConnectionTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RevokeConnectionTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IVS RealTime"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RevokeConnectionTokenInput, RevokeConnectionTokenOutput>(serviceID: serviceName, version: IVSRealTimeClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IVSRealTime")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RevokeConnectionToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartComposition` operation on the `IVSRealTime` service.
     ///
     /// Starts a Composition from a stage based on the configuration provided in the request. A Composition is an ephemeral resource that exists after this operation returns successfully. Composition stops and the resource is deleted:

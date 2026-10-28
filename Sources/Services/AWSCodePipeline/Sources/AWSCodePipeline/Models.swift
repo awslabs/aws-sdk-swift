@@ -476,10 +476,10 @@ extension CodePipelineClientTypes {
         /// * Compute
         /// This member is required.
         public var category: CodePipelineClientTypes.ActionCategory?
-        /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see [Valid Action Types and Providers in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
+        /// The creator of the action being called. There are three valid values for the Owner field in the action category section within your pipeline structure: AWS, ThirdParty, and Custom. For more information, see [Valid Action Types and Providers in CodePipeline ](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
         /// This member is required.
         public var owner: CodePipelineClientTypes.ActionOwner?
-        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of CodeDeploy, which would be specified as CodeDeploy. For more information, see [Valid Action Types and Providers in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
+        /// The provider of the service being called by the action. Valid providers are determined by the action category. For example, an action in the Deploy category type might have a provider of CodeDeploy, which would be specified as CodeDeploy. For more information, see [Valid Action Types and Providers in CodePipeline ](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers).
         /// This member is required.
         public var provider: Swift.String?
         /// A string that describes the action version.
@@ -599,7 +599,7 @@ extension CodePipelineClientTypes {
         public var actionTypeId: CodePipelineClientTypes.ActionTypeId?
         /// The shell commands to run with your compute action in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild. Using compute time for this action will incur separate charges in CodeBuild.
         public var commands: [Swift.String]?
-        /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see [Action Structure Requirements in CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements). For the list of configuration properties for the CloudFormation action type in CodePipeline, see [Configuration Properties Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html) in the CloudFormation User Guide. For template snippets with examples, see [Using Parameter Override Functions with CodePipeline Pipelines](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html) in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows: JSON: "Configuration" : { Key : Value },
+        /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see [Action Structure Requirements in CodePipeline ](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements). For the list of configuration properties for the CloudFormation action type in CodePipeline, see [Configuration Properties Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-action-reference.html) in the CloudFormation User Guide. For template snippets with examples, see [Using Parameter Override Functions with CodePipeline Pipelines](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline-parameter-override-functions.html) in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows: JSON: "Configuration" : { Key : Value },
         public var configuration: [Swift.String: Swift.String]?
         /// The environment variables for the action.
         public var environmentVariables: [CodePipelineClientTypes.EnvironmentVariable]?
@@ -1949,14 +1949,14 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+    /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [ CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct RuleTypeId: Swift.Sendable {
         /// A category defines what kind of rule can be run in the stage, and constrains the provider type for the rule. The valid category is Rule.
         /// This member is required.
         public var category: CodePipelineClientTypes.RuleCategory?
         /// The creator of the rule being called. The valid value for the Owner field in the rule category is AWS.
         public var owner: CodePipelineClientTypes.RuleOwner?
-        /// The rule provider, such as the DeploymentWindow rule. For a list of rule provider names, see the rules listed in the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+        /// The rule provider, such as the DeploymentWindow rule. For a list of rule provider names, see the rules listed in the [ CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
         /// This member is required.
         public var provider: Swift.String?
         /// A string that describes the rule version.
@@ -1978,7 +1978,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+    /// Represents information about the rule to be created for an associated condition. An example would be creating a new rule for an entry condition, such as a rule that checks for a test result before allowing the run to enter the deployment stage. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html). For more information about rules, see the [ CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct RuleDeclaration: Swift.Sendable {
         /// The shell commands to run with your commands rule in CodePipeline. All commands are supported except multi-line formats. While CodeBuild logs and permissions are used, you do not need to create any resources in CodeBuild. Using compute time for this action will incur separate charges in CodeBuild.
         public var commands: [Swift.String]?
@@ -2023,7 +2023,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
-    /// The condition for the stage. A condition is made up of the rules and the result for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).. For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+    /// The condition for the stage. A condition is made up of the rules and the result for the condition. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html) and [How do stage conditions work?](https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html).. For more information about rules, see the [ CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
     public struct Condition: Swift.Sendable {
         /// The action to be done when the condition is met. For example, rolling back an execution for a failure condition.
         public var result: CodePipelineClientTypes.Result?
@@ -4900,7 +4900,7 @@ extension CodePipelineClientTypes {
         public var resolvedConfiguration: [Swift.String: Swift.String]?
         /// The ARN of the IAM service role that performs the declared rule. This is assumed through the roleArn for the pipeline.
         public var roleArn: Swift.String?
-        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
+        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see [Stage conditions](https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html). For more information about rules, see the [ CodePipeline rule reference](https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html).
         public var ruleTypeId: CodePipelineClientTypes.RuleTypeId?
 
         public init(

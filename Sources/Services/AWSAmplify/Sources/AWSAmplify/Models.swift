@@ -1253,7 +1253,7 @@ extension AmplifyClientTypes {
     public struct CertificateSettings: Swift.Sendable {
         /// The Amazon resource name (ARN) for the custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
         public var customCertificateArn: Swift.String?
-        /// The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide.
+        /// The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager ](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide.
         /// This member is required.
         public var type: AmplifyClientTypes.CertificateType?
 
@@ -1335,7 +1335,7 @@ extension AmplifyClientTypes {
         public var certificateVerificationDNSRecord: Swift.String?
         /// The Amazon resource name (ARN) for a custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
         public var customCertificateArn: Swift.String?
-        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide.
+        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager ](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide.
         /// This member is required.
         public var type: AmplifyClientTypes.CertificateType?
 

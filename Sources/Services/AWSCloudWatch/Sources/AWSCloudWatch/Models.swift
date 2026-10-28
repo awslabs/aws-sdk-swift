@@ -67,6 +67,45 @@ public struct SetAlarmStateOutput: Swift.Sendable {
 
 extension CloudWatchClientTypes {
 
+    /// Includes the alarm's tags in the notifications that the alarm sends to Amazon SNS topics and Lambda functions. The tags are also included in the alarm's state-change events in Amazon EventBridge. Other types of alarm actions don't receive the tags. By default, the alarm's tags aren't included. Use this to route or filter notifications and events by tag, such as by team or environment. You can also use it to read the alarm's tags without looking them up separately. To limit which tags are included, specify either IncludedTagKeys or ExcludedTagKeys. You can't specify both. If you specify neither, all of the alarm's tags are included. This includes tags that you add to the alarm later.
+    public struct AlarmTagsPropagation: Swift.Sendable {
+        /// Set to true to include the alarm's tags. Set to false to stop including them. When this is true, you must have the cloudwatch:ListTagsForResource permission on the alarm to create or update it.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The tag keys to exclude. All of the alarm's tags except those with these keys are included. You can specify 1 to 50 tag keys. Each tag key must be 1 to 128 characters long. You can't specify both IncludedTagKeys and ExcludedTagKeys.
+        public var excludedTagKeys: [Swift.String]?
+        /// The tag keys to include. Only the alarm's tags with these keys are included. You can specify 1 to 50 tag keys. Each tag key must be 1 to 128 characters long. You can't specify both IncludedTagKeys and ExcludedTagKeys.
+        public var includedTagKeys: [Swift.String]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            excludedTagKeys: [Swift.String]? = nil,
+            includedTagKeys: [Swift.String]? = nil
+        ) {
+            self.enabled = enabled
+            self.excludedTagKeys = excludedTagKeys
+            self.includedTagKeys = includedTagKeys
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
+    /// Settings that change the content of the notifications and events that an alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+    public struct ActionConfiguration: Swift.Sendable {
+        /// Settings for including the alarm's tags in its action notifications and state-change events.
+        public var alarmTagsPropagation: CloudWatchClientTypes.AlarmTagsPropagation?
+
+        public init(
+            alarmTagsPropagation: CloudWatchClientTypes.AlarmTagsPropagation? = nil
+        ) {
+            self.alarmTagsPropagation = alarmTagsPropagation
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     public enum ActionsSuppressedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alarm
         case extensionperiod
@@ -329,6 +368,38 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    public enum AnomalyDetectorAdaptationSpeed: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fast
+        case normal
+        case slow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnomalyDetectorAdaptationSpeed] {
+            return [
+                .fast,
+                .normal,
+                .slow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fast: return "FAST"
+            case .normal: return "NORMAL"
+            case .slow: return "SLOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// Specifies one range of days or times to exclude from use for training an anomaly detection model.
     public struct Range: Swift.Sendable {
         /// The end time of the range to exclude. The format is yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
@@ -350,19 +421,71 @@ extension CloudWatchClientTypes {
 
 extension CloudWatchClientTypes {
 
+    public enum AnomalyDetectorOutlierFilteringStrength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case minimal
+        case moderate
+        case strict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnomalyDetectorOutlierFilteringStrength] {
+            return [
+                .minimal,
+                .moderate,
+                .strict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .minimal: return "MINIMAL"
+            case .moderate: return "MODERATE"
+            case .strict: return "STRICT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+
     /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model and the time zone to use for the metric.
     public struct AnomalyDetectorConfiguration: Swift.Sendable {
+        /// The speed at which the anomaly detection model adapts to sustained changes in the metric's baseline. Faster adaptation lets the model track shifting workloads sooner, but increases the chance that the model treats a real, lasting change as normal. Valid values:
+        ///
+        /// * FAST - The model adapts quickly to sustained changes in the baseline.
+        ///
+        /// * NORMAL - The model adapts at a moderate pace. This is the default value.
+        ///
+        /// * SLOW - The model adapts slowly, reducing the risk of treating a real change as normal.
+        public var adaptationSpeed: CloudWatchClientTypes.AnomalyDetectorAdaptationSpeed?
         /// An array of time ranges to exclude from use when the anomaly detection model is trained. Use this to make sure that events that could cause unusual values for the metric, such as deployments, aren't used when CloudWatch creates the model.
         public var excludedTimeRanges: [CloudWatchClientTypes.Range]?
         /// The time zone to use for the metric. This is useful to enable the model to automatically account for daylight savings time changes if the metric is sensitive to such time changes. To specify a time zone, use the name of the time zone as specified in the standard tz database. For more information, see [tz database](https://en.wikipedia.org/wiki/Tz_database).
         public var metricTimezone: Swift.String?
+        /// The aggressiveness with which CloudWatch filters outliers from the metric data that the anomaly detection model uses. Stronger filtering excludes more extreme values, which can produce a tighter band of expected values but may also suppress legitimate spikes. Valid values:
+        ///
+        /// * MINIMAL - Excludes only the most extreme outliers.
+        ///
+        /// * MODERATE - Excludes a moderate range of outliers. This is the default value.
+        ///
+        /// * STRICT - Excludes a wider range of outliers, which can suppress legitimate spikes.
+        public var outlierFilteringStrength: CloudWatchClientTypes.AnomalyDetectorOutlierFilteringStrength?
 
         public init(
+            adaptationSpeed: CloudWatchClientTypes.AnomalyDetectorAdaptationSpeed? = nil,
             excludedTimeRanges: [CloudWatchClientTypes.Range]? = nil,
-            metricTimezone: Swift.String? = nil
+            metricTimezone: Swift.String? = nil,
+            outlierFilteringStrength: CloudWatchClientTypes.AnomalyDetectorOutlierFilteringStrength? = nil
         ) {
+            self.adaptationSpeed = adaptationSpeed
             self.excludedTimeRanges = excludedTimeRanges
             self.metricTimezone = metricTimezone
+            self.outlierFilteringStrength = outlierFilteringStrength
         }
     }
 }
@@ -1021,6 +1144,8 @@ extension CloudWatchClientTypes {
 
     /// The details about a composite alarm.
     public struct CompositeAlarm: Swift.Sendable {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public var actionConfiguration: CloudWatchClientTypes.ActionConfiguration?
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public var actionsEnabled: Swift.Bool?
         /// When the value is ALARM, it means that the actions are suppressed because the suppressor alarm is in ALARM When the value is WaitPeriod, it means that the actions are suppressed because the composite alarm is waiting for the suppressor alarm to go into into the ALARM state. The maximum waiting time is as specified in ActionsSuppressorWaitPeriod. After this time, the composite alarm performs its actions. When the value is ExtensionPeriod, it means that the actions are suppressed because the composite alarm is waiting after the suppressor alarm went out of the ALARM state. The maximum waiting time is as specified in ActionsSuppressorExtensionPeriod. After this time, the composite alarm performs its actions.
@@ -1061,6 +1186,7 @@ extension CloudWatchClientTypes {
         public var stateValue: CloudWatchClientTypes.StateValue?
 
         public init(
+            actionConfiguration: CloudWatchClientTypes.ActionConfiguration? = nil,
             actionsEnabled: Swift.Bool? = nil,
             actionsSuppressedBy: CloudWatchClientTypes.ActionsSuppressedBy? = nil,
             actionsSuppressedReason: Swift.String? = nil,
@@ -1081,6 +1207,7 @@ extension CloudWatchClientTypes {
             stateUpdatedTimestamp: Foundation.Date? = nil,
             stateValue: CloudWatchClientTypes.StateValue? = nil
         ) {
+            self.actionConfiguration = actionConfiguration
             self.actionsEnabled = actionsEnabled
             self.actionsSuppressedBy = actionsSuppressedBy
             self.actionsSuppressedReason = actionsSuppressedReason
@@ -1985,6 +2112,8 @@ extension CloudWatchClientTypes {
 
     /// The details about a log alarm.
     public struct LogAlarm: Swift.Sendable {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public var actionConfiguration: CloudWatchClientTypes.ActionConfiguration?
         /// The number of log lines from the most recent scheduled query execution that are included in alarm action notifications. Valid range is 0 through 50. A value of 0 means no log lines are included.
         public var actionLogLineCount: Swift.Int?
         /// The Amazon Resource Name (ARN) of the IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Set when ActionLogLineCount is greater than 0.
@@ -2033,6 +2162,7 @@ extension CloudWatchClientTypes {
         public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
         public init(
+            actionConfiguration: CloudWatchClientTypes.ActionConfiguration? = nil,
             actionLogLineCount: Swift.Int? = nil,
             actionLogLineRoleArn: Swift.String? = nil,
             actionsEnabled: Swift.Bool? = nil,
@@ -2057,6 +2187,7 @@ extension CloudWatchClientTypes {
             treatMissingData: Swift.String? = nil,
             warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
         ) {
+            self.actionConfiguration = actionConfiguration
             self.actionLogLineCount = actionLogLineCount
             self.actionLogLineRoleArn = actionLogLineRoleArn
             self.actionsEnabled = actionsEnabled
@@ -2172,6 +2303,8 @@ extension CloudWatchClientTypes {
 
     /// The details about a metric alarm.
     public struct MetricAlarm: Swift.Sendable {
+        /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+        public var actionConfiguration: CloudWatchClientTypes.ActionConfiguration?
         /// Indicates whether actions should be executed during any changes to the alarm state.
         public var actionsEnabled: Swift.Bool?
         /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN).
@@ -2240,6 +2373,7 @@ extension CloudWatchClientTypes {
         public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
         public init(
+            actionConfiguration: CloudWatchClientTypes.ActionConfiguration? = nil,
             actionsEnabled: Swift.Bool? = nil,
             alarmActions: [Swift.String]? = nil,
             alarmArn: Swift.String? = nil,
@@ -2274,6 +2408,7 @@ extension CloudWatchClientTypes {
             unit: CloudWatchClientTypes.StandardUnit? = nil,
             warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
         ) {
+            self.actionConfiguration = actionConfiguration
             self.actionsEnabled = actionsEnabled
             self.alarmActions = alarmActions
             self.alarmArn = alarmArn
@@ -4176,6 +4311,8 @@ public struct PutAnomalyDetectorOutput: Swift.Sendable {
 }
 
 public struct PutCompositeAlarmInput: Swift.Sendable {
+    /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+    public var actionConfiguration: CloudWatchClientTypes.ActionConfiguration?
     /// Indicates whether actions should be executed during any changes to the alarm state of the composite alarm. The default is TRUE.
     public var actionsEnabled: Swift.Bool?
     /// Actions will be suppressed if the suppressor alarm is in the ALARM state. ActionsSuppressor can be an AlarmName or an Amazon Resource Name (ARN) from an existing alarm.
@@ -4245,6 +4382,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
     public var tags: [CloudWatchClientTypes.Tag]?
 
     public init(
+        actionConfiguration: CloudWatchClientTypes.ActionConfiguration? = nil,
         actionsEnabled: Swift.Bool? = nil,
         actionsSuppressor: Swift.String? = nil,
         actionsSuppressorExtensionPeriod: Swift.Int? = nil,
@@ -4257,6 +4395,7 @@ public struct PutCompositeAlarmInput: Swift.Sendable {
         okActions: [Swift.String]? = nil,
         tags: [CloudWatchClientTypes.Tag]? = nil
     ) {
+        self.actionConfiguration = actionConfiguration
         self.actionsEnabled = actionsEnabled
         self.actionsSuppressor = actionsSuppressor
         self.actionsSuppressorExtensionPeriod = actionsSuppressorExtensionPeriod
@@ -4338,6 +4477,8 @@ public struct PutInsightRuleOutput: Swift.Sendable {
 }
 
 public struct PutLogAlarmInput: Swift.Sendable {
+    /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+    public var actionConfiguration: CloudWatchClientTypes.ActionConfiguration?
     /// The number of log lines from the most recent scheduled query execution to include in alarm action notifications. Valid range is 0 through 50. The default is 0, which means no log lines are included.
     public var actionLogLineCount: Swift.Int?
     /// The Amazon Resource Name (ARN) of an IAM role that CloudWatch assumes to retrieve log events for inclusion in alarm action notifications. Required when ActionLogLineCount is greater than 0.
@@ -4399,6 +4540,7 @@ public struct PutLogAlarmInput: Swift.Sendable {
     public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
     public init(
+        actionConfiguration: CloudWatchClientTypes.ActionConfiguration? = nil,
         actionLogLineCount: Swift.Int? = nil,
         actionLogLineRoleArn: Swift.String? = nil,
         actionsEnabled: Swift.Bool? = nil,
@@ -4416,6 +4558,7 @@ public struct PutLogAlarmInput: Swift.Sendable {
         treatMissingData: Swift.String? = nil,
         warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
     ) {
+        self.actionConfiguration = actionConfiguration
         self.actionLogLineCount = actionLogLineCount
         self.actionLogLineRoleArn = actionLogLineRoleArn
         self.actionsEnabled = actionsEnabled
@@ -4484,6 +4627,8 @@ public struct PutManagedInsightRulesOutput: Swift.Sendable {
 }
 
 public struct PutMetricAlarmInput: Swift.Sendable {
+    /// Settings that change the content of the notifications and events that the alarm sends when its state changes. These settings apply to the alarm's actions, whichever state triggers them.
+    public var actionConfiguration: CloudWatchClientTypes.ActionConfiguration?
     /// Indicates whether actions should be executed during any changes to the alarm state. The default is TRUE.
     public var actionsEnabled: Swift.Bool?
     /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values: EC2 actions:
@@ -4693,6 +4838,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
     public var warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration?
 
     public init(
+        actionConfiguration: CloudWatchClientTypes.ActionConfiguration? = nil,
         actionsEnabled: Swift.Bool? = nil,
         alarmActions: [Swift.String]? = nil,
         alarmDescription: Swift.String? = nil,
@@ -4720,6 +4866,7 @@ public struct PutMetricAlarmInput: Swift.Sendable {
         unit: CloudWatchClientTypes.StandardUnit? = nil,
         warmUpConfiguration: CloudWatchClientTypes.WarmUpConfiguration? = nil
     ) {
+        self.actionConfiguration = actionConfiguration
         self.actionsEnabled = actionsEnabled
         self.alarmActions = alarmActions
         self.alarmDescription = alarmDescription

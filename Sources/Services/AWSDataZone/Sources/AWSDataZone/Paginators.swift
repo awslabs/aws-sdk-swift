@@ -246,6 +246,37 @@ extension PaginatorSequence where OperationStackInput == ListDataSourceRunActivi
     }
 }
 extension DataZoneClient {
+    /// Paginate over `[ListDesignationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDesignationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDesignationsOutput`
+    public func listDesignationsPaginated(input: ListDesignationsInput) -> ClientRuntime.PaginatorSequence<ListDesignationsInput, ListDesignationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDesignationsInput, ListDesignationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDesignations(input:))
+    }
+}
+
+extension ListDesignationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDesignationsInput {
+        return ListDesignationsInput(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDesignationsInput, OperationStackOutput == ListDesignationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDesignationsPaginated`
+    /// to access the nested member `[DataZoneClientTypes.DesignationSummary]`
+    /// - Returns: `[DataZoneClientTypes.DesignationSummary]`
+    public func items() async throws -> [DataZoneClientTypes.DesignationSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[ListEntityOwnersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

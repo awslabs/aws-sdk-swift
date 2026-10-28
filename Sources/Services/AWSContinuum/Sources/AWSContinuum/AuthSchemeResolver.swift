@@ -14,30 +14,30 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-public struct TnbAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+public struct ContinuumAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let authSchemePreference: [String]?
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
 }
 
-public protocol TnbAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+public protocol ContinuumAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
-    // the service Tnb must conform to.
+    // the service Continuum must conform to.
 }
 
-public struct DefaultTnbAuthSchemeResolver: TnbAuthSchemeResolver {
+public struct DefaultContinuumAuthSchemeResolver: ContinuumAuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? TnbAuthSchemeResolverParameters else {
+        guard let serviceParams = params as? ContinuumAuthSchemeResolverParameters else {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
             default:
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "tnb")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "continuum")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
@@ -53,6 +53,6 @@ public struct DefaultTnbAuthSchemeResolver: TnbAuthSchemeResolver {
         }
         let authSchemePreference = context.getAuthSchemePreference()
         let opRegion = context.getRegion()
-        return TnbAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
+        return ContinuumAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
     }
 }

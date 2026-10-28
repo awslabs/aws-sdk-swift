@@ -720,6 +720,29 @@ public struct BlueGreenDeploymentNotFoundFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
+/// DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
+public struct DBCapacityReservationNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBCapacityReservationNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The DB proxy endpoint doesn't exist.
 public struct DBProxyEndpointNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1414,6 +1437,263 @@ public struct BacktrackDBClusterOutput: Swift.Sendable {
     }
 }
 
+/// The DB capacity reservation isn't in a valid state.
+public struct InvalidDBCapacityReservationStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBCapacityReservationState" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CancelDBCapacityReservationInput: Swift.Sendable {
+    /// The identifier or the name of the DB capacity reservation to cancel. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+    /// This member is required.
+    public var dbCapacityReservationIdentifier: Swift.String?
+
+    public init(
+        dbCapacityReservationIdentifier: Swift.String? = nil
+    ) {
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Contains the unused capacity of a DB capacity reservation in one Availability Zone. This data type is used as a response element in the following operations:
+    ///
+    /// * CancelDBCapacityReservation
+    ///
+    /// * CreateDBCapacityReservation
+    ///
+    /// * DescribeDBCapacityReservations
+    ///
+    /// * ModifyDBCapacityReservation
+    public struct AvailableCapacityPerAvailabilityZone: Swift.Sendable {
+        /// The name of the Availability Zone.
+        public var availabilityZone: Swift.String?
+        /// The number of DB instances that remain available in this Availability Zone. Amazon RDS decreases this value when a DB instance takes a unit of reserved capacity in this Availability Zone, and it increases this value when a DB instance releases that unit. A DB instance with a pending modification also holds a unit of reserved capacity. A DB instance has a pending modification when Amazon RDS accepts a change to the DB instance and applies that change later, during the maintenance window. Amazon RDS holds the unit from the time that it accepts the request. To find a DB instance with a pending modification, check PendingModifiedValues in the response of DescribeDBInstances. Amazon RDS reports available capacity only for a reservation that is in the active state and not past its end date. Otherwise, this value is 0.
+        public var availableCapacity: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availableCapacity: Swift.Int? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availableCapacity = availableCapacity
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Contains the capacity commitment details of a DB capacity reservation, including the number of committed DB instances in each Availability Zone and the end date of the commitment period. Amazon RDS holds the committed capacity until the commitment ends. Amazon RDS rejects a request to cancel a reservation in the active state, and a request to reduce the reserved capacity below the commitment. This data type is used as a response element in the following operations:
+    ///
+    /// * CancelDBCapacityReservation
+    ///
+    /// * CreateDBCapacityReservation
+    ///
+    /// * DescribeDBCapacityReservations
+    ///
+    /// * ModifyDBCapacityReservation
+    public struct DBCapacityReservationCommitmentInfo: Swift.Sendable {
+        /// The date and time when the commitment ends, in Universal Coordinated Time (UTC). This date reports the capacity commitment that Amazon RDS granted. Amazon RDS can grant a shorter capacity commitment than you request in CommitmentDuration. Therefore, this date can fall earlier than StartDate plus CommitmentDuration.
+        public var commitmentEndDate: Foundation.Date?
+        /// The number of DB instances that Amazon RDS holds in each Availability Zone of the reservation for the length of the commitment.
+        public var committedCapacityPerAvailabilityZone: Swift.Int?
+
+        public init(
+            commitmentEndDate: Foundation.Date? = nil,
+            committedCapacityPerAvailabilityZone: Swift.Int? = nil
+        ) {
+            self.commitmentEndDate = commitmentEndDate
+            self.committedCapacityPerAvailabilityZone = committedCapacityPerAvailabilityZone
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    public enum DBCapacityReservationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case assessing
+        case cancelled
+        case delayed
+        case expired
+        case failed
+        case pending
+        case scheduled
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DBCapacityReservationState] {
+            return [
+                .active,
+                .assessing,
+                .cancelled,
+                .delayed,
+                .expired,
+                .failed,
+                .pending,
+                .scheduled,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .assessing: return "assessing"
+            case .cancelled: return "cancelled"
+            case .delayed: return "delayed"
+            case .expired: return "expired"
+            case .failed: return "failed"
+            case .pending: return "pending"
+            case .scheduled: return "scheduled"
+            case .unsupported: return "unsupported"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
+    /// Contains the details of a DB capacity reservation. This data type is used as a response element in the following operations:
+    ///
+    /// * CancelDBCapacityReservation
+    ///
+    /// * CreateDBCapacityReservation
+    ///
+    /// * DescribeDBCapacityReservations
+    ///
+    /// * ModifyDBCapacityReservation
+    public struct DBCapacityReservation: Swift.Sendable {
+        /// The unused capacity of the reservation, reported for each Availability Zone of the reservation. Each entry names one Availability Zone, and it reports the number of DB instances that remain available in that Availability Zone. Amazon RDS reports available capacity only for a reservation that is in the active state and not past its end date. Otherwise, each entry reports an available capacity of 0. A future-dated reservation that hasn't started reports 0, and a reservation that Amazon RDS is modifying reports 0. A reservation reports the pending state while Amazon RDS modifies it. Therefore, a reservation in the active state that reports no available capacity has no unused capacity.
+        public var availableCapacityPerAvailabilityZoneList: [RDSClientTypes.AvailableCapacityPerAvailabilityZone]?
+        /// The capacity commitment of the reservation. Amazon RDS returns this object only for a future-dated reservation.
+        public var commitmentInfo: RDSClientTypes.DBCapacityReservationCommitmentInfo?
+        /// The date and time when the reservation was created, in Universal Coordinated Time (UTC).
+        public var createDate: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the DB capacity reservation.
+        public var dbCapacityReservationArn: Swift.String?
+        /// The unique identifier of the DB capacity reservation. The identifier has the prefix dbcr-. Every other DB capacity reservation operation takes this identifier.
+        public var dbCapacityReservationIdentifier: Swift.String?
+        /// The name that you specified for the DB capacity reservation.
+        public var dbCapacityReservationName: Swift.String?
+        /// The DB instance class for the reserved capacity. You specify this value when you create the reservation, and you can't change it afterward.
+        public var dbInstanceClass: Swift.String?
+        /// The date and time when the reservation expires, in Universal Coordinated Time (UTC). Amazon RDS doesn't return this value if the reservation doesn't expire. A DB instance that uses the reservation keeps running after the reservation expires. It continues on unreserved capacity, and Amazon RDS doesn't stop it or modify it. However, Amazon RDS no longer reserves capacity for the DB instance. Amazon RDS might later move the DB instance to different hardware, for example during hardware maintenance. That move can fail when the Amazon Web Services Region has insufficient capacity for the DB instance class.
+        public var endDate: Foundation.Date?
+        /// The database engine for the reserved capacity. You specify this value when you create the reservation, and you can't change it afterward.
+        public var engine: Swift.String?
+        /// The license model for the reserved capacity. Amazon RDS returns this value only for a reservation that reserves capacity for a specific license model. Amazon RDS doesn't return this value for a reservation whose database engine doesn't support a license model. A DB instance launches into the reservation only when the license model of the DB instance matches this value. For a reservation that holds no license model, Amazon RDS applies no license model check at launch. Valid Values:
+        ///
+        /// * RDS for Microsoft SQL Server Enterprise Edition and Standard Edition - license-included | bring-your-own-media
+        ///
+        /// * RDS for Microsoft SQL Server Developer Edition - bring-your-own-license
+        ///
+        /// * RDS for Oracle - bring-your-own-license | license-included
+        ///
+        /// * RDS for Db2 Standard Edition and Advanced Edition - bring-your-own-license | marketplace-license
+        ///
+        ///
+        /// For RDS for Db2 Standard Edition and Advanced Edition, a reservation created without a license model holds bring-your-own-license.
+        public var licenseModel: Swift.String?
+        /// The number of DB instances that Amazon RDS reserves in each Availability Zone of the reservation. This value matches the CapacityPerAvailabilityZone parameter of the request. The total reserved capacity is this value multiplied by the number of Availability Zones of the reservation.
+        public var reservedCapacityPerAvailabilityZone: Swift.Int?
+        /// The date and time when a future-dated reservation starts, in Universal Coordinated Time (UTC). Amazon RDS doesn't return this value for a reservation that started immediately.
+        public var startDate: Foundation.Date?
+        /// The current state of the DB capacity reservation. A DB instance can use the reservation in the active state only. Valid Values:
+        ///
+        /// * active - Amazon RDS holds the reserved capacity, and a DB instance can use it.
+        ///
+        /// * pending - The reservation isn't ready to use yet. Amazon RDS is creating the reserved capacity, or it is applying a requested modification.
+        ///
+        /// * assessing - Amazon RDS is evaluating the request for a future-dated reservation.
+        ///
+        /// * scheduled - Amazon RDS accepted a future-dated reservation, and the reservation is waiting for its start date.
+        ///
+        /// * delayed - Amazon RDS couldn't provide the reserved capacity of a future-dated reservation by its start date.
+        ///
+        /// * unsupported - Amazon RDS can't fulfill the future-dated reservation as requested.
+        ///
+        /// * expired - The reservation passed its end date. Amazon RDS releases the reserved capacity.
+        ///
+        /// * cancelled - You cancelled the reservation, and Amazon RDS released the reserved capacity.
+        ///
+        /// * failed - Amazon RDS couldn't reserve the capacity.
+        ///
+        ///
+        /// The values assessing, scheduled, delayed, and unsupported apply to a future-dated reservation only.
+        public var state: RDSClientTypes.DBCapacityReservationState?
+        /// The tags associated with the DB capacity reservation.
+        public var tagList: [RDSClientTypes.Tag]?
+
+        public init(
+            availableCapacityPerAvailabilityZoneList: [RDSClientTypes.AvailableCapacityPerAvailabilityZone]? = nil,
+            commitmentInfo: RDSClientTypes.DBCapacityReservationCommitmentInfo? = nil,
+            createDate: Foundation.Date? = nil,
+            dbCapacityReservationArn: Swift.String? = nil,
+            dbCapacityReservationIdentifier: Swift.String? = nil,
+            dbCapacityReservationName: Swift.String? = nil,
+            dbInstanceClass: Swift.String? = nil,
+            endDate: Foundation.Date? = nil,
+            engine: Swift.String? = nil,
+            licenseModel: Swift.String? = nil,
+            reservedCapacityPerAvailabilityZone: Swift.Int? = nil,
+            startDate: Foundation.Date? = nil,
+            state: RDSClientTypes.DBCapacityReservationState? = nil,
+            tagList: [RDSClientTypes.Tag]? = nil
+        ) {
+            self.availableCapacityPerAvailabilityZoneList = availableCapacityPerAvailabilityZoneList
+            self.commitmentInfo = commitmentInfo
+            self.createDate = createDate
+            self.dbCapacityReservationArn = dbCapacityReservationArn
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+            self.dbCapacityReservationName = dbCapacityReservationName
+            self.dbInstanceClass = dbInstanceClass
+            self.endDate = endDate
+            self.engine = engine
+            self.licenseModel = licenseModel
+            self.reservedCapacityPerAvailabilityZone = reservedCapacityPerAvailabilityZone
+            self.startDate = startDate
+            self.state = state
+            self.tagList = tagList
+        }
+    }
+}
+
+public struct CancelDBCapacityReservationOutput: Swift.Sendable {
+    /// Contains the details of the canceled DB capacity reservation.
+    public var dbCapacityReservation: RDSClientTypes.DBCapacityReservation?
+
+    public init(
+        dbCapacityReservation: RDSClientTypes.DBCapacityReservation? = nil
+    ) {
+        self.dbCapacityReservation = dbCapacityReservation
+    }
+}
+
 /// The export task doesn't exist.
 public struct ExportTaskNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2008,7 +2288,7 @@ extension RDSClientTypes {
         ///
         /// * creating
         public var status: Swift.String?
-        /// Indicates whether the DB cluster snapshot is encrypted.
+        /// Specifies whether the DB cluster snapshot is encrypted with an Amazon Web Services managed key or a customer managed key. If the DB cluster snapshot is encrypted with an Amazon Web Services owned key, this value is false and StorageEncryptionType is sse-rds. In that case, the data at rest is still encrypted. To determine how the data at rest is protected, use StorageEncryptionType.
         public var storageEncrypted: Swift.Bool?
         /// The type of encryption used to protect data at rest in the DB cluster snapshot. Possible values:
         ///
@@ -3812,6 +4092,203 @@ public struct CreateCustomDBEngineVersionOutput: Swift.Sendable {
     }
 }
 
+/// You already have a DB capacity reservation with the given name. Choose a different name for the new reservation, or use the existing reservation.
+public struct DBCapacityReservationAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBCapacityReservationAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified configuration isn't supported for DB capacity reservations.
+public struct DBCapacityReservationUnsupportedFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBCapacityReservationUnsupported" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The specified DB instance class isn't available in the specified Availability Zone.
+public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientDBInstanceCapacity" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct CreateDBCapacityReservationInput: Swift.Sendable {
+    /// A list of Availability Zones for the reservation. You can't change the Availability Zones of a reservation after you create it. Reserved capacity in an Availability Zone that no DB instance uses stays unused. Constraints:
+    ///
+    /// * Must specify one or more Availability Zones.
+    ///
+    /// * Each Availability Zone can appear only once.
+    ///
+    /// * Each Availability Zone must be in the Amazon Web Services Region of the request.
+    ///
+    /// * Each Availability Zone must have capacity for the requested DB instance class.
+    ///
+    /// * Must include two or more Availability Zones to use the reservation for a Multi-AZ DB instance.
+    ///
+    /// * A DB instance can use reserved capacity only in an Availability Zone that its DB subnet group covers.
+    ///
+    ///
+    /// Example: us-east-1a
+    /// This member is required.
+    public var availabilityZones: [Swift.String]?
+    /// The number of DB instances to reserve in each Availability Zone that you list in AvailabilityZones. Amazon RDS reserves this number of DB instances in every listed Availability Zone. A Single-AZ DB instance uses one unit of reserved capacity, in one Availability Zone. A Multi-AZ DB instance is one DB instance, and it uses one unit of reserved capacity in each of two Availability Zones. Therefore, a Multi-AZ DB instance uses two units in total. A read replica uses one unit of reserved capacity, in the same way as any other DB instance. Amazon RDS reserves capacity in each Availability Zone separately. Reserved capacity in one Availability Zone can't serve a DB instance in another Availability Zone. A request for a DB instance fails when the Availability Zone of the DB instance has no available capacity. Therefore, set this value to the number of DB instances that you want to run at the same time in one Availability Zone. Don't set it to the number that you want in total. This value multiplied by the number of Availability Zones counts against the DB instances quota for your Amazon Web Services account in the Amazon Web Services Region. Your existing DB instances, and the unused capacity of your other reservations, count against the same quota. To find the value of the DB instances quota, see [Quotas and constraints for Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Minimum 1.
+    /// This member is required.
+    public var capacityPerAvailabilityZone: Swift.Int?
+    /// The length of the capacity commitment that you request for a future-dated reservation, in seconds. Amazon RDS measures this length from StartDate. Amazon RDS can grant a shorter capacity commitment than you request. Therefore, read CommitmentEndDate in CommitmentInfo for the commitment that Amazon RDS granted. The commitment doesn't end the reservation. Specify EndDate to set an expiration date. You can't cancel a reservation in the active state during the commitment. Constraints:
+    ///
+    /// * Minimum 1209600, which is 14 days. For a db.x DB instance class, such as db.x2g.xlarge, the minimum is 7257600, which is 84 days.
+    ///
+    /// * Must be less than 315576000, which is 10 years.
+    ///
+    /// * You must also specify StartDate.
+    ///
+    ///
+    /// Example: 2592000
+    public var commitmentDuration: Swift.Int?
+    /// The name of the DB capacity reservation. This name must be unique for your Amazon Web Services account in the Amazon Web Services Region. Constraints:
+    ///
+    /// * Must contain from 1 to 63 lowercase letters, digits, or hyphens.
+    ///
+    /// * First character must be a lowercase letter.
+    ///
+    /// * Can't end with a hyphen or contain two consecutive hyphens.
+    ///
+    /// * Can't contain more than 16 groups of characters separated by hyphens.
+    ///
+    /// * Can't begin with dbcr-.
+    /// This member is required.
+    public var dbCapacityReservationName: Swift.String?
+    /// The compute and memory capacity to reserve, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Must be a DB instance class that the specified Engine supports.
+    ///
+    /// * For RDS for Oracle with LicenseModel set to license-included, some DB instance classes aren't supported. Either choose a supported DB instance class, or set LicenseModel to bring-your-own-license.
+    /// This member is required.
+    public var dbInstanceClass: Swift.String?
+    /// The date and time when the reservation expires, in Universal Coordinated Time (UTC). If you don't specify a value, the reservation doesn't expire. To change the expiration of an existing reservation, use ModifyDBCapacityReservation. That operation takes EndDateType along with EndDate. Constraints:
+    ///
+    /// * Must be a date and time in the future.
+    ///
+    /// * For a future-dated reservation, must be at or after StartDate plus CommitmentDuration. For example, a reservation that starts on 2026-12-01 with a 30-day commitment can't expire before 2026-12-31. To reserve capacity for one calendar month, set CommitmentDuration to 30 days or fewer, not to the length of the month.
+    ///
+    ///
+    /// Example: 2026-12-31T23:59:59Z
+    public var endDate: Foundation.Date?
+    /// The database engine to reserve capacity for. Valid Values: aurora-mysql | aurora-postgresql | mysql | postgres | mariadb | oracle-ee | oracle-ee-cdb | oracle-se2 | oracle-se2-cdb | sqlserver-ee | sqlserver-se | sqlserver-web | sqlserver-ex | sqlserver-dev-ee | sqlserver-dev-se | db2-ae | db2-ce | db2-se The Developer Edition engines sqlserver-dev-ee and sqlserver-dev-se support no Multi-AZ DB instance and no read replica. Therefore, a reservation for either engine serves Single-AZ DB instances only.
+    /// This member is required.
+    public var engine: Swift.String?
+    /// The license model to reserve capacity for. Specify this parameter only for RDS for Microsoft SQL Server Enterprise Edition, Standard Edition, and Developer Edition, for RDS for Oracle, or for RDS for Db2 Standard Edition and Advanced Edition. Amazon RDS rejects the request for any other engine. This includes Amazon Aurora, the Web and Express editions of RDS for Microsoft SQL Server, and RDS for Db2 Community Edition. Valid Values:
+    ///
+    /// * RDS for Microsoft SQL Server Enterprise Edition and Standard Edition - license-included | bring-your-own-media
+    ///
+    /// * RDS for Microsoft SQL Server Developer Edition - bring-your-own-license
+    ///
+    /// * RDS for Oracle - bring-your-own-license | license-included
+    ///
+    /// * RDS for Db2 Standard Edition and Advanced Edition - bring-your-own-license | marketplace-license
+    ///
+    ///
+    /// A DB instance launches into the reservation only when the license model of the DB instance matches the license model of the reservation. For a reservation that holds no license model, Amazon RDS applies no license model check at launch. For RDS for Microsoft SQL Server Enterprise Edition and Standard Edition, if you don't specify a value, Amazon RDS uses license-included. For RDS for Microsoft SQL Server Developer Edition, if you don't specify a value, Amazon RDS uses bring-your-own-license. That is the only license model that these engines accept, and Amazon RDS rejects any other value. For RDS for Oracle, if you don't specify a value, Amazon RDS uses the only orderable license model for the DB instance class. If more than one license model is orderable, you must specify one. For RDS for Db2 Standard Edition and Advanced Edition, if you don't specify a value, Amazon RDS uses bring-your-own-license. To reserve capacity for Db2 DB instances that you license through Amazon Web Services Marketplace, specify marketplace-license. For RDS for Oracle, the license models that you can reserve depend on the engine and the DB instance class. RDS for Oracle Enterprise Edition doesn't support license-included.
+    public var licenseModel: Swift.String?
+    /// The date and time when the reservation starts, in Universal Coordinated Time (UTC). Specify this parameter to create a future-dated reservation. If you don't specify a value, the reservation starts immediately. A reservation that starts later always carries a capacity commitment. Therefore, a request that specifies StartDate must also meet every constraint of a future-dated reservation, including the minimum reserved capacity in each Availability Zone. Constraints:
+    ///
+    /// * Must be from 5 to 120 days in the future.
+    ///
+    /// * You must also specify CommitmentDuration.
+    ///
+    ///
+    /// Example: 2026-12-01T00:00:00Z
+    public var startDate: Foundation.Date?
+    /// Tags to assign to the DB capacity reservation.
+    public var tags: [RDSClientTypes.Tag]?
+
+    public init(
+        availabilityZones: [Swift.String]? = nil,
+        capacityPerAvailabilityZone: Swift.Int? = nil,
+        commitmentDuration: Swift.Int? = nil,
+        dbCapacityReservationName: Swift.String? = nil,
+        dbInstanceClass: Swift.String? = nil,
+        endDate: Foundation.Date? = nil,
+        engine: Swift.String? = nil,
+        licenseModel: Swift.String? = nil,
+        startDate: Foundation.Date? = nil,
+        tags: [RDSClientTypes.Tag]? = nil
+    ) {
+        self.availabilityZones = availabilityZones
+        self.capacityPerAvailabilityZone = capacityPerAvailabilityZone
+        self.commitmentDuration = commitmentDuration
+        self.dbCapacityReservationName = dbCapacityReservationName
+        self.dbInstanceClass = dbInstanceClass
+        self.endDate = endDate
+        self.engine = engine
+        self.licenseModel = licenseModel
+        self.startDate = startDate
+        self.tags = tags
+    }
+}
+
+public struct CreateDBCapacityReservationOutput: Swift.Sendable {
+    /// Contains the details of the newly created DB capacity reservation.
+    public var dbCapacityReservation: RDSClientTypes.DBCapacityReservation?
+
+    public init(
+        dbCapacityReservation: RDSClientTypes.DBCapacityReservation? = nil
+    ) {
+        self.dbCapacityReservation = dbCapacityReservation
+    }
+}
+
 /// The user already has a DB cluster with the given identifier.
 public struct DBClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3913,29 +4390,6 @@ public struct GlobalClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientR
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "GlobalClusterNotFoundFault" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The specified DB instance class isn't available in the specified Availability Zone.
-public struct InsufficientDBInstanceCapacityFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InsufficientDBInstanceCapacity" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -5479,7 +5933,7 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Reserved for future use.
         public var statusInfos: [RDSClientTypes.DBClusterStatusInfo]?
-        /// Indicates whether the DB cluster is encrypted.
+        /// Specifies whether the DB cluster is encrypted with an Amazon Web Services managed key or a customer managed key. If the DB cluster is encrypted with an Amazon Web Services owned key, this value is false and StorageEncryptionType is sse-rds. In that case, the data at rest is still encrypted. To determine how the data at rest is protected, use StorageEncryptionType.
         public var storageEncrypted: Swift.Bool?
         /// The type of encryption used to protect data at rest in the DB cluster. Possible values:
         ///
@@ -6210,6 +6664,24 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var customIamInstanceProfile: Swift.String?
     /// The mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
+    /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:
+    ///
+    /// * The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.
+    ///
+    /// * If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.
+    ///
+    /// * The reservation must be in the active state, and it must not be past its end date.
+    ///
+    /// * If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.
+    ///
+    /// * For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.
+    ///
+    /// * The reservation must have available capacity in each Availability Zone that the DB instance uses.
+    ///
+    /// * The DB subnet group must be in a VPC with default tenancy.
+    ///
+    /// * The DB subnet group must cover each Availability Zone that the DB instance uses.
+    public var dbCapacityReservationIdentifier: Swift.String?
     /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
     public var dbClusterIdentifier: Swift.String?
     /// The compute and memory capacity of the DB instance, for example db.m5.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide.
@@ -6628,6 +7100,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
         databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: Swift.String? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -6696,6 +7169,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
         self.databaseInsightsMode = databaseInsightsMode
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -6757,7 +7231,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
 
 extension CreateDBInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "CreateDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), characterSetName: \(Swift.String(describing: characterSetName)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbCapacityReservationIdentifier: \(Swift.String(describing: dbCapacityReservationIdentifier)), dbClusterIdentifier: \(Swift.String(describing: dbClusterIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dbSystemId: \(Swift.String(describing: dbSystemId)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), ncharCharacterSetName: \(Swift.String(describing: ncharCharacterSetName)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), timezone: \(Swift.String(describing: timezone)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -7042,6 +7516,8 @@ extension RDSClientTypes {
         public var backupRetentionPeriod: Swift.Int?
         /// The identifier of the CA certificate for the DB instance. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
         public var caCertificateIdentifier: Swift.String?
+        /// The identifier of the DB capacity reservation that the DB instance uses after a pending modification completes. Amazon RDS returns this value when a ModifyDBInstance request changes the DB capacity reservation, and the change hasn't been applied yet.
+        public var dbCapacityReservationIdentifier: Swift.String?
         /// The name of the compute and memory capacity class for the DB instance.
         public var dbInstanceClass: Swift.String?
         /// The database identifier for the DB instance.
@@ -7085,6 +7561,7 @@ extension RDSClientTypes {
             automationMode: RDSClientTypes.AutomationMode? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
             caCertificateIdentifier: Swift.String? = nil,
+            dbCapacityReservationIdentifier: Swift.String? = nil,
             dbInstanceClass: Swift.String? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSubnetGroupName: Swift.String? = nil,
@@ -7109,6 +7586,7 @@ extension RDSClientTypes {
             self.automationMode = automationMode
             self.backupRetentionPeriod = backupRetentionPeriod
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbInstanceClass = dbInstanceClass
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSubnetGroupName = dbSubnetGroupName
@@ -7133,7 +7611,7 @@ extension RDSClientTypes {
 
 extension RDSClientTypes.PendingModifiedValues: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PendingModifiedValues(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), automationMode: \(Swift.String(describing: automationMode)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iamDatabaseAuthenticationEnabled: \(Swift.String(describing: iamDatabaseAuthenticationEnabled)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), pendingCloudwatchLogsExports: \(Swift.String(describing: pendingCloudwatchLogsExports)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), resumeFullAutomationModeTime: \(Swift.String(describing: resumeFullAutomationModeTime)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "PendingModifiedValues(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), automationMode: \(Swift.String(describing: automationMode)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), dbCapacityReservationIdentifier: \(Swift.String(describing: dbCapacityReservationIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), engine: \(Swift.String(describing: engine)), engineVersion: \(Swift.String(describing: engineVersion)), iamDatabaseAuthenticationEnabled: \(Swift.String(describing: iamDatabaseAuthenticationEnabled)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), pendingCloudwatchLogsExports: \(Swift.String(describing: pendingCloudwatchLogsExports)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), resumeFullAutomationModeTime: \(Swift.String(describing: resumeFullAutomationModeTime)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension RDSClientTypes {
@@ -7222,6 +7700,8 @@ extension RDSClientTypes {
         public var customerOwnedIpEnabled: Swift.Bool?
         /// The mode of Database Insights that is enabled for the instance.
         public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
+        /// The identifier of the DB capacity reservation associated with this DB instance. Amazon RDS doesn't return this value if the DB instance doesn't use a DB capacity reservation.
+        public var dbCapacityReservationIdentifier: Swift.String?
         /// If the DB instance is a member of a DB cluster, indicates the name of the DB cluster that the DB instance is a member of.
         public var dbClusterIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB instance.
@@ -7412,6 +7892,7 @@ extension RDSClientTypes {
             customIamInstanceProfile: Swift.String? = nil,
             customerOwnedIpEnabled: Swift.Bool? = nil,
             databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
+            dbCapacityReservationIdentifier: Swift.String? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
             dbInstanceAutomatedBackupsReplications: [RDSClientTypes.DBInstanceAutomatedBackupsReplication]? = nil,
@@ -7506,6 +7987,7 @@ extension RDSClientTypes {
             self.customIamInstanceProfile = customIamInstanceProfile
             self.customerOwnedIpEnabled = customerOwnedIpEnabled
             self.databaseInsightsMode = databaseInsightsMode
+            self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceAutomatedBackupsReplications = dbInstanceAutomatedBackupsReplications
@@ -7647,6 +8129,24 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var customIamInstanceProfile: Swift.String?
     /// The mode of Database Insights to enable for the read replica. This setting isn't supported.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
+    /// The identifier or the name of the DB capacity reservation to associate with this read replica. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the read replica uses reserved capacity from the specified reservation. A read replica uses one unit of reserved capacity, in the same way as any other DB instance. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:
+    ///
+    /// * The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.
+    ///
+    /// * If the reservation reserves capacity for a specific license model, the license model of the source DB instance must match it. A read replica inherits its license model from the source DB instance.
+    ///
+    /// * The reservation must be in the active state, and it must not be past its end date.
+    ///
+    /// * If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.
+    ///
+    /// * For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.
+    ///
+    /// * The reservation must have available capacity in each Availability Zone that the DB instance uses.
+    ///
+    /// * The DB subnet group must be in a VPC with default tenancy.
+    ///
+    /// * The DB subnet group must cover each Availability Zone that the DB instance uses.
+    public var dbCapacityReservationIdentifier: Swift.String?
     /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
     public var dbInstanceClass: Swift.String?
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
@@ -7721,7 +8221,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var enablePerformanceInsights: Swift.Bool?
     /// The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance.
     public var iops: Swift.Int?
-    /// The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you create an encrypted read replica in the same Amazon Web Services Region as the source DB instance or Multi-AZ DB cluster, don't specify a value for this parameter. A read replica in the same Amazon Web Services Region is always encrypted with the same KMS key as the source DB instance or cluster. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance or Multi-AZ DB cluster. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
+    /// The Amazon Web Services KMS key identifier for an encrypted read replica. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. For a read replica in the same Amazon Web Services Region as the source DB instance or Multi-AZ DB cluster, specifying this parameter is optional. If you specify a KMS key identifier, the read replica is encrypted with that KMS key, which can be different from the KMS key of the source. If you don't specify a value for this parameter, the read replica is encrypted with the same KMS key as the source DB instance or Multi-AZ DB cluster. If you create an encrypted read replica in a different Amazon Web Services Region, then you must specify a KMS key identifier for the destination Amazon Web Services Region. KMS keys are specific to the Amazon Web Services Region that they are created in, and you can't use KMS keys from one Amazon Web Services Region in another Amazon Web Services Region. You can't create an encrypted read replica from an unencrypted DB instance or Multi-AZ DB cluster. This setting doesn't apply to RDS Custom, which uses the same KMS key as the primary replica.
     public var kmsKeyId: Swift.String?
     /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see [ Managing capacity automatically with Amazon RDS storage autoscaling](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.Autoscaling) in the Amazon RDS User Guide.
     public var maxAllocatedStorage: Swift.Int?
@@ -7836,6 +8336,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
         databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
@@ -7886,6 +8387,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
         self.databaseInsightsMode = databaseInsightsMode
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbParameterGroupName = dbParameterGroupName
@@ -7931,7 +8433,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
 
 extension CreateDBInstanceReadReplicaInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDBInstanceReadReplicaInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), sourceDBClusterIdentifier: \(Swift.String(describing: sourceDBClusterIdentifier)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), upgradeStorageConfig: \(Swift.String(describing: upgradeStorageConfig)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), preSignedUrl: \"CONTENT_REDACTED\")"}
+        "CreateDBInstanceReadReplicaInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbCapacityReservationIdentifier: \(Swift.String(describing: dbCapacityReservationIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), sourceDBClusterIdentifier: \(Swift.String(describing: sourceDBClusterIdentifier)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), upgradeStorageConfig: \(Swift.String(describing: upgradeStorageConfig)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), preSignedUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateDBInstanceReadReplicaOutput: Swift.Sendable {
@@ -11924,6 +12426,8 @@ extension RDSClientTypes {
 
     /// A filter name and value pair that is used to return a more specific list of results from a describe operation. Filters can be used to match a set of resources by specific criteria, such as IDs. The filters supported by a describe operation are documented with the describe operation. Currently, wildcards are not supported in filters. The following actions can be filtered:
     ///
+    /// * DescribeDBCapacityReservations
+    ///
     /// * DescribeDBClusterBacktracks
     ///
     /// * DescribeDBClusterEndpoints
@@ -12092,6 +12596,61 @@ public struct DescribeCertificatesOutput: Swift.Sendable {
     ) {
         self.certificates = certificates
         self.defaultCertificateForNewLaunches = defaultCertificateForNewLaunches
+        self.marker = marker
+    }
+}
+
+public struct DescribeDBCapacityReservationsInput: Swift.Sendable {
+    /// The identifier or the name of the DB capacity reservation to describe. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+    public var dbCapacityReservationIdentifier: Swift.String?
+    /// A filter that specifies which DB capacity reservations to describe. Supported filters:
+    ///
+    /// * db-capacity-reservation-name - Accepts DB capacity reservation names. The response includes only the reservations that these names identify. Use this filter to describe several reservations by name in one request.
+    ///
+    /// * state - Accepts reservation states. The response includes only the reservations in these states.
+    ///
+    /// * engine - Accepts database engine names. The response includes only the reservations that reserve capacity for these engines.
+    ///
+    /// * db-instance-class - Accepts DB instance classes. The response includes only the reservations that reserve capacity for these DB instance classes.
+    ///
+    /// * availability-zone - Accepts Availability Zone names. The response includes only the reservations that cover these Availability Zones.
+    ///
+    ///
+    /// When you specify more than one value for a filter, the response includes the reservations that match any of those values. When you specify more than one filter, the response includes only the reservations that match every filter. Amazon RDS rejects the request when a filter name isn't in this list, or when a filter specifies no values. The state filter doesn't accept expired. To find an expired reservation, compare EndDate against the current date and time.
+    public var filters: [RDSClientTypes.Filter]?
+    /// An optional pagination token provided by a previous DescribeDBCapacityReservations request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints:
+    ///
+    /// * Must be a minimum of 20.
+    ///
+    /// * Can't exceed 100.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        dbCapacityReservationIdentifier: Swift.String? = nil,
+        filters: [RDSClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    ) {
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+public struct DescribeDBCapacityReservationsOutput: Swift.Sendable {
+    /// A list of DB capacity reservations.
+    public var dbCapacityReservations: [RDSClientTypes.DBCapacityReservation]?
+    /// A pagination token that you can use in a later DescribeDBCapacityReservations request. If this value is returned, more records are available beyond this response.
+    public var marker: Swift.String?
+
+    public init(
+        dbCapacityReservations: [RDSClientTypes.DBCapacityReservation]? = nil,
+        marker: Swift.String? = nil
+    ) {
+        self.dbCapacityReservations = dbCapacityReservations
         self.marker = marker
     }
 }
@@ -17844,6 +18403,84 @@ public struct ModifyCustomDBEngineVersionOutput: Swift.Sendable {
     }
 }
 
+extension RDSClientTypes {
+
+    public enum EndDateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case limited
+        case unlimited
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndDateType] {
+            return [
+                .limited,
+                .unlimited
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .limited: return "limited"
+            case .unlimited: return "unlimited"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ModifyDBCapacityReservationInput: Swift.Sendable {
+    /// The new number of DB instances to reserve in each Availability Zone of the reservation. Amazon RDS applies this number to every Availability Zone of the reservation. An increase reserves more capacity at the time of the request, so it can fail when the Amazon Web Services Region has insufficient capacity. This value multiplied by the number of Availability Zones counts against the DB instances quota for your Amazon Web Services account in the Amazon Web Services Region. Amazon RDS checks the quota only when you increase the value. Constraints:
+    ///
+    /// * Minimum 1.
+    ///
+    /// * Can't be less than the highest number of DB instances that use the reservation in any single Availability Zone of the reservation. That number includes a DB instance that holds a unit of reserved capacity for a pending modification. To find that number for an Availability Zone, subtract AvailableCapacity from ReservedCapacityPerAvailabilityZone.
+    ///
+    /// * During a capacity commitment, can't be less than CommittedCapacityPerAvailabilityZone.
+    public var capacityPerAvailabilityZone: Swift.Int?
+    /// The identifier or the name of the DB capacity reservation to modify. You can specify the identifier, which has the prefix dbcr-, or the reservation name.
+    /// This member is required.
+    public var dbCapacityReservationIdentifier: Swift.String?
+    /// The new end date for the reservation, in Universal Coordinated Time (UTC). Required when EndDateType is limited. Don't specify a value when EndDateType is unlimited. When you specify EndDate, you must also specify EndDateType. Constraints:
+    ///
+    /// * Must be a date and time in the future.
+    ///
+    /// * During a capacity commitment, must be at or after CommitmentEndDate.
+    public var endDate: Foundation.Date?
+    /// The end date type for the reservation. Valid Values:
+    ///
+    /// * limited - The reservation has a specific end date. You must also specify EndDate.
+    ///
+    /// * unlimited - The reservation doesn't expire. Don't specify EndDate.
+    public var endDateType: RDSClientTypes.EndDateType?
+
+    public init(
+        capacityPerAvailabilityZone: Swift.Int? = nil,
+        dbCapacityReservationIdentifier: Swift.String? = nil,
+        endDate: Foundation.Date? = nil,
+        endDateType: RDSClientTypes.EndDateType? = nil
+    ) {
+        self.capacityPerAvailabilityZone = capacityPerAvailabilityZone
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
+        self.endDate = endDate
+        self.endDateType = endDateType
+    }
+}
+
+public struct ModifyDBCapacityReservationOutput: Swift.Sendable {
+    /// Contains the details of the modified DB capacity reservation.
+    public var dbCapacityReservation: RDSClientTypes.DBCapacityReservation?
+
+    public init(
+        dbCapacityReservation: RDSClientTypes.DBCapacityReservation? = nil
+    ) {
+        self.dbCapacityReservation = dbCapacityReservation
+    }
+}
+
 /// The aurora-iopt1 storage type isn't available, because you modified the DB cluster to use this storage type less than one month ago.
 public struct StorageTypeNotAvailableFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -18530,6 +19167,48 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var copyTagsToSnapshot: Swift.Bool?
     /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
+    /// The identifier or the name of the DB capacity reservation for the DB instance to use. You can specify the identifier, which has the prefix dbcr-, or the reservation name. After the modification completes, the DB instance uses reserved capacity from this reservation. You can't change the DB capacity reservation of a DB instance on its own. A request that changes the reservation must also change the DB instance class, the Multi-AZ setting, the license model, or the engine. Therefore, this request always changes the configuration of the DB instance. If the DB instance already uses the reservation that you specify, this requirement doesn't apply. You can then change another setting, such as the Multi-AZ setting, and keep the reservation. For a DB instance that uses no reservation, change DBInstanceClass to the DB instance class that the reservation reserves. A reservation reserves capacity for one DB instance class, so that change moves the DB instance onto the reserved capacity. That change also resizes the DB instance, which interrupts it. If the DB instance already runs the DB instance class that the reservation reserves, change MultiAZ or LicenseModel instead. Only RDS for Oracle and RDS for Microsoft SQL Server accept a change of license model, so MultiAZ is the remaining choice for every other engine. If you don't specify this parameter, Amazon RDS moves the DB instance to unreserved capacity, and it releases the reserved capacity that the DB instance holds. A request that changes the DB instance class, the Multi-AZ setting, the license model, or the engine moves the DB instance to different hardware, and Amazon RDS places the DB instance on unreserved capacity. Therefore, to keep the DB instance on reserved capacity, specify this parameter in every request that changes any of those settings. The DB instance keeps its current reservation until Amazon RDS applies the modification. Until then, the DBCapacityReservationIdentifier field of the DB instance still reports that reservation, and PendingModifiedValues reports no reservation. Amazon RDS releases the reserved capacity when it moves the DB instance. Constraints:
+    ///
+    /// * If the request changes which DB capacity reservation the DB instance uses, it must also set a new value for DBInstanceClass, MultiAZ, LicenseModel, or Engine. The new value must differ from the current value. The only engine change that ModifyDBInstance supports is a conversion to the CDB architecture. Repeating the current value doesn't satisfy this requirement. This requirement applies both when the DB instance uses no reservation, and when it moves to a different reservation.
+    ///
+    /// * The reservation must reserve capacity for the DB instance class that the DB instance uses after the modification, and for the database engine of the DB instance. Therefore, when the request changes DBInstanceClass, the reservation reserves capacity for a DB instance class that the DB instance doesn't use today.
+    ///
+    /// * The reservation must be in the active state, and it must not be past its end date.
+    ///
+    /// * The reservation must have available capacity in each Availability Zone that the DB instance uses after the modification.
+    ///
+    /// * The reservation must cover the Availability Zone of the DB instance, except when the request changes the DB instance from Multi-AZ to Single-AZ.
+    ///
+    /// * For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones.
+    ///
+    /// * If the DB instance is already Multi-AZ, the reservation must cover both of its Availability Zones. If the request converts the DB instance to Multi-AZ, the reservation must cover the current Availability Zone of the DB instance, and Amazon RDS chooses the second Availability Zone from the reservation.
+    ///
+    /// * If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it. Amazon RDS checks the license model only when the request specifies LicenseModel.
+    ///
+    /// * You can't specify this parameter together with a change to DBSubnetGroupName.
+    ///
+    /// * You can't specify this parameter together with a change to both DBInstanceClass and LicenseModel. Submit those changes as two separate requests.
+    ///
+    /// * Can't be specified together with a change to DBInstanceClass when the request also changes the DB instance from Multi-AZ to Single-AZ.
+    ///
+    /// * When the request changes the DB instance from Multi-AZ to Single-AZ, the reservation must cover either the primary or the secondary Availability Zone of the DB instance. Amazon RDS keeps the DB instance in its primary Availability Zone, and it removes the standby replica. Therefore, the primary Availability Zone keeps its unit of reserved capacity, and the secondary Availability Zone releases its unit.
+    ///
+    /// * Can't be specified together with LicenseModel while a modification of the DB instance class or the Multi-AZ setting is pending.
+    ///
+    /// * Can't be specified together with DBInstanceClass or MultiAZ while a modification of the license model is pending.
+    ///
+    /// * When a modification is already pending, the reservation must reserve capacity for the DB instance as it will be after both the pending modification and the requested modification complete.
+    ///
+    /// * The DB subnet group must be in a VPC with default tenancy.
+    ///
+    /// * The DB subnet group must cover each Availability Zone that the DB instance uses.
+    ///
+    /// * Isn't supported for an RDS on Outposts DB instance.
+    ///
+    /// * If the reservation expires within one week, you must also enable ApplyImmediately. Otherwise, choose a reservation with a later end date.
+    ///
+    /// * Amazon RDS holds a unit of reserved capacity for the DB instance when it accepts the request, even when the modification waits for the maintenance window.
+    public var dbCapacityReservationIdentifier: Swift.String?
     /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide or [Aurora DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.DBInstanceClass.html) in the Amazon Aurora User Guide. For RDS Custom, see [DB instance class support for RDS Custom for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits.html#custom-reqs-limits.instances) and [ DB instance class support for RDS Custom for SQL Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.html#custom-reqs-limits.instancesMS). If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request. Default: Uses existing setting Constraints:
     ///
     /// * If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version, and then run it again to modify the DB instance class.
@@ -18834,6 +19513,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
@@ -18900,6 +19580,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.databaseInsightsMode = databaseInsightsMode
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbParameterGroupName = dbParameterGroupName
@@ -18957,7 +19638,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
 
 extension ModifyDBInstanceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ModifyDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), automationMode: \(Swift.String(describing: automationMode)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), certificateRotationRestart: \(Swift.String(describing: certificateRotationRestart)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), disableDomain: \(Swift.String(describing: disableDomain)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), networkType: \(Swift.String(describing: networkType)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), resumeFullAutomationModeMinutes: \(Swift.String(describing: resumeFullAutomationModeMinutes)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "ModifyDBInstanceInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), allowMajorVersionUpgrade: \(Swift.String(describing: allowMajorVersionUpgrade)), applyImmediately: \(Swift.String(describing: applyImmediately)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), automationMode: \(Swift.String(describing: automationMode)), awsBackupRecoveryPointArn: \(Swift.String(describing: awsBackupRecoveryPointArn)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), certificateRotationRestart: \(Swift.String(describing: certificateRotationRestart)), cloudwatchLogsExportConfiguration: \(Swift.String(describing: cloudwatchLogsExportConfiguration)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbCapacityReservationIdentifier: \(Swift.String(describing: dbCapacityReservationIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbPortNumber: \(Swift.String(describing: dbPortNumber)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), disableDomain: \(Swift.String(describing: disableDomain)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserAuthenticationType: \(Swift.String(describing: masterUserAuthenticationType)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), multiTenant: \(Swift.String(describing: multiTenant)), networkType: \(Swift.String(describing: networkType)), newDBInstanceIdentifier: \(Swift.String(describing: newDBInstanceIdentifier)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), promotionTier: \(Swift.String(describing: promotionTier)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), replicaMode: \(Swift.String(describing: replicaMode)), resumeFullAutomationModeMinutes: \(Swift.String(describing: resumeFullAutomationModeMinutes)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\", tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct ModifyDBInstanceOutput: Swift.Sendable {
@@ -21306,6 +21987,24 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom.
     public var customIamInstanceProfile: Swift.String?
+    /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:
+    ///
+    /// * The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.
+    ///
+    /// * If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.
+    ///
+    /// * The reservation must be in the active state, and it must not be past its end date.
+    ///
+    /// * If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.
+    ///
+    /// * For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.
+    ///
+    /// * The reservation must have available capacity in each Availability Zone that the DB instance uses.
+    ///
+    /// * The DB subnet group must be in a VPC with default tenancy.
+    ///
+    /// * The DB subnet group must cover each Availability Zone that the DB instance uses.
+    public var dbCapacityReservationIdentifier: Swift.String?
     /// The identifier for the Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * Must match the identifier of an existing Multi-AZ DB cluster snapshot.
@@ -21520,6 +22219,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
+        dbCapacityReservationIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -21569,6 +22269,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -21613,7 +22314,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
 
 extension RestoreDBInstanceFromDBSnapshotInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbCapacityReservationIdentifier: \(Swift.String(describing: dbCapacityReservationIdentifier)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
@@ -21644,6 +22345,24 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
     public var copyTagsToSnapshot: Swift.Bool?
     /// Specifies the mode of Database Insights to enable for the DB instance. Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
+    /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:
+    ///
+    /// * The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.
+    ///
+    /// * If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.
+    ///
+    /// * The reservation must be in the active state, and it must not be past its end date.
+    ///
+    /// * If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.
+    ///
+    /// * For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.
+    ///
+    /// * The reservation must have available capacity in each Availability Zone that the DB instance uses.
+    ///
+    /// * The DB subnet group must be in a VPC with default tenancy.
+    ///
+    /// * The DB subnet group must cover each Availability Zone that the DB instance uses.
+    public var dbCapacityReservationIdentifier: Swift.String?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
     /// This member is required.
     public var dbInstanceClass: Swift.String?
@@ -21836,6 +22555,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode? = nil,
+        dbCapacityReservationIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
         dbName: Swift.String? = nil,
@@ -21891,6 +22611,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.databaseInsightsMode = databaseInsightsMode
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbName = dbName
@@ -21942,7 +22663,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Sendable {
 
 extension RestoreDBInstanceFromS3Input: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromS3Input(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromS3Input(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), databaseInsightsMode: \(Swift.String(describing: databaseInsightsMode)), dbCapacityReservationIdentifier: \(Swift.String(describing: dbCapacityReservationIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSecurityGroups: \(Swift.String(describing: dbSecurityGroups)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), enablePerformanceInsights: \(Swift.String(describing: enablePerformanceInsights)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), engineVersion: \(Swift.String(describing: engineVersion)), iops: \(Swift.String(describing: iops)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), masterUsername: \(Swift.String(describing: masterUsername)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), monitoringInterval: \(Swift.String(describing: monitoringInterval)), monitoringRoleArn: \(Swift.String(describing: monitoringRoleArn)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), performanceInsightsKMSKeyId: \(Swift.String(describing: performanceInsightsKMSKeyId)), performanceInsightsRetentionPeriod: \(Swift.String(describing: performanceInsightsRetentionPeriod)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), s3BucketName: \(Swift.String(describing: s3BucketName)), s3IngestionRoleArn: \(Swift.String(describing: s3IngestionRoleArn)), s3Prefix: \(Swift.String(describing: s3Prefix)), sourceEngine: \(Swift.String(describing: sourceEngine)), sourceEngineVersion: \(Swift.String(describing: sourceEngineVersion)), storageEncrypted: \(Swift.String(describing: storageEncrypted)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromS3Output: Swift.Sendable {
@@ -22028,6 +22749,24 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom.
     public var customIamInstanceProfile: Swift.String?
+    /// The identifier or the name of the DB capacity reservation to associate with this DB instance. You can specify the identifier, which has the prefix dbcr-, or the reservation name. When you specify this parameter, the DB instance uses reserved capacity from the specified reservation. If you specify AvailabilityZone, Amazon RDS places the DB instance in that Availability Zone, and the reservation must cover it. Constraints:
+    ///
+    /// * The reservation must reserve capacity for the DB instance class and the database engine of the DB instance.
+    ///
+    /// * If the reservation reserves capacity for a specific license model, the license model of the DB instance must match it.
+    ///
+    /// * The reservation must be in the active state, and it must not be past its end date.
+    ///
+    /// * If you specify AvailabilityZone, it must be one of the Availability Zones of the reservation.
+    ///
+    /// * For a Multi-AZ DB instance, the reservation must cover two or more Availability Zones. A Multi-AZ DB instance uses one unit of reserved capacity in each of two Availability Zones. If the reservation covers more than two Availability Zones, Amazon RDS chooses the two that the DB instance uses.
+    ///
+    /// * The reservation must have available capacity in each Availability Zone that the DB instance uses.
+    ///
+    /// * The DB subnet group must be in a VPC with default tenancy.
+    ///
+    /// * The DB subnet group must cover each Availability Zone that the DB instance uses.
+    public var dbCapacityReservationIdentifier: Swift.String?
     /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: The same DB instance class as the original DB instance.
     public var dbInstanceClass: Swift.String?
     /// The database name for the restored DB instance. This parameter doesn't apply to the following DB instances:
@@ -22260,6 +22999,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
+        dbCapacityReservationIdentifier: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbName: Swift.String? = nil,
         dbParameterGroupName: Swift.String? = nil,
@@ -22313,6 +23053,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
         self.dbInstanceClass = dbInstanceClass
         self.dbName = dbName
         self.dbParameterGroupName = dbParameterGroupName
@@ -22361,7 +23102,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
 
 extension RestoreDBInstanceToPointInTimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbCapacityReservationIdentifier: \(Swift.String(describing: dbCapacityReservationIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceToPointInTimeOutput: Swift.Sendable {
@@ -22500,13 +23241,23 @@ public struct StartDBClusterOutput: Swift.Sendable {
 }
 
 public struct StartDBInstanceInput: Swift.Sendable {
+    /// The identifier or the name of the DB capacity reservation for the DB instance to use after it starts. You can specify the identifier, which has the prefix dbcr-, or the reservation name. Specify this parameter when the DB instance stopped using a reservation, or when you want the DB instance to use a different reservation. If you omit this parameter, and the DB instance kept a DB capacity reservation when it stopped, Amazon RDS starts the DB instance in that reservation. If that reservation is deleted, ended, or cancelled, the DB instance still starts. Amazon RDS starts the DB instance outside the reservation, on unreserved capacity, and it charges on-demand prices for the DB instance. If that reservation has no available capacity in the Availability Zone of the DB instance, the request fails. Amazon RDS doesn't start the DB instance, and it doesn't wait for capacity in that Availability Zone. Specify a reservation that has available capacity in that Availability Zone, or retry the request after the reservation has available capacity. Constraints:
+    ///
+    /// * The reservation must be in the active state.
+    ///
+    /// * The reservation must reserve capacity for the DB instance class and the engine of the DB instance.
+    ///
+    /// * The reservation must cover the Availability Zone of the DB instance, and it must have available capacity in that Availability Zone.
+    public var dbCapacityReservationIdentifier: Swift.String?
     /// The user-supplied instance identifier.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
 
     public init(
+        dbCapacityReservationIdentifier: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil
     ) {
+        self.dbCapacityReservationIdentifier = dbCapacityReservationIdentifier
         self.dbInstanceIdentifier = dbInstanceIdentifier
     }
 }
@@ -22906,13 +23657,17 @@ public struct StopDBInstanceInput: Swift.Sendable {
     public var dbInstanceIdentifier: Swift.String?
     /// The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped.
     public var dbSnapshotIdentifier: Swift.String?
+    /// Specifies whether the DB instance stops using its DB capacity reservation when the DB instance stops. When you specify true, the DB instance belongs to no reservation after it stops, and a later start launches it outside the reservation. By default, a stopped DB instance keeps its DB capacity reservation, and a later start returns the DB instance to the same reservation. Every stop releases the unit of reserved capacity that the DB instance holds, for either value of this parameter. Another DB instance can then use that capacity. This parameter controls the reservation that the DB instance belongs to, and it does not control the release of the capacity. If the DB instance uses no DB capacity reservation, this parameter has no effect. Amazon RDS holds no capacity for a stopped DB instance. When the reservation has no available capacity in the Availability Zone of the DB instance, a later start waits for capacity in that Availability Zone. When the DB instance belongs to no reservation, a later start can fail because the Amazon Web Services Region has insufficient capacity for the DB instance class.
+    public var detachFromDBCapacityReservation: Swift.Bool?
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
-        dbSnapshotIdentifier: Swift.String? = nil
+        dbSnapshotIdentifier: Swift.String? = nil,
+        detachFromDBCapacityReservation: Swift.Bool? = nil
     ) {
         self.dbInstanceIdentifier = dbInstanceIdentifier
         self.dbSnapshotIdentifier = dbSnapshotIdentifier
+        self.detachFromDBCapacityReservation = detachFromDBCapacityReservation
     }
 }
 
@@ -23083,6 +23838,13 @@ extension BacktrackDBClusterInput {
     }
 }
 
+extension CancelDBCapacityReservationInput {
+
+    static func urlPathProvider(_ value: CancelDBCapacityReservationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CancelExportTaskInput {
 
     static func urlPathProvider(_ value: CancelExportTaskInput) -> Swift.String? {
@@ -23135,6 +23897,13 @@ extension CreateBlueGreenDeploymentInput {
 extension CreateCustomDBEngineVersionInput {
 
     static func urlPathProvider(_ value: CreateCustomDBEngineVersionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateDBCapacityReservationInput {
+
+    static func urlPathProvider(_ value: CreateDBCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23436,6 +24205,13 @@ extension DescribeBlueGreenDeploymentsInput {
 extension DescribeCertificatesInput {
 
     static func urlPathProvider(_ value: DescribeCertificatesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeDBCapacityReservationsInput {
+
+    static func urlPathProvider(_ value: DescribeDBCapacityReservationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -23814,6 +24590,13 @@ extension ModifyCurrentDBClusterCapacityInput {
 extension ModifyCustomDBEngineVersionInput {
 
     static func urlPathProvider(_ value: ModifyCustomDBEngineVersionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyDBCapacityReservationInput {
+
+    static func urlPathProvider(_ value: ModifyDBCapacityReservationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -24267,6 +25050,16 @@ extension BacktrackDBClusterInput {
     }
 }
 
+extension CancelDBCapacityReservationInput {
+
+    static func write(value: CancelDBCapacityReservationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
+        try writer["Action"].write("CancelDBCapacityReservation")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
 extension CancelExportTaskInput {
 
     static func write(value: CancelExportTaskInput?, to writer: SmithyFormURL.Writer) throws {
@@ -24394,6 +25187,25 @@ extension CreateCustomDBEngineVersionInput {
     }
 }
 
+extension CreateDBCapacityReservationInput {
+
+    static func write(value: CreateDBCapacityReservationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        try writer["CapacityPerAvailabilityZone"].write(value.capacityPerAvailabilityZone)
+        try writer["CommitmentDuration"].write(value.commitmentDuration)
+        try writer["DBCapacityReservationName"].write(value.dbCapacityReservationName)
+        try writer["DBInstanceClass"].write(value.dbInstanceClass)
+        try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Engine"].write(value.engine)
+        try writer["LicenseModel"].write(value.licenseModel)
+        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["Action"].write("CreateDBCapacityReservation")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
 extension CreateDBClusterInput {
 
     static func write(value: CreateDBClusterInput?, to writer: SmithyFormURL.Writer) throws {
@@ -24517,6 +25329,7 @@ extension CreateDBInstanceInput {
         try writer["CharacterSetName"].write(value.characterSetName)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["CustomIamInstanceProfile"].write(value.customIamInstanceProfile)
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBInstanceClass"].write(value.dbInstanceClass)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
@@ -24591,6 +25404,7 @@ extension CreateDBInstanceReadReplicaInput {
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["CustomIamInstanceProfile"].write(value.customIamInstanceProfile)
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
         try writer["DBInstanceClass"].write(value.dbInstanceClass)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
@@ -25091,6 +25905,19 @@ extension DescribeCertificatesInput {
         try writer["Marker"].write(value.marker)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["Action"].write("DescribeCertificates")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension DescribeDBCapacityReservationsInput {
+
+    static func write(value: DescribeDBCapacityReservationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: RDSClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: false)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["Action"].write("DescribeDBCapacityReservations")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -25838,6 +26665,19 @@ extension ModifyCustomDBEngineVersionInput {
     }
 }
 
+extension ModifyDBCapacityReservationInput {
+
+    static func write(value: ModifyDBCapacityReservationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityPerAvailabilityZone"].write(value.capacityPerAvailabilityZone)
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
+        try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["EndDateType"].write(value.endDateType)
+        try writer["Action"].write("ModifyDBCapacityReservation")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
 extension ModifyDBClusterInput {
 
     static func write(value: ModifyDBClusterInput?, to writer: SmithyFormURL.Writer) throws {
@@ -25948,6 +26788,7 @@ extension ModifyDBInstanceInput {
         try writer["CertificateRotationRestart"].write(value.certificateRotationRestart)
         try writer["CloudwatchLogsExportConfiguration"].write(value.cloudwatchLogsExportConfiguration, with: RDSClientTypes.CloudwatchLogsExportConfiguration.write(value:to:))
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
         try writer["DBInstanceClass"].write(value.dbInstanceClass)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
@@ -26515,6 +27356,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["CustomIamInstanceProfile"].write(value.customIamInstanceProfile)
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
         try writer["DBClusterSnapshotIdentifier"].write(value.dbClusterSnapshotIdentifier)
         try writer["DBInstanceClass"].write(value.dbInstanceClass)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
@@ -26570,6 +27412,7 @@ extension RestoreDBInstanceFromS3Input {
         try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
         try writer["DBInstanceClass"].write(value.dbInstanceClass)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["DBName"].write(value.dbName)
@@ -26635,6 +27478,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["CustomIamInstanceProfile"].write(value.customIamInstanceProfile)
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
         try writer["DBInstanceClass"].write(value.dbInstanceClass)
         try writer["DBName"].write(value.dbName)
         try writer["DBParameterGroupName"].write(value.dbParameterGroupName)
@@ -26725,6 +27569,7 @@ extension StartDBInstanceInput {
 
     static func write(value: StartDBInstanceInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["DBCapacityReservationIdentifier"].write(value.dbCapacityReservationIdentifier)
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["Action"].write("StartDBInstance")
         try writer["Version"].write("2014-10-31")
@@ -26788,6 +27633,7 @@ extension StopDBInstanceInput {
         guard let value else { return }
         try writer["DBInstanceIdentifier"].write(value.dbInstanceIdentifier)
         try writer["DBSnapshotIdentifier"].write(value.dbSnapshotIdentifier)
+        try writer["DetachFromDBCapacityReservation"].write(value.detachFromDBCapacityReservation)
         try writer["Action"].write("StopDBInstance")
         try writer["Version"].write("2014-10-31")
     }
@@ -26905,6 +27751,18 @@ extension BacktrackDBClusterOutput {
         value.backtrackedFrom = try reader["BacktrackedFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension CancelDBCapacityReservationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelDBCapacityReservationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["CancelDBCapacityReservationResult"]
+        var value = CancelDBCapacityReservationOutput()
+        value.dbCapacityReservation = try reader["DBCapacityReservation"].readIfPresent(with: RDSClientTypes.DBCapacityReservation.read(from:))
         return value
     }
 }
@@ -27052,6 +27910,18 @@ extension CreateCustomDBEngineVersionOutput {
         value.supportsReadReplica = try reader["SupportsReadReplica"].readIfPresent()
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
         value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: RDSClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
+        return value
+    }
+}
+
+extension CreateDBCapacityReservationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDBCapacityReservationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["CreateDBCapacityReservationResult"]
+        var value = CreateDBCapacityReservationOutput()
+        value.dbCapacityReservation = try reader["DBCapacityReservation"].readIfPresent(with: RDSClientTypes.DBCapacityReservation.read(from:))
         return value
     }
 }
@@ -27636,6 +28506,19 @@ extension DescribeCertificatesOutput {
         var value = DescribeCertificatesOutput()
         value.certificates = try reader["Certificates"].readListIfPresent(memberReadingClosure: RDSClientTypes.Certificate.read(from:), memberNodeInfo: "Certificate", isFlattened: false)
         value.defaultCertificateForNewLaunches = try reader["DefaultCertificateForNewLaunches"].readIfPresent()
+        value.marker = try reader["Marker"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeDBCapacityReservationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDBCapacityReservationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeDBCapacityReservationsResult"]
+        var value = DescribeDBCapacityReservationsOutput()
+        value.dbCapacityReservations = try reader["DBCapacityReservations"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBCapacityReservation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.marker = try reader["Marker"].readIfPresent()
         return value
     }
@@ -28376,6 +29259,18 @@ extension ModifyCustomDBEngineVersionOutput {
     }
 }
 
+extension ModifyDBCapacityReservationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyDBCapacityReservationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["ModifyDBCapacityReservationResult"]
+        var value = ModifyDBCapacityReservationOutput()
+        value.dbCapacityReservation = try reader["DBCapacityReservation"].readIfPresent(with: RDSClientTypes.DBCapacityReservation.read(from:))
+        return value
+    }
+}
+
 extension ModifyDBClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyDBClusterOutput {
@@ -29105,6 +30000,7 @@ enum AddTagsToResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
@@ -29166,6 +30062,21 @@ enum BacktrackDBClusterOutputError {
         switch baseError.code {
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelDBCapacityReservationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29317,6 +30228,23 @@ enum CreateCustomDBEngineVersionOutputError {
     }
 }
 
+enum CreateDBCapacityReservationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DBCapacityReservationAlreadyExists": return try DBCapacityReservationAlreadyExistsFault.makeError(baseError: baseError)
+            case "DBCapacityReservationUnsupported": return try DBCapacityReservationUnsupportedFault.makeError(baseError: baseError)
+            case "InstanceQuotaExceeded": return try InstanceQuotaExceededFault.makeError(baseError: baseError)
+            case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDBClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -29418,6 +30346,7 @@ enum CreateDBInstanceOutputError {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
             case "BackupPolicyNotFoundFault": return try BackupPolicyNotFoundFault.makeError(baseError: baseError)
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceAlreadyExists": return try DBInstanceAlreadyExistsFault.makeError(baseError: baseError)
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -29427,6 +30356,7 @@ enum CreateDBInstanceOutputError {
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
             case "InstanceQuotaExceeded": return try InstanceQuotaExceededFault.makeError(baseError: baseError)
             case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
@@ -29452,6 +30382,7 @@ enum CreateDBInstanceReadReplicaOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceAlreadyExists": return try DBInstanceAlreadyExistsFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -29463,6 +30394,7 @@ enum CreateDBInstanceReadReplicaOutputError {
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
             case "InstanceQuotaExceeded": return try InstanceQuotaExceededFault.makeError(baseError: baseError)
             case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidDBSubnetGroupFault": return try InvalidDBSubnetGroupFault.makeError(baseError: baseError)
@@ -30077,6 +31009,20 @@ enum DescribeCertificatesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeDBCapacityReservationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30785,6 +31731,7 @@ enum ListTagsForResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
@@ -30856,6 +31803,23 @@ enum ModifyCustomDBEngineVersionOutputError {
         switch baseError.code {
             case "CustomDBEngineVersionNotFoundFault": return try CustomDBEngineVersionNotFoundFault.makeError(baseError: baseError)
             case "InvalidCustomDBEngineVersionStateFault": return try InvalidCustomDBEngineVersionStateFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyDBCapacityReservationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
+            case "InstanceQuotaExceeded": return try InstanceQuotaExceededFault.makeError(baseError: baseError)
+            case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -30955,6 +31919,7 @@ enum ModifyDBInstanceOutputError {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
             case "BackupPolicyNotFoundFault": return try BackupPolicyNotFoundFault.makeError(baseError: baseError)
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceAlreadyExists": return try DBInstanceAlreadyExistsFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -30962,6 +31927,7 @@ enum ModifyDBInstanceOutputError {
             case "DBUpgradeDependencyFailure": return try DBUpgradeDependencyFailureFault.makeError(baseError: baseError)
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
             case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidDBSecurityGroupState": return try InvalidDBSecurityGroupStateFault.makeError(baseError: baseError)
@@ -31397,6 +32363,7 @@ enum RemoveTagsFromResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BlueGreenDeploymentNotFoundFault": return try BlueGreenDeploymentNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBProxyEndpointNotFoundFault": return try DBProxyEndpointNotFoundFault.makeError(baseError: baseError)
@@ -31560,6 +32527,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
             case "BackupPolicyNotFoundFault": return try BackupPolicyNotFoundFault.makeError(baseError: baseError)
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBClusterSnapshotNotFoundFault": return try DBClusterSnapshotNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceAlreadyExists": return try DBInstanceAlreadyExistsFault.makeError(baseError: baseError)
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
@@ -31570,6 +32538,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError {
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
             case "InstanceQuotaExceeded": return try InstanceQuotaExceededFault.makeError(baseError: baseError)
             case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidDBSnapshotState": return try InvalidDBSnapshotStateFault.makeError(baseError: baseError)
             case "InvalidRestoreFault": return try InvalidRestoreFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
@@ -31598,6 +32567,7 @@ enum RestoreDBInstanceFromS3OutputError {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
             case "BackupPolicyNotFoundFault": return try BackupPolicyNotFoundFault.makeError(baseError: baseError)
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceAlreadyExists": return try DBInstanceAlreadyExistsFault.makeError(baseError: baseError)
             case "DBParameterGroupNotFound": return try DBParameterGroupNotFoundFault.makeError(baseError: baseError)
             case "DBSecurityGroupNotFound": return try DBSecurityGroupNotFoundFault.makeError(baseError: baseError)
@@ -31605,6 +32575,7 @@ enum RestoreDBInstanceFromS3OutputError {
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
             case "InstanceQuotaExceeded": return try InstanceQuotaExceededFault.makeError(baseError: baseError)
             case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidS3BucketFault": return try InvalidS3BucketFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
@@ -31631,6 +32602,7 @@ enum RestoreDBInstanceToPointInTimeOutputError {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
             case "BackupPolicyNotFoundFault": return try BackupPolicyNotFoundFault.makeError(baseError: baseError)
             case "CertificateNotFound": return try CertificateNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceAlreadyExists": return try DBInstanceAlreadyExistsFault.makeError(baseError: baseError)
             case "DBInstanceAutomatedBackupNotFound": return try DBInstanceAutomatedBackupNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
@@ -31641,6 +32613,7 @@ enum RestoreDBInstanceToPointInTimeOutputError {
             case "DomainNotFoundFault": return try DomainNotFoundFault.makeError(baseError: baseError)
             case "InstanceQuotaExceeded": return try InstanceQuotaExceededFault.makeError(baseError: baseError)
             case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidRestoreFault": return try InvalidRestoreFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
@@ -31722,11 +32695,13 @@ enum StartDBInstanceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AuthorizationNotFound": return try AuthorizationNotFoundFault.makeError(baseError: baseError)
+            case "DBCapacityReservationNotFound": return try DBCapacityReservationNotFoundFault.makeError(baseError: baseError)
             case "DBClusterNotFoundFault": return try DBClusterNotFoundFault.makeError(baseError: baseError)
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBSubnetGroupDoesNotCoverEnoughAZs": return try DBSubnetGroupDoesNotCoverEnoughAZs.makeError(baseError: baseError)
             case "DBSubnetGroupNotFoundFault": return try DBSubnetGroupNotFoundFault.makeError(baseError: baseError)
             case "InsufficientDBInstanceCapacity": return try InsufficientDBInstanceCapacityFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
@@ -31825,6 +32800,7 @@ enum StopDBInstanceOutputError {
         switch baseError.code {
             case "DBInstanceNotFound": return try DBInstanceNotFoundFault.makeError(baseError: baseError)
             case "DBSnapshotAlreadyExists": return try DBSnapshotAlreadyExistsFault.makeError(baseError: baseError)
+            case "InvalidDBCapacityReservationState": return try InvalidDBCapacityReservationStateFault.makeError(baseError: baseError)
             case "InvalidDBClusterStateFault": return try InvalidDBClusterStateFault.makeError(baseError: baseError)
             case "InvalidDBInstanceState": return try InvalidDBInstanceStateFault.makeError(baseError: baseError)
             case "SnapshotQuotaExceeded": return try SnapshotQuotaExceededFault.makeError(baseError: baseError)
@@ -32038,6 +33014,19 @@ extension BlueGreenDeploymentNotFoundFault {
     }
 }
 
+extension DBCapacityReservationNotFoundFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBCapacityReservationNotFoundFault {
+        let reader = baseError.errorBodyReader
+        var value = DBCapacityReservationNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBProxyEndpointNotFoundFault {
 
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBProxyEndpointNotFoundFault {
@@ -32212,6 +33201,19 @@ extension InvalidDBSecurityGroupStateFault {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBSecurityGroupStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidDBSecurityGroupStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidDBCapacityReservationStateFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidDBCapacityReservationStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDBCapacityReservationStateFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -32597,6 +33599,45 @@ extension InvalidCustomDBEngineVersionStateFault {
     }
 }
 
+extension DBCapacityReservationAlreadyExistsFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBCapacityReservationAlreadyExistsFault {
+        let reader = baseError.errorBodyReader
+        var value = DBCapacityReservationAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DBCapacityReservationUnsupportedFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBCapacityReservationUnsupportedFault {
+        let reader = baseError.errorBodyReader
+        var value = DBCapacityReservationUnsupportedFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InsufficientDBInstanceCapacityFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientDBInstanceCapacityFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DBClusterAlreadyExistsFault {
 
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> DBClusterAlreadyExistsFault {
@@ -32654,19 +33695,6 @@ extension GlobalClusterNotFoundFault {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> GlobalClusterNotFoundFault {
         let reader = baseError.errorBodyReader
         var value = GlobalClusterNotFoundFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientDBInstanceCapacityFault {
-
-    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InsufficientDBInstanceCapacityFault {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientDBInstanceCapacityFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33879,6 +34907,17 @@ extension RDSClientTypes.AvailableAdditionalStorageVolumesOption {
     }
 }
 
+extension RDSClientTypes.AvailableCapacityPerAvailabilityZone {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableCapacityPerAvailabilityZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.AvailableCapacityPerAvailabilityZone()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availableCapacity = try reader["AvailableCapacity"].readIfPresent()
+        return value
+    }
+}
+
 extension RDSClientTypes.AvailableProcessorFeature {
 
     static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.AvailableProcessorFeature {
@@ -34034,6 +35073,40 @@ extension RDSClientTypes.CustomDBEngineVersionAMI {
         var value = RDSClientTypes.CustomDBEngineVersionAMI()
         value.imageId = try reader["ImageId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RDSClientTypes.DBCapacityReservation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBCapacityReservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBCapacityReservation()
+        value.dbCapacityReservationName = try reader["DBCapacityReservationName"].readIfPresent()
+        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.reservedCapacityPerAvailabilityZone = try reader["ReservedCapacityPerAvailabilityZone"].readIfPresent()
+        value.availableCapacityPerAvailabilityZoneList = try reader["AvailableCapacityPerAvailabilityZoneList"].readListIfPresent(memberReadingClosure: RDSClientTypes.AvailableCapacityPerAvailabilityZone.read(from:), memberNodeInfo: "AvailableCapacityPerAvailabilityZone", isFlattened: false)
+        value.endDate = try reader["EndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startDate = try reader["StartDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.commitmentInfo = try reader["CommitmentInfo"].readIfPresent(with: RDSClientTypes.DBCapacityReservationCommitmentInfo.read(from:))
+        value.state = try reader["State"].readIfPresent()
+        value.dbCapacityReservationArn = try reader["DBCapacityReservationArn"].readIfPresent()
+        value.dbCapacityReservationIdentifier = try reader["DBCapacityReservationIdentifier"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension RDSClientTypes.DBCapacityReservationCommitmentInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> RDSClientTypes.DBCapacityReservationCommitmentInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSClientTypes.DBCapacityReservationCommitmentInfo()
+        value.committedCapacityPerAvailabilityZone = try reader["CommittedCapacityPerAvailabilityZone"].readIfPresent()
+        value.commitmentEndDate = try reader["CommitmentEndDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -34481,6 +35554,7 @@ extension RDSClientTypes.DBInstance {
         value.storageVolumeStatus = try reader["StorageVolumeStatus"].readIfPresent()
         value.storageOperationStatus = try reader["StorageOperationStatus"].readIfPresent()
         value.storageOperationPercentProgress = try reader["StorageOperationPercentProgress"].readIfPresent()
+        value.dbCapacityReservationIdentifier = try reader["DBCapacityReservationIdentifier"].readIfPresent()
         return value
     }
 }
@@ -35515,6 +36589,7 @@ extension RDSClientTypes.PendingModifiedValues {
         value.dedicatedLogVolume = try reader["DedicatedLogVolume"].readIfPresent()
         value.engine = try reader["Engine"].readIfPresent()
         value.additionalStorageVolumes = try reader["AdditionalStorageVolumes"].readListIfPresent(memberReadingClosure: RDSClientTypes.AdditionalStorageVolume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dbCapacityReservationIdentifier = try reader["DBCapacityReservationIdentifier"].readIfPresent()
         return value
     }
 }

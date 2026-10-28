@@ -1547,6 +1547,155 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateRetrievalInstruction` operation on the `BedrockAgent` service.
+    ///
+    /// Creates a new retrieval instruction. The retrieval instruction is usable once its status becomes ACTIVE. Use GetRetrievalInstruction to check whether it is ready.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRetrievalInstructionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRetrievalInstructionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func createRetrievalInstruction(input: CreateRetrievalInstructionInput) async throws -> CreateRetrievalInstructionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRetrievalInstruction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>(CreateRetrievalInstructionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRetrievalInstructionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRetrievalInstructionOutput>(CreateRetrievalInstructionOutput.httpOutput(from:), CreateRetrievalInstructionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRetrievalInstructionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRetrievalInstructionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRetrievalInstructionInput, CreateRetrievalInstructionOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRetrievalInstruction")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRetrievalInstructionVersion` operation on the `BedrockAgent` service.
+    ///
+    /// Creates an immutable numbered version from the retrieval instruction's current reviewed content. The service creates the version synchronously. The service numbers versions from 1 and assigns them in order, never reusing a number.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRetrievalInstructionVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRetrievalInstructionVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func createRetrievalInstructionVersion(input: CreateRetrievalInstructionVersionInput) async throws -> CreateRetrievalInstructionVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRetrievalInstructionVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>(CreateRetrievalInstructionVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRetrievalInstructionVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRetrievalInstructionVersionOutput>(CreateRetrievalInstructionVersionOutput.httpOutput(from:), CreateRetrievalInstructionVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRetrievalInstructionVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRetrievalInstructionVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRetrievalInstructionVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRetrievalInstructionVersionInput, CreateRetrievalInstructionVersionOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRetrievalInstructionVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateVpcConfiguration` operation on the `BedrockAgent` service.
     ///
     /// Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a vpcConfigurationId with status CREATING. Poll GetVpcConfiguration until the status becomes CREATED or CREATE_FAILED.
@@ -2460,6 +2609,77 @@ extension BedrockAgentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRetrievalInstruction` operation on the `BedrockAgent` service.
+    ///
+    /// Deletes a retrieval instruction or a single version of it. Omit retrievalInstructionVersion to delete the retrieval instruction itself; the service rejects that request with ConflictException while the retrieval instruction has versions or while lastTransitionStatus is CREATING or UPDATING. Specify retrievalInstructionVersion to delete only that version; the retrieval instruction and its other versions are unaffected.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRetrievalInstructionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRetrievalInstructionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func deleteRetrievalInstruction(input: DeleteRetrievalInstructionInput) async throws -> DeleteRetrievalInstructionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRetrievalInstruction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput>(DeleteRetrievalInstructionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput>(DeleteRetrievalInstructionInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRetrievalInstructionOutput>(DeleteRetrievalInstructionOutput.httpOutput(from:), DeleteRetrievalInstructionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetrievalInstructionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRetrievalInstructionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRetrievalInstructionInput, DeleteRetrievalInstructionOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRetrievalInstruction")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3724,6 +3944,76 @@ extension BedrockAgentClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetRetrievalInstruction` operation on the `BedrockAgent` service.
+    ///
+    /// Gets a retrieval instruction. Also used to poll the terminal reporting of an asynchronous create or update.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRetrievalInstructionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRetrievalInstructionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func getRetrievalInstruction(input: GetRetrievalInstructionInput) async throws -> GetRetrievalInstructionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRetrievalInstruction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRetrievalInstructionInput, GetRetrievalInstructionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRetrievalInstructionInput, GetRetrievalInstructionOutput>(GetRetrievalInstructionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRetrievalInstructionInput, GetRetrievalInstructionOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetRetrievalInstructionInput, GetRetrievalInstructionOutput>(GetRetrievalInstructionInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRetrievalInstructionOutput>(GetRetrievalInstructionOutput.httpOutput(from:), GetRetrievalInstructionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRetrievalInstructionInput, GetRetrievalInstructionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRetrievalInstructionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRetrievalInstructionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRetrievalInstructionInput, GetRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRetrievalInstructionInput, GetRetrievalInstructionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRetrievalInstructionInput, GetRetrievalInstructionOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRetrievalInstruction")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetVpcConfiguration` operation on the `BedrockAgent` service.
     ///
     /// Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete.
@@ -4853,6 +5143,145 @@ extension BedrockAgentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListPrompts")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRetrievalInstructionVersions` operation on the `BedrockAgent` service.
+    ///
+    /// Lists the numbered versions of a retrieval instruction, newest first. DRAFT is not listed; read it with GetRetrievalInstruction without retrievalInstructionVersion. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRetrievalInstructionVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRetrievalInstructionVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func listRetrievalInstructionVersions(input: ListRetrievalInstructionVersionsInput) async throws -> ListRetrievalInstructionVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRetrievalInstructionVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput>(ListRetrievalInstructionVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput>(ListRetrievalInstructionVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRetrievalInstructionVersionsOutput>(ListRetrievalInstructionVersionsOutput.httpOutput(from:), ListRetrievalInstructionVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRetrievalInstructionVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRetrievalInstructionVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRetrievalInstructionVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRetrievalInstructionVersionsInput, ListRetrievalInstructionVersionsOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRetrievalInstructionVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRetrievalInstructions` operation on the `BedrockAgent` service.
+    ///
+    /// Lists the retrieval instructions in the caller's account. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRetrievalInstructionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRetrievalInstructionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func listRetrievalInstructions(input: ListRetrievalInstructionsInput) async throws -> ListRetrievalInstructionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRetrievalInstructions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput>(ListRetrievalInstructionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput>(ListRetrievalInstructionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRetrievalInstructionsOutput>(ListRetrievalInstructionsOutput.httpOutput(from:), ListRetrievalInstructionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRetrievalInstructionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRetrievalInstructionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRetrievalInstructionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRetrievalInstructionsInput, ListRetrievalInstructionsOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRetrievalInstructions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6241,6 +6670,79 @@ extension BedrockAgentClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePrompt")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRetrievalInstruction` operation on the `BedrockAgent` service.
+    ///
+    /// Updates the content of a retrieval instruction. The update is processed asynchronously; the stored content is a candidate until content review passes, and the served content does not change while the update is in flight. The service rejects the request with ConflictException while lastTransitionStatus is CREATING or UPDATING.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRetrievalInstructionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRetrievalInstructionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
+    public func updateRetrievalInstruction(input: UpdateRetrievalInstructionInput) async throws -> UpdateRetrievalInstructionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRetrievalInstruction")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>(UpdateRetrievalInstructionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRetrievalInstructionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRetrievalInstructionOutput>(UpdateRetrievalInstructionOutput.httpOutput(from:), UpdateRetrievalInstructionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRetrievalInstructionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock Agent", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRetrievalInstructionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock Agent"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRetrievalInstructionInput, UpdateRetrievalInstructionOutput>(serviceID: serviceName, version: BedrockAgentClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgent")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRetrievalInstruction")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

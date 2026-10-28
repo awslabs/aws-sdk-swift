@@ -16636,6 +16636,93 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// System-managed filter selection. Resolves to the perceptual filter at strength 1 where the codec is eligible (AV1 and H.265 unconditionally; H.264 only at enhanced_quality), and to no filter otherwise. An empty / undefined filter_settings_choice is treated as "auto". Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+    public struct AutoFilterSettings: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Explicitly disables the video filter. This is the customer opt-out: a video description set to "none" never has a filter applied and is never overridden by the system-managed "auto" default. Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+    public struct NoneFilterSettings: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Perceptual Filter Strength
+    public enum PerceptualFilterStrength: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case strength1
+        case strength2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerceptualFilterStrength] {
+            return [
+                .strength1,
+                .strength2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .strength1: return "STRENGTH_1"
+            case .strength2: return "STRENGTH_2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Perceptual Filter Settings
+    public struct PerceptualFilterSettings: Swift.Sendable {
+        /// Selects the perceptual noise filter strength. Strength 1 (perceptual lite) is the recommended default and adds approximately 30% of an AVC encode of compute on the highest rendition. Strength 2 adds approximately 60% of an AVC encode of compute and can introduce slight softening on noisy content.
+        /// This member is required.
+        public var strength: MediaLiveClientTypes.PerceptualFilterStrength?
+
+        public init(
+            strength: MediaLiveClientTypes.PerceptualFilterStrength? = nil
+        ) {
+            self.strength = strength
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Filter Settings
+    public struct Av1FilterSettings: Swift.Sendable {
+        /// System-managed filter selection. Resolves to the perceptual filter at strength 1 where the codec is eligible (AV1 and H.265 unconditionally; H.264 only at enhanced_quality), and to no filter otherwise. An empty / undefined filter_settings_choice is treated as "auto". Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+        public var autoFilterSettings: MediaLiveClientTypes.AutoFilterSettings?
+        /// Explicitly disables the video filter. This is the customer opt-out: a video description set to "none" never has a filter applied and is never overridden by the system-managed "auto" default. Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+        public var noneFilterSettings: MediaLiveClientTypes.NoneFilterSettings?
+        /// Perceptual Filter Settings
+        public var perceptualFilterSettings: MediaLiveClientTypes.PerceptualFilterSettings?
+
+        public init(
+            autoFilterSettings: MediaLiveClientTypes.AutoFilterSettings? = nil,
+            noneFilterSettings: MediaLiveClientTypes.NoneFilterSettings? = nil,
+            perceptualFilterSettings: MediaLiveClientTypes.PerceptualFilterSettings? = nil
+        ) {
+            self.autoFilterSettings = autoFilterSettings
+            self.noneFilterSettings = noneFilterSettings
+            self.perceptualFilterSettings = perceptualFilterSettings
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Fixed Afd
     public enum FixedAfd: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afd0000
@@ -17099,6 +17186,8 @@ extension MediaLiveClientTypes {
         public var bufSize: Swift.Int?
         /// Specify the type of color space to apply or choose to pass through. The default is to pass through the color space that is in the source.
         public var colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings?
+        /// Optional filters that you can apply to an encode.
+        public var filterSettings: MediaLiveClientTypes.Av1FilterSettings?
         /// Complete this property only if you set the afdSignaling property to FIXED. Choose the AFD value (4 bits) to write on all frames of the video encode.
         public var fixedAfd: MediaLiveClientTypes.FixedAfd?
         /// The denominator for the framerate. Framerate is a fraction, for example, 24000 / 1001.
@@ -17146,6 +17235,7 @@ extension MediaLiveClientTypes {
             bitrate: Swift.Int? = nil,
             bufSize: Swift.Int? = nil,
             colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings? = nil,
+            filterSettings: MediaLiveClientTypes.Av1FilterSettings? = nil,
             fixedAfd: MediaLiveClientTypes.FixedAfd? = nil,
             framerateDenominator: Swift.Int? = nil,
             framerateNumerator: Swift.Int? = nil,
@@ -17171,6 +17261,7 @@ extension MediaLiveClientTypes {
             self.bitrate = bitrate
             self.bufSize = bufSize
             self.colorSpaceSettings = colorSpaceSettings
+            self.filterSettings = filterSettings
             self.fixedAfd = fixedAfd
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
@@ -17286,6 +17377,36 @@ extension MediaLiveClientTypes {
             case .max: return "MAX"
             case .medium: return "MEDIUM"
             case .off: return "OFF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// H264 Allow Explicit Weighted Prediction
+    public enum H264AllowExplicitWeightedPrediction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H264AllowExplicitWeightedPrediction] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -17604,16 +17725,28 @@ extension MediaLiveClientTypes {
 
     /// H264 Filter Settings
     public struct H264FilterSettings: Swift.Sendable {
+        /// System-managed filter selection. Resolves to the perceptual filter at strength 1 where the codec is eligible (AV1 and H.265 unconditionally; H.264 only at enhanced_quality), and to no filter otherwise. An empty / undefined filter_settings_choice is treated as "auto". Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+        public var autoFilterSettings: MediaLiveClientTypes.AutoFilterSettings?
         /// Bandwidth Reduction Filter Settings
         public var bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings?
+        /// Explicitly disables the video filter. This is the customer opt-out: a video description set to "none" never has a filter applied and is never overridden by the system-managed "auto" default. Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+        public var noneFilterSettings: MediaLiveClientTypes.NoneFilterSettings?
+        /// Perceptual Filter Settings
+        public var perceptualFilterSettings: MediaLiveClientTypes.PerceptualFilterSettings?
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
         public init(
+            autoFilterSettings: MediaLiveClientTypes.AutoFilterSettings? = nil,
             bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings? = nil,
+            noneFilterSettings: MediaLiveClientTypes.NoneFilterSettings? = nil,
+            perceptualFilterSettings: MediaLiveClientTypes.PerceptualFilterSettings? = nil,
             temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings? = nil
         ) {
+            self.autoFilterSettings = autoFilterSettings
             self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
+            self.noneFilterSettings = noneFilterSettings
+            self.perceptualFilterSettings = perceptualFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
     }
@@ -18233,6 +18366,8 @@ extension MediaLiveClientTypes {
         public var adaptiveQuantization: MediaLiveClientTypes.H264AdaptiveQuantization?
         /// Indicates that AFD values will be written into the output stream. If afdSignaling is "auto", the system will try to preserve the input AFD value (in cases where multiple AFD values are valid). If set to "fixed", the AFD value will be the value configured in the fixedAfd parameter.
         public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
+        /// Specifies whether the encoder may apply explicit weighted prediction (EWP), an H.264 coding tool that can improve compression. EWP applies a scaling factor and offset to reference frames, which helps when brightness changes between frames, such as during a fade. When this setting is enabled, the encoder decides whether to apply EWP based on the output's other codec settings, such as profile and quality level. We recommend that you keep the default, enabled. When disabled, the encoder never applies EWP.
+        public var allowExplicitWeightedPrediction: MediaLiveClientTypes.H264AllowExplicitWeightedPrediction?
         /// Average bitrate in bits/second. Required when the rate control mode is VBR or CBR. Not used for QVBR. In an MS Smooth output group, each output must have a unique value when its bitrate is rounded down to the nearest multiple of 1000.
         public var bitrate: Swift.Int?
         /// Percentage of the buffer that should initially be filled (HRD buffer model).
@@ -18339,6 +18474,7 @@ extension MediaLiveClientTypes {
         public init(
             adaptiveQuantization: MediaLiveClientTypes.H264AdaptiveQuantization? = nil,
             afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
+            allowExplicitWeightedPrediction: MediaLiveClientTypes.H264AllowExplicitWeightedPrediction? = nil,
             bitrate: Swift.Int? = nil,
             bufFillPct: Swift.Int? = nil,
             bufSize: Swift.Int? = nil,
@@ -18384,6 +18520,7 @@ extension MediaLiveClientTypes {
         ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.afdSignaling = afdSignaling
+            self.allowExplicitWeightedPrediction = allowExplicitWeightedPrediction
             self.bitrate = bitrate
             self.bufFillPct = bufFillPct
             self.bufSize = bufSize
@@ -18613,16 +18750,28 @@ extension MediaLiveClientTypes {
 
     /// H265 Filter Settings
     public struct H265FilterSettings: Swift.Sendable {
+        /// System-managed filter selection. Resolves to the perceptual filter at strength 1 where the codec is eligible (AV1 and H.265 unconditionally; H.264 only at enhanced_quality), and to no filter otherwise. An empty / undefined filter_settings_choice is treated as "auto". Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+        public var autoFilterSettings: MediaLiveClientTypes.AutoFilterSettings?
         /// Bandwidth Reduction Filter Settings
         public var bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings?
+        /// Explicitly disables the video filter. This is the customer opt-out: a video description set to "none" never has a filter applied and is never overridden by the system-managed "auto" default. Carries no body (extends EmptySettings, which sets additionalProperties: false), mirroring the ColorSpacePassthroughSettings empty-settings pattern.
+        public var noneFilterSettings: MediaLiveClientTypes.NoneFilterSettings?
+        /// Perceptual Filter Settings
+        public var perceptualFilterSettings: MediaLiveClientTypes.PerceptualFilterSettings?
         /// Temporal Filter Settings
         public var temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings?
 
         public init(
+            autoFilterSettings: MediaLiveClientTypes.AutoFilterSettings? = nil,
             bandwidthReductionFilterSettings: MediaLiveClientTypes.BandwidthReductionFilterSettings? = nil,
+            noneFilterSettings: MediaLiveClientTypes.NoneFilterSettings? = nil,
+            perceptualFilterSettings: MediaLiveClientTypes.PerceptualFilterSettings? = nil,
             temporalFilterSettings: MediaLiveClientTypes.TemporalFilterSettings? = nil
         ) {
+            self.autoFilterSettings = autoFilterSettings
             self.bandwidthReductionFilterSettings = bandwidthReductionFilterSettings
+            self.noneFilterSettings = noneFilterSettings
+            self.perceptualFilterSettings = perceptualFilterSettings
             self.temporalFilterSettings = temporalFilterSettings
         }
     }
@@ -36286,6 +36435,19 @@ extension MediaLiveClientTypes.AudioWatermarkSettings {
     }
 }
 
+extension MediaLiveClientTypes.AutoFilterSettings {
+
+    static func write(value: MediaLiveClientTypes.AutoFilterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AutoFilterSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.AutoFilterSettings()
+    }
+}
+
 extension MediaLiveClientTypes.AutomaticInputFailoverSettings {
 
     static func write(value: MediaLiveClientTypes.AutomaticInputFailoverSettings?, to writer: SmithyJSON.Writer) throws {
@@ -36330,6 +36492,25 @@ extension MediaLiveClientTypes.Av1ColorSpaceSettings {
     }
 }
 
+extension MediaLiveClientTypes.Av1FilterSettings {
+
+    static func write(value: MediaLiveClientTypes.Av1FilterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoFilterSettings"].write(value.autoFilterSettings, with: MediaLiveClientTypes.AutoFilterSettings.write(value:to:))
+        try writer["noneFilterSettings"].write(value.noneFilterSettings, with: MediaLiveClientTypes.NoneFilterSettings.write(value:to:))
+        try writer["perceptualFilterSettings"].write(value.perceptualFilterSettings, with: MediaLiveClientTypes.PerceptualFilterSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Av1FilterSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.Av1FilterSettings()
+        value.autoFilterSettings = try reader["autoFilterSettings"].readIfPresent(with: MediaLiveClientTypes.AutoFilterSettings.read(from:))
+        value.noneFilterSettings = try reader["noneFilterSettings"].readIfPresent(with: MediaLiveClientTypes.NoneFilterSettings.read(from:))
+        value.perceptualFilterSettings = try reader["perceptualFilterSettings"].readIfPresent(with: MediaLiveClientTypes.PerceptualFilterSettings.read(from:))
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.Av1Settings {
 
     static func write(value: MediaLiveClientTypes.Av1Settings?, to writer: SmithyJSON.Writer) throws {
@@ -36339,6 +36520,7 @@ extension MediaLiveClientTypes.Av1Settings {
         try writer["bitrate"].write(value.bitrate)
         try writer["bufSize"].write(value.bufSize)
         try writer["colorSpaceSettings"].write(value.colorSpaceSettings, with: MediaLiveClientTypes.Av1ColorSpaceSettings.write(value:to:))
+        try writer["filterSettings"].write(value.filterSettings, with: MediaLiveClientTypes.Av1FilterSettings.write(value:to:))
         try writer["fixedAfd"].write(value.fixedAfd)
         try writer["framerateDenominator"].write(value.framerateDenominator)
         try writer["framerateNumerator"].write(value.framerateNumerator)
@@ -36387,6 +36569,7 @@ extension MediaLiveClientTypes.Av1Settings {
         value.temporalAq = try reader["temporalAq"].readIfPresent()
         value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
         value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.filterSettings = try reader["filterSettings"].readIfPresent(with: MediaLiveClientTypes.Av1FilterSettings.read(from:))
         return value
     }
 }
@@ -37988,7 +38171,10 @@ extension MediaLiveClientTypes.H264FilterSettings {
 
     static func write(value: MediaLiveClientTypes.H264FilterSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoFilterSettings"].write(value.autoFilterSettings, with: MediaLiveClientTypes.AutoFilterSettings.write(value:to:))
         try writer["bandwidthReductionFilterSettings"].write(value.bandwidthReductionFilterSettings, with: MediaLiveClientTypes.BandwidthReductionFilterSettings.write(value:to:))
+        try writer["noneFilterSettings"].write(value.noneFilterSettings, with: MediaLiveClientTypes.NoneFilterSettings.write(value:to:))
+        try writer["perceptualFilterSettings"].write(value.perceptualFilterSettings, with: MediaLiveClientTypes.PerceptualFilterSettings.write(value:to:))
         try writer["temporalFilterSettings"].write(value.temporalFilterSettings, with: MediaLiveClientTypes.TemporalFilterSettings.write(value:to:))
     }
 
@@ -37997,6 +38183,9 @@ extension MediaLiveClientTypes.H264FilterSettings {
         var value = MediaLiveClientTypes.H264FilterSettings()
         value.temporalFilterSettings = try reader["temporalFilterSettings"].readIfPresent(with: MediaLiveClientTypes.TemporalFilterSettings.read(from:))
         value.bandwidthReductionFilterSettings = try reader["bandwidthReductionFilterSettings"].readIfPresent(with: MediaLiveClientTypes.BandwidthReductionFilterSettings.read(from:))
+        value.autoFilterSettings = try reader["autoFilterSettings"].readIfPresent(with: MediaLiveClientTypes.AutoFilterSettings.read(from:))
+        value.noneFilterSettings = try reader["noneFilterSettings"].readIfPresent(with: MediaLiveClientTypes.NoneFilterSettings.read(from:))
+        value.perceptualFilterSettings = try reader["perceptualFilterSettings"].readIfPresent(with: MediaLiveClientTypes.PerceptualFilterSettings.read(from:))
         return value
     }
 }
@@ -38007,6 +38196,7 @@ extension MediaLiveClientTypes.H264Settings {
         guard let value else { return }
         try writer["adaptiveQuantization"].write(value.adaptiveQuantization)
         try writer["afdSignaling"].write(value.afdSignaling)
+        try writer["allowExplicitWeightedPrediction"].write(value.allowExplicitWeightedPrediction)
         try writer["bitrate"].write(value.bitrate)
         try writer["bufFillPct"].write(value.bufFillPct)
         try writer["bufSize"].write(value.bufSize)
@@ -38098,6 +38288,7 @@ extension MediaLiveClientTypes.H264Settings {
         value.timecodeBurninSettings = try reader["timecodeBurninSettings"].readIfPresent(with: MediaLiveClientTypes.TimecodeBurninSettings.read(from:))
         value.minQp = try reader["minQp"].readIfPresent()
         value.minBitrate = try reader["minBitrate"].readIfPresent()
+        value.allowExplicitWeightedPrediction = try reader["allowExplicitWeightedPrediction"].readIfPresent()
         return value
     }
 }
@@ -38131,7 +38322,10 @@ extension MediaLiveClientTypes.H265FilterSettings {
 
     static func write(value: MediaLiveClientTypes.H265FilterSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["autoFilterSettings"].write(value.autoFilterSettings, with: MediaLiveClientTypes.AutoFilterSettings.write(value:to:))
         try writer["bandwidthReductionFilterSettings"].write(value.bandwidthReductionFilterSettings, with: MediaLiveClientTypes.BandwidthReductionFilterSettings.write(value:to:))
+        try writer["noneFilterSettings"].write(value.noneFilterSettings, with: MediaLiveClientTypes.NoneFilterSettings.write(value:to:))
+        try writer["perceptualFilterSettings"].write(value.perceptualFilterSettings, with: MediaLiveClientTypes.PerceptualFilterSettings.write(value:to:))
         try writer["temporalFilterSettings"].write(value.temporalFilterSettings, with: MediaLiveClientTypes.TemporalFilterSettings.write(value:to:))
     }
 
@@ -38140,6 +38334,9 @@ extension MediaLiveClientTypes.H265FilterSettings {
         var value = MediaLiveClientTypes.H265FilterSettings()
         value.temporalFilterSettings = try reader["temporalFilterSettings"].readIfPresent(with: MediaLiveClientTypes.TemporalFilterSettings.read(from:))
         value.bandwidthReductionFilterSettings = try reader["bandwidthReductionFilterSettings"].readIfPresent(with: MediaLiveClientTypes.BandwidthReductionFilterSettings.read(from:))
+        value.autoFilterSettings = try reader["autoFilterSettings"].readIfPresent(with: MediaLiveClientTypes.AutoFilterSettings.read(from:))
+        value.noneFilterSettings = try reader["noneFilterSettings"].readIfPresent(with: MediaLiveClientTypes.NoneFilterSettings.read(from:))
+        value.perceptualFilterSettings = try reader["perceptualFilterSettings"].readIfPresent(with: MediaLiveClientTypes.PerceptualFilterSettings.read(from:))
         return value
     }
 }
@@ -40575,6 +40772,19 @@ extension MediaLiveClientTypes.NodeInterfaceMappingCreateRequest {
     }
 }
 
+extension MediaLiveClientTypes.NoneFilterSettings {
+
+    static func write(value: MediaLiveClientTypes.NoneFilterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.NoneFilterSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.NoneFilterSettings()
+    }
+}
+
 extension MediaLiveClientTypes.Offering {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Offering {
@@ -40815,6 +41025,21 @@ extension MediaLiveClientTypes.PauseStateScheduleActionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.PauseStateScheduleActionSettings()
         value.pipelines = try reader["pipelines"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.PipelinePauseStateSettings.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.PerceptualFilterSettings {
+
+    static func write(value: MediaLiveClientTypes.PerceptualFilterSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["strength"].write(value.strength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.PerceptualFilterSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.PerceptualFilterSettings()
+        value.strength = try reader["strength"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
