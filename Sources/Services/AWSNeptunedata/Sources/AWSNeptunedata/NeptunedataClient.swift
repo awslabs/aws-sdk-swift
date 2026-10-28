@@ -56,6 +56,7 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.HeaderMiddleware
+import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SendableHttpInterceptorProviderBox
@@ -682,6 +683,86 @@ extension NeptunedataClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelGremlinQuery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CancelIndexRebuild` operation on the `Neptunedata` service.
+    ///
+    /// Cancels an in-progress index rebuild operation. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelIndexRebuild](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelindexrebuild) IAM action in that cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelIndexRebuildInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelIndexRebuildOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `CancelledByMaintenanceException` : Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
+    /// - `CancelledByUserException` : Raised when a user cancelled a request.
+    /// - `ClientTimeoutException` : Raised when a request timed out in the client.
+    /// - `ConstraintViolationException` : Raised when a value in a request field did not satisfy required constraints.
+    /// - `IllegalArgumentException` : Raised when an argument in a request is not supported.
+    /// - `InternalFailureException` : Raised when the processing of the request failed unexpectedly.
+    /// - `InvalidArgumentException` : Raised when an argument in a request has an invalid value.
+    /// - `InvalidParameterException` : Raised when a parameter value is not valid.
+    /// - `MethodNotAllowedException` : Raised when the HTTP method used by a request is not supported by the endpoint being used.
+    /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
+    /// - `ReadOnlyViolationException` : Raised when a request attempts to write to a read-only resource.
+    /// - `ServerShutdownException` : Raised when the server shuts down while processing a request.
+    /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
+    /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
+    /// - `ValidationException` : Raised when a parameter value is not valid or is malformed.
+    public func cancelIndexRebuild(input: CancelIndexRebuildInput) async throws -> CancelIndexRebuildOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelIndexRebuild")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "neptune-db")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelIndexRebuildInput, CancelIndexRebuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelIndexRebuildInput, CancelIndexRebuildOutput>(CancelIndexRebuildInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelIndexRebuildInput, CancelIndexRebuildOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelIndexRebuildOutput>(CancelIndexRebuildOutput.httpOutput(from:), CancelIndexRebuildOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelIndexRebuildInput, CancelIndexRebuildOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelIndexRebuildOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("neptunedata", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelIndexRebuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelIndexRebuildOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelIndexRebuildInput, CancelIndexRebuildOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelIndexRebuildInput, CancelIndexRebuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "neptunedata"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelIndexRebuildInput, CancelIndexRebuildOutput>(serviceID: serviceName, version: NeptunedataClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelIndexRebuild")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1488,6 +1569,7 @@ extension NeptunedataClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : Raised when a request is submitted that cannot be processed.
+    /// - `CancelledByMaintenanceException` : Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
     /// - `CancelledByUserException` : Raised when a user cancelled a request.
     /// - `ClientTimeoutException` : Raised when a request timed out in the client.
     /// - `ConcurrentModificationException` : Raised when a request attempts to modify data that is concurrently being modified by another process.
@@ -1575,6 +1657,7 @@ extension NeptunedataClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : Raised when a request is submitted that cannot be processed.
+    /// - `CancelledByMaintenanceException` : Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
     /// - `CancelledByUserException` : Raised when a user cancelled a request.
     /// - `ClientTimeoutException` : Raised when a request timed out in the client.
     /// - `ConcurrentModificationException` : Raised when a request attempts to modify data that is concurrently being modified by another process.
@@ -1671,6 +1754,7 @@ extension NeptunedataClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : Raised when a request is submitted that cannot be processed.
+    /// - `CancelledByMaintenanceException` : Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
     /// - `CancelledByUserException` : Raised when a user cancelled a request.
     /// - `ClientTimeoutException` : Raised when a request timed out in the client.
     /// - `ConcurrentModificationException` : Raised when a request attempts to modify data that is concurrently being modified by another process.
@@ -1759,6 +1843,7 @@ extension NeptunedataClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : Raised when a request is submitted that cannot be processed.
+    /// - `CancelledByMaintenanceException` : Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
     /// - `CancelledByUserException` : Raised when a user cancelled a request.
     /// - `ClientTimeoutException` : Raised when a request timed out in the client.
     /// - `ConcurrentModificationException` : Raised when a request attempts to modify data that is concurrently being modified by another process.
@@ -1856,6 +1941,7 @@ extension NeptunedataClient {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : Raised when a request is submitted that cannot be processed.
+    /// - `CancelledByMaintenanceException` : Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
     /// - `CancelledByUserException` : Raised when a user cancelled a request.
     /// - `ClientTimeoutException` : Raised when a request timed out in the client.
     /// - `ConcurrentModificationException` : Raised when a request attempts to modify data that is concurrently being modified by another process.
@@ -2072,6 +2158,82 @@ extension NeptunedataClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGremlinQueryStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetIndexRebuildStatus` operation on the `Neptunedata` service.
+    ///
+    /// Retrieves the status of an index rebuild operation. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetIndexRebuildStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getindexrebuildstatus) IAM action in that cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetIndexRebuildStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetIndexRebuildStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `ClientTimeoutException` : Raised when a request timed out in the client.
+    /// - `ConstraintViolationException` : Raised when a value in a request field did not satisfy required constraints.
+    /// - `IllegalArgumentException` : Raised when an argument in a request is not supported.
+    /// - `InternalFailureException` : Raised when the processing of the request failed unexpectedly.
+    /// - `InvalidArgumentException` : Raised when an argument in a request has an invalid value.
+    /// - `InvalidParameterException` : Raised when a parameter value is not valid.
+    /// - `MethodNotAllowedException` : Raised when the HTTP method used by a request is not supported by the endpoint being used.
+    /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
+    /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
+    /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
+    /// - `ValidationException` : Raised when a parameter value is not valid or is malformed.
+    public func getIndexRebuildStatus(input: GetIndexRebuildStatusInput) async throws -> GetIndexRebuildStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getIndexRebuildStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "neptune-db")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetIndexRebuildStatusInput, GetIndexRebuildStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetIndexRebuildStatusInput, GetIndexRebuildStatusOutput>(GetIndexRebuildStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIndexRebuildStatusInput, GetIndexRebuildStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexRebuildStatusOutput>(GetIndexRebuildStatusOutput.httpOutput(from:), GetIndexRebuildStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexRebuildStatusInput, GetIndexRebuildStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexRebuildStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("neptunedata", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetIndexRebuildStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetIndexRebuildStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetIndexRebuildStatusInput, GetIndexRebuildStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetIndexRebuildStatusInput, GetIndexRebuildStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "neptunedata"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetIndexRebuildStatusInput, GetIndexRebuildStatusOutput>(serviceID: serviceName, version: NeptunedataClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetIndexRebuildStatus")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3020,6 +3182,99 @@ extension NeptunedataClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetStorageInfo` operation on the `Neptunedata` service.
+    ///
+    /// Retrieves storage information for the Neptune database instance, including approximate total storage used and per-category size and entry counts. Storage categories include:
+    ///
+    /// * Quad indexes - the indexes that store graph data, for both RDF (SPARQL) and Property Graph (Gremlin/openCypher) models.
+    ///
+    /// * Dictionaries - the term dictionaries, including total dictionary storage and the portion used by blob (large value) entries.
+    ///
+    /// * Undo logs - the undo logs, reported as a total size and the number of entries in the undo log list.
+    ///
+    /// * Streams - the change-log streams.
+    ///
+    /// * Schema - the schema.
+    ///
+    /// * DFE statistics - the DFE engine statistics.
+    ///
+    /// * System metadata - internal system metadata.
+    ///
+    ///
+    /// When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStorageInfo](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstorageinfo) IAM action in that cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetStorageInfoInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetStorageInfoOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `ClientTimeoutException` : Raised when a request timed out in the client.
+    /// - `ConstraintViolationException` : Raised when a value in a request field did not satisfy required constraints.
+    /// - `IllegalArgumentException` : Raised when an argument in a request is not supported.
+    /// - `InternalFailureException` : Raised when the processing of the request failed unexpectedly.
+    /// - `InvalidArgumentException` : Raised when an argument in a request has an invalid value.
+    /// - `InvalidParameterException` : Raised when a parameter value is not valid.
+    /// - `MethodNotAllowedException` : Raised when the HTTP method used by a request is not supported by the endpoint being used.
+    /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
+    /// - `ServerShutdownException` : Raised when the server shuts down while processing a request.
+    /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
+    /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
+    public func getStorageInfo(input: GetStorageInfoInput) async throws -> GetStorageInfoOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getStorageInfo")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "neptune-db")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetStorageInfoInput, GetStorageInfoOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetStorageInfoInput, GetStorageInfoOutput>(GetStorageInfoInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageInfoInput, GetStorageInfoOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageInfoOutput>(GetStorageInfoOutput.httpOutput(from:), GetStorageInfoOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageInfoInput, GetStorageInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageInfoOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("neptunedata", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetStorageInfoOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetStorageInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetStorageInfoInput, GetStorageInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetStorageInfoInput, GetStorageInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "neptunedata"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetStorageInfoInput, GetStorageInfoOutput>(serviceID: serviceName, version: NeptunedataClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetStorageInfo")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListGremlinQueries` operation on the `Neptunedata` service.
     ///
     /// Lists active Gremlin queries. See [Gremlin query status API](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html) for details about the output. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
@@ -3089,6 +3344,81 @@ extension NeptunedataClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListGremlinQueries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListIndexRebuilds` operation on the `Neptunedata` service.
+    ///
+    /// Retrieves a list of all index rebuild operation identifiers. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListIndexRebuilds](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listindexrebuilds) IAM action in that cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListIndexRebuildsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListIndexRebuildsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `ClientTimeoutException` : Raised when a request timed out in the client.
+    /// - `ConstraintViolationException` : Raised when a value in a request field did not satisfy required constraints.
+    /// - `IllegalArgumentException` : Raised when an argument in a request is not supported.
+    /// - `InternalFailureException` : Raised when the processing of the request failed unexpectedly.
+    /// - `InvalidArgumentException` : Raised when an argument in a request has an invalid value.
+    /// - `InvalidParameterException` : Raised when a parameter value is not valid.
+    /// - `MethodNotAllowedException` : Raised when the HTTP method used by a request is not supported by the endpoint being used.
+    /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
+    /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
+    /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
+    public func listIndexRebuilds(input: ListIndexRebuildsInput) async throws -> ListIndexRebuildsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listIndexRebuilds")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "neptune-db")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListIndexRebuildsInput, ListIndexRebuildsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListIndexRebuildsInput, ListIndexRebuildsOutput>(ListIndexRebuildsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListIndexRebuildsInput, ListIndexRebuildsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndexRebuildsOutput>(ListIndexRebuildsOutput.httpOutput(from:), ListIndexRebuildsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndexRebuildsInput, ListIndexRebuildsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListIndexRebuildsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("neptunedata", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListIndexRebuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListIndexRebuildsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListIndexRebuildsInput, ListIndexRebuildsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListIndexRebuildsInput, ListIndexRebuildsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "neptunedata"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListIndexRebuildsInput, ListIndexRebuildsOutput>(serviceID: serviceName, version: NeptunedataClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListIndexRebuilds")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3712,6 +4042,91 @@ extension NeptunedataClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ManageSparqlStatistics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartIndexRebuild` operation on the `Neptunedata` service.
+    ///
+    /// Initiates an index rebuild operation to optimize storage and improve query performance. The rebuild operation reorganizes index to reclaim space and improve efficiency. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartIndexRebuild](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startindexrebuild) IAM action in that cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartIndexRebuildInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartIndexRebuildOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Raised in case of an authentication or authorization failure.
+    /// - `ClientTimeoutException` : Raised when a request timed out in the client.
+    /// - `ConcurrentModificationException` : Raised when a request attempts to modify data that is concurrently being modified by another process.
+    /// - `ConstraintViolationException` : Raised when a value in a request field did not satisfy required constraints.
+    /// - `IllegalArgumentException` : Raised when an argument in a request is not supported.
+    /// - `InternalFailureException` : Raised when the processing of the request failed unexpectedly.
+    /// - `InvalidArgumentException` : Raised when an argument in a request has an invalid value.
+    /// - `InvalidParameterException` : Raised when a parameter value is not valid.
+    /// - `MemoryLimitExceededException` : Raised when a request fails because of insufficient memory resources. The request can be retried.
+    /// - `MethodNotAllowedException` : Raised when the HTTP method used by a request is not supported by the endpoint being used.
+    /// - `PreconditionsFailedException` : Raised when a precondition for processing a request is not satisfied.
+    /// - `ReadOnlyViolationException` : Raised when a request attempts to write to a read-only resource.
+    /// - `ResourceNotFoundException` : Raised when the specified resource could not be found. The resource might have been deleted or the identifier might be incorrect.
+    /// - `ServerShutdownException` : Raised when the server shuts down while processing a request.
+    /// - `TooManyRequestsException` : Raised when the number of requests being processed exceeds the limit.
+    /// - `UnsupportedOperationException` : Raised when a request attempts to initiate an operation that is not supported.
+    public func startIndexRebuild(input: StartIndexRebuildInput) async throws -> StartIndexRebuildOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startIndexRebuild")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "neptune-db")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartIndexRebuildInput, StartIndexRebuildOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>(StartIndexRebuildInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>(StartIndexRebuildInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartIndexRebuildInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartIndexRebuildOutput>(StartIndexRebuildOutput.httpOutput(from:), StartIndexRebuildOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartIndexRebuildOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("neptunedata", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartIndexRebuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartIndexRebuildOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "neptunedata"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartIndexRebuildInput, StartIndexRebuildOutput>(serviceID: serviceName, version: NeptunedataClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Neptunedata")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartIndexRebuild")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

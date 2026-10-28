@@ -863,6 +863,113 @@ extension OpenSearchClientTypes {
     }
 }
 
+/// An exception for creating a resource that already exists.
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AddReplicationPeerInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// When true, validates the request and reports whether replication could be established, without changing either domain.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the domain to replicate to. The peer must be in a different Region from the domain you are calling, and in the same AWS account.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.dryRun = dryRun
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum ReplicationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case detached
+        case ejected
+        case failed
+        case failingOver
+        case pendingRemoval
+        case pendingSetup
+        case switchingOver
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationStatus] {
+            return [
+                .active,
+                .detached,
+                .ejected,
+                .failed,
+                .failingOver,
+                .pendingRemoval,
+                .pendingSetup,
+                .switchingOver
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .detached: return "DETACHED"
+            case .ejected: return "EJECTED"
+            case .failed: return "FAILED"
+            case .failingOver: return "FAILING_OVER"
+            case .pendingRemoval: return "PENDING_REMOVAL"
+            case .pendingSetup: return "PENDING_SETUP"
+            case .switchingOver: return "SWITCHING_OVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AddReplicationPeerOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain that is now replicating to the peer.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is PENDING_SETUP immediately after the request is accepted.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
+    }
+}
+
 /// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain, data source, or application.
 public struct AddTagsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags.
@@ -2153,6 +2260,235 @@ public struct CancelServiceSoftwareUpdateOutput: Swift.Sendable {
     }
 }
 
+public struct CompareDomainConfigurationInput: Swift.Sendable {
+    /// The metadata categories to compare. At least one is required, and only the categories you name are read and returned.
+    ///
+    /// * aliases
+    ///
+    /// * alerting_monitors
+    ///
+    /// * cluster_settings
+    ///
+    /// * component_templates
+    ///
+    /// * ingest_pipelines
+    ///
+    /// * ism_policies — index state management policies
+    ///
+    /// * security_action_groups
+    ///
+    /// * security_internal_users
+    ///
+    /// * security_role_mappings
+    ///
+    /// * security_roles
+    ///
+    /// * templates — index templates
+    ///
+    ///
+    /// The set of categories grows over time, so this list is not fixed. A category the service does not recognise is rejected with the supported categories named in the error message.
+    /// This member is required.
+    public var categories: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the domain to compare from.
+    /// This member is required.
+    public var sourceDomainArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain to compare against.
+    /// This member is required.
+    public var targetDomainArn: Swift.String?
+
+    public init(
+        categories: [Swift.String]? = nil,
+        sourceDomainArn: Swift.String? = nil,
+        targetDomainArn: Swift.String? = nil
+    ) {
+        self.categories = categories
+        self.sourceDomainArn = sourceDomainArn
+        self.targetDomainArn = targetDomainArn
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum DiffFieldPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case redacted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiffFieldPolicy] {
+            return [
+                .redacted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .redacted: return "redacted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// A single field that differs between the source and target copies of an item.
+    public struct DivergentField: Swift.Sendable {
+        /// The location of the field within the item.
+        public var path: Swift.String?
+        /// How the comparison treats this field.
+        public var policy: OpenSearchClientTypes.DiffFieldPolicy?
+        /// The field's value on the source domain.
+        public var sourceValue: Swift.String?
+        /// The field's value on the target domain.
+        public var targetValue: Swift.String?
+
+        public init(
+            path: Swift.String? = nil,
+            policy: OpenSearchClientTypes.DiffFieldPolicy? = nil,
+            sourceValue: Swift.String? = nil,
+            targetValue: Swift.String? = nil
+        ) {
+            self.path = path
+            self.policy = policy
+            self.sourceValue = sourceValue
+            self.targetValue = targetValue
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// An item that exists on both domains but whose contents differ.
+    public struct DivergentItem: Swift.Sendable {
+        /// The fields of the item that differ.
+        public var fields: [OpenSearchClientTypes.DivergentField]?
+        /// The name of the item.
+        public var name: Swift.String?
+
+        public init(
+            fields: [OpenSearchClientTypes.DivergentField]? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.fields = fields
+            self.name = name
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The items that differ within one metadata category.
+    public struct DiffItems: Swift.Sendable {
+        /// The items that exist on both domains but differ, with the diverging fields.
+        public var diverged: [OpenSearchClientTypes.DivergentItem]?
+        /// The names of items that exist only on the source domain.
+        public var sourceOnly: [Swift.String]?
+        /// The names of items that exist only on the target domain.
+        public var targetOnly: [Swift.String]?
+
+        public init(
+            diverged: [OpenSearchClientTypes.DivergentItem]? = nil,
+            sourceOnly: [Swift.String]? = nil,
+            targetOnly: [Swift.String]? = nil
+        ) {
+            self.diverged = diverged
+            self.sourceOnly = sourceOnly
+            self.targetOnly = targetOnly
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum DiffStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compared
+        case error
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiffStatus] {
+            return [
+                .compared,
+                .error
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compared: return "compared"
+            case .error: return "error"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The result of comparing one metadata category between two domains.
+    public struct CategoryDiffResult: Swift.Sendable {
+        /// The number of items that exist on both domains but differ.
+        public var diverged: Swift.Int
+        /// The number of items that are identical on both domains.
+        public var inSync: Swift.Int
+        /// The names of the items that differ, and for diverging items, the fields that differ.
+        public var items: OpenSearchClientTypes.DiffItems?
+        /// The number of items that exist only on the source domain.
+        public var sourceOnly: Swift.Int
+        /// Whether the category was compared successfully. compared means the result is complete; error means the category could not be read.
+        public var status: OpenSearchClientTypes.DiffStatus?
+        /// The number of items that exist only on the target domain.
+        public var targetOnly: Swift.Int
+        /// Whether Items omits some differences because the category contained more than the response can carry. The counts remain complete when this is true.
+        public var truncated: Swift.Bool?
+
+        public init(
+            diverged: Swift.Int = 0,
+            inSync: Swift.Int = 0,
+            items: OpenSearchClientTypes.DiffItems? = nil,
+            sourceOnly: Swift.Int = 0,
+            status: OpenSearchClientTypes.DiffStatus? = nil,
+            targetOnly: Swift.Int = 0,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.diverged = diverged
+            self.inSync = inSync
+            self.items = items
+            self.sourceOnly = sourceOnly
+            self.status = status
+            self.targetOnly = targetOnly
+            self.truncated = truncated
+        }
+    }
+}
+
+public struct CompareDomainConfigurationOutput: Swift.Sendable {
+    /// The comparison result for each category you requested, keyed by category name.
+    public var categories: [Swift.String: OpenSearchClientTypes.CategoryDiffResult]?
+    /// The Amazon Resource Name (ARN) of the domain that was compared from.
+    public var sourceDomainArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain that was compared against.
+    public var targetDomainArn: Swift.String?
+
+    public init(
+        categories: [Swift.String: OpenSearchClientTypes.CategoryDiffResult]? = nil,
+        sourceDomainArn: Swift.String? = nil,
+        targetDomainArn: Swift.String? = nil
+    ) {
+        self.categories = categories
+        self.sourceDomainArn = sourceDomainArn
+        self.targetDomainArn = targetDomainArn
+    }
+}
+
 extension OpenSearchClientTypes {
 
     public enum AppConfigType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2363,30 +2699,6 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidTypeException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// An exception for creating a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A description of the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -7045,6 +7357,112 @@ public struct DescribeDomainNodesOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeDomainReplicationInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum ReplicationRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case primary
+        case secondary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationRole] {
+            return [
+                .primary,
+                .secondary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .primary: return "PRIMARY"
+            case .secondary: return "SECONDARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// A domain that another domain replicates with, and the state of that relationship.
+    public struct ReplicationPeer: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the peer domain.
+        public var peerDomainArn: Swift.String?
+        /// The peer's role in the relationship, either PRIMARY or SECONDARY.
+        public var peerRole: OpenSearchClientTypes.ReplicationRole?
+        /// The state of the relationship:
+        ///
+        /// * PENDING_SETUP - replication is being established.
+        ///
+        /// * ACTIVE - replication is running.
+        ///
+        /// * SWITCHING_OVER - a planned promotion is in progress.
+        ///
+        /// * FAILING_OVER - an unplanned promotion is in progress.
+        ///
+        /// * PENDING_REMOVAL - replication is being stopped.
+        ///
+        /// * DETACHED - the relationship has ended.
+        ///
+        /// * EJECTED - a failover promoted the other domain. The former primary keeps the data it had when it was ejected and stays read-only until you remove the peer, or discard that data and pair again.
+        ///
+        /// * FAILED - setup or teardown could not complete. You can still remove the relationship.
+        ///
+        ///
+        /// A relationship that is removed successfully no longer appears in Peers.
+        public var status: OpenSearchClientTypes.ReplicationStatus?
+        /// An explanation of why the relationship is in its current state, when more detail is available.
+        public var statusMessage: Swift.String?
+
+        public init(
+            peerDomainArn: Swift.String? = nil,
+            peerRole: OpenSearchClientTypes.ReplicationRole? = nil,
+            status: OpenSearchClientTypes.ReplicationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.peerDomainArn = peerDomainArn
+            self.peerRole = peerRole
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct DescribeDomainReplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain described.
+    public var domainArn: Swift.String?
+    /// The domains that this domain replicates with. Each entry carries the state of that one relationship. Empty when the domain is not replicating.
+    public var peers: [OpenSearchClientTypes.ReplicationPeer]?
+    /// The domain's role in the arrangement, either PRIMARY or SECONDARY. Absent when the domain is not replicating.
+    public var role: OpenSearchClientTypes.ReplicationRole?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        peers: [OpenSearchClientTypes.ReplicationPeer]? = nil,
+        role: OpenSearchClientTypes.ReplicationRole? = nil
+    ) {
+        self.domainArn = domainArn
+        self.peers = peers
+        self.role = role
+    }
+}
+
 /// Container for the parameters to the DescribeDomains operation.
 public struct DescribeDomainsInput: Swift.Sendable {
     /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name.
@@ -8078,6 +8496,43 @@ public struct DissociatePackagesOutput: Swift.Sendable {
         domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil
     ) {
         self.domainPackageDetailsList = domainPackageDetailsList
+    }
+}
+
+public struct FailoverReplicationInput: Swift.Sendable {
+    /// Acknowledges that writes which had not yet replicated are lost. You must set this to true; the request is rejected otherwise.
+    /// This member is required.
+    public var allowDataLoss: Swift.Bool?
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        allowDataLoss: Swift.Bool? = nil,
+        domainName: Swift.String? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.allowDataLoss = allowDataLoss
+        self.domainName = domainName
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+public struct FailoverReplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain being promoted.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is FAILING_OVER while the promotion is in progress.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
     }
 }
 
@@ -10467,6 +10922,38 @@ public struct RejectInboundConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct RemoveReplicationPeerInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the peer to stop replicating with. Both domains are named so that the request identifies exactly one replication relationship.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+public struct RemoveReplicationPeerOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain that is no longer replicating.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is PENDING_REMOVAL while replication is being stopped.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
+    }
+}
+
 /// Container for the request parameters to the RemoveTags operation.
 public struct RemoveTagsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags.
@@ -10807,6 +11294,38 @@ public struct StartServiceSoftwareUpdateOutput: Swift.Sendable {
         serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions? = nil
     ) {
         self.serviceSoftwareOptions = serviceSoftwareOptions
+    }
+}
+
+public struct SwitchoverReplicationInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+public struct SwitchoverReplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain being promoted.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is SWITCHING_OVER while the promotion is in progress.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
     }
 }
 
@@ -11475,6 +11994,16 @@ extension AddDirectQueryDataSourceInput {
     }
 }
 
+extension AddReplicationPeerInput {
+
+    static func urlPathProvider(_ value: AddReplicationPeerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/addPeer"
+    }
+}
+
 extension AddTagsInput {
 
     static func urlPathProvider(_ value: AddTagsInput) -> Swift.String? {
@@ -11536,6 +12065,13 @@ extension CancelServiceSoftwareUpdateInput {
 
     static func urlPathProvider(_ value: CancelServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel"
+    }
+}
+
+extension CompareDomainConfigurationInput {
+
+    static func urlPathProvider(_ value: CompareDomainConfigurationInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/compareDomainConfiguration"
     }
 }
 
@@ -11791,6 +12327,16 @@ extension DescribeDomainNodesInput {
     }
 }
 
+extension DescribeDomainReplicationInput {
+
+    static func urlPathProvider(_ value: DescribeDomainReplicationInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication"
+    }
+}
+
 extension DescribeDomainsInput {
 
     static func urlPathProvider(_ value: DescribeDomainsInput) -> Swift.String? {
@@ -11965,6 +12511,16 @@ extension DissociatePackagesInput {
 
     static func urlPathProvider(_ value: DissociatePackagesInput) -> Swift.String? {
         return "/2021-01-01/packages/dissociateMultiple"
+    }
+}
+
+extension FailoverReplicationInput {
+
+    static func urlPathProvider(_ value: FailoverReplicationInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/failover"
     }
 }
 
@@ -12574,6 +13130,16 @@ extension RejectInboundConnectionInput {
     }
 }
 
+extension RemoveReplicationPeerInput {
+
+    static func urlPathProvider(_ value: RemoveReplicationPeerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/removePeer"
+    }
+}
+
 extension RemoveTagsInput {
 
     static func urlPathProvider(_ value: RemoveTagsInput) -> Swift.String? {
@@ -12619,6 +13185,16 @@ extension StartServiceSoftwareUpdateInput {
 
     static func urlPathProvider(_ value: StartServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2021-01-01/opensearch/serviceSoftwareUpdate/start"
+    }
+}
+
+extension SwitchoverReplicationInput {
+
+    static func urlPathProvider(_ value: SwitchoverReplicationInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/switchover"
     }
 }
 
@@ -12739,6 +13315,15 @@ extension AddDirectQueryDataSourceInput {
     }
 }
 
+extension AddReplicationPeerInput {
+
+    static func write(value: AddReplicationPeerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
+    }
+}
+
 extension AddTagsInput {
 
     static func write(value: AddTagsInput?, to writer: SmithyJSON.Writer) throws {
@@ -12800,6 +13385,16 @@ extension CancelServiceSoftwareUpdateInput {
     static func write(value: CancelServiceSoftwareUpdateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
+    }
+}
+
+extension CompareDomainConfigurationInput {
+
+    static func write(value: CompareDomainConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceDomainArn"].write(value.sourceDomainArn)
+        try writer["TargetDomainArn"].write(value.targetDomainArn)
     }
 }
 
@@ -12976,6 +13571,15 @@ extension DissociatePackagesInput {
     }
 }
 
+extension FailoverReplicationInput {
+
+    static func write(value: FailoverReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowDataLoss"].write(value.allowDataLoss)
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
+    }
+}
+
 extension InsightFeedbackInput {
 
     static func write(value: InsightFeedbackInput?, to writer: SmithyJSON.Writer) throws {
@@ -13036,6 +13640,14 @@ extension RegisterCapabilityInput {
     }
 }
 
+extension RemoveReplicationPeerInput {
+
+    static func write(value: RemoveReplicationPeerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
+    }
+}
+
 extension RemoveTagsInput {
 
     static func write(value: RemoveTagsInput?, to writer: SmithyJSON.Writer) throws {
@@ -13089,6 +13701,14 @@ extension StartServiceSoftwareUpdateInput {
         try writer["DesiredStartTime"].write(value.desiredStartTime)
         try writer["DomainName"].write(value.domainName)
         try writer["ScheduleAt"].write(value.scheduleAt)
+    }
+}
+
+extension SwitchoverReplicationInput {
+
+    static func write(value: SwitchoverReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
     }
 }
 
@@ -13253,6 +13873,19 @@ extension AddDirectQueryDataSourceOutput {
     }
 }
 
+extension AddReplicationPeerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddReplicationPeerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddReplicationPeerOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension AddTagsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddTagsOutput {
@@ -13334,6 +13967,20 @@ extension CancelServiceSoftwareUpdateOutput {
         let reader = responseReader
         var value = CancelServiceSoftwareUpdateOutput()
         value.serviceSoftwareOptions = try reader["ServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceSoftwareOptions.read(from:))
+        return value
+    }
+}
+
+extension CompareDomainConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CompareDomainConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CompareDomainConfigurationOutput()
+        value.categories = try reader["Categories"].readMapIfPresent(valueReadingClosure: OpenSearchClientTypes.CategoryDiffResult.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sourceDomainArn = try reader["SourceDomainArn"].readIfPresent()
+        value.targetDomainArn = try reader["TargetDomainArn"].readIfPresent()
         return value
     }
 }
@@ -13635,6 +14282,20 @@ extension DescribeDomainNodesOutput {
     }
 }
 
+extension DescribeDomainReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDomainReplicationOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.peers = try reader["Peers"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ReplicationPeer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["Role"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDomainsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainsOutput {
@@ -13797,6 +14458,19 @@ extension DissociatePackagesOutput {
         let reader = responseReader
         var value = DissociatePackagesOutput()
         value.domainPackageDetailsList = try reader["DomainPackageDetailsList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DomainPackageDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FailoverReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> FailoverReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = FailoverReplicationOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -14267,6 +14941,19 @@ extension RejectInboundConnectionOutput {
     }
 }
 
+extension RemoveReplicationPeerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveReplicationPeerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RemoveReplicationPeerOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension RemoveTagsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveTagsOutput {
@@ -14326,6 +15013,19 @@ extension StartServiceSoftwareUpdateOutput {
         let reader = responseReader
         var value = StartServiceSoftwareUpdateOutput()
         value.serviceSoftwareOptions = try reader["ServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceSoftwareOptions.read(from:))
+        return value
+    }
+}
+
+extension SwitchoverReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SwitchoverReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SwitchoverReplicationOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -14521,6 +15221,24 @@ enum AddDirectQueryDataSourceOutputError {
     }
 }
 
+enum AddReplicationPeerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AddTagsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14641,6 +15359,23 @@ enum CancelServiceSoftwareUpdateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CompareDomainConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -15067,6 +15802,23 @@ enum DescribeDomainNodesOutputError {
     }
 }
 
+enum DescribeDomainReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDomainsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15286,6 +16038,23 @@ enum DissociatePackagesOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum FailoverReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15902,6 +16671,23 @@ enum RejectInboundConnectionOutputError {
     }
 }
 
+enum RemoveReplicationPeerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RemoveTagsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16000,6 +16786,23 @@ enum StartServiceSoftwareUpdateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SwitchoverReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -16291,6 +17094,19 @@ extension ValidationException {
     }
 }
 
+extension ResourceAlreadyExistsException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -16322,19 +17138,6 @@ extension InvalidTypeException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidTypeException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceAlreadyExistsException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16802,6 +17605,22 @@ extension OpenSearchClientTypes.CapabilityFailure {
     }
 }
 
+extension OpenSearchClientTypes.CategoryDiffResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CategoryDiffResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CategoryDiffResult()
+        value.status = try reader["Status"].readIfPresent()
+        value.inSync = try reader["InSync"].readIfPresent() ?? 0
+        value.sourceOnly = try reader["SourceOnly"].readIfPresent() ?? 0
+        value.targetOnly = try reader["TargetOnly"].readIfPresent() ?? 0
+        value.diverged = try reader["Diverged"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readIfPresent(with: OpenSearchClientTypes.DiffItems.read(from:))
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.ChangeProgressDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ChangeProgressDetails {
@@ -17109,6 +17928,18 @@ extension OpenSearchClientTypes.DescribePackagesFilter {
     }
 }
 
+extension OpenSearchClientTypes.DiffItems {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DiffItems {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DiffItems()
+        value.sourceOnly = try reader["SourceOnly"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetOnly = try reader["TargetOnly"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.diverged = try reader["Diverged"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DivergentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.DirectQueryDataSource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DirectQueryDataSource {
@@ -17153,6 +17984,30 @@ extension OpenSearchClientTypes.DirectQueryDataSourceType {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension OpenSearchClientTypes.DivergentField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DivergentField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DivergentField()
+        value.path = try reader["Path"].readIfPresent()
+        value.sourceValue = try reader["SourceValue"].readIfPresent()
+        value.targetValue = try reader["TargetValue"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.DivergentItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DivergentItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DivergentItem()
+        value.name = try reader["Name"].readIfPresent()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DivergentField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -18224,6 +19079,19 @@ extension OpenSearchClientTypes.RecurringCharge {
         var value = OpenSearchClientTypes.RecurringCharge()
         value.recurringChargeAmount = try reader["RecurringChargeAmount"].readIfPresent()
         value.recurringChargeFrequency = try reader["RecurringChargeFrequency"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ReplicationPeer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ReplicationPeer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ReplicationPeer()
+        value.peerDomainArn = try reader["PeerDomainArn"].readIfPresent()
+        value.peerRole = try reader["PeerRole"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }

@@ -7475,6 +7475,10 @@ extension MediaLiveClientTypes {
 
     /// Pair of multicast url and source ip address (optional) that make up a multicast source.
     public struct MulticastSource: Swift.Sendable {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public var secondarySourceIp: Swift.String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public var secondaryUrl: Swift.String?
         /// This represents the ip address of the device sending the multicast stream.
         public var sourceIp: Swift.String?
         /// This represents the customer's source URL where multicast stream is pulled from.
@@ -7482,9 +7486,13 @@ extension MediaLiveClientTypes {
         public var url: Swift.String?
 
         public init(
+            secondarySourceIp: Swift.String? = nil,
+            secondaryUrl: Swift.String? = nil,
             sourceIp: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
@@ -9057,6 +9065,10 @@ extension MediaLiveClientTypes {
 
     /// Pair of multicast url and source ip address (optional) that make up a multicast source.
     public struct MulticastSourceCreateRequest: Swift.Sendable {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public var secondarySourceIp: Swift.String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public var secondaryUrl: Swift.String?
         /// This represents the ip address of the device sending the multicast stream.
         public var sourceIp: Swift.String?
         /// This represents the customer's source URL where multicast stream is pulled from.
@@ -9064,9 +9076,13 @@ extension MediaLiveClientTypes {
         public var url: Swift.String?
 
         public init(
+            secondarySourceIp: Swift.String? = nil,
+            secondaryUrl: Swift.String? = nil,
             sourceIp: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
@@ -9077,6 +9093,10 @@ extension MediaLiveClientTypes {
 
     /// Pair of multicast url and source ip address (optional) that make up a multicast source.
     public struct MulticastSourceUpdateRequest: Swift.Sendable {
+        /// This represents the ip address of the device sending the secondary multicast stream.
+        public var secondarySourceIp: Swift.String?
+        /// This represents the customer's secondary source URL where the redundant multicast stream (SMPTE 2022-7) is pulled from.
+        public var secondaryUrl: Swift.String?
         /// This represents the ip address of the device sending the multicast stream.
         public var sourceIp: Swift.String?
         /// This represents the customer's source URL where multicast stream is pulled from.
@@ -9084,9 +9104,13 @@ extension MediaLiveClientTypes {
         public var url: Swift.String?
 
         public init(
+            secondarySourceIp: Swift.String? = nil,
+            secondaryUrl: Swift.String? = nil,
             sourceIp: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.secondarySourceIp = secondarySourceIp
+            self.secondaryUrl = secondaryUrl
             self.sourceIp = sourceIp
             self.url = url
         }
@@ -40241,6 +40265,8 @@ extension MediaLiveClientTypes.MulticastSource {
         var value = MediaLiveClientTypes.MulticastSource()
         value.sourceIp = try reader["sourceIp"].readIfPresent()
         value.url = try reader["url"].readIfPresent() ?? ""
+        value.secondarySourceIp = try reader["secondarySourceIp"].readIfPresent()
+        value.secondaryUrl = try reader["secondaryUrl"].readIfPresent()
         return value
     }
 }
@@ -40249,6 +40275,8 @@ extension MediaLiveClientTypes.MulticastSourceCreateRequest {
 
     static func write(value: MediaLiveClientTypes.MulticastSourceCreateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["secondarySourceIp"].write(value.secondarySourceIp)
+        try writer["secondaryUrl"].write(value.secondaryUrl)
         try writer["sourceIp"].write(value.sourceIp)
         try writer["url"].write(value.url)
     }
@@ -40258,6 +40286,8 @@ extension MediaLiveClientTypes.MulticastSourceUpdateRequest {
 
     static func write(value: MediaLiveClientTypes.MulticastSourceUpdateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["secondarySourceIp"].write(value.secondarySourceIp)
+        try writer["secondaryUrl"].write(value.secondaryUrl)
         try writer["sourceIp"].write(value.sourceIp)
         try writer["url"].write(value.url)
     }

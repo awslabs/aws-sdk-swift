@@ -2061,7 +2061,7 @@ extension KafkaConnectClient {
 
     /// Performs the `UpdateConnector` operation on the `KafkaConnect` service.
     ///
-    /// Updates the specified connector. For request body, specify only one parameter: either capacity or connectorConfiguration.
+    /// Updates the specified connector. In the request body, you can update either the connector's worker setting or its connector configuration, but not both in the same request. To update the worker setting, specify one or more of capacity, plugins, workerConfiguration, or useDefaultWorkerConfiguration. To update the connector configuration, specify only connectorConfiguration.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
     ///

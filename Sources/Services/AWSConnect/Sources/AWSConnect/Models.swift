@@ -11002,6 +11002,21 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// The event hooks that are set on tasks created by using this template.
+    public struct TaskTemplateContactHooks: Swift.Sendable {
+        /// The identifier of the flow module that runs when an agent attempts to disconnect from a task created by referencing this template. If no agent ever connects to the task, the flow module runs when the task is terminated.
+        public var wrapUpFlowId: Swift.String?
+
+        public init(
+            wrapUpFlowId: Swift.String? = nil
+        ) {
+            self.wrapUpFlowId = wrapUpFlowId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Describes a default field and its corresponding value.
     public struct TaskTemplateDefaultFieldValue: Swift.Sendable {
         /// Default value for the field.
@@ -11163,6 +11178,8 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
     /// The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
     public var contactFlowId: Swift.String?
+    /// The event hooks that are set on tasks created by using this template.
+    public var contactHooks: ConnectClientTypes.TaskTemplateContactHooks?
     /// The default values for fields when a task is created by referencing this template.
     public var defaults: ConnectClientTypes.TaskTemplateDefaults?
     /// The description of the task template.
@@ -11185,6 +11202,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         constraints: ConnectClientTypes.TaskTemplateConstraints? = nil,
         contactFlowId: Swift.String? = nil,
+        contactHooks: ConnectClientTypes.TaskTemplateContactHooks? = nil,
         defaults: ConnectClientTypes.TaskTemplateDefaults? = nil,
         description: Swift.String? = nil,
         fields: [ConnectClientTypes.TaskTemplateField]? = nil,
@@ -11196,6 +11214,7 @@ public struct CreateTaskTemplateInput: Swift.Sendable {
         self.clientToken = clientToken
         self.constraints = constraints
         self.contactFlowId = contactFlowId
+        self.contactHooks = contactHooks
         self.defaults = defaults
         self.description = description
         self.fields = fields
@@ -22624,6 +22643,8 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
     /// The identifier of the flow that runs by default when a task is created by referencing this template.
     public var contactFlowId: Swift.String?
+    /// The event hooks that are set on tasks created by using this template.
+    public var contactHooks: ConnectClientTypes.TaskTemplateContactHooks?
     /// The timestamp when the task template was created.
     public var createdTime: Foundation.Date?
     /// The default values for fields when a task is created by referencing this template.
@@ -22653,6 +22674,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         constraints: ConnectClientTypes.TaskTemplateConstraints? = nil,
         contactFlowId: Swift.String? = nil,
+        contactHooks: ConnectClientTypes.TaskTemplateContactHooks? = nil,
         createdTime: Foundation.Date? = nil,
         defaults: ConnectClientTypes.TaskTemplateDefaults? = nil,
         description: Swift.String? = nil,
@@ -22668,6 +22690,7 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
         self.arn = arn
         self.constraints = constraints
         self.contactFlowId = contactFlowId
+        self.contactHooks = contactHooks
         self.createdTime = createdTime
         self.defaults = defaults
         self.description = description
@@ -37321,6 +37344,8 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
     /// The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
     public var contactFlowId: Swift.String?
+    /// The event hooks that are set on tasks created by using this template.
+    public var contactHooks: ConnectClientTypes.TaskTemplateContactHooks?
     /// The default values for fields when a task is created by referencing this template.
     public var defaults: ConnectClientTypes.TaskTemplateDefaults?
     /// The description of the task template.
@@ -37343,6 +37368,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
     public init(
         constraints: ConnectClientTypes.TaskTemplateConstraints? = nil,
         contactFlowId: Swift.String? = nil,
+        contactHooks: ConnectClientTypes.TaskTemplateContactHooks? = nil,
         defaults: ConnectClientTypes.TaskTemplateDefaults? = nil,
         description: Swift.String? = nil,
         fields: [ConnectClientTypes.TaskTemplateField]? = nil,
@@ -37354,6 +37380,7 @@ public struct UpdateTaskTemplateInput: Swift.Sendable {
     ) {
         self.constraints = constraints
         self.contactFlowId = contactFlowId
+        self.contactHooks = contactHooks
         self.defaults = defaults
         self.description = description
         self.fields = fields
@@ -37372,6 +37399,8 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
     public var constraints: ConnectClientTypes.TaskTemplateConstraints?
     /// The identifier of the flow that runs by default when a task is created by referencing this template.
     public var contactFlowId: Swift.String?
+    /// The event hooks that are set on tasks created by using this template.
+    public var contactHooks: ConnectClientTypes.TaskTemplateContactHooks?
     /// The timestamp when the task template was created.
     public var createdTime: Foundation.Date?
     /// The default values for fields when a task is created by referencing this template.
@@ -37397,6 +37426,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
         arn: Swift.String? = nil,
         constraints: ConnectClientTypes.TaskTemplateConstraints? = nil,
         contactFlowId: Swift.String? = nil,
+        contactHooks: ConnectClientTypes.TaskTemplateContactHooks? = nil,
         createdTime: Foundation.Date? = nil,
         defaults: ConnectClientTypes.TaskTemplateDefaults? = nil,
         description: Swift.String? = nil,
@@ -37411,6 +37441,7 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
         self.arn = arn
         self.constraints = constraints
         self.contactFlowId = contactFlowId
+        self.contactHooks = contactHooks
         self.createdTime = createdTime
         self.defaults = defaults
         self.description = description
@@ -47782,6 +47813,7 @@ extension CreateTaskTemplateInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["Constraints"].write(value.constraints, with: ConnectClientTypes.TaskTemplateConstraints.write(value:to:))
         try writer["ContactFlowId"].write(value.contactFlowId)
+        try writer["ContactHooks"].write(value.contactHooks, with: ConnectClientTypes.TaskTemplateContactHooks.write(value:to:))
         try writer["Defaults"].write(value.defaults, with: ConnectClientTypes.TaskTemplateDefaults.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Fields"].writeList(value.fields, memberWritingClosure: ConnectClientTypes.TaskTemplateField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -49507,6 +49539,7 @@ extension UpdateTaskTemplateInput {
         guard let value else { return }
         try writer["Constraints"].write(value.constraints, with: ConnectClientTypes.TaskTemplateConstraints.write(value:to:))
         try writer["ContactFlowId"].write(value.contactFlowId)
+        try writer["ContactHooks"].write(value.contactHooks, with: ConnectClientTypes.TaskTemplateContactHooks.write(value:to:))
         try writer["Defaults"].write(value.defaults, with: ConnectClientTypes.TaskTemplateDefaults.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Fields"].writeList(value.fields, memberWritingClosure: ConnectClientTypes.TaskTemplateField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -51647,6 +51680,7 @@ extension GetTaskTemplateOutput {
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.constraints = try reader["Constraints"].readIfPresent(with: ConnectClientTypes.TaskTemplateConstraints.read(from:))
         value.contactFlowId = try reader["ContactFlowId"].readIfPresent()
+        value.contactHooks = try reader["ContactHooks"].readIfPresent(with: ConnectClientTypes.TaskTemplateContactHooks.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaults = try reader["Defaults"].readIfPresent(with: ConnectClientTypes.TaskTemplateDefaults.read(from:))
         value.description = try reader["Description"].readIfPresent()
@@ -53933,6 +53967,7 @@ extension UpdateTaskTemplateOutput {
         value.arn = try reader["Arn"].readIfPresent()
         value.constraints = try reader["Constraints"].readIfPresent(with: ConnectClientTypes.TaskTemplateConstraints.read(from:))
         value.contactFlowId = try reader["ContactFlowId"].readIfPresent()
+        value.contactHooks = try reader["ContactHooks"].readIfPresent(with: ConnectClientTypes.TaskTemplateContactHooks.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaults = try reader["Defaults"].readIfPresent(with: ConnectClientTypes.TaskTemplateDefaults.read(from:))
         value.description = try reader["Description"].readIfPresent()
@@ -69464,6 +69499,21 @@ extension ConnectClientTypes.TaskTemplateConstraints {
         value.requiredFields = try reader["RequiredFields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RequiredFieldInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.readOnlyFields = try reader["ReadOnlyFields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ReadOnlyFieldInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.invisibleFields = try reader["InvisibleFields"].readListIfPresent(memberReadingClosure: ConnectClientTypes.InvisibleFieldInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.TaskTemplateContactHooks {
+
+    static func write(value: ConnectClientTypes.TaskTemplateContactHooks?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WrapUpFlowId"].write(value.wrapUpFlowId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TaskTemplateContactHooks {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.TaskTemplateContactHooks()
+        value.wrapUpFlowId = try reader["WrapUpFlowId"].readIfPresent()
         return value
     }
 }

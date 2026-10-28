@@ -30,6 +30,7 @@ import struct Smithy.Document
 import struct Smithy.URIQueryItem
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
 public struct DeletePropertygraphStatisticsInput: Swift.Sendable {
@@ -53,6 +54,16 @@ public struct GetPropertygraphStatisticsInput: Swift.Sendable {
 }
 
 public struct GetSparqlStatisticsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetStorageInfoInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ListIndexRebuildsInput: Swift.Sendable {
 
     public init() { }
 }
@@ -634,8 +645,8 @@ public struct CancelGremlinQueryOutput: Swift.Sendable {
     }
 }
 
-/// Raised when a specified bulk-load job ID cannot be found.
-public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// Raised when a request is cancelled because the storage layer entered maintenance mode. This typically happens during a customer-initiated operation such as an index rebuild. It should be treated like ConcurrentModificationException.
+public struct CancelledByMaintenanceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The HTTP status code returned with the exception.
@@ -644,15 +655,50 @@ public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClient
         /// A detailed message describing the problem.
         /// This member is required.
         public internal(set) var detailedMessage: Swift.String? = nil
-        /// The bulk-load job ID that could not be found.
+        /// The ID of the request in question.
         /// This member is required.
         public internal(set) var requestId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "BulkLoadIdNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var typeName: Swift.String { "CancelledByMaintenanceException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        detailedMessage: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.detailedMessage = detailedMessage
+        self.properties.requestId = requestId
+    }
+}
+
+/// Raised when a user cancelled a request.
+public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The HTTP status code returned with the exception.
+        /// This member is required.
+        public internal(set) var code: Swift.String? = nil
+        /// A detailed message describing the problem.
+        /// This member is required.
+        public internal(set) var detailedMessage: Swift.String? = nil
+        /// The ID of the request in question.
+        /// This member is required.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "CancelledByUserException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
@@ -688,6 +734,299 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     public static var typeName: Swift.String { "InternalFailureException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        detailedMessage: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.detailedMessage = detailedMessage
+        self.properties.requestId = requestId
+    }
+}
+
+/// Raised when the HTTP method used by a request is not supported by the endpoint being used.
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The HTTP status code returned with the exception.
+        /// This member is required.
+        public internal(set) var code: Swift.String? = nil
+        /// A detailed message describing the problem.
+        /// This member is required.
+        public internal(set) var detailedMessage: Swift.String? = nil
+        /// The ID of the request in question.
+        /// This member is required.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MethodNotAllowedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        detailedMessage: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.detailedMessage = detailedMessage
+        self.properties.requestId = requestId
+    }
+}
+
+/// Raised when a request attempts to write to a read-only resource.
+public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The HTTP status code returned with the exception.
+        /// This member is required.
+        public internal(set) var code: Swift.String? = nil
+        /// A detailed message describing the problem.
+        /// This member is required.
+        public internal(set) var detailedMessage: Swift.String? = nil
+        /// The ID of the request in which the parameter is missing.
+        /// This member is required.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReadOnlyViolationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        detailedMessage: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.detailedMessage = detailedMessage
+        self.properties.requestId = requestId
+    }
+}
+
+/// Raised when the server shuts down while processing a request.
+public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The HTTP status code returned with the exception.
+        /// This member is required.
+        public internal(set) var code: Swift.String? = nil
+        /// A detailed message describing the problem.
+        /// This member is required.
+        public internal(set) var detailedMessage: Swift.String? = nil
+        /// The ID of the request in question.
+        /// This member is required.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerShutdownException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        detailedMessage: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.detailedMessage = detailedMessage
+        self.properties.requestId = requestId
+    }
+}
+
+/// Raised when a parameter value is not valid or is malformed.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The HTTP status code returned with the exception.
+        /// This member is required.
+        public internal(set) var code: Swift.String? = nil
+        /// A detailed message describing the problem.
+        /// This member is required.
+        public internal(set) var detailedMessage: Swift.String? = nil
+        /// The ID of the request in question.
+        /// This member is required.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        detailedMessage: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.detailedMessage = detailedMessage
+        self.properties.requestId = requestId
+    }
+}
+
+public struct CancelIndexRebuildInput: Swift.Sendable {
+    /// The unique identifier of the index rebuild job to cancel.
+    /// This member is required.
+    public var rebuildId: Swift.String?
+
+    public init(
+        rebuildId: Swift.String? = nil
+    ) {
+        self.rebuildId = rebuildId
+    }
+}
+
+extension NeptunedataClientTypes {
+
+    /// Indicates the current state of a rebuild operation.
+    public enum RebuildStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The rebuild operation was cancelled by the user.
+        case cancelled
+        /// The rebuild operation was cancelled by the user and is in cancelling phase.
+        case cancelling
+        /// The rebuild operation has completed successfully.
+        case completed
+        /// The rebuild operation has failed (completely or partially).
+        case failed
+        /// The rebuild operation is being prepared.
+        case preparing
+        /// The rebuild operation is actively rebuilding indexes.
+        case rebuilding
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RebuildStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .completed,
+                .failed,
+                .preparing,
+                .rebuilding
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .preparing: return "PREPARING"
+            case .rebuilding: return "REBUILDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NeptunedataClientTypes {
+
+    /// Controls the buffer size used during an index rebuild to track concurrent write operations. Larger values allow the rebuild to tolerate heavier concurrent write traffic.
+    public enum WriteBufferSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Use when rebuilding indexes during heavy write workloads or continuous bulk data ingestion.
+        case high
+        /// Suitable for databases with light to moderate write activity. This is the default.
+        case low
+        /// Recommended for databases with sustained write traffic or bulk loading.
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WriteBufferSize] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CancelIndexRebuildOutput: Swift.Sendable {
+    /// The concurrency of the rebuild being cancelled, echoed from the original StartIndexRebuild request.
+    /// This member is required.
+    public var concurrency: Swift.Int?
+    /// The status of the cancellation request.
+    /// This member is required.
+    public var status: NeptunedataClientTypes.RebuildStatus?
+    /// The WriteBufferSize of the rebuild being cancelled, echoed from the original StartIndexRebuild request.
+    /// This member is required.
+    public var writeBufferSize: NeptunedataClientTypes.WriteBufferSize?
+
+    public init(
+        concurrency: Swift.Int? = nil,
+        status: NeptunedataClientTypes.RebuildStatus? = nil,
+        writeBufferSize: NeptunedataClientTypes.WriteBufferSize? = nil
+    ) {
+        self.concurrency = concurrency
+        self.status = status
+        self.writeBufferSize = writeBufferSize
+    }
+}
+
+/// Raised when a specified bulk-load job ID cannot be found.
+public struct BulkLoadIdNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The HTTP status code returned with the exception.
+        /// This member is required.
+        public internal(set) var code: Swift.String? = nil
+        /// A detailed message describing the problem.
+        /// This member is required.
+        public internal(set) var detailedMessage: Swift.String? = nil
+        /// The bulk-load job ID that could not be found.
+        /// This member is required.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BulkLoadIdNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
@@ -1049,41 +1388,6 @@ public struct DeleteMLEndpointOutput: Swift.Sendable {
     }
 }
 
-/// Raised when a request attempts to write to a read-only resource.
-public struct ReadOnlyViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The HTTP status code returned with the exception.
-        /// This member is required.
-        public internal(set) var code: Swift.String? = nil
-        /// A detailed message describing the problem.
-        /// This member is required.
-        public internal(set) var detailedMessage: Swift.String? = nil
-        /// The ID of the request in which the parameter is missing.
-        /// This member is required.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ReadOnlyViolationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        detailedMessage: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.detailedMessage = detailedMessage
-        self.properties.requestId = requestId
-    }
-}
-
 /// Raised when statistics needed to satisfy a request are not available.
 public struct StatisticsNotAvailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1176,76 +1480,6 @@ public struct DeleteSparqlStatisticsOutput: Swift.Sendable {
     }
 }
 
-/// Raised when the HTTP method used by a request is not supported by the endpoint being used.
-public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The HTTP status code returned with the exception.
-        /// This member is required.
-        public internal(set) var code: Swift.String? = nil
-        /// A detailed message describing the problem.
-        /// This member is required.
-        public internal(set) var detailedMessage: Swift.String? = nil
-        /// The ID of the request in question.
-        /// This member is required.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "MethodNotAllowedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        detailedMessage: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.detailedMessage = detailedMessage
-        self.properties.requestId = requestId
-    }
-}
-
-/// Raised when the server shuts down while processing a request.
-public struct ServerShutdownException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The HTTP status code returned with the exception.
-        /// This member is required.
-        public internal(set) var code: Swift.String? = nil
-        /// A detailed message describing the problem.
-        /// This member is required.
-        public internal(set) var detailedMessage: Swift.String? = nil
-        /// The ID of the request in question.
-        /// This member is required.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServerShutdownException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        detailedMessage: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.detailedMessage = detailedMessage
-        self.properties.requestId = requestId
-    }
-}
-
 public struct ExecuteFastResetInput: Swift.Sendable {
     /// The fast reset action. One of the following values:
     ///
@@ -1294,41 +1528,6 @@ public struct ExecuteFastResetOutput: Swift.Sendable {
     ) {
         self.payload = payload
         self.status = status
-    }
-}
-
-/// Raised when a user cancelled a request.
-public struct CancelledByUserException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The HTTP status code returned with the exception.
-        /// This member is required.
-        public internal(set) var code: Swift.String? = nil
-        /// A detailed message describing the problem.
-        /// This member is required.
-        public internal(set) var detailedMessage: Swift.String? = nil
-        /// The ID of the request in question.
-        /// This member is required.
-        public internal(set) var requestId: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "CancelledByUserException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        code: Swift.String? = nil,
-        detailedMessage: Swift.String? = nil,
-        requestId: Swift.String? = nil
-    ) {
-        self.properties.code = code
-        self.properties.detailedMessage = detailedMessage
-        self.properties.requestId = requestId
     }
 }
 
@@ -1854,6 +2053,103 @@ public struct GetGremlinQueryStatusOutput: Swift.Sendable {
         self.queryEvalStats = queryEvalStats
         self.queryId = queryId
         self.queryString = queryString
+    }
+}
+
+public struct GetIndexRebuildStatusInput: Swift.Sendable {
+    /// The unique identifier of the index rebuild job returned by the StartIndexRebuild operation.
+    /// This member is required.
+    public var rebuildId: Swift.String?
+
+    public init(
+        rebuildId: Swift.String? = nil
+    ) {
+        self.rebuildId = rebuildId
+    }
+}
+
+extension NeptunedataClientTypes {
+
+    /// Specifies the scope of the storage rebuild operation.
+    public enum Scope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Rebuild all (quads and dictionaries). This is the default option.
+        case all
+        /// Rebuild only the dictionaries.
+        case dictionaries
+        /// Rebuild only the quad indexes.
+        case quads
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Scope] {
+            return [
+                .all,
+                .dictionaries,
+                .quads
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .dictionaries: return "DICTIONARIES"
+            case .quads: return "QUADS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetIndexRebuildStatusOutput: Swift.Sendable {
+    /// The concurrency in effect for this rebuild, as echoed from the original StartIndexRebuild request.
+    /// This member is required.
+    public var concurrency: Swift.Int?
+    /// The ISO-8601 timestamp indicating when the index rebuild operation completed. This field is only present when the operation has completed (status is COMPLETED, FAILED, or CANCELLED).
+    public var endTime: Foundation.Date?
+    /// The estimated ISO-8601 timestamp for when the index rebuild operation will complete. The estimate may change as the operation progresses.
+    public var estimatedEndTime: Foundation.Date?
+    /// The reason for the failure, if the rebuild operation failed. This field is only populated when the status is FAILED.
+    public var failureReason: Swift.String?
+    /// The percentage of the index rebuild operation that has been completed, expressed as an integer from 0 to 100.
+    /// This member is required.
+    public var progressPercentage: Swift.Int?
+    /// The scope of the rebuild operation. See Scope for possible values: ALL, QUADS, or DICTIONARIES.
+    /// This member is required.
+    public var scope: NeptunedataClientTypes.Scope?
+    /// The ISO-8601 timestamp indicating when the index rebuild operation started.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+    /// The current status of the rebuild operation. See RebuildStatus for possible values: PREPARING, REBUILDING, COMPLETED, FAILED, CANCELLING or CANCELLED.
+    /// This member is required.
+    public var status: NeptunedataClientTypes.RebuildStatus?
+    /// The WriteBufferSize in effect for this rebuild, as echoed from the original StartIndexRebuild request.
+    /// This member is required.
+    public var writeBufferSize: NeptunedataClientTypes.WriteBufferSize?
+
+    public init(
+        concurrency: Swift.Int? = nil,
+        endTime: Foundation.Date? = nil,
+        estimatedEndTime: Foundation.Date? = nil,
+        failureReason: Swift.String? = nil,
+        progressPercentage: Swift.Int? = nil,
+        scope: NeptunedataClientTypes.Scope? = nil,
+        startTime: Foundation.Date? = nil,
+        status: NeptunedataClientTypes.RebuildStatus? = nil,
+        writeBufferSize: NeptunedataClientTypes.WriteBufferSize? = nil
+    ) {
+        self.concurrency = concurrency
+        self.endTime = endTime
+        self.estimatedEndTime = estimatedEndTime
+        self.failureReason = failureReason
+        self.progressPercentage = progressPercentage
+        self.scope = scope
+        self.startTime = startTime
+        self.status = status
+        self.writeBufferSize = writeBufferSize
     }
 }
 
@@ -2976,6 +3272,156 @@ public struct GetSparqlStreamOutput: Swift.Sendable {
     }
 }
 
+extension NeptunedataClientTypes {
+
+    /// Contains storage size and entry count metrics.
+    public struct StorageMetrics: Swift.Sendable {
+        /// The number of entries.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// Storage size in bytes.
+        /// This member is required.
+        public var sizeInBytes: Swift.Int?
+
+        public init(
+            count: Swift.Int? = nil,
+            sizeInBytes: Swift.Int? = nil
+        ) {
+            self.count = count
+            self.sizeInBytes = sizeInBytes
+        }
+    }
+}
+
+extension NeptunedataClientTypes {
+
+    /// Contains dictionary storage metrics for the Neptune database, including total dictionary size and entry count, and the size and count for blob (large value) entries.
+    public struct DictionariesInfo: Swift.Sendable {
+        /// The size and entry count for the blob (large value) dictionary entries.
+        public var blobs: NeptunedataClientTypes.StorageMetrics?
+        /// The total size and entry count across all dictionary entries.
+        public var total: NeptunedataClientTypes.StorageMetrics?
+
+        public init(
+            blobs: NeptunedataClientTypes.StorageMetrics? = nil,
+            total: NeptunedataClientTypes.StorageMetrics? = nil
+        ) {
+            self.blobs = blobs
+            self.total = total
+        }
+    }
+}
+
+extension NeptunedataClientTypes {
+
+    /// Contains storage information about quad indexes.
+    public struct QuadsInfo: Swift.Sendable {
+        /// Size and count information for the GPSO quad index.
+        public var gpso: NeptunedataClientTypes.StorageMetrics?
+        /// Size and count information for the OSGP quad index. This index is optional. For details on how to enable it and evaluate the benefits and costs, see [Neptune Data Model](https://docs.aws.amazon.com/neptune/latest/userguide/feature-overview-data-model.html).
+        public var osgp: NeptunedataClientTypes.StorageMetrics?
+        /// Size and count information for the POGS quad index.
+        public var pogs: NeptunedataClientTypes.StorageMetrics?
+        /// Size and count information for the PZSOG quad index.
+        public var pzsog: NeptunedataClientTypes.StorageMetrics?
+        /// Size and count information for the SPOG quad index.
+        public var spog: NeptunedataClientTypes.StorageMetrics?
+
+        public init(
+            gpso: NeptunedataClientTypes.StorageMetrics? = nil,
+            osgp: NeptunedataClientTypes.StorageMetrics? = nil,
+            pogs: NeptunedataClientTypes.StorageMetrics? = nil,
+            pzsog: NeptunedataClientTypes.StorageMetrics? = nil,
+            spog: NeptunedataClientTypes.StorageMetrics? = nil
+        ) {
+            self.gpso = gpso
+            self.osgp = osgp
+            self.pogs = pogs
+            self.pzsog = pzsog
+            self.spog = spog
+        }
+    }
+}
+
+extension NeptunedataClientTypes {
+
+    /// Contains storage information about quad indexes for both RDF and Property Graph data models.
+    public struct QuadsIndexesInfo: Swift.Sendable {
+        /// Contains quad index information for the Property Graph (Gremlin/openCypher) data model.
+        public var pg: NeptunedataClientTypes.QuadsInfo?
+        /// Contains quad index information for the RDF (SPARQL) data model.
+        public var rdf: NeptunedataClientTypes.QuadsInfo?
+
+        public init(
+            pg: NeptunedataClientTypes.QuadsInfo? = nil,
+            rdf: NeptunedataClientTypes.QuadsInfo? = nil
+        ) {
+            self.pg = pg
+            self.rdf = rdf
+        }
+    }
+}
+
+extension NeptunedataClientTypes {
+
+    /// Contains storage metrics for the Neptune undo logs, including the total size in bytes and the number of entries in the undo log list.
+    public struct UndoLogsMetrics: Swift.Sendable {
+        /// The number of entries in the undo log list.
+        /// This member is required.
+        public var listSize: Swift.Int?
+        /// The total size of the undo logs in bytes.
+        /// This member is required.
+        public var sizeInBytes: Swift.Int?
+
+        public init(
+            listSize: Swift.Int? = nil,
+            sizeInBytes: Swift.Int? = nil
+        ) {
+            self.listSize = listSize
+            self.sizeInBytes = sizeInBytes
+        }
+    }
+}
+
+public struct GetStorageInfoOutput: Swift.Sendable {
+    /// Contains storage metrics for the Neptune DFE engine statistics, including size in bytes and entry count.
+    public var dfeStatistics: NeptunedataClientTypes.StorageMetrics?
+    /// Contains information about the dictionaries, including total dictionary storage and the portion used by blob entries. For additional details on the storage of the Neptune dictionary, see [Neptune Storage Billing](https://docs.aws.amazon.com/neptune/latest/userguide/feature-overview-storage.html#feature-overview-storage-billing).
+    public var dictionaries: NeptunedataClientTypes.DictionariesInfo?
+    /// Contains storage metrics for Neptune system metadata, including size in bytes and entry count.
+    public var internals: NeptunedataClientTypes.StorageMetrics?
+    /// Contains information about the quad indexes, including counts and sizes for both RDF (SPARQL) and Property Graph (Gremlin/openCypher) data.
+    public var quads: NeptunedataClientTypes.QuadsIndexesInfo?
+    /// Contains storage metrics for the Neptune schema, including size in bytes and entry count.
+    public var schema: NeptunedataClientTypes.StorageMetrics?
+    /// Contains storage metrics for the Neptune change-log streams, including size in bytes and entry count.
+    public var streams: NeptunedataClientTypes.StorageMetrics?
+    /// The approximate total amount of storage used by the Neptune database instance, in bytes.
+    public var totalStorageBytesUsed: Swift.Int?
+    /// Contains information about the undo logs. The sizeInBytes field represents the total size of the undo logs in bytes, and the listSize field represents the number of entries in the undo log list.
+    public var undoLogs: NeptunedataClientTypes.UndoLogsMetrics?
+
+    public init(
+        dfeStatistics: NeptunedataClientTypes.StorageMetrics? = nil,
+        dictionaries: NeptunedataClientTypes.DictionariesInfo? = nil,
+        internals: NeptunedataClientTypes.StorageMetrics? = nil,
+        quads: NeptunedataClientTypes.QuadsIndexesInfo? = nil,
+        schema: NeptunedataClientTypes.StorageMetrics? = nil,
+        streams: NeptunedataClientTypes.StorageMetrics? = nil,
+        totalStorageBytesUsed: Swift.Int? = nil,
+        undoLogs: NeptunedataClientTypes.UndoLogsMetrics? = nil
+    ) {
+        self.dfeStatistics = dfeStatistics
+        self.dictionaries = dictionaries
+        self.internals = internals
+        self.quads = quads
+        self.schema = schema
+        self.streams = streams
+        self.totalStorageBytesUsed = totalStorageBytesUsed
+        self.undoLogs = undoLogs
+    }
+}
+
 public struct ListGremlinQueriesInput: Swift.Sendable {
     /// If set to TRUE, the list returned includes waiting queries. The default is FALSE;
     public var includeWaiting: Swift.Bool?
@@ -3026,6 +3472,18 @@ public struct ListGremlinQueriesOutput: Swift.Sendable {
         self.acceptedQueryCount = acceptedQueryCount
         self.queries = queries
         self.runningQueryCount = runningQueryCount
+    }
+}
+
+public struct ListIndexRebuildsOutput: Swift.Sendable {
+    /// A list of unique identifiers for index rebuild operations. Use each ID with the GetIndexRebuildStatus operation to retrieve detailed status information.
+    /// This member is required.
+    public var rebuildIds: [Swift.String]?
+
+    public init(
+        rebuildIds: [Swift.String]? = nil
+    ) {
+        self.rebuildIds = rebuildIds
     }
 }
 
@@ -3308,6 +3766,111 @@ public struct ManageSparqlStatisticsOutput: Swift.Sendable {
     ) {
         self.payload = payload
         self.status = status
+    }
+}
+
+/// Raised when the specified resource could not be found. The resource might have been deleted or the identifier might be incorrect.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The HTTP status code returned with the exception.
+        /// This member is required.
+        public internal(set) var code: Swift.String? = nil
+        /// A detailed message describing the problem.
+        /// This member is required.
+        public internal(set) var detailedMessage: Swift.String? = nil
+        /// The ID of the request in question.
+        /// This member is required.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        detailedMessage: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.detailedMessage = detailedMessage
+        self.properties.requestId = requestId
+    }
+}
+
+public struct StartIndexRebuildInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the SDK automatically generates one.
+    public var clientToken: Swift.String?
+    /// The number of concurrent indexes to rebuild in parallel. If not specified, defaults to 1. Valid values are between 1 and the number of vCPUs available on the writer instance. If the value exceeds the available vCPUs, it is capped at the maximum instead of returning an InvalidParameterException. The effective (capped) value is returned in the response. Higher concurrency can shorten the overall rebuild, but also increases CPU and I/O load during the operation.
+    public var concurrency: Swift.Int?
+    /// Specifies the scope of the rebuild operation. Possible values are:
+    ///
+    /// * ALL - Rebuild all (quads and dictionaries). This is the default if not specified.
+    ///
+    /// * QUADS - Rebuild only the quad indexes.
+    ///
+    /// * DICTIONARIES - Rebuild only the dictionaries.
+    public var scope: NeptunedataClientTypes.Scope?
+    /// Controls the buffer size used for tracking concurrent write operations during the index rebuild. If your database has high write traffic during the rebuild, a larger buffer prevents the operation from failing due to buffer overflow. Possible values are:
+    ///
+    /// * LOW - Suitable for databases with light to moderate write activity. This is the default.
+    ///
+    /// * MEDIUM - Recommended for databases with sustained write traffic or bulk loading.
+    ///
+    /// * HIGH - Use when rebuilding indexes during heavy write workloads or continuous bulk data ingestion.
+    ///
+    ///
+    /// If your rebuild fails and you are actively writing data to the database, retry with a higher writeBufferSize value. For bulk load operations, consider using HIGH.
+    public var writeBufferSize: NeptunedataClientTypes.WriteBufferSize?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        concurrency: Swift.Int? = nil,
+        scope: NeptunedataClientTypes.Scope? = nil,
+        writeBufferSize: NeptunedataClientTypes.WriteBufferSize? = nil
+    ) {
+        self.clientToken = clientToken
+        self.concurrency = concurrency
+        self.scope = scope
+        self.writeBufferSize = writeBufferSize
+    }
+}
+
+public struct StartIndexRebuildOutput: Swift.Sendable {
+    /// The effective concurrency used for this rebuild. This is the value supplied in the request, capped at the number of vCPUs on the writer instance.
+    /// This member is required.
+    public var concurrency: Swift.Int?
+    /// The unique identifier for the index rebuild job. Use this ID with the GetIndexRebuildStatus operation to check the progress of the rebuild.
+    /// This member is required.
+    public var rebuildId: Swift.String?
+    /// The scope of the rebuild operation that was requested. See Scope for possible values: ALL, QUADS, or DICTIONARIES.
+    /// This member is required.
+    public var scope: NeptunedataClientTypes.Scope?
+    /// The current status of the rebuild operation. See RebuildStatus for possible values.
+    /// This member is required.
+    public var status: NeptunedataClientTypes.RebuildStatus?
+    /// The WriteBufferSize applied to this rebuild. See the WriteBufferSize enum for possible values.
+    /// This member is required.
+    public var writeBufferSize: NeptunedataClientTypes.WriteBufferSize?
+
+    public init(
+        concurrency: Swift.Int? = nil,
+        rebuildId: Swift.String? = nil,
+        scope: NeptunedataClientTypes.Scope? = nil,
+        status: NeptunedataClientTypes.RebuildStatus? = nil,
+        writeBufferSize: NeptunedataClientTypes.WriteBufferSize? = nil
+    ) {
+        self.concurrency = concurrency
+        self.rebuildId = rebuildId
+        self.scope = scope
+        self.status = status
+        self.writeBufferSize = writeBufferSize
     }
 }
 
@@ -4041,6 +4604,16 @@ extension CancelGremlinQueryInput {
     }
 }
 
+extension CancelIndexRebuildInput {
+
+    static func urlPathProvider(_ value: CancelIndexRebuildInput) -> Swift.String? {
+        guard let rebuildId = value.rebuildId else {
+            return nil
+        }
+        return "/storage/indexes/rebuilds/\(rebuildId.urlPercentEncoding())/cancel"
+    }
+}
+
 extension CancelLoaderJobInput {
 
     static func urlPathProvider(_ value: CancelLoaderJobInput) -> Swift.String? {
@@ -4265,6 +4838,16 @@ extension GetGremlinQueryStatusInput {
             return nil
         }
         return "/gremlin/status/\(queryId.urlPercentEncoding())"
+    }
+}
+
+extension GetIndexRebuildStatusInput {
+
+    static func urlPathProvider(_ value: GetIndexRebuildStatusInput) -> Swift.String? {
+        guard let rebuildId = value.rebuildId else {
+            return nil
+        }
+        return "/storage/indexes/rebuilds/\(rebuildId.urlPercentEncoding())"
     }
 }
 
@@ -4536,6 +5119,13 @@ extension GetSparqlStreamInput {
     }
 }
 
+extension GetStorageInfoInput {
+
+    static func urlPathProvider(_ value: GetStorageInfoInput) -> Swift.String? {
+        return "/storage/info"
+    }
+}
+
 extension ListGremlinQueriesInput {
 
     static func urlPathProvider(_ value: ListGremlinQueriesInput) -> Swift.String? {
@@ -4552,6 +5142,13 @@ extension ListGremlinQueriesInput {
             items.append(includeWaitingQueryItem)
         }
         return items
+    }
+}
+
+extension ListIndexRebuildsInput {
+
+    static func urlPathProvider(_ value: ListIndexRebuildsInput) -> Swift.String? {
+        return "/storage/indexes/rebuilds"
     }
 }
 
@@ -4703,6 +5300,33 @@ extension ManageSparqlStatisticsInput {
     }
 }
 
+extension StartIndexRebuildInput {
+
+    static func urlPathProvider(_ value: StartIndexRebuildInput) -> Swift.String? {
+        return "/storage/indexes/rebuilds"
+    }
+}
+
+extension StartIndexRebuildInput {
+
+    static func queryItemProvider(_ value: StartIndexRebuildInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let scope = value.scope {
+            let scopeQueryItem = Smithy.URIQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope.rawValue).urlPercentEncoding())
+            items.append(scopeQueryItem)
+        }
+        if let writeBufferSize = value.writeBufferSize {
+            let writeBufferSizeQueryItem = Smithy.URIQueryItem(name: "writeBufferSize".urlPercentEncoding(), value: Swift.String(writeBufferSize.rawValue).urlPercentEncoding())
+            items.append(writeBufferSizeQueryItem)
+        }
+        if let concurrency = value.concurrency {
+            let concurrencyQueryItem = Smithy.URIQueryItem(name: "concurrency".urlPercentEncoding(), value: Swift.String(concurrency).urlPercentEncoding())
+            items.append(concurrencyQueryItem)
+        }
+        return items
+    }
+}
+
 extension StartLoaderJobInput {
 
     static func urlPathProvider(_ value: StartLoaderJobInput) -> Swift.String? {
@@ -4819,6 +5443,14 @@ extension ManageSparqlStatisticsInput {
     }
 }
 
+extension StartIndexRebuildInput {
+
+    static func write(value: StartIndexRebuildInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+    }
+}
+
 extension StartLoaderJobInput {
 
     static func write(value: StartLoaderJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -4915,6 +5547,20 @@ extension CancelGremlinQueryOutput {
         let reader = responseReader
         var value = CancelGremlinQueryOutput()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension CancelIndexRebuildOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelIndexRebuildOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelIndexRebuildOutput()
+        value.concurrency = try reader["concurrency"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.writeBufferSize = try reader["writeBufferSize"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5160,6 +5806,26 @@ extension GetGremlinQueryStatusOutput {
     }
 }
 
+extension GetIndexRebuildStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIndexRebuildStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIndexRebuildStatusOutput()
+        value.concurrency = try reader["concurrency"].readIfPresent() ?? 0
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.estimatedEndTime = try reader["estimatedEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.progressPercentage = try reader["progressPercentage"].readIfPresent() ?? 0
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.writeBufferSize = try reader["writeBufferSize"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetLoaderJobStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetLoaderJobStatusOutput {
@@ -5333,6 +5999,25 @@ extension GetSparqlStreamOutput {
     }
 }
 
+extension GetStorageInfoOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetStorageInfoOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetStorageInfoOutput()
+        value.dfeStatistics = try reader["dfeStatistics"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.dictionaries = try reader["dictionaries"].readIfPresent(with: NeptunedataClientTypes.DictionariesInfo.read(from:))
+        value.internals = try reader["internals"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.quads = try reader["quads"].readIfPresent(with: NeptunedataClientTypes.QuadsIndexesInfo.read(from:))
+        value.schema = try reader["schema"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.streams = try reader["streams"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.totalStorageBytesUsed = try reader["totalStorageBytesUsed"].readIfPresent()
+        value.undoLogs = try reader["undoLogs"].readIfPresent(with: NeptunedataClientTypes.UndoLogsMetrics.read(from:))
+        return value
+    }
+}
+
 extension ListGremlinQueriesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListGremlinQueriesOutput {
@@ -5343,6 +6028,18 @@ extension ListGremlinQueriesOutput {
         value.acceptedQueryCount = try reader["acceptedQueryCount"].readIfPresent()
         value.queries = try reader["queries"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.GremlinQueryStatus.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.runningQueryCount = try reader["runningQueryCount"].readIfPresent()
+        return value
+    }
+}
+
+extension ListIndexRebuildsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListIndexRebuildsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListIndexRebuildsOutput()
+        value.rebuildIds = try reader["rebuildIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5448,6 +6145,22 @@ extension ManageSparqlStatisticsOutput {
     }
 }
 
+extension StartIndexRebuildOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartIndexRebuildOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartIndexRebuildOutput()
+        value.concurrency = try reader["concurrency"].readIfPresent() ?? 0
+        value.rebuildId = try reader["rebuildId"].readIfPresent() ?? ""
+        value.scope = try reader["scope"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.writeBufferSize = try reader["writeBufferSize"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension StartLoaderJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartLoaderJobOutput {
@@ -5525,6 +6238,35 @@ enum CancelGremlinQueryOutputError {
             case "TimeLimitExceededException": return try TimeLimitExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelIndexRebuildOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "CancelledByMaintenanceException": return try CancelledByMaintenanceException.makeError(baseError: baseError)
+            case "CancelledByUserException": return try CancelledByUserException.makeError(baseError: baseError)
+            case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "PreconditionsFailedException": return try PreconditionsFailedException.makeError(baseError: baseError)
+            case "ReadOnlyViolationException": return try ReadOnlyViolationException.makeError(baseError: baseError)
+            case "ServerShutdownException": return try ServerShutdownException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5791,6 +6533,7 @@ enum ExecuteGremlinExplainQueryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "CancelledByMaintenanceException": return try CancelledByMaintenanceException.makeError(baseError: baseError)
             case "CancelledByUserException": return try CancelledByUserException.makeError(baseError: baseError)
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5824,6 +6567,7 @@ enum ExecuteGremlinProfileQueryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "CancelledByMaintenanceException": return try CancelledByMaintenanceException.makeError(baseError: baseError)
             case "CancelledByUserException": return try CancelledByUserException.makeError(baseError: baseError)
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5857,6 +6601,7 @@ enum ExecuteGremlinQueryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "CancelledByMaintenanceException": return try CancelledByMaintenanceException.makeError(baseError: baseError)
             case "CancelledByUserException": return try CancelledByUserException.makeError(baseError: baseError)
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5890,6 +6635,7 @@ enum ExecuteOpenCypherExplainQueryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "CancelledByMaintenanceException": return try CancelledByMaintenanceException.makeError(baseError: baseError)
             case "CancelledByUserException": return try CancelledByUserException.makeError(baseError: baseError)
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5924,6 +6670,7 @@ enum ExecuteOpenCypherQueryOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "CancelledByMaintenanceException": return try CancelledByMaintenanceException.makeError(baseError: baseError)
             case "CancelledByUserException": return try CancelledByUserException.makeError(baseError: baseError)
             case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
             case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
@@ -5994,6 +6741,31 @@ enum GetGremlinQueryStatusOutputError {
             case "TimeLimitExceededException": return try TimeLimitExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIndexRebuildStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "PreconditionsFailedException": return try PreconditionsFailedException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -6305,6 +7077,31 @@ enum GetSparqlStreamOutputError {
     }
 }
 
+enum GetStorageInfoOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "PreconditionsFailedException": return try PreconditionsFailedException.makeError(baseError: baseError)
+            case "ServerShutdownException": return try ServerShutdownException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListGremlinQueriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6327,6 +7124,30 @@ enum ListGremlinQueriesOutputError {
             case "PreconditionsFailedException": return try PreconditionsFailedException.makeError(baseError: baseError)
             case "ReadOnlyViolationException": return try ReadOnlyViolationException.makeError(baseError: baseError)
             case "TimeLimitExceededException": return try TimeLimitExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListIndexRebuildsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "PreconditionsFailedException": return try PreconditionsFailedException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6530,6 +7351,35 @@ enum ManageSparqlStatisticsOutputError {
             case "PreconditionsFailedException": return try PreconditionsFailedException.makeError(baseError: baseError)
             case "ReadOnlyViolationException": return try ReadOnlyViolationException.makeError(baseError: baseError)
             case "StatisticsNotAvailableException": return try StatisticsNotAvailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartIndexRebuildOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientTimeoutException": return try ClientTimeoutException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "IllegalArgumentException": return try IllegalArgumentException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "MemoryLimitExceededException": return try MemoryLimitExceededException.makeError(baseError: baseError)
+            case "MethodNotAllowedException": return try MethodNotAllowedException.makeError(baseError: baseError)
+            case "PreconditionsFailedException": return try PreconditionsFailedException.makeError(baseError: baseError)
+            case "ReadOnlyViolationException": return try ReadOnlyViolationException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerShutdownException": return try ServerShutdownException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -6846,11 +7696,41 @@ extension UnsupportedOperationException {
     }
 }
 
-extension BulkLoadIdNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BulkLoadIdNotFoundException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = BulkLoadIdNotFoundException()
+        var value = AccessDeniedException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CancelledByMaintenanceException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CancelledByMaintenanceException {
+        let reader = baseError.errorBodyReader
+        var value = CancelledByMaintenanceException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CancelledByUserException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CancelledByUserException {
+        let reader = baseError.errorBodyReader
+        var value = CancelledByUserException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -6866,6 +7746,81 @@ extension InternalFailureException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
         var value = InternalFailureException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MethodNotAllowedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
+        let reader = baseError.errorBodyReader
+        var value = MethodNotAllowedException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ReadOnlyViolationException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ReadOnlyViolationException {
+        let reader = baseError.errorBodyReader
+        var value = ReadOnlyViolationException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServerShutdownException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServerShutdownException {
+        let reader = baseError.errorBodyReader
+        var value = ServerShutdownException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BulkLoadIdNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> BulkLoadIdNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = BulkLoadIdNotFoundException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -6921,86 +7876,11 @@ extension InvalidNumericDataException {
     }
 }
 
-extension AccessDeniedException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ReadOnlyViolationException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ReadOnlyViolationException {
-        let reader = baseError.errorBodyReader
-        var value = ReadOnlyViolationException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension StatisticsNotAvailableException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> StatisticsNotAvailableException {
         let reader = baseError.errorBodyReader
         var value = StatisticsNotAvailableException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MethodNotAllowedException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
-        let reader = baseError.errorBodyReader
-        var value = MethodNotAllowedException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServerShutdownException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServerShutdownException {
-        let reader = baseError.errorBodyReader
-        var value = ServerShutdownException()
-        value.properties.code = try reader["code"].readIfPresent() ?? ""
-        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
-        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CancelledByUserException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> CancelledByUserException {
-        let reader = baseError.errorBodyReader
-        var value = CancelledByUserException()
         value.properties.code = try reader["code"].readIfPresent() ?? ""
         value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
         value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
@@ -7131,6 +8011,21 @@ extension ThrottlingException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.code = try reader["code"].readIfPresent() ?? ""
+        value.properties.detailedMessage = try reader["detailedMessage"].readIfPresent() ?? ""
+        value.properties.requestId = try reader["requestId"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension S3Exception {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> S3Exception {
@@ -7172,6 +8067,17 @@ extension NeptunedataClientTypes.DeleteStatisticsValueMap {
         var value = NeptunedataClientTypes.DeleteStatisticsValueMap()
         value.active = try reader["active"].readIfPresent()
         value.statisticsId = try reader["statisticsId"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.DictionariesInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.DictionariesInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.DictionariesInfo()
+        value.total = try reader["total"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.blobs = try reader["blobs"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
         return value
     }
 }
@@ -7333,6 +8239,31 @@ extension NeptunedataClientTypes.PropertygraphSummaryValueMap {
     }
 }
 
+extension NeptunedataClientTypes.QuadsIndexesInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QuadsIndexesInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.QuadsIndexesInfo()
+        value.rdf = try reader["RDF"].readIfPresent(with: NeptunedataClientTypes.QuadsInfo.read(from:))
+        value.pg = try reader["PG"].readIfPresent(with: NeptunedataClientTypes.QuadsInfo.read(from:))
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.QuadsInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QuadsInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.QuadsInfo()
+        value.spog = try reader["SPOG"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.pogs = try reader["POGS"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.gpso = try reader["GPSO"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.osgp = try reader["OSGP"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        value.pzsog = try reader["PZSOG"].readIfPresent(with: NeptunedataClientTypes.StorageMetrics.read(from:))
+        return value
+    }
+}
+
 extension NeptunedataClientTypes.QueryEvalStats {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryEvalStats {
@@ -7445,6 +8376,17 @@ extension NeptunedataClientTypes.StatisticsSummary {
     }
 }
 
+extension NeptunedataClientTypes.StorageMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.StorageMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.StorageMetrics()
+        value.sizeInBytes = try reader["sizeInBytes"].readIfPresent() ?? 0
+        value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension NeptunedataClientTypes.SubjectStructure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SubjectStructure {
@@ -7452,6 +8394,17 @@ extension NeptunedataClientTypes.SubjectStructure {
         var value = NeptunedataClientTypes.SubjectStructure()
         value.count = try reader["count"].readIfPresent()
         value.predicates = try reader["predicates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.UndoLogsMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.UndoLogsMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.UndoLogsMetrics()
+        value.sizeInBytes = try reader["sizeInBytes"].readIfPresent() ?? 0
+        value.listSize = try reader["listSize"].readIfPresent() ?? 0
         return value
     }
 }

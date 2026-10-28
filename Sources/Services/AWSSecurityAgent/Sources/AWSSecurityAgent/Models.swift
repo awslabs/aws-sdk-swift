@@ -1132,6 +1132,32 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// A client certificate for mutual TLS (mTLS) authentication to target hosts.
+    public struct ClientCertificate: Swift.Sendable {
+        /// A customer-chosen name for this client certificate, used in error messages and console display.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The origins (scheme://host[:port]) this certificate applies to. Paths are not supported. Each hostname can have at most one client certificate.
+        /// This member is required.
+        public var origins: [Swift.String]?
+        /// The ARN of the Secrets Manager secret containing the certificate and private key.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            origins: [Swift.String]? = nil,
+            secretArn: Swift.String? = nil
+        ) {
+            self.name = name
+            self.origins = origins
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     /// A reference to a document in a third-party provider, such as a Confluence page linked via an integration.
     public struct IntegratedDocument: Swift.Sendable {
         /// The identifier of the integration that provides access to the document.
@@ -1271,6 +1297,8 @@ extension SecurityAgentClientTypes {
     public struct Assets: Swift.Sendable {
         /// The list of actors used during penetration testing.
         public var actors: [SecurityAgentClientTypes.Actor]?
+        /// The client certificates for mutual TLS (mTLS) authentication to target hosts. Each certificate is stored in Secrets Manager and scoped to specific target origins.
+        public var clientCertificates: [SecurityAgentClientTypes.ClientCertificate]?
         /// The list of documents that provide context for the pentest.
         public var documents: [SecurityAgentClientTypes.DocumentInfo]?
         /// The list of endpoints to test during the pentest.
@@ -1284,6 +1312,7 @@ extension SecurityAgentClientTypes {
 
         public init(
             actors: [SecurityAgentClientTypes.Actor]? = nil,
+            clientCertificates: [SecurityAgentClientTypes.ClientCertificate]? = nil,
             documents: [SecurityAgentClientTypes.DocumentInfo]? = nil,
             endpoints: [SecurityAgentClientTypes.Endpoint]? = nil,
             integratedRepositories: [SecurityAgentClientTypes.IntegratedRepository]? = nil,
@@ -1291,6 +1320,7 @@ extension SecurityAgentClientTypes {
             trustedCaCertificates: [SecurityAgentClientTypes.TrustedCaCertificate]? = nil
         ) {
             self.actors = actors
+            self.clientCertificates = clientCertificates
             self.documents = documents
             self.endpoints = endpoints
             self.integratedRepositories = integratedRepositories
@@ -1302,7 +1332,7 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes.Assets: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Assets(actors: \(Swift.String(describing: actors)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), sourceCode: \(Swift.String(describing: sourceCode)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
+        "Assets(actors: \(Swift.String(describing: actors)), clientCertificates: \(Swift.String(describing: clientCertificates)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), sourceCode: \(Swift.String(describing: sourceCode)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 extension SecurityAgentClientTypes {
@@ -4197,6 +4227,8 @@ extension SecurityAgentClientTypes {
         public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
         /// Strategy for cleaning up resources after pentest job completion.
         public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
+        /// The client certificates for mutual TLS (mTLS) authentication to target hosts during the pentest job.
+        public var clientCertificates: [SecurityAgentClientTypes.ClientCertificate]?
         /// The code remediation strategy for the pentest job.
         public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
         /// The date and time the pentest job was created, in UTC format.
@@ -4265,6 +4297,7 @@ extension SecurityAgentClientTypes {
             allowedDomains: [SecurityAgentClientTypes.Endpoint]? = nil,
             cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
             cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
+            clientCertificates: [SecurityAgentClientTypes.ClientCertificate]? = nil,
             codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
             createdAt: Foundation.Date? = nil,
             disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
@@ -4301,6 +4334,7 @@ extension SecurityAgentClientTypes {
             self.allowedDomains = allowedDomains
             self.cicdConfiguration = cicdConfiguration
             self.cleanUpStrategy = cleanUpStrategy
+            self.clientCertificates = clientCertificates
             self.codeRemediationStrategy = codeRemediationStrategy
             self.createdAt = createdAt
             self.disableManagedSkills = disableManagedSkills
@@ -4338,7 +4372,7 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes.PentestJob: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), testScope: \(Swift.String(describing: testScope)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
+        "PentestJob(actors: \(Swift.String(describing: actors)), allowedDomains: \(Swift.String(describing: allowedDomains)), cicdConfiguration: \(Swift.String(describing: cicdConfiguration)), cleanUpStrategy: \(Swift.String(describing: cleanUpStrategy)), clientCertificates: \(Swift.String(describing: clientCertificates)), codeRemediationStrategy: \(Swift.String(describing: codeRemediationStrategy)), createdAt: \(Swift.String(describing: createdAt)), disableManagedSkills: \(Swift.String(describing: disableManagedSkills)), documents: \(Swift.String(describing: documents)), endpoints: \(Swift.String(describing: endpoints)), errorInformation: \(Swift.String(describing: errorInformation)), excludePaths: \(Swift.String(describing: excludePaths)), excludeRiskTypes: \(Swift.String(describing: excludeRiskTypes)), executionContext: \(Swift.String(describing: executionContext)), integratedRepositories: \(Swift.String(describing: integratedRepositories)), jobType: \(Swift.String(describing: jobType)), logConfig: \(Swift.String(describing: logConfig)), maxTaskHours: \(Swift.String(describing: maxTaskHours)), networkTrafficConfig: \(Swift.String(describing: networkTrafficConfig)), overview: \(Swift.String(describing: overview)), pentestId: \(Swift.String(describing: pentestId)), pentestJobId: \(Swift.String(describing: pentestJobId)), reportDestination: \(Swift.String(describing: reportDestination)), reportUrl: \(Swift.String(describing: reportUrl)), scopeChanges: \(Swift.String(describing: scopeChanges)), scopeResult: \(Swift.String(describing: scopeResult)), selectedFindingIds: \(Swift.String(describing: selectedFindingIds)), serviceRole: \(Swift.String(describing: serviceRole)), sourceCode: \(Swift.String(describing: sourceCode)), status: \(Swift.String(describing: status)), steps: \(Swift.String(describing: steps)), testScope: \(Swift.String(describing: testScope)), title: \(Swift.String(describing: title)), updatedAt: \(Swift.String(describing: updatedAt)), vpcConfig: \(Swift.String(describing: vpcConfig)), trustedCaCertificates: \"CONTENT_REDACTED\")"}
 }
 
 /// Output for the BatchGetPentestJobs operation.
@@ -15828,6 +15862,7 @@ extension SecurityAgentClientTypes.Assets {
     static func write(value: SecurityAgentClientTypes.Assets?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["actors"].writeList(value.actors, memberWritingClosure: SecurityAgentClientTypes.Actor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientCertificates"].writeList(value.clientCertificates, memberWritingClosure: SecurityAgentClientTypes.ClientCertificate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["documents"].writeList(value.documents, memberWritingClosure: SecurityAgentClientTypes.DocumentInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: SecurityAgentClientTypes.Endpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["integratedRepositories"].writeList(value.integratedRepositories, memberWritingClosure: SecurityAgentClientTypes.IntegratedRepository.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -15844,6 +15879,7 @@ extension SecurityAgentClientTypes.Assets {
         value.sourceCode = try reader["sourceCode"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.SourceCodeRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.trustedCaCertificates = try reader["trustedCaCertificates"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TrustedCaCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientCertificates = try reader["clientCertificates"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ClientCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16141,6 +16177,25 @@ extension SecurityAgentClientTypes.CiCdConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityAgentClientTypes.CiCdConfiguration()
         value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityAgentClientTypes.ClientCertificate {
+
+    static func write(value: SecurityAgentClientTypes.ClientCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["origins"].writeList(value.origins, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.ClientCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.ClientCertificate()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.origins = try reader["origins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -17132,6 +17187,7 @@ extension SecurityAgentClientTypes.PentestJob {
         value.errorInformation = try reader["errorInformation"].readIfPresent(with: SecurityAgentClientTypes.ErrorInformation.read(from:))
         value.integratedRepositories = try reader["integratedRepositories"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.IntegratedRepository.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.trustedCaCertificates = try reader["trustedCaCertificates"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.TrustedCaCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientCertificates = try reader["clientCertificates"].readListIfPresent(memberReadingClosure: SecurityAgentClientTypes.ClientCertificate.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeRemediationStrategy = try reader["codeRemediationStrategy"].readIfPresent()
         value.cleanUpStrategy = try reader["cleanUpStrategy"].readIfPresent()
         value.disableManagedSkills = try reader["disableManagedSkills"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityAgentClientTypes.SkillType>().read(from:), memberNodeInfo: "member", isFlattened: false)

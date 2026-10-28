@@ -36404,6 +36404,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCapacityManagerSupportabilityScores` operation on the `EC2` service.
+    ///
+    /// Scores how well each instance type and Availability Zone combination can support a capacity request, based on current Amazon EC2 capacity. The response includes a score for each combination and an aggregate score for all combinations in the request. This action doesn't launch or reserve instances, and a score doesn't guarantee that a later launch will succeed. Call this action in the Region where you turned on Capacity Manager. A single request can include Availability Zones in any Region. Real-time supportability checks are available only to Amazon Web Services Support customers on the Unified Operations plan. For more information, see [Check supportability](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-manager-supportability.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityManagerSupportabilityScoresInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCapacityManagerSupportabilityScoresOutput`)
+    public func getCapacityManagerSupportabilityScores(input: GetCapacityManagerSupportabilityScoresInput) async throws -> GetCapacityManagerSupportabilityScoresOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCapacityManagerSupportabilityScores")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(GetCapacityManagerSupportabilityScoresInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityManagerSupportabilityScoresOutput>(GetCapacityManagerSupportabilityScoresOutput.httpOutput(from:), GetCapacityManagerSupportabilityScoresOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityManagerSupportabilityScoresOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityManagerSupportabilityScoresOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetCapacityManagerSupportabilityScoresInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityManagerSupportabilityScoresOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCapacityManagerSupportabilityScores")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCapacityReservationUsage` operation on the `EC2` service.
     ///
     /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage.
