@@ -1000,6 +1000,8 @@ public struct InvokeAgentRuntimeOutput: Swift.Sendable {
     public var response: Smithy.ByteStream?
     /// The identifier of the runtime session.
     public var runtimeSessionId: Swift.String?
+    /// The HTTPS endpoint that addresses this runtime session directly. This value is returned only when the agent runtime is configured with allowed ports and direct runtime access is available for the session. If this value is not present, use InvokeAgentRuntime to communicate with the session.
+    public var sessionEndpointUrl: Swift.String?
     /// The HTTP status code of the response. A status code of 200 indicates a successful operation. Other status codes indicate various error conditions.
     public var statusCode: Swift.Int?
     /// The trace identifier for request tracking.
@@ -1016,6 +1018,7 @@ public struct InvokeAgentRuntimeOutput: Swift.Sendable {
         mcpSessionId: Swift.String? = nil,
         response: Smithy.ByteStream? = Smithy.ByteStream.data(Foundation.Data(base64Encoded: "")),
         runtimeSessionId: Swift.String? = nil,
+        sessionEndpointUrl: Swift.String? = nil,
         statusCode: Swift.Int? = nil,
         traceId: Swift.String? = nil,
         traceParent: Swift.String? = nil,
@@ -1027,6 +1030,7 @@ public struct InvokeAgentRuntimeOutput: Swift.Sendable {
         self.mcpSessionId = mcpSessionId
         self.response = response
         self.runtimeSessionId = runtimeSessionId
+        self.sessionEndpointUrl = sessionEndpointUrl
         self.statusCode = statusCode
         self.traceId = traceId
         self.traceParent = traceParent
@@ -1036,7 +1040,7 @@ public struct InvokeAgentRuntimeOutput: Swift.Sendable {
 
 extension InvokeAgentRuntimeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeAgentRuntimeOutput(baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), statusCode: \(Swift.String(describing: statusCode)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), response: \"CONTENT_REDACTED\")"}
+        "InvokeAgentRuntimeOutput(baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), sessionEndpointUrl: \(Swift.String(describing: sessionEndpointUrl)), statusCode: \(Swift.String(describing: statusCode)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), response: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -14386,6 +14390,9 @@ extension InvokeAgentRuntimeOutput {
         }
         if let runtimeSessionIdHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Id") {
             value.runtimeSessionId = runtimeSessionIdHeaderValue
+        }
+        if let sessionEndpointUrlHeaderValue = httpResponse.headers.value(for: "X-Amzn-Bedrock-AgentCore-Runtime-Session-Endpoint-Url") {
+            value.sessionEndpointUrl = sessionEndpointUrlHeaderValue
         }
         if let traceIdHeaderValue = httpResponse.headers.value(for: "X-Amzn-Trace-Id") {
             value.traceId = traceIdHeaderValue

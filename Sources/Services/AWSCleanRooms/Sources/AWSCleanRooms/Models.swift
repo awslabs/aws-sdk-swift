@@ -676,12 +676,14 @@ extension CleanRoomsClientTypes {
 
     public enum AnalysisFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case pyspark10
+        case pyspark20
         case sql
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AnalysisFormat] {
             return [
                 .pyspark10,
+                .pyspark20,
                 .sql
             ]
         }
@@ -694,6 +696,7 @@ extension CleanRoomsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .pyspark10: return "PYSPARK_1_0"
+            case .pyspark20: return "PYSPARK_2_0"
             case .sql: return "SQL"
             case let .sdkUnknown(s): return s
             }
@@ -10358,6 +10361,36 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// File format of the returned data.
+    public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResultFormat] {
+            return [
+                .csv,
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .parquet: return "PARQUET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains input information for protected jobs with an S3 output type.
     public struct ProtectedJobS3OutputConfigurationInput: Swift.Sendable {
         /// The S3 bucket for job output.
@@ -10365,13 +10398,17 @@ extension CleanRoomsClientTypes {
         public var bucket: Swift.String?
         /// The S3 prefix to unload the protected job results.
         public var keyPrefix: Swift.String?
+        /// The file format of the protected job results. If you don't specify a format, results are written as CSV.
+        public var resultFormat: CleanRoomsClientTypes.ResultFormat?
 
         public init(
             bucket: Swift.String? = nil,
-            keyPrefix: Swift.String? = nil
+            keyPrefix: Swift.String? = nil,
+            resultFormat: CleanRoomsClientTypes.ResultFormat? = nil
         ) {
             self.bucket = bucket
             self.keyPrefix = keyPrefix
+            self.resultFormat = resultFormat
         }
     }
 }
@@ -10403,36 +10440,6 @@ extension CleanRoomsClientTypes {
         ) {
             self.outputConfiguration = outputConfiguration
             self.roleArn = roleArn
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// File format of the returned data.
-    public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case csv
-        case parquet
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResultFormat] {
-            return [
-                .csv,
-                .parquet
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .csv: return "CSV"
-            case .parquet: return "PARQUET"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -21675,11 +21682,13 @@ extension CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput {
         guard let value else { return }
         try writer["bucket"].write(value.bucket)
         try writer["keyPrefix"].write(value.keyPrefix)
+        try writer["resultFormat"].write(value.resultFormat)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput()
+        value.resultFormat = try reader["resultFormat"].readIfPresent()
         value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         return value

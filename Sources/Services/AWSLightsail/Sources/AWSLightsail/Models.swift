@@ -9146,13 +9146,17 @@ public struct GetExportSnapshotRecordsOutput: Swift.Sendable {
 }
 
 public struct GetInstanceInput: Swift.Sendable {
+    /// Specifies whether to include the instance health status checks in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of the instance. When omitted or set to false, the response doesn't include them.
+    public var includeHealthStatus: Swift.Bool?
     /// The name of the instance.
     /// This member is required.
     public var instanceName: Swift.String?
 
     public init(
+        includeHealthStatus: Swift.Bool? = nil,
         instanceName: Swift.String? = nil
     ) {
+        self.includeHealthStatus = includeHealthStatus
         self.instanceName = instanceName
     }
 }
@@ -9176,6 +9180,165 @@ extension LightsailClientTypes {
             self.cpuCount = cpuCount
             self.disks = disks
             self.ramSizeInGb = ramSizeInGb
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum InstanceHealthStatusDetailName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case reachability
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthStatusDetailName] {
+            return [
+                .reachability
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .reachability: return "reachability"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum InstanceHealthStatusDetailValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case initializing
+        case insufficientData
+        case passed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthStatusDetailValue] {
+            return [
+                .failed,
+                .initializing,
+                .insufficientData,
+                .passed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "failed"
+            case .initializing: return "initializing"
+            case .insufficientData: return "insufficient-data"
+            case .passed: return "passed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the instance status.
+    public struct InstanceHealthStatusDetail: Swift.Sendable {
+        /// The time when a status check failed. For an instance that was launched and impaired, this is the time when the instance was launched.
+        public var impairedSince: Foundation.Date?
+        /// The type of instance status. The only possible value is reachability.
+        public var name: LightsailClientTypes.InstanceHealthStatusDetailName?
+        /// The status. The following values are possible:
+        ///
+        /// * passed - The check passed.
+        ///
+        /// * failed - The check failed.
+        ///
+        /// * initializing - The check is in progress.
+        ///
+        /// * insufficient-data - There isn't enough data yet to determine the result.
+        public var status: LightsailClientTypes.InstanceHealthStatusDetailValue?
+
+        public init(
+            impairedSince: Foundation.Date? = nil,
+            name: LightsailClientTypes.InstanceHealthStatusDetailName? = nil,
+            status: LightsailClientTypes.InstanceHealthStatusDetailValue? = nil
+        ) {
+            self.impairedSince = impairedSince
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum InstanceHealthStatusValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case impaired
+        case initializing
+        case insufficientData
+        case notApplicable
+        case ok
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthStatusValue] {
+            return [
+                .impaired,
+                .initializing,
+                .insufficientData,
+                .notApplicable,
+                .ok
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "impaired"
+            case .initializing: return "initializing"
+            case .insufficientData: return "insufficient-data"
+            case .notApplicable: return "not-applicable"
+            case .ok: return "ok"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the status of an Amazon Lightsail instance.
+    public struct InstanceHealthStatus: Swift.Sendable {
+        /// The system instance health or instance health.
+        public var details: [LightsailClientTypes.InstanceHealthStatusDetail]?
+        /// The status. The following values are possible:
+        ///
+        /// * ok - All checks are passing. The instance is reachable.
+        ///
+        /// * impaired - One or more checks have failed.
+        ///
+        /// * initializing - The instance was recently started, and the checks are in progress.
+        ///
+        /// * insufficient-data - There isn't enough data yet to determine the result.
+        ///
+        /// * not-applicable - The check doesn't apply because the instance isn't running.
+        public var status: LightsailClientTypes.InstanceHealthStatusValue?
+
+        public init(
+            details: [LightsailClientTypes.InstanceHealthStatusDetail]? = nil,
+            status: LightsailClientTypes.InstanceHealthStatusValue? = nil
+        ) {
+            self.details = details
+            self.status = status
         }
     }
 }
@@ -9504,6 +9667,8 @@ extension LightsailClientTypes {
         public var createdAt: Foundation.Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public var hardware: LightsailClientTypes.InstanceHardware?
+        /// Reports impaired functionality that stems from issues internal to the instance, such as impaired reachability. This value is returned only when you set includeHealthStatus to true in your request.
+        public var instanceStatus: LightsailClientTypes.InstanceHealthStatus?
         /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public var ipAddressType: LightsailClientTypes.IpAddressType?
         /// The IPv6 addresses of the instance.
@@ -9530,6 +9695,8 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.InstanceState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
+        /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems. This value is returned only when you set includeHealthStatus to true in your request.
+        public var systemStatus: LightsailClientTypes.InstanceHealthStatus?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
         /// The user name for connecting to the instance (ec2-user).
@@ -9543,6 +9710,7 @@ extension LightsailClientTypes {
             bundleId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             hardware: LightsailClientTypes.InstanceHardware? = nil,
+            instanceStatus: LightsailClientTypes.InstanceHealthStatus? = nil,
             ipAddressType: LightsailClientTypes.IpAddressType? = nil,
             ipv6Addresses: [Swift.String]? = nil,
             isStaticIp: Swift.Bool? = nil,
@@ -9556,6 +9724,7 @@ extension LightsailClientTypes {
             sshKeyName: Swift.String? = nil,
             state: LightsailClientTypes.InstanceState? = nil,
             supportCode: Swift.String? = nil,
+            systemStatus: LightsailClientTypes.InstanceHealthStatus? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
             username: Swift.String? = nil
         ) {
@@ -9566,6 +9735,7 @@ extension LightsailClientTypes {
             self.bundleId = bundleId
             self.createdAt = createdAt
             self.hardware = hardware
+            self.instanceStatus = instanceStatus
             self.ipAddressType = ipAddressType
             self.ipv6Addresses = ipv6Addresses
             self.isStaticIp = isStaticIp
@@ -9579,6 +9749,7 @@ extension LightsailClientTypes {
             self.sshKeyName = sshKeyName
             self.state = state
             self.supportCode = supportCode
+            self.systemStatus = systemStatus
             self.tags = tags
             self.username = username
         }
@@ -10060,12 +10231,16 @@ public struct GetInstancePortStatesOutput: Swift.Sendable {
 }
 
 public struct GetInstancesInput: Swift.Sendable {
+    /// Specifies whether to include the instance health status checks of each instance in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of each instance. When omitted or set to false, the response doesn't include them.
+    public var includeHealthStatus: Swift.Bool?
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
     public init(
+        includeHealthStatus: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
     ) {
+        self.includeHealthStatus = includeHealthStatus
         self.pageToken = pageToken
     }
 }

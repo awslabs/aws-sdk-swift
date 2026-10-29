@@ -26,6 +26,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have permissions to perform the requested operation.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -2330,19 +2332,115 @@ extension ImagebuilderClientTypes {
 
 extension ImagebuilderClientTypes {
 
+    public enum ImageScanningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemandAmiCve
+        case testInstanceCve
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageScanningType] {
+            return [
+                .onDemandAmiCve,
+                .testInstanceCve
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemandAmiCve: return "ON_DEMAND_AMI_CVE"
+            case .testInstanceCve: return "TEST_INSTANCE_CVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    public enum MaximumSeverityLabel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaximumSeverityLabel] {
+            return [
+                .high,
+                .informational,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .informational: return "INFORMATIONAL"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
+    /// A condition that sets which findings from an on-demand AMI scan fail the image. Image Builder checks the output AMI's findings against this condition during the test phase.
+    public struct ScanResultCondition: Swift.Sendable {
+        /// Specifies whether only findings that have a fix available count toward maximumSeverityLabel. When false, Image Builder counts every finding. The default is true.
+        public var fixAvailable: Swift.Bool?
+        /// The maximum severity allowed for findings on the output AMI. A finding above this severity fails the image, unless fixAvailable excludes it. Valid values are INFORMATIONAL, LOW, MEDIUM, and HIGH. A CRITICAL finding that counts always fails the image.
+        /// This member is required.
+        public var maximumSeverityLabel: ImagebuilderClientTypes.MaximumSeverityLabel?
+
+        public init(
+            fixAvailable: Swift.Bool? = nil,
+            maximumSeverityLabel: ImagebuilderClientTypes.MaximumSeverityLabel? = nil
+        ) {
+            self.fixAvailable = fixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+    }
+}
+
+extension ImagebuilderClientTypes {
+
     /// Contains settings for Image Builder image resource and container image scans.
     public struct ImageScanningConfiguration: Swift.Sendable {
         /// Contains Amazon ECR settings for vulnerability scans.
         public var ecrConfiguration: ImagebuilderClientTypes.EcrConfiguration?
-        /// Specifies whether Amazon Inspector scans for vulnerabilities when you create a new image, and whether Image Builder saves the findings. Amazon Inspector must be enabled in the account. Image tests must also be enabled. For AMI output, Amazon Inspector scans the test instance. For container output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR repository from your ecrConfiguration settings.
+        /// Specifies whether Amazon Inspector scans for vulnerabilities when you create a new image. You must also enable image tests. For AMI output, imageScanningTypes sets whether Amazon Inspector scans the test instance or the output AMI. For container output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR repository from your ecrConfiguration settings. To use container image scans, you must activate Amazon Inspector for Amazon ECR scanning in your account. The Image Builder ListImageScanFindings operation returns the findings of these scans.
         public var imageScanningEnabled: Swift.Bool?
+        /// The type of vulnerability scan that Image Builder runs for AMI output when imageScanningEnabled is true. Specify a single value. If you omit imageScanningTypes, Image Builder uses TEST_INSTANCE_CVE. The scan types work as follows:
+        ///
+        /// * With TEST_INSTANCE_CVE, Amazon Inspector scans the test instance during image tests. To use this scan, you must activate Amazon Inspector for Amazon EC2 scanning in your account. The Image Builder ListImageScanFindings operation returns the findings.
+        ///
+        /// * With ON_DEMAND_AMI_CVE, Amazon Inspector starts an on-demand scan of the output AMI during image tests. To use this scan, you must build from an image recipe, but you do not need to activate Amazon Inspector in your account. The Amazon EC2 [GetImageFindings](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageFindings.html) operation returns the findings.
+        public var imageScanningTypes: [ImagebuilderClientTypes.ImageScanningType]?
+        /// The condition that the output AMI's scan results must meet for the image to pass. You can set scanResultCondition only when imageScanningTypes is ON_DEMAND_AMI_CVE. If you omit it, Image Builder starts the scan but does not wait for it or use its results to pass or fail the image. When you set scanResultCondition, the test phase waits for the scan to finish. Then Image Builder checks the findings against the condition. By default, Image Builder counts only findings that have a fix available. To count every finding, set fixAvailable to false. If a counted finding exceeds maximumSeverityLabel, Image Builder fails the image in the test phase and does not distribute the AMI.
+        public var scanResultCondition: ImagebuilderClientTypes.ScanResultCondition?
 
         public init(
             ecrConfiguration: ImagebuilderClientTypes.EcrConfiguration? = nil,
-            imageScanningEnabled: Swift.Bool? = nil
+            imageScanningEnabled: Swift.Bool? = nil,
+            imageScanningTypes: [ImagebuilderClientTypes.ImageScanningType]? = nil,
+            scanResultCondition: ImagebuilderClientTypes.ScanResultCondition? = nil
         ) {
             self.ecrConfiguration = ecrConfiguration
             self.imageScanningEnabled = imageScanningEnabled
+            self.imageScanningTypes = imageScanningTypes
+            self.scanResultCondition = scanResultCondition
         }
     }
 }
@@ -2473,7 +2571,7 @@ public struct CreateImageInput: Swift.Sendable {
     public var executionRole: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed. You must specify either this property or containerRecipeArn, but not both.
     public var imageRecipeArn: Swift.String?
-    /// Settings for vulnerability scans that Amazon Inspector runs during image creation. For AMI output, Amazon Inspector scans the test instance. For container output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR repository specified in ecrConfiguration.
+    /// The settings that determine whether and how Amazon Inspector scans the image for vulnerabilities.
     public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
     /// Settings that determine whether Image Builder runs tests on the image after building it. Image tests are enabled by default.
     public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
@@ -2668,7 +2766,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
     public var executionRole: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that configures images created by this image pipeline. You must specify either this property or containerRecipeArn, but not both.
     public var imageRecipeArn: Swift.String?
-    /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance during image creation.
+    /// The settings that determine whether and how Amazon Inspector scans the images that this pipeline creates.
     public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
     /// The tags that Image Builder applies to the Image Builder image resource that this pipeline's scheduled executions create. These tags don't apply to the output AMI. To tag output AMIs, use amiTags in the pipeline's distribution configuration.
     public var imageTags: [Swift.String: Swift.String]?
@@ -4681,7 +4779,7 @@ extension ImagebuilderClientTypes {
         public var executionRole: Swift.String?
         /// For images that distribute an AMI, this is the image recipe that Image Builder used to create the image. For container images, this is empty.
         public var imageRecipe: ImagebuilderClientTypes.ImageRecipe?
-        /// Settings for the vulnerability scans that Amazon Inspector runs for this image. For AMI output, Amazon Inspector scans the test instance during image creation. For container output, Amazon Inspector scans the container image in its Amazon ECR repository.
+        /// The settings that determine whether and how Amazon Inspector scans this image.
         public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
         /// The origin of the base image that Image Builder used to build this image.
         public var imageSource: ImagebuilderClientTypes.ImageSource?
@@ -4851,7 +4949,7 @@ extension ImagebuilderClientTypes {
         public var executionRole: Swift.String?
         /// The Amazon Resource Name (ARN) of the image recipe associated with this image pipeline.
         public var imageRecipeArn: Swift.String?
-        /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance during image creation.
+        /// The settings that determine whether and how Amazon Inspector scans the images that the pipeline creates.
         public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
         /// The tags that Image Builder applies to the Image Builder image resource that this pipeline's scheduled executions create. These tags don't apply to the output AMI. Builds that you start manually use the tags from the [StartImagePipelineExecution](https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_StartImagePipelineExecution.html) request instead.
         public var imageTags: [Swift.String: Swift.String]?
@@ -8753,7 +8851,7 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
     public var imagePipelineArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the image recipe that configures images created by this image pipeline. You must specify either this property or containerRecipeArn, but not both.
     public var imageRecipeArn: Swift.String?
-    /// Contains settings for vulnerability scans that Amazon Inspector runs against the test instance during image creation.
+    /// The updated settings that determine whether and how Amazon Inspector scans the images that this pipeline creates.
     public var imageScanningConfiguration: ImagebuilderClientTypes.ImageScanningConfiguration?
     /// The tags that Image Builder applies to the Image Builder image resource that this pipeline's scheduled executions create. These tags don't apply to the output AMI. To tag output AMIs, use amiTags in the pipeline's distribution configuration.
     public var imageTags: [Swift.String: Swift.String]?
@@ -14211,6 +14309,8 @@ extension ImagebuilderClientTypes.ImageScanningConfiguration {
         guard let value else { return }
         try writer["ecrConfiguration"].write(value.ecrConfiguration, with: ImagebuilderClientTypes.EcrConfiguration.write(value:to:))
         try writer["imageScanningEnabled"].write(value.imageScanningEnabled)
+        try writer["imageScanningTypes"].writeList(value.imageScanningTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ImagebuilderClientTypes.ImageScanningType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scanResultCondition"].write(value.scanResultCondition, with: ImagebuilderClientTypes.ScanResultCondition.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ImageScanningConfiguration {
@@ -14218,6 +14318,8 @@ extension ImagebuilderClientTypes.ImageScanningConfiguration {
         var value = ImagebuilderClientTypes.ImageScanningConfiguration()
         value.imageScanningEnabled = try reader["imageScanningEnabled"].readIfPresent()
         value.ecrConfiguration = try reader["ecrConfiguration"].readIfPresent(with: ImagebuilderClientTypes.EcrConfiguration.read(from:))
+        value.imageScanningTypes = try reader["imageScanningTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ImagebuilderClientTypes.ImageScanningType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanResultCondition = try reader["scanResultCondition"].readIfPresent(with: ImagebuilderClientTypes.ScanResultCondition.read(from:))
         return value
     }
 }
@@ -14978,6 +15080,23 @@ extension ImagebuilderClientTypes.S3Logs {
         var value = ImagebuilderClientTypes.S3Logs()
         value.s3BucketName = try reader["s3BucketName"].readIfPresent()
         value.s3KeyPrefix = try reader["s3KeyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension ImagebuilderClientTypes.ScanResultCondition {
+
+    static func write(value: ImagebuilderClientTypes.ScanResultCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fixAvailable"].write(value.fixAvailable)
+        try writer["maximumSeverityLabel"].write(value.maximumSeverityLabel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ImagebuilderClientTypes.ScanResultCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ImagebuilderClientTypes.ScanResultCondition()
+        value.maximumSeverityLabel = try reader["maximumSeverityLabel"].readIfPresent() ?? .sdkUnknown("")
+        value.fixAvailable = try reader["fixAvailable"].readIfPresent()
         return value
     }
 }

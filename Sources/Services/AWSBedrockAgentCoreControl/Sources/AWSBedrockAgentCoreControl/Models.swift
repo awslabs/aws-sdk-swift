@@ -1446,6 +1446,39 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// An inclusive range of ports. The value of from must be less than or equal to the value of to.
+    public struct PortRange: Swift.Sendable {
+        /// The first port in the inclusive range.
+        /// This member is required.
+        public var from: Swift.Int?
+        /// The last port in the inclusive range.
+        /// This member is required.
+        public var to: Swift.Int?
+
+        public init(
+            from: Swift.Int? = nil,
+            to: Swift.Int? = nil
+        ) {
+            self.from = from
+            self.to = to
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A port or port range that is reachable through the runtime's session URL. Specify exactly one of port or portRange.
+    public enum AllowedPort: Swift.Sendable {
+        /// A single port that is reachable through the runtime's session URL.
+        case port(Swift.Int)
+        /// An inclusive range of ports that are reachable through the runtime's session URL.
+        case portrange(BedrockAgentCoreControlClientTypes.PortRange)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// A hosting environment whose workloads are allowed to invoke the target. At launch, the only supported hosting environment is AgentCore Gateway.
     public struct HostingEnvironment: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the hosting environment.
@@ -2022,13 +2055,21 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// The protocol configuration for an agent runtime. This structure defines how the agent runtime communicates with clients.
     public struct ProtocolConfiguration: Swift.Sendable {
+        /// The path on which the agent server accepts requests. The path must begin with /. When this field is omitted, the default is /invocations for HTTP and AGUI, /mcp for MCP, and / for A2A.
+        public var path: Swift.String?
+        /// The port on which the agent server listens. The port must be between 8000 and 12000, excluding the reserved port 8443. When this field is omitted, the default is 8080 for HTTP and AGUI, 8000 for MCP, and 9000 for A2A.
+        public var port: Swift.Int?
         /// The server protocol for the agent runtime. This field specifies which protocol the agent runtime uses to communicate with clients.
         /// This member is required.
         public var serverProtocol: BedrockAgentCoreControlClientTypes.ServerProtocol?
 
         public init(
+            path: Swift.String? = nil,
+            port: Swift.Int? = nil,
             serverProtocol: BedrockAgentCoreControlClientTypes.ServerProtocol? = nil
         ) {
+            self.path = path
+            self.port = port
             self.serverProtocol = serverProtocol
         }
     }
@@ -2051,6 +2092,8 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     /// The name of the AgentCore Runtime.
     /// This member is required.
     public var agentRuntimeName: Swift.String?
+    /// The additional ports on the AgentCore Runtime that are reachable through the runtime's session URL. Specify one to five non-overlapping entries, each containing either a single port or an inclusive port range. Ports must be between 8000 and 12000, excluding the reserved port 8443.
+    public var allowedPorts: [BedrockAgentCoreControlClientTypes.AllowedPort]?
     /// The authorizer configuration for the AgentCore Runtime.
     public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
     /// The capacity provider configuration for the AgentCore Runtime. Use a capacity provider to run the AgentCore Runtime on the Instances compute type, which provisions Amazon Web Services managed compute in your account.
@@ -2069,7 +2112,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
     /// The version of the runtime platform to use for the AgentCore Runtime.
     public var platformVersion: Swift.String?
-    /// The protocol configuration for an agent runtime. This structure defines how the agent runtime communicates with clients.
+    /// The protocol configuration for the AgentCore Runtime, including the protocol, port, and path on which the agent server is available.
     public var protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?
     /// Configuration for HTTP request headers that will be passed through to the runtime.
     public var requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?
@@ -2082,6 +2125,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     public init(
         agentRuntimeArtifact: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact? = nil,
         agentRuntimeName: Swift.String? = nil,
+        allowedPorts: [BedrockAgentCoreControlClientTypes.AllowedPort]? = nil,
         authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
         capacityProviderConfiguration: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration? = nil,
         clientToken: Swift.String? = nil,
@@ -2098,6 +2142,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     ) {
         self.agentRuntimeArtifact = agentRuntimeArtifact
         self.agentRuntimeName = agentRuntimeName
+        self.allowedPorts = allowedPorts
         self.authorizerConfiguration = authorizerConfiguration
         self.capacityProviderConfiguration = capacityProviderConfiguration
         self.clientToken = clientToken
@@ -2116,7 +2161,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
 
 extension CreateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -2302,6 +2347,8 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     /// The version of the AgentCore Runtime.
     /// This member is required.
     public var agentRuntimeVersion: Swift.String?
+    /// The additional ports on the AgentCore Runtime that are reachable through the runtime's session URL.
+    public var allowedPorts: [BedrockAgentCoreControlClientTypes.AllowedPort]?
     /// The authorizer configuration for the AgentCore Runtime.
     public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
     /// The capacity provider configuration for the AgentCore Runtime.
@@ -2329,7 +2376,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
     /// The version of the runtime platform used by the AgentCore Runtime.
     public var platformVersion: Swift.String?
-    /// The protocol configuration for an agent runtime. This structure defines how the agent runtime communicates with clients.
+    /// The protocol configuration for the AgentCore Runtime, including the protocol, port, and path on which the agent server is available.
     public var protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?
     /// Configuration for HTTP request headers that will be passed through to the runtime.
     public var requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?
@@ -2348,6 +2395,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         agentRuntimeId: Swift.String? = nil,
         agentRuntimeName: Swift.String? = nil,
         agentRuntimeVersion: Swift.String? = nil,
+        allowedPorts: [BedrockAgentCoreControlClientTypes.AllowedPort]? = nil,
         authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
         capacityProviderConfiguration: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
@@ -2371,6 +2419,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         self.agentRuntimeId = agentRuntimeId
         self.agentRuntimeName = agentRuntimeName
         self.agentRuntimeVersion = agentRuntimeVersion
+        self.allowedPorts = allowedPorts
         self.authorizerConfiguration = authorizerConfiguration
         self.capacityProviderConfiguration = capacityProviderConfiguration
         self.createdAt = createdAt
@@ -2393,7 +2442,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
 
 extension GetAgentRuntimeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAgentRuntimesInput: Swift.Sendable {
@@ -2521,6 +2570,8 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     /// The unique identifier of the AgentCore Runtime to update.
     /// This member is required.
     public var agentRuntimeId: Swift.String?
+    /// The updated additional ports on the AgentCore Runtime that are reachable through the runtime's session URL. Specify one to five non-overlapping entries, each containing either a single port or an inclusive port range. Ports must be between 8000 and 12000, excluding the reserved port 8443.
+    public var allowedPorts: [BedrockAgentCoreControlClientTypes.AllowedPort]?
     /// The updated authorizer configuration for the AgentCore Runtime.
     public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
     /// The updated capacity provider configuration for the AgentCore Runtime.
@@ -2541,7 +2592,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
     /// The updated version of the runtime platform to use for the AgentCore Runtime.
     public var platformVersion: Swift.String?
-    /// The protocol configuration for an agent runtime. This structure defines how the agent runtime communicates with clients.
+    /// The updated protocol configuration for the AgentCore Runtime, including the protocol, port, and path on which the agent server is available.
     public var protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?
     /// The updated configuration for HTTP request headers that will be passed through to the runtime.
     public var requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?
@@ -2552,6 +2603,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     public init(
         agentRuntimeArtifact: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact? = nil,
         agentRuntimeId: Swift.String? = nil,
+        allowedPorts: [BedrockAgentCoreControlClientTypes.AllowedPort]? = nil,
         authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration? = nil,
         capacityProviderConfiguration: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration? = nil,
         clientToken: Swift.String? = nil,
@@ -2568,6 +2620,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     ) {
         self.agentRuntimeArtifact = agentRuntimeArtifact
         self.agentRuntimeId = agentRuntimeId
+        self.allowedPorts = allowedPorts
         self.authorizerConfiguration = authorizerConfiguration
         self.capacityProviderConfiguration = capacityProviderConfiguration
         self.clientToken = clientToken
@@ -2586,7 +2639,7 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
 
 extension UpdateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAgentRuntimeOutput: Swift.Sendable {
@@ -27139,6 +27192,7 @@ extension CreateAgentRuntimeInput {
         guard let value else { return }
         try writer["agentRuntimeArtifact"].write(value.agentRuntimeArtifact, with: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact.write(value:to:))
         try writer["agentRuntimeName"].write(value.agentRuntimeName)
+        try writer["allowedPorts"].writeList(value.allowedPorts, memberWritingClosure: BedrockAgentCoreControlClientTypes.AllowedPort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.write(value:to:))
         try writer["capacityProviderConfiguration"].write(value.capacityProviderConfiguration, with: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
@@ -27781,6 +27835,7 @@ extension UpdateAgentRuntimeInput {
     static func write(value: UpdateAgentRuntimeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentRuntimeArtifact"].write(value.agentRuntimeArtifact, with: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact.write(value:to:))
+        try writer["allowedPorts"].writeList(value.allowedPorts, memberWritingClosure: BedrockAgentCoreControlClientTypes.AllowedPort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["authorizerConfiguration"].write(value.authorizerConfiguration, with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.write(value:to:))
         try writer["capacityProviderConfiguration"].write(value.capacityProviderConfiguration, with: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
@@ -29037,6 +29092,7 @@ extension GetAgentRuntimeOutput {
         value.agentRuntimeId = try reader["agentRuntimeId"].readIfPresent() ?? ""
         value.agentRuntimeName = try reader["agentRuntimeName"].readIfPresent() ?? ""
         value.agentRuntimeVersion = try reader["agentRuntimeVersion"].readIfPresent() ?? ""
+        value.allowedPorts = try reader["allowedPorts"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.AllowedPort.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.authorizerConfiguration = try reader["authorizerConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration.read(from:))
         value.capacityProviderConfiguration = try reader["capacityProviderConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -34536,6 +34592,34 @@ extension BedrockAgentCoreControlClientTypes.AgentSkillsDescriptor {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.AllowedPort {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AllowedPort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .port(port):
+                try writer["port"].write(port)
+            case let .portrange(portrange):
+                try writer["portRange"].write(portrange, with: BedrockAgentCoreControlClientTypes.PortRange.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AllowedPort {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "port":
+                return .port(try reader["port"].read())
+            case "portRange":
+                return .portrange(try reader["portRange"].read(with: BedrockAgentCoreControlClientTypes.PortRange.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.AllowedWorkloadConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.AllowedWorkloadConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -39810,6 +39894,23 @@ extension BedrockAgentCoreControlClientTypes.PolicySummary {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.PortRange {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.PortRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["from"].write(value.from)
+        try writer["to"].write(value.to)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.PortRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.PortRange()
+        value.from = try reader["from"].readIfPresent() ?? 0
+        value.to = try reader["to"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.PrivateEndpoint {
 
     static func write(value: BedrockAgentCoreControlClientTypes.PrivateEndpoint?, to writer: SmithyJSON.Writer) throws {
@@ -39904,6 +40005,8 @@ extension BedrockAgentCoreControlClientTypes.ProtocolConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["path"].write(value.path)
+        try writer["port"].write(value.port)
         try writer["serverProtocol"].write(value.serverProtocol)
     }
 
@@ -39911,6 +40014,8 @@ extension BedrockAgentCoreControlClientTypes.ProtocolConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentCoreControlClientTypes.ProtocolConfiguration()
         value.serverProtocol = try reader["serverProtocol"].readIfPresent() ?? .sdkUnknown("")
+        value.port = try reader["port"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
         return value
     }
 }
