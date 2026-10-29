@@ -72,32 +72,38 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
         let loginSession = try getLoginSessionFromConfig(resolvedProfileName, fileBasedConfig)
         let loginTokenFileURL = try constructLoginTokenFileURL(loginSession)
         let loginToken = try loadLoginToken(resolvedProfileName, loginTokenFileURL)
+        let staleAccessKeyID = identityProperties?.get(key: AWSIdentityPropertyKeys.staleAccessKeyID)
 
         // Return immediately if refresh isn't needed.
-        if !loginToken.needsRefresh() {
+        if !loginToken.needsRefresh(), loginToken.accessToken.accessKeyId != staleAccessKeyID {
             return loginToken.constructAWSCredentialIdentity(
                 credentialFeatureIDs: credentialFeatureIDs
             )
         }
 
         // If refresh succeeds, return new credentials.
-        // If refresh fails and token is expired, throw an error.
-        // If refresh fails and token hasn't expired yet, return old creds.
+        // If refresh fails, throw an error.
         do {
             return try await refreshAndCacheLoginToken(
                 resolvedProfileName,
-                loginTokenFileURL
+                loginTokenFileURL,
+                staleAccessKeyID
             ).constructAWSCredentialIdentity(
                 credentialFeatureIDs: credentialFeatureIDs
             )
-        } catch {
-            if loginToken.tokenIsExpired() {
-                throw error
-            } else {
-                return loginToken.constructAWSCredentialIdentity(
-                    credentialFeatureIDs: credentialFeatureIDs
-                )
-            }
+        } catch let error as AccessDeniedException where error.properties.error == .tokenExpired {
+            throw NonRecoverableCredentialError(
+                actionableMessage: "The AWS Login session has expired. Sign in again to continue."
+            )
+        } catch let error as AccessDeniedException where error.properties.error == .userCredentialsChanged {
+            throw NonRecoverableCredentialError(
+                actionableMessage: "The AWS Login session password has changed. Sign in again to continue."
+            )
+        } catch let error as AccessDeniedException where error.properties.error == .insufficientPermissions {
+            throw NonRecoverableCredentialError(
+                actionableMessage: "The AWS Login session has insufficient permissions. "
+                    + "You may be missing permissions for the CreateOAuth2Token action."
+            )
         }
     }
 
@@ -153,20 +159,22 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
             }
             return try decoder.decode(LoginToken.self, from: data)
         } catch {
-            throw ClientError.dataNotFound(
-                "LoginAWSCredentialIdentityResolver: "
-                + "Failed to load a login token for profile '\(profileName)', please reauthenticate."
+            throw NonRecoverableCredentialError(
+                underlying: error,
+                actionableMessage: "LoginAWSCredentialIdentityResolver: "
+                    + "Failed to load a login token for profile '\(profileName)', please reauthenticate."
             )
         }
     }
 
     private func refreshAndCacheLoginToken(
         _ profileName: String,
-        _ loginTokenFileURL: URL
+        _ loginTokenFileURL: URL,
+        _ staleAccessKeyID: String?
     ) async throws -> LoginToken {
         // Reload the token to ensure it hasn't already been refreshed.
         let loginToken = try loadLoginToken(profileName, loginTokenFileURL)
-        if !loginToken.needsRefresh() {
+        if !loginToken.needsRefresh(), loginToken.accessToken.accessKeyId != staleAccessKeyID {
             return loginToken
         }
 
@@ -249,7 +257,7 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
 
 struct LoginToken: Codable {
     let accessToken: AccessToken
-    let tokenType: String
+    let tokenType: String?
     let refreshToken: String
     let idToken: String
     let clientId: String
@@ -259,10 +267,6 @@ struct LoginToken: Codable {
     func needsRefresh() -> Bool {
         let fiveMinutesFromNow = Date().addingTimeInterval(300)
         return accessToken.expiresAt <= fiveMinutesFromNow
-    }
-
-    func tokenIsExpired() -> Bool {
-        return Date() > accessToken.expiresAt
     }
 
     func save(to fileURL: URL) throws {

@@ -15,11 +15,9 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.Date
 
 /// A credential identity resolver that resolves credentials using AWS Cognito Identity.
-public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
-    private let config: CognitoCredentialsConfiguration
-    private var logins: [String: String]?
-    private var cache = CognitoCredentialsCache()
-    private nonisolated let client: CognitoIdentityClientProtocol
+public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver, IdentityInvalidator {
+    private let source: CognitoAWSCredentialIdentitySource
+    private let cache: CredentialsCache
 
     public init(
         identityPoolId: String? = nil,
@@ -29,6 +27,70 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
         customRoleArn: String? = nil,
         identityPoolRegion: String? = nil
     ) throws {
+        try self.init(
+            identityPoolId: identityPoolId,
+            identityId: identityId,
+            accountId: accountId,
+            logins: logins,
+            customRoleArn: customRoleArn,
+            identityPoolRegion: identityPoolRegion,
+            cognitoClient: IdentityProvidingCognitoIdentityClient()
+        )
+    }
+
+    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        try await cache.getIdentity(identityProperties: identityProperties)
+    }
+
+    public func updateLogins(_ newLogins: [String: String]?) async {
+        guard await source.updateLogins(newLogins) else { return }
+        await cache.reset()
+    }
+
+    func invalidate(_ identity: AWSCredentialIdentity) async {
+        await cache.invalidate(identity)
+    }
+
+    // testing-only initializer
+    internal init(
+        identityPoolId: String? = nil,
+        identityId: String? = nil,
+        accountId: String? = nil,
+        logins: [String: String]? = nil,
+        customRoleArn: String? = nil,
+        identityPoolRegion: String? = nil,
+        cognitoClient: CognitoIdentityClientProtocol
+    ) throws {
+        let source = try CognitoAWSCredentialIdentitySource(
+            identityPoolId: identityPoolId,
+            identityId: identityId,
+            accountId: accountId,
+            logins: logins,
+            customRoleArn: customRoleArn,
+            identityPoolRegion: identityPoolRegion,
+            cognitoClient: cognitoClient
+        )
+        self.source = source
+        self.cache = CredentialsCache(source: source)
+    }
+}
+
+/// CognitoAWSCredentialIdentitySource fetches credentials from Cognito Identity without caching them.
+actor CognitoAWSCredentialIdentitySource: AWSCredentialIdentityResolver {
+    private let config: CognitoCredentialsConfiguration
+    private var logins: [String: String]?
+    private var cache = CognitoCredentialsCache()
+    private nonisolated let client: CognitoIdentityClientProtocol
+
+    init(
+        identityPoolId: String?,
+        identityId: String?,
+        accountId: String?,
+        logins: [String: String]?,
+        customRoleArn: String?,
+        identityPoolRegion: String?,
+        cognitoClient: CognitoIdentityClientProtocol
+    ) throws {
         self.config = try CognitoCredentialsConfiguration(
             identityPoolId: identityPoolId,
             identityId: identityId,
@@ -36,32 +98,22 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
             customRoleArn: customRoleArn,
             identityPoolRegion: identityPoolRegion
         )
-        self.client = IdentityProvidingCognitoIdentityClient()
+        self.client = cognitoClient
         self.logins = logins
         self.cache.logins = logins
     }
 
-    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        // Return cached credentials if still valid
-        if cache.isValid(for: logins) {
-            return cache.credentials!
-        }
-
-        // Fetch fresh credentials
-        let credentials = try await fetchCredentials()
-
-        // Update cache
-        cache.credentials = credentials
-        cache.logins = logins
-
-        return credentials
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        try await fetchCredentials()
     }
 
-    public func updateLogins(_ newLogins: [String: String]?) {
-        guard logins != newLogins else { return }
+    /// updateLogins replaces the logins and drops the cached identity ID, and returns false if the logins didn't change.
+    func updateLogins(_ newLogins: [String: String]?) -> Bool {
+        guard logins != newLogins else { return false }
 
         logins = newLogins
         cache.invalidate()
+        return true
     }
 
     private func fetchCredentials() async throws -> AWSCredentialIdentity {
@@ -170,23 +222,11 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
 
     private struct CognitoCredentialsCache {
         var identityId: String?
-        var credentials: AWSCredentialIdentity?
         var logins: [String: String]?
 
         mutating func invalidate() {
             identityId = nil
-            credentials = nil
             logins = nil
-        }
-
-        func isValid(for currentLogins: [String: String]?) -> Bool {
-            guard let creds = credentials,
-                  let expiration = creds.expiration,
-                  expiration > Date(),
-                  logins == currentLogins else {
-                return false
-            }
-            return true
         }
 
         func hasValidIdentityId(for currentLogins: [String: String]?) -> Bool {
@@ -227,27 +267,5 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
                 config: "region"
             )
         }
-    }
-
-    // testing-only initializer
-    internal init(
-        identityPoolId: String? = nil,
-        identityId: String? = nil,
-        accountId: String? = nil,
-        logins: [String: String]? = nil,
-        customRoleArn: String? = nil,
-        identityPoolRegion: String? = nil,
-        cognitoClient: CognitoIdentityClientProtocol
-    ) throws {
-        self.config = try CognitoCredentialsConfiguration(
-            identityPoolId: identityPoolId,
-            identityId: identityId,
-            accountId: accountId,
-            customRoleArn: customRoleArn,
-            identityPoolRegion: identityPoolRegion
-        )
-        self.client = cognitoClient
-        self.logins = logins
-        self.cache.logins = logins
     }
 }

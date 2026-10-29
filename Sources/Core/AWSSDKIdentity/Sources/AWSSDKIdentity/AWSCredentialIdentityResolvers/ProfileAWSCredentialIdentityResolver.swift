@@ -114,6 +114,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         ) {
             do {
                 return try await resolver(identityProperties)
+            } catch let error as NonRecoverableCredentialError {
+                throw error
             } catch {
                 // Log error message and continue on.
                 logger.debug(error.localizedDescription)

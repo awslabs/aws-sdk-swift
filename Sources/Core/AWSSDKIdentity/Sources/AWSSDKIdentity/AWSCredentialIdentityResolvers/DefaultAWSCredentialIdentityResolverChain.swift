@@ -6,7 +6,6 @@
 //
 
 @_spi(FileBasedConfig) import AWSSDKCommon
-import struct Foundation.Date
 import struct Smithy.Attributes
 import struct Smithy.SwiftLogger
 @_spi(SmithyIdentity) import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
@@ -31,17 +30,36 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolver
 /// 4. ECS (IAM roles for tasks)
 /// 5. EC2 Instance Metadata (IMDSv2)
 ///
-/// The credentials retrieved from the chain are cached for 15 minutes.
-public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityResolver {
+/// The credentials retrieved from the chain are cached and refreshed before they expire.
+public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityResolver, IdentityInvalidator {
+
+    /// cache holds the credentials the chain resolves and refreshes them before they expire.
+    private let cache: CredentialsCache
+
     /// Creates a credential identity resolver that uses the default AWS credential identity resolver chain used by most AWS SDKs.
+    public init() {
+        self.cache = CredentialsCache(source: DefaultAWSCredentialIdentityResolverChainSource())
+    }
+
+    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        try await cache.getIdentity(identityProperties: identityProperties)
+    }
+
+    func invalidate(_ identity: AWSCredentialIdentity) async {
+        await cache.invalidate(identity)
+    }
+}
+
+/// DefaultAWSCredentialIdentityResolverChainSource tries each resolver in order and returns the first credentials found, without caching.
+struct DefaultAWSCredentialIdentityResolverChainSource: AWSCredentialIdentityResolver {
+
     typealias ResolverFactory = @Sendable () throws -> (any AWSCredentialIdentityResolver)
 
     private let resolverFactories: [ResolverFactory]
-    private var cachedCredentials: AWSCredentialIdentity?
 
     private let logger: SwiftLogger = SwiftLogger(label: "DefaultAWSCredentialIdentityResolverChain")
 
-    public init() {
+    init() {
         resolverFactories = [
             { return ( EnvironmentAWSCredentialIdentityResolver()) },
             { return ( try STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
@@ -51,41 +69,31 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
         ]
     }
 
-    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        if let cached = cachedCredentials, !shouldRefreshCredentials(expiration: cached.expiration) {
-            return cached
-        }
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        // nonRecoverableError is thrown only if no later resolver succeeds.
+        var nonRecoverableError: NonRecoverableCredentialError?
 
         for index in 0..<resolverFactories.count {
             do {
                 let resolver = try resolverFactories[index]()
-                let credentials = try await resolver.getIdentity(identityProperties: identityProperties)
-                cachedCredentials = credentials
-                return credentials
+                return try await resolver.getIdentity(identityProperties: identityProperties)
+            } catch let error as NonRecoverableCredentialError {
+                nonRecoverableError = nonRecoverableError ?? error
+                logger.debug("\(error)")
             } catch {
                 // Log error & continue to the next resolver factory.
                 logger.debug(error.localizedDescription)
             }
         }
 
+        if let nonRecoverableError { throw nonRecoverableError }
+
         // None of the resolvers successfully resolved credentials.
         // Throw a descriptive error.
         throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-            "DefaultAWSCredentialIdentityRsolverChain: "
+            "DefaultAWSCredentialIdentityResolverChain: "
             + "Failed to resolve credentials."
         )
-    }
-
-    private func shouldRefreshCredentials(expiration: Date?) -> Bool {
-        guard let expiration else {
-            return false // No expiration provided, assume no refresh is needed
-        }
-
-        let now = Date()
-        let fiveMinutesBeforeExpiration = expiration.addingTimeInterval(-300)
-
-        // Return true if now is after (expiration - 5 minutes).
-        return now >= fiveMinutesBeforeExpiration
     }
 }
 
