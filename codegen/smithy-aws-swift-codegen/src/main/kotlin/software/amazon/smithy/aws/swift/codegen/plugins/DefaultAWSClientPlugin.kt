@@ -10,13 +10,15 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
 
-class DefaultAWSClientPlugin : Plugin {
+class DefaultAWSClientPlugin(
+    private val sdkId: String,
+) : Plugin {
     override val className: Symbol = AWSClientRuntimeTypes.Core.DefaultAWSClientPlugin
 
     override val isDefault: Boolean
         get() = true
 
     override fun customInitialization(writer: SwiftWriter) {
-        writer.writeInline("\$N(clientName: self.clientName)", className)
+        writer.writeInline("\$N(clientName: self.clientName, sdkID: \$S)", className, sdkId)
     }
 }

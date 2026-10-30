@@ -30,11 +30,13 @@ class AWSRetryCustomizationIntegration : SwiftIntegration {
                 ctx.symbolProvider,
                 AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
                 retryErrorInfoProviderExpressionFactory = { _ ->
-                    "AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: \"$sdkId\")"
+                    "AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(" +
+                        "sdkID: \"$sdkId\", retryStrategyOptions: config.retryStrategyOptions)"
                 },
                 longPollingBackoffExpression =
                     if (isLongPolling) {
-                        "AWSClientRuntime.LongPollingBackoffProvider.backoffDelay(context:errorInfo:attemptCount:)"
+                        "AWSClientRuntime.LongPollingBackoffProvider.backoffDelayProvider(" +
+                            "retryStrategyOptions: config.retryStrategyOptions)"
                     } else {
                         null
                     },

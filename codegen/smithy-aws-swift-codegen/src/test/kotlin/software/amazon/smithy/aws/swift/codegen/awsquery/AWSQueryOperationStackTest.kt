@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.awsquery
 
+import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
@@ -45,7 +46,7 @@ class AWSQueryOperationStackTest {
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
         builder.retryStrategy(self.retryStrategy)
-        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Query Protocol"))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Query Protocol", retryStrategyOptions: config.retryStrategyOptions))
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<NoInputAndOutputInput, NoInputAndOutputOutput>(serviceID: serviceName, version: QueryProtocolClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QueryProtocol")
@@ -61,6 +62,31 @@ class AWSQueryOperationStackTest {
             .build()
 """
         contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `long-polling operation passes the client retry strategy options`() {
+        val context = setupTests("awsquery/query-long-polling.smithy", "aws.protocoltests.query#AwsQuery")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/SQSClient.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents = """
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SQS", retryStrategyOptions: config.retryStrategyOptions))
+        builder.longPollingBackoffProvider(AWSClientRuntime.LongPollingBackoffProvider.backoffDelayProvider(retryStrategyOptions: config.retryStrategyOptions))
+"""
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `default AWS client plugin and region init pass the sdkId`() {
+        val context = setupTests("awsquery/query-long-polling.smithy", "aws.protocoltests.query#AwsQuery")
+        val contents = getFileContents(context.manifest, "Example/Sources/Example/SQSClient.swift")
+        contents.shouldSyntacticSanityCheck()
+        contents.shouldContainOnlyOnce(
+            "AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: \"SQS\"),",
+        )
+        contents.shouldContain(
+            "retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: \"SQS\"),",
+        )
     }
 
     private fun setupTests(

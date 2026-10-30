@@ -182,7 +182,11 @@ class AWSHttpProtocolServiceClient(
                             }
                         }
                         "retryStrategyOptions" -> {
-                            writer.write("\$L: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),", property.name)
+                            writer.write(
+                                "\$L: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: \$S),",
+                                property.name,
+                                ctx.service.sdkId,
+                            )
                         }
                         "requestChecksumCalculation" -> {
                             writer.write("\$L: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),", property.name)

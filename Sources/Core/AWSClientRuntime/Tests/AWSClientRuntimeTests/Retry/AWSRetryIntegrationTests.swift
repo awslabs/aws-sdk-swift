@@ -16,7 +16,6 @@ import SmithyTestUtil
 @testable import SmithyRetries
 @testable import ClientRuntime
 @testable import AWSClientRuntime
-@_spi(Testing) import AWSClientRuntime
 
 // This test class reproduces the "Standard Mode" test cases defined in "Retry Behavior 2.0"
 // It is essentially a copy of the class of the same name in smithy-swift, but this one
@@ -30,14 +29,6 @@ final class RetryIntegrationTests: XCTestCase {
 
     private var builder: OrchestratorBuilder<TestInput, TestOutputResponse, HTTPRequest, HTTPResponse>!
     private var quota: RetryQuota { get async { await subject.quotaRepository.quota(partitionID: partitionID) } }
-
-    override func setUp() {
-        AWSRetryFeatures.testingOverride = true
-    }
-
-    override func tearDown() {
-        AWSRetryFeatures.testingOverride = nil
-    }
 
     private func setUp(availableCapacity: Int, maxCapacity: Int, maxRetriesBase: Int, maxBackoff: TimeInterval) async {
         // Setup the HTTP context, used by the retry middleware
@@ -295,6 +286,64 @@ final class RetryIntegrationTests: XCTestCase {
         next.quota = await quota
     }
 
+    // MARK: - Resolved default options
+
+    // A client with no retry configuration honors `x-amz-retry-after`.
+    func test_defaultOptions_honorRetryAfterHeader() async throws {
+        let delay = try await retryDelayWithResolvedOptions(retryMode: nil, retryAfterMillis: "3000")
+        XCTAssertGreaterThanOrEqual(delay, 3.0)
+        XCTAssertLessThanOrEqual(delay, 3.05)
+    }
+
+    // A client in legacy mode ignores `x-amz-retry-after` and uses the pre-2.1 backoff.
+    func test_legacyOptions_ignoreRetryAfterHeader() async throws {
+        let delay = try await retryDelayWithResolvedOptions(retryMode: .legacy, retryAfterMillis: "3000")
+        XCTAssertNotEqual(delay, 3.0)
+        XCTAssertLessThanOrEqual(delay, 1.0)
+    }
+
+    /// Resolves retry options as an S3 client would, with the retry environment cleared, and returns the delay
+    /// before the retry of a 500 response that carries the passed `x-amz-retry-after` header.
+    private func retryDelayWithResolvedOptions(
+        retryMode: AWSRetryMode?, retryAfterMillis: String
+    ) async throws -> TimeInterval {
+        let isolatedEnvVars = [
+            "AWS_CONFIG_FILE", "AWS_SHARED_CREDENTIALS_FILE", "AWS_PROFILE", "AWS_RETRY_MODE", "AWS_MAX_ATTEMPTS",
+        ]
+        let savedEnv = ProcessInfo.processInfo.environment
+        defer {
+            for name in isolatedEnvVars {
+                if let value = savedEnv[name] { setenv(name, value, 1) } else { unsetenv(name) }
+            }
+        }
+        isolatedEnvVars.forEach { unsetenv($0) }
+        setenv("AWS_CONFIG_FILE", "/tmp/aws-retry-integration-tests-nonexistent-config", 1)
+        setenv("AWS_SHARED_CREDENTIALS_FILE", "/tmp/aws-retry-integration-tests-nonexistent-credentials", 1)
+
+        let options = try AWSClientConfigDefaultsProvider.retryStrategyOptions(retryMode, nil, sdkID: "S3")
+        var strategy = DefaultRetryStrategy(options: options)
+        let delays = DelayLog()
+        strategy.sleeper = { @Sendable in await delays.append($0) }
+
+        let context = Context(attributes: Attributes())
+        context.partitionID = partitionID
+        let executeRequest = RetryAfterExecuteRequest(retryAfterMillis: retryAfterMillis)
+        let builder: OrchestratorBuilder<TestInput, TestOutputResponse, HTTPRequest, HTTPResponse> = TestOrchestrator.httpBuilder()
+            .attributes(context)
+            .retryErrorInfoProvider(
+                AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3", retryStrategyOptions: options)
+            )
+            .retryStrategy(strategy)
+            .deserialize({ _, _ in TestOutputResponse() })
+            .executeRequest(executeRequest)
+        _ = try await builder.build().execute(input: TestInput())
+
+        XCTAssertEqual(executeRequest.attempts, 2)
+        let recorded = await delays.delays
+        XCTAssertEqual(recorded.count, 1)
+        return try XCTUnwrap(recorded.first)
+    }
+
     // Test getTTLutility method.
     func test_getTTL() {
         let nowDateString = "Mon, 15 Jul 2024 01:24:12 GMT"
@@ -374,6 +423,36 @@ private actor DelayRecorder {
     func consume() -> TimeInterval? {
         defer { delay = nil }
         return delay
+    }
+}
+
+/// Records every delay passed to the retry strategy's sleeper.
+private actor DelayLog {
+    private(set) var delays = [TimeInterval]()
+
+    func append(_ delay: TimeInterval) {
+        delays.append(delay)
+    }
+}
+
+/// Fails the first attempt with a 500 that carries `x-amz-retry-after`, then succeeds.
+private class RetryAfterExecuteRequest: ExecuteRequest {
+    typealias RequestType = HTTPRequest
+    typealias ResponseType = HTTPResponse
+
+    let retryAfterMillis: String
+    var attempts = 0
+
+    init(retryAfterMillis: String) {
+        self.retryAfterMillis = retryAfterMillis
+    }
+
+    func execute(request: HTTPRequest, attributes: Context) async throws -> HTTPResponse {
+        attempts += 1
+        if attempts == 1 {
+            throw TestHTTPError(statusCode: .internalServerError, headers: ["x-amz-retry-after": retryAfterMillis])
+        }
+        return HTTPResponse(statusCode: .ok)
     }
 }
 
