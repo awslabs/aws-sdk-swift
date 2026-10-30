@@ -1756,7 +1756,7 @@ extension LambdaClient {
 
     /// Performs the `DeleteFunctionConcurrency` operation on the `Lambda` service.
     ///
-    /// Removes a concurrent execution limit from a function.
+    /// Removes a concurrent execution limit from a Lambda Event Function.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteFunctionConcurrencyInput`)
     ///
@@ -2733,7 +2733,7 @@ extension LambdaClient {
 
     /// Performs the `GetFunction` operation on the `Lambda` service.
     ///
-    /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
+    /// Returns information about a Lambda Event Function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFunctionInput`)
     ///
@@ -4424,7 +4424,7 @@ extension LambdaClient {
 
     /// Performs the `ListFunctionEventInvokeConfigs` operation on the `Lambda` service.
     ///
-    /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
+    /// Retrieves a list of configurations for asynchronous invocation for a Lambda Event Function. To retrieve more configurations, use the Marker parameter. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
     /// - Parameter input: [no documentation found] (Type: `ListFunctionEventInvokeConfigsInput`)
     ///
@@ -5041,7 +5041,7 @@ extension LambdaClient {
 
     /// Performs the `ListVersionsByFunction` operation on the `Lambda` service.
     ///
-    /// Returns a list of [versions](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html), with the version-specific configuration of each. Lambda returns up to 50 versions per call.
+    /// Returns a list of [versions](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) of a Lambda Event Function, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListVersionsByFunctionInput`)
     ///
@@ -5182,7 +5182,7 @@ extension LambdaClient {
 
     /// Performs the `PublishVersion` operation on the `Lambda` service.
     ///
-    /// Creates a [version](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use [UpdateFunctionCode] or [UpdateFunctionConfiguration] to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use [CreateAlias].
+    /// Creates a [version](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) from the current code and configuration of a Lambda Event Function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use [UpdateFunctionCode] or [UpdateFunctionConfiguration] to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use [CreateAlias].
     ///
     /// - Parameter input: [no documentation found] (Type: `PublishVersionInput`)
     ///
@@ -5334,7 +5334,7 @@ extension LambdaClient {
 
     /// Performs the `PutFunctionConcurrency` operation on the `Lambda` service.
     ///
-    /// Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use [GetFunction] to see the current setting for a function. Use [GetAccountSettings] to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see [Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/invocation-scaling.html).
+    /// Sets the maximum number of simultaneous executions for a Lambda Event Function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use [GetFunction] to see the current setting for a function. Use [GetAccountSettings] to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see [Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/invocation-scaling.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `PutFunctionConcurrencyInput`)
     ///
@@ -5479,7 +5479,7 @@ extension LambdaClient {
 
     /// Performs the `PutFunctionRecursionConfig` operation on the `Lambda` service.
     ///
-    /// Sets your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
+    /// Sets the [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration for a Lambda Event Function. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutFunctionRecursionConfigInput`)
     ///
@@ -7009,7 +7009,7 @@ extension LambdaClient {
 
     /// Performs the `UpdateFunctionUrlConfig` operation on the `Lambda` service.
     ///
-    /// Updates the configuration for a Lambda function URL.
+    /// Updates the configuration for a function URL of a Lambda Event Function.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateFunctionUrlConfigInput`)
     ///

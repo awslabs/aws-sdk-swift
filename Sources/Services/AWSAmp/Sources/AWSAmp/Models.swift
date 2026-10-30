@@ -671,6 +671,30 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
+    /// The configuration for collecting broker, topic, and consumer-group metrics from an Amazon MSK cluster through a managed Kafka exporter. The cluster must be active, have IAM authentication enabled, and be in the same account and Region as the scraper. Provisioned clusters with Standard brokers are supported. MSK Serverless clusters are not supported. Use a VPC source that can connect to the cluster's IAM bootstrap brokers. The exporter authenticates with the scraper's service-linked role. Metrics can be sent to an Amazon Managed Service for Prometheus workspace or a CloudWatch dataset. You must have an Amazon MSK cluster policy that grants the scraper's service-linked role access to the cluster. Without this policy, the scraper collects no Kafka metrics. For the required actions and example policies, see [Grant the scraper access to the cluster](https://docs.aws.amazon.com/prometheus/latest/userguide/prom-msk-kafka-exporter.html#prom-msk-kafka-exporter-access) in the Amazon Managed Service for Prometheus User Guide.
+    public struct KafkaExporterConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon MSK cluster.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// An anchored RE2 regular expression that selects the Kafka consumer groups to monitor. The expression must start with ^ and end with $. If omitted, the default is ^.*$, which selects all consumer groups.
+        public var consumerGroupFilter: Swift.String?
+        /// An anchored RE2 regular expression that selects the Kafka topics to monitor. The expression must start with ^ and end with $. If omitted, the default is ^.*$, which selects all topics.
+        public var topicFilter: Swift.String?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            consumerGroupFilter: Swift.String? = nil,
+            topicFilter: Swift.String? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.consumerGroupFilter = consumerGroupFilter
+            self.topicFilter = topicFilter
+        }
+    }
+}
+
+extension AmpClientTypes {
+
     /// The configuration for exporting metrics to an Amazon OpenSearch Service domain.
     public struct OpenSearchExporterConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Amazon OpenSearch Service domain.
@@ -691,6 +715,8 @@ extension AmpClientTypes {
     public enum ExporterConfiguration: Swift.Sendable {
         /// The configuration that the scraper uses to export metrics to an Amazon OpenSearch Service domain.
         case opensearchconfiguration(AmpClientTypes.OpenSearchExporterConfiguration)
+        /// The configuration that the scraper uses to collect metrics from an Amazon MSK cluster through a managed Kafka exporter.
+        case kafkaconfiguration(AmpClientTypes.KafkaExporterConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -791,7 +817,7 @@ public struct CreateScraperInput: Swift.Sendable {
     /// The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     /// This member is required.
     public var destination: AmpClientTypes.Destination?
-    /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the scraper is created without an exporter configuration.
+    /// The exporter configurations for the scraper. You can configure at most one exporter, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster. If you don't specify a value, the scraper is created without an exporter configuration.
     public var exporters: [AmpClientTypes.ExporterConfiguration]?
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public var roleConfiguration: AmpClientTypes.RoleConfiguration?
@@ -983,7 +1009,7 @@ extension AmpClientTypes {
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
-        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster.
         public var exporters: [AmpClientTypes.ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         /// This member is required.
@@ -1092,7 +1118,7 @@ extension AmpClientTypes {
         /// The destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
         /// This member is required.
         public var destination: AmpClientTypes.Destination?
-        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration for an Amazon OpenSearch Service domain.
+        /// The exporter configurations for the scraper, if configured. The list contains at most one configuration, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster.
         public var exporters: [AmpClientTypes.ExporterConfiguration]?
         /// The date and time that the scraper was last modified.
         /// This member is required.
@@ -1428,7 +1454,7 @@ public struct UpdateScraperInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     public var destination: AmpClientTypes.Destination?
-    /// The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged.
+    /// The exporter configurations for the scraper. You can configure at most one exporter, for either an Amazon OpenSearch Service domain or an Amazon MSK cluster. If you don't specify a value, the existing exporter configuration remains unchanged. Specify an empty list to remove the exporter.
     public var exporters: [AmpClientTypes.ExporterConfiguration]?
     /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public var roleConfiguration: AmpClientTypes.RoleConfiguration?
@@ -5947,6 +5973,8 @@ extension AmpClientTypes.ExporterConfiguration {
     static func write(value: AmpClientTypes.ExporterConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .kafkaconfiguration(kafkaconfiguration):
+                try writer["kafkaConfiguration"].write(kafkaconfiguration, with: AmpClientTypes.KafkaExporterConfiguration.write(value:to:))
             case let .opensearchconfiguration(opensearchconfiguration):
                 try writer["openSearchConfiguration"].write(opensearchconfiguration, with: AmpClientTypes.OpenSearchExporterConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -5960,6 +5988,8 @@ extension AmpClientTypes.ExporterConfiguration {
         switch name {
             case "openSearchConfiguration":
                 return .opensearchconfiguration(try reader["openSearchConfiguration"].read(with: AmpClientTypes.OpenSearchExporterConfiguration.read(from:)))
+            case "kafkaConfiguration":
+                return .kafkaconfiguration(try reader["kafkaConfiguration"].read(with: AmpClientTypes.KafkaExporterConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -5991,6 +6021,25 @@ extension AmpClientTypes.IgnoreNearExpected {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension AmpClientTypes.KafkaExporterConfiguration {
+
+    static func write(value: AmpClientTypes.KafkaExporterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterArn"].write(value.clusterArn)
+        try writer["consumerGroupFilter"].write(value.consumerGroupFilter)
+        try writer["topicFilter"].write(value.topicFilter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.KafkaExporterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.KafkaExporterConfiguration()
+        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
+        value.topicFilter = try reader["topicFilter"].readIfPresent()
+        value.consumerGroupFilter = try reader["consumerGroupFilter"].readIfPresent()
+        return value
     }
 }
 

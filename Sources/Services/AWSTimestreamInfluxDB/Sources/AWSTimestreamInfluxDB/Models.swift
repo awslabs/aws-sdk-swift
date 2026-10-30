@@ -278,7 +278,7 @@ public struct CreateDbBackupInput: Swift.Sendable {
 
 extension TimestreamInfluxDBClientTypes {
 
-    /// Configuration for node modes in the DbCluster.
+    /// Configuration for node modes in the DbCluster. Deprecated. Use deploymentConfiguration to define the cluster topology instead.
     public struct ClusterConfiguration: Swift.Sendable {
         /// Indicates if the compactor instance is a standalone instance or not.
         public var dedicatedCompactor: Swift.Bool?
@@ -378,6 +378,110 @@ extension TimestreamInfluxDBClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum InstanceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compact
+        case ingest
+        case primary
+        case process
+        case query
+        case replica
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceMode] {
+            return [
+                .compact,
+                .ingest,
+                .primary,
+                .process,
+                .query,
+                .replica,
+                .standby
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compact: return "COMPACT"
+            case .ingest: return "INGEST"
+            case .primary: return "PRIMARY"
+            case .process: return "PROCESS"
+            case .query: return "QUERY"
+            case .replica: return "REPLICA"
+            case .standby: return "STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// A group of one or more nodes in a Timestream for InfluxDB cluster that share the same instance modes and instance type. A cluster's compute topology is defined as a list of node groups.
+    public struct NodeGroup: Swift.Sendable {
+        /// The number of nodes in this group. Valid values are 1 to 13.
+        /// This member is required.
+        public var count: Swift.Int?
+        /// The functions that the nodes in this group perform. Provide from 1 to 4 unique modes. Valid modes:
+        ///
+        /// * INGEST – Nodes in this mode ingest data. Across all node groups, INGEST nodes must total between 1 and 4.
+        ///
+        /// * QUERY – Nodes in this mode query data. Across all node groups, QUERY nodes must total between 0 and 14.
+        ///
+        /// * COMPACT – Nodes in this mode compact data. Exactly one node across all node groups must have this mode. If the cluster has more than three non-compaction nodes, place the COMPACT node in its own dedicated node group.
+        ///
+        /// * PROCESS – Nodes in this mode process data with the processing engine.
+        /// This member is required.
+        public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
+        /// The Timestream for InfluxDB DB instance type to run InfluxDB on for the nodes in this group.
+        /// This member is required.
+        public var instanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+
+        public init(
+            count: Swift.Int? = nil,
+            instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
+            instanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil
+        ) {
+            self.count = count
+            self.instanceModes = instanceModes
+            self.instanceType = instanceType
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// The compute topology for an InfluxDB 3 Enterprise cluster, expressed as a list of node groups.
+    public struct InfluxDBv3EnterpriseDeploymentConfiguration: Swift.Sendable {
+        /// The node groups that make up the cluster. Across all node groups, the cluster must include 1 to 4 nodes with the INGEST mode, 0 to 14 nodes with the QUERY mode, and exactly one node with the COMPACT mode.
+        /// This member is required.
+        public var nodeGroups: [TimestreamInfluxDBClientTypes.NodeGroup]?
+
+        public init(
+            nodeGroups: [TimestreamInfluxDBClientTypes.NodeGroup]? = nil
+        ) {
+            self.nodeGroups = nodeGroups
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Defines the compute topology of a Timestream for InfluxDB cluster as a set of node groups for a specific database engine. For InfluxDB 3 Enterprise, use the InfluxDBv3Enterprise member to allocate compute per function: ingest, query, compaction, and processing.
+    public enum DeploymentConfiguration: Swift.Sendable {
+        /// The deployment configuration for an InfluxDB 3 Enterprise cluster.
+        case influxdbv3enterprise(TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseDeploymentConfiguration)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -649,7 +753,8 @@ public struct CreateDbBackupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the backup.
     /// This member is required.
     public var arn: Swift.String?
-    /// The cluster configuration of the resource at the time of backup.
+    /// The cluster configuration of the resource at the time of backup. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
+    @available(*, deprecated, message: "Use deploymentConfiguration instead. API deprecated since 2026-09-28")
     public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
     /// The time when the backup was created.
     public var createdAt: Foundation.Date?
@@ -661,6 +766,8 @@ public struct CreateDbBackupOutput: Swift.Sendable {
     public var dbResourceId: Swift.String?
     /// The storage type of the resource at the time of backup.
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The deployment configuration of the resource at the time of backup.
+    public var deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration?
     /// The deployment type of the resource that the backup was created from.
     public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
     /// The engine type of the resource that the backup was created from.
@@ -706,6 +813,7 @@ public struct CreateDbBackupOutput: Swift.Sendable {
         dbParameterGroupId: Swift.String? = nil,
         dbResourceId: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
         engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
         expiresAfter: Swift.String? = nil,
@@ -732,6 +840,7 @@ public struct CreateDbBackupOutput: Swift.Sendable {
         self.dbParameterGroupId = dbParameterGroupId
         self.dbResourceId = dbResourceId
         self.dbStorageType = dbStorageType
+        self.deploymentConfiguration = deploymentConfiguration
         self.deploymentType = deploymentType
         self.engineType = engineType
         self.expiresAfter = expiresAfter
@@ -770,7 +879,8 @@ public struct DeleteDbBackupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the deleted backup.
     /// This member is required.
     public var arn: Swift.String?
-    /// The cluster configuration of the resource at the time of backup.
+    /// The cluster configuration of the resource at the time of backup. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
+    @available(*, deprecated, message: "Use deploymentConfiguration instead. API deprecated since 2026-09-28")
     public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
     /// The time when the backup was created.
     public var createdAt: Foundation.Date?
@@ -782,6 +892,8 @@ public struct DeleteDbBackupOutput: Swift.Sendable {
     public var dbResourceId: Swift.String?
     /// The storage type of the resource at the time of backup.
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The deployment configuration of the resource at the time of backup.
+    public var deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration?
     /// The deployment type of the resource that the backup was created from.
     public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
     /// The engine type of the resource that the backup was created from.
@@ -827,6 +939,7 @@ public struct DeleteDbBackupOutput: Swift.Sendable {
         dbParameterGroupId: Swift.String? = nil,
         dbResourceId: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
         engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
         expiresAfter: Swift.String? = nil,
@@ -853,6 +966,7 @@ public struct DeleteDbBackupOutput: Swift.Sendable {
         self.dbParameterGroupId = dbParameterGroupId
         self.dbResourceId = dbResourceId
         self.dbStorageType = dbStorageType
+        self.deploymentConfiguration = deploymentConfiguration
         self.deploymentType = deploymentType
         self.engineType = engineType
         self.expiresAfter = expiresAfter
@@ -891,7 +1005,8 @@ public struct GetDbBackupOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the backup.
     /// This member is required.
     public var arn: Swift.String?
-    /// The cluster configuration of the resource at the time of backup.
+    /// The cluster configuration of the resource at the time of backup. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
+    @available(*, deprecated, message: "Use deploymentConfiguration instead. API deprecated since 2026-09-28")
     public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
     /// The time when the backup was created.
     public var createdAt: Foundation.Date?
@@ -903,6 +1018,8 @@ public struct GetDbBackupOutput: Swift.Sendable {
     public var dbResourceId: Swift.String?
     /// The storage type of the resource at the time of backup.
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The deployment configuration of the resource at the time of backup.
+    public var deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration?
     /// The deployment type of the resource that the backup was created from.
     public var deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType?
     /// The engine type of the resource that the backup was created from.
@@ -948,6 +1065,7 @@ public struct GetDbBackupOutput: Swift.Sendable {
         dbParameterGroupId: Swift.String? = nil,
         dbResourceId: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ResourceDeploymentType? = nil,
         engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
         expiresAfter: Swift.String? = nil,
@@ -974,6 +1092,7 @@ public struct GetDbBackupOutput: Swift.Sendable {
         self.dbParameterGroupId = dbParameterGroupId
         self.dbResourceId = dbResourceId
         self.dbStorageType = dbStorageType
+        self.deploymentConfiguration = deploymentConfiguration
         self.deploymentType = deploymentType
         self.engineType = engineType
         self.expiresAfter = expiresAfter
@@ -1370,8 +1489,7 @@ public struct CreateDbClusterInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// A list of backup configurations to enable automated backups for the DB cluster.
     public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfiguration]?
-    /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
-    /// This member is required.
+    /// The Timestream for InfluxDB DB instance type to run InfluxDB on. Optional when you define the cluster topology with deploymentConfiguration, because the instance type is then specified per node group.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The ID of the DB parameter group to assign to your DB cluster. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     public var dbParameterGroupIdentifier: Swift.String?
@@ -1383,6 +1501,8 @@ public struct CreateDbClusterInput: Swift.Sendable {
     ///
     /// * Influx I/O Included 16000 IOPS
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The compute topology for the cluster, defined as a set of node groups. Use deploymentConfiguration to allocate compute per function: ingest, query, compaction, and processing. A deployment configuration becomes the source of truth for the cluster's topology. Timestream for InfluxDB then ignores any node-count parameters in the associated DB parameter group.
+    public var deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration?
     /// Specifies the type of cluster to create.
     public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
     /// Specifies the behavior of failure recovery when the primary node of the cluster fails.
@@ -1424,6 +1544,7 @@ public struct CreateDbClusterInput: Swift.Sendable {
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
         failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -1446,6 +1567,7 @@ public struct CreateDbClusterInput: Swift.Sendable {
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
+        self.deploymentConfiguration = deploymentConfiguration
         self.deploymentType = deploymentType
         self.failoverMode = failoverMode
         self.kmsKeyId = kmsKeyId
@@ -1620,7 +1742,8 @@ public struct GetDbClusterOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the DB cluster.
     /// This member is required.
     public var arn: Swift.String?
-    /// Configuration for node modes in the DbCluster.
+    /// Configuration for node modes in the DbCluster. Deprecated. Use deploymentConfiguration to view the cluster topology instead.
+    @available(*, deprecated, message: "Use deploymentConfiguration instead. API deprecated since 2026-09-28")
     public var clusterConfiguration: TimestreamInfluxDBClientTypes.ClusterConfiguration?
     /// The backup configurations for the DB cluster.
     public var dbBackupConfigurations: [TimestreamInfluxDBClientTypes.DbBackupConfigurationOutput]?
@@ -1630,6 +1753,8 @@ public struct GetDbClusterOutput: Swift.Sendable {
     public var dbParameterGroupIdentifier: Swift.String?
     /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// The current compute topology of the cluster, as a set of node groups. The returned topology reflects the cluster's actual provisioned nodes.
+    public var deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration?
     /// Deployment type of the DB cluster.
     public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
     /// The ID of the DB parameter group actually applied to your DB cluster. When the service applies optimized defaults, it creates a service-managed DB parameter group and this field reflects that group, while dbParameterGroupIdentifier reflects the customer-provided DB parameter group. When no service-managed DB parameter group is applied, this value matches dbParameterGroupIdentifier.
@@ -1681,6 +1806,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
         effectiveDbParameterGroupIdentifier: Swift.String? = nil,
         endpoint: Swift.String? = nil,
@@ -1709,6 +1835,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
+        self.deploymentConfiguration = deploymentConfiguration
         self.deploymentType = deploymentType
         self.effectiveDbParameterGroupIdentifier = effectiveDbParameterGroupIdentifier
         self.endpoint = endpoint
@@ -1872,50 +1999,6 @@ extension TimestreamInfluxDBClientTypes {
             switch self {
             case .singleAz: return "SINGLE_AZ"
             case .withMultiazStandby: return "WITH_MULTIAZ_STANDBY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension TimestreamInfluxDBClientTypes {
-
-    public enum InstanceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case compact
-        case ingest
-        case primary
-        case process
-        case query
-        case replica
-        case standby
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InstanceMode] {
-            return [
-                .compact,
-                .ingest,
-                .primary,
-                .process,
-                .query,
-                .replica,
-                .standby
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .compact: return "COMPACT"
-            case .ingest: return "INGEST"
-            case .primary: return "PRIMARY"
-            case .process: return "PROCESS"
-            case .query: return "QUERY"
-            case .replica: return "REPLICA"
-            case .standby: return "STANDBY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2102,10 +2185,12 @@ public struct UpdateDbClusterInput: Swift.Sendable {
     /// Service-generated unique identifier of the DB cluster to update.
     /// This member is required.
     public var dbClusterId: Swift.String?
-    /// Update the DB cluster to use the specified DB instance Type.
+    /// Update the DB cluster to use the specified DB instance Type. You can't specify both dbInstanceType and deploymentConfiguration in the same request. When you use deploymentConfiguration, the instance type is specified per node group.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// Update the DB cluster to use the specified DB parameter group.
     public var dbParameterGroupIdentifier: Swift.String?
+    /// The updated compute topology for the cluster, defined as a set of node groups. Use deploymentConfiguration to change the cluster's topology or scale its compute in a single call. You can't specify both deploymentConfiguration and dbInstanceType in the same request. When you provide a deployment configuration, Timestream for InfluxDB ignores any node-count parameters in the associated DB parameter group.
+    public var deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration?
     /// Update the DB cluster's failover behavior.
     public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
     /// The log delivery configuration to apply to the DB cluster.
@@ -2120,6 +2205,7 @@ public struct UpdateDbClusterInput: Swift.Sendable {
         dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
+        deploymentConfiguration: TimestreamInfluxDBClientTypes.DeploymentConfiguration? = nil,
         failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         maintenanceSchedule: TimestreamInfluxDBClientTypes.MaintenanceSchedule? = nil,
@@ -2129,6 +2215,7 @@ public struct UpdateDbClusterInput: Swift.Sendable {
         self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+        self.deploymentConfiguration = deploymentConfiguration
         self.failoverMode = failoverMode
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.maintenanceSchedule = maintenanceSchedule
@@ -3572,8 +3659,8 @@ extension TimestreamInfluxDBClientTypes {
         public var dataFusionRuntimeType: TimestreamInfluxDBClientTypes.DataFusionRuntimeType?
         /// Uses a cached parquet loader when reading parquet files from the object store.
         public var dataFusionUseCachedParquetLoader: Swift.Bool?
-        /// Specifies if the compactor instance should be a standalone instance or not.
-        /// This member is required.
+        /// Specifies if the compactor instance should be a standalone instance or not. Deprecated. Use deploymentConfiguration on CreateDbCluster or UpdateDbCluster to define the cluster topology instead. When you supply a deployment configuration, Timestream for InfluxDB ignores this parameter.
+        @available(*, deprecated, message: "Use deploymentConfiguration instead. API deprecated since 2026-09-28")
         public var dedicatedCompactor: Swift.Bool?
         /// Specifies the grace period before permanently deleting data. Default: 24h
         public var deleteGracePeriod: TimestreamInfluxDBClientTypes.Duration?
@@ -3593,8 +3680,8 @@ extension TimestreamInfluxDBClientTypes {
         public var gen1LookbackDuration: TimestreamInfluxDBClientTypes.Duration?
         /// Sets the default duration for hard deletion of data. Default: 90d
         public var hardDeleteDefaultDuration: TimestreamInfluxDBClientTypes.Duration?
-        /// Specifies number of instances in the DbCluster which can both ingest and query.
-        /// This member is required.
+        /// Specifies number of instances in the DbCluster which can both ingest and query. Deprecated. Use deploymentConfiguration on CreateDbCluster or UpdateDbCluster to define the cluster topology instead. When you supply a deployment configuration, Timestream for InfluxDB ignores this parameter.
+        @available(*, deprecated, message: "Use deploymentConfiguration instead. API deprecated since 2026-09-28")
         public var ingestQueryInstances: Swift.Int?
         /// Specifies the interval to evict expired entries from the Last-N-Value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
         public var lastCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration?
@@ -3624,8 +3711,8 @@ extension TimestreamInfluxDBClientTypes {
         public var queryFileLimit: Swift.Int?
         /// Defines the size of the query log. Up to this many queries remain in the log before older queries are evicted to make room for new ones. Default: 1000
         public var queryLogSize: Swift.Int?
-        /// Specifies number of instances in the DbCluster which can only query.
-        /// This member is required.
+        /// Specifies number of instances in the DbCluster which can only query. Deprecated. Use deploymentConfiguration on CreateDbCluster or UpdateDbCluster to define the cluster topology instead. When you supply a deployment configuration, Timestream for InfluxDB ignores this parameter.
+        @available(*, deprecated, message: "Use deploymentConfiguration instead. API deprecated since 2026-09-28")
         public var queryOnlyInstances: Swift.Int?
         /// Specifies the interval at which data replication occurs between cluster nodes. Default: 250ms
         public var replicationInterval: TimestreamInfluxDBClientTypes.Duration?
@@ -3674,7 +3761,7 @@ extension TimestreamInfluxDBClientTypes {
             dataFusionRuntimeThreadPriority: Swift.Int? = nil,
             dataFusionRuntimeType: TimestreamInfluxDBClientTypes.DataFusionRuntimeType? = nil,
             dataFusionUseCachedParquetLoader: Swift.Bool? = nil,
-            dedicatedCompactor: Swift.Bool? = nil,
+            dedicatedCompactor: Swift.Bool? = false,
             deleteGracePeriod: TimestreamInfluxDBClientTypes.Duration? = nil,
             disableParquetMemCache: Swift.Bool? = nil,
             distinctCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
@@ -3684,7 +3771,7 @@ extension TimestreamInfluxDBClientTypes {
             gen1Duration: TimestreamInfluxDBClientTypes.Duration? = nil,
             gen1LookbackDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
             hardDeleteDefaultDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
-            ingestQueryInstances: Swift.Int? = nil,
+            ingestQueryInstances: Swift.Int? = 1,
             lastCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
             lastValueCacheDisableFromHistory: Swift.Bool? = nil,
             logFilter: Swift.String? = nil,
@@ -3699,7 +3786,7 @@ extension TimestreamInfluxDBClientTypes {
             preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration? = nil,
             queryFileLimit: Swift.Int? = nil,
             queryLogSize: Swift.Int? = nil,
-            queryOnlyInstances: Swift.Int? = nil,
+            queryOnlyInstances: Swift.Int? = 0,
             replicationInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
             retentionCheckInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
             snapshotDuration: TimestreamInfluxDBClientTypes.Duration? = nil,

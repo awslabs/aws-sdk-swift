@@ -36,11 +36,6 @@ public struct CreateLogStreamOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct DeleteAccountPolicyOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct DeleteDataProtectionPolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -225,6 +220,7 @@ extension CloudWatchLogsClientTypes {
         case dataProtectionPolicy
         case fieldIndexPolicy
         case metricExtractionPolicy
+        case retentionPolicy
         case subscriptionFilterPolicy
         case transformerPolicy
         case sdkUnknown(Swift.String)
@@ -234,6 +230,7 @@ extension CloudWatchLogsClientTypes {
                 .dataProtectionPolicy,
                 .fieldIndexPolicy,
                 .metricExtractionPolicy,
+                .retentionPolicy,
                 .subscriptionFilterPolicy,
                 .transformerPolicy
             ]
@@ -249,6 +246,7 @@ extension CloudWatchLogsClientTypes {
             case .dataProtectionPolicy: return "DATA_PROTECTION_POLICY"
             case .fieldIndexPolicy: return "FIELD_INDEX_POLICY"
             case .metricExtractionPolicy: return "METRIC_EXTRACTION_POLICY"
+            case .retentionPolicy: return "RETENTION_POLICY"
             case .subscriptionFilterPolicy: return "SUBSCRIPTION_FILTER_POLICY"
             case .transformerPolicy: return "TRANSFORMER_POLICY"
             case let .sdkUnknown(s): return s
@@ -2296,6 +2294,8 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct DeleteAccountPolicyInput: Swift.Sendable {
+    /// Specifies whether to preview the impact of deleting the policy without deleting it. If you specify true, CloudWatch Logs does not delete the policy and returns the estimated impact in dryRunResult. The default is false. Specifying dryRun is valid only when you specify RETENTION_POLICY for policyType. Only one dry run can be in progress for an account at a time.
+    public var dryRun: Swift.Bool?
     /// The name of the policy to delete.
     /// This member is required.
     public var policyName: Swift.String?
@@ -2304,11 +2304,86 @@ public struct DeleteAccountPolicyInput: Swift.Sendable {
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
 
     public init(
+        dryRun: Swift.Bool? = false,
         policyName: Swift.String? = nil,
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil
     ) {
+        self.dryRun = dryRun
         self.policyName = policyName
         self.policyType = policyType
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Describes the estimated effect of an account-level retention policy change on one log group.
+    public struct LogGroupImpact: Swift.Sendable {
+        /// The current effective retention period of the log group, in days. A value of NEVER_EXPIRE indicates that log events in the log group never expire.
+        public var currentRetention: Swift.String?
+        /// The name of the log group.
+        public var logGroupName: Swift.String?
+        /// The effective retention period of the log group, in days, after the change. A value of NEVER_EXPIRE indicates that log events in the log group would never expire.
+        public var proposedRetention: Swift.String?
+        /// The number of bytes stored in the log group.
+        public var storedBytes: Swift.Int?
+
+        public init(
+            currentRetention: Swift.String? = nil,
+            logGroupName: Swift.String? = nil,
+            proposedRetention: Swift.String? = nil,
+            storedBytes: Swift.Int? = nil
+        ) {
+            self.currentRetention = currentRetention
+            self.logGroupName = logGroupName
+            self.proposedRetention = proposedRetention
+            self.storedBytes = storedBytes
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Contains the estimated impact of creating, updating, or deleting an account-level retention policy. The analysis compares the effective retention period of each log group, which accounts for all account-level retention policies that apply to it, before and after the change. Log groups in the Delivery class are not included.
+    public struct DryRunResult: Swift.Sendable {
+        /// The number of log groups whose effective retention period would become shorter.
+        public var decreasedRetentionLogGroupCount: Swift.Int
+        /// The number of log groups in the scope of the policy that could not be analyzed. These log groups are not included in totalMatchedLogGroups.
+        public var failedAnalysisCount: Swift.Int
+        /// The number of log groups whose effective retention period would become longer.
+        public var increasedRetentionLogGroupCount: Swift.Int
+        /// Up to 20 log groups in the scope of the policy, sorted by stored bytes in descending order. This list can include log groups whose effective retention period would not change.
+        public var topLogGroupsImpacted: [CloudWatchLogsClientTypes.LogGroupImpact]?
+        /// The number of log groups in the scope of the policy that were analyzed. This value is the sum of increasedRetentionLogGroupCount, decreasedRetentionLogGroupCount, and unchangedRetentionLogGroupCount, and does not include log groups that could not be analyzed.
+        public var totalMatchedLogGroups: Swift.Int
+        /// The number of log groups whose effective retention period would not change.
+        public var unchangedRetentionLogGroupCount: Swift.Int
+
+        public init(
+            decreasedRetentionLogGroupCount: Swift.Int = 0,
+            failedAnalysisCount: Swift.Int = 0,
+            increasedRetentionLogGroupCount: Swift.Int = 0,
+            topLogGroupsImpacted: [CloudWatchLogsClientTypes.LogGroupImpact]? = nil,
+            totalMatchedLogGroups: Swift.Int = 0,
+            unchangedRetentionLogGroupCount: Swift.Int = 0
+        ) {
+            self.decreasedRetentionLogGroupCount = decreasedRetentionLogGroupCount
+            self.failedAnalysisCount = failedAnalysisCount
+            self.increasedRetentionLogGroupCount = increasedRetentionLogGroupCount
+            self.topLogGroupsImpacted = topLogGroupsImpacted
+            self.totalMatchedLogGroups = totalMatchedLogGroups
+            self.unchangedRetentionLogGroupCount = unchangedRetentionLogGroupCount
+        }
+    }
+}
+
+public struct DeleteAccountPolicyOutput: Swift.Sendable {
+    /// The estimated impact of deleting the policy. This field is returned only when the request specifies dryRun as true.
+    public var dryRunResult: CloudWatchLogsClientTypes.DryRunResult?
+
+    public init(
+        dryRunResult: CloudWatchLogsClientTypes.DryRunResult? = nil
+    ) {
+        self.dryRunResult = dryRunResult
     }
 }
 
@@ -3752,6 +3827,8 @@ extension CloudWatchLogsClientTypes {
         public var metricFilterCount: Swift.Int?
         /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
         public var retentionInDays: Swift.Int?
+        /// The name of the account-level retention policy that determines the retention period of this log group. This field is returned only when an account-level retention policy applies to the log group. When it is returned, retentionInDays shows the retention period from that policy instead of the retention period set on the log group. If the policy specifies that log events never expire, retentionInDays is not returned.
+        public var retentionPolicyName: Swift.String?
         /// The number of bytes stored.
         public var storedBytes: Swift.Int?
 
@@ -3768,6 +3845,7 @@ extension CloudWatchLogsClientTypes {
             logGroupName: Swift.String? = nil,
             metricFilterCount: Swift.Int? = nil,
             retentionInDays: Swift.Int? = nil,
+            retentionPolicyName: Swift.String? = nil,
             storedBytes: Swift.Int? = nil
         ) {
             self.arn = arn
@@ -3782,6 +3860,7 @@ extension CloudWatchLogsClientTypes {
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
             self.retentionInDays = retentionInDays
+            self.retentionPolicyName = retentionPolicyName
             self.storedBytes = storedBytes
         }
     }
@@ -7872,6 +7951,8 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct PutAccountPolicyInput: Swift.Sendable {
+    /// Specifies whether to preview the impact of the policy without creating or updating it. If you specify true, CloudWatch Logs validates the request, does not save the policy, and returns the estimated impact in dryRunResult instead of accountPolicy. The default is false. Specifying dryRun is valid only when you specify RETENTION_POLICY for policyType. Only one dry run can be in progress for an account at a time.
+    public var dryRun: Swift.Bool?
     /// Specify the policy, in JSON. Data protection policy A data protection policy must include two JSON blocks:
     ///
     /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.
@@ -7939,12 +8020,14 @@ public struct PutAccountPolicyInput: Swift.Sendable {
     public var selectionCriteria: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = false,
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
         scope: CloudWatchLogsClientTypes.Scope? = nil,
         selectionCriteria: Swift.String? = nil
     ) {
+        self.dryRun = dryRun
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.policyType = policyType
@@ -7956,11 +8039,15 @@ public struct PutAccountPolicyInput: Swift.Sendable {
 public struct PutAccountPolicyOutput: Swift.Sendable {
     /// The account policy that you created.
     public var accountPolicy: CloudWatchLogsClientTypes.AccountPolicy?
+    /// The estimated impact of the policy on log groups in the account. This field is returned only when the request specifies dryRun as true.
+    public var dryRunResult: CloudWatchLogsClientTypes.DryRunResult?
 
     public init(
-        accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil
+        accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil,
+        dryRunResult: CloudWatchLogsClientTypes.DryRunResult? = nil
     ) {
         self.accountPolicy = accountPolicy
+        self.dryRunResult = dryRunResult
     }
 }
 

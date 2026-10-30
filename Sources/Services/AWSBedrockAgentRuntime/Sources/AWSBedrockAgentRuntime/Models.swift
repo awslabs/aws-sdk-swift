@@ -1269,6 +1269,40 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// A document that a code execution action reads.
+    public struct AgenticRetrieveCodeExecutionDocument: Swift.Sendable {
+        /// The identifier of the document.
+        public var documentId: Swift.String?
+        /// The source retriever associated with the document.
+        public var sourceRetriever: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceRetriever?
+
+        public init(
+            documentId: Swift.String? = nil,
+            sourceRetriever: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceRetriever? = nil
+        ) {
+            self.documentId = documentId
+            self.sourceRetriever = sourceRetriever
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The details of code that the agent chose to run in an isolated sandbox. The record includes the documents that the code reads. The corresponding CodeExecution step reports the outcome.
+    public struct AgenticRetrieveCodeExecutionDetails: Swift.Sendable {
+        /// The documents that the code reads. This field is present when the code reads documents.
+        public var documents: [BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument]?
+
+        public init(
+            documents: [BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument]? = nil
+        ) {
+            self.documents = documents
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Details of a full document expansion action.
     public struct AgenticRetrieveFullDocExpansionDetails: Swift.Sendable {
         /// The identifier of the document to expand.
@@ -1375,6 +1409,8 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// An action taken during agentic retrieval.
     public struct AgenticRetrieveAction: Swift.Sendable {
+        /// The details of code that the agent chose to run.
+        public var codeExecution: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails?
         /// Details of a full document expansion action.
         public var fullDocumentExpansion: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails?
         /// The details of a long-term memory retrieval that the agent chose to perform.
@@ -1383,10 +1419,12 @@ extension BedrockAgentRuntimeClientTypes {
         public var retrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails?
 
         public init(
+            codeExecution: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails? = nil,
             fullDocumentExpansion: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails? = nil,
             memoryRetrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails? = nil,
             retrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails? = nil
         ) {
+            self.codeExecution = codeExecution
             self.fullDocumentExpansion = fullDocumentExpansion
             self.memoryRetrieve = memoryRetrieve
             self.retrieve = retrieve
@@ -2397,6 +2435,8 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The step in the agentic retrieval process.
     public enum AgenticRetrieveStep: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The phase that runs agent-generated code in an isolated sandbox. The code can read documents retrieved earlier in the same request.
+        case codeExecution
         /// The full document expansion phase.
         case fullDocumentExpansion
         /// The planning phase of retrieval.
@@ -2411,6 +2451,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [AgenticRetrieveStep] {
             return [
+                .codeExecution,
                 .fullDocumentExpansion,
                 .planning,
                 .retrieval,
@@ -2426,6 +2467,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .codeExecution: return "CodeExecution"
             case .fullDocumentExpansion: return "FullDocumentExpansion"
             case .planning: return "Planning"
             case .retrieval: return "Retrieval"
@@ -14496,6 +14538,7 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveAction {
         value.retrieve = try reader["retrieve"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails.read(from:))
         value.fullDocumentExpansion = try reader["fullDocumentExpansion"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails.read(from:))
         value.memoryRetrieve = try reader["memoryRetrieve"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails.read(from:))
+        value.codeExecution = try reader["codeExecution"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails.read(from:))
         return value
     }
 }
@@ -14565,6 +14608,27 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveCitationReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveCitationReference()
         value.resultIndex = try reader["resultIndex"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails()
+        value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument()
+        value.documentId = try reader["documentId"].readIfPresent()
+        value.sourceRetriever = try reader["sourceRetriever"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceRetriever.read(from:))
         return value
     }
 }

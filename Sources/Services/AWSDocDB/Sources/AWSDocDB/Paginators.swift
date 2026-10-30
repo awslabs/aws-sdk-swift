@@ -446,3 +446,38 @@ extension PaginatorSequence where OperationStackInput == DescribePendingMaintena
         return try await self.asyncCompactMap { item in item.pendingMaintenanceActions }
     }
 }
+extension DocDBClient {
+    /// Paginate over `[DescribeServerlessV2PlatformVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeServerlessV2PlatformVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServerlessV2PlatformVersionsOutput`
+    public func describeServerlessV2PlatformVersionsPaginated(input: DescribeServerlessV2PlatformVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeServerlessV2PlatformVersionsInput, DescribeServerlessV2PlatformVersionsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeServerlessV2PlatformVersions(input:))
+    }
+}
+
+extension DescribeServerlessV2PlatformVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeServerlessV2PlatformVersionsInput {
+        return DescribeServerlessV2PlatformVersionsInput(
+            defaultOnly: self.defaultOnly,
+            engine: self.engine,
+            filters: self.filters,
+            includeAll: self.includeAll,
+            marker: token,
+            maxRecords: self.maxRecords,
+            serverlessV2PlatformVersion: self.serverlessV2PlatformVersion
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeServerlessV2PlatformVersionsInput, OperationStackOutput == DescribeServerlessV2PlatformVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeServerlessV2PlatformVersionsPaginated`
+    /// to access the nested member `[DocDBClientTypes.ServerlessV2PlatformVersionInfo]`
+    /// - Returns: `[DocDBClientTypes.ServerlessV2PlatformVersionInfo]`
+    public func serverlessV2PlatformVersions() async throws -> [DocDBClientTypes.ServerlessV2PlatformVersionInfo] {
+        return try await self.asyncCompactMap { item in item.serverlessV2PlatformVersions }
+    }
+}

@@ -1520,6 +1520,8 @@ extension DocDBClientTypes {
         public var readerEndpoint: Swift.String?
         /// Contains the identifier of the source cluster if this cluster is a secondary cluster.
         public var replicationSourceIdentifier: Swift.String?
+        /// The version of the Amazon DocumentDB Serverless platform used by the cluster.
+        public var serverlessV2PlatformVersion: Swift.String?
         /// The scaling configuration of an Amazon DocumentDB Serverless cluster.
         public var serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo?
         /// Specifies the current state of this cluster.
@@ -1565,6 +1567,7 @@ extension DocDBClientTypes {
             readReplicaIdentifiers: [Swift.String]? = nil,
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
             serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
@@ -1604,6 +1607,7 @@ extension DocDBClientTypes {
             self.readReplicaIdentifiers = readReplicaIdentifiers
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.storageEncrypted = storageEncrypted
@@ -4345,6 +4349,97 @@ public struct DescribePendingMaintenanceActionsOutput: Swift.Sendable {
     }
 }
 
+/// The input for the DescribeServerlessV2PlatformVersions operation.
+public struct DescribeServerlessV2PlatformVersionsInput: Swift.Sendable {
+    /// Specifies whether to return only the default platform versions for each engine. The default platform version is the version used for new DB clusters.
+    public var defaultOnly: Swift.Bool?
+    /// The database engine to return platform version details for.
+    public var engine: Swift.String?
+    /// This parameter isn't currently supported.
+    public var filters: [DocDBClientTypes.Filter]?
+    /// Specifies whether to also include platform versions that are no longer in use. If you don't specify a value, the response includes only active platform versions.
+    public var includeAll: Swift.Bool?
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
+    public var maxRecords: Swift.Int?
+    /// A specific platform version to return details for. Example: 3
+    public var serverlessV2PlatformVersion: Swift.String?
+
+    public init(
+        defaultOnly: Swift.Bool? = nil,
+        engine: Swift.String? = nil,
+        filters: [DocDBClientTypes.Filter]? = nil,
+        includeAll: Swift.Bool? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        serverlessV2PlatformVersion: Swift.String? = nil
+    ) {
+        self.defaultOnly = defaultOnly
+        self.engine = engine
+        self.filters = filters
+        self.includeAll = includeAll
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+    }
+}
+
+extension DocDBClientTypes {
+
+    /// Contains details about a specific Amazon DocumentDB Serverless platform version, including its version number, status, engine, and supported features.
+    public struct ServerlessV2PlatformVersionInfo: Swift.Sendable {
+        /// The name of the database engine.
+        public var engine: Swift.String?
+        /// Specifies whether this platform version is the default version for the engine. The default platform version is the version used for new DB clusters.
+        public var isDefault: Swift.Bool?
+        /// Specifies any Amazon DocumentDB Serverless v2 properties or limits that differ between platform versions. You can retrieve the platform version of an existing cluster and check whether it supports specific features before you use them.
+        public var serverlessV2FeaturesSupport: DocDBClientTypes.ServerlessV2FeaturesSupport?
+        /// The version number of the serverless platform.
+        public var serverlessV2PlatformVersion: Swift.String?
+        /// The description of the serverless platform.
+        public var serverlessV2PlatformVersionDescription: Swift.String?
+        /// The status of the serverless platform. Valid statuses are the following:
+        ///
+        /// * enabled - The platform version is in use.
+        ///
+        /// * disabled - The platform version is not in use.
+        public var status: Swift.String?
+
+        public init(
+            engine: Swift.String? = nil,
+            isDefault: Swift.Bool? = nil,
+            serverlessV2FeaturesSupport: DocDBClientTypes.ServerlessV2FeaturesSupport? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
+            serverlessV2PlatformVersionDescription: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.engine = engine
+            self.isDefault = isDefault
+            self.serverlessV2FeaturesSupport = serverlessV2FeaturesSupport
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
+            self.serverlessV2PlatformVersionDescription = serverlessV2PlatformVersionDescription
+            self.status = status
+        }
+    }
+}
+
+/// Contains the result of a successful invocation of the DescribeServerlessV2PlatformVersions operation.
+public struct DescribeServerlessV2PlatformVersionsOutput: Swift.Sendable {
+    /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// A list of ServerlessV2PlatformVersionInfo elements.
+    public var serverlessV2PlatformVersions: [DocDBClientTypes.ServerlessV2PlatformVersionInfo]?
+
+    public init(
+        marker: Swift.String? = nil,
+        serverlessV2PlatformVersions: [DocDBClientTypes.ServerlessV2PlatformVersionInfo]? = nil
+    ) {
+        self.marker = marker
+        self.serverlessV2PlatformVersions = serverlessV2PlatformVersions
+    }
+}
+
 /// Represents the input to [FailoverDBCluster].
 public struct FailoverDBClusterInput: Swift.Sendable {
     /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:
@@ -5755,6 +5850,13 @@ extension DescribePendingMaintenanceActionsInput {
     }
 }
 
+extension DescribeServerlessV2PlatformVersionsInput {
+
+    static func urlPathProvider(_ value: DescribeServerlessV2PlatformVersionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension FailoverDBClusterInput {
 
     static func urlPathProvider(_ value: FailoverDBClusterInput) -> Swift.String? {
@@ -6374,6 +6476,22 @@ extension DescribePendingMaintenanceActionsInput {
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["ResourceIdentifier"].write(value.resourceIdentifier)
         try writer["Action"].write("DescribePendingMaintenanceActions")
+        try writer["Version"].write("2014-10-31")
+    }
+}
+
+extension DescribeServerlessV2PlatformVersionsInput {
+
+    static func write(value: DescribeServerlessV2PlatformVersionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultOnly"].write(value.defaultOnly)
+        try writer["Engine"].write(value.engine)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: DocDBClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: false)
+        try writer["IncludeAll"].write(value.includeAll)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["ServerlessV2PlatformVersion"].write(value.serverlessV2PlatformVersion)
+        try writer["Action"].write("DescribeServerlessV2PlatformVersions")
         try writer["Version"].write("2014-10-31")
     }
 }
@@ -7078,6 +7196,19 @@ extension DescribePendingMaintenanceActionsOutput {
         var value = DescribePendingMaintenanceActionsOutput()
         value.marker = try reader["Marker"].readIfPresent()
         value.pendingMaintenanceActions = try reader["PendingMaintenanceActions"].readListIfPresent(memberReadingClosure: DocDBClientTypes.ResourcePendingMaintenanceActions.read(from:), memberNodeInfo: "ResourcePendingMaintenanceActions", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeServerlessV2PlatformVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeServerlessV2PlatformVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeServerlessV2PlatformVersionsResult"]
+        var value = DescribeServerlessV2PlatformVersionsOutput()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.serverlessV2PlatformVersions = try reader["ServerlessV2PlatformVersions"].readListIfPresent(memberReadingClosure: DocDBClientTypes.ServerlessV2PlatformVersionInfo.read(from:), memberNodeInfo: "ServerlessV2PlatformVersionInfo", isFlattened: false)
         return value
     }
 }
@@ -7872,6 +8003,19 @@ enum DescribePendingMaintenanceActionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeServerlessV2PlatformVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9094,6 +9238,7 @@ extension DocDBClientTypes.DBCluster {
         value.ioOptimizedNextAllowedModificationTime = try reader["IOOptimizedNextAllowedModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageType = try reader["StorageType"].readIfPresent()
         value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: DocDBClientTypes.ClusterMasterUserSecret.read(from:))
         value.networkType = try reader["NetworkType"].readIfPresent()
         value.copyTagsToSnapshot = try reader["CopyTagsToSnapshot"].readIfPresent()
@@ -9516,6 +9661,21 @@ extension DocDBClientTypes.ServerlessV2FeaturesSupport {
         var value = DocDBClientTypes.ServerlessV2FeaturesSupport()
         value.minCapacity = try reader["MinCapacity"].readIfPresent()
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.ServerlessV2PlatformVersionInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ServerlessV2PlatformVersionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.ServerlessV2PlatformVersionInfo()
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
+        value.serverlessV2PlatformVersionDescription = try reader["ServerlessV2PlatformVersionDescription"].readIfPresent()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: DocDBClientTypes.ServerlessV2FeaturesSupport.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
         return value
     }
 }
