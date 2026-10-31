@@ -5,11 +5,9 @@ import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3WithExpress
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
-import software.amazon.smithy.rulesengine.language.EndpointRuleSet
-import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.model.endpointParameters
 import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyHTTPAuthAPITypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
@@ -210,10 +208,8 @@ class RulesBasedAuthSchemeResolverGenerator {
                 writer.write("let authSchemePreference = context.getAuthSchemePreference()")
 
                 // Copy over endpoint param fields to auth param fields
-                val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
-                val ruleSet = if (ruleSetNode != null) EndpointRuleSet.fromNode(ruleSetNode) else null
                 val paramList = ArrayList<String>()
-                ruleSet?.parameters?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
+                ctx.service.endpointParameters()?.toList()?.sortedBy { it.name.toString() }?.let { sortedParameters ->
                     sortedParameters.forEach { param ->
                         val memberName = param.name.toString().toLowerCamelCase()
                         paramList.add("$memberName: endpointParam.$memberName")
