@@ -106,19 +106,15 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         return resolvedRetryMode!
     }
 
-    private static func maxAttempts(_ maxAttempts: Int? = nil) throws -> Int {
+    /// The max attempts set in code, the environment, or the config file, or `nil` if none is set.
+    private static func configuredMaxAttempts(_ maxAttempts: Int? = nil) throws -> Int? {
+        if let maxAttempts { return maxAttempts }
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
-        let resolvedMaxAttempts: Int?
-        if let maxAttempts {
-            resolvedMaxAttempts = maxAttempts
-        } else {
-            resolvedMaxAttempts = AWSRetryConfig.maxAttempts(
-                configValue: nil,
-                profileName: nil,
-                fileBasedConfig: fileBasedConfig
-            )
-        }
-        return resolvedMaxAttempts!
+        return AWSRetryConfig.configuredMaxAttempts(
+            configValue: nil,
+            profileName: nil,
+            fileBasedConfig: fileBasedConfig
+        )
     }
 
     public static func retryStrategyOptions(
@@ -128,16 +124,20 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
         try retryStrategyOptions(retryMode, maxAttempts, sdkID: nil)
     }
 
+    /// Resolves the retry strategy options for a client.
+    ///
+    /// The `legacy` retry mode uses the pre-2.1 retry behavior.  The `standard` (default) and `adaptive`
+    /// modes use Retry Behavior 2.1.  Under Retry Behavior 2.1, DynamoDB and DynamoDB Streams default to
+    /// 4 max attempts when no max attempts is configured.
     public static func retryStrategyOptions(
         _ retryMode: AWSRetryMode? = nil,
         _ maxAttempts: Int? = nil,
         sdkID: String?
     ) throws -> RetryStrategyOptions {
-        var resolvedMaxAttempts = try self.maxAttempts(maxAttempts)
         let resolvedRetryMode = try self.retryMode(retryMode)
+        let useNewRetries2026 = resolvedRetryMode != .legacy
 
         let resolvedRateLimitingMode: RetryStrategyOptions.RateLimitingMode
-
         switch resolvedRetryMode {
         case .legacy, .standard:
             resolvedRateLimitingMode = .standard
@@ -145,12 +145,8 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
             resolvedRateLimitingMode = .adaptive
         }
 
-        let useNewRetries2026 = AWSRetryFeatures.isNewRetries2026Enabled
-
-        if useNewRetries2026, maxAttempts == nil, resolvedRetryMode != .legacy,
-           let sdkID, Self.isDynamoDB(sdkID: sdkID) {
-            resolvedMaxAttempts = max(resolvedMaxAttempts, 4)
-        }
+        let defaultMaxAttempts = useNewRetries2026 && sdkID.map { Self.isDynamoDB(sdkID: $0) } == true ? 4 : 3
+        let resolvedMaxAttempts = try configuredMaxAttempts(maxAttempts) ?? defaultMaxAttempts
 
         return RetryStrategyOptions(
             backoffStrategy: ExponentialBackoffStrategy(),

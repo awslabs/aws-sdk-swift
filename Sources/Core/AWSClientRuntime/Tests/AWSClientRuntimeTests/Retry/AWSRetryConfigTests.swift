@@ -8,7 +8,6 @@
 import Foundation
 import XCTest
 @testable @_spi(FileBasedConfig) import AWSClientRuntime
-@_spi(Testing) import AWSClientRuntime
 @_spi(FileBasedConfig) @testable import AWSSDKCommon
 
 class AWSRetryConfigTests: XCTestCase {
@@ -34,18 +33,9 @@ class AWSRetryConfigTests: XCTestCase {
         XCTAssertEqual(subject, .legacy)
     }
 
-    func test_retryMode_whenNewRetries2026Enabled_defaultsToStandard() throws {
-        AWSRetryFeatures.testingOverride = true
-        defer { AWSRetryFeatures.testingOverride = nil }
+    func test_retryMode_defaultsToStandard() throws {
         let subject = try AWSRetryConfig.retryMode(configValue: nil, profileName: "no-such-profile", fileBasedConfig: fileBasedConfig)
         XCTAssertEqual(subject, .standard)
-    }
-
-    func test_retryMode_whenNewRetries2026Disabled_defaultsToLegacy() throws {
-        AWSRetryFeatures.testingOverride = false
-        defer { AWSRetryFeatures.testingOverride = nil }
-        let subject = try AWSRetryConfig.retryMode(configValue: nil, profileName: "no-such-profile", fileBasedConfig: fileBasedConfig)
-        XCTAssertEqual(subject, .legacy)
     }
 
     // MARK: - Max attempts
@@ -68,5 +58,27 @@ class AWSRetryConfigTests: XCTestCase {
     func test_maxAttempts_defaultsToThree() throws {
         let subject = AWSRetryConfig.maxAttempts(configValue: nil, profileName: "no-such-profile", fileBasedConfig: fileBasedConfig)
         XCTAssertEqual(subject, 3)
+    }
+
+    // MARK: - Configured max attempts
+
+    func test_configuredMaxAttempts_resolvesAConfigValue() throws {
+        let subject = AWSRetryConfig.configuredMaxAttempts(configValue: 2, profileName: nil, fileBasedConfig: fileBasedConfig)
+        XCTAssertEqual(subject, 2)
+    }
+
+    func test_configuredMaxAttempts_resolvesDefaultProfile() throws {
+        let subject = AWSRetryConfig.configuredMaxAttempts(configValue: nil, profileName: nil, fileBasedConfig: fileBasedConfig)
+        XCTAssertEqual(subject, 10)
+    }
+
+    func test_configuredMaxAttempts_resolvesSpecifiedProfile() throws {
+        let subject = AWSRetryConfig.configuredMaxAttempts(configValue: nil, profileName: "retry-config-test", fileBasedConfig: fileBasedConfig)
+        XCTAssertEqual(subject, 20)
+    }
+
+    func test_configuredMaxAttempts_isNilWhenNotConfigured() throws {
+        let subject = AWSRetryConfig.configuredMaxAttempts(configValue: nil, profileName: "no-such-profile", fileBasedConfig: fileBasedConfig)
+        XCTAssertNil(subject)
     }
 }

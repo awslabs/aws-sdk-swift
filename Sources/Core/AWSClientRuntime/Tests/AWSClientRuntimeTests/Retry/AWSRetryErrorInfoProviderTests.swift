@@ -12,18 +12,20 @@ import ClientRuntime
 import enum AwsCommonRuntimeKit.CommonRunTimeError
 import struct AwsCommonRuntimeKit.CRTError
 @testable import AWSClientRuntime
-@_spi(Testing) import AWSClientRuntime
+import SmithyRetries
+import SmithyRetriesAPI
 
 class AWSRetryErrorInfoProviderTests: XCTestCase {
 
-    override func setUp() {
-        // Default-on; per-test overrides verify the gate-off path.
-        AWSRetryFeatures.testingOverride = true
-    }
+    private let legacyOptions = RetryStrategyOptions(
+        backoffStrategy: ExponentialBackoffStrategy(),
+        useNewRetries2026: false
+    )
 
-    override func tearDown() {
-        AWSRetryFeatures.testingOverride = nil
-    }
+    private let newRetriesOptions = RetryStrategyOptions(
+        backoffStrategy: ExponentialBackoffStrategy(),
+        useNewRetries2026: true
+    )
 
     // MARK: - Code-based error classification
 
@@ -156,20 +158,83 @@ class AWSRetryErrorInfoProviderTests: XCTestCase {
         XCTAssertNil(errorInfo?.backoffMultiplier)
     }
 
-    func test_retryAfterHeader_ignoredWhenNewRetries2026Disabled() throws {
-        AWSRetryFeatures.testingOverride = false
-        let errorInfo = try AWSRetryErrorInfoProvider.errorInfo(
-            for: TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "1500"])
-        )
+    // MARK: - Retry strategy options
+
+    func test_retryAfterHeader_ignoredForLegacyOptions() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3", retryStrategyOptions: legacyOptions)
+        let errorInfo = try provider(TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "1500"]))
+        XCTAssertEqual(errorInfo?.errorType, .transient)
         XCTAssertNil(errorInfo?.retryAfterHint)
     }
 
-    func test_dynamoDB_noBackoffMultiplierWhenNewRetries2026Disabled() throws {
-        AWSRetryFeatures.testingOverride = false
-        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB")
-        let error = try TestHTTPError(statusCode: 500)
-        let errorInfo = provider(error)
+    func test_retryAfterHeader_appliedForNewRetriesOptions() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3", retryStrategyOptions: newRetriesOptions)
+        let errorInfo = try provider(TestHTTPError(statusCode: 500, headers: ["x-amz-retry-after": "1500"]))
+        XCTAssertEqual(errorInfo?.retryAfterHint, 1.5)
+    }
+
+    func test_retryAfterHeader_ignoredForLegacyOptions_STSOnlyTransient() {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "STS", retryStrategyOptions: legacyOptions)
+        let errorInfo = provider(ModeledIDPCommunicationError())
+        XCTAssertEqual(errorInfo?.errorType, .transient)
+        XCTAssertNil(errorInfo?.retryAfterHint)
+    }
+
+    func test_dynamoDB_noBackoffMultiplierForLegacyOptions() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB", retryStrategyOptions: legacyOptions)
+        let errorInfo = try provider(TestHTTPError(statusCode: 500))
+        XCTAssertEqual(errorInfo?.errorType, .transient)
         XCTAssertNil(errorInfo?.backoffMultiplier)
+    }
+
+    func test_dynamoDB_setsBackoffMultiplierForNewRetriesOptions() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB", retryStrategyOptions: newRetriesOptions)
+        let errorInfo = try provider(TestHTTPError(statusCode: 500))
+        XCTAssertEqual(errorInfo?.backoffMultiplier, 0.025)
+    }
+
+    func test_dynamoDBStreams_setsBackoffMultiplierForNewRetriesOptions() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(
+            sdkID: "DynamoDB Streams", retryStrategyOptions: newRetriesOptions
+        )
+        let errorInfo = try provider(TestHTTPError(statusCode: 500))
+        XCTAssertEqual(errorInfo?.backoffMultiplier, 0.025)
+    }
+
+    // MARK: - HTTP 429
+
+    func test_bare429_returnsThrottling() throws {
+        let errorInfo = try AWSRetryErrorInfoProvider.errorInfo(for: TestHTTPError(statusCode: 429))
+        XCTAssertEqual(errorInfo?.errorType, .throttling)
+        XCTAssertEqual(errorInfo?.isTimeout, false)
+    }
+
+    func test_bare429_returnsNilForLegacyOptions() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3", retryStrategyOptions: legacyOptions)
+        XCTAssertNil(try provider(TestHTTPError(statusCode: 429)))
+    }
+
+    func test_unrecognizedServiceErrorCodeWith429_returnsNilForLegacyOptions() throws {
+        let provider = AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3", retryStrategyOptions: legacyOptions)
+        XCTAssertNil(try provider(TestServiceHTTPError(code: "SomeUnknownError", statusCode: 429)))
+    }
+
+    func test_unrecognizedServiceErrorCodeWith429_returnsThrottling() throws {
+        let error = try TestServiceHTTPError(code: "SomeUnknownError", statusCode: 429)
+        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        XCTAssertEqual(errorInfo?.errorType, .throttling)
+    }
+
+    func test_nonRetryableModeledErrorWith429_returnsNil() throws {
+        let error = try ModeledNonRetryable429Error()
+        XCTAssertNil(AWSRetryErrorInfoProvider.errorInfo(for: error))
+    }
+
+    func test_429WithRetryAfterHeader_setsHint() throws {
+        let error = try TestHTTPError(statusCode: 429, headers: ["x-amz-retry-after": "2000"])
+        let errorInfo = AWSRetryErrorInfoProvider.errorInfo(for: error)
+        XCTAssertEqual(errorInfo?.errorType, .throttling)
+        XCTAssertEqual(errorInfo?.retryAfterHint, 2.0)
     }
 }
 
@@ -200,4 +265,31 @@ private struct ModeledIDPCommunicationError: ModeledError, Error {
     static var fault: ErrorFault { .server }
     static var isRetryable: Bool { false }
     static var isThrottling: Bool { false }
+}
+
+private struct TestServiceHTTPError: ServiceError, HTTPError, Error {
+    var typeName: String?
+    var message: String?
+    var httpResponse: HTTPResponse
+
+    init(code: String, statusCode: Int) throws {
+        self.typeName = code
+        self.message = "Message: \(code)"
+        self.httpResponse = HTTPResponse(statusCode: try XCTUnwrap(HTTPStatusCode(rawValue: statusCode)))
+    }
+}
+
+// A modeled error that the model marks not retryable, returned with HTTP 429.
+private struct ModeledNonRetryable429Error: ModeledError, ServiceError, HTTPError, Error {
+    static var typeName: String { "ModeledNonRetryable429Error" }
+    static var fault: ErrorFault { .client }
+    static var isRetryable: Bool { false }
+    static var isThrottling: Bool { false }
+    var typeName: String? { Self.typeName }
+    var message: String?
+    var httpResponse: HTTPResponse
+
+    init() throws {
+        self.httpResponse = HTTPResponse(statusCode: try XCTUnwrap(HTTPStatusCode(rawValue: 429)))
+    }
 }
