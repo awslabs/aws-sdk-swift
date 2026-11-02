@@ -2434,6 +2434,7 @@ private var runtimeTargets: [Target] {
                 .SmithyIdentity,
                 .SmithyIdentityAPI,
                 .SmithyHTTPAPI,
+                .SmithyHTTPAuthAPI,
                 .AWSSDKCommon,
             ] + internalClientDependencies,
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"

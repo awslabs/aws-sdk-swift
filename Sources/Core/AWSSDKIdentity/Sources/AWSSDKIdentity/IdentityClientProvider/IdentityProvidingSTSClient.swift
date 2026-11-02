@@ -5,10 +5,26 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import protocol ClientRuntime.ServiceError
 import Foundation
 import InternalAWSSTS
 import struct Smithy.Attributes
 import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
+
+/// nonRecoverableSTSError returns a NonRecoverableCredentialError if STS returned an error retrying can't fix.
+private func nonRecoverableSTSError(_ error: any Error) -> NonRecoverableCredentialError? {
+    let message: String
+    switch (error as? ServiceError)?.errorCode {
+    case "AccessDenied": message = "Access denied assuming the role."
+    case "IDPRejectedClaim": message = "The identity provider rejected the web identity token."
+    case "InvalidIdentityToken": message = "The web identity token is invalid or malformed."
+    case "MalformedPolicyDocument": message = "The session policy document is malformed."
+    case "PackedPolicyTooLarge": message = "The session policy is too large once packed."
+    case "RegionDisabled": message = "STS is disabled in this region for the account."
+    default: return nil
+    }
+    return NonRecoverableCredentialError(underlying: error, actionableMessage: message)
+}
 
 struct IdentityProvidingSTSClient: Swift.Sendable {
 
@@ -23,13 +39,18 @@ struct IdentityProvidingSTSClient: Swift.Sendable {
             awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(creds)
         )
         let sts = STSClient(config: stsConfig)
-        let out = try await sts.assumeRole(
-            input: AssumeRoleInput(
-                durationSeconds: Int(durationSeconds),
-                roleArn: roleARN,
-                roleSessionName: roleSessionName
+        let out: AssumeRoleOutput
+        do {
+            out = try await sts.assumeRole(
+                input: AssumeRoleInput(
+                    durationSeconds: Int(durationSeconds),
+                    roleArn: roleARN,
+                    roleSessionName: roleSessionName
+                )
             )
-        )
+        } catch {
+            throw nonRecoverableSTSError(error) ?? error
+        }
         guard let creds = out.credentials, let accessKey = creds.accessKeyId, let secretKey = creds.secretAccessKey
         else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
@@ -79,6 +100,7 @@ struct IdentityProvidingSTSClient: Swift.Sendable {
         } catch is IDPCommunicationErrorException {
             throw IdentityProvidingSTSClientError.idpCommunicationErrorException
         } catch {
+            if let nonRecoverable = nonRecoverableSTSError(error) { throw nonRecoverable }
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "STSWebIdentityAWSCredentialIdentityResolver: " +
                 "Failed to retrieve credentials from STS with web identity token."

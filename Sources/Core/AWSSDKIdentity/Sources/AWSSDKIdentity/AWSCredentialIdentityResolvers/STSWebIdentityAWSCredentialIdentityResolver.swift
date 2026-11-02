@@ -116,6 +116,8 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
             } catch IdentityProvidingSTSClientError.idpCommunicationErrorException {
                 try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
                 backoff *= 2
+            } catch let error as NonRecoverableCredentialError {
+                throw error
             } catch {
                 throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                     "STSWebIdentityAWSCredentialIdentityResolver: STS returned unretryable error - \(error)"

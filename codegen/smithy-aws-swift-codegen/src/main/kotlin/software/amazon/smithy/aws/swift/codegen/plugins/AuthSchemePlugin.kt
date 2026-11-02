@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -74,7 +75,14 @@ class AuthSchemePlugin(
                         writer.write("config.authSchemeResolver = self.authSchemeResolver!")
                     }
                     writer.openBlock("if (self.awsCredentialIdentityResolver != nil) {", "}") {
-                        writer.write("config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
+                        if (ctx.settings.internalClient) {
+                            writer.write("config.awsCredentialIdentityResolver = self.awsCredentialIdentityResolver!")
+                        } else {
+                            writer.write(
+                                "config.awsCredentialIdentityResolver = \$N(self.awsCredentialIdentityResolver!)",
+                                AWSSDKIdentityTypes.wrapCredentialIdentityResolver,
+                            )
+                        }
                     }
                     writer.openBlock("if (self.bearerTokenIdentityResolver != nil) {", "}") {
                         writer.write("config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
