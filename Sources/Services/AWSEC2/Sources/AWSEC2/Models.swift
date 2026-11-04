@@ -73240,13 +73240,15 @@ extension EC2ClientTypes {
         case high
         case low
         case medium
+        case unsupported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SupportabilityScore] {
             return [
                 .high,
                 .low,
-                .medium
+                .medium,
+                .unsupported
             ]
         }
 
@@ -73260,6 +73262,7 @@ extension EC2ClientTypes {
             case .high: return "high"
             case .low: return "low"
             case .medium: return "medium"
+            case .unsupported: return "unsupported"
             case let .sdkUnknown(s): return s
             }
         }

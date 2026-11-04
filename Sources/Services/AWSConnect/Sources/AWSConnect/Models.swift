@@ -14154,6 +14154,25 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about a case associated with a contact.
+    public struct CaseEntry: Swift.Sendable {
+        /// Unique identifier of the case in UUID format.
+        public var caseId: Swift.String?
+        /// A friendly number for the case. Reference numbers are not guaranteed to be unique.
+        public var caseReferenceNumber: Swift.String?
+
+        public init(
+            caseId: Swift.String? = nil,
+            caseReferenceNumber: Swift.String? = nil
+        ) {
+            self.caseId = caseId
+            self.caseReferenceNumber = caseReferenceNumber
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum ParticipantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agent
         case all
@@ -40612,6 +40631,8 @@ extension ConnectClientTypes {
         public var attributes: [Swift.String: Swift.String]?
         /// Information associated with a campaign.
         public var campaign: ConnectClientTypes.Campaign?
+        /// A list of cases associated with the contact. This field is populated when one or more cases have been linked to the contact.
+        public var cases: [ConnectClientTypes.CaseEntry]?
         /// How the contact reached your contact center.
         public var channel: ConnectClientTypes.Channel?
         /// Information about how agent, bot, and customer interact in a chat contact.
@@ -40704,6 +40725,7 @@ extension ConnectClientTypes {
             arn: Swift.String? = nil,
             attributes: [Swift.String: Swift.String]? = nil,
             campaign: ConnectClientTypes.Campaign? = nil,
+            cases: [ConnectClientTypes.CaseEntry]? = nil,
             channel: ConnectClientTypes.Channel? = nil,
             chatMetrics: ConnectClientTypes.ChatMetrics? = nil,
             connectedToSystemTimestamp: Foundation.Date? = nil,
@@ -40753,6 +40775,7 @@ extension ConnectClientTypes {
             self.arn = arn
             self.attributes = attributes
             self.campaign = campaign
+            self.cases = cases
             self.channel = channel
             self.chatMetrics = chatMetrics
             self.connectedToSystemTimestamp = connectedToSystemTimestamp
@@ -40801,7 +40824,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), cases: \(Swift.String(describing: cases)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -63044,6 +63067,17 @@ extension ConnectClientTypes.Campaign {
     }
 }
 
+extension ConnectClientTypes.CaseEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.CaseEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.CaseEntry()
+        value.caseId = try reader["CaseId"].readIfPresent()
+        value.caseReferenceNumber = try reader["CaseReferenceNumber"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.CaseSlaConfiguration {
 
     static func write(value: ConnectClientTypes.CaseSlaConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -63271,6 +63305,7 @@ extension ConnectClientTypes.Contact {
         value.disconnectReason = try reader["DisconnectReason"].readIfPresent()
         value.contactEvaluations = try reader["ContactEvaluations"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.ContactEvaluation.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.taskTemplateInfo = try reader["TaskTemplateInfo"].readIfPresent(with: ConnectClientTypes.TaskTemplateInfoV2.read(from:))
+        value.cases = try reader["Cases"].readListIfPresent(memberReadingClosure: ConnectClientTypes.CaseEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.contactDetails = try reader["ContactDetails"].readIfPresent(with: ConnectClientTypes.ContactDetails.read(from:))
         value.outboundStrategy = try reader["OutboundStrategy"].readIfPresent(with: ConnectClientTypes.OutboundStrategy.read(from:))
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

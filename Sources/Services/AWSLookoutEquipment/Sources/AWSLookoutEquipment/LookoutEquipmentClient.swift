@@ -616,6 +616,7 @@ extension LookoutEquipmentClient {
     /// Performs the `CreateDataset` operation on the `LookoutEquipment` service.
     ///
     /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
@@ -696,6 +697,7 @@ extension LookoutEquipmentClient {
     /// Performs the `CreateInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateInferenceSchedulerInput`)
     ///
@@ -777,6 +779,7 @@ extension LookoutEquipmentClient {
     /// Performs the `CreateLabel` operation on the `LookoutEquipment` service.
     ///
     /// Creates a label for an event.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateLabelInput`)
     ///
@@ -858,6 +861,7 @@ extension LookoutEquipmentClient {
     /// Performs the `CreateLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Creates a group of labels.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateLabelGroupInput`)
     ///
@@ -938,6 +942,7 @@ extension LookoutEquipmentClient {
     /// Performs the `CreateModel` operation on the `LookoutEquipment` service.
     ///
     /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateModelInput`)
     ///
@@ -1019,6 +1024,7 @@ extension LookoutEquipmentClient {
     /// Performs the `CreateRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Creates a retraining scheduler on the specified model.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateRetrainingSchedulerInput`)
     ///
@@ -1099,6 +1105,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DeleteDataset` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
@@ -1178,6 +1185,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DeleteInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteInferenceSchedulerInput`)
     ///
@@ -1257,6 +1265,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DeleteLabel` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a label.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteLabelInput`)
     ///
@@ -1336,6 +1345,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DeleteLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a group of labels.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteLabelGroupInput`)
     ///
@@ -1415,6 +1425,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DeleteModel` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
@@ -1494,6 +1505,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DeleteResourcePolicy` operation on the `LookoutEquipment` service.
     ///
     /// Deletes the resource policy attached to the resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
@@ -1573,6 +1585,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DeleteRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteRetrainingSchedulerInput`)
     ///
@@ -1652,6 +1665,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeDataIngestionJob` operation on the `LookoutEquipment` service.
     ///
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeDataIngestionJobInput`)
     ///
@@ -1730,6 +1744,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeDataset` operation on the `LookoutEquipment` service.
     ///
     /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
@@ -1808,6 +1823,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Specifies information about the inference scheduler being used, including name, model, status, and associated metadata
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeInferenceSchedulerInput`)
     ///
@@ -1886,6 +1902,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeLabel` operation on the `LookoutEquipment` service.
     ///
     /// Returns the name of the label.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeLabelInput`)
     ///
@@ -1964,6 +1981,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Returns information about the label group.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeLabelGroupInput`)
     ///
@@ -2042,6 +2060,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeModel` operation on the `LookoutEquipment` service.
     ///
     /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeModelInput`)
     ///
@@ -2120,6 +2139,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeModelVersion` operation on the `LookoutEquipment` service.
     ///
     /// Retrieves information about a specific machine learning model version.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeModelVersionInput`)
     ///
@@ -2198,6 +2218,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeResourcePolicy` operation on the `LookoutEquipment` service.
     ///
     /// Provides the details of a resource policy attached to a resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
@@ -2276,6 +2297,7 @@ extension LookoutEquipmentClient {
     /// Performs the `DescribeRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeRetrainingSchedulerInput`)
     ///
@@ -2354,6 +2376,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ImportDataset` operation on the `LookoutEquipment` service.
     ///
     /// Imports a dataset.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ImportDatasetInput`)
     ///
@@ -2435,6 +2458,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ImportModelVersion` operation on the `LookoutEquipment` service.
     ///
     /// Imports a model that has been trained successfully.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ImportModelVersionInput`)
     ///
@@ -2516,6 +2540,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListDataIngestionJobs` operation on the `LookoutEquipment` service.
     ///
     /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDataIngestionJobsInput`)
     ///
@@ -2593,6 +2618,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListDatasets` operation on the `LookoutEquipment` service.
     ///
     /// Lists all datasets currently available in your account, filtering on the dataset name.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
@@ -2670,6 +2696,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListInferenceEvents` operation on the `LookoutEquipment` service.
     ///
     /// Lists all inference events that have been found for the specified inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInferenceEventsInput`)
     ///
@@ -2748,6 +2775,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListInferenceExecutions` operation on the `LookoutEquipment` service.
     ///
     /// Lists all inference executions that have been performed by the specified inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInferenceExecutionsInput`)
     ///
@@ -2826,6 +2854,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListInferenceSchedulers` operation on the `LookoutEquipment` service.
     ///
     /// Retrieves a list of all inference schedulers currently available for your account.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInferenceSchedulersInput`)
     ///
@@ -2903,6 +2932,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListLabelGroups` operation on the `LookoutEquipment` service.
     ///
     /// Returns a list of the label groups.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListLabelGroupsInput`)
     ///
@@ -2980,6 +3010,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListLabels` operation on the `LookoutEquipment` service.
     ///
     /// Provides a list of labels.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListLabelsInput`)
     ///
@@ -3057,6 +3088,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListModelVersions` operation on the `LookoutEquipment` service.
     ///
     /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListModelVersionsInput`)
     ///
@@ -3135,6 +3167,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListModels` operation on the `LookoutEquipment` service.
     ///
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListModelsInput`)
     ///
@@ -3212,6 +3245,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListRetrainingSchedulers` operation on the `LookoutEquipment` service.
     ///
     /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRetrainingSchedulersInput`)
     ///
@@ -3289,6 +3323,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListSensorStatistics` operation on the `LookoutEquipment` service.
     ///
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListSensorStatisticsInput`)
     ///
@@ -3367,6 +3402,7 @@ extension LookoutEquipmentClient {
     /// Performs the `ListTagsForResource` operation on the `LookoutEquipment` service.
     ///
     /// Lists all the tags for a specified resource, including key and value.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -3445,6 +3481,7 @@ extension LookoutEquipmentClient {
     /// Performs the `PutResourcePolicy` operation on the `LookoutEquipment` service.
     ///
     /// Creates a resource control policy for a given resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
@@ -3526,6 +3563,7 @@ extension LookoutEquipmentClient {
     /// Performs the `StartDataIngestionJob` operation on the `LookoutEquipment` service.
     ///
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `StartDataIngestionJobInput`)
     ///
@@ -3607,6 +3645,7 @@ extension LookoutEquipmentClient {
     /// Performs the `StartInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Starts an inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `StartInferenceSchedulerInput`)
     ///
@@ -3686,6 +3725,7 @@ extension LookoutEquipmentClient {
     /// Performs the `StartRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Starts a retraining scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `StartRetrainingSchedulerInput`)
     ///
@@ -3765,6 +3805,7 @@ extension LookoutEquipmentClient {
     /// Performs the `StopInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Stops an inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `StopInferenceSchedulerInput`)
     ///
@@ -3844,6 +3885,7 @@ extension LookoutEquipmentClient {
     /// Performs the `StopRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Stops a retraining scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `StopRetrainingSchedulerInput`)
     ///
@@ -3923,6 +3965,7 @@ extension LookoutEquipmentClient {
     /// Performs the `TagResource` operation on the `LookoutEquipment` service.
     ///
     /// Associates a given tag to a resource in your account. A tag is a key-value pair which can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your resources as well as helping you to search and filter by tag. Multiple tags can be added to a resource, either when you create it, or later. Up to 50 tags can be associated with each resource.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -4002,6 +4045,7 @@ extension LookoutEquipmentClient {
     /// Performs the `UntagResource` operation on the `LookoutEquipment` service.
     ///
     /// Removes a specific tag from a given resource. The tag is specified by its key.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
@@ -4080,6 +4124,7 @@ extension LookoutEquipmentClient {
     /// Performs the `UpdateActiveModelVersion` operation on the `LookoutEquipment` service.
     ///
     /// Sets the active model version for a given machine learning model.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateActiveModelVersionInput`)
     ///
@@ -4159,6 +4204,7 @@ extension LookoutEquipmentClient {
     /// Performs the `UpdateInferenceScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Updates an inference scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateInferenceSchedulerInput`)
     ///
@@ -4238,6 +4284,7 @@ extension LookoutEquipmentClient {
     /// Performs the `UpdateLabelGroup` operation on the `LookoutEquipment` service.
     ///
     /// Updates the label group.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateLabelGroupInput`)
     ///
@@ -4317,6 +4364,7 @@ extension LookoutEquipmentClient {
     /// Performs the `UpdateModel` operation on the `LookoutEquipment` service.
     ///
     /// Updates a model in the account.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateModelInput`)
     ///
@@ -4396,6 +4444,7 @@ extension LookoutEquipmentClient {
     /// Performs the `UpdateRetrainingScheduler` operation on the `LookoutEquipment` service.
     ///
     /// Updates a retraining scheduler.
+    @available(*, deprecated, message: "End of support notice: On October 7, 2026, AWS ended support for Amazon Lookout for Equipment. For more information, see https://aws.amazon.com/products/lifecycle/ API deprecated since 2026-10-07")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateRetrainingSchedulerInput`)
     ///
