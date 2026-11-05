@@ -1781,6 +1781,7 @@ extension CloudWatchLogsClientTypes {
 
     public enum LogGroupClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case delivery
+        case essentials
         case infrequentAccess
         case standard
         case sdkUnknown(Swift.String)
@@ -1788,6 +1789,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [LogGroupClass] {
             return [
                 .delivery,
+                .essentials,
                 .infrequentAccess,
                 .standard
             ]
@@ -1801,6 +1803,7 @@ extension CloudWatchLogsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .delivery: return "DELIVERY"
+            case .essentials: return "ESSENTIALS"
             case .infrequentAccess: return "INFREQUENT_ACCESS"
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
@@ -1814,11 +1817,13 @@ public struct CreateLogGroupInput: Swift.Sendable {
     public var deletionProtectionEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
     public var kmsKeyId: Swift.String?
-    /// Use this parameter to specify the log group class for this log group. There are three classes:
+    /// Use this parameter to specify the log group class for this log group. There are four classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    /// * The Essentials log class supports a subset of CloudWatch Logs features and incurs lower costs.
     ///
     /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
     ///
@@ -3717,11 +3722,13 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
     public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Specifies the log group class for this log group. There are three classes:
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. If you specify either INFREQUENT_ACCESS or ESSENTIALS, the results include log groups in both the Infrequent Access and Essentials log classes. Specifies the log group class for this log group. There are four classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    /// * The Essentials log class supports a subset of CloudWatch Logs features and incurs lower costs.
     ///
     /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
     ///
@@ -3810,16 +3817,18 @@ extension CloudWatchLogsClientTypes {
         ///
         /// * In IAM policies, when specifying permissions for [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html).
         public var logGroupArn: Swift.String?
-        /// This specifies the log group class for this log group. There are three classes:
+        /// This specifies the log group class for this log group. There are four classes:
         ///
         /// * The Standard log class supports all CloudWatch Logs features.
         ///
         /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
         ///
+        /// * The Essentials log class supports a subset of CloudWatch Logs features and incurs lower costs.
+        ///
         /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
         ///
         ///
-        /// For details about the features supported by the Standard and Infrequent Access classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+        /// For details about the features supported by the Standard, Infrequent Access, and Essentials classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
         public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
         /// The name of the log group.
         public var logGroupName: Swift.String?
@@ -7989,7 +7998,7 @@ public struct PutAccountPolicyInput: Swift.Sendable {
     /// * FieldsV2 The object of field indexes to create along with it's type.
     ///
     ///
-    /// It must contain at least one field index. The following is an example of an index policy document that creates indexes with different types. "policyDocument": "{ \"Fields\": [ \"TransactionId\" ], \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"APIName\": {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET. Field names within Fields and FieldsV2 must be mutually exclusive.
+    /// It must contain at least one field index. The following is an example of an index policy document that creates indexes with different types. "policyDocument": "{ \"Fields\": [ \"TransactionId\" ], \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"APIName\": {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET. Field names within Fields and FieldsV2 must be mutually exclusive. Retention policy A retention policy must include the following attributes in a JSON block: retentionInDays The number of days to retain log events. Valid values are 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To retain log events indefinitely, specify the string NEVER_EXPIRE. enforcementMode Specifies which log groups the policy applies to. Valid values are NEW_ONLY and RETROACTIVE. RETROACTIVE applies the policy to every log group that matches the selection criteria, including log groups that existed before you created the policy. NEW_ONLY applies the policy only to log groups that are created after you create the policy. Log groups that already existed when you created the policy keep their own retention period. The following is an example of a retention policy document. "policyDocument": "{\"retentionInDays\": 90, \"enforcementMode\": \"RETROACTIVE\"}"
     /// This member is required.
     public var policyDocument: Swift.String?
     /// A name for the policy. This must be unique within the account and cannot start with aws/.
@@ -8000,7 +8009,7 @@ public struct PutAccountPolicyInput: Swift.Sendable {
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
     /// Currently the only valid value for this parameter is ALL, which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used.
     public var scope: CloudWatchLogsClientTypes.Scope?
-    /// Use this parameter to apply the new policy to a subset of log groups in the account or a data source name and type combination. Specifying selectionCriteria is valid only when you specify SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY or TRANSFORMER_POLICYfor policyType.
+    /// Use this parameter to apply the new policy to a subset of log groups in the account or a data source name and type combination. Specifying selectionCriteria is valid only when you specify SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY, TRANSFORMER_POLICY, or RETENTION_POLICY for policyType.
     ///
     /// * If policyType is SUBSCRIPTION_FILTER_POLICY, the only supported selectionCriteria filter is LogGroupName NOT IN []
     ///
@@ -8014,6 +8023,8 @@ public struct PutAccountPolicyInput: Swift.Sendable {
     ///
     ///
     /// When you specify selectionCriteria for a field index policy you can use either LogGroupNamePrefix by itself or DataSourceName and DataSourceType together.
+    ///
+    /// * If policyType is RETENTION_POLICY, the only supported selectionCriteria filter is LogGroupNamePrefix. If you omit selectionCriteria, the retention policy applies to all log groups in the account.
     ///
     ///
     /// The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter with SUBSCRIPTION_FILTER_POLICY is useful to help prevent infinite loops. For more information, see [Log recursion prevention](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions-recursion-prevention.html).

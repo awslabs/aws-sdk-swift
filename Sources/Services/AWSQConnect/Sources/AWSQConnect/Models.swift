@@ -1324,6 +1324,10 @@ extension QConnectClientTypes {
         public var configuration: QConnectClientTypes.AIAgentConfiguration?
         /// The description of the AI Agent.
         public var description: Swift.String?
+        /// The Amazon Web Services Region where the AI Agent was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the AI Agent was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The time the AI Agent was last modified.
         public var modifiedTime: Foundation.Date?
         /// The name of the AI Agent.
@@ -1349,6 +1353,8 @@ extension QConnectClientTypes {
             assistantId: Swift.String? = nil,
             configuration: QConnectClientTypes.AIAgentConfiguration? = nil,
             description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             origin: QConnectClientTypes.Origin? = nil,
@@ -1363,6 +1369,8 @@ extension QConnectClientTypes {
             self.assistantId = assistantId
             self.configuration = configuration
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.origin = origin
@@ -1550,6 +1558,10 @@ extension QConnectClientTypes {
         public var configuration: QConnectClientTypes.AIAgentConfiguration?
         /// The description of the AI Agent.
         public var description: Swift.String?
+        /// The Amazon Web Services Region where the AI Agent was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the AI Agent was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The time the AI Agent was last modified.
         public var modifiedTime: Foundation.Date?
         /// The name of the AI Agent.
@@ -1575,6 +1587,8 @@ extension QConnectClientTypes {
             assistantId: Swift.String? = nil,
             configuration: QConnectClientTypes.AIAgentConfiguration? = nil,
             description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             origin: QConnectClientTypes.Origin? = nil,
@@ -1589,6 +1603,8 @@ extension QConnectClientTypes {
             self.assistantId = assistantId
             self.configuration = configuration
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.origin = origin
@@ -2539,6 +2555,10 @@ extension QConnectClientTypes {
         public var contextualGroundingPolicyConfig: QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig?
         /// A description of the AI Guardrail.
         public var description: Swift.String?
+        /// The Amazon Web Services Region where the AI Guardrail was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the AI Guardrail was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The time the AI Guardrail was last modified.
         public var modifiedTime: Foundation.Date?
         /// The name of the AI Guardrail.
@@ -2568,6 +2588,8 @@ extension QConnectClientTypes {
             contentPolicyConfig: QConnectClientTypes.AIGuardrailContentPolicyConfig? = nil,
             contextualGroundingPolicyConfig: QConnectClientTypes.AIGuardrailContextualGroundingPolicyConfig? = nil,
             description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             sensitiveInformationPolicyConfig: QConnectClientTypes.AIGuardrailSensitiveInformationPolicyConfig? = nil,
@@ -2586,6 +2608,8 @@ extension QConnectClientTypes {
             self.contentPolicyConfig = contentPolicyConfig
             self.contextualGroundingPolicyConfig = contextualGroundingPolicyConfig
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.sensitiveInformationPolicyConfig = sensitiveInformationPolicyConfig
@@ -2600,7 +2624,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.AIGuardrailData: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AIGuardrailData(aiGuardrailArn: \(Swift.String(describing: aiGuardrailArn)), aiGuardrailId: \(Swift.String(describing: aiGuardrailId)), assistantArn: \(Swift.String(describing: assistantArn)), assistantId: \(Swift.String(describing: assistantId)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), modifiedTime: \(Swift.String(describing: modifiedTime)), name: \(Swift.String(describing: name)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), visibilityStatus: \(Swift.String(describing: visibilityStatus)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "AIGuardrailData(aiGuardrailArn: \(Swift.String(describing: aiGuardrailArn)), aiGuardrailId: \(Swift.String(describing: aiGuardrailId)), assistantArn: \(Swift.String(describing: assistantArn)), assistantId: \(Swift.String(describing: assistantId)), contentPolicyConfig: \(Swift.String(describing: contentPolicyConfig)), contextualGroundingPolicyConfig: \(Swift.String(describing: contextualGroundingPolicyConfig)), lastModifiedRegion: \(Swift.String(describing: lastModifiedRegion)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifiedTime: \(Swift.String(describing: modifiedTime)), name: \(Swift.String(describing: name)), sensitiveInformationPolicyConfig: \(Swift.String(describing: sensitiveInformationPolicyConfig)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), topicPolicyConfig: \(Swift.String(describing: topicPolicyConfig)), visibilityStatus: \(Swift.String(describing: visibilityStatus)), wordPolicyConfig: \(Swift.String(describing: wordPolicyConfig)), blockedInputMessaging: \"CONTENT_REDACTED\", blockedOutputsMessaging: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAIGuardrailOutput: Swift.Sendable {
@@ -2773,6 +2797,10 @@ extension QConnectClientTypes {
         public var assistantId: Swift.String?
         /// A description of the AI Guardrail.
         public var description: Swift.String?
+        /// The Amazon Web Services Region where the AI Guardrail was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the AI Guardrail was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The time the AI Guardrail was last modified.
         public var modifiedTime: Foundation.Date?
         /// The name of the AI Guardrail.
@@ -2792,6 +2820,8 @@ extension QConnectClientTypes {
             assistantArn: Swift.String? = nil,
             assistantId: Swift.String? = nil,
             description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: QConnectClientTypes.Status? = nil,
@@ -2803,6 +2833,8 @@ extension QConnectClientTypes {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modifiedTime = modifiedTime
             self.name = name
             self.status = status
@@ -2814,7 +2846,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.AIGuardrailSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AIGuardrailSummary(aiGuardrailArn: \(Swift.String(describing: aiGuardrailArn)), aiGuardrailId: \(Swift.String(describing: aiGuardrailId)), assistantArn: \(Swift.String(describing: assistantArn)), assistantId: \(Swift.String(describing: assistantId)), modifiedTime: \(Swift.String(describing: modifiedTime)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), visibilityStatus: \(Swift.String(describing: visibilityStatus)), description: \"CONTENT_REDACTED\")"}
+        "AIGuardrailSummary(aiGuardrailArn: \(Swift.String(describing: aiGuardrailArn)), aiGuardrailId: \(Swift.String(describing: aiGuardrailId)), assistantArn: \(Swift.String(describing: assistantArn)), assistantId: \(Swift.String(describing: assistantId)), lastModifiedRegion: \(Swift.String(describing: lastModifiedRegion)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifiedTime: \(Swift.String(describing: modifiedTime)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), visibilityStatus: \(Swift.String(describing: visibilityStatus)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAIGuardrailsOutput: Swift.Sendable {
@@ -3254,6 +3286,10 @@ extension QConnectClientTypes {
         public var description: Swift.String?
         /// The configuration for inference parameters when using the AI Prompt.
         public var inferenceConfiguration: QConnectClientTypes.AIPromptInferenceConfiguration?
+        /// The Amazon Web Services Region where the AI Prompt was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the AI Prompt was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The identifier of the model used for this AI Prompt. The following model Ids are supported:
         ///
         /// * anthropic.claude-3-haiku--v1:0
@@ -3323,6 +3359,8 @@ extension QConnectClientTypes {
             assistantId: Swift.String? = nil,
             description: Swift.String? = nil,
             inferenceConfiguration: QConnectClientTypes.AIPromptInferenceConfiguration? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelId: Swift.String? = nil,
             modifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -3341,6 +3379,8 @@ extension QConnectClientTypes {
             self.assistantId = assistantId
             self.description = description
             self.inferenceConfiguration = inferenceConfiguration
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modelId = modelId
             self.modifiedTime = modifiedTime
             self.name = name
@@ -3532,6 +3572,10 @@ extension QConnectClientTypes {
         public var assistantId: Swift.String?
         /// The description of the AI Prompt.
         public var description: Swift.String?
+        /// The Amazon Web Services Region where the AI Prompt was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the AI Prompt was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
         /// This member is required.
         public var modelId: Swift.String?
@@ -3563,6 +3607,8 @@ extension QConnectClientTypes {
             assistantArn: Swift.String? = nil,
             assistantId: Swift.String? = nil,
             description: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             modelId: Swift.String? = nil,
             modifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -3579,6 +3625,8 @@ extension QConnectClientTypes {
             self.assistantArn = assistantArn
             self.assistantId = assistantId
             self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.modelId = modelId
             self.modifiedTime = modifiedTime
             self.name = name
@@ -3924,6 +3972,10 @@ extension QConnectClientTypes {
         /// The type of association.
         /// This member is required.
         public var associationType: QConnectClientTypes.AssociationType?
+        /// The Amazon Web Services Region where the assistant association was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the assistant association was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
 
@@ -3934,6 +3986,8 @@ extension QConnectClientTypes {
             assistantId: Swift.String? = nil,
             associationData: QConnectClientTypes.AssistantAssociationOutputData? = nil,
             associationType: QConnectClientTypes.AssociationType? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.assistantArn = assistantArn
@@ -3942,6 +3996,8 @@ extension QConnectClientTypes {
             self.assistantId = assistantId
             self.associationData = associationData
             self.associationType = associationType
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.tags = tags
         }
     }
@@ -4050,6 +4106,10 @@ extension QConnectClientTypes {
         /// The type of association.
         /// This member is required.
         public var associationType: QConnectClientTypes.AssociationType?
+        /// The Amazon Web Services Region where the assistant association was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the assistant association was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String: Swift.String]?
 
@@ -4060,6 +4120,8 @@ extension QConnectClientTypes {
             assistantId: Swift.String? = nil,
             associationData: QConnectClientTypes.AssistantAssociationOutputData? = nil,
             associationType: QConnectClientTypes.AssociationType? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
             self.assistantArn = assistantArn
@@ -4068,6 +4130,8 @@ extension QConnectClientTypes {
             self.assistantId = assistantId
             self.associationData = associationData
             self.associationType = associationType
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.tags = tags
         }
     }
@@ -4091,15 +4155,35 @@ public struct ListAssistantAssociationsOutput: Swift.Sendable {
 
 extension QConnectClientTypes {
 
+    /// Contains information about the KMS key used to encrypt data in a replica Amazon Web Services Region, including its Amazon Resource Name (ARN).
+    public struct ReplicaKmsKey: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the KMS key in the replica Region.
+        /// This member is required.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     /// The configuration information for the customer managed key used for encryption.
     public struct ServerSideEncryptionConfiguration: Swift.Sendable {
         /// The customer managed key used for encryption. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html). For information about valid ID values, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id).
         public var kmsKeyId: Swift.String?
+        /// The list of KMS keys used to encrypt data for this resource's replicas in other Amazon Web Services Regions. Each entry corresponds to a Region where a replica is configured.
+        public var replicaKmsKeys: [QConnectClientTypes.ReplicaKmsKey]?
 
         public init(
-            kmsKeyId: Swift.String? = nil
+            kmsKeyId: Swift.String? = nil,
+            replicaKmsKeys: [QConnectClientTypes.ReplicaKmsKey]? = nil
         ) {
             self.kmsKeyId = kmsKeyId
+            self.replicaKmsKeys = replicaKmsKeys
         }
     }
 }
@@ -4160,6 +4244,36 @@ public struct CreateAssistantInput: Swift.Sendable {
         self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
         self.tags = tags
         self.type = type
+    }
+}
+
+extension QConnectClientTypes {
+
+    /// Whether an assistant's Connect instance is replicated by Amazon Connect Global Resiliency. Distinct from GlobalResiliencyStatus on ModelSummary, which answers a different question - is this model published across the replication group. This one answers whether this assistant is subject to that constraint at all.
+    public enum AssistantGlobalResiliencyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssistantGlobalResiliencyStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -4292,6 +4406,8 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
+        /// Whether Amazon Connect Global Resiliency replicates the Connect instance this assistant is associated with, and so whether resources created under this assistant must satisfy the replication group's model parity constraint. Answered from the ACGR side per request rather than stored, so it reflects the customer's replication state now. Absent means "not applicable or not known" - never read an absent field as DISABLED. It is absent on the operations that return an assistant which is not yet associated with a Connect instance, because replication cannot be established until it is.
+        public var assistantGlobalResiliencyStatus: QConnectClientTypes.AssistantGlobalResiliencyStatus?
         /// The identifier of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantId: Swift.String?
@@ -4301,6 +4417,10 @@ extension QConnectClientTypes {
         public var description: Swift.String?
         /// The configuration information for the Amazon Q in Connect assistant integration.
         public var integrationConfiguration: QConnectClientTypes.AssistantIntegrationConfiguration?
+        /// The Amazon Web Services Region where the assistant was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the assistant was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The name.
         /// This member is required.
         public var name: Swift.String?
@@ -4320,10 +4440,13 @@ extension QConnectClientTypes {
         public init(
             aiAgentConfiguration: [Swift.String: QConnectClientTypes.AIAgentConfigurationData]? = nil,
             assistantArn: Swift.String? = nil,
+            assistantGlobalResiliencyStatus: QConnectClientTypes.AssistantGlobalResiliencyStatus? = nil,
             assistantId: Swift.String? = nil,
             capabilityConfiguration: QConnectClientTypes.AssistantCapabilityConfiguration? = nil,
             description: Swift.String? = nil,
             integrationConfiguration: QConnectClientTypes.AssistantIntegrationConfiguration? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             orchestratorConfigurationList: [QConnectClientTypes.OrchestratorConfigurationEntry]? = nil,
             serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
@@ -4333,10 +4456,13 @@ extension QConnectClientTypes {
         ) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.assistantArn = assistantArn
+            self.assistantGlobalResiliencyStatus = assistantGlobalResiliencyStatus
             self.assistantId = assistantId
             self.capabilityConfiguration = capabilityConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.orchestratorConfigurationList = orchestratorConfigurationList
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -5232,6 +5358,10 @@ extension QConnectClientTypes {
         public var description: Swift.String?
         /// The configuration information for the Amazon Q in Connect assistant integration.
         public var integrationConfiguration: QConnectClientTypes.AssistantIntegrationConfiguration?
+        /// The Amazon Web Services Region where the assistant was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the assistant was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the assistant.
         /// This member is required.
         public var name: Swift.String?
@@ -5255,6 +5385,8 @@ extension QConnectClientTypes {
             capabilityConfiguration: QConnectClientTypes.AssistantCapabilityConfiguration? = nil,
             description: Swift.String? = nil,
             integrationConfiguration: QConnectClientTypes.AssistantIntegrationConfiguration? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             orchestratorConfigurationList: [QConnectClientTypes.OrchestratorConfigurationEntry]? = nil,
             serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
@@ -5268,6 +5400,8 @@ extension QConnectClientTypes {
             self.capabilityConfiguration = capabilityConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.orchestratorConfigurationList = orchestratorConfigurationList
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -5385,6 +5519,35 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    public enum GlobalResiliencyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case supported
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalResiliencyStatus] {
+            return [
+                .supported,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .supported: return "SUPPORTED"
+            case .unsupported: return "UNSUPPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QConnectClientTypes {
+
     /// The summary of a model available to an Amazon Q in Connect assistant.
     public struct ModelSummary: Swift.Sendable {
         /// The cross-region availability status of the model. NONE indicates the model is only available in a single region, REGIONAL indicates the model is available through regional inference, and GLOBAL indicates the model is available through global cross-region inference.
@@ -5394,6 +5557,8 @@ extension QConnectClientTypes {
         public var displayName: Swift.String?
         /// The timestamp when the model will reach end of life and no longer be available for use.
         public var endOfLifeTimestamp: Foundation.Date?
+        /// Whether this model is published in every Region of the caller's Amazon Connect Global Resiliency replication group, and so can be referenced by an AI Prompt that replicates. Present only for callers to which global resiliency applies.
+        public var globalResiliencyStatus: QConnectClientTypes.GlobalResiliencyStatus?
         /// The timestamp when the model lifecycle will transition from ACTIVE to LEGACY.
         public var legacyTimestamp: Foundation.Date?
         /// The identifier of the model.
@@ -5410,6 +5575,7 @@ extension QConnectClientTypes {
             crossRegionStatus: QConnectClientTypes.CrossRegionStatus? = nil,
             displayName: Swift.String? = nil,
             endOfLifeTimestamp: Foundation.Date? = nil,
+            globalResiliencyStatus: QConnectClientTypes.GlobalResiliencyStatus? = nil,
             legacyTimestamp: Foundation.Date? = nil,
             modelId: Swift.String? = nil,
             modelLifecycle: QConnectClientTypes.ModelLifecycle? = nil,
@@ -5419,6 +5585,7 @@ extension QConnectClientTypes {
             self.crossRegionStatus = crossRegionStatus
             self.displayName = displayName
             self.endOfLifeTimestamp = endOfLifeTimestamp
+            self.globalResiliencyStatus = globalResiliencyStatus
             self.legacyTimestamp = legacyTimestamp
             self.modelId = modelId
             self.modelLifecycle = modelLifecycle
@@ -5937,6 +6104,39 @@ extension QConnectClientTypes {
     }
 }
 
+public struct RegisterAssistantReplicaKeyInput: Swift.Sendable {
+    /// The identifier of the Amazon Q in Connect assistant.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+    public var clientToken: Swift.String?
+    /// The replica Region KMS key to register for the assistant.
+    /// This member is required.
+    public var replicaKmsKey: QConnectClientTypes.ReplicaKmsKey?
+
+    public init(
+        assistantId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        replicaKmsKey: QConnectClientTypes.ReplicaKmsKey? = nil
+    ) {
+        self.assistantId = assistantId
+        self.clientToken = clientToken
+        self.replicaKmsKey = replicaKmsKey
+    }
+}
+
+public struct RegisterAssistantReplicaKeyOutput: Swift.Sendable {
+    /// The assistant data.
+    /// This member is required.
+    public var assistant: QConnectClientTypes.AssistantData?
+
+    public init(
+        assistant: QConnectClientTypes.AssistantData? = nil
+    ) {
+        self.assistant = assistant
+    }
+}
+
 public struct RemoveAssistantAIAgentInput: Swift.Sendable {
     /// The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant.
     /// This member is required.
@@ -6449,11 +6649,44 @@ public struct CreateSessionOutput: Swift.Sendable {
     }
 }
 
+extension QConnectClientTypes {
+
+    public enum UnprocessableContentReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The AI inference model is temporarily unavailable.
+        case aiInferenceModelUnavailable
+        /// The orchestration failed for a reason not covered by a more specific value.
+        case orchestrationError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnprocessableContentReason] {
+            return [
+                .aiInferenceModelUnavailable,
+                .orchestrationError
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aiInferenceModelUnavailable: return "AI_INFERENCE_MODEL_UNAVAILABLE"
+            case .orchestrationError: return "ORCHESTRATION_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// The server has a failure of processing the message
 public struct UnprocessableContentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// The reason the content could not be processed.
+        public internal(set) var reason: QConnectClientTypes.UnprocessableContentReason? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -6466,9 +6699,11 @@ public struct UnprocessableContentException: ClientRuntime.ModeledError, AWSClie
     public var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        reason: QConnectClientTypes.UnprocessableContentReason? = nil
     ) {
         self.properties.message = message
+        self.properties.reason = reason
     }
 }
 
@@ -8372,12 +8607,18 @@ extension QConnectClientTypes {
         /// The media type of the content.
         /// This member is required.
         public var contentType: Swift.String?
+        /// The Base64-encoded SHA-256 hash of the content file. Amazon Connect Global Resiliency returns this field only for replicated content.
+        public var fileHash: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
         /// The identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
+        /// The Amazon Web Services Region where the content was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the content was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The URI of the content.
         public var linkOutUri: Swift.String?
         /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
@@ -8408,8 +8649,11 @@ extension QConnectClientTypes {
             contentArn: Swift.String? = nil,
             contentId: Swift.String? = nil,
             contentType: Swift.String? = nil,
+            fileHash: Swift.String? = nil,
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             linkOutUri: Swift.String? = nil,
             metadata: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
@@ -8423,8 +8667,11 @@ extension QConnectClientTypes {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
+            self.fileHash = fileHash
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.linkOutUri = linkOutUri
             self.metadata = metadata
             self.name = name
@@ -8440,7 +8687,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.ContentData: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ContentData(contentArn: \(Swift.String(describing: contentArn)), contentId: \(Swift.String(describing: contentId)), contentType: \(Swift.String(describing: contentType)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), linkOutUri: \(Swift.String(describing: linkOutUri)), metadata: \(Swift.String(describing: metadata)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), title: \(Swift.String(describing: title)), urlExpiry: \(Swift.String(describing: urlExpiry)), url: \"CONTENT_REDACTED\")"}
+        "ContentData(contentArn: \(Swift.String(describing: contentArn)), contentId: \(Swift.String(describing: contentId)), contentType: \(Swift.String(describing: contentType)), fileHash: \(Swift.String(describing: fileHash)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), lastModifiedRegion: \(Swift.String(describing: lastModifiedRegion)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), linkOutUri: \(Swift.String(describing: linkOutUri)), metadata: \(Swift.String(describing: metadata)), name: \(Swift.String(describing: name)), revisionId: \(Swift.String(describing: revisionId)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), title: \(Swift.String(describing: title)), urlExpiry: \(Swift.String(describing: urlExpiry)), url: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateContentOutput: Swift.Sendable {
@@ -8534,12 +8781,18 @@ extension QConnectClientTypes {
         /// The media type of the content.
         /// This member is required.
         public var contentType: Swift.String?
+        /// The Base64-encoded SHA-256 hash of the content file. Amazon Connect Global Resiliency returns this field only for replicated content.
+        public var fileHash: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
+        /// The Amazon Web Services Region where the content was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the content was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
         /// This member is required.
         public var metadata: [Swift.String: Swift.String]?
@@ -8562,8 +8815,11 @@ extension QConnectClientTypes {
             contentArn: Swift.String? = nil,
             contentId: Swift.String? = nil,
             contentType: Swift.String? = nil,
+            fileHash: Swift.String? = nil,
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             metadata: [Swift.String: Swift.String]? = nil,
             name: Swift.String? = nil,
             revisionId: Swift.String? = nil,
@@ -8574,8 +8830,11 @@ extension QConnectClientTypes {
             self.contentArn = contentArn
             self.contentId = contentId
             self.contentType = contentType
+            self.fileHash = fileHash
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.metadata = metadata
             self.name = name
             self.revisionId = revisionId
@@ -9136,6 +9395,10 @@ extension QConnectClientTypes {
         public var knowledgeBaseType: QConnectClientTypes.KnowledgeBaseType?
         /// An epoch timestamp indicating the most recent content modification inside the knowledge base. If no content exists in a knowledge base, this value is unset.
         public var lastContentModificationTime: Foundation.Date?
+        /// The Amazon Web Services Region where the knowledge base was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the knowledge base was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the knowledge base.
         /// This member is required.
         public var name: Swift.String?
@@ -9161,6 +9424,8 @@ extension QConnectClientTypes {
             knowledgeBaseId: Swift.String? = nil,
             knowledgeBaseType: QConnectClientTypes.KnowledgeBaseType? = nil,
             lastContentModificationTime: Foundation.Date? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             renderingConfiguration: QConnectClientTypes.RenderingConfiguration? = nil,
             serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
@@ -9176,6 +9441,8 @@ extension QConnectClientTypes {
             self.knowledgeBaseId = knowledgeBaseId
             self.knowledgeBaseType = knowledgeBaseType
             self.lastContentModificationTime = lastContentModificationTime
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.renderingConfiguration = renderingConfiguration
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -10734,6 +11001,8 @@ extension QConnectClientTypes {
         public var language: Swift.String?
         /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
         public var lastModifiedBy: Swift.String?
+        /// The Amazon Web Services Region where the quick response was last modified.
+        public var lastModifiedRegion: Swift.String?
         /// The timestamp when the quick response data was last modified.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -10766,6 +11035,7 @@ extension QConnectClientTypes {
             knowledgeBaseId: Swift.String? = nil,
             language: Swift.String? = nil,
             lastModifiedBy: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             quickResponseArn: Swift.String? = nil,
@@ -10785,6 +11055,7 @@ extension QConnectClientTypes {
             self.knowledgeBaseId = knowledgeBaseId
             self.language = language
             self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickResponseArn = quickResponseArn
@@ -10798,7 +11069,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.QuickResponseData: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "QuickResponseData(contentType: \(Swift.String(describing: contentType)), contents: \(Swift.String(describing: contents)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), quickResponseArn: \(Swift.String(describing: quickResponseArn)), quickResponseId: \(Swift.String(describing: quickResponseId)), shortcutKey: \(Swift.String(describing: shortcutKey)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), channels: \"CONTENT_REDACTED\")"}
+        "QuickResponseData(contentType: \(Swift.String(describing: contentType)), contents: \(Swift.String(describing: contents)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedRegion: \(Swift.String(describing: lastModifiedRegion)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), quickResponseArn: \(Swift.String(describing: quickResponseArn)), quickResponseId: \(Swift.String(describing: quickResponseId)), shortcutKey: \(Swift.String(describing: shortcutKey)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), channels: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateQuickResponseOutput: Swift.Sendable {
@@ -11390,6 +11661,10 @@ extension QConnectClientTypes {
         /// The type of knowledge base.
         /// This member is required.
         public var knowledgeBaseType: QConnectClientTypes.KnowledgeBaseType?
+        /// The Amazon Web Services Region where the knowledge base was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the knowledge base was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The name of the knowledge base.
         /// This member is required.
         public var name: Swift.String?
@@ -11412,6 +11687,8 @@ extension QConnectClientTypes {
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             knowledgeBaseType: QConnectClientTypes.KnowledgeBaseType? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             renderingConfiguration: QConnectClientTypes.RenderingConfiguration? = nil,
             serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration? = nil,
@@ -11424,6 +11701,8 @@ extension QConnectClientTypes {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
             self.knowledgeBaseType = knowledgeBaseType
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.renderingConfiguration = renderingConfiguration
             self.serverSideEncryptionConfiguration = serverSideEncryptionConfiguration
@@ -11851,6 +12130,8 @@ extension QConnectClientTypes {
         public var knowledgeBaseId: Swift.String?
         /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
         public var lastModifiedBy: Swift.String?
+        /// The Amazon Web Services Region where the quick response was last modified.
+        public var lastModifiedRegion: Swift.String?
         /// The timestamp when the quick response summary was last modified.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -11878,6 +12159,7 @@ extension QConnectClientTypes {
             knowledgeBaseArn: Swift.String? = nil,
             knowledgeBaseId: Swift.String? = nil,
             lastModifiedBy: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             quickResponseArn: Swift.String? = nil,
@@ -11893,6 +12175,7 @@ extension QConnectClientTypes {
             self.knowledgeBaseArn = knowledgeBaseArn
             self.knowledgeBaseId = knowledgeBaseId
             self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickResponseArn = quickResponseArn
@@ -11905,7 +12188,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.QuickResponseSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "QuickResponseSummary(contentType: \(Swift.String(describing: contentType)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), quickResponseArn: \(Swift.String(describing: quickResponseArn)), quickResponseId: \(Swift.String(describing: quickResponseId)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), channels: \"CONTENT_REDACTED\")"}
+        "QuickResponseSummary(contentType: \(Swift.String(describing: contentType)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedRegion: \(Swift.String(describing: lastModifiedRegion)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), quickResponseArn: \(Swift.String(describing: quickResponseArn)), quickResponseId: \(Swift.String(describing: quickResponseId)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), channels: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListQuickResponsesOutput: Swift.Sendable {
@@ -12006,6 +12289,39 @@ public struct UpdateQuickResponseOutput: Swift.Sendable {
         quickResponse: QConnectClientTypes.QuickResponseData? = nil
     ) {
         self.quickResponse = quickResponse
+    }
+}
+
+public struct RegisterKnowledgeBaseReplicaKeyInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](http://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/)..
+    public var clientToken: Swift.String?
+    /// The identifier of the knowledge base.
+    /// This member is required.
+    public var knowledgeBaseId: Swift.String?
+    /// The replica Region KMS key to register for the knowledge base.
+    /// This member is required.
+    public var replicaKmsKey: QConnectClientTypes.ReplicaKmsKey?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        knowledgeBaseId: Swift.String? = nil,
+        replicaKmsKey: QConnectClientTypes.ReplicaKmsKey? = nil
+    ) {
+        self.clientToken = clientToken
+        self.knowledgeBaseId = knowledgeBaseId
+        self.replicaKmsKey = replicaKmsKey
+    }
+}
+
+public struct RegisterKnowledgeBaseReplicaKeyOutput: Swift.Sendable {
+    /// Information about the knowledge base.
+    /// This member is required.
+    public var knowledgeBase: QConnectClientTypes.KnowledgeBaseData?
+
+    public init(
+        knowledgeBase: QConnectClientTypes.KnowledgeBaseData? = nil
+    ) {
+        self.knowledgeBase = knowledgeBase
     }
 }
 
@@ -12768,6 +13084,8 @@ extension QConnectClientTypes {
         public var language: Swift.String?
         /// The Amazon Resource Name (ARN) of the user who last updated the quick response search result data.
         public var lastModifiedBy: Swift.String?
+        /// The Amazon Web Services Region where the quick response was last modified.
+        public var lastModifiedRegion: Swift.String?
         /// The timestamp when the quick response search result data was last modified.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -12802,6 +13120,7 @@ extension QConnectClientTypes {
             knowledgeBaseId: Swift.String? = nil,
             language: Swift.String? = nil,
             lastModifiedBy: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             quickResponseArn: Swift.String? = nil,
@@ -12823,6 +13142,7 @@ extension QConnectClientTypes {
             self.knowledgeBaseId = knowledgeBaseId
             self.language = language
             self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.quickResponseArn = quickResponseArn
@@ -12836,7 +13156,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.QuickResponseSearchResultData: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "QuickResponseSearchResultData(contentType: \(Swift.String(describing: contentType)), contents: \(Swift.String(describing: contents)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), quickResponseArn: \(Swift.String(describing: quickResponseArn)), quickResponseId: \(Swift.String(describing: quickResponseId)), shortcutKey: \(Swift.String(describing: shortcutKey)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), attributesInterpolated: \"CONTENT_REDACTED\", attributesNotInterpolated: \"CONTENT_REDACTED\", channels: \"CONTENT_REDACTED\")"}
+        "QuickResponseSearchResultData(contentType: \(Swift.String(describing: contentType)), contents: \(Swift.String(describing: contents)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), groupingConfiguration: \(Swift.String(describing: groupingConfiguration)), isActive: \(Swift.String(describing: isActive)), knowledgeBaseArn: \(Swift.String(describing: knowledgeBaseArn)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), language: \(Swift.String(describing: language)), lastModifiedBy: \(Swift.String(describing: lastModifiedBy)), lastModifiedRegion: \(Swift.String(describing: lastModifiedRegion)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), name: \(Swift.String(describing: name)), quickResponseArn: \(Swift.String(describing: quickResponseArn)), quickResponseId: \(Swift.String(describing: quickResponseId)), shortcutKey: \(Swift.String(describing: shortcutKey)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), attributesInterpolated: \"CONTENT_REDACTED\", attributesNotInterpolated: \"CONTENT_REDACTED\", channels: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchQuickResponsesOutput: Swift.Sendable {
@@ -14924,6 +15244,26 @@ extension QueryAssistantInput {
     }
 }
 
+extension RegisterAssistantReplicaKeyInput {
+
+    static func urlPathProvider(_ value: RegisterAssistantReplicaKeyInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/replicaKey"
+    }
+}
+
+extension RegisterKnowledgeBaseReplicaKeyInput {
+
+    static func urlPathProvider(_ value: RegisterKnowledgeBaseReplicaKeyInput) -> Swift.String? {
+        guard let knowledgeBaseId = value.knowledgeBaseId else {
+            return nil
+        }
+        return "/knowledgeBases/\(knowledgeBaseId.urlPercentEncoding())/replicaKey"
+    }
+}
+
 extension RemoveAssistantAIAgentInput {
 
     static func urlPathProvider(_ value: RemoveAssistantAIAgentInput) -> Swift.String? {
@@ -15553,6 +15893,24 @@ extension QueryAssistantInput {
         try writer["queryInputData"].write(value.queryInputData, with: QConnectClientTypes.QueryInputData.write(value:to:))
         try writer["queryText"].write(value.queryText)
         try writer["sessionId"].write(value.sessionId)
+    }
+}
+
+extension RegisterAssistantReplicaKeyInput {
+
+    static func write(value: RegisterAssistantReplicaKeyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["replicaKmsKey"].write(value.replicaKmsKey, with: QConnectClientTypes.ReplicaKmsKey.write(value:to:))
+    }
+}
+
+extension RegisterKnowledgeBaseReplicaKeyInput {
+
+    static func write(value: RegisterKnowledgeBaseReplicaKeyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["replicaKmsKey"].write(value.replicaKmsKey, with: QConnectClientTypes.ReplicaKmsKey.write(value:to:))
     }
 }
 
@@ -16586,6 +16944,30 @@ extension QueryAssistantOutput {
         var value = QueryAssistantOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.results = try reader["results"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ResultData.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension RegisterAssistantReplicaKeyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterAssistantReplicaKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterAssistantReplicaKeyOutput()
+        value.assistant = try reader["assistant"].readIfPresent(with: QConnectClientTypes.AssistantData.read(from:))
+        return value
+    }
+}
+
+extension RegisterKnowledgeBaseReplicaKeyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterKnowledgeBaseReplicaKeyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterKnowledgeBaseReplicaKeyOutput()
+        value.knowledgeBase = try reader["knowledgeBase"].readIfPresent(with: QConnectClientTypes.KnowledgeBaseData.read(from:))
         return value
     }
 }
@@ -18113,6 +18495,44 @@ enum QueryAssistantOutputError {
     }
 }
 
+enum RegisterAssistantReplicaKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterKnowledgeBaseReplicaKeyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RemoveAssistantAIAgentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18122,6 +18542,7 @@ enum RemoveAssistantAIAgentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -18406,6 +18827,7 @@ enum UpdateAssistantAIAgentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -18648,6 +19070,7 @@ extension UnprocessableContentException {
         let reader = baseError.errorBodyReader
         var value = UnprocessableContentException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -18826,6 +19249,8 @@ extension QConnectClientTypes.AIAgentData {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
         value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -18847,6 +19272,8 @@ extension QConnectClientTypes.AIAgentSummary {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.aiAgentArn = try reader["aiAgentArn"].readIfPresent() ?? ""
         value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
         value.configuration = try reader["configuration"].readIfPresent(with: QConnectClientTypes.AIAgentConfiguration.read(from:))
         value.origin = try reader["origin"].readIfPresent()
@@ -18935,6 +19362,8 @@ extension QConnectClientTypes.AIGuardrailData {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.status = try reader["status"].readIfPresent()
         value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         return value
     }
 }
@@ -18967,6 +19396,8 @@ extension QConnectClientTypes.AIGuardrailSummary {
         value.aiGuardrailId = try reader["aiGuardrailId"].readIfPresent() ?? ""
         value.aiGuardrailArn = try reader["aiGuardrailArn"].readIfPresent() ?? ""
         value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -19035,6 +19466,8 @@ extension QConnectClientTypes.AIPromptData {
         value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: QConnectClientTypes.AIPromptTemplateConfiguration.read(from:))
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: QConnectClientTypes.AIPromptInferenceConfiguration.read(from:))
         value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.visibilityStatus = try reader["visibilityStatus"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -19077,6 +19510,8 @@ extension QConnectClientTypes.AIPromptSummary {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.aiPromptArn = try reader["aiPromptArn"].readIfPresent() ?? ""
         value.modifiedTime = try reader["modifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
         value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.apiFormat = try reader["apiFormat"].readIfPresent() ?? .sdkUnknown("")
@@ -19212,6 +19647,8 @@ extension QConnectClientTypes.AssistantAssociationData {
         value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
         value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         return value
     }
 }
@@ -19259,6 +19696,8 @@ extension QConnectClientTypes.AssistantAssociationSummary {
         value.associationType = try reader["associationType"].readIfPresent() ?? .sdkUnknown("")
         value.associationData = try reader["associationData"].readIfPresent(with: QConnectClientTypes.AssistantAssociationOutputData.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         return value
     }
 }
@@ -19290,6 +19729,9 @@ extension QConnectClientTypes.AssistantData {
         value.capabilityConfiguration = try reader["capabilityConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantCapabilityConfiguration.read(from:))
         value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.orchestratorConfigurationList = try reader["orchestratorConfigurationList"].readListIfPresent(memberReadingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
+        value.assistantGlobalResiliencyStatus = try reader["assistantGlobalResiliencyStatus"].readIfPresent()
         return value
     }
 }
@@ -19321,6 +19763,8 @@ extension QConnectClientTypes.AssistantSummary {
         value.capabilityConfiguration = try reader["capabilityConfiguration"].readIfPresent(with: QConnectClientTypes.AssistantCapabilityConfiguration.read(from:))
         value.aiAgentConfiguration = try reader["aiAgentConfiguration"].readMapIfPresent(valueReadingClosure: QConnectClientTypes.AIAgentConfigurationData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.orchestratorConfigurationList = try reader["orchestratorConfigurationList"].readListIfPresent(memberReadingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         return value
     }
 }
@@ -19604,6 +20048,9 @@ extension QConnectClientTypes.ContentData {
         value.linkOutUri = try reader["linkOutUri"].readIfPresent()
         value.url = try reader["url"].readIfPresent() ?? ""
         value.urlExpiry = try reader["urlExpiry"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
+        value.fileHash = try reader["fileHash"].readIfPresent()
         return value
     }
 }
@@ -19674,6 +20121,9 @@ extension QConnectClientTypes.ContentSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
+        value.fileHash = try reader["fileHash"].readIfPresent()
         return value
     }
 }
@@ -20558,6 +21008,8 @@ extension QConnectClientTypes.KnowledgeBaseData {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.ingestionStatus = try reader["ingestionStatus"].readIfPresent()
         value.ingestionFailureReasons = try reader["ingestionFailureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         return value
     }
 }
@@ -20578,6 +21030,8 @@ extension QConnectClientTypes.KnowledgeBaseSummary {
         value.serverSideEncryptionConfiguration = try reader["serverSideEncryptionConfiguration"].readIfPresent(with: QConnectClientTypes.ServerSideEncryptionConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         return value
     }
 }
@@ -20994,6 +21448,7 @@ extension QConnectClientTypes.ModelSummary {
         value.modelLifecycle = try reader["modelLifecycle"].readIfPresent()
         value.legacyTimestamp = try reader["legacyTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endOfLifeTimestamp = try reader["endOfLifeTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.globalResiliencyStatus = try reader["globalResiliencyStatus"].readIfPresent()
         return value
     }
 }
@@ -21448,6 +21903,7 @@ extension QConnectClientTypes.QuickResponseData {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.contents = try reader["contents"].readIfPresent(with: QConnectClientTypes.QuickResponseContents.read(from:))
         value.description = try reader["description"].readIfPresent()
         value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
@@ -21531,6 +21987,7 @@ extension QConnectClientTypes.QuickResponseSearchResultData {
         value.contents = try reader["contents"].readIfPresent(with: QConnectClientTypes.QuickResponseContents.read(from:))
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.isActive = try reader["isActive"].readIfPresent() ?? false
         value.description = try reader["description"].readIfPresent()
         value.groupingConfiguration = try reader["groupingConfiguration"].readIfPresent(with: QConnectClientTypes.GroupingConfiguration.read(from:))
@@ -21559,6 +22016,7 @@ extension QConnectClientTypes.QuickResponseSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedRegion = try reader["lastModifiedRegion"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.lastModifiedBy = try reader["lastModifiedBy"].readIfPresent()
         value.isActive = try reader["isActive"].readIfPresent()
@@ -21633,6 +22091,21 @@ extension QConnectClientTypes.RenderingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.RenderingConfiguration()
         value.templateUri = try reader["templateUri"].readIfPresent()
+        return value
+    }
+}
+
+extension QConnectClientTypes.ReplicaKmsKey {
+
+    static func write(value: QConnectClientTypes.ReplicaKmsKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ReplicaKmsKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ReplicaKmsKey()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -21844,12 +22317,14 @@ extension QConnectClientTypes.ServerSideEncryptionConfiguration {
     static func write(value: QConnectClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["kmsKeyId"].write(value.kmsKeyId)
+        try writer["replicaKmsKeys"].writeList(value.replicaKmsKeys, memberWritingClosure: QConnectClientTypes.ReplicaKmsKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ServerSideEncryptionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ServerSideEncryptionConfiguration()
         value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.replicaKmsKeys = try reader["replicaKmsKeys"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ReplicaKmsKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
