@@ -9,13 +9,12 @@ import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.ShapeType
 import software.amazon.smithy.model.transform.ModelTransformer
-import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.language.syntax.parameters.ParameterType
 import software.amazon.smithy.rulesengine.traits.ClientContextParamDefinition
 import software.amazon.smithy.rulesengine.traits.ClientContextParamsTrait
-import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.model.endpointParameters
 import software.amazon.smithy.swift.codegen.model.getTrait
 
 /**
@@ -35,9 +34,8 @@ class AWSClientContextParamsTransformer : SwiftIntegration {
                     var builder =
                         trait?.toBuilder() as ClientContextParamsTrait.Builder? ?: ClientContextParamsTrait.builder()
 
-                    shape.getTrait<EndpointRuleSetTrait>()?.ruleSet?.let { ruleSet ->
-                        val endpointRuleSet = EndpointRuleSet.fromNode(ruleSet)
-                        endpointRuleSet.parameters
+                    shape.endpointParameters()?.let { endpointParameters ->
+                        endpointParameters
                             .toList()
                             .filter {
                                 it.builtIn?.orElse(null)?.let { builtIn ->
