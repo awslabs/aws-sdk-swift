@@ -99,19 +99,29 @@ jobs:
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift-Package \
+            -resultBundlePath "$RUNNER_TEMP/xcresults/aws-sdk-swift-Package.xcresult" \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
-            | xcbeautify
+            | xcbeautify --preserve-unbeautified
       - name: Build and Run Protocol Tests
         run: |
           cd aws-sdk-swift/codegen/
           set -o pipefail && \
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift-protocol-tests-Package \
+            -resultBundlePath "$RUNNER_TEMP/xcresults/aws-sdk-swift-protocol-tests-Package.xcresult" \
             -destination '${{ matrix.destination }}' \
             test 2>&1 \
-            | xcbeautify
+            | xcbeautify --preserve-unbeautified
           cd ..
+      - name: Upload xcresult bundles
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: xcresult-${{ github.job }}-${{ strategy.job-index }}
+          path: ${{ runner.temp }}/xcresults
+          if-no-files-found: ignore
+          retention-days: 7
 
   apple-ci-complete:
     needs: apple-ci
