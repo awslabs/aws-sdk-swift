@@ -295,6 +295,7 @@ extension LicenseManagerClientTypes {
         case createToken
         case extendConsumptionLicense
         case listPurchasedLicenses
+        case listReceivedLicenses
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AllowedOperation] {
@@ -305,7 +306,8 @@ extension LicenseManagerClientTypes {
                 .createGrant,
                 .createToken,
                 .extendConsumptionLicense,
-                .listPurchasedLicenses
+                .listPurchasedLicenses,
+                .listReceivedLicenses
             ]
         }
 
@@ -323,6 +325,7 @@ extension LicenseManagerClientTypes {
             case .createToken: return "CreateToken"
             case .extendConsumptionLicense: return "ExtendConsumptionLicense"
             case .listPurchasedLicenses: return "ListPurchasedLicenses"
+            case .listReceivedLicenses: return "ListReceivedLicenses"
             case let .sdkUnknown(s): return s
             }
         }
@@ -987,6 +990,63 @@ public struct CheckoutLicenseOutput: Swift.Sendable {
 
 extension LicenseManagerClientTypes {
 
+    public enum GrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buyerGrant
+        case delegateGrant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GrantType] {
+            return [
+                .buyerGrant,
+                .delegateGrant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buyerGrant: return "BuyerGrant"
+            case .delegateGrant: return "DelegateGrant"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
+    /// The options you can specify when you create a grant or a new version of a grant, such as activation override behavior. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
+    public struct Options: Swift.Sendable {
+        /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must activate the grant. For the CreateGrantVersion operation, specify ACTIVE for the Status parameter. For the CreateGrant operation, specify ACTIVE for the DesiredStatus option.
+        ///
+        /// * As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.
+        ///
+        /// * As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization.
+        ///
+        /// * As a grantee, if the grantor creating the distributed grant doesn’t specify an ActivationOverrideBehavior, you can optionally specify one when you are activating the grant.
+        ///
+        ///
+        /// DISTRIBUTED_GRANTS_ONLY Use this value to activate a grant without replacing any member account’s active grants for the same product. ALL_GRANTS_PERMITTED_BY_ISSUER Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
+        public var activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior?
+        /// The status of the grant after License Manager creates it. The only supported value is ACTIVE. Specify ACTIVE to create and activate the grant in one request. You can specify this option only for the CreateGrant operation, and only when the grant principal is an organization or an organizational unit (OU). To change the status of an existing grant, use the Status parameter of the CreateGrantVersion operation.
+        public var desiredStatus: LicenseManagerClientTypes.GrantStatus?
+
+        public init(
+            activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior? = nil,
+            desiredStatus: LicenseManagerClientTypes.GrantStatus? = nil
+        ) {
+            self.activationOverrideBehavior = activationOverrideBehavior
+            self.desiredStatus = desiredStatus
+        }
+    }
+}
+
+extension LicenseManagerClientTypes {
+
     /// Details about the tags for a resource. For more information about tagging support in License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html) operation.
     public struct Tag: Swift.Sendable {
         /// The tag key.
@@ -1014,12 +1074,20 @@ public struct CreateGrantInput: Swift.Sendable {
     /// Grant name.
     /// This member is required.
     public var grantName: Swift.String?
+    /// The type of grant to create. For more information about each type, see the preceding description of this operation. Valid values:
+    ///
+    /// * BuyerGrant - The default grant type if you don't specify a value. Conveys the entitlement to use the license.
+    ///
+    /// * DelegateGrant - Gives the grantee read-only visibility into the licenses and grants that you have distributed to buyers, with no entitlement to use them.
+    public var grantType: LicenseManagerClientTypes.GrantType?
     /// Home Region of the grant.
     /// This member is required.
     public var homeRegion: Swift.String?
     /// Amazon Resource Name (ARN) of the license.
     /// This member is required.
     public var licenseArn: Swift.String?
+    /// The options for the grant: the status to set after creation, and how activating the grant affects other active grants for the same product.
+    public var options: LicenseManagerClientTypes.Options?
     /// The grant principals. You can specify one of the following as an Amazon Resource Name (ARN):
     ///
     /// * An Amazon Web Services account, which includes only the account specified.
@@ -1042,16 +1110,20 @@ public struct CreateGrantInput: Swift.Sendable {
         allowedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
         clientToken: Swift.String? = nil,
         grantName: Swift.String? = nil,
+        grantType: LicenseManagerClientTypes.GrantType? = nil,
         homeRegion: Swift.String? = nil,
         licenseArn: Swift.String? = nil,
+        options: LicenseManagerClientTypes.Options? = nil,
         principals: [Swift.String]? = nil,
         tags: [LicenseManagerClientTypes.Tag]? = nil
     ) {
         self.allowedOperations = allowedOperations
         self.clientToken = clientToken
         self.grantName = grantName
+        self.grantType = grantType
         self.homeRegion = homeRegion
         self.licenseArn = licenseArn
+        self.options = options
         self.principals = principals
         self.tags = tags
     }
@@ -1073,30 +1145,6 @@ public struct CreateGrantOutput: Swift.Sendable {
         self.grantArn = grantArn
         self.status = status
         self.version = version
-    }
-}
-
-extension LicenseManagerClientTypes {
-
-    /// The options you can specify when you create a new version of a grant, such as activation override behavior. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
-    public struct Options: Swift.Sendable {
-        /// An activation option for your grant that determines the behavior of activating a grant. Activation options can only be used with granted licenses sourced from the Amazon Web Services Marketplace. Additionally, the operation must specify the value of ACTIVE for the Status parameter.
-        ///
-        /// * As a license administrator, you can optionally specify an ActivationOverrideBehavior when activating a grant.
-        ///
-        /// * As a grantor, you can optionally specify an ActivationOverrideBehavior when you activate a grant for a grantee account in your organization.
-        ///
-        /// * As a grantee, if the grantor creating the distributed grant doesn’t specify an ActivationOverrideBehavior, you can optionally specify one when you are activating the grant.
-        ///
-        ///
-        /// DISTRIBUTED_GRANTS_ONLY Use this value to activate a grant without replacing any member account’s active grants for the same product. ALL_GRANTS_PERMITTED_BY_ISSUER Use this value to activate a grant and disable other active grants in any member accounts for the same product. This action will also replace their previously activated grants with this activated grant.
-        public var activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior?
-
-        public init(
-            activationOverrideBehavior: LicenseManagerClientTypes.ActivationOverrideBehavior? = nil
-        ) {
-            self.activationOverrideBehavior = activationOverrideBehavior
-        }
     }
 }
 
@@ -2749,6 +2797,12 @@ extension LicenseManagerClientTypes {
         /// Grant status.
         /// This member is required.
         public var grantStatus: LicenseManagerClientTypes.GrantStatus?
+        /// The type of the grant. Valid values:
+        ///
+        /// * BuyerGrant - Grants the entitlement to use the license.
+        ///
+        /// * DelegateGrant - Gives the grantee read-only visibility into the licenses and grants distributed to buyers, with no entitlement to use them.
+        public var grantType: LicenseManagerClientTypes.GrantType?
         /// Granted operations.
         /// This member is required.
         public var grantedOperations: [LicenseManagerClientTypes.AllowedOperation]?
@@ -2776,6 +2830,7 @@ extension LicenseManagerClientTypes {
             grantArn: Swift.String? = nil,
             grantName: Swift.String? = nil,
             grantStatus: LicenseManagerClientTypes.GrantStatus? = nil,
+            grantType: LicenseManagerClientTypes.GrantType? = nil,
             grantedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
             granteePrincipalArn: Swift.String? = nil,
             homeRegion: Swift.String? = nil,
@@ -2788,6 +2843,7 @@ extension LicenseManagerClientTypes {
             self.grantArn = grantArn
             self.grantName = grantName
             self.grantStatus = grantStatus
+            self.grantType = grantType
             self.grantedOperations = grantedOperations
             self.granteePrincipalArn = granteePrincipalArn
             self.homeRegion = homeRegion
@@ -4553,6 +4609,12 @@ extension LicenseManagerClientTypes {
     public struct ReceivedMetadata: Swift.Sendable {
         /// Allowed operations.
         public var allowedOperations: [LicenseManagerClientTypes.AllowedOperation]?
+        /// The type of the grant through which the license was received. Valid values:
+        ///
+        /// * BuyerGrant - Grants you the entitlement to use the license.
+        ///
+        /// * DelegateGrant - Gives you read-only visibility into the licenses and grants distributed to buyers, with no entitlement to use them.
+        public var grantType: LicenseManagerClientTypes.GrantType?
         /// Received status.
         public var receivedStatus: LicenseManagerClientTypes.ReceivedStatus?
         /// Received status reason.
@@ -4560,10 +4622,12 @@ extension LicenseManagerClientTypes {
 
         public init(
             allowedOperations: [LicenseManagerClientTypes.AllowedOperation]? = nil,
+            grantType: LicenseManagerClientTypes.GrantType? = nil,
             receivedStatus: LicenseManagerClientTypes.ReceivedStatus? = nil,
             receivedStatusReason: Swift.String? = nil
         ) {
             self.allowedOperations = allowedOperations
+            self.grantType = grantType
             self.receivedStatus = receivedStatus
             self.receivedStatusReason = receivedStatusReason
         }

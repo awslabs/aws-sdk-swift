@@ -1055,6 +1055,43 @@ extension KafkaConnectClientTypes {
 
 extension KafkaConnectClientTypes {
 
+    /// Details about a custom plugin to use when you update a connector via UpdateConnector.
+    public struct CustomPluginUpdate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the custom plugin.
+        /// This member is required.
+        public var customPluginArn: Swift.String?
+        /// The revision of the custom plugin.
+        /// This member is required.
+        public var revision: Swift.Int?
+
+        public init(
+            customPluginArn: Swift.String? = nil,
+            revision: Swift.Int? = nil
+        ) {
+            self.customPluginArn = customPluginArn
+            self.revision = revision
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
+    /// A custom plugin to use when you update a connector via UpdateConnector.
+    public struct PluginUpdate: Swift.Sendable {
+        /// The custom plugin to use for the connector.
+        /// This member is required.
+        public var customPlugin: KafkaConnectClientTypes.CustomPluginUpdate?
+
+        public init(
+            customPlugin: KafkaConnectClientTypes.CustomPluginUpdate? = nil
+        ) {
+            self.customPlugin = customPlugin
+        }
+    }
+}
+
+extension KafkaConnectClientTypes {
+
     /// The summary of a worker configuration revision.
     public struct WorkerConfigurationRevisionSummary: Swift.Sendable {
         /// The time that a worker configuration revision was created.
@@ -2222,13 +2259,25 @@ extension KafkaConnectClientTypes {
 
     /// Details about worker setting of a connector
     public struct WorkerSetting: Swift.Sendable {
-        /// A description of the connector's capacity.
+        /// Specifies the compute capacity settings of the connector.
         public var capacity: KafkaConnectClientTypes.CapacityDescription?
+        /// Specifies which plugins the connector uses.
+        public var plugins: [KafkaConnectClientTypes.PluginDescription]?
+        /// Specifies whether the connector uses the default worker configuration instead of a custom worker configuration.
+        public var useDefaultWorkerConfiguration: Swift.Bool
+        /// Specifies which worker configuration the connector uses.
+        public var workerConfiguration: KafkaConnectClientTypes.WorkerConfigurationDescription?
 
         public init(
-            capacity: KafkaConnectClientTypes.CapacityDescription? = nil
+            capacity: KafkaConnectClientTypes.CapacityDescription? = nil,
+            plugins: [KafkaConnectClientTypes.PluginDescription]? = nil,
+            useDefaultWorkerConfiguration: Swift.Bool = false,
+            workerConfiguration: KafkaConnectClientTypes.WorkerConfigurationDescription? = nil
         ) {
             self.capacity = capacity
+            self.plugins = plugins
+            self.useDefaultWorkerConfiguration = useDefaultWorkerConfiguration
+            self.workerConfiguration = workerConfiguration
         }
     }
 }
@@ -2704,6 +2753,27 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+extension KafkaConnectClientTypes {
+
+    /// The worker configuration to use when you update a connector via UpdateConnector.
+    public struct WorkerConfigurationUpdate: Swift.Sendable {
+        /// The revision of the worker configuration.
+        /// This member is required.
+        public var revision: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the worker configuration.
+        /// This member is required.
+        public var workerConfigurationArn: Swift.String?
+
+        public init(
+            revision: Swift.Int? = nil,
+            workerConfigurationArn: Swift.String? = nil
+        ) {
+            self.revision = revision
+            self.workerConfigurationArn = workerConfigurationArn
+        }
+    }
+}
+
 public struct UpdateConnectorInput: Swift.Sendable {
     /// The target capacity.
     public var capacity: KafkaConnectClientTypes.CapacityUpdate?
@@ -2715,27 +2785,39 @@ public struct UpdateConnectorInput: Swift.Sendable {
     /// The current version of the connector that you want to update.
     /// This member is required.
     public var currentVersion: Swift.String?
+    /// Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together. Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object. If you don't specify this parameter, the connector keeps its current plugin.
+    public var plugins: [KafkaConnectClientTypes.PluginUpdate]?
     /// Specifies whether the update bypasses connector-level and task-level health checks. If true, the update skips the health checks. The update stays in effect even if the connector or its tasks are unhealthy, and Amazon MSK Connect doesn't roll it back. If false or not specified, the health checks run. If they fail, MSK Connect automatically rolls the connector back to its previous configuration, and the update doesn't take effect. To update a connector that is in the PAUSED state, you must set this parameter to true.
     public var skipHealthValidation: Swift.Bool?
+    /// Specifies whether to switch the connector to the default worker configuration that Amazon MSK Connect provides. If true, the connector stops using its custom worker configuration and uses the default worker configuration instead. If false or not specified, the connector keeps its current worker configuration. You can't specify both useDefaultWorkerConfiguration and workerConfiguration in the same request.
+    public var useDefaultWorkerConfiguration: Swift.Bool?
+    /// The worker configuration to use with the connector. Specify the Amazon Resource Name (ARN) and the revision of the worker configuration. You can't specify both workerConfiguration and useDefaultWorkerConfiguration in the same request. If you specify neither parameter, the connector keeps its current worker configuration.
+    public var workerConfiguration: KafkaConnectClientTypes.WorkerConfigurationUpdate?
 
     public init(
         capacity: KafkaConnectClientTypes.CapacityUpdate? = nil,
         connectorArn: Swift.String? = nil,
         connectorConfiguration: [Swift.String: Swift.String]? = nil,
         currentVersion: Swift.String? = nil,
-        skipHealthValidation: Swift.Bool? = false
+        plugins: [KafkaConnectClientTypes.PluginUpdate]? = nil,
+        skipHealthValidation: Swift.Bool? = false,
+        useDefaultWorkerConfiguration: Swift.Bool? = false,
+        workerConfiguration: KafkaConnectClientTypes.WorkerConfigurationUpdate? = nil
     ) {
         self.capacity = capacity
         self.connectorArn = connectorArn
         self.connectorConfiguration = connectorConfiguration
         self.currentVersion = currentVersion
+        self.plugins = plugins
         self.skipHealthValidation = skipHealthValidation
+        self.useDefaultWorkerConfiguration = useDefaultWorkerConfiguration
+        self.workerConfiguration = workerConfiguration
     }
 }
 
 extension UpdateConnectorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateConnectorInput(capacity: \(Swift.String(describing: capacity)), connectorArn: \(Swift.String(describing: connectorArn)), currentVersion: \(Swift.String(describing: currentVersion)), skipHealthValidation: \(Swift.String(describing: skipHealthValidation)), connectorConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateConnectorInput(capacity: \(Swift.String(describing: capacity)), connectorArn: \(Swift.String(describing: connectorArn)), currentVersion: \(Swift.String(describing: currentVersion)), plugins: \(Swift.String(describing: plugins)), skipHealthValidation: \(Swift.String(describing: skipHealthValidation)), useDefaultWorkerConfiguration: \(Swift.String(describing: useDefaultWorkerConfiguration)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateConnectorOutput: Swift.Sendable {
@@ -3137,7 +3219,10 @@ extension UpdateConnectorInput {
         guard let value else { return }
         try writer["capacity"].write(value.capacity, with: KafkaConnectClientTypes.CapacityUpdate.write(value:to:))
         try writer["connectorConfiguration"].writeMap(value.connectorConfiguration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["plugins"].writeList(value.plugins, memberWritingClosure: KafkaConnectClientTypes.PluginUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["skipHealthValidation"].write(value.skipHealthValidation)
+        try writer["useDefaultWorkerConfiguration"].write(value.useDefaultWorkerConfiguration)
+        try writer["workerConfiguration"].write(value.workerConfiguration, with: KafkaConnectClientTypes.WorkerConfigurationUpdate.write(value:to:))
     }
 }
 
@@ -4212,6 +4297,15 @@ extension KafkaConnectClientTypes.CustomPluginSummary {
     }
 }
 
+extension KafkaConnectClientTypes.CustomPluginUpdate {
+
+    static func write(value: KafkaConnectClientTypes.CustomPluginUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customPluginArn"].write(value.customPluginArn)
+        try writer["revision"].write(value.revision)
+    }
+}
+
 extension KafkaConnectClientTypes.FirehoseLogDelivery {
 
     static func write(value: KafkaConnectClientTypes.FirehoseLogDelivery?, to writer: SmithyJSON.Writer) throws {
@@ -4319,6 +4413,14 @@ extension KafkaConnectClientTypes.PluginDescription {
         var value = KafkaConnectClientTypes.PluginDescription()
         value.customPlugin = try reader["customPlugin"].readIfPresent(with: KafkaConnectClientTypes.CustomPluginDescription.read(from:))
         return value
+    }
+}
+
+extension KafkaConnectClientTypes.PluginUpdate {
+
+    static func write(value: KafkaConnectClientTypes.PluginUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customPlugin"].write(value.customPlugin, with: KafkaConnectClientTypes.CustomPluginUpdate.write(value:to:))
     }
 }
 
@@ -4538,6 +4640,15 @@ extension KafkaConnectClientTypes.WorkerConfigurationSummary {
     }
 }
 
+extension KafkaConnectClientTypes.WorkerConfigurationUpdate {
+
+    static func write(value: KafkaConnectClientTypes.WorkerConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["revision"].write(value.revision)
+        try writer["workerConfigurationArn"].write(value.workerConfigurationArn)
+    }
+}
+
 extension KafkaConnectClientTypes.WorkerLogDelivery {
 
     static func write(value: KafkaConnectClientTypes.WorkerLogDelivery?, to writer: SmithyJSON.Writer) throws {
@@ -4566,6 +4677,9 @@ extension KafkaConnectClientTypes.WorkerSetting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaConnectClientTypes.WorkerSetting()
         value.capacity = try reader["capacity"].readIfPresent(with: KafkaConnectClientTypes.CapacityDescription.read(from:))
+        value.plugins = try reader["plugins"].readListIfPresent(memberReadingClosure: KafkaConnectClientTypes.PluginDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workerConfiguration = try reader["workerConfiguration"].readIfPresent(with: KafkaConnectClientTypes.WorkerConfigurationDescription.read(from:))
+        value.useDefaultWorkerConfiguration = try reader["useDefaultWorkerConfiguration"].readIfPresent() ?? false
         return value
     }
 }

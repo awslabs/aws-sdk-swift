@@ -117,6 +117,35 @@ extension RolesAnywhereClientTypes {
     }
 }
 
+/// The request has failed due to a temporary failure of the service.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The exception message.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The recommended number of seconds after which the client should retry the request.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil
+    ) {
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
 /// Validation exception error.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -437,6 +466,8 @@ extension RolesAnywhereClientTypes {
 }
 
 public struct CreateTrustAnchorInput: Swift.Sendable {
+    /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+    public var crlDpRevocationEnabled: Swift.Bool?
     /// Specifies whether the trust anchor is enabled.
     public var enabled: Swift.Bool?
     /// The name of the trust anchor.
@@ -451,12 +482,14 @@ public struct CreateTrustAnchorInput: Swift.Sendable {
     public var tags: [RolesAnywhereClientTypes.Tag]?
 
     public init(
+        crlDpRevocationEnabled: Swift.Bool? = nil,
         enabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         notificationSettings: [RolesAnywhereClientTypes.NotificationSetting]? = nil,
         source: RolesAnywhereClientTypes.Source? = nil,
         tags: [RolesAnywhereClientTypes.Tag]? = nil
     ) {
+        self.crlDpRevocationEnabled = crlDpRevocationEnabled
         self.enabled = enabled
         self.name = name
         self.notificationSettings = notificationSettings
@@ -504,6 +537,8 @@ extension RolesAnywhereClientTypes {
     public struct TrustAnchorDetail: Swift.Sendable {
         /// The ISO-8601 timestamp when the trust anchor was created.
         public var createdAt: Foundation.Date?
+        /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+        public var crlDpRevocationEnabled: Swift.Bool?
         /// Indicates whether the trust anchor is enabled.
         public var enabled: Swift.Bool?
         /// The name of the trust anchor.
@@ -521,6 +556,7 @@ extension RolesAnywhereClientTypes {
 
         public init(
             createdAt: Foundation.Date? = nil,
+            crlDpRevocationEnabled: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
             name: Swift.String? = nil,
             notificationSettings: [RolesAnywhereClientTypes.NotificationSettingDetail]? = nil,
@@ -530,6 +566,7 @@ extension RolesAnywhereClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
+            self.crlDpRevocationEnabled = crlDpRevocationEnabled
             self.enabled = enabled
             self.name = name
             self.notificationSettings = notificationSettings
@@ -1525,6 +1562,8 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateTrustAnchorInput: Swift.Sendable {
+    /// Specifies whether the trust anchor checks certificate revocation status against CRL distribution points.
+    public var crlDpRevocationEnabled: Swift.Bool?
     /// The name of the trust anchor.
     public var name: Swift.String?
     /// The trust anchor type and its related certificate data.
@@ -1534,10 +1573,12 @@ public struct UpdateTrustAnchorInput: Swift.Sendable {
     public var trustAnchorId: Swift.String?
 
     public init(
+        crlDpRevocationEnabled: Swift.Bool? = nil,
         name: Swift.String? = nil,
         source: RolesAnywhereClientTypes.Source? = nil,
         trustAnchorId: Swift.String? = nil
     ) {
+        self.crlDpRevocationEnabled = crlDpRevocationEnabled
         self.name = name
         self.source = source
         self.trustAnchorId = trustAnchorId
@@ -1965,6 +2006,7 @@ extension CreateTrustAnchorInput {
 
     static func write(value: CreateTrustAnchorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["crlDpRevocationEnabled"].write(value.crlDpRevocationEnabled)
         try writer["enabled"].write(value.enabled)
         try writer["name"].write(value.name)
         try writer["notificationSettings"].writeList(value.notificationSettings, memberWritingClosure: RolesAnywhereClientTypes.NotificationSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2056,6 +2098,7 @@ extension UpdateTrustAnchorInput {
 
     static func write(value: UpdateTrustAnchorInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["crlDpRevocationEnabled"].write(value.crlDpRevocationEnabled)
         try writer["name"].write(value.name)
         try writer["source"].write(value.source, with: RolesAnywhereClientTypes.Source.write(value:to:))
     }
@@ -2424,6 +2467,7 @@ enum CreateProfileOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2439,6 +2483,7 @@ enum CreateTrustAnchorOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2455,6 +2500,7 @@ enum DeleteAttributeMappingOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2471,6 +2517,7 @@ enum DeleteCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2486,6 +2533,7 @@ enum DeleteProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2501,6 +2549,7 @@ enum DeleteTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2516,6 +2565,7 @@ enum DisableCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2531,6 +2581,7 @@ enum DisableProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2546,6 +2597,7 @@ enum DisableTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2561,6 +2613,7 @@ enum EnableCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2576,6 +2629,7 @@ enum EnableProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2591,6 +2645,7 @@ enum EnableTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2605,6 +2660,7 @@ enum GetCrlOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2620,6 +2676,7 @@ enum GetProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2635,6 +2692,7 @@ enum GetSubjectOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2650,6 +2708,7 @@ enum GetTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2665,6 +2724,7 @@ enum ImportCrlOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2680,6 +2740,7 @@ enum ListCrlsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2695,6 +2756,7 @@ enum ListProfilesOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2710,6 +2772,7 @@ enum ListSubjectsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2726,6 +2789,7 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2741,6 +2805,7 @@ enum ListTrustAnchorsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2757,6 +2822,7 @@ enum PutAttributeMappingOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2773,6 +2839,7 @@ enum PutNotificationSettingsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2789,6 +2856,7 @@ enum ResetNotificationSettingsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2805,6 +2873,7 @@ enum TagResourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2822,6 +2891,7 @@ enum UntagResourceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2838,6 +2908,7 @@ enum UpdateCrlOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2854,6 +2925,7 @@ enum UpdateProfileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2870,6 +2942,7 @@ enum UpdateTrustAnchorOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2882,6 +2955,20 @@ extension AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.retryAfterSeconds = try reader["retryAfterSeconds"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3161,6 +3248,7 @@ extension RolesAnywhereClientTypes.TrustAnchorDetail {
         value.name = try reader["name"].readIfPresent()
         value.source = try reader["source"].readIfPresent(with: RolesAnywhereClientTypes.Source.read(from:))
         value.enabled = try reader["enabled"].readIfPresent()
+        value.crlDpRevocationEnabled = try reader["crlDpRevocationEnabled"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.notificationSettings = try reader["notificationSettings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.NotificationSettingDetail.read(from:), memberNodeInfo: "member", isFlattened: false)

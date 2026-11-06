@@ -68,11 +68,13 @@ extension LambdaMicrovmsClientTypes {
 
     public enum Architecture: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case arm64
+        case x8664
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Architecture] {
             return [
-                .arm64
+                .arm64,
+                .x8664
             ]
         }
 
@@ -84,6 +86,7 @@ extension LambdaMicrovmsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .arm64: return "ARM_64"
+            case .x8664: return "X86_64"
             case let .sdkUnknown(s): return s
             }
         }
@@ -157,11 +160,13 @@ extension LambdaMicrovmsClientTypes {
 
     public enum Chipset: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case graviton
+        case intel
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Chipset] {
             return [
-                .graviton
+                .graviton,
+                .intel
             ]
         }
 
@@ -173,6 +178,7 @@ extension LambdaMicrovmsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .graviton: return "GRAVITON"
+            case .intel: return "INTEL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -222,7 +228,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ConflictException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
@@ -673,7 +679,7 @@ public struct CreateMicrovmImageInput: Swift.Sendable {
     public var cpuConfigurations: [LambdaMicrovmsClientTypes.CpuConfiguration]?
     /// A description of the MicroVM image.
     public var description: Swift.String?
-    /// The list of egress network connectors available to the MicroVM at runtime.
+    /// The list of egress network connectors available to the MicroVM at image build time.
     public var egressNetworkConnectors: [Swift.String]?
     /// Environment variables set in the MicroVM runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
@@ -800,7 +806,7 @@ public struct CreateMicrovmImageOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the MicroVM image.
     public var description: Swift.String?
-    /// The list of egress network connectors available to the MicroVM at runtime.
+    /// The list of egress network connectors available to the MicroVM at image build time.
     public var egressNetworkConnectors: [Swift.String]?
     /// Environment variables set in the MicroVM runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
@@ -1110,7 +1116,7 @@ extension LambdaMicrovmsClientTypes {
 }
 
 public struct GetMicrovmOutput: Swift.Sendable {
-    /// The list of egress network connectors configured for the MicroVM.
+    /// The list of egress network connectors available to the MicroVM at runtime.
     public var egressNetworkConnectors: [Swift.String]?
     /// The HTTPS endpoint URL for communicating with the MicroVM. Include a valid authentication token in the X-aws-proxy-auth header when sending requests.
     /// This member is required.
@@ -1399,7 +1405,7 @@ public struct GetMicrovmImageVersionOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the version.
     public var description: Swift.String?
-    /// The list of egress network connectors available to the MicroVM at runtime.
+    /// The list of egress network connectors available to the MicroVM at image build time.
     public var egressNetworkConnectors: [Swift.String]?
     /// Environment variables set in the MicroVM runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
@@ -1757,7 +1763,7 @@ public struct ResumeMicrovmOutput: Swift.Sendable {
 public struct RunMicrovmInput: Swift.Sendable {
     /// A unique, case-sensitive identifier you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
-    /// The list of egress network connectors to configure for the MicroVM.
+    /// The list of egress network connectors available to the MicroVM at runtime.
     public var egressNetworkConnectors: [Swift.String]?
     /// The ARN of the IAM role to be assumed by the MicroVM during execution.
     public var executionRoleArn: Swift.String?
@@ -1808,7 +1814,7 @@ extension RunMicrovmInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct RunMicrovmOutput: Swift.Sendable {
-    /// The list of egress network connectors configured for the MicroVM.
+    /// The list of egress network connectors available to the MicroVM at runtime.
     public var egressNetworkConnectors: [Swift.String]?
     /// The HTTPS endpoint URL for communicating with the MicroVM. Include a valid authentication token in the X-aws-proxy-auth header when sending requests.
     /// This member is required.
@@ -1935,12 +1941,14 @@ extension LambdaMicrovmsClientTypes {
         case available
         /// The version is deprecated. Do not use this version for new MicroVM images. Existing MicroVM images that use this version will continue to function.
         case deprecated
+        case recalled
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ManagedMicrovmImageVersionStatus] {
             return [
                 .available,
-                .deprecated
+                .deprecated,
+                .recalled
             ]
         }
 
@@ -1953,6 +1961,7 @@ extension LambdaMicrovmsClientTypes {
             switch self {
             case .available: return "AVAILABLE"
             case .deprecated: return "DEPRECATED"
+            case .recalled: return "RECALLED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1974,6 +1983,8 @@ extension LambdaMicrovmsClientTypes {
         public var imageVersion: Swift.String?
         /// The lifecycle status of the managed MicroVM image version. Valid values: AVAILABLE (the version is available for use) or DEPRECATED (the version is deprecated; do not use it for new MicroVM images).
         public var status: LambdaMicrovmsClientTypes.ManagedMicrovmImageVersionStatus?
+        /// CPU configurations supported by this managed base image version.
+        public var supportedCpuConfigurations: [LambdaMicrovmsClientTypes.CpuConfiguration]?
         /// The timestamp when the version was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -1982,12 +1993,14 @@ extension LambdaMicrovmsClientTypes {
             imageArn: Swift.String? = nil,
             imageVersion: Swift.String? = nil,
             status: LambdaMicrovmsClientTypes.ManagedMicrovmImageVersionStatus? = nil,
+            supportedCpuConfigurations: [LambdaMicrovmsClientTypes.CpuConfiguration]? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
             self.imageArn = imageArn
             self.imageVersion = imageVersion
             self.status = status
+            self.supportedCpuConfigurations = supportedCpuConfigurations
             self.updatedAt = updatedAt
         }
     }
@@ -2235,7 +2248,7 @@ extension LambdaMicrovmsClientTypes {
         public var createdAt: Foundation.Date?
         /// The description of the version.
         public var description: Swift.String?
-        /// The list of egress network connectors available to the MicroVM at runtime.
+        /// The list of egress network connectors available to the MicroVM at image build time.
         public var egressNetworkConnectors: [Swift.String]?
         /// Environment variables set in the MicroVM runtime environment.
         public var environmentVariables: [Swift.String: Swift.String]?
@@ -2351,7 +2364,7 @@ public struct UpdateMicrovmImageInput: Swift.Sendable {
     public var cpuConfigurations: [LambdaMicrovmsClientTypes.CpuConfiguration]?
     /// The description of the MicroVM image.
     public var description: Swift.String?
-    /// The list of egress network connectors available to the MicroVM at runtime.
+    /// The list of egress network connectors available to the MicroVM at image build time.
     public var egressNetworkConnectors: [Swift.String]?
     /// Environment variables set in the MicroVM runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
@@ -2424,7 +2437,7 @@ public struct UpdateMicrovmImageOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the MicroVM image.
     public var description: Swift.String?
-    /// The list of egress network connectors available to the MicroVM at runtime.
+    /// The list of egress network connectors available to the MicroVM at image build time.
     public var egressNetworkConnectors: [Swift.String]?
     /// Environment variables set in the MicroVM runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
@@ -2547,7 +2560,7 @@ public struct UpdateMicrovmImageVersionOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// The description of the version.
     public var description: Swift.String?
-    /// The list of egress network connectors available to the MicroVM at runtime.
+    /// The list of egress network connectors available to the MicroVM at image build time.
     public var egressNetworkConnectors: [Swift.String]?
     /// Environment variables set in the MicroVM runtime environment.
     public var environmentVariables: [Swift.String: Swift.String]?
@@ -4358,6 +4371,7 @@ extension LambdaMicrovmsClientTypes.ManagedMicrovmImageVersion {
         value.imageArn = try reader["imageArn"].readIfPresent() ?? ""
         value.imageVersion = try reader["imageVersion"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        value.supportedCpuConfigurations = try reader["supportedCpuConfigurations"].readListIfPresent(memberReadingClosure: LambdaMicrovmsClientTypes.CpuConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value

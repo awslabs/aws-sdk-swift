@@ -2671,6 +2671,79 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// Describes how a GPU on a container instance is shared between containers.
+    public enum GpuSharingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// One container has exclusive use of the GPU. Amazon ECS assigns GPUs this way to containers that specify value instead of sharingStrategy for the GPU resource type.
+        case dedicated
+        /// No containers are assigned to the GPU, and all of its memory is available.
+        case idle
+        /// One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS). While the GPU is in this mode, Amazon ECS assigns it only to containers that use the nvidiaMps sharing strategy.
+        case nvidiaMps
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GpuSharingMode] {
+            return [
+                .dedicated,
+                .idle,
+                .nvidiaMps
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicated: return "DEDICATED"
+            case .idle: return "IDLE"
+            case .nvidiaMps: return "NVIDIA_MPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The state of a GPU on a container instance, including its sharing mode and the memory that's available for new containers.
+    public struct GpuDevice: Swift.Sendable {
+        /// The number of containers that Amazon ECS assigned to the GPU. This value is 0 when the sharing mode is IDLE and 1 when the sharing mode is DEDICATED. Amazon ECS counts the containers that it assigned to the GPU, not the processes that are running on it.
+        public var containerCount: Swift.Int?
+        /// The ID of the GPU. This ID matches the GPU IDs in the gpuIds of the containers that Amazon ECS assigned to the GPU.
+        public var gpuId: Swift.String?
+        /// The amount of GPU memory, in MiB, that's available to allocate to new containers that use the nvidiaMps sharing strategy. Amazon ECS calculates this value from the memory that it allocated to containers on the GPU, not from the memory that the containers use.
+        public var remainingMemoryInMiB: Swift.Int?
+        /// How the GPU is shared between containers. Valid values:
+        ///
+        /// * IDLE - No containers are assigned to the GPU, and all of its memory is available.
+        ///
+        /// * NVIDIA_MPS - One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS).
+        ///
+        /// * DEDICATED - One container has exclusive use of the GPU.
+        public var sharingMode: ECSClientTypes.GpuSharingMode?
+        /// The total amount of GPU memory, in MiB, that the Amazon ECS container agent reported for the GPU. This is the memory that's available to containers, and it can be less than the nominal memory of the GPU.
+        public var totalMemoryInMiB: Swift.Int?
+
+        public init(
+            containerCount: Swift.Int? = nil,
+            gpuId: Swift.String? = nil,
+            remainingMemoryInMiB: Swift.Int? = nil,
+            sharingMode: ECSClientTypes.GpuSharingMode? = nil,
+            totalMemoryInMiB: Swift.Int? = nil
+        ) {
+            self.containerCount = containerCount
+            self.gpuId = gpuId
+            self.remainingMemoryInMiB = remainingMemoryInMiB
+            self.sharingMode = sharingMode
+            self.totalMemoryInMiB = totalMemoryInMiB
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum InstanceHealthCheckState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case impaired
         case initializing
@@ -2865,6 +2938,8 @@ extension ECSClientTypes {
         public var containerInstanceArn: Swift.String?
         /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the Amazon Web Services Systems Manager managed instance ID.
         public var ec2InstanceId: Swift.String?
+        /// The state of each GPU on the container instance, including its sharing mode and available memory. This field is present only for container instances that support GPU sharing.
+        public var gpuDevices: [ECSClientTypes.GpuDevice]?
         /// An object representing the health status of the container instance.
         public var healthStatus: ECSClientTypes.ContainerInstanceHealthStatus?
         /// The number of tasks on the container instance that are in the PENDING status.
@@ -2910,6 +2985,7 @@ extension ECSClientTypes {
             capacityProviderName: Swift.String? = nil,
             containerInstanceArn: Swift.String? = nil,
             ec2InstanceId: Swift.String? = nil,
+            gpuDevices: [ECSClientTypes.GpuDevice]? = nil,
             healthStatus: ECSClientTypes.ContainerInstanceHealthStatus? = nil,
             pendingTasksCount: Swift.Int = 0,
             registeredAt: Foundation.Date? = nil,
@@ -2929,6 +3005,7 @@ extension ECSClientTypes {
             self.capacityProviderName = capacityProviderName
             self.containerInstanceArn = containerInstanceArn
             self.ec2InstanceId = ec2InstanceId
+            self.gpuDevices = gpuDevices
             self.healthStatus = healthStatus
             self.pendingTasksCount = pendingTasksCount
             self.registeredAt = registeredAt
@@ -6048,7 +6125,7 @@ extension ECSClientTypes {
 
     /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
     ///
-    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file.
     ///
     /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
     ///
@@ -6056,7 +6133,7 @@ extension ECSClientTypes {
     ///
     /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
     public struct LogConfiguration: Swift.Sendable {
-        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
+        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
         /// This member is required.
         public var logDriver: ECSClientTypes.LogDriver?
         /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following: awslogs-create-group Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false. Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group. awslogs-region Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option. awslogs-group Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to. awslogs-stream-prefix Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console. awslogs-datetime-format Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see [awslogs-datetime-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format). You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. awslogs-multiline-pattern Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see [awslogs-multiline-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern). This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. The following options apply to all supported log drivers. mode Required: No Valid values: non-blocking | blocking This option defines the delivery mode of log messages from the container to the log driver specified using logDriver. The delivery mode you choose affects application availability when the flow of logs from container is interrupted. If you use the blocking mode and the flow of logs is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure. If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see [Preventing log loss with non-blocking mode in the ]awslogs container log driver(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/). You can set a default mode for all containers in a specific Amazon Web Services Region by using the defaultLogDriverMode account setting. If you don't specify the mode option or configure the account setting, Amazon ECS will default to the non-blocking mode. For more information about the account setting, see [Default log driver mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#default-log-driver-mode) in the Amazon Elastic Container Service Developer Guide. On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
@@ -6512,18 +6589,38 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The configuration for a log driver volume in a daemon task definition. The volume contains the log files for each container on the container instance that uses the specified log driver in its logConfiguration. Containers that use a different log driver don't write log files to the volume. For the json-file log driver, the volume has one directory for each container, named with the container ID. Each directory contains the container's log file, <container-id>-json.log, and any rotated log files. After a container stops and Amazon ECS removes it, Amazon ECS deletes the container's directory. Read the log files before the container is removed.
+    public struct LogDriverVolumeConfiguration: Swift.Sendable {
+        /// The log driver whose log files the volume contains. The only supported value is json-file.
+        /// This member is required.
+        public var driver: ECSClientTypes.LogDriver?
+
+        public init(
+            driver: ECSClientTypes.LogDriver? = nil
+        ) {
+            self.driver = driver
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// A data volume definition for a daemon task.
     public struct DaemonVolume: Swift.Sendable {
         /// The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored.
         public var host: ECSClientTypes.HostVolumeProperties?
+        /// The log driver volume configuration. With a log driver volume, the containers in a daemon task can read the log files that a log driver writes for the other tasks on the container instance. To read the log files, mount the volume into a container in the daemon task with mountPoints. Use host to bind mount a path on the container instance. Use logDriverVolumeConfiguration to read the log output of other tasks. You can't specify both for the same volume.
+        public var logDriverVolumeConfiguration: ECSClientTypes.LogDriverVolumeConfiguration?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
         public var name: Swift.String?
 
         public init(
             host: ECSClientTypes.HostVolumeProperties? = nil,
+            logDriverVolumeConfiguration: ECSClientTypes.LogDriverVolumeConfiguration? = nil,
             name: Swift.String? = nil
         ) {
             self.host = host
+            self.logDriverVolumeConfiguration = logDriverVolumeConfiguration
             self.name = name
         }
     }
@@ -7208,6 +7305,36 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The GPU memory and compute limits for a container that shares a GPU by using NVIDIA Multi-Process Service (MPS). Amazon ECS assigns the container a single GPU that has enough memory available. Other containers that use MPS can share the same GPU.
+    public struct NvidiaMpsAllocation: Swift.Sendable {
+        /// The maximum percentage of the GPU's compute capacity that the container can use. Amazon ECS sets the CUDA_MPS_ACTIVE_THREAD_PERCENTAGE environment variable in the container to this value. This value is a limit, not a reservation. If you don't specify this parameter, Amazon ECS doesn't set CUDA_MPS_ACTIVE_THREAD_PERCENTAGE, and the active thread percentage of the MPS server on the container instance applies. By default, this is 100 percent.
+        public var maxComputePercent: Swift.Int?
+        /// The amount of GPU memory, in MiB, to allocate to the container. Amazon ECS assigns the container a GPU that has at least the specified amount of memory available, and sets the CUDA_MPS_PINNED_DEVICE_MEM_LIMIT environment variable in the container to limit its memory to this amount. The memory must be available on a single GPU. If more than one container in a task uses nvidiaMps, Amazon ECS assigns them the same GPU, which must have enough memory available for all of them.
+        /// This member is required.
+        public var memory: Swift.Int?
+
+        public init(
+            maxComputePercent: Swift.Int? = nil,
+            memory: Swift.Int? = nil
+        ) {
+            self.maxComputePercent = maxComputePercent
+            self.memory = memory
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The strategy that a container uses to share a GPU with other containers. Specify exactly one member.
+    public enum SharingStrategy: Swift.Sendable {
+        /// Shares a GPU between containers by using NVIDIA Multi-Process Service (MPS). You specify the GPU memory to allocate to the container and, optionally, the maximum percentage of the GPU's compute capacity that the container can use.
+        case nvidiamps(ECSClientTypes.NvidiaMpsAllocation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gpu
         case inferenceAccelerator
@@ -7242,17 +7369,20 @@ extension ECSClientTypes {
 
     /// The type and amount of a resource to assign to a container. The supported resource types are GPUs, Neuron devices, and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
     public struct ResourceRequirement: Swift.Sendable {
+        /// The strategy that the container uses to share a GPU with other containers. Specify a sharing strategy only when the type is GPU. For a GPU resource requirement, specify either value or sharingStrategy, but not both. If you don't specify a sharing strategy, the container has exclusive use of each GPU that Amazon ECS assigns to it. The containers in a task that request GPUs must all use the same option. You can use GPU sharing with tasks that run on Amazon EC2 instances or Amazon ECS Managed Instances. Task definitions that require EXTERNAL compatibility don't support GPU sharing.
+        public var sharingStrategy: ECSClientTypes.SharingStrategy?
         /// The type of resource to assign to a container.
         /// This member is required.
         public var type: ECSClientTypes.ResourceType?
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
-        /// This member is required.
+        /// The value for the specified resource type. You must specify this parameter unless the type is GPU and you specify sharingStrategy. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
         public var value: Swift.String?
 
         public init(
+            sharingStrategy: ECSClientTypes.SharingStrategy? = nil,
             type: ECSClientTypes.ResourceType? = nil,
-            value: Swift.String? = nil
+            value: Swift.String? = ""
         ) {
+            self.sharingStrategy = sharingStrategy
             self.type = type
             self.value = value
         }
@@ -12417,7 +12547,7 @@ extension ECSClientTypes {
         public var enabled: Swift.Bool
         /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
         ///
-        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file.
         ///
         /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
         ///
@@ -15475,6 +15605,8 @@ extension ECSClientTypes {
         public var exitCode: Swift.Int?
         /// The IDs of each GPU assigned to the container.
         public var gpuIds: [Swift.String]?
+        /// The GPU sharing strategy that the task definition specifies for the container. This field is present only for containers whose resource requirements include sharingStrategy.
+        public var gpuSharingStrategy: ECSClientTypes.SharingStrategy?
         /// The health status of the container. If health checks aren't configured for this container in its task definition, then it reports the health status as UNKNOWN.
         public var healthStatus: ECSClientTypes.HealthStatus?
         /// The image used for the container.
@@ -15509,6 +15641,7 @@ extension ECSClientTypes {
             cpu: Swift.String? = nil,
             exitCode: Swift.Int? = nil,
             gpuIds: [Swift.String]? = nil,
+            gpuSharingStrategy: ECSClientTypes.SharingStrategy? = nil,
             healthStatus: ECSClientTypes.HealthStatus? = nil,
             image: Swift.String? = nil,
             imageDigest: Swift.String? = nil,
@@ -15528,6 +15661,7 @@ extension ECSClientTypes {
             self.cpu = cpu
             self.exitCode = exitCode
             self.gpuIds = gpuIds
+            self.gpuSharingStrategy = gpuSharingStrategy
             self.healthStatus = healthStatus
             self.image = image
             self.imageDigest = imageDigest

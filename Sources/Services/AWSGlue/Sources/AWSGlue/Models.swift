@@ -516,6 +516,33 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// The type of upgrade analysis. For auto-upgrade jobs, this value is AUTO_UPGRADE.
+    public enum AnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoUpgrade
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisType] {
+            return [
+                .autoUpgrade
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoUpgrade: return "AUTO_UPGRADE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A failed annotation.
     public struct AnnotationError: Swift.Sendable {
         /// The reason why the annotation failed.
@@ -1430,6 +1457,75 @@ extension GlueClientTypes {
         ) {
             self.evaluationContext = evaluationContext
             self.isEnabled = isEnabled
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The current phase of the auto-upgrade lifecycle for a job configured with GlueVersion=auto.
+    public enum AutoUpgradeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case observing
+        case stopped
+        case upgradeFailed
+        case upgradeSucceeded
+        case upgrading
+        case waitingForConsent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoUpgradeStatus] {
+            return [
+                .observing,
+                .stopped,
+                .upgradeFailed,
+                .upgradeSucceeded,
+                .upgrading,
+                .waitingForConsent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .observing: return "OBSERVING"
+            case .stopped: return "STOPPED"
+            case .upgradeFailed: return "UPGRADE_FAILED"
+            case .upgradeSucceeded: return "UPGRADE_SUCCEEDED"
+            case .upgrading: return "UPGRADING"
+            case .waitingForConsent: return "WAITING_FOR_CONSENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The auto-upgrade assessment information for a job configured with glueVersion=auto.
+    public struct AutoUpgradeMetadata: Swift.Sendable {
+        /// The unique identifier of the auto-upgrade assessment analysis.
+        public var analysisId: Swift.String?
+        /// The source Glue runtime version the job was running before auto-version was enabled.
+        public var sourceVersion: Swift.String?
+        /// The current auto-upgrade lifecycle status (OBSERVING, UPGRADING, UPGRADE_SUCCEEDED, UPGRADE_FAILED, STOPPED, WAITING_FOR_CONSENT).
+        public var status: GlueClientTypes.AutoUpgradeStatus?
+        /// The target Glue runtime version the job is being upgraded to.
+        public var targetVersion: Swift.String?
+
+        public init(
+            analysisId: Swift.String? = nil,
+            sourceVersion: Swift.String? = nil,
+            status: GlueClientTypes.AutoUpgradeStatus? = nil,
+            targetVersion: Swift.String? = nil
+        ) {
+            self.analysisId = analysisId
+            self.sourceVersion = sourceVersion
+            self.status = status
+            self.targetVersion = targetVersion
         }
     }
 }
@@ -22703,6 +22799,115 @@ public struct GetJobsInput: Swift.Sendable {
     }
 }
 
+public struct GetJobUpgradeAnalysisInput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis to retrieve.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with the analysis.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The current status of an upgrade analysis. Possible values are OBSERVING, WAITING_FOR_CONSENT, UPGRADING, SUCCEEDED, FAILED, TIMEOUT, and STOPPED.
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case observing
+        case stopped
+        case succeeded
+        case timeout
+        case upgrading
+        case waitingForConsent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .failed,
+                .observing,
+                .stopped,
+                .succeeded,
+                .timeout,
+                .upgrading,
+                .waitingForConsent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .observing: return "OBSERVING"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case .timeout: return "TIMEOUT"
+            case .upgrading: return "UPGRADING"
+            case .waitingForConsent: return "WAITING_FOR_CONSENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetJobUpgradeAnalysisOutput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The type of upgrade analysis. For auto-upgrade jobs, this value is AUTO_UPGRADE.
+    public var analysisType: GlueClientTypes.AnalysisType?
+    /// The Amazon S3 URI of the consent report summarizing upgrade assessment findings. Populated when the analysis reaches WAITING_FOR_CONSENT and remains available in all subsequent states.
+    public var autoUpgradeEligibilitySummary: Swift.String?
+    /// The Amazon S3 URI of the terminal-state evaluation summary, available once the analysis reaches a terminal status (SUCCEEDED or FAILED).
+    public var autoUpgradeEvaluationSummary: Swift.String?
+    /// The reason the analysis did not complete.
+    public var errorMessage: Swift.String?
+    /// The name of the job associated with this analysis.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The Glue version the job was running before the upgrade, for example 4.0.
+    public var sourceVersion: Swift.String?
+    /// The current status of the analysis.
+    /// This member is required.
+    public var status: GlueClientTypes.Status?
+    /// The Glue version the job will be upgraded to, for example 6.0.
+    /// This member is required.
+    public var targetVersion: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        analysisType: GlueClientTypes.AnalysisType? = nil,
+        autoUpgradeEligibilitySummary: Swift.String? = nil,
+        autoUpgradeEvaluationSummary: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        sourceVersion: Swift.String? = nil,
+        status: GlueClientTypes.Status? = nil,
+        targetVersion: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.analysisType = analysisType
+        self.autoUpgradeEligibilitySummary = autoUpgradeEligibilitySummary
+        self.autoUpgradeEvaluationSummary = autoUpgradeEvaluationSummary
+        self.errorMessage = errorMessage
+        self.jobName = jobName
+        self.sourceVersion = sourceVersion
+        self.status = status
+        self.targetVersion = targetVersion
+    }
+}
+
 extension GlueClientTypes {
 
     /// The location of resources.
@@ -31042,6 +31247,70 @@ public struct StartJobRunOutput: Swift.Sendable {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum UpgradeConsent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approve
+        case decline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpgradeConsent] {
+            return [
+                .approve,
+                .decline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approve: return "APPROVE"
+            case .decline: return "DECLINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartJobUpgradeAnalysisInput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis. The analysis must be in WAITING_FOR_CONSENT status.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with the analysis to resume.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The customer's decision on whether to proceed with the upgrade.
+    public var upgradeConsent: GlueClientTypes.UpgradeConsent?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        upgradeConsent: GlueClientTypes.UpgradeConsent? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
+        self.upgradeConsent = upgradeConsent
+    }
+}
+
+public struct StartJobUpgradeAnalysisOutput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with this analysis.
+    public var jobName: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
+    }
+}
+
 /// Exception thrown when a task is already in running state.
 public struct MaterializedViewRefreshTaskRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -31430,6 +31699,28 @@ public struct StopCrawlerScheduleInput: Swift.Sendable {
 }
 
 public struct StopCrawlerScheduleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopJobUpgradeAnalysisInput: Swift.Sendable {
+    /// The unique identifier of the analysis to stop.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with the analysis.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
+    }
+}
+
+public struct StopJobUpgradeAnalysisOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -34033,6 +34324,8 @@ extension GlueClientTypes {
         /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
         @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
         public var allocatedCapacity: Swift.Int
+        /// The auto-upgrade assessment information for a job configured with glueVersion=auto. This field is null when the job is not configured to auto.
+        public var autoUpgradeMetadata: GlueClientTypes.AutoUpgradeMetadata?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
         public var codeGenConfigurationNodes: [Swift.String: GlueClientTypes.CodeGenConfigurationNode]?
         /// The JobCommand that runs this job.
@@ -34127,6 +34420,7 @@ extension GlueClientTypes {
 
         public init(
             allocatedCapacity: Swift.Int = 0,
+            autoUpgradeMetadata: GlueClientTypes.AutoUpgradeMetadata? = nil,
             codeGenConfigurationNodes: [Swift.String: GlueClientTypes.CodeGenConfigurationNode]? = nil,
             command: GlueClientTypes.JobCommand? = nil,
             connections: GlueClientTypes.ConnectionsList? = nil,
@@ -34155,6 +34449,7 @@ extension GlueClientTypes {
             workerType: GlueClientTypes.WorkerType? = nil
         ) {
             self.allocatedCapacity = allocatedCapacity
+            self.autoUpgradeMetadata = autoUpgradeMetadata
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections

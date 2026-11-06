@@ -2876,6 +2876,7 @@ extension BedrockAgentCoreControlClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
@@ -10406,6 +10407,80 @@ extension BedrockAgentCoreControlClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ResetTokenVaultKeyMaterial` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// Resets the key material for a token vault whose customer managed KMS key has been deleted, and re-encrypts the token vault with an Amazon Web Services managed key so that you can use the token vault again. This operation can't be undone. The reset permanently deletes the OAuth2 access tokens and refresh tokens stored in the token vault, including tokens obtained through all supported flows. After the reset, your agents must complete these flows again to get new tokens, and for user-delegated flows your users must authorize access again. The reset doesn't delete your credential providers or their configuration. You can reset a token vault only if its customer managed key has been deleted. If the key still exists, including when it's disabled or scheduled for deletion, this operation returns a ValidationException. To use the token vault again, enable the key or cancel its scheduled deletion in KMS. To switch to a different key, use SetTokenVaultCMK.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ResetTokenVaultKeyMaterialInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ResetTokenVaultKeyMaterialOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `UnauthorizedException` : This exception is thrown when the JWT bearer token is invalid or not found for OAuth bearer token based access
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func resetTokenVaultKeyMaterial(input: ResetTokenVaultKeyMaterialInput) async throws -> ResetTokenVaultKeyMaterialOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "resetTokenVaultKeyMaterial")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>(ResetTokenVaultKeyMaterialInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ResetTokenVaultKeyMaterialInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetTokenVaultKeyMaterialOutput>(ResetTokenVaultKeyMaterialOutput.httpOutput(from:), ResetTokenVaultKeyMaterialOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ResetTokenVaultKeyMaterialOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResetTokenVaultKeyMaterialOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResetTokenVaultKeyMaterialOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Bedrock AgentCore Control"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ResetTokenVaultKeyMaterialInput, ResetTokenVaultKeyMaterialOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ResetTokenVaultKeyMaterial")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RotatePaymentConnectorCredentials` operation on the `BedrockAgentCoreControl` service.
     ///
     /// Replaces the service-managed credentials of a payment connector with newly issued credentials. Use this operation only for payment connectors with a provisionMode of QUICK_CREATE. For payment connectors with a provisionMode of MANUAL, call UpdatePaymentCredentialProvider instead after rotating credentials with the payment provider directly. The rotation finishes before the response is returned, and only one rotation runs at a time for a given payment connector. When it succeeds, the new credential is in effect and the payment connector stays in the READY state. When it fails, an error is returned, the payment connector and its existing credential are left unchanged, and you can retry the request. Rotation replaces the credential on the connector's credential provider, so every payment connector that uses that provider is affected. Replace any copy of the previous credential that you use outside AgentCore.
@@ -10493,6 +10568,7 @@ extension BedrockAgentCoreControlClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
     /// - `ConcurrentModificationException` : Exception thrown when a resource is modified concurrently by multiple requests.
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
@@ -12868,6 +12944,7 @@ extension BedrockAgentCoreControlClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
     /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
     /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
     /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit

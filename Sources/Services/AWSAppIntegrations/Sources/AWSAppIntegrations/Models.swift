@@ -969,6 +969,8 @@ public struct GetApplicationOutput: Swift.Sendable {
     /// Indicates whether the application is a service.
     @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
     public var isService: Swift.Bool
+    /// The Amazon Web Services Region where the application was last modified.
+    public var lastModifiedRegion: Swift.String?
     /// The last modified time of the Application.
     public var lastModifiedTime: Foundation.Date?
     /// The name of the application.
@@ -998,6 +1000,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
         initializationTimeout: Swift.Int? = nil,
         isService: Swift.Bool = false,
+        lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
@@ -1017,6 +1020,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         self.iframeConfig = iframeConfig
         self.initializationTimeout = initializationTimeout
         self.isService = isService
+        self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.name = name
         self.namespace = namespace
@@ -1221,6 +1225,8 @@ extension AppIntegrationsClientTypes {
         /// Indicates whether the application is a service.
         @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
         public var isService: Swift.Bool
+        /// The Amazon Web Services Region where the application was last modified.
+        public var lastModifiedRegion: Swift.String?
         /// The time when the application was last modified.
         public var lastModifiedTime: Foundation.Date?
         /// The name of the application.
@@ -1234,6 +1240,7 @@ extension AppIntegrationsClientTypes {
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             isService: Swift.Bool = false,
+            lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil
@@ -1243,6 +1250,7 @@ extension AppIntegrationsClientTypes {
             self.createdTime = createdTime
             self.id = id
             self.isService = isService
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -1597,6 +1605,29 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// The request conflicts with the current state of the resource. Verify the resource's current state and retry the request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -1639,29 +1670,6 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct UpdateApplicationInput: Swift.Sendable {
@@ -2363,6 +2371,7 @@ extension GetApplicationOutput {
         value.iframeConfig = try reader["IframeConfig"].readIfPresent(with: AppIntegrationsClientTypes.IframeConfig.read(from:))
         value.initializationTimeout = try reader["InitializationTimeout"].readIfPresent()
         value.isService = try reader["IsService"].readIfPresent() ?? false
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent()
         value.namespace = try reader["Namespace"].readIfPresent()
@@ -2842,6 +2851,7 @@ enum ListTagsForResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -2859,6 +2869,8 @@ enum TagResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -2876,6 +2888,8 @@ enum UntagResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -3129,6 +3143,7 @@ extension AppIntegrationsClientTypes.ApplicationSummary {
         value.namespace = try reader["Namespace"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.isService = try reader["IsService"].readIfPresent() ?? false
         value.applicationType = try reader["ApplicationType"].readIfPresent()
         return value

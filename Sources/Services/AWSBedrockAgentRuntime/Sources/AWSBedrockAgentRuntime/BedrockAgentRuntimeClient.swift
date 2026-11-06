@@ -1290,7 +1290,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `GetDocumentContent` operation on the `BedrockAgentRuntime` service.
     ///
-    /// Retrieves the content of an ingested document from a knowledge base. Returns a pre-signed URL for secure document access.
+    /// Retrieves the content of an ingested document from a knowledge base, or of an image embedded in the document. Returns a pre-signed URL for downloading the content. Use this operation to display the source of a Retrieve result.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDocumentContentInput`)
     ///

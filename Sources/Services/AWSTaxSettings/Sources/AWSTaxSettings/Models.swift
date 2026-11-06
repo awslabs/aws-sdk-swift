@@ -334,6 +334,29 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
+    /// Contains additional tax information associated with your Tax Registration Number (TRN) in Colombia, derived from your Registro Único Tributario (RUT) document.
+    public struct ColombiaAdditionalInfo: Swift.Sendable {
+        /// The issue date of the RUT document from Box 61, in YYYY-MM-DD format.
+        public var issueDate: Swift.String?
+        /// The DIAN fiscal responsibility codes from Box 53 of the RUT document (for example, 48 for value-added tax (VAT) responsibility).
+        public var responsibilityCodes: [Swift.String]?
+        /// The taxpayer category from Box 24 of the RUT document (1 for a legal entity, 2 for a natural person).
+        public var taxpayerTypeCode: Swift.String?
+
+        public init(
+            issueDate: Swift.String? = nil,
+            responsibilityCodes: [Swift.String]? = nil,
+            taxpayerTypeCode: Swift.String? = nil
+        ) {
+            self.issueDate = issueDate
+            self.responsibilityCodes = responsibilityCodes
+            self.taxpayerTypeCode = taxpayerTypeCode
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
     /// Additional tax information to specify for a TRN in Egypt.
     public struct EgyptAdditionalInfo: Swift.Sendable {
         /// The unique identification number provided by the Egypt Tax Authority.
@@ -431,6 +454,25 @@ extension TaxSettingsClientTypes {
             personType: TaxSettingsClientTypes.PersonType? = nil
         ) {
             self.personType = personType
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    /// Contains additional tax information associated with your Tax Registration Number (TRN) in Germany, such as the economic identification number and Steuernummer.
+    public struct GermanyAdditionalInfo: Swift.Sendable {
+        /// The economic identification number (Wirtschafts-Identifikationsnummer, or W-IdNr) in Germany.
+        public var economicIdentificationNumber: Swift.String?
+        /// The Steuernummer (tax number issued by the local tax office) in Germany.
+        public var steuernummer: Swift.String?
+
+        public init(
+            economicIdentificationNumber: Swift.String? = nil,
+            steuernummer: Swift.String? = nil
+        ) {
+            self.economicIdentificationNumber = economicIdentificationNumber
+            self.steuernummer = steuernummer
         }
     }
 }
@@ -732,6 +774,29 @@ extension TaxSettingsClientTypes {
             self.businessRegistrationNumber = businessRegistrationNumber
             self.serviceTaxCodes = serviceTaxCodes
             self.taxInformationNumber = taxInformationNumber
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
+    /// Contains additional tax information associated with your Tax Registration Number (TRN) in Mexico, such as the SAT tax regime and CFDI usage code.
+    public struct MexicoAdditionalInfo: Swift.Sendable {
+        /// The SAT CFDI usage code that identifies the purpose of the invoice in Mexico (for example, G01 for goods acquisition, S01 for no tax effects).
+        public var cfdiUsageCode: Swift.String?
+        /// The SAT-assigned tax regime code for your business in Mexico. Must be a 3-digit number (for example, 601 for General de Ley Personas Morales).
+        public var taxRegime: Swift.String?
+        /// The full name of the SAT tax regime associated with your business in Mexico.
+        public var taxRegimeFullName: Swift.String?
+
+        public init(
+            cfdiUsageCode: Swift.String? = nil,
+            taxRegime: Swift.String? = nil,
+            taxRegimeFullName: Swift.String? = nil
+        ) {
+            self.cfdiUsageCode = cfdiUsageCode
+            self.taxRegime = taxRegime
+            self.taxRegimeFullName = taxRegimeFullName
         }
     }
 }
@@ -1185,6 +1250,8 @@ extension TaxSettingsClientTypes {
         public var canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo?
         /// Additional tax information associated with your TRN in Chile.
         public var chileAdditionalInfo: TaxSettingsClientTypes.ChileAdditionalInfo?
+        /// Additional tax information associated with your Tax Registration Number (TRN) in Colombia.
+        public var colombiaAdditionalInfo: TaxSettingsClientTypes.ColombiaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Egypt.
         public var egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo?
         /// Additional tax information associated with your TRN in Estonia.
@@ -1193,6 +1260,8 @@ extension TaxSettingsClientTypes {
         public var franceAdditionalInfo: TaxSettingsClientTypes.FranceAdditionalInfo?
         /// Additional tax information associated with your TRN in Georgia.
         public var georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo?
+        /// Additional tax information associated with your Tax Registration Number (TRN) in Germany.
+        public var germanyAdditionalInfo: TaxSettingsClientTypes.GermanyAdditionalInfo?
         /// Additional tax information to specify for a TRN in Greece.
         public var greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo?
         /// Additional tax information in India.
@@ -1207,6 +1276,8 @@ extension TaxSettingsClientTypes {
         public var kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo?
         /// Additional tax information associated with your TRN in Malaysia.
         public var malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo?
+        /// Additional tax information associated with your Tax Registration Number (TRN) in Mexico.
+        public var mexicoAdditionalInfo: TaxSettingsClientTypes.MexicoAdditionalInfo?
         /// Additional tax information associated with your TRN in Monaco.
         public var monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo?
         /// Additional tax information associated with your TRN in the Philippines.
@@ -1235,10 +1306,12 @@ extension TaxSettingsClientTypes {
             brazilAdditionalInfo: TaxSettingsClientTypes.BrazilAdditionalInfo? = nil,
             canadaAdditionalInfo: TaxSettingsClientTypes.CanadaAdditionalInfo? = nil,
             chileAdditionalInfo: TaxSettingsClientTypes.ChileAdditionalInfo? = nil,
+            colombiaAdditionalInfo: TaxSettingsClientTypes.ColombiaAdditionalInfo? = nil,
             egyptAdditionalInfo: TaxSettingsClientTypes.EgyptAdditionalInfo? = nil,
             estoniaAdditionalInfo: TaxSettingsClientTypes.EstoniaAdditionalInfo? = nil,
             franceAdditionalInfo: TaxSettingsClientTypes.FranceAdditionalInfo? = nil,
             georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo? = nil,
+            germanyAdditionalInfo: TaxSettingsClientTypes.GermanyAdditionalInfo? = nil,
             greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo? = nil,
             indiaAdditionalInfo: TaxSettingsClientTypes.IndiaAdditionalInfo? = nil,
             indonesiaAdditionalInfo: TaxSettingsClientTypes.IndonesiaAdditionalInfo? = nil,
@@ -1246,6 +1319,7 @@ extension TaxSettingsClientTypes {
             italyAdditionalInfo: TaxSettingsClientTypes.ItalyAdditionalInfo? = nil,
             kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo? = nil,
             malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo? = nil,
+            mexicoAdditionalInfo: TaxSettingsClientTypes.MexicoAdditionalInfo? = nil,
             monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo? = nil,
             philippinesAdditionalInfo: TaxSettingsClientTypes.PhilippinesAdditionalInfo? = nil,
             polandAdditionalInfo: TaxSettingsClientTypes.PolandAdditionalInfo? = nil,
@@ -1262,10 +1336,12 @@ extension TaxSettingsClientTypes {
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
             self.chileAdditionalInfo = chileAdditionalInfo
+            self.colombiaAdditionalInfo = colombiaAdditionalInfo
             self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.franceAdditionalInfo = franceAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.germanyAdditionalInfo = germanyAdditionalInfo
             self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indiaAdditionalInfo = indiaAdditionalInfo
             self.indonesiaAdditionalInfo = indonesiaAdditionalInfo
@@ -1273,6 +1349,7 @@ extension TaxSettingsClientTypes {
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.mexicoAdditionalInfo = mexicoAdditionalInfo
             self.monacoAdditionalInfo = monacoAdditionalInfo
             self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
@@ -1291,12 +1368,17 @@ extension TaxSettingsClientTypes {
 extension TaxSettingsClientTypes {
 
     public enum TaxRegistrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cdi
+        case ci
         case cnpj
         case cpf
+        case cuit
         case gst
+        case nie
         case nip
         case nric
         case pan
+        case rut
         case sst
         case tin
         case vat
@@ -1304,12 +1386,17 @@ extension TaxSettingsClientTypes {
 
         public static var allCases: [TaxRegistrationType] {
             return [
+                .cdi,
+                .ci,
                 .cnpj,
                 .cpf,
+                .cuit,
                 .gst,
+                .nie,
                 .nip,
                 .nric,
                 .pan,
+                .rut,
                 .sst,
                 .tin,
                 .vat
@@ -1323,12 +1410,17 @@ extension TaxSettingsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cdi: return "CDI"
+            case .ci: return "CI"
             case .cnpj: return "CNPJ"
             case .cpf: return "CPF"
+            case .cuit: return "CUIT"
             case .gst: return "GST"
+            case .nie: return "NIE"
             case .nip: return "NIP"
             case .nric: return "NRIC"
             case .pan: return "PAN"
+            case .rut: return "RUT"
             case .sst: return "SST"
             case .tin: return "TIN"
             case .vat: return "VAT"
@@ -1407,6 +1499,25 @@ extension TaxSettingsClientTypes {
 
 extension TaxSettingsClientTypes {
 
+    /// The reason that a tax registration was rejected.
+    public struct TaxRegistrationStatusReason: Swift.Sendable {
+        /// A code that identifies the rejection reason (for example, NIT_MISMATCH or ENCRYPTED_PDF). If the reason isn't recognized, the value is OTHER. New codes might be added in the future.
+        public var code: Swift.String?
+        /// A description of the rejection reason in English.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension TaxSettingsClientTypes {
+
     /// The metadata for your tax document.
     public struct TaxDocumentMetadata: Swift.Sendable {
         /// The tax document access token, which contains information that the Tax Settings API uses to locate the tax document. If you update your tax registration, the existing taxDocumentAccessToken won't be valid. To get the latest token, call the GetTaxRegistration or ListTaxRegistrations API operation. This token is valid for 24 hours.
@@ -1448,9 +1559,11 @@ extension TaxSettingsClientTypes {
         public var registrationType: TaxSettingsClientTypes.TaxRegistrationType?
         /// The industry that describes your business. For business-to-business (B2B) customers, specify Business. For business-to-consumer (B2C) customers, specify Individual. For business-to-government (B2G), specify Government.Note that certain values may not applicable for the request country. Please refer to country specific information in API document.
         public var sector: TaxSettingsClientTypes.Sector?
-        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected.
+        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected. If the status is Rejected, see statusReason for the reason.
         /// This member is required.
         public var status: TaxSettingsClientTypes.TaxRegistrationStatus?
+        /// The reason that your TRN was rejected. This is returned only when status is Rejected.
+        public var statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason?
         /// The metadata for your tax document.
         public var taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]?
 
@@ -1463,6 +1576,7 @@ extension TaxSettingsClientTypes {
             registrationType: TaxSettingsClientTypes.TaxRegistrationType? = nil,
             sector: TaxSettingsClientTypes.Sector? = nil,
             status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil,
+            statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason? = nil,
             taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]? = nil
         ) {
             self.additionalTaxInformation = additionalTaxInformation
@@ -1473,6 +1587,7 @@ extension TaxSettingsClientTypes {
             self.registrationType = registrationType
             self.sector = sector
             self.status = status
+            self.statusReason = statusReason
             self.taxDocumentMetadatas = taxDocumentMetadatas
         }
     }
@@ -1535,6 +1650,8 @@ extension TaxSettingsClientTypes {
         public var franceAdditionalInfo: TaxSettingsClientTypes.FranceAdditionalInfo?
         /// Additional tax information to specify for a TRN in Georgia.
         public var georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo?
+        /// Additional tax information to specify for a Tax Registration Number (TRN) in Germany.
+        public var germanyAdditionalInfo: TaxSettingsClientTypes.GermanyAdditionalInfo?
         /// Additional tax information to specify for a TRN in Greece.
         public var greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo?
         ///
@@ -1547,6 +1664,8 @@ extension TaxSettingsClientTypes {
         public var kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo?
         /// Additional tax information to specify for a TRN in Malaysia.
         public var malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo?
+        /// Additional tax information to specify for a Tax Registration Number (TRN) in Mexico.
+        public var mexicoAdditionalInfo: TaxSettingsClientTypes.MexicoAdditionalInfo?
         /// Additional tax information to specify for a TRN in Monaco.
         public var monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo?
         /// Additional tax information to specify for a TRN in the Philippines.
@@ -1578,12 +1697,14 @@ extension TaxSettingsClientTypes {
             estoniaAdditionalInfo: TaxSettingsClientTypes.EstoniaAdditionalInfo? = nil,
             franceAdditionalInfo: TaxSettingsClientTypes.FranceAdditionalInfo? = nil,
             georgiaAdditionalInfo: TaxSettingsClientTypes.GeorgiaAdditionalInfo? = nil,
+            germanyAdditionalInfo: TaxSettingsClientTypes.GermanyAdditionalInfo? = nil,
             greeceAdditionalInfo: TaxSettingsClientTypes.GreeceAdditionalInfo? = nil,
             indonesiaAdditionalInfo: TaxSettingsClientTypes.IndonesiaAdditionalInfo? = nil,
             israelAdditionalInfo: TaxSettingsClientTypes.IsraelAdditionalInfo? = nil,
             italyAdditionalInfo: TaxSettingsClientTypes.ItalyAdditionalInfo? = nil,
             kenyaAdditionalInfo: TaxSettingsClientTypes.KenyaAdditionalInfo? = nil,
             malaysiaAdditionalInfo: TaxSettingsClientTypes.MalaysiaAdditionalInfo? = nil,
+            mexicoAdditionalInfo: TaxSettingsClientTypes.MexicoAdditionalInfo? = nil,
             monacoAdditionalInfo: TaxSettingsClientTypes.MonacoAdditionalInfo? = nil,
             philippinesAdditionalInfo: TaxSettingsClientTypes.PhilippinesAdditionalInfo? = nil,
             polandAdditionalInfo: TaxSettingsClientTypes.PolandAdditionalInfo? = nil,
@@ -1603,12 +1724,14 @@ extension TaxSettingsClientTypes {
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.franceAdditionalInfo = franceAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.germanyAdditionalInfo = germanyAdditionalInfo
             self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indonesiaAdditionalInfo = indonesiaAdditionalInfo
             self.israelAdditionalInfo = israelAdditionalInfo
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
             self.malaysiaAdditionalInfo = malaysiaAdditionalInfo
+            self.mexicoAdditionalInfo = mexicoAdditionalInfo
             self.monacoAdditionalInfo = monacoAdditionalInfo
             self.philippinesAdditionalInfo = philippinesAdditionalInfo
             self.polandAdditionalInfo = polandAdditionalInfo
@@ -2472,9 +2595,11 @@ extension TaxSettingsClientTypes {
         public var registrationType: TaxSettingsClientTypes.TaxRegistrationType?
         /// The industry that describes your business. For business-to-business (B2B) customers, specify Business. For business-to-consumer (B2C) customers, specify Individual. For business-to-government (B2G), specify Government. Note that certain values may not applicable for the request country. Please refer to country specific information in API document.
         public var sector: TaxSettingsClientTypes.Sector?
-        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected.
+        /// The status of your TRN. This can be either Verified, Pending, Deleted, or Rejected. If the status is Rejected, see statusReason for the reason.
         /// This member is required.
         public var status: TaxSettingsClientTypes.TaxRegistrationStatus?
+        /// The reason that your TRN was rejected. This is returned only when status is Rejected.
+        public var statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason?
         /// The metadata for your tax document.
         public var taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]?
 
@@ -2487,6 +2612,7 @@ extension TaxSettingsClientTypes {
             registrationType: TaxSettingsClientTypes.TaxRegistrationType? = nil,
             sector: TaxSettingsClientTypes.Sector? = nil,
             status: TaxSettingsClientTypes.TaxRegistrationStatus? = nil,
+            statusReason: TaxSettingsClientTypes.TaxRegistrationStatusReason? = nil,
             taxDocumentMetadatas: [TaxSettingsClientTypes.TaxDocumentMetadata]? = nil
         ) {
             self.additionalTaxInformation = additionalTaxInformation
@@ -2497,6 +2623,7 @@ extension TaxSettingsClientTypes {
             self.registrationType = registrationType
             self.sector = sector
             self.status = status
+            self.statusReason = statusReason
             self.taxDocumentMetadatas = taxDocumentMetadatas
         }
     }
@@ -3699,12 +3826,14 @@ extension TaxSettingsClientTypes.AdditionalInfoRequest {
         try writer["estoniaAdditionalInfo"].write(value.estoniaAdditionalInfo, with: TaxSettingsClientTypes.EstoniaAdditionalInfo.write(value:to:))
         try writer["franceAdditionalInfo"].write(value.franceAdditionalInfo, with: TaxSettingsClientTypes.FranceAdditionalInfo.write(value:to:))
         try writer["georgiaAdditionalInfo"].write(value.georgiaAdditionalInfo, with: TaxSettingsClientTypes.GeorgiaAdditionalInfo.write(value:to:))
+        try writer["germanyAdditionalInfo"].write(value.germanyAdditionalInfo, with: TaxSettingsClientTypes.GermanyAdditionalInfo.write(value:to:))
         try writer["greeceAdditionalInfo"].write(value.greeceAdditionalInfo, with: TaxSettingsClientTypes.GreeceAdditionalInfo.write(value:to:))
         try writer["indonesiaAdditionalInfo"].write(value.indonesiaAdditionalInfo, with: TaxSettingsClientTypes.IndonesiaAdditionalInfo.write(value:to:))
         try writer["israelAdditionalInfo"].write(value.israelAdditionalInfo, with: TaxSettingsClientTypes.IsraelAdditionalInfo.write(value:to:))
         try writer["italyAdditionalInfo"].write(value.italyAdditionalInfo, with: TaxSettingsClientTypes.ItalyAdditionalInfo.write(value:to:))
         try writer["kenyaAdditionalInfo"].write(value.kenyaAdditionalInfo, with: TaxSettingsClientTypes.KenyaAdditionalInfo.write(value:to:))
         try writer["malaysiaAdditionalInfo"].write(value.malaysiaAdditionalInfo, with: TaxSettingsClientTypes.MalaysiaAdditionalInfo.write(value:to:))
+        try writer["mexicoAdditionalInfo"].write(value.mexicoAdditionalInfo, with: TaxSettingsClientTypes.MexicoAdditionalInfo.write(value:to:))
         try writer["monacoAdditionalInfo"].write(value.monacoAdditionalInfo, with: TaxSettingsClientTypes.MonacoAdditionalInfo.write(value:to:))
         try writer["philippinesAdditionalInfo"].write(value.philippinesAdditionalInfo, with: TaxSettingsClientTypes.PhilippinesAdditionalInfo.write(value:to:))
         try writer["polandAdditionalInfo"].write(value.polandAdditionalInfo, with: TaxSettingsClientTypes.PolandAdditionalInfo.write(value:to:))
@@ -3750,6 +3879,9 @@ extension TaxSettingsClientTypes.AdditionalInfoResponse {
         value.chileAdditionalInfo = try reader["chileAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.ChileAdditionalInfo.read(from:))
         value.franceAdditionalInfo = try reader["franceAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.FranceAdditionalInfo.read(from:))
         value.monacoAdditionalInfo = try reader["monacoAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.MonacoAdditionalInfo.read(from:))
+        value.germanyAdditionalInfo = try reader["germanyAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.GermanyAdditionalInfo.read(from:))
+        value.mexicoAdditionalInfo = try reader["mexicoAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.MexicoAdditionalInfo.read(from:))
+        value.colombiaAdditionalInfo = try reader["colombiaAdditionalInfo"].readIfPresent(with: TaxSettingsClientTypes.ColombiaAdditionalInfo.read(from:))
         return value
     }
 }
@@ -3890,6 +4022,18 @@ extension TaxSettingsClientTypes.ChileAdditionalInfo {
     }
 }
 
+extension TaxSettingsClientTypes.ColombiaAdditionalInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.ColombiaAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.ColombiaAdditionalInfo()
+        value.responsibilityCodes = try reader["responsibilityCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.taxpayerTypeCode = try reader["taxpayerTypeCode"].readIfPresent()
+        value.issueDate = try reader["issueDate"].readIfPresent()
+        return value
+    }
+}
+
 extension TaxSettingsClientTypes.DestinationS3Location {
 
     static func write(value: TaxSettingsClientTypes.DestinationS3Location?, to writer: SmithyJSON.Writer) throws {
@@ -3968,6 +4112,23 @@ extension TaxSettingsClientTypes.GeorgiaAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = TaxSettingsClientTypes.GeorgiaAdditionalInfo()
         value.personType = try reader["personType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.GermanyAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.GermanyAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["economicIdentificationNumber"].write(value.economicIdentificationNumber)
+        try writer["steuernummer"].write(value.steuernummer)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.GermanyAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.GermanyAdditionalInfo()
+        value.economicIdentificationNumber = try reader["economicIdentificationNumber"].readIfPresent()
+        value.steuernummer = try reader["steuernummer"].readIfPresent()
         return value
     }
 }
@@ -4097,6 +4258,25 @@ extension TaxSettingsClientTypes.MalaysiaAdditionalInfo {
         value.serviceTaxCodes = try reader["serviceTaxCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TaxSettingsClientTypes.MalaysiaServiceTaxCode>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.taxInformationNumber = try reader["taxInformationNumber"].readIfPresent()
         value.businessRegistrationNumber = try reader["businessRegistrationNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension TaxSettingsClientTypes.MexicoAdditionalInfo {
+
+    static func write(value: TaxSettingsClientTypes.MexicoAdditionalInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cfdiUsageCode"].write(value.cfdiUsageCode)
+        try writer["taxRegime"].write(value.taxRegime)
+        try writer["taxRegimeFullName"].write(value.taxRegimeFullName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.MexicoAdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.MexicoAdditionalInfo()
+        value.taxRegime = try reader["taxRegime"].readIfPresent()
+        value.taxRegimeFullName = try reader["taxRegimeFullName"].readIfPresent()
+        value.cfdiUsageCode = try reader["cfdiUsageCode"].readIfPresent()
         return value
     }
 }
@@ -4330,6 +4510,7 @@ extension TaxSettingsClientTypes.TaxRegistration {
         value.taxDocumentMetadatas = try reader["taxDocumentMetadatas"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxDocumentMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.certifiedEmailId = try reader["certifiedEmailId"].readIfPresent()
         value.additionalTaxInformation = try reader["additionalTaxInformation"].readIfPresent(with: TaxSettingsClientTypes.AdditionalInfoResponse.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent(with: TaxSettingsClientTypes.TaxRegistrationStatusReason.read(from:))
         value.legalAddress = try reader["legalAddress"].readIfPresent(with: TaxSettingsClientTypes.Address.read(from:))
         return value
     }
@@ -4368,6 +4549,17 @@ extension TaxSettingsClientTypes.TaxRegistrationEntry {
     }
 }
 
+extension TaxSettingsClientTypes.TaxRegistrationStatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxRegistrationStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TaxSettingsClientTypes.TaxRegistrationStatusReason()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
 extension TaxSettingsClientTypes.TaxRegistrationWithJurisdiction {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TaxSettingsClientTypes.TaxRegistrationWithJurisdiction {
@@ -4381,6 +4573,7 @@ extension TaxSettingsClientTypes.TaxRegistrationWithJurisdiction {
         value.taxDocumentMetadatas = try reader["taxDocumentMetadatas"].readListIfPresent(memberReadingClosure: TaxSettingsClientTypes.TaxDocumentMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.certifiedEmailId = try reader["certifiedEmailId"].readIfPresent()
         value.additionalTaxInformation = try reader["additionalTaxInformation"].readIfPresent(with: TaxSettingsClientTypes.AdditionalInfoResponse.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent(with: TaxSettingsClientTypes.TaxRegistrationStatusReason.read(from:))
         value.jurisdiction = try reader["jurisdiction"].readIfPresent(with: TaxSettingsClientTypes.Jurisdiction.read(from:))
         return value
     }

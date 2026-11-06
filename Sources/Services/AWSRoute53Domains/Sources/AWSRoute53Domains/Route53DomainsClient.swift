@@ -2716,6 +2716,83 @@ extension Route53DomainsClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RestoreDomain` operation on the `Route53Domains` service.
+    ///
+    /// Restores a domain that has expired, or was deleted, before it becomes available for others to register. The cost of restoring your domain is billed to your Amazon Web Services account. Not every TLD registry supports restoring domains, and the period during which a domain can be restored varies by TLD. To find out whether your domain can be restored and the period during which you can restore it, see [Domains that you can register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. Restoring a domain typically costs more, and sometimes much more, than registering or renewing a domain. To get the restoration price for a domain before you restore it, use [GetDomainPrices](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetDomainPrices.html). Restoration is asynchronous. The response includes an operation ID that you can use with [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html) to track the progress of the request. When the restoration succeeds, the domain reappears in the response to [ListDomains](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListDomains.html). For more information, see [Restoring an expired or deleted domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-restore-expired.html) in the Amazon Route 53 Developer Guide.
+    ///
+    /// - Parameter input: A RestoreDomain request includes the name of the domain that you want to restore and, optionally, the maximum price that you agree to pay. (Type: `RestoreDomainInput`)
+    ///
+    /// - Returns: The RestoreDomain response includes the following element. (Type: `RestoreDomainOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DuplicateRequest` : The request is already in progress for the domain.
+    /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
+    /// - `OperationLimitExceeded` : The number of operations or jobs running exceeded the allowed threshold for the account.
+    /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
+    public func restoreDomain(input: RestoreDomainInput) async throws -> RestoreDomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = Route53DomainsClient.restoreDomainOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restoreDomain")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53domains")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreDomainInput, RestoreDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDomainInput, RestoreDomainOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDomainInput, RestoreDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDomainOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreDomainInput, RestoreDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RestoreDomain"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreDomainInput, RestoreDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreDomainOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreDomainInput, RestoreDomainOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreDomainInput, RestoreDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53 Domains"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreDomainInput, RestoreDomainOutput>(serviceID: serviceName, version: Route53DomainsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Domains")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RetrieveDomainAuthCode` operation on the `Route53Domains` service.
     ///
     /// This operation returns the authorization code for the domain. To transfer a domain to another registrar, you provide this value to the new registrar.

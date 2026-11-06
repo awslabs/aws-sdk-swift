@@ -1416,7 +1416,7 @@ extension OdbClient {
 
     /// Performs the `CreateExascaleDbStorageVault` operation on the `Odb` service.
     ///
-    /// Creates an Exascale storage vault.
+    /// Creates an Exascale storage vault. To create the Exascale storage vault on dedicated Exadata infrastructure, specify cloudExadataInfrastructureId.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateExascaleDbStorageVaultInput`)
     ///
@@ -1428,6 +1428,7 @@ extension OdbClient {
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
     /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
     /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
     /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
@@ -4866,6 +4867,7 @@ extension OdbClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
     /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
     public func listExascaleDbStorageVaults(input: ListExascaleDbStorageVaultsInput) async throws -> ListExascaleDbStorageVaultsOutput {
@@ -6629,6 +6631,85 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateExadbVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateExascaleCloudExadataInfrastructure` operation on the `Odb` service.
+    ///
+    /// Configures or updates the Exascale storage on an Exadata infrastructure. After you configure Exascale storage, you can create Exascale storage vaults on the infrastructure and VM clusters that use Exascale storage.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateExascaleCloudExadataInfrastructureInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateExascaleCloudExadataInfrastructureOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func updateExascaleCloudExadataInfrastructure(input: UpdateExascaleCloudExadataInfrastructureInput) async throws -> UpdateExascaleCloudExadataInfrastructureOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateExascaleCloudExadataInfrastructureOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateExascaleCloudExadataInfrastructure")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExascaleCloudExadataInfrastructureOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateExascaleCloudExadataInfrastructureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>(overrides: ["X-Amz-Target": "Odb.UpdateExascaleCloudExadataInfrastructure"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateExascaleCloudExadataInfrastructureOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateExascaleCloudExadataInfrastructureInput, UpdateExascaleCloudExadataInfrastructureOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateExascaleCloudExadataInfrastructure")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

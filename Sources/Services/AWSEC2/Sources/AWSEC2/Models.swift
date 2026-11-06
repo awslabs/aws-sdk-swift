@@ -12190,6 +12190,628 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum BareMetal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BareMetal] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
+    public struct BaselineEbsBandwidthMbpsRequest: Swift.Sendable {
+        /// The maximum baseline bandwidth, in Mbps. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum baseline bandwidth, in Mbps. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture. Currently, only one instance family can be specified in the list.
+    public struct PerformanceFactorReferenceRequest: Swift.Sendable {
+        /// The instance family to use as a baseline reference. Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see [Amazon EC2 instance type naming conventions](https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html) in Amazon EC2 Instance Types. The following instance families are not supported for performance protection:
+        ///
+        /// * c1
+        ///
+        /// * g3 | g3s
+        ///
+        /// * hpc7g
+        ///
+        /// * m1 | m2
+        ///
+        /// * mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro
+        ///
+        /// * p3dn | p4d | p5
+        ///
+        /// * t1
+        ///
+        /// * u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb
+        ///
+        ///
+        /// If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements) and an exception for [CreateFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet), [RequestSpotFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotFleet), [ModifyFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyFleet), and [ModifySpotFleetRequest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySpotFleetRequest).
+        public var instanceFamily: Swift.String?
+
+        public init(
+            instanceFamily: Swift.String? = nil
+        ) {
+            self.instanceFamily = instanceFamily
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The CPU performance to consider, using an instance family as the baseline reference.
+    public struct CpuPerformanceFactorRequest: Swift.Sendable {
+        /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently, only one instance family can be specified in the list.
+        public var references: [EC2ClientTypes.PerformanceFactorReferenceRequest]?
+
+        public init(
+            references: [EC2ClientTypes.PerformanceFactorReferenceRequest]? = nil
+        ) {
+            self.references = references
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For example, specifying c6i would use the CPU performance of the c6i family as the baseline reference.
+    public struct BaselinePerformanceFactorsRequest: Swift.Sendable {
+        /// The CPU performance to consider, using an instance family as the baseline reference.
+        public var cpu: EC2ClientTypes.CpuPerformanceFactorRequest?
+
+        public init(
+            cpu: EC2ClientTypes.CpuPerformanceFactorRequest? = nil
+        ) {
+            self.cpu = cpu
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum BurstablePerformance: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BurstablePerformance] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum CpuManufacturer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonWebServices
+        case amd
+        case apple
+        case intel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CpuManufacturer] {
+            return [
+                .amazonWebServices,
+                .amd,
+                .apple,
+                .intel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonWebServices: return "amazon-web-services"
+            case .amd: return "amd"
+            case .apple: return "apple"
+            case .intel: return "intel"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum InstanceGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case current
+        case previous
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceGeneration] {
+            return [
+                .current,
+                .previous
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .current: return "current"
+            case .previous: return "previous"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum LocalStorage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case excluded
+        case included
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalStorage] {
+            return [
+                .excluded,
+                .included,
+                .required
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .excluded: return "excluded"
+            case .included: return "included"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum LocalStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hdd
+        case ssd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LocalStorageType] {
+            return [
+                .hdd,
+                .ssd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hdd: return "hdd"
+            case .ssd: return "ssd"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of memory per vCPU, in GiB.
+    public struct MemoryGiBPerVCpuRequest: Swift.Sendable {
+        /// The maximum amount of memory per vCPU, in GiB. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Double?
+        /// The minimum amount of memory per vCPU, in GiB. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of memory, in MiB.
+    public struct MemoryMiBRequest: Swift.Sendable {
+        /// The maximum amount of memory, in MiB. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum amount of memory, in MiB. To specify no minimum limit, specify 0.
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of network bandwidth, in gigabits per second (Gbps). Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide.
+    public struct NetworkBandwidthGbpsRequest: Swift.Sendable {
+        /// The maximum amount of network bandwidth, in Gbps. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Double?
+        /// The minimum amount of network bandwidth, in Gbps. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum number of network interfaces.
+    public struct NetworkInterfaceCountRequest: Swift.Sendable {
+        /// The maximum number of network interfaces. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum number of network interfaces. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum amount of total local storage, in GB.
+    public struct TotalLocalStorageGBRequest: Swift.Sendable {
+        /// The maximum amount of total local storage, in GB. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Double?
+        /// The minimum amount of total local storage, in GB. To specify no minimum limit, omit this parameter.
+        public var min: Swift.Double?
+
+        public init(
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The minimum and maximum number of vCPUs.
+    public struct VCpuCountRangeRequest: Swift.Sendable {
+        /// The maximum number of vCPUs. To specify no maximum limit, omit this parameter.
+        public var max: Swift.Int?
+        /// The minimum number of vCPUs. To specify no minimum limit, specify 0.
+        /// This member is required.
+        public var min: Swift.Int?
+
+        public init(
+            max: Swift.Int? = nil,
+            min: Swift.Int? = nil
+        ) {
+            self.max = max
+            self.min = min
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. You must specify VCpuCount and MemoryMiB. All other attributes are optional. Any unspecified optional attribute is set to its default. When you specify multiple attributes, you get instance types that satisfy all of the specified attributes. If you specify multiple values for an attribute, you get instance types that satisfy any of the specified values. To limit the list of instance types from which Amazon EC2 can identify matching instance types, you can use one of the following parameters, but not both in the same request:
+    ///
+    /// * AllowedInstanceTypes - The instance types to include in the list. All other instance types are ignored, even if they match your specified attributes.
+    ///
+    /// * ExcludedInstanceTypes - The instance types to exclude from the list, even if they match your specified attributes.
+    ///
+    ///
+    /// If you specify InstanceRequirements, you can't specify InstanceType. Attribute-based instance type selection is only supported when using Auto Scaling groups, EC2 Fleet, and Spot Fleet to launch instances. If you plan to use the launch template in the [launch instance wizard](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-instance-wizard.html), or with the [RunInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html) API or [AWS::EC2::Instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html) Amazon Web Services CloudFormation resource, you can't specify InstanceRequirements. For more information, see [Specify attributes for instance type selection for EC2 Fleet or Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html) and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide.
+    public struct InstanceRequirementsRequest: Swift.Sendable {
+        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
+        public var acceleratorCount: EC2ClientTypes.AcceleratorCountRequest?
+        /// Indicates whether instance types must have accelerators by specific manufacturers.
+        ///
+        /// * For instance types with Amazon Web Services devices, specify amazon-web-services.
+        ///
+        /// * For instance types with AMD devices, specify amd.
+        ///
+        /// * For instance types with Habana devices, specify habana.
+        ///
+        /// * For instance types with NVIDIA devices, specify nvidia.
+        ///
+        /// * For instance types with Xilinx devices, specify xilinx.
+        ///
+        ///
+        /// Default: Any manufacturer
+        public var acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]?
+        /// The accelerators that must be on the instance type.
+        ///
+        /// * For instance types with NVIDIA A10G GPUs, specify a10g.
+        ///
+        /// * For instance types with NVIDIA A100 GPUs, specify a100.
+        ///
+        /// * For instance types with NVIDIA H100 GPUs, specify h100.
+        ///
+        /// * For instance types with Amazon Web Services Inferentia chips, specify inferentia.
+        ///
+        /// * For instance types with Amazon Web Services Inferentia2 chips, specify inferentia2.
+        ///
+        /// * For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205.
+        ///
+        /// * For instance types with NVIDIA GRID K520 GPUs, specify k520.
+        ///
+        /// * For instance types with NVIDIA K80 GPUs, specify k80.
+        ///
+        /// * For instance types with NVIDIA L4 GPUs, specify l4.
+        ///
+        /// * For instance types with NVIDIA L40S GPUs, specify l40s.
+        ///
+        /// * For instance types with NVIDIA M60 GPUs, specify m60.
+        ///
+        /// * For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.
+        ///
+        /// * For instance types with Amazon Web Services Trainium chips, specify trainium.
+        ///
+        /// * For instance types with Amazon Web Services Trainium2 chips, specify trainium2.
+        ///
+        /// * For instance types with NVIDIA T4 GPUs, specify t4.
+        ///
+        /// * For instance types with NVIDIA T4G GPUs, specify t4g.
+        ///
+        /// * For instance types with Xilinx U30 cards, specify u30.
+        ///
+        /// * For instance types with Xilinx VU9P FPGAs, specify vu9p.
+        ///
+        /// * For instance types with NVIDIA V100 GPUs, specify v100.
+        ///
+        ///
+        /// Default: Any accelerator
+        public var acceleratorNames: [EC2ClientTypes.AcceleratorName]?
+        /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
+        public var acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest?
+        /// The accelerator types that must be on the instance type.
+        ///
+        /// * For instance types with FPGA accelerators, specify fpga.
+        ///
+        /// * For instance types with GPU accelerators, specify gpu.
+        ///
+        /// * For instance types with Inference accelerators, specify inference.
+        ///
+        /// * For instance types with Media accelerators, specify media.
+        ///
+        ///
+        /// Default: Any accelerator type
+        public var acceleratorTypes: [EC2ClientTypes.AcceleratorType]?
+        /// The instance types to apply your specified attributes against. All other instance types are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types. If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes. Default: All instance types
+        public var allowedInstanceTypes: [Swift.String]?
+        /// Indicates whether bare metal instance types must be included, excluded, or required.
+        ///
+        /// * To include bare metal instance types, specify included.
+        ///
+        /// * To require only bare metal instance types, specify required.
+        ///
+        /// * To exclude bare metal instance types, specify excluded.
+        ///
+        ///
+        /// Default: excluded
+        public var bareMetal: EC2ClientTypes.BareMetal?
+        /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
+        public var baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest?
+        /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For more information, see [Performance protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-abis-performance-protection) in the Amazon EC2 User Guide.
+        public var baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest?
+        /// Indicates whether burstable performance T instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html).
+        ///
+        /// * To include burstable performance instance types, specify included.
+        ///
+        /// * To require only burstable performance instance types, specify required.
+        ///
+        /// * To exclude burstable performance instance types, specify excluded.
+        ///
+        ///
+        /// Default: excluded
+        public var burstablePerformance: EC2ClientTypes.BurstablePerformance?
+        /// The CPU manufacturers to include.
+        ///
+        /// * For instance types with Intel CPUs, specify intel.
+        ///
+        /// * For instance types with AMD CPUs, specify amd.
+        ///
+        /// * For instance types with Amazon Web Services CPUs, specify amazon-web-services.
+        ///
+        /// * For instance types with Apple CPUs, specify apple.
+        ///
+        ///
+        /// Don't confuse the CPU manufacturer with the CPU architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template. Default: Any manufacturer
+        public var cpuManufacturers: [EC2ClientTypes.CpuManufacturer]?
+        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes. Default: No excluded instance types
+        public var excludedInstanceTypes: [Swift.String]?
+        /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
+        public var instanceGenerations: [EC2ClientTypes.InstanceGeneration]?
+        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) in the Amazon EC2 User Guide.
+        ///
+        /// * To include instance types with instance store volumes, specify included.
+        ///
+        /// * To require only instance types with instance store volumes, specify required.
+        ///
+        /// * To exclude instance types with instance store volumes, specify excluded.
+        ///
+        ///
+        /// Default: included
+        public var localStorage: EC2ClientTypes.LocalStorage?
+        /// The type of local storage that is required.
+        ///
+        /// * For instance types with hard disk drive (HDD) storage, specify hdd.
+        ///
+        /// * For instance types with solid state drive (SSD) storage, specify ssd.
+        ///
+        ///
+        /// Default: hdd and ssd
+        public var localStorageTypes: [EC2ClientTypes.LocalStorageType]?
+        /// [Price protection] The price protection threshold for Spot Instances, as a percentage of an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is based on the per vCPU or per memory price instead of the per instance price. Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999.
+        public var maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int?
+        /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
+        public var memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest?
+        /// The minimum and maximum amount of memory, in MiB.
+        /// This member is required.
+        public var memoryMiB: EC2ClientTypes.MemoryMiBRequest?
+        /// The minimum and maximum amount of baseline network bandwidth, in gigabits per second (Gbps). For more information, see [Amazon EC2 instance network bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
+        public var networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest?
+        /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
+        public var networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest?
+        /// [Price protection] The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To indicate no price protection threshold, specify a high value, such as 999999. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. Default: 20
+        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int?
+        /// Specifies whether instance types must support encrypting in-transit traffic between instances. For more information, including the supported instance types, see [Encryption in transit](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html#encryption-transit) in the Amazon EC2 User Guide. Default: false
+        public var requireEncryptionInTransit: Swift.Bool?
+        /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html). Default: false
+        public var requireHibernateSupport: Swift.Bool?
+        /// [Price protection] The price protection threshold for Spot Instances, as a percentage higher than an identified Spot price. The identified Spot price is the Spot price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified Spot price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose Spot price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999. Default: 100
+        public var spotMaxPricePercentageOverLowestPrice: Swift.Int?
+        /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
+        public var totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest?
+        /// The minimum and maximum number of vCPUs.
+        /// This member is required.
+        public var vCpuCount: EC2ClientTypes.VCpuCountRangeRequest?
+
+        public init(
+            acceleratorCount: EC2ClientTypes.AcceleratorCountRequest? = nil,
+            acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]? = nil,
+            acceleratorNames: [EC2ClientTypes.AcceleratorName]? = nil,
+            acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest? = nil,
+            acceleratorTypes: [EC2ClientTypes.AcceleratorType]? = nil,
+            allowedInstanceTypes: [Swift.String]? = nil,
+            bareMetal: EC2ClientTypes.BareMetal? = nil,
+            baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest? = nil,
+            baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest? = nil,
+            burstablePerformance: EC2ClientTypes.BurstablePerformance? = nil,
+            cpuManufacturers: [EC2ClientTypes.CpuManufacturer]? = nil,
+            excludedInstanceTypes: [Swift.String]? = nil,
+            instanceGenerations: [EC2ClientTypes.InstanceGeneration]? = nil,
+            localStorage: EC2ClientTypes.LocalStorage? = nil,
+            localStorageTypes: [EC2ClientTypes.LocalStorageType]? = nil,
+            maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int? = nil,
+            memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest? = nil,
+            memoryMiB: EC2ClientTypes.MemoryMiBRequest? = nil,
+            networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest? = nil,
+            networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest? = nil,
+            onDemandMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
+            requireEncryptionInTransit: Swift.Bool? = nil,
+            requireHibernateSupport: Swift.Bool? = nil,
+            spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
+            totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest? = nil,
+            vCpuCount: EC2ClientTypes.VCpuCountRangeRequest? = nil
+        ) {
+            self.acceleratorCount = acceleratorCount
+            self.acceleratorManufacturers = acceleratorManufacturers
+            self.acceleratorNames = acceleratorNames
+            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
+            self.acceleratorTypes = acceleratorTypes
+            self.allowedInstanceTypes = allowedInstanceTypes
+            self.bareMetal = bareMetal
+            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
+            self.baselinePerformanceFactors = baselinePerformanceFactors
+            self.burstablePerformance = burstablePerformance
+            self.cpuManufacturers = cpuManufacturers
+            self.excludedInstanceTypes = excludedInstanceTypes
+            self.instanceGenerations = instanceGenerations
+            self.localStorage = localStorage
+            self.localStorageTypes = localStorageTypes
+            self.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = maxSpotPriceAsPercentageOfOptimalOnDemandPrice
+            self.memoryGiBPerVCpu = memoryGiBPerVCpu
+            self.memoryMiB = memoryMiB
+            self.networkBandwidthGbps = networkBandwidthGbps
+            self.networkInterfaceCount = networkInterfaceCount
+            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireEncryptionInTransit = requireEncryptionInTransit
+            self.requireHibernateSupport = requireHibernateSupport
+            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
+            self.totalLocalStorageGB = totalLocalStorageGB
+            self.vCpuCount = vCpuCount
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum InstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case a12xlarge
         case a14xlarge
@@ -16590,6 +17212,10 @@ extension EC2ClientTypes {
 public struct CreateCapacityReservationFleetInput: Swift.Sendable {
     /// The strategy used by the Capacity Reservation Fleet to determine which of the specified instance types to use. Currently, only the prioritized allocation strategy is supported. For more information, see [ Allocation strategy](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#allocation-strategy) in the Amazon EC2 User Guide. Valid values: prioritized
     public var allocationStrategy: Swift.String?
+    /// Reserved for internal use.
+    public var availabilityZone: Swift.String?
+    /// Reserved for internal use.
+    public var availabilityZoneId: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16598,6 +17224,8 @@ public struct CreateCapacityReservationFleetInput: Swift.Sendable {
     public var endDate: Foundation.Date?
     /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
     public var instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria?
+    /// Reserved for internal use.
+    public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
     /// Information about the instance types for which to reserve the capacity.
     public var instanceTypeSpecifications: [EC2ClientTypes.ReservationFleetInstanceSpecification]?
     /// The tags to assign to the Capacity Reservation Fleet. The tags are automatically assigned to the Capacity Reservations in the Fleet.
@@ -16614,20 +17242,26 @@ public struct CreateCapacityReservationFleetInput: Swift.Sendable {
 
     public init(
         allocationStrategy: Swift.String? = nil,
+        availabilityZone: Swift.String? = nil,
+        availabilityZoneId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
         endDate: Foundation.Date? = nil,
         instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria? = nil,
+        instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
         instanceTypeSpecifications: [EC2ClientTypes.ReservationFleetInstanceSpecification]? = nil,
         tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
         tenancy: EC2ClientTypes.FleetCapacityReservationTenancy? = nil,
         totalTargetCapacity: Swift.Int? = nil
     ) {
         self.allocationStrategy = allocationStrategy
+        self.availabilityZone = availabilityZone
+        self.availabilityZoneId = availabilityZoneId
         self.clientToken = clientToken
         self.dryRun = dryRun
         self.endDate = endDate
         self.instanceMatchCriteria = instanceMatchCriteria
+        self.instanceRequirements = instanceRequirements
         self.instanceTypeSpecifications = instanceTypeSpecifications
         self.tagSpecifications = tagSpecifications
         self.tenancy = tenancy
@@ -19038,628 +19672,6 @@ extension EC2ClientTypes {
         ) {
             self.arn = arn
             self.name = name
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum BareMetal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case excluded
-        case included
-        case `required`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BareMetal] {
-            return [
-                .excluded,
-                .included,
-                .required
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .excluded: return "excluded"
-            case .included: return "included"
-            case .required: return "required"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
-    public struct BaselineEbsBandwidthMbpsRequest: Swift.Sendable {
-        /// The maximum baseline bandwidth, in Mbps. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum baseline bandwidth, in Mbps. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture. Currently, only one instance family can be specified in the list.
-    public struct PerformanceFactorReferenceRequest: Swift.Sendable {
-        /// The instance family to use as a baseline reference. Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see [Amazon EC2 instance type naming conventions](https://docs.aws.amazon.com/ec2/latest/instancetypes/instance-type-names.html) in Amazon EC2 Instance Types. The following instance families are not supported for performance protection:
-        ///
-        /// * c1
-        ///
-        /// * g3 | g3s
-        ///
-        /// * hpc7g
-        ///
-        /// * m1 | m2
-        ///
-        /// * mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro
-        ///
-        /// * p3dn | p4d | p5
-        ///
-        /// * t1
-        ///
-        /// * u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb
-        ///
-        ///
-        /// If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements) and an exception for [CreateFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFleet), [RequestSpotFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RequestSpotFleet), [ModifyFleet](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyFleet), and [ModifySpotFleetRequest](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySpotFleetRequest).
-        public var instanceFamily: Swift.String?
-
-        public init(
-            instanceFamily: Swift.String? = nil
-        ) {
-            self.instanceFamily = instanceFamily
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The CPU performance to consider, using an instance family as the baseline reference.
-    public struct CpuPerformanceFactorRequest: Swift.Sendable {
-        /// Specify an instance family to use as the baseline reference for CPU performance. All instance types that match your specified attributes will be compared against the CPU performance of the referenced instance family, regardless of CPU manufacturer or architecture differences. Currently, only one instance family can be specified in the list.
-        public var references: [EC2ClientTypes.PerformanceFactorReferenceRequest]?
-
-        public init(
-            references: [EC2ClientTypes.PerformanceFactorReferenceRequest]? = nil
-        ) {
-            self.references = references
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For example, specifying c6i would use the CPU performance of the c6i family as the baseline reference.
-    public struct BaselinePerformanceFactorsRequest: Swift.Sendable {
-        /// The CPU performance to consider, using an instance family as the baseline reference.
-        public var cpu: EC2ClientTypes.CpuPerformanceFactorRequest?
-
-        public init(
-            cpu: EC2ClientTypes.CpuPerformanceFactorRequest? = nil
-        ) {
-            self.cpu = cpu
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum BurstablePerformance: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case excluded
-        case included
-        case `required`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [BurstablePerformance] {
-            return [
-                .excluded,
-                .included,
-                .required
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .excluded: return "excluded"
-            case .included: return "included"
-            case .required: return "required"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum CpuManufacturer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case amazonWebServices
-        case amd
-        case apple
-        case intel
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CpuManufacturer] {
-            return [
-                .amazonWebServices,
-                .amd,
-                .apple,
-                .intel
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .amazonWebServices: return "amazon-web-services"
-            case .amd: return "amd"
-            case .apple: return "apple"
-            case .intel: return "intel"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum InstanceGeneration: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case current
-        case previous
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InstanceGeneration] {
-            return [
-                .current,
-                .previous
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .current: return "current"
-            case .previous: return "previous"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum LocalStorage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case excluded
-        case included
-        case `required`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LocalStorage] {
-            return [
-                .excluded,
-                .included,
-                .required
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .excluded: return "excluded"
-            case .included: return "included"
-            case .required: return "required"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    public enum LocalStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case hdd
-        case ssd
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [LocalStorageType] {
-            return [
-                .hdd,
-                .ssd
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .hdd: return "hdd"
-            case .ssd: return "ssd"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of memory per vCPU, in GiB.
-    public struct MemoryGiBPerVCpuRequest: Swift.Sendable {
-        /// The maximum amount of memory per vCPU, in GiB. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Double?
-        /// The minimum amount of memory per vCPU, in GiB. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Double?
-
-        public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of memory, in MiB.
-    public struct MemoryMiBRequest: Swift.Sendable {
-        /// The maximum amount of memory, in MiB. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum amount of memory, in MiB. To specify no minimum limit, specify 0.
-        /// This member is required.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of network bandwidth, in gigabits per second (Gbps). Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide.
-    public struct NetworkBandwidthGbpsRequest: Swift.Sendable {
-        /// The maximum amount of network bandwidth, in Gbps. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Double?
-        /// The minimum amount of network bandwidth, in Gbps. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Double?
-
-        public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum number of network interfaces.
-    public struct NetworkInterfaceCountRequest: Swift.Sendable {
-        /// The maximum number of network interfaces. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum number of network interfaces. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum amount of total local storage, in GB.
-    public struct TotalLocalStorageGBRequest: Swift.Sendable {
-        /// The maximum amount of total local storage, in GB. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Double?
-        /// The minimum amount of total local storage, in GB. To specify no minimum limit, omit this parameter.
-        public var min: Swift.Double?
-
-        public init(
-            max: Swift.Double? = nil,
-            min: Swift.Double? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The minimum and maximum number of vCPUs.
-    public struct VCpuCountRangeRequest: Swift.Sendable {
-        /// The maximum number of vCPUs. To specify no maximum limit, omit this parameter.
-        public var max: Swift.Int?
-        /// The minimum number of vCPUs. To specify no minimum limit, specify 0.
-        /// This member is required.
-        public var min: Swift.Int?
-
-        public init(
-            max: Swift.Int? = nil,
-            min: Swift.Int? = nil
-        ) {
-            self.max = max
-            self.min = min
-        }
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with these attributes. You must specify VCpuCount and MemoryMiB. All other attributes are optional. Any unspecified optional attribute is set to its default. When you specify multiple attributes, you get instance types that satisfy all of the specified attributes. If you specify multiple values for an attribute, you get instance types that satisfy any of the specified values. To limit the list of instance types from which Amazon EC2 can identify matching instance types, you can use one of the following parameters, but not both in the same request:
-    ///
-    /// * AllowedInstanceTypes - The instance types to include in the list. All other instance types are ignored, even if they match your specified attributes.
-    ///
-    /// * ExcludedInstanceTypes - The instance types to exclude from the list, even if they match your specified attributes.
-    ///
-    ///
-    /// If you specify InstanceRequirements, you can't specify InstanceType. Attribute-based instance type selection is only supported when using Auto Scaling groups, EC2 Fleet, and Spot Fleet to launch instances. If you plan to use the launch template in the [launch instance wizard](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-instance-wizard.html), or with the [RunInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_RunInstances.html) API or [AWS::EC2::Instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-instance.html) Amazon Web Services CloudFormation resource, you can't specify InstanceRequirements. For more information, see [Specify attributes for instance type selection for EC2 Fleet or Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html) and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide.
-    public struct InstanceRequirementsRequest: Swift.Sendable {
-        /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) on an instance. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
-        public var acceleratorCount: EC2ClientTypes.AcceleratorCountRequest?
-        /// Indicates whether instance types must have accelerators by specific manufacturers.
-        ///
-        /// * For instance types with Amazon Web Services devices, specify amazon-web-services.
-        ///
-        /// * For instance types with AMD devices, specify amd.
-        ///
-        /// * For instance types with Habana devices, specify habana.
-        ///
-        /// * For instance types with NVIDIA devices, specify nvidia.
-        ///
-        /// * For instance types with Xilinx devices, specify xilinx.
-        ///
-        ///
-        /// Default: Any manufacturer
-        public var acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]?
-        /// The accelerators that must be on the instance type.
-        ///
-        /// * For instance types with NVIDIA A10G GPUs, specify a10g.
-        ///
-        /// * For instance types with NVIDIA A100 GPUs, specify a100.
-        ///
-        /// * For instance types with NVIDIA H100 GPUs, specify h100.
-        ///
-        /// * For instance types with Amazon Web Services Inferentia chips, specify inferentia.
-        ///
-        /// * For instance types with Amazon Web Services Inferentia2 chips, specify inferentia2.
-        ///
-        /// * For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205.
-        ///
-        /// * For instance types with NVIDIA GRID K520 GPUs, specify k520.
-        ///
-        /// * For instance types with NVIDIA K80 GPUs, specify k80.
-        ///
-        /// * For instance types with NVIDIA L4 GPUs, specify l4.
-        ///
-        /// * For instance types with NVIDIA L40S GPUs, specify l40s.
-        ///
-        /// * For instance types with NVIDIA M60 GPUs, specify m60.
-        ///
-        /// * For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.
-        ///
-        /// * For instance types with Amazon Web Services Trainium chips, specify trainium.
-        ///
-        /// * For instance types with Amazon Web Services Trainium2 chips, specify trainium2.
-        ///
-        /// * For instance types with NVIDIA T4 GPUs, specify t4.
-        ///
-        /// * For instance types with NVIDIA T4G GPUs, specify t4g.
-        ///
-        /// * For instance types with Xilinx U30 cards, specify u30.
-        ///
-        /// * For instance types with Xilinx VU9P FPGAs, specify vu9p.
-        ///
-        /// * For instance types with NVIDIA V100 GPUs, specify v100.
-        ///
-        ///
-        /// Default: Any accelerator
-        public var acceleratorNames: [EC2ClientTypes.AcceleratorName]?
-        /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
-        public var acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest?
-        /// The accelerator types that must be on the instance type.
-        ///
-        /// * For instance types with FPGA accelerators, specify fpga.
-        ///
-        /// * For instance types with GPU accelerators, specify gpu.
-        ///
-        /// * For instance types with Inference accelerators, specify inference.
-        ///
-        /// * For instance types with Media accelerators, specify media.
-        ///
-        ///
-        /// Default: Any accelerator type
-        public var acceleratorTypes: [EC2ClientTypes.AcceleratorType]?
-        /// The instance types to apply your specified attributes against. All other instance types are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types. If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes. Default: All instance types
-        public var allowedInstanceTypes: [Swift.String]?
-        /// Indicates whether bare metal instance types must be included, excluded, or required.
-        ///
-        /// * To include bare metal instance types, specify included.
-        ///
-        /// * To require only bare metal instance types, specify required.
-        ///
-        /// * To exclude bare metal instance types, specify excluded.
-        ///
-        ///
-        /// Default: excluded
-        public var bareMetal: EC2ClientTypes.BareMetal?
-        /// The minimum and maximum baseline bandwidth to Amazon EBS, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
-        public var baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest?
-        /// The baseline performance to consider, using an instance family as a baseline reference. The instance family establishes the lowest acceptable level of performance. Amazon EC2 uses this baseline to guide instance type selection, but there is no guarantee that the selected instance types will always exceed the baseline for every application. Currently, this parameter only supports CPU performance as a baseline performance factor. For more information, see [Performance protection](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-abis-performance-protection) in the Amazon EC2 User Guide.
-        public var baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest?
-        /// Indicates whether burstable performance T instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html).
-        ///
-        /// * To include burstable performance instance types, specify included.
-        ///
-        /// * To require only burstable performance instance types, specify required.
-        ///
-        /// * To exclude burstable performance instance types, specify excluded.
-        ///
-        ///
-        /// Default: excluded
-        public var burstablePerformance: EC2ClientTypes.BurstablePerformance?
-        /// The CPU manufacturers to include.
-        ///
-        /// * For instance types with Intel CPUs, specify intel.
-        ///
-        /// * For instance types with AMD CPUs, specify amd.
-        ///
-        /// * For instance types with Amazon Web Services CPUs, specify amazon-web-services.
-        ///
-        /// * For instance types with Apple CPUs, specify apple.
-        ///
-        ///
-        /// Don't confuse the CPU manufacturer with the CPU architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template. Default: Any manufacturer
-        public var cpuManufacturers: [EC2ClientTypes.CpuManufacturer]?
-        /// The instance types to exclude. You can use strings with one or more wild cards, represented by an asterisk (*), to exclude an instance family, type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will exclude the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will exclude all the M5a instance types, but not the M5n instance types. If you specify ExcludedInstanceTypes, you can't specify AllowedInstanceTypes. Default: No excluded instance types
-        public var excludedInstanceTypes: [Swift.String]?
-        /// Indicates whether current or previous generation instance types are included. The current generation instance types are recommended for use. Current generation instance types are typically the latest two to three generations in each instance family. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. For current generation instance types, specify current. For previous generation instance types, specify previous. Default: Current and previous generation instance types
-        public var instanceGenerations: [EC2ClientTypes.InstanceGeneration]?
-        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) in the Amazon EC2 User Guide.
-        ///
-        /// * To include instance types with instance store volumes, specify included.
-        ///
-        /// * To require only instance types with instance store volumes, specify required.
-        ///
-        /// * To exclude instance types with instance store volumes, specify excluded.
-        ///
-        ///
-        /// Default: included
-        public var localStorage: EC2ClientTypes.LocalStorage?
-        /// The type of local storage that is required.
-        ///
-        /// * For instance types with hard disk drive (HDD) storage, specify hdd.
-        ///
-        /// * For instance types with solid state drive (SSD) storage, specify ssd.
-        ///
-        ///
-        /// Default: hdd and ssd
-        public var localStorageTypes: [EC2ClientTypes.LocalStorageType]?
-        /// [Price protection] The price protection threshold for Spot Instances, as a percentage of an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is based on the per vCPU or per memory price instead of the per instance price. Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999.
-        public var maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int?
-        /// The minimum and maximum amount of memory per vCPU, in GiB. Default: No minimum or maximum limits
-        public var memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest?
-        /// The minimum and maximum amount of memory, in MiB.
-        /// This member is required.
-        public var memoryMiB: EC2ClientTypes.MemoryMiBRequest?
-        /// The minimum and maximum amount of baseline network bandwidth, in gigabits per second (Gbps). For more information, see [Amazon EC2 instance network bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
-        public var networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest?
-        /// The minimum and maximum number of network interfaces. Default: No minimum or maximum limits
-        public var networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest?
-        /// [Price protection] The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To indicate no price protection threshold, specify a high value, such as 999999. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. Default: 20
-        public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int?
-        /// Specifies whether instance types must support encrypting in-transit traffic between instances. For more information, including the supported instance types, see [Encryption in transit](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/data-protection.html#encryption-transit) in the Amazon EC2 User Guide. Default: false
-        public var requireEncryptionInTransit: Swift.Bool?
-        /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html). Default: false
-        public var requireHibernateSupport: Swift.Bool?
-        /// [Price protection] The price protection threshold for Spot Instances, as a percentage higher than an identified Spot price. The identified Spot price is the Spot price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified Spot price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose Spot price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. This parameter is not supported for [GetSpotPlacementScores](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetSpotPlacementScores.html) and [GetInstanceTypesFromInstanceRequirements](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetInstanceTypesFromInstanceRequirements.html). Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999. Default: 100
-        public var spotMaxPricePercentageOverLowestPrice: Swift.Int?
-        /// The minimum and maximum amount of total local storage, in GB. Default: No minimum or maximum limits
-        public var totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest?
-        /// The minimum and maximum number of vCPUs.
-        /// This member is required.
-        public var vCpuCount: EC2ClientTypes.VCpuCountRangeRequest?
-
-        public init(
-            acceleratorCount: EC2ClientTypes.AcceleratorCountRequest? = nil,
-            acceleratorManufacturers: [EC2ClientTypes.AcceleratorManufacturer]? = nil,
-            acceleratorNames: [EC2ClientTypes.AcceleratorName]? = nil,
-            acceleratorTotalMemoryMiB: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest? = nil,
-            acceleratorTypes: [EC2ClientTypes.AcceleratorType]? = nil,
-            allowedInstanceTypes: [Swift.String]? = nil,
-            bareMetal: EC2ClientTypes.BareMetal? = nil,
-            baselineEbsBandwidthMbps: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest? = nil,
-            baselinePerformanceFactors: EC2ClientTypes.BaselinePerformanceFactorsRequest? = nil,
-            burstablePerformance: EC2ClientTypes.BurstablePerformance? = nil,
-            cpuManufacturers: [EC2ClientTypes.CpuManufacturer]? = nil,
-            excludedInstanceTypes: [Swift.String]? = nil,
-            instanceGenerations: [EC2ClientTypes.InstanceGeneration]? = nil,
-            localStorage: EC2ClientTypes.LocalStorage? = nil,
-            localStorageTypes: [EC2ClientTypes.LocalStorageType]? = nil,
-            maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Swift.Int? = nil,
-            memoryGiBPerVCpu: EC2ClientTypes.MemoryGiBPerVCpuRequest? = nil,
-            memoryMiB: EC2ClientTypes.MemoryMiBRequest? = nil,
-            networkBandwidthGbps: EC2ClientTypes.NetworkBandwidthGbpsRequest? = nil,
-            networkInterfaceCount: EC2ClientTypes.NetworkInterfaceCountRequest? = nil,
-            onDemandMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
-            requireEncryptionInTransit: Swift.Bool? = nil,
-            requireHibernateSupport: Swift.Bool? = nil,
-            spotMaxPricePercentageOverLowestPrice: Swift.Int? = nil,
-            totalLocalStorageGB: EC2ClientTypes.TotalLocalStorageGBRequest? = nil,
-            vCpuCount: EC2ClientTypes.VCpuCountRangeRequest? = nil
-        ) {
-            self.acceleratorCount = acceleratorCount
-            self.acceleratorManufacturers = acceleratorManufacturers
-            self.acceleratorNames = acceleratorNames
-            self.acceleratorTotalMemoryMiB = acceleratorTotalMemoryMiB
-            self.acceleratorTypes = acceleratorTypes
-            self.allowedInstanceTypes = allowedInstanceTypes
-            self.bareMetal = bareMetal
-            self.baselineEbsBandwidthMbps = baselineEbsBandwidthMbps
-            self.baselinePerformanceFactors = baselinePerformanceFactors
-            self.burstablePerformance = burstablePerformance
-            self.cpuManufacturers = cpuManufacturers
-            self.excludedInstanceTypes = excludedInstanceTypes
-            self.instanceGenerations = instanceGenerations
-            self.localStorage = localStorage
-            self.localStorageTypes = localStorageTypes
-            self.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = maxSpotPriceAsPercentageOfOptimalOnDemandPrice
-            self.memoryGiBPerVCpu = memoryGiBPerVCpu
-            self.memoryMiB = memoryMiB
-            self.networkBandwidthGbps = networkBandwidthGbps
-            self.networkInterfaceCount = networkInterfaceCount
-            self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
-            self.requireEncryptionInTransit = requireEncryptionInTransit
-            self.requireHibernateSupport = requireHibernateSupport
-            self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
-            self.totalLocalStorageGB = totalLocalStorageGB
-            self.vCpuCount = vCpuCount
         }
     }
 }
@@ -46453,6 +46465,10 @@ extension EC2ClientTypes {
     public struct CapacityReservationFleet: Swift.Sendable {
         /// The strategy used by the Capacity Reservation Fleet to determine which of the specified instance types to use. For more information, see For more information, see [Allocation strategy](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/crfleet-concepts.html#allocation-strategy) in the Amazon EC2 User Guide.
         public var allocationStrategy: Swift.String?
+        /// Reserved for internal use.
+        public var availabilityZone: Swift.String?
+        /// Reserved for internal use.
+        public var availabilityZoneId: Swift.String?
         /// The ARN of the Capacity Reservation Fleet.
         public var capacityReservationFleetArn: Swift.String?
         /// The ID of the Capacity Reservation Fleet.
@@ -46463,6 +46479,8 @@ extension EC2ClientTypes {
         public var endDate: Foundation.Date?
         /// Indicates the type of instance launches that the Capacity Reservation Fleet accepts. All Capacity Reservations in the Fleet inherit this instance matching criteria. Currently, Capacity Reservation Fleets support open instance matching criteria only. This means that instances that have matching attributes (instance type, platform, and Availability Zone) run in the Capacity Reservations automatically. Instances do not need to explicitly target a Capacity Reservation Fleet to use its reserved capacity.
         public var instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria?
+        /// Reserved for internal use.
+        public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
         /// Information about the instance types for which to reserve the capacity.
         public var instanceTypeSpecifications: [EC2ClientTypes.FleetCapacityReservation]?
         /// The state of the Capacity Reservation Fleet. Possible states include:
@@ -46500,11 +46518,14 @@ extension EC2ClientTypes {
 
         public init(
             allocationStrategy: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
             capacityReservationFleetArn: Swift.String? = nil,
             capacityReservationFleetId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             endDate: Foundation.Date? = nil,
             instanceMatchCriteria: EC2ClientTypes.FleetInstanceMatchCriteria? = nil,
+            instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
             instanceTypeSpecifications: [EC2ClientTypes.FleetCapacityReservation]? = nil,
             state: EC2ClientTypes.CapacityReservationFleetState? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
@@ -46513,11 +46534,14 @@ extension EC2ClientTypes {
             totalTargetCapacity: Swift.Int? = nil
         ) {
             self.allocationStrategy = allocationStrategy
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.capacityReservationFleetArn = capacityReservationFleetArn
             self.capacityReservationFleetId = capacityReservationFleetId
             self.createTime = createTime
             self.endDate = endDate
             self.instanceMatchCriteria = instanceMatchCriteria
+            self.instanceRequirements = instanceRequirements
             self.instanceTypeSpecifications = instanceTypeSpecifications
             self.state = state
             self.tags = tags
@@ -51447,6 +51471,33 @@ public struct DescribeImagesInput: Swift.Sendable {
     ///
     /// * root-device-type - The type of the root device volume (ebs | instance-store).
     ///
+    /// * scan-result.critical-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a critical severity finding on the AMI.
+    ///
+    /// * scan-result.finding-scan-date - The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), of the most recent Amazon Inspector scan of the AMI.
+    ///
+    /// * scan-result.high-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a high severity finding on the AMI.
+    ///
+    /// * scan-result.highest-finding-severity-label - The highest severity among the AMI's Amazon Inspector findings, whether or not a fix is available. The valid values are the following Amazon Inspector severity levels:
+    ///
+    /// * informational - CVSS score of 0.
+    ///
+    /// * low - CVSS score of 0.1 to 3.9.
+    ///
+    /// * medium - CVSS score of 4.0 to 6.9.
+    ///
+    /// * high - CVSS score of 7.0 to 8.9.
+    ///
+    /// * critical - CVSS score of 9.0 to 10.0.
+    ///
+    ///
+    ///
+    ///
+    /// * scan-result.informational-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for an informational severity finding on the AMI.
+    ///
+    /// * scan-result.low-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a low severity finding on the AMI.
+    ///
+    /// * scan-result.medium-fix-available-since - The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a medium severity finding on the AMI.
+    ///
     /// * source-image-id - The ID of the source AMI from which the AMI was created.
     ///
     /// * source-image-region - The Region of the source AMI.
@@ -51756,6 +51807,96 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum SeverityLabel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SeverityLabel] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "critical"
+            case .high: return "high"
+            case .informational: return "informational"
+            case .low: return "low"
+            case .medium: return "medium"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The Amazon Inspector scan results for an AMI. This information is present only for AMIs that Amazon Inspector has scanned. When you share an AMI with other accounts, organizations, or organizational units (OUs), or make it public, its scan results are available to the accounts that can use the AMI. The fix-available dates are specific to the AMI. Each date reflects when a fix became available for a finding on that AMI, not when the vendor released the fix. As a result, a date can be later than the vendor's release date, and AMIs with the same vulnerability can have different dates.
+    public struct ScanResults: Swift.Sendable {
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a critical severity finding on the AMI. This value is present only if the AMI has at least one critical severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var criticalFixAvailableSince: Foundation.Date?
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), of the most recent Amazon Inspector scan of the AMI.
+        public var findingScanDate: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a high severity finding on the AMI. This value is present only if the AMI has at least one high severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var highFixAvailableSince: Foundation.Date?
+        /// The highest severity among the AMI's Amazon Inspector findings, whether or not a fix is available. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. This value is present only if the AMI has at least one finding.
+        public var highestFindingSeverityLabel: EC2ClientTypes.SeverityLabel?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for an informational severity finding on the AMI. This value is present only if the AMI has at least one informational severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var informationalFixAvailableSince: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a low severity finding on the AMI. This value is present only if the AMI has at least one low severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var lowFixAvailableSince: Foundation.Date?
+        /// The earliest date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), at which Amazon Inspector reported a fix as available for a medium severity finding on the AMI. This value is present only if the AMI has at least one medium severity finding with a fix available. Amazon Inspector recomputes this value on each scan.
+        public var mediumFixAvailableSince: Foundation.Date?
+
+        public init(
+            criticalFixAvailableSince: Foundation.Date? = nil,
+            findingScanDate: Foundation.Date? = nil,
+            highFixAvailableSince: Foundation.Date? = nil,
+            highestFindingSeverityLabel: EC2ClientTypes.SeverityLabel? = nil,
+            informationalFixAvailableSince: Foundation.Date? = nil,
+            lowFixAvailableSince: Foundation.Date? = nil,
+            mediumFixAvailableSince: Foundation.Date? = nil
+        ) {
+            self.criticalFixAvailableSince = criticalFixAvailableSince
+            self.findingScanDate = findingScanDate
+            self.highFixAvailableSince = highFixAvailableSince
+            self.highestFindingSeverityLabel = highestFindingSeverityLabel
+            self.informationalFixAvailableSince = informationalFixAvailableSince
+            self.lowFixAvailableSince = lowFixAvailableSince
+            self.mediumFixAvailableSince = mediumFixAvailableSince
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum ImageState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case deregistered
@@ -51924,6 +52065,8 @@ extension EC2ClientTypes {
         public var rootDeviceName: Swift.String?
         /// The type of root device used by the AMI. The AMI can use an Amazon EBS volume or an instance store volume.
         public var rootDeviceType: EC2ClientTypes.DeviceType?
+        /// The Amazon Inspector scan results for the AMI. This information is present only for AMIs that Amazon Inspector has scanned. When you share an AMI with other accounts, organizations, or organizational units (OUs), or make it public, its scan results are available to the accounts that can use the AMI.
+        public var scanResults: EC2ClientTypes.ScanResults?
         /// The ID of the source AMI from which the AMI was created.
         public var sourceImageId: Swift.String?
         /// The Region of the source AMI.
@@ -51976,6 +52119,7 @@ extension EC2ClientTypes {
             ramdiskId: Swift.String? = nil,
             rootDeviceName: Swift.String? = nil,
             rootDeviceType: EC2ClientTypes.DeviceType? = nil,
+            scanResults: EC2ClientTypes.ScanResults? = nil,
             sourceImageId: Swift.String? = nil,
             sourceImageRegion: Swift.String? = nil,
             sourceInstanceId: Swift.String? = nil,
@@ -52017,6 +52161,7 @@ extension EC2ClientTypes {
             self.ramdiskId = ramdiskId
             self.rootDeviceName = rootDeviceName
             self.rootDeviceType = rootDeviceType
+            self.scanResults = scanResults
             self.sourceImageId = sourceImageId
             self.sourceImageRegion = sourceImageRegion
             self.sourceInstanceId = sourceInstanceId
@@ -71615,6 +71760,58 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity. They can also limit, for each severity, the days since Amazon Inspector reported a fix as available. The severity limit applies to all findings, whether or not a fix is available. The day limits for each severity apply only to findings that have a fix available. A scanned AMI that has no fix-available finding of a given severity meets that severity's day limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+    public struct ScanResultCondition: Swift.Sendable {
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a critical severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no critical severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceCriticalFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a high severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no high severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceHighFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for an informational severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no informational severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceInformationalFixAvailable: Swift.Int?
+        /// The maximum number of days that have elapsed since Amazon Inspector last scanned the AMI. For example, a value of 7 allows AMIs that were scanned within the last 7 days. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLastFindingScan: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a low severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no low severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLowFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a medium severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no medium severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceMediumFixAvailable: Swift.Int?
+        /// The maximum severity that an AMI's Amazon Inspector findings can have for the AMI to be allowed. Findings count whether or not a fix is available. For example, a value of medium allows AMIs whose highest severity is informational, low, or medium. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. A scanned AMI that has no findings meets this limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+        public var maximumSeverityLabel: EC2ClientTypes.SeverityLabel?
+
+        public init(
+            maxDaysSinceCriticalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceHighFixAvailable: Swift.Int? = nil,
+            maxDaysSinceInformationalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceLastFindingScan: Swift.Int? = nil,
+            maxDaysSinceLowFixAvailable: Swift.Int? = nil,
+            maxDaysSinceMediumFixAvailable: Swift.Int? = nil,
+            maximumSeverityLabel: EC2ClientTypes.SeverityLabel? = nil
+        ) {
+            self.maxDaysSinceCriticalFixAvailable = maxDaysSinceCriticalFixAvailable
+            self.maxDaysSinceHighFixAvailable = maxDaysSinceHighFixAvailable
+            self.maxDaysSinceInformationalFixAvailable = maxDaysSinceInformationalFixAvailable
+            self.maxDaysSinceLastFindingScan = maxDaysSinceLastFindingScan
+            self.maxDaysSinceLowFixAvailable = maxDaysSinceLowFixAvailable
+            self.maxDaysSinceMediumFixAvailable = maxDaysSinceMediumFixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. For more information, see [How Allowed AMIs works](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html#how-allowed-amis-works) in the Amazon EC2 User Guide.
     public struct ImageCriterion: Swift.Sendable {
         /// The maximum age for allowed images.
@@ -71653,6 +71850,8 @@ extension EC2ClientTypes {
         public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
+        /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity, the number of days since Amazon Inspector last scanned the AMI, and the number of days since Amazon Inspector reported a fix as available.
+        public var scanResultCondition: EC2ClientTypes.ScanResultCondition?
 
         public init(
             creationDateCondition: EC2ClientTypes.CreationDateCondition? = nil,
@@ -71660,7 +71859,8 @@ extension EC2ClientTypes {
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
             imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterResponse]? = nil,
-            marketplaceProductCodes: [Swift.String]? = nil
+            marketplaceProductCodes: [Swift.String]? = nil,
+            scanResultCondition: EC2ClientTypes.ScanResultCondition? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
@@ -71668,6 +71868,7 @@ extension EC2ClientTypes {
             self.imageProviders = imageProviders
             self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
+            self.scanResultCondition = scanResultCondition
         }
     }
 }
@@ -72261,6 +72462,11 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum Metric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case avgInstAzCountPerRequestedVcpu
+        case capacityRequestFulfillmentRate
+        case capacityTotalFulfilledVcpu
+        case capacityTotalRequestedVcpu
+        case instAzFulfillmentRate
         case reservationAvgCommittedSizeInst
         case reservationAvgCommittedSizeVcpu
         case reservationAvgFutureSizeInst
@@ -72295,7 +72501,12 @@ extension EC2ClientTypes {
         case reservedTotalEstimatedCost
         case reservedTotalUsageHrsInst
         case reservedTotalUsageHrsVcpu
+        case spotAvgInstAzCountPerRequestedVcpu
         case spotAvgRunTimeBeforeInterruptionInst
+        case spotCapacityRequestFulfillmentRate
+        case spotCapacityTotalFulfilledVcpu
+        case spotCapacityTotalRequestedVcpu
+        case spotInstAzFulfillmentRate
         case spotInterruptionRateInst
         case spotInterruptionRateVcpu
         case spotMaxRunTimeBeforeInterruptionInst
@@ -72314,6 +72525,11 @@ extension EC2ClientTypes {
 
         public static var allCases: [Metric] {
             return [
+                .avgInstAzCountPerRequestedVcpu,
+                .capacityRequestFulfillmentRate,
+                .capacityTotalFulfilledVcpu,
+                .capacityTotalRequestedVcpu,
+                .instAzFulfillmentRate,
                 .reservationAvgCommittedSizeInst,
                 .reservationAvgCommittedSizeVcpu,
                 .reservationAvgFutureSizeInst,
@@ -72348,7 +72564,12 @@ extension EC2ClientTypes {
                 .reservedTotalEstimatedCost,
                 .reservedTotalUsageHrsInst,
                 .reservedTotalUsageHrsVcpu,
+                .spotAvgInstAzCountPerRequestedVcpu,
                 .spotAvgRunTimeBeforeInterruptionInst,
+                .spotCapacityRequestFulfillmentRate,
+                .spotCapacityTotalFulfilledVcpu,
+                .spotCapacityTotalRequestedVcpu,
+                .spotInstAzFulfillmentRate,
                 .spotInterruptionRateInst,
                 .spotInterruptionRateVcpu,
                 .spotMaxRunTimeBeforeInterruptionInst,
@@ -72373,6 +72594,11 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .avgInstAzCountPerRequestedVcpu: return "avg-inst-az-count-per-requested-vcpu"
+            case .capacityRequestFulfillmentRate: return "capacity-request-fulfillment-rate"
+            case .capacityTotalFulfilledVcpu: return "capacity-total-fulfilled-vcpu"
+            case .capacityTotalRequestedVcpu: return "capacity-total-requested-vcpu"
+            case .instAzFulfillmentRate: return "inst-az-fulfillment-rate"
             case .reservationAvgCommittedSizeInst: return "reservation-avg-committed-size-inst"
             case .reservationAvgCommittedSizeVcpu: return "reservation-avg-committed-size-vcpu"
             case .reservationAvgFutureSizeInst: return "reservation-avg-future-size-inst"
@@ -72407,7 +72633,12 @@ extension EC2ClientTypes {
             case .reservedTotalEstimatedCost: return "reserved-total-estimated-cost"
             case .reservedTotalUsageHrsInst: return "reserved-total-usage-hrs-inst"
             case .reservedTotalUsageHrsVcpu: return "reserved-total-usage-hrs-vcpu"
+            case .spotAvgInstAzCountPerRequestedVcpu: return "spot-avg-inst-az-count-per-requested-vcpu"
             case .spotAvgRunTimeBeforeInterruptionInst: return "spot-avg-run-time-before-interruption-inst"
+            case .spotCapacityRequestFulfillmentRate: return "spot-capacity-request-fulfillment-rate"
+            case .spotCapacityTotalFulfilledVcpu: return "spot-capacity-total-fulfilled-vcpu"
+            case .spotCapacityTotalRequestedVcpu: return "spot-capacity-total-requested-vcpu"
+            case .spotInstAzFulfillmentRate: return "spot-inst-az-fulfillment-rate"
             case .spotInterruptionRateInst: return "spot-interruption-rate-inst"
             case .spotInterruptionRateVcpu: return "spot-interruption-rate-vcpu"
             case .spotMaxRunTimeBeforeInterruptionInst: return "spot-max-run-time-before-interruption-inst"
@@ -72880,6 +73111,199 @@ public struct GetCapacityManagerMonitoredTagKeysOutput: Swift.Sendable {
     ) {
         self.capacityManagerTagKeys = capacityManagerTagKeys
         self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum CapacityUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instances
+        case vcpus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityUnit] {
+            return [
+                .instances,
+                .vcpus
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instances: return "instances"
+            case .vcpus: return "vcpus"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The architecture type, virtualization type, and other attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadataRequest, you can't specify InstanceTypes.
+    public struct InstanceRequirementsWithMetadataRequest: Swift.Sendable {
+        /// The architecture type.
+        public var architectureTypes: [EC2ClientTypes.ArchitectureType]?
+        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.
+        public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
+        /// The virtualization type.
+        public var virtualizationTypes: [EC2ClientTypes.VirtualizationType]?
+
+        public init(
+            architectureTypes: [EC2ClientTypes.ArchitectureType]? = nil,
+            instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
+            virtualizationTypes: [EC2ClientTypes.VirtualizationType]? = nil
+        ) {
+            self.architectureTypes = architectureTypes
+            self.instanceRequirements = instanceRequirements
+            self.virtualizationTypes = virtualizationTypes
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum SupportabilityMarketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case onDemand
+        case spot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportabilityMarketType] {
+            return [
+                .onDemand,
+                .spot
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "on-demand"
+            case .spot: return "spot"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetCapacityManagerSupportabilityScoresInput: Swift.Sendable {
+    /// The amount of capacity that you need, in the unit that you specify for CapacityUnit. Each score is relative to this amount.
+    /// This member is required.
+    public var capacityAmount: Swift.Int?
+    /// The IDs of the Availability Zones to score, such as use1-az1. You can specify Availability Zones in different Regions. You can specify up to 10 Availability Zones.
+    /// This member is required.
+    public var capacityAvailabilityZoneIds: [Swift.String]?
+    /// The unit for CapacityAmount.
+    /// This member is required.
+    public var capacityUnit: EC2ClientTypes.CapacityUnit?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The attributes that the instance types must have, such as vCPU and memory ranges. Capacity Manager resolves the attributes into matching instance types and scores each one. Specify either InstanceTypes or InstanceRequirementsWithMetadata, but not both.
+    public var instanceRequirementsWithMetadata: EC2ClientTypes.InstanceRequirementsWithMetadataRequest?
+    /// The instance types to score. You can specify up to 50 instance types. Specify either InstanceTypes or InstanceRequirementsWithMetadata, but not both.
+    public var instanceTypes: [Swift.String]?
+    /// The capacity market to score.
+    /// This member is required.
+    public var marketType: EC2ClientTypes.SupportabilityMarketType?
+
+    public init(
+        capacityAmount: Swift.Int? = nil,
+        capacityAvailabilityZoneIds: [Swift.String]? = nil,
+        capacityUnit: EC2ClientTypes.CapacityUnit? = nil,
+        dryRun: Swift.Bool? = nil,
+        instanceRequirementsWithMetadata: EC2ClientTypes.InstanceRequirementsWithMetadataRequest? = nil,
+        instanceTypes: [Swift.String]? = nil,
+        marketType: EC2ClientTypes.SupportabilityMarketType? = nil
+    ) {
+        self.capacityAmount = capacityAmount
+        self.capacityAvailabilityZoneIds = capacityAvailabilityZoneIds
+        self.capacityUnit = capacityUnit
+        self.dryRun = dryRun
+        self.instanceRequirementsWithMetadata = instanceRequirementsWithMetadata
+        self.instanceTypes = instanceTypes
+        self.marketType = marketType
+    }
+}
+
+extension EC2ClientTypes {
+
+    public enum SupportabilityScore: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case unsupported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportabilityScore] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .unsupported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "high"
+            case .low: return "low"
+            case .medium: return "medium"
+            case .unsupported: return "unsupported"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The supportability score for a single instance type and Availability Zone combination.
+    public struct CapacityManagerSupportabilityScore: Swift.Sendable {
+        /// The ID of the Availability Zone.
+        public var availabilityZoneId: Swift.String?
+        /// The instance type.
+        public var instanceType: Swift.String?
+        /// How well the combination can support the requested capacity right now. high means that the combination holds several times the requested amount. medium means that it can cover the request with little to spare. low means that it holds less than the requested amount.
+        public var score: EC2ClientTypes.SupportabilityScore?
+
+        public init(
+            availabilityZoneId: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            score: EC2ClientTypes.SupportabilityScore? = nil
+        ) {
+            self.availabilityZoneId = availabilityZoneId
+            self.instanceType = instanceType
+            self.score = score
+        }
+    }
+}
+
+public struct GetCapacityManagerSupportabilityScoresOutput: Swift.Sendable {
+    /// The score for all instance type and Availability Zone combinations in the request together. A high aggregate score with lower individual scores means that no single combination can support the full request, but the combinations together can.
+    public var aggregateScore: EC2ClientTypes.SupportabilityScore?
+    /// The score for each instance type and Availability Zone combination in the request.
+    public var capacityManagerSupportabilityScores: [EC2ClientTypes.CapacityManagerSupportabilityScore]?
+
+    public init(
+        aggregateScore: EC2ClientTypes.SupportabilityScore? = nil,
+        capacityManagerSupportabilityScores: [EC2ClientTypes.CapacityManagerSupportabilityScore]? = nil
+    ) {
+        self.aggregateScore = aggregateScore
+        self.capacityManagerSupportabilityScores = capacityManagerSupportabilityScores
     }
 }
 
@@ -73894,6 +74318,101 @@ public struct GetImageBlockPublicAccessStateOutput: Swift.Sendable {
     ) {
         self.imageBlockPublicAccessState = imageBlockPublicAccessState
         self.managedBy = managedBy
+    }
+}
+
+public struct GetImageFindingsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the AMI.
+    /// This member is required.
+    public var imageId: Swift.String?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination).
+    public var maxResults: Swift.Int?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageId = imageId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an Amazon Inspector vulnerability finding for an AMI.
+    public struct ImageFinding: Swift.Sendable {
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), when Amazon Inspector first observed the finding.
+        public var firstObservedAt: Foundation.Date?
+        /// Specifies whether a fix is available for the finding. This value is true when Amazon Inspector reports a full or partial fix for the finding.
+        public var fixAvailable: Swift.Bool?
+        /// The file paths in the AMI that are affected by the finding. Amazon EC2 returns up to 10 file paths for each finding.
+        public var paths: [Swift.String]?
+        /// The Amazon Inspector score for the finding.
+        public var score: Swift.Double?
+        /// The severity of the finding. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide.
+        public var severityLabel: EC2ClientTypes.SeverityLabel?
+        /// The ID of the Amazon EBS snapshot of the AMI in which the finding was detected.
+        public var snapshotId: Swift.String?
+        /// The title of the finding.
+        public var title: Swift.String?
+        /// The date and time, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), when Amazon Inspector last updated the finding.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            firstObservedAt: Foundation.Date? = nil,
+            fixAvailable: Swift.Bool? = nil,
+            paths: [Swift.String]? = nil,
+            score: Swift.Double? = nil,
+            severityLabel: EC2ClientTypes.SeverityLabel? = nil,
+            snapshotId: Swift.String? = nil,
+            title: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.firstObservedAt = firstObservedAt
+            self.fixAvailable = fixAvailable
+            self.paths = paths
+            self.score = score
+            self.severityLabel = severityLabel
+            self.snapshotId = snapshotId
+            self.title = title
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct GetImageFindingsOutput: Swift.Sendable {
+    /// The Amazon Inspector findings for the AMI.
+    public var imageFindings: [EC2ClientTypes.ImageFinding]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        imageFindings: [EC2ClientTypes.ImageFinding]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.imageFindings = imageFindings
+        self.nextToken = nextToken
     }
 }
 
@@ -77561,29 +78080,6 @@ public struct GetSnapshotBlockPublicAccessStateOutput: Swift.Sendable {
     ) {
         self.managedBy = managedBy
         self.state = state
-    }
-}
-
-extension EC2ClientTypes {
-
-    /// The architecture type, virtualization type, and other attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadataRequest, you can't specify InstanceTypes.
-    public struct InstanceRequirementsWithMetadataRequest: Swift.Sendable {
-        /// The architecture type.
-        public var architectureTypes: [EC2ClientTypes.ArchitectureType]?
-        /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes.
-        public var instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest?
-        /// The virtualization type.
-        public var virtualizationTypes: [EC2ClientTypes.VirtualizationType]?
-
-        public init(
-            architectureTypes: [EC2ClientTypes.ArchitectureType]? = nil,
-            instanceRequirements: EC2ClientTypes.InstanceRequirementsRequest? = nil,
-            virtualizationTypes: [EC2ClientTypes.VirtualizationType]? = nil
-        ) {
-            self.architectureTypes = architectureTypes
-            self.instanceRequirements = instanceRequirements
-            self.virtualizationTypes = virtualizationTypes
-        }
     }
 }
 
@@ -86594,6 +87090,58 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity. They can also limit, for each severity, the days since Amazon Inspector reported a fix as available. The severity limit applies to all findings, whether or not a fix is available. The day limits for each severity apply only to findings that have a fix available. A scanned AMI that has no fix-available finding of a given severity meets that severity's day limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+    public struct ScanResultConditionRequest: Swift.Sendable {
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a critical severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no critical severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceCriticalFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a high severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no high severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceHighFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for an informational severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no informational severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceInformationalFixAvailable: Swift.Int?
+        /// The maximum number of days that have elapsed since Amazon Inspector last scanned the AMI. For example, a value of 7 allows AMIs that were scanned within the last 7 days. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLastFindingScan: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a low severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no low severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceLowFixAvailable: Swift.Int?
+        /// The maximum number of days since Amazon Inspector reported a fix as available for a medium severity finding on the AMI. For example, a value of 7 does not allow an AMI if Amazon Inspector reported such a fix more than 7 days ago. A scanned AMI that has no medium severity finding with a fix available meets this limit. AMIs that Amazon Inspector has not scanned are not allowed. Constraints: Minimum value of 0. Maximum value of 2147483647.
+        public var maxDaysSinceMediumFixAvailable: Swift.Int?
+        /// The maximum severity that an AMI's Amazon Inspector findings can have for the AMI to be allowed. Findings count whether or not a fix is available. For example, a value of medium allows AMIs whose highest severity is informational, low, or medium. The valid values are the following Amazon Inspector severity levels, which correspond to CVSS score ranges:
+        ///
+        /// * informational - CVSS score of 0.
+        ///
+        /// * low - CVSS score of 0.1 to 3.9.
+        ///
+        /// * medium - CVSS score of 4.0 to 6.9.
+        ///
+        /// * high - CVSS score of 7.0 to 8.9.
+        ///
+        /// * critical - CVSS score of 9.0 to 10.0.
+        ///
+        ///
+        /// For more information, see [Software package vulnerability severity](https://docs.aws.amazon.com/inspector/latest/user/findings-understanding-severity.html#findings-understanding-package-score) in the Amazon Inspector User Guide. A scanned AMI that has no findings meets this limit. AMIs that Amazon Inspector has not scanned are not allowed when you specify this condition.
+        public var maximumSeverityLabel: EC2ClientTypes.SeverityLabel?
+
+        public init(
+            maxDaysSinceCriticalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceHighFixAvailable: Swift.Int? = nil,
+            maxDaysSinceInformationalFixAvailable: Swift.Int? = nil,
+            maxDaysSinceLastFindingScan: Swift.Int? = nil,
+            maxDaysSinceLowFixAvailable: Swift.Int? = nil,
+            maxDaysSinceMediumFixAvailable: Swift.Int? = nil,
+            maximumSeverityLabel: EC2ClientTypes.SeverityLabel? = nil
+        ) {
+            self.maxDaysSinceCriticalFixAvailable = maxDaysSinceCriticalFixAvailable
+            self.maxDaysSinceHighFixAvailable = maxDaysSinceHighFixAvailable
+            self.maxDaysSinceInformationalFixAvailable = maxDaysSinceInformationalFixAvailable
+            self.maxDaysSinceLastFindingScan = maxDaysSinceLastFindingScan
+            self.maxDaysSinceLowFixAvailable = maxDaysSinceLowFixAvailable
+            self.maxDaysSinceMediumFixAvailable = maxDaysSinceMediumFixAvailable
+            self.maximumSeverityLabel = maximumSeverityLabel
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     /// The criteria that are evaluated to determine which AMIs are discoverable and usable in your account for the specified Amazon Web Services Region. The ImageCriteria can include up to:
     ///
     /// * 10 ImageCriterion
@@ -86648,6 +87196,8 @@ extension EC2ClientTypes {
         public var imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]?
         /// The Amazon Web Services Marketplace product codes for allowed images. Length: 1-25 characters Valid characters: Letters (A–Z, a–z) and numbers (0–9) Maximum: 50 values
         public var marketplaceProductCodes: [Swift.String]?
+        /// The Amazon Inspector scan-result criteria that an AMI must meet to be allowed. The criteria can limit the highest finding severity, the number of days since Amazon Inspector last scanned the AMI, and the number of days since Amazon Inspector reported a fix as available.
+        public var scanResultCondition: EC2ClientTypes.ScanResultConditionRequest?
 
         public init(
             creationDateCondition: EC2ClientTypes.CreationDateConditionRequest? = nil,
@@ -86655,7 +87205,8 @@ extension EC2ClientTypes {
             imageNames: [Swift.String]? = nil,
             imageProviders: [Swift.String]? = nil,
             imageWatermarks: [EC2ClientTypes.ImageWatermarkFilterRequest]? = nil,
-            marketplaceProductCodes: [Swift.String]? = nil
+            marketplaceProductCodes: [Swift.String]? = nil,
+            scanResultCondition: EC2ClientTypes.ScanResultConditionRequest? = nil
         ) {
             self.creationDateCondition = creationDateCondition
             self.deprecationTimeCondition = deprecationTimeCondition
@@ -86663,6 +87214,7 @@ extension EC2ClientTypes {
             self.imageProviders = imageProviders
             self.imageWatermarks = imageWatermarks
             self.marketplaceProductCodes = marketplaceProductCodes
+            self.scanResultCondition = scanResultCondition
         }
     }
 }
@@ -93870,6 +94422,13 @@ extension GetCapacityManagerMonitoredTagKeysInput {
     }
 }
 
+extension GetCapacityManagerSupportabilityScoresInput {
+
+    static func urlPathProvider(_ value: GetCapacityManagerSupportabilityScoresInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetCapacityReservationUsageInput {
 
     static func urlPathProvider(_ value: GetCapacityReservationUsageInput) -> Swift.String? {
@@ -93971,6 +94530,13 @@ extension GetImageAncestryInput {
 extension GetImageBlockPublicAccessStateInput {
 
     static func urlPathProvider(_ value: GetImageBlockPublicAccessStateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetImageFindingsInput {
+
+    static func urlPathProvider(_ value: GetImageFindingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -96689,10 +97255,13 @@ extension CreateCapacityReservationFleetInput {
     static func write(value: CreateCapacityReservationFleetInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AllocationStrategy"].write(value.allocationStrategy)
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["AvailabilityZoneId"].write(value.availabilityZoneId)
         try writer["ClientToken"].write(value.clientToken)
         try writer["DryRun"].write(value.dryRun)
         try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["InstanceMatchCriteria"].write(value.instanceMatchCriteria)
+        try writer["InstanceRequirements"].write(value.instanceRequirements, with: EC2ClientTypes.InstanceRequirementsRequest.write(value:to:))
         if !(value.instanceTypeSpecifications?.isEmpty ?? true) {
             try writer["InstanceTypeSpecification"].writeList(value.instanceTypeSpecifications, memberWritingClosure: EC2ClientTypes.ReservationFleetInstanceSpecification.write(value:to:), memberNodeInfo: "Member", isFlattened: true)
         }
@@ -104278,6 +104847,26 @@ extension GetCapacityManagerMonitoredTagKeysInput {
     }
 }
 
+extension GetCapacityManagerSupportabilityScoresInput {
+
+    static func write(value: GetCapacityManagerSupportabilityScoresInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityAmount"].write(value.capacityAmount)
+        if !(value.capacityAvailabilityZoneIds?.isEmpty ?? true) {
+            try writer["CapacityAvailabilityZoneId"].writeList(value.capacityAvailabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["CapacityUnit"].write(value.capacityUnit)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["InstanceRequirementsWithMetadata"].write(value.instanceRequirementsWithMetadata, with: EC2ClientTypes.InstanceRequirementsWithMetadataRequest.write(value:to:))
+        if !(value.instanceTypes?.isEmpty ?? true) {
+            try writer["InstanceType"].writeList(value.instanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["MarketType"].write(value.marketType)
+        try writer["Action"].write("GetCapacityManagerSupportabilityScores")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension GetCapacityReservationUsageInput {
 
     static func write(value: GetCapacityReservationUsageInput?, to writer: SmithyFormURL.Writer) throws {
@@ -104450,6 +105039,19 @@ extension GetImageBlockPublicAccessStateInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("GetImageBlockPublicAccessState")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetImageFindingsInput {
+
+    static func write(value: GetImageFindingsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageId"].write(value.imageId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("GetImageFindings")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -115085,6 +115687,19 @@ extension GetCapacityManagerMonitoredTagKeysOutput {
     }
 }
 
+extension GetCapacityManagerSupportabilityScoresOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCapacityManagerSupportabilityScoresOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCapacityManagerSupportabilityScoresOutput()
+        value.aggregateScore = try reader["aggregateScore"].readIfPresent()
+        value.capacityManagerSupportabilityScores = try reader["capacityManagerSupportabilityScoreSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.CapacityManagerSupportabilityScore.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension GetCapacityReservationUsageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCapacityReservationUsageOutput {
@@ -115296,6 +115911,19 @@ extension GetImageBlockPublicAccessStateOutput {
         var value = GetImageBlockPublicAccessStateOutput()
         value.imageBlockPublicAccessState = try reader["imageBlockPublicAccessState"].readIfPresent()
         value.managedBy = try reader["managedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension GetImageFindingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetImageFindingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetImageFindingsOutput()
+        value.imageFindings = try reader["imageFindingSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageFinding.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -125460,6 +126088,19 @@ enum GetCapacityManagerMonitoredTagKeysOutputError {
     }
 }
 
+enum GetCapacityManagerSupportabilityScoresOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCapacityReservationUsageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -125643,6 +126284,19 @@ enum GetImageAncestryOutputError {
 }
 
 enum GetImageBlockPublicAccessStateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetImageFindingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -128708,6 +129362,14 @@ extension EC2ClientTypes.AcceleratorCountRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AcceleratorCountRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AcceleratorCountRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.AcceleratorTotalMemoryMiB {
@@ -128733,6 +129395,14 @@ extension EC2ClientTypes.AcceleratorTotalMemoryMiBRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AcceleratorTotalMemoryMiBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AcceleratorTotalMemoryMiBRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
@@ -129473,6 +130143,14 @@ extension EC2ClientTypes.BaselineEbsBandwidthMbpsRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.BaselineEbsBandwidthMbpsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.BaselineEbsBandwidthMbpsRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.BaselinePerformanceFactors {
@@ -129495,6 +130173,13 @@ extension EC2ClientTypes.BaselinePerformanceFactorsRequest {
     static func write(value: EC2ClientTypes.BaselinePerformanceFactorsRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Cpu"].write(value.cpu, with: EC2ClientTypes.CpuPerformanceFactorRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.BaselinePerformanceFactorsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.BaselinePerformanceFactorsRequest()
+        value.cpu = try reader["Cpu"].readIfPresent(with: EC2ClientTypes.CpuPerformanceFactorRequest.read(from:))
+        return value
     }
 }
 
@@ -129866,6 +130551,18 @@ extension EC2ClientTypes.CapacityManagerMonitoredTagKey {
     }
 }
 
+extension EC2ClientTypes.CapacityManagerSupportabilityScore {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityManagerSupportabilityScore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CapacityManagerSupportabilityScore()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
+        value.score = try reader["score"].readIfPresent()
+        return value
+    }
+}
+
 extension EC2ClientTypes.CapacityManagerTagDimension {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CapacityManagerTagDimension {
@@ -130008,6 +130705,9 @@ extension EC2ClientTypes.CapacityReservationFleet {
         value.instanceMatchCriteria = try reader["instanceMatchCriteria"].readIfPresent()
         value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
         value.instanceTypeSpecifications = try reader["instanceTypeSpecificationSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FleetCapacityReservation.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: EC2ClientTypes.InstanceRequirementsRequest.read(from:))
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.availabilityZoneId = try reader["availabilityZoneId"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
@@ -130750,6 +131450,13 @@ extension EC2ClientTypes.CpuPerformanceFactorRequest {
         if !(value.references?.isEmpty ?? true) {
             try writer["Reference"].writeList(value.references, memberWritingClosure: EC2ClientTypes.PerformanceFactorReferenceRequest.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.CpuPerformanceFactorRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.CpuPerformanceFactorRequest()
+        value.references = try reader["Reference"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PerformanceFactorReferenceRequest.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
     }
 }
 
@@ -132974,6 +133681,7 @@ extension EC2ClientTypes.Image {
         value.freeTierEligible = try reader["freeTierEligible"].readIfPresent()
         value.publicSsmParameterName = try reader["publicSsmParameterName"].readIfPresent()
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermark.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.scanResults = try reader["scanResults"].readIfPresent(with: EC2ClientTypes.ScanResults.read(from:))
         value.instanceTypeSpecification = try reader["instanceTypeSpecification"].readIfPresent(with: EC2ClientTypes.InstanceTypeSpecification.read(from:))
         value.imageId = try reader["imageId"].readIfPresent()
         value.imageLocation = try reader["imageLocation"].readIfPresent()
@@ -133016,6 +133724,7 @@ extension EC2ClientTypes.ImageCriterion {
         value.deprecationTimeCondition = try reader["deprecationTimeCondition"].readIfPresent(with: EC2ClientTypes.DeprecationTimeCondition.read(from:))
         value.creationDateCondition = try reader["creationDateCondition"].readIfPresent(with: EC2ClientTypes.CreationDateCondition.read(from:))
         value.imageWatermarks = try reader["imageWatermarkSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ImageWatermarkFilterResponse.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.scanResultCondition = try reader["scanResultCondition"].readIfPresent(with: EC2ClientTypes.ScanResultCondition.read(from:))
         return value
     }
 }
@@ -133038,6 +133747,7 @@ extension EC2ClientTypes.ImageCriterionRequest {
         if !(value.marketplaceProductCodes?.isEmpty ?? true) {
             try writer["MarketplaceProductCode"].writeList(value.marketplaceProductCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
+        try writer["ScanResultCondition"].write(value.scanResultCondition, with: EC2ClientTypes.ScanResultConditionRequest.write(value:to:))
     }
 }
 
@@ -133051,6 +133761,23 @@ extension EC2ClientTypes.ImageDiskContainer {
         try writer["SnapshotId"].write(value.snapshotId)
         try writer["Url"].write(value.url)
         try writer["UserBucket"].write(value.userBucket, with: EC2ClientTypes.UserBucket.write(value:to:))
+    }
+}
+
+extension EC2ClientTypes.ImageFinding {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ImageFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ImageFinding()
+        value.fixAvailable = try reader["fixAvailable"].readIfPresent()
+        value.score = try reader["score"].readIfPresent()
+        value.firstObservedAt = try reader["firstObservedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.title = try reader["title"].readIfPresent()
+        value.paths = try reader["pathSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.severityLabel = try reader["severityLabel"].readIfPresent()
+        value.snapshotId = try reader["snapshotId"].readIfPresent()
+        return value
     }
 }
 
@@ -134126,6 +134853,38 @@ extension EC2ClientTypes.InstanceRequirementsRequest {
         try writer["SpotMaxPricePercentageOverLowestPrice"].write(value.spotMaxPricePercentageOverLowestPrice)
         try writer["TotalLocalStorageGB"].write(value.totalLocalStorageGB, with: EC2ClientTypes.TotalLocalStorageGBRequest.write(value:to:))
         try writer["VCpuCount"].write(value.vCpuCount, with: EC2ClientTypes.VCpuCountRangeRequest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceRequirementsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.InstanceRequirementsRequest()
+        value.vCpuCount = try reader["VCpuCount"].readIfPresent(with: EC2ClientTypes.VCpuCountRangeRequest.read(from:))
+        value.memoryMiB = try reader["MemoryMiB"].readIfPresent(with: EC2ClientTypes.MemoryMiBRequest.read(from:))
+        value.cpuManufacturers = try reader["CpuManufacturer"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.CpuManufacturer>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.memoryGiBPerVCpu = try reader["MemoryGiBPerVCpu"].readIfPresent(with: EC2ClientTypes.MemoryGiBPerVCpuRequest.read(from:))
+        value.excludedInstanceTypes = try reader["ExcludedInstanceType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.instanceGenerations = try reader["InstanceGeneration"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.InstanceGeneration>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.spotMaxPricePercentageOverLowestPrice = try reader["SpotMaxPricePercentageOverLowestPrice"].readIfPresent()
+        value.onDemandMaxPricePercentageOverLowestPrice = try reader["OnDemandMaxPricePercentageOverLowestPrice"].readIfPresent()
+        value.bareMetal = try reader["BareMetal"].readIfPresent()
+        value.burstablePerformance = try reader["BurstablePerformance"].readIfPresent()
+        value.requireHibernateSupport = try reader["RequireHibernateSupport"].readIfPresent()
+        value.networkInterfaceCount = try reader["NetworkInterfaceCount"].readIfPresent(with: EC2ClientTypes.NetworkInterfaceCountRequest.read(from:))
+        value.localStorage = try reader["LocalStorage"].readIfPresent()
+        value.localStorageTypes = try reader["LocalStorageType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.LocalStorageType>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.totalLocalStorageGB = try reader["TotalLocalStorageGB"].readIfPresent(with: EC2ClientTypes.TotalLocalStorageGBRequest.read(from:))
+        value.baselineEbsBandwidthMbps = try reader["BaselineEbsBandwidthMbps"].readIfPresent(with: EC2ClientTypes.BaselineEbsBandwidthMbpsRequest.read(from:))
+        value.acceleratorTypes = try reader["AcceleratorType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.AcceleratorType>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.acceleratorCount = try reader["AcceleratorCount"].readIfPresent(with: EC2ClientTypes.AcceleratorCountRequest.read(from:))
+        value.acceleratorManufacturers = try reader["AcceleratorManufacturer"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.AcceleratorManufacturer>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.acceleratorNames = try reader["AcceleratorName"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.AcceleratorName>().read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.acceleratorTotalMemoryMiB = try reader["AcceleratorTotalMemoryMiB"].readIfPresent(with: EC2ClientTypes.AcceleratorTotalMemoryMiBRequest.read(from:))
+        value.networkBandwidthGbps = try reader["NetworkBandwidthGbps"].readIfPresent(with: EC2ClientTypes.NetworkBandwidthGbpsRequest.read(from:))
+        value.allowedInstanceTypes = try reader["AllowedInstanceType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.maxSpotPriceAsPercentageOfOptimalOnDemandPrice = try reader["MaxSpotPriceAsPercentageOfOptimalOnDemandPrice"].readIfPresent()
+        value.baselinePerformanceFactors = try reader["BaselinePerformanceFactors"].readIfPresent(with: EC2ClientTypes.BaselinePerformanceFactorsRequest.read(from:))
+        value.requireEncryptionInTransit = try reader["RequireEncryptionInTransit"].readIfPresent()
+        return value
     }
 }
 
@@ -136510,6 +137269,14 @@ extension EC2ClientTypes.MemoryGiBPerVCpuRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.MemoryGiBPerVCpuRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.MemoryGiBPerVCpuRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.MemoryInfo {
@@ -136545,6 +137312,14 @@ extension EC2ClientTypes.MemoryMiBRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.MemoryMiBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.MemoryMiBRequest()
+        value.min = try reader["Min"].readIfPresent() ?? 0
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
@@ -136956,6 +137731,14 @@ extension EC2ClientTypes.NetworkBandwidthGbpsRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NetworkBandwidthGbpsRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.NetworkBandwidthGbpsRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.NetworkCardInfo {
@@ -137210,6 +137993,14 @@ extension EC2ClientTypes.NetworkInterfaceCountRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NetworkInterfaceCountRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.NetworkInterfaceCountRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 
@@ -137618,6 +138409,13 @@ extension EC2ClientTypes.PerformanceFactorReferenceRequest {
     static func write(value: EC2ClientTypes.PerformanceFactorReferenceRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["InstanceFamily"].write(value.instanceFamily)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PerformanceFactorReferenceRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PerformanceFactorReferenceRequest()
+        value.instanceFamily = try reader["InstanceFamily"].readIfPresent()
+        return value
     }
 }
 
@@ -139028,6 +139826,52 @@ extension EC2ClientTypes.S3Storage {
         value.`prefix` = try reader["prefix"].readIfPresent()
         value.uploadPolicy = try reader["uploadPolicy"].readIfPresent()
         value.uploadPolicySignature = try reader["uploadPolicySignature"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ScanResultCondition {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ScanResultCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ScanResultCondition()
+        value.maxDaysSinceLastFindingScan = try reader["maxDaysSinceLastFindingScan"].readIfPresent()
+        value.maximumSeverityLabel = try reader["maximumSeverityLabel"].readIfPresent()
+        value.maxDaysSinceInformationalFixAvailable = try reader["maxDaysSinceInformationalFixAvailable"].readIfPresent()
+        value.maxDaysSinceLowFixAvailable = try reader["maxDaysSinceLowFixAvailable"].readIfPresent()
+        value.maxDaysSinceMediumFixAvailable = try reader["maxDaysSinceMediumFixAvailable"].readIfPresent()
+        value.maxDaysSinceHighFixAvailable = try reader["maxDaysSinceHighFixAvailable"].readIfPresent()
+        value.maxDaysSinceCriticalFixAvailable = try reader["maxDaysSinceCriticalFixAvailable"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.ScanResultConditionRequest {
+
+    static func write(value: EC2ClientTypes.ScanResultConditionRequest?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxDaysSinceCriticalFixAvailable"].write(value.maxDaysSinceCriticalFixAvailable)
+        try writer["MaxDaysSinceHighFixAvailable"].write(value.maxDaysSinceHighFixAvailable)
+        try writer["MaxDaysSinceInformationalFixAvailable"].write(value.maxDaysSinceInformationalFixAvailable)
+        try writer["MaxDaysSinceLastFindingScan"].write(value.maxDaysSinceLastFindingScan)
+        try writer["MaxDaysSinceLowFixAvailable"].write(value.maxDaysSinceLowFixAvailable)
+        try writer["MaxDaysSinceMediumFixAvailable"].write(value.maxDaysSinceMediumFixAvailable)
+        try writer["MaximumSeverityLabel"].write(value.maximumSeverityLabel)
+    }
+}
+
+extension EC2ClientTypes.ScanResults {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.ScanResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.ScanResults()
+        value.highestFindingSeverityLabel = try reader["highestFindingSeverityLabel"].readIfPresent()
+        value.findingScanDate = try reader["findingScanDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.informationalFixAvailableSince = try reader["informationalFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lowFixAvailableSince = try reader["lowFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.mediumFixAvailableSince = try reader["mediumFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.highFixAvailableSince = try reader["highFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.criticalFixAvailableSince = try reader["criticalFixAvailableSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -140589,6 +141433,14 @@ extension EC2ClientTypes.TotalLocalStorageGBRequest {
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
     }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TotalLocalStorageGBRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TotalLocalStorageGBRequest()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        return value
+    }
 }
 
 extension EC2ClientTypes.TrafficMirrorFilter {
@@ -141623,6 +142475,14 @@ extension EC2ClientTypes.VCpuCountRangeRequest {
         guard let value else { return }
         try writer["Max"].write(value.max)
         try writer["Min"].write(value.min)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.VCpuCountRangeRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.VCpuCountRangeRequest()
+        value.min = try reader["Min"].readIfPresent() ?? 0
+        value.max = try reader["Max"].readIfPresent()
+        return value
     }
 }
 

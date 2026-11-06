@@ -113,6 +113,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAccountAccess](/sdk-for-swift/latest/api/awsaccountaccess/documentation/awsaccountaccess)
 
+[AWSAccountAccessRuntime](/sdk-for-swift/latest/api/awsaccountaccessruntime/documentation/awsaccountaccessruntime)
+
 [AWSAgentRegistry](/sdk-for-swift/latest/api/awsagentregistry/documentation/awsagentregistry)
 
 [AWSAgentRegistryControl](/sdk-for-swift/latest/api/awsagentregistrycontrol/documentation/awsagentregistrycontrol)

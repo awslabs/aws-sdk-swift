@@ -3960,6 +3960,7 @@ extension MgnClientTypes {
         case ciscoAci
         case fortigateFirewall
         case logicalModel
+        case migrationPlanningArtifacts
         case modelizeIt
         case nsx
         case paloAltoFirewall
@@ -3972,6 +3973,7 @@ extension MgnClientTypes {
                 .ciscoAci,
                 .fortigateFirewall,
                 .logicalModel,
+                .migrationPlanningArtifacts,
                 .modelizeIt,
                 .nsx,
                 .paloAltoFirewall,
@@ -3990,6 +3992,7 @@ extension MgnClientTypes {
             case .ciscoAci: return "CISCO_ACI"
             case .fortigateFirewall: return "FORTIGATE_FIREWALL"
             case .logicalModel: return "LOGICAL_MODEL"
+            case .migrationPlanningArtifacts: return "MIGRATION_PLANNING_ARTIFACTS"
             case .modelizeIt: return "MODELIZE_IT"
             case .nsx: return "NSX"
             case .paloAltoFirewall: return "PALO_ALTO_FIREWALL"
@@ -4186,6 +4189,8 @@ extension MgnClientTypes {
 public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
     /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
     public var cidrMappings: [MgnClientTypes.CidrMapping]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
     /// A description of the network migration definition.
     public var description: Swift.String?
     /// The name of the network migration definition.
@@ -4210,6 +4215,7 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
 
     public init(
         cidrMappings: [MgnClientTypes.CidrMapping]? = nil,
+        clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
         scopeTags: [Swift.String: Swift.String]? = nil,
@@ -4221,6 +4227,7 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
         vpcProvisioningStrategy: MgnClientTypes.VpcProvisioningStrategy? = nil
     ) {
         self.cidrMappings = cidrMappings
+        self.clientToken = clientToken
         self.description = description
         self.name = name
         self.scopeTags = scopeTags
@@ -4235,7 +4242,7 @@ public struct CreateNetworkMigrationDefinitionInput: Swift.Sendable {
 
 extension CreateNetworkMigrationDefinitionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateNetworkMigrationDefinitionInput(cidrMappings: \(Swift.String(describing: cidrMappings)), clientToken: \(Swift.String(describing: clientToken)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), sourceConfigurations: \(Swift.String(describing: sourceConfigurations)), targetDeployment: \(Swift.String(describing: targetDeployment)), targetNetwork: \(Swift.String(describing: targetNetwork)), targetS3Configuration: \(Swift.String(describing: targetS3Configuration)), vpcProvisioningStrategy: \(Swift.String(describing: vpcProvisioningStrategy)), scopeTags: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateNetworkMigrationDefinitionOutput: Swift.Sendable {
@@ -12195,6 +12202,7 @@ extension CreateNetworkMigrationDefinitionInput {
     static func write(value: CreateNetworkMigrationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["cidrMappings"].writeList(value.cidrMappings, memberWritingClosure: MgnClientTypes.CidrMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["scopeTags"].writeMap(value.scopeTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

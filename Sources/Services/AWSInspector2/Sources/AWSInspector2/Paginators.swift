@@ -526,6 +526,38 @@ extension PaginatorSequence where OperationStackInput == ListMembersInput, Opera
     }
 }
 extension Inspector2Client {
+    /// Paginate over `[ListOnDemandScansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOnDemandScansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOnDemandScansOutput`
+    public func listOnDemandScansPaginated(input: ListOnDemandScansInput) -> ClientRuntime.PaginatorSequence<ListOnDemandScansInput, ListOnDemandScansOutput> {
+        return ClientRuntime.PaginatorSequence<ListOnDemandScansInput, ListOnDemandScansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listOnDemandScans(input:))
+    }
+}
+
+extension ListOnDemandScansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOnDemandScansInput {
+        return ListOnDemandScansInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            resourceType: self.resourceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListOnDemandScansInput, OperationStackOutput == ListOnDemandScansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listOnDemandScansPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.OnDemandScan]`
+    /// - Returns: `[Inspector2ClientTypes.OnDemandScan]`
+    public func items() async throws -> [Inspector2ClientTypes.OnDemandScan] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension Inspector2Client {
     /// Paginate over `[ListUsageTotalsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

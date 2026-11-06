@@ -180,6 +180,131 @@ extension PaginatorSequence where OperationStackInput == ListBusinessSupportSubs
     }
 }
 extension BillingClient {
+    /// Paginate over `[ListContractsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContractsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContractsOutput`
+    public func listContractsPaginated(input: ListContractsInput) -> ClientRuntime.PaginatorSequence<ListContractsInput, ListContractsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContractsInput, ListContractsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContracts(input:))
+    }
+}
+
+extension ListContractsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContractsInput {
+        return ListContractsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContractsInput, OperationStackOutput == ListContractsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContractsPaginated`
+    /// to access the nested member `[BillingClientTypes.ContractSummary]`
+    /// - Returns: `[BillingClientTypes.ContractSummary]`
+    public func items() async throws -> [BillingClientTypes.ContractSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension BillingClient {
+    /// Paginate over `[ListContractualInvestmentAttestationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContractualInvestmentAttestationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContractualInvestmentAttestationsOutput`
+    public func listContractualInvestmentAttestationsPaginated(input: ListContractualInvestmentAttestationsInput) -> ClientRuntime.PaginatorSequence<ListContractualInvestmentAttestationsInput, ListContractualInvestmentAttestationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContractualInvestmentAttestationsInput, ListContractualInvestmentAttestationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContractualInvestmentAttestations(input:))
+    }
+}
+
+extension ListContractualInvestmentAttestationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContractualInvestmentAttestationsInput {
+        return ListContractualInvestmentAttestationsInput(
+            contractArn: self.contractArn,
+            investmentSummaryId: self.investmentSummaryId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContractualInvestmentAttestationsInput, OperationStackOutput == ListContractualInvestmentAttestationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContractualInvestmentAttestationsPaginated`
+    /// to access the nested member `[BillingClientTypes.InvestmentAttestation]`
+    /// - Returns: `[BillingClientTypes.InvestmentAttestation]`
+    public func items() async throws -> [BillingClientTypes.InvestmentAttestation] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension BillingClient {
+    /// Paginate over `[ListContractualInvestmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContractualInvestmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContractualInvestmentsOutput`
+    public func listContractualInvestmentsPaginated(input: ListContractualInvestmentsInput) -> ClientRuntime.PaginatorSequence<ListContractualInvestmentsInput, ListContractualInvestmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContractualInvestmentsInput, ListContractualInvestmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContractualInvestments(input:))
+    }
+}
+
+extension ListContractualInvestmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContractualInvestmentsInput {
+        return ListContractualInvestmentsInput(
+            contractArn: self.contractArn,
+            investmentSummaryId: self.investmentSummaryId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContractualInvestmentsInput, OperationStackOutput == ListContractualInvestmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContractualInvestmentsPaginated`
+    /// to access the nested member `[BillingClientTypes.Investment]`
+    /// - Returns: `[BillingClientTypes.Investment]`
+    public func items() async throws -> [BillingClientTypes.Investment] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension BillingClient {
+    /// Paginate over `[ListContractualInvestmentSummariesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContractualInvestmentSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContractualInvestmentSummariesOutput`
+    public func listContractualInvestmentSummariesPaginated(input: ListContractualInvestmentSummariesInput) -> ClientRuntime.PaginatorSequence<ListContractualInvestmentSummariesInput, ListContractualInvestmentSummariesOutput> {
+        return ClientRuntime.PaginatorSequence<ListContractualInvestmentSummariesInput, ListContractualInvestmentSummariesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContractualInvestmentSummaries(input:))
+    }
+}
+
+extension ListContractualInvestmentSummariesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContractualInvestmentSummariesInput {
+        return ListContractualInvestmentSummariesInput(
+            contractArn: self.contractArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContractualInvestmentSummariesInput, OperationStackOutput == ListContractualInvestmentSummariesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContractualInvestmentSummariesPaginated`
+    /// to access the nested member `[BillingClientTypes.InvestmentSummary]`
+    /// - Returns: `[BillingClientTypes.InvestmentSummary]`
+    public func items() async throws -> [BillingClientTypes.InvestmentSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension BillingClient {
     /// Paginate over `[ListEnterpriseSupportLinkedAccountChargesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

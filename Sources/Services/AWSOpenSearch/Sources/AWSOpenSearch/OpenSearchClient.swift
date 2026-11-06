@@ -830,6 +830,78 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AddReplicationPeer` operation on the `OpenSearch` service.
+    ///
+    /// Starts replicating a domain to a peer domain in another AWS Region. A domain can have one peer. The domain you call becomes the primary and the peer becomes the secondary, which receives a copy of the primary's indexes and serves read requests. Replication is established asynchronously. Use the DescribeDomainReplication operation to check whether the relationship has reached the ACTIVE state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AddReplicationPeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AddReplicationPeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func addReplicationPeer(input: AddReplicationPeerInput) async throws -> AddReplicationPeerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "addReplicationPeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AddReplicationPeerInput, AddReplicationPeerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>(AddReplicationPeerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AddReplicationPeerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AddReplicationPeerOutput>(AddReplicationPeerOutput.httpOutput(from:), AddReplicationPeerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AddReplicationPeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddReplicationPeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddReplicationPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "OpenSearch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AddReplicationPeerInput, AddReplicationPeerOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AddReplicationPeer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AddTags` operation on the `OpenSearch` service.
     ///
     /// Attaches tags to an existing Amazon OpenSearch Service domain, data source, or application. Tags are a set of case-sensitive key-value pairs. A domain, data source, or application can have up to 10 tags. For more information, see [Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
@@ -1324,6 +1396,77 @@ extension OpenSearchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelServiceSoftwareUpdate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CompareDomainConfiguration` operation on the `OpenSearch` service.
+    ///
+    /// Compares the metadata of two domains and reports where they differ. Use this operation to check that a secondary domain is configured consistently with its primary before you rely on it, because replication copies index data but does not copy domain metadata such as index templates, ingest pipelines, or security roles. You choose which categories to compare. The response reports, for each category, how many items match, how many exist on only one domain, and which fields diverge.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CompareDomainConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CompareDomainConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func compareDomainConfiguration(input: CompareDomainConfigurationInput) async throws -> CompareDomainConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "compareDomainConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CompareDomainConfigurationInput, CompareDomainConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>(CompareDomainConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CompareDomainConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CompareDomainConfigurationOutput>(CompareDomainConfigurationOutput.httpOutput(from:), CompareDomainConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CompareDomainConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CompareDomainConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompareDomainConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "OpenSearch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CompareDomainConfigurationInput, CompareDomainConfigurationOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CompareDomainConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2951,6 +3094,74 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeDomainReplication` operation on the `OpenSearch` service.
+    ///
+    /// Describes the replication arrangement that a domain participates in, including the domain's role and the state of its relationship with each peer. A domain that is not replicating is returned with an empty Peers list and no Role. Returns ResourceNotFoundException if the domain does not exist.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeDomainReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func describeDomainReplication(input: DescribeDomainReplicationInput) async throws -> DescribeDomainReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDomainReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDomainReplicationInput, DescribeDomainReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDomainReplicationInput, DescribeDomainReplicationOutput>(DescribeDomainReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDomainReplicationInput, DescribeDomainReplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainReplicationOutput>(DescribeDomainReplicationOutput.httpOutput(from:), DescribeDomainReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainReplicationInput, DescribeDomainReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDomainReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDomainReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDomainReplicationInput, DescribeDomainReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDomainReplicationInput, DescribeDomainReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "OpenSearch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDomainReplicationInput, DescribeDomainReplicationOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDomainReplication")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeDomains` operation on the `OpenSearch` service.
     ///
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
@@ -3858,6 +4069,77 @@ extension OpenSearchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DissociatePackages")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `FailoverReplication` operation on the `OpenSearch` service.
+    ///
+    /// Promotes a secondary domain to primary without coordinating with the current primary. Use this operation when the primary is unreachable and you cannot wait for it to recover. Writes that had not yet replicated when the primary became unreachable are lost. You must set AllowDataLoss to acknowledge this. To promote a domain without losing writes, use the SwitchoverReplication operation instead. Call this operation in the Region of the domain you want to promote.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `FailoverReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `FailoverReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func failoverReplication(input: FailoverReplicationInput) async throws -> FailoverReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "failoverReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<FailoverReplicationInput, FailoverReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<FailoverReplicationInput, FailoverReplicationOutput>(FailoverReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<FailoverReplicationInput, FailoverReplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<FailoverReplicationInput, FailoverReplicationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<FailoverReplicationInput, FailoverReplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: FailoverReplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverReplicationInput, FailoverReplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverReplicationOutput>(FailoverReplicationOutput.httpOutput(from:), FailoverReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverReplicationInput, FailoverReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<FailoverReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<FailoverReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<FailoverReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<FailoverReplicationInput, FailoverReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<FailoverReplicationInput, FailoverReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "OpenSearch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<FailoverReplicationInput, FailoverReplicationOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "FailoverReplication")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6247,6 +6529,77 @@ extension OpenSearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RemoveReplicationPeer` operation on the `OpenSearch` service.
+    ///
+    /// Stops replicating a domain to its peer. Replication ends for both domains, and each domain keeps the data it holds at that point. Neither domain is deleted.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RemoveReplicationPeerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RemoveReplicationPeerOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func removeReplicationPeer(input: RemoveReplicationPeerInput) async throws -> RemoveReplicationPeerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "removeReplicationPeer")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RemoveReplicationPeerInput, RemoveReplicationPeerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>(RemoveReplicationPeerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RemoveReplicationPeerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveReplicationPeerOutput>(RemoveReplicationPeerOutput.httpOutput(from:), RemoveReplicationPeerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RemoveReplicationPeerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveReplicationPeerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveReplicationPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "OpenSearch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RemoveReplicationPeerInput, RemoveReplicationPeerOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RemoveReplicationPeer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RemoveTags` operation on the `OpenSearch` service.
     ///
     /// Removes the specified set of tags from an Amazon OpenSearch Service domain, data source, or application. For more information, see [ Tagging Amazon OpenSearch Service resources](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
@@ -6665,6 +7018,77 @@ extension OpenSearchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartServiceSoftwareUpdate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SwitchoverReplication` operation on the `OpenSearch` service.
+    ///
+    /// Promotes a secondary domain to primary, coordinating with the current primary so that no writes are lost. Use this operation for planned role changes, such as testing your recovery procedure or moving write traffic to another Region. Call this operation in the Region of the domain you want to promote. If the current primary is unreachable, use the FailoverReplication operation instead.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SwitchoverReplicationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SwitchoverReplicationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
+    public func switchoverReplication(input: SwitchoverReplicationInput) async throws -> SwitchoverReplicationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "switchoverReplication")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SwitchoverReplicationInput, SwitchoverReplicationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>(SwitchoverReplicationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SwitchoverReplicationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SwitchoverReplicationOutput>(SwitchoverReplicationOutput.httpOutput(from:), SwitchoverReplicationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SwitchoverReplicationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("OpenSearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SwitchoverReplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SwitchoverReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "OpenSearch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SwitchoverReplicationInput, SwitchoverReplicationOutput>(serviceID: serviceName, version: OpenSearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "OpenSearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SwitchoverReplication")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

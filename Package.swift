@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.259.0"
+let clientRuntimeVersion: Version = "0.261.0"
 let crtVersion: Version = "0.64.0"
 
 let excludeRuntimeUnitTests = false
@@ -67,6 +67,11 @@ private let serviceClientData: [ServiceClientData] = [
         "AWSAccountAccess",
         "account-access.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
+    ),
+    .init(
+        "AWSAccountAccessRuntime",
+        "account-access-runtime.json",
+        [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKIdentity, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuth, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
     ),
     .init(
         "AWSAgentRegistry",

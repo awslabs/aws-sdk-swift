@@ -671,6 +671,35 @@ public struct DisconnectParticipantOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectParticipantClientTypes {
+
+    public enum ContentDisposition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachment
+        case inline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentDisposition] {
+            return [
+                .attachment,
+                .inline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "ATTACHMENT"
+            case .inline: return "INLINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetAttachmentInput: Swift.Sendable {
     /// A unique identifier for the attachment.
     /// This member is required.
@@ -678,16 +707,20 @@ public struct GetAttachmentInput: Swift.Sendable {
     /// The authentication token associated with the participant's connection.
     /// This member is required.
     public var connectionToken: Swift.String?
+    /// Specifies how a browser handles the file at the pre-signed URL. The following values are valid: INLINE Displays the file in the browser. ATTACHMENT Downloads the file. This is the default behavior.
+    public var urlContentDisposition: ConnectParticipantClientTypes.ContentDisposition?
     /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
     public var urlExpiryInSeconds: Swift.Int?
 
     public init(
         attachmentId: Swift.String? = nil,
         connectionToken: Swift.String? = nil,
+        urlContentDisposition: ConnectParticipantClientTypes.ContentDisposition? = nil,
         urlExpiryInSeconds: Swift.Int? = nil
     ) {
         self.attachmentId = attachmentId
         self.connectionToken = connectionToken
+        self.urlContentDisposition = urlContentDisposition
         self.urlExpiryInSeconds = urlExpiryInSeconds
     }
 }
@@ -1228,13 +1261,7 @@ public struct SendMessageInput: Swift.Sendable {
     /// The authentication token associated with the connection.
     /// This member is required.
     public var connectionToken: Swift.String?
-    /// The content of the message.
-    ///
-    /// * For text/plain and text/markdown, the Length Constraints are Minimum of 1, Maximum of 1024.
-    ///
-    /// * For application/json, the Length Constraints are Minimum of 1, Maximum of 12000.
-    ///
-    /// * For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
+    /// The content of the message. Maximum of 16,384 bytes for all content types (text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response). Some messaging channels enforce lower limits. For channel-specific message size limits, see [Chat message size limits by channel](https://docs.aws.amazon.com/connect/latest/adminguide/feature-limits.html#chat-message-size-limits) in the Amazon Connect Customer Administrator Guide.
     /// This member is required.
     public var content: Swift.String?
     /// The type of the content. Possible types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response. Supported types on the contact are configured through SupportedMessagingContentTypes on [StartChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html) and [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html). For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only text/plain is supported.
@@ -1598,6 +1625,7 @@ extension GetAttachmentInput {
     static func write(value: GetAttachmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttachmentId"].write(value.attachmentId)
+        try writer["UrlContentDisposition"].write(value.urlContentDisposition)
         try writer["UrlExpiryInSeconds"].write(value.urlExpiryInSeconds)
     }
 }
