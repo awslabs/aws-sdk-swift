@@ -33,10 +33,10 @@ jobs:
           - xcode-27
         xcode:
           - Xcode_16.4
-          - Xcode_27.0
+          - Xcode_27.1
         destination:
           - 'platform=iOS Simulator,OS=18.5,name=iPhone 16'
-          - 'platform=iOS Simulator,OS=27.0,name=iPhone 17'
+          - 'platform=iOS Simulator,OS=27.1,name=iPhone Duo'
           - 'platform=tvOS Simulator,OS=18.5,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=tvOS Simulator,OS=27.0,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=visionOS Simulator,OS=2.4,name=Apple Vision Pro'
@@ -45,21 +45,21 @@ jobs:
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-15
-            xcode: Xcode_27.0
+            xcode: Xcode_27.1
           # Don't run new macOS with old Xcode
           - runner: xcode-27
             xcode: Xcode_16.4
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=18.5,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_27.0
+            xcode: Xcode_27.1
           - destination: 'platform=iOS Simulator,OS=18.5,name=iPhone 16'
-            xcode: Xcode_27.0
+            xcode: Xcode_27.1
           - destination: 'platform=visionOS Simulator,OS=2.4,name=Apple Vision Pro'
-            xcode: Xcode_27.0
+            xcode: Xcode_27.1
           # Don't run new simulators with old Xcode
           - destination: 'platform=tvOS Simulator,OS=27.0,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_16.4
-          - destination: 'platform=iOS Simulator,OS=27.0,name=iPhone 17'
+          - destination: 'platform=iOS Simulator,OS=27.1,name=iPhone Duo'
             xcode: Xcode_16.4
           - destination: 'platform=visionOS Simulator,OS=27.0,name=Apple Vision Pro'
             xcode: Xcode_16.4
