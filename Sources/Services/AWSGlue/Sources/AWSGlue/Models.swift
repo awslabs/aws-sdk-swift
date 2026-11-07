@@ -16560,6 +16560,35 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum GovernanceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamOnly
+        case lakeFormation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GovernanceMode] {
+            return [
+                .iamOnly,
+                .lakeFormation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamOnly: return "IAM_ONLY"
+            case .lakeFormation: return "LAKE_FORMATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum PrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case group
         case role
@@ -16626,15 +16655,19 @@ extension GlueClientTypes {
 
     /// The URIs for function resources.
     public struct ResourceUri: Swift.Sendable {
+        /// The time at which the resource was last modified in Amazon S3. Glue records this value when you create or update a function whose GovernanceMode is LAKE_FORMATION. Analytics engines use it to verify that the resource hasn't changed. This is an output-only field.
+        public var lastModified: Foundation.Date?
         /// The type of the resource.
         public var resourceType: GlueClientTypes.ResourceType?
         /// The URI for accessing the resource.
         public var uri: Swift.String?
 
         public init(
+            lastModified: Foundation.Date? = nil,
             resourceType: GlueClientTypes.ResourceType? = nil,
             uri: Swift.String? = nil
         ) {
+            self.lastModified = lastModified
             self.resourceType = resourceType
             self.uri = uri
         }
@@ -16645,12 +16678,24 @@ extension GlueClientTypes {
 
     /// A structure used to create or update a user-defined function.
     public struct UserDefinedFunctionInput: Swift.Sendable {
+        /// The Amazon S3 location that contains the function's artifacts. Required when GovernanceMode is LAKE_FORMATION. You must register the location with Lake Formation, and every resource URI must be under this location.
+        public var artifactLocation: Swift.String?
         /// The Java class that contains the function code.
         public var className: Swift.String?
         /// The name of the function.
         public var functionName: Swift.String?
         /// The type of the function.
         public var functionType: GlueClientTypes.FunctionType?
+        /// How access to the function is governed. Specify LAKE_FORMATION to manage access to the function with Lake Formation permissions. If you don't specify a value, the default is IAM_ONLY. You can't change the governance mode after the function is created. When GovernanceMode is LAKE_FORMATION:
+        ///
+        /// * You must be a data lake administrator or have all permissions on the Data Catalog with the grant option.
+        ///
+        /// * You must have the DATA_LOCATION_ACCESS permission on the ArtifactLocation, unless you're a data lake administrator.
+        ///
+        /// * You must specify from 1 to 10 resource URIs, each under the ArtifactLocation.
+        ///
+        /// * You can't rename the function.
+        public var governanceMode: GlueClientTypes.GovernanceMode?
         /// The owner of the function.
         public var ownerName: Swift.String?
         /// The owner type.
@@ -16659,16 +16704,20 @@ extension GlueClientTypes {
         public var resourceUris: [GlueClientTypes.ResourceUri]?
 
         public init(
+            artifactLocation: Swift.String? = nil,
             className: Swift.String? = nil,
             functionName: Swift.String? = nil,
             functionType: GlueClientTypes.FunctionType? = nil,
+            governanceMode: GlueClientTypes.GovernanceMode? = nil,
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
         ) {
+            self.artifactLocation = artifactLocation
             self.className = className
             self.functionName = functionName
             self.functionType = functionType
+            self.governanceMode = governanceMode
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
@@ -26319,6 +26368,8 @@ extension GlueClientTypes {
 
     /// Represents the equivalent of a Hive user-defined function (UDF) definition.
     public struct UserDefinedFunction: Swift.Sendable {
+        /// The Amazon S3 location that contains the function's artifacts. This location must be registered with Lake Formation. Glue returns this field only for functions whose GovernanceMode is LAKE_FORMATION.
+        public var artifactLocation: Swift.String?
         /// The ID of the Data Catalog in which the function resides.
         public var catalogId: Swift.String?
         /// The Java class that contains the function code.
@@ -26331,6 +26382,8 @@ extension GlueClientTypes {
         public var functionName: Swift.String?
         /// The type of the function.
         public var functionType: GlueClientTypes.FunctionType?
+        /// How access to the function is governed. IAM_ONLY means access is controlled by IAM permissions only. LAKE_FORMATION means Lake Formation permissions (EXECUTE, DESCRIBE, ALTER, and DROP) also control who can run, describe, update, and delete the function.
+        public var governanceMode: GlueClientTypes.GovernanceMode?
         /// The owner of the function.
         public var ownerName: Swift.String?
         /// The owner type.
@@ -26339,22 +26392,26 @@ extension GlueClientTypes {
         public var resourceUris: [GlueClientTypes.ResourceUri]?
 
         public init(
+            artifactLocation: Swift.String? = nil,
             catalogId: Swift.String? = nil,
             className: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             databaseName: Swift.String? = nil,
             functionName: Swift.String? = nil,
             functionType: GlueClientTypes.FunctionType? = nil,
+            governanceMode: GlueClientTypes.GovernanceMode? = nil,
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
         ) {
+            self.artifactLocation = artifactLocation
             self.catalogId = catalogId
             self.className = className
             self.createTime = createTime
             self.databaseName = databaseName
             self.functionName = functionName
             self.functionType = functionType
+            self.governanceMode = governanceMode
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
