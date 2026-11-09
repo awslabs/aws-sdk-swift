@@ -2631,6 +2631,15 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
             sortOrder: self.sortOrder
         )}
 }
+
+extension PaginatorSequence where OperationStackInput == ListProjectsInput, OperationStackOutput == ListProjectsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.ProjectSummary]`
+    /// - Returns: `[SageMakerClientTypes.ProjectSummary]`
+    public func projectSummaryList() async throws -> [SageMakerClientTypes.ProjectSummary] {
+        return try await self.asyncCompactMap { item in item.projectSummaryList }
+    }
+}
 extension SageMakerClient {
     /// Paginate over `[ListResourceCatalogsOutput]` results.
     ///

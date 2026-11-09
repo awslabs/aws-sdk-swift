@@ -11,6 +11,36 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension DynamoDBClient {
+    /// Paginate over `[ListBulkOperationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBulkOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBulkOperationsOutput`
+    public func listBulkOperationsPaginated(input: ListBulkOperationsInput) -> ClientRuntime.PaginatorSequence<ListBulkOperationsInput, ListBulkOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListBulkOperationsInput, ListBulkOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBulkOperations(input:))
+    }
+}
+
+extension ListBulkOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBulkOperationsInput {
+        return ListBulkOperationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListBulkOperationsInput, OperationStackOutput == ListBulkOperationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listBulkOperationsPaginated`
+    /// to access the nested member `[DynamoDBClientTypes.BulkOperationSummary]`
+    /// - Returns: `[DynamoDBClientTypes.BulkOperationSummary]`
+    public func bulkOperationsSummaryList() async throws -> [DynamoDBClientTypes.BulkOperationSummary] {
+        return try await self.asyncCompactMap { item in item.bulkOperationsSummaryList }
+    }
+}
+extension DynamoDBClient {
     /// Paginate over `[ListContributorInsightsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

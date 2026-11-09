@@ -7408,7 +7408,9 @@ public struct GetDocumentContentInput: Swift.Sendable {
     /// The unique identifier of the knowledge base that contains the document.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
-    /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
+    /// The unique identifier (in UUID format) of an image embedded in the specified document. Set this parameter to the _media_id value in the metadata of the corresponding Retrieve result. If you specify this parameter, the response contains a pre-signed URL for the image instead of the document, and you must omit outputFormat or set it to RAW.
+    public var mediaId: Swift.String?
+    /// The output format for the content. You can specify one of the following values: RAW Returns the original document, or the selected image if you specify mediaId. EXTRACTED Returns parsed document text as JSON. If you omit this parameter, the default is RAW. You can't use EXTRACTED with mediaId.
     public var outputFormat: BedrockAgentRuntimeClientTypes.DocumentOutputFormat?
     /// Contains information about the user making the request. This is used for access control filtering to ensure that results only include documents the user is authorized to access.
     public var userContext: BedrockAgentRuntimeClientTypes.UserContext?
@@ -7417,12 +7419,14 @@ public struct GetDocumentContentInput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         documentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
+        mediaId: Swift.String? = nil,
         outputFormat: BedrockAgentRuntimeClientTypes.DocumentOutputFormat? = nil,
         userContext: BedrockAgentRuntimeClientTypes.UserContext? = nil
     ) {
         self.dataSourceId = dataSourceId
         self.documentId = documentId
         self.knowledgeBaseId = knowledgeBaseId
+        self.mediaId = mediaId
         self.outputFormat = outputFormat
         self.userContext = userContext
     }
@@ -7430,16 +7434,16 @@ public struct GetDocumentContentInput: Swift.Sendable {
 
 extension GetDocumentContentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDocumentContentInput(dataSourceId: \(Swift.String(describing: dataSourceId)), documentId: \(Swift.String(describing: documentId)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), outputFormat: \(Swift.String(describing: outputFormat)), userContext: \"CONTENT_REDACTED\")"}
+        "GetDocumentContentInput(dataSourceId: \(Swift.String(describing: dataSourceId)), documentId: \(Swift.String(describing: documentId)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), mediaId: \(Swift.String(describing: mediaId)), outputFormat: \(Swift.String(describing: outputFormat)), userContext: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDocumentContentOutput: Swift.Sendable {
-    /// The size of the document content in bytes available at the pre-signed URL.
+    /// The size, in bytes, of the content available at the pre-signed URL.
     public var documentContentLength: Swift.Int?
-    /// The MIME type of the document content. For RAW format, this is the original file type (for example, application/pdf). For EXTRACTED format, this is always application/json.
+    /// The MIME type of the returned content. For RAW format, this is the original file type (for example, application/pdf), or the image type (for example, image/png) if you specify mediaId. For EXTRACTED format, this is always application/json.
     /// This member is required.
     public var mimeType: Swift.String?
-    /// A pre-signed URL for downloading the document content. The URL expires after 5 minutes.
+    /// A pre-signed URL for downloading the document content, or the selected image if you specify mediaId. The URL expires after 5 minutes.
     /// This member is required.
     public var presignedUrl: Swift.String?
 
@@ -12553,6 +12557,7 @@ extension GetDocumentContentInput {
 
     static func write(value: GetDocumentContentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["mediaId"].write(value.mediaId)
         try writer["outputFormat"].write(value.outputFormat)
         try writer["userContext"].write(value.userContext, with: BedrockAgentRuntimeClientTypes.UserContext.write(value:to:))
     }

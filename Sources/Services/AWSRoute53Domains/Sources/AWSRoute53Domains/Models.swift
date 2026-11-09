@@ -3533,6 +3533,35 @@ public struct ResendOperationAuthorizationInput: Swift.Sendable {
     }
 }
 
+/// A RestoreDomain request includes the name of the domain that you want to restore and, optionally, the maximum price that you agree to pay.
+public struct RestoreDomainInput: Swift.Sendable {
+    /// Specifies the maximum price that you agree to pay to restore the domain name. This element is required if the domain has registry premium pricing, and optional if the domain is priced at the standard rate for its TLD. If you include it and the restoration price is more than MaxPrice, the request fails.
+    public var consent: Route53DomainsClientTypes.Consent?
+    /// The name of the domain that you want to restore. The domain must have been registered to the Amazon Web Services account that submits the request.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        consent: Route53DomainsClientTypes.Consent? = nil,
+        domainName: Swift.String? = nil
+    ) {
+        self.consent = consent
+        self.domainName = domainName
+    }
+}
+
+/// The RestoreDomain response includes the following element.
+public struct RestoreDomainOutput: Swift.Sendable {
+    /// Identifier for tracking the progress of the request. To query the operation status, use [GetOperationDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html).
+    public var operationId: Swift.String?
+
+    public init(
+        operationId: Swift.String? = nil
+    ) {
+        self.operationId = operationId
+    }
+}
+
 /// A request for the authorization code for the specified domain. To transfer a domain to another registrar, you provide this value to the new registrar.
 public struct RetrieveDomainAuthCodeInput: Swift.Sendable {
     /// The name of the domain that you want to get an authorization code for.

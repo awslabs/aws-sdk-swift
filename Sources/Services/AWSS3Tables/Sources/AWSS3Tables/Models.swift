@@ -30,6 +30,11 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
+public struct CompleteTableMigrationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteNamespaceOutput: Swift.Sendable {
 
     public init() { }
@@ -278,6 +283,53 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct CompleteTableMigrationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the migrated table to complete the migration of.
+    /// This member is required.
+    public var tableARN: Swift.String?
+
+    public init(
+        tableARN: Swift.String? = nil
+    ) {
+        self.tableARN = tableARN
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum CompressionCodec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gzip
+        case snappy
+        case uncompressed
+        case zstd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompressionCodec] {
+            return [
+                .gzip,
+                .snappy,
+                .uncompressed,
+                .zstd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "gzip"
+            case .snappy: return "snappy"
+            case .uncompressed: return "uncompressed"
+            case .zstd: return "zstd"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -867,6 +919,255 @@ public struct CreateTableBucketOutput: Swift.Sendable {
     }
 }
 
+extension S3TablesClientTypes {
+
+    public enum DataFileFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataFileFormat] {
+            return [
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .parquet: return "parquet"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum IcebergCompactionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case binpack
+        case sort
+        case zorder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergCompactionStrategy] {
+            return [
+                .auto,
+                .binpack,
+                .sort,
+                .zorder
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "auto"
+            case .binpack: return "binpack"
+            case .sort: return "sort"
+            case .zorder: return "z-order"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The compaction settings that a migration applies to the destination table.
+    public struct MigrationCompactionSettings: Swift.Sendable {
+        /// The compaction strategy. The only valid value is binpack, which is the default.
+        public var strategy: S3TablesClientTypes.IcebergCompactionStrategy?
+        /// The target size, from 64 to 512 MB, of the data files that the migration writes, and of the files that compaction writes after you complete the migration. The default is 512.
+        public var targetFileSizeMB: Swift.Int?
+
+        public init(
+            strategy: S3TablesClientTypes.IcebergCompactionStrategy? = .binpack,
+            targetFileSizeMB: Swift.Int? = 512
+        ) {
+            self.strategy = strategy
+            self.targetFileSizeMB = targetFileSizeMB
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The snapshot management settings that a migration applies to the destination table.
+    public struct MigrationSnapshotManagementSettings: Swift.Sendable {
+        /// The maximum age, in hours, of a snapshot before it can be expired. The default is 120.
+        public var maxSnapshotAgeHours: Swift.Int?
+        /// The minimum number of snapshots to keep. The value must be 3 or more. The default is 3.
+        public var minSnapshotsToKeep: Swift.Int?
+
+        public init(
+            maxSnapshotAgeHours: Swift.Int? = 120,
+            minSnapshotsToKeep: Swift.Int? = 3
+        ) {
+            self.maxSnapshotAgeHours = maxSnapshotAgeHours
+            self.minSnapshotsToKeep = minSnapshotsToKeep
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The maintenance settings for the destination table. The migration applies them when it creates the table: snapshot management starts then, and compaction starts after you complete the migration. If you don't specify a setting, the migration uses its default: a target file size of 512 MB, the binpack compaction strategy, at least 3 snapshots, and a maximum snapshot age of 120 hours. Unreferenced file removal follows the table bucket's configuration after you complete the migration.
+    public struct MaintenanceSettings: Swift.Sendable {
+        /// The compaction settings.
+        public var icebergCompaction: S3TablesClientTypes.MigrationCompactionSettings?
+        /// The snapshot management settings.
+        public var icebergSnapshotManagement: S3TablesClientTypes.MigrationSnapshotManagementSettings?
+
+        public init(
+            icebergCompaction: S3TablesClientTypes.MigrationCompactionSettings? = nil,
+            icebergSnapshotManagement: S3TablesClientTypes.MigrationSnapshotManagementSettings? = nil
+        ) {
+            self.icebergCompaction = icebergCompaction
+            self.icebergSnapshotManagement = icebergSnapshotManagement
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum IncompatibleValuesPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fail
+        case setNull
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncompatibleValuesPolicy] {
+            return [
+                .fail,
+                .setNull
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fail: return "fail"
+            case .setNull: return "setNull"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum UnmatchedSourceFieldsPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drop
+        case fail
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnmatchedSourceFieldsPolicy] {
+            return [
+                .drop,
+                .fail
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .drop: return "drop"
+            case .fail: return "fail"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The policies for source data that doesn't fit the destination schema.
+    public struct MigrationPolicies: Swift.Sendable {
+        /// The migration policy for a source value that the destination column's type can't hold. Valid values:
+        ///
+        /// * fail - Fails the migration. This is the default.
+        ///
+        /// * setNull - Writes null for a value that the destination column's type can't hold. If a column's type in a source object is incompatible with the destination column's type, the column is null for that whole object.
+        ///
+        ///
+        /// A required column, or a type that migration doesn't support, fails the migration under either value.
+        public var incompatibleValuesPolicy: S3TablesClientTypes.IncompatibleValuesPolicy?
+        /// The migration policy for a source field that has no matching column in the destination schema. Valid values:
+        ///
+        /// * fail - Fails the migration. This is the default.
+        ///
+        /// * drop - Leaves source columns that the destination schema doesn't have out of the destination table, and doesn't migrate source objects outside the Amazon Web Services Glue table's partition locations.
+        ///
+        ///
+        /// A destination schema that leaves out a partition column or a field of a struct column fails the migration under either value.
+        public var unmatchedSourceFieldsPolicy: S3TablesClientTypes.UnmatchedSourceFieldsPolicy?
+
+        public init(
+            incompatibleValuesPolicy: S3TablesClientTypes.IncompatibleValuesPolicy? = .fail,
+            unmatchedSourceFieldsPolicy: S3TablesClientTypes.UnmatchedSourceFieldsPolicy? = .fail
+        ) {
+            self.incompatibleValuesPolicy = incompatibleValuesPolicy
+            self.unmatchedSourceFieldsPolicy = unmatchedSourceFieldsPolicy
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The maintenance settings and migration policies for the destination table.
+    public struct DataMigrationOverview: Swift.Sendable {
+        /// The maintenance settings for the destination table. The migration applies them when it creates the table: snapshot management starts then, and compaction starts after you complete the migration. If you don't specify a setting, the migration uses its default: a target file size of 512 MB, the binpack compaction strategy, at least 3 snapshots, and a maximum snapshot age of 120 hours. Unreferenced file removal follows the table bucket's configuration after you complete the migration.
+        /// This member is required.
+        public var maintenanceSettings: S3TablesClientTypes.MaintenanceSettings?
+        /// The policies for source data that doesn't fit the destination schema.
+        /// This member is required.
+        public var migrationPolicies: S3TablesClientTypes.MigrationPolicies?
+
+        public init(
+            maintenanceSettings: S3TablesClientTypes.MaintenanceSettings? = nil,
+            migrationPolicies: S3TablesClientTypes.MigrationPolicies? = nil
+        ) {
+            self.maintenanceSettings = maintenanceSettings
+            self.migrationPolicies = migrationPolicies
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The maintenance settings and migration policies for the destination table.
+    public struct DataMigrationSettings: Swift.Sendable {
+        /// The maintenance settings for the destination table. The migration applies them when it creates the table: snapshot management starts then, and compaction starts after you complete the migration. If you don't specify a setting, the migration uses its default: a target file size of 512 MB, the binpack compaction strategy, at least 3 snapshots, and a maximum snapshot age of 120 hours. Unreferenced file removal follows the table bucket's configuration after you complete the migration.
+        public var maintenanceSettings: S3TablesClientTypes.MaintenanceSettings?
+        /// The policies for source data that doesn't fit the destination schema.
+        public var migrationPolicies: S3TablesClientTypes.MigrationPolicies?
+
+        public init(
+            maintenanceSettings: S3TablesClientTypes.MaintenanceSettings? = nil,
+            migrationPolicies: S3TablesClientTypes.MigrationPolicies? = nil
+        ) {
+            self.maintenanceSettings = maintenanceSettings
+            self.migrationPolicies = migrationPolicies
+        }
+    }
+}
+
 public struct DeleteNamespaceInput: Swift.Sendable {
     /// The name of the namespace.
     /// This member is required.
@@ -1010,6 +1311,127 @@ public struct DeleteTableReplicationInput: Swift.Sendable {
     ) {
         self.tableArn = tableArn
         self.versionToken = versionToken
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The properties of the data files that a migration writes. The migration also sets the compression codec and dictionary encoding as the destination table's write properties, so they remain the table's defaults after you complete the migration.
+    public struct MigrationTableProperties: Swift.Sendable {
+        /// The compression codec of the data files. The default is zstd.
+        public var compressionCodec: S3TablesClientTypes.CompressionCodec?
+        /// Specifies whether the data files use dictionary encoding. The default is true.
+        public var dictionaryEncoding: Swift.Bool?
+        /// The Iceberg format version of the destination table. Valid values are 2 and 3. The default is 2.
+        public var icebergFormatVersion: Swift.Int?
+        /// The file format of the data files. The only supported format is parquet, the default.
+        public var writeFormat: S3TablesClientTypes.DataFileFormat?
+
+        public init(
+            compressionCodec: S3TablesClientTypes.CompressionCodec? = .zstd,
+            dictionaryEncoding: Swift.Bool? = true,
+            icebergFormatVersion: Swift.Int? = 2,
+            writeFormat: S3TablesClientTypes.DataFileFormat? = .parquet
+        ) {
+            self.compressionCodec = compressionCodec
+            self.dictionaryEncoding = dictionaryEncoding
+            self.icebergFormatVersion = icebergFormatVersion
+            self.writeFormat = writeFormat
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The table that a migration creates in a table bucket and migrates the source into.
+    public struct DestinationTable: Swift.Sendable {
+        /// The encryption configuration for the table. If you don't specify one, the table uses the default encryption configuration of its table bucket. If you specify an encryption configuration, the migration role must have the s3tables:PutTableEncryption permission. If you choose SSE-KMS, the migration role must have the kms:DescribeKey, kms:GenerateDataKey and kms:Decrypt permissions on the KMS key, and the S3 Tables maintenance principal must have access to it. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html).
+        public var encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration?
+        /// The sort order of the rows within each data file that the migration writes. A sort order can have up to five fields, each naming a column of the schema that you specify by its field ID, so to use a sort order you must specify a schema. StartTableMigration rejects a field that names no column of the schema, or whose transform doesn't fit the column's type.
+        public var icebergSortOrder: S3TablesClientTypes.IcebergSortOrder?
+        /// The name of the table to create.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The namespace to create the table in.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// The properties of the destination table, such as its Iceberg format version and the format of its data files.
+        public var properties: S3TablesClientTypes.MigrationTableProperties?
+        /// The schema of the table to create. If you don't specify a schema, the migration infers it from the source table, with every column optional. A schema that you specify must include every partition column of the source table. It can leave out other columns only if unmatchedSourceFieldsPolicy is drop. A struct column must have the same fields as the source column. Column default values aren't supported. If you mark a column as required, every source object must have a value for it: an object with a null value in a required column fails to migrate. The destination table is partitioned in the same way as the source table. To specify fields in icebergSortOrder, you must specify a schema.
+        public var schema: S3TablesClientTypes.IcebergSchemaV2?
+        /// The storage class configuration for the table. If you don't specify one, the table inherits the storage class configuration of its table bucket. If you specify a storage class configuration, the migration role must have the s3tables:PutTableStorageClass permission.
+        public var storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration?
+        /// The Amazon Resource Name (ARN) of the table bucket to create the table in.
+        /// This member is required.
+        public var tableBucketARN: Swift.String?
+        /// The tags to add to the table. A tag is a key-value pair that you apply to your resources. For more information, see [Tagging for cost allocation or attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). If you specify tags, the migration role must have the s3tables:TagResource permission.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil,
+            icebergSortOrder: S3TablesClientTypes.IcebergSortOrder? = nil,
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            properties: S3TablesClientTypes.MigrationTableProperties? = nil,
+            schema: S3TablesClientTypes.IcebergSchemaV2? = nil,
+            storageClassConfiguration: S3TablesClientTypes.StorageClassConfiguration? = nil,
+            tableBucketARN: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.icebergSortOrder = icebergSortOrder
+            self.name = name
+            self.namespace = namespace
+            self.properties = properties
+            self.schema = schema
+            self.storageClassConfiguration = storageClassConfiguration
+            self.tableBucketARN = tableBucketARN
+            self.tags = tags
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The category of a compatibility report finding, by what you change to fix it. Valid values:
+    ///
+    /// * access - A permission or a request setting. You don't need to change the source.
+    ///
+    /// * metadata - The Amazon Web Services Glue table definition, or properties of a source object, such as its size, storage class, encryption or Parquet types.
+    ///
+    /// * data - The contents of a source object, such as a partition value that can't be read, an object overwritten after an earlier migration, or a corrupt file.
+    ///
+    /// * internal - An internal error in S3 Tables. Retry the migration, and contact Amazon Web Services Support if the error persists.
+    public enum FindingCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case access
+        case data
+        case `internal`
+        case metadata
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FindingCategory] {
+            return [
+                .access,
+                .data,
+                .internal,
+                .metadata
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .access: return "access"
+            case .data: return "data"
+            case .internal: return "internal"
+            case .metadata: return "metadata"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1712,41 +2134,6 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
-    public enum IcebergCompactionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case auto
-        case binpack
-        case sort
-        case zorder
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [IcebergCompactionStrategy] {
-            return [
-                .auto,
-                .binpack,
-                .sort,
-                .zorder
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .auto: return "auto"
-            case .binpack: return "binpack"
-            case .sort: return "sort"
-            case .zorder: return "z-order"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension S3TablesClientTypes {
-
     /// Contains details about the compaction settings for an Iceberg table.
     public struct IcebergCompactionSettings: Swift.Sendable {
         /// The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations.
@@ -2001,6 +2388,483 @@ public struct GetTableMetadataLocationOutput: Swift.Sendable {
         self.metadataLocation = metadataLocation
         self.versionToken = versionToken
         self.warehouseLocation = warehouseLocation
+    }
+}
+
+public struct GetTableMigrationInput: Swift.Sendable {
+    /// The ID of the migration to get. Specify either migrationId or tableARN, not both.
+    public var migrationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the destination table. Gets the table's most recent migration. Specify either tableARN or migrationId, not both.
+    public var tableARN: Swift.String?
+
+    public init(
+        migrationId: Swift.String? = nil,
+        tableARN: Swift.String? = nil
+    ) {
+        self.migrationId = migrationId
+        self.tableARN = tableARN
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The reason a migration failed. Each code names the cause, or the report that lists the findings.
+    public enum MigrationFailureCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case destinationPermissions
+        case internalError
+        case objectCompatibilityReport
+        case objectMigrationReport
+        case reportBucketNotSupported
+        case resourceNotFound
+        case rolePermissions
+        case sourceNotSupported
+        case sourcePermissions
+        case tableCompatibilityReport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MigrationFailureCode] {
+            return [
+                .destinationPermissions,
+                .internalError,
+                .objectCompatibilityReport,
+                .objectMigrationReport,
+                .reportBucketNotSupported,
+                .resourceNotFound,
+                .rolePermissions,
+                .sourceNotSupported,
+                .sourcePermissions,
+                .tableCompatibilityReport
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .destinationPermissions: return "destinationPermissions"
+            case .internalError: return "internalError"
+            case .objectCompatibilityReport: return "objectCompatibilityReport"
+            case .objectMigrationReport: return "objectMigrationReport"
+            case .reportBucketNotSupported: return "reportBucketNotSupported"
+            case .resourceNotFound: return "resourceNotFound"
+            case .rolePermissions: return "rolePermissions"
+            case .sourceNotSupported: return "sourceNotSupported"
+            case .sourcePermissions: return "sourcePermissions"
+            case .tableCompatibilityReport: return "tableCompatibilityReport"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The reason that a migration failed: a code and, when there is one, the resource or reason it applies to. This value is returned only when the migration is in the failed state.
+    public struct MigrationFailureReason: Swift.Sendable {
+        /// The failure code. It names the cause or the report that lists the findings. Valid values:
+        ///
+        /// * rolePermissions - S3 Tables couldn't assume the migration role, or the role doesn't have a permission that the migration needs. detail is the role ARN.
+        ///
+        /// * sourcePermissions - The migration role couldn't read the Amazon Web Services Glue table or the source objects. detail names the table (database.table) or the source bucket.
+        ///
+        /// * destinationPermissions - The migration role couldn't write to the table bucket or the report bucket. detail names the bucket.
+        ///
+        /// * resourceNotFound - A resource that you specified doesn't exist, such as the Amazon Web Services Glue table or the source bucket. detail names it.
+        ///
+        /// * sourceNotSupported - The source table can't be migrated, for example because it is empty, has too many objects, or has columns or partitions that can't be migrated. The table compatibility report lists the findings.
+        ///
+        /// * tableCompatibilityReport - The migration couldn't create the destination table, for example because a table with that name already exists or the KMS key can't be used. For a sync, the destination table changed after the previous migration. The table compatibility report lists the finding.
+        ///
+        /// * objectCompatibilityReport - Some source objects can't be migrated, for example because they are archived, or because they were overwritten after an earlier migration migrated them. The object compatibility report lists them.
+        ///
+        /// * objectMigrationReport - Some source objects failed to migrate. The object migration report lists them and the cause for each.
+        ///
+        /// * reportBucketNotSupported - The report bucket can't receive the migration's reports, for example because it is in a different Region than the table bucket.
+        ///
+        /// * internalError - S3 Tables encountered an internal error. Retry the migration, and contact Amazon Web Services Support if the error persists.
+        /// This member is required.
+        public var code: S3TablesClientTypes.MigrationFailureCode?
+        /// The resource that the failure applies to, such as the role ARN, the Amazon Web Services Glue table (database.table) or a bucket. For sourceNotSupported, the reason that the source isn't supported, such as EMPTY_TABLE. This value isn't returned for the report codes or for internalError.
+        public var detail: Swift.String?
+
+        public init(
+            code: S3TablesClientTypes.MigrationFailureCode? = nil,
+            detail: Swift.String? = nil
+        ) {
+            self.code = code
+            self.detail = detail
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// A report of a migration: the prefix it is written under and, once it is written, its key, its checksum and, for the compatibility reports, the number of blocking findings in each category.
+    public struct ReportOverview: Swift.Sendable {
+        /// The Base64-encoded CRC64NVME checksum of the object that key names. For a report that has a manifest, the manifest lists the checksum of each report file. This value is returned after the migration writes the report.
+        public var checksumCRC64NVME: Swift.String?
+        /// For the compatibility reports, the number of blocking findings in each category. The object compatibility report counts each blocked object once, under its most severe finding. Categories with no blocking findings are left out.
+        public var invalidFindings: [Swift.String: Swift.Int]?
+        /// The key of the report object in the bucket. For the object compatibility and object migration reports, this is the report's manifest; for the table compatibility report, it is the report itself. This value is returned after the migration writes the report. A migration doesn't always write every report. For example, a migration that fails during planning doesn't write the object migration report.
+        public var key: Swift.String?
+        /// The key prefix that the report is written under.
+        public var `prefix`: Swift.String?
+
+        public init(
+            checksumCRC64NVME: Swift.String? = nil,
+            invalidFindings: [Swift.String: Swift.Int]? = nil,
+            key: Swift.String? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.checksumCRC64NVME = checksumCRC64NVME
+            self.invalidFindings = invalidFindings
+            self.key = key
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Where a migration writes its reports, and the location of each report once it is written.
+    public struct MigrationOutputOverview: Swift.Sendable {
+        /// The general purpose bucket that the migration writes every report to.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The object compatibility report: one row for each source object under the source table's location, with whether the migration includes the object and its most severe finding. The migration writes it when planning finishes. If planning fails, the report might not be written.
+        /// This member is required.
+        public var objectCompatibilityReport: S3TablesClientTypes.ReportOverview?
+        /// The object migration report: one row for each source object that the migration tried to migrate, with whether it migrated, how it was transformed, and why it failed. The migration writes it once, when the migration ends. It isn't written if planning fails or if a sync has nothing to migrate.
+        /// This member is required.
+        public var objectMigrationReport: S3TablesClientTypes.ReportOverview?
+        /// The table compatibility report: the sample object that the schema is inferred from, the table-level findings, and one row for each destination column with its type change and how the migration policies apply to it. The migration writes it when planning finishes, before any data migrates. If planning fails, the report might not be written.
+        /// This member is required.
+        public var tableCompatibilityReport: S3TablesClientTypes.ReportOverview?
+
+        public init(
+            bucket: Swift.String? = nil,
+            objectCompatibilityReport: S3TablesClientTypes.ReportOverview? = nil,
+            objectMigrationReport: S3TablesClientTypes.ReportOverview? = nil,
+            tableCompatibilityReport: S3TablesClientTypes.ReportOverview? = nil
+        ) {
+            self.bucket = bucket
+            self.objectCompatibilityReport = objectCompatibilityReport
+            self.objectMigrationReport = objectMigrationReport
+            self.tableCompatibilityReport = tableCompatibilityReport
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The number of source objects that migrated, failed or are pending. For a sync, the counts cover every object of the table after the sync, including objects that earlier migrations migrated. The counts are set when planning finishes and updated when the migration ends.
+    public struct MigrationStats: Swift.Sendable {
+        /// The number of source objects that didn't migrate, because they failed or because another object, such as an object in the same partition, failed. The object migration report lists the cause for each object.
+        public var objectsFailedMigration: Swift.Int?
+        /// The number of source objects whose data the migration wrote to the destination table. Migrated data can be queried after the migration commits it. If the migration fails or is cancelled, some migrated objects might not be committed.
+        public var objectsMigrated: Swift.Int?
+        /// The number of source objects that haven't migrated or failed yet. When a migration fails or is cancelled, these are the objects that it didn't migrate.
+        public var objectsPendingMigration: Swift.Int?
+
+        public init(
+            objectsFailedMigration: Swift.Int? = nil,
+            objectsMigrated: Swift.Int? = nil,
+            objectsPendingMigration: Swift.Int? = nil
+        ) {
+            self.objectsFailedMigration = objectsFailedMigration
+            self.objectsMigrated = objectsMigrated
+            self.objectsPendingMigration = objectsPendingMigration
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Statistics about the source and the partitions in a migration.
+    public struct PlanningStats: Swift.Sendable {
+        /// The number of source objects in the migration. For a start, these are the data files in the Amazon Web Services Glue table's partitions, or under the table's location if the table isn't partitioned. For a sync, these are all the data files of the table after the sync, including files that earlier migrations migrated.
+        public var objectsPlanned: Swift.Int?
+        /// The number of source objects that the migration found under the source table's location, whether or not it migrates them. The object compatibility report has one row for each.
+        public var objectsScanned: Swift.Int?
+        /// The number of partitions in the destination table after this migration, or 0 if the source table isn't partitioned. This value is returned when planning produces a valid plan.
+        public var partitionCount: Swift.Int?
+
+        public init(
+            objectsPlanned: Swift.Int? = nil,
+            objectsScanned: Swift.Int? = nil,
+            partitionCount: Swift.Int? = nil
+        ) {
+            self.objectsPlanned = objectsPlanned
+            self.objectsScanned = objectsScanned
+            self.partitionCount = partitionCount
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// An Amazon Web Services Glue Data Catalog table to migrate. The table must be an external Apache Hive table whose data is stored as Parquet in a general purpose bucket in the same account and Region as the table bucket. Views, transactional (ACID) tables, tables in an open table format such as Apache Iceberg, and tables registered with Amazon Web Services Lake Formation can't be migrated. If the table can't be migrated, the migration fails, and the table compatibility report lists the reason.
+    public struct GlueTableSource: Swift.Sendable {
+        /// The ID of the Data Catalog that contains the table. It must be your account ID.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// The name of the database that contains the table.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// The name of the table.
+        /// This member is required.
+        public var tableName: Swift.String?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        ) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The source to migrate from. Set exactly one member, and set sourceType to match it.
+    public enum SourceConfiguration: Swift.Sendable {
+        /// An Amazon Web Services Glue Data Catalog table to migrate. The table must be an external Apache Hive table whose data is stored as Parquet in a general purpose bucket in the same account and Region as the table bucket. Views, transactional (ACID) tables, tables in an open table format such as Apache Iceberg, and tables registered with Amazon Web Services Lake Formation can't be migrated. If the table can't be migrated, the migration fails, and the table compatibility report lists the reason.
+        case gluetable(S3TablesClientTypes.GlueTableSource)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The type of source that a migration reads from. It names the member that is set in SourceConfiguration.
+    public enum MigrationSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case glueTable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MigrationSourceType] {
+            return [
+                .glueTable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .glueTable: return "glueTable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum MigrationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case cancelling
+        case failed
+        case migrating
+        case new
+        case pendingReview
+        case planning
+        case queued
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MigrationState] {
+            return [
+                .cancelled,
+                .cancelling,
+                .failed,
+                .migrating,
+                .new,
+                .pendingReview,
+                .planning,
+                .queued,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "cancelled"
+            case .cancelling: return "cancelling"
+            case .failed: return "failed"
+            case .migrating: return "migrating"
+            case .new: return "new"
+            case .pendingReview: return "pendingReview"
+            case .planning: return "planning"
+            case .queued: return "queued"
+            case .succeeded: return "succeeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum MigrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case start
+        case sync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MigrationType] {
+            return [
+                .start,
+                .sync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .start: return "start"
+            case .sync: return "sync"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTableMigrationOutput: Swift.Sendable {
+    /// The date and time that the migration was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The maintenance settings and migration policies for the destination table.
+    /// This member is required.
+    public var dataMigration: S3TablesClientTypes.DataMigrationOverview?
+    /// The reason that the migration failed. The code names the cause, such as a migration role that S3 Tables can't assume or an Amazon Web Services Glue table that doesn't exist, or the report that lists the findings. This value is returned only when the migration is in the failed state.
+    public var failureReason: S3TablesClientTypes.MigrationFailureReason?
+    /// A Boolean value that specifies whether planning produced a plan that the migration can run. If planning hasn't finished, this value isn't returned.
+    public var hasValidPlan: Swift.Bool?
+    /// The ID of the migration.
+    /// This member is required.
+    public var migrationId: Swift.String?
+    /// The bucket and prefixes for the migration's reports, and the location of each report once it is written.
+    /// This member is required.
+    public var migrationOutput: S3TablesClientTypes.MigrationOutputOverview?
+    /// The number of objects that migrated, failed or are pending. These counts are set when planning finishes and updated when the migration ends.
+    public var migrationStats: S3TablesClientTypes.MigrationStats?
+    /// The name of the destination table.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The namespace of the destination table.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// Statistics about the source and the partitions in the migration. This value is returned after planning finishes.
+    public var planningStats: S3TablesClientTypes.PlanningStats?
+    /// A Boolean value that specifies whether the migration waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data.
+    /// This member is required.
+    public var reviewMigrationPlan: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that the migration uses.
+    /// This member is required.
+    public var roleARN: Swift.String?
+    /// The source table of the migration.
+    /// This member is required.
+    public var source: S3TablesClientTypes.SourceConfiguration?
+    /// The type of the migration's source.
+    /// This member is required.
+    public var sourceType: S3TablesClientTypes.MigrationSourceType?
+    /// The state of the migration. Valid values:
+    ///
+    /// * new - S3 Tables accepted the request.
+    ///
+    /// * planning - The migration is checking the source table, its objects and the destination for compatibility, and writing the compatibility reports.
+    ///
+    /// * pendingReview - Planning finished, and the migration waits for you to continue or cancel it with UpdateTableMigration.
+    ///
+    /// * queued - The migration is waiting to start migrating data.
+    ///
+    /// * migrating - The migration is running the plan from the planning state: it copies data and commits it to the destination table. A migration reaches this state only if hasValidPlan is true.
+    ///
+    /// * succeeded - Every planned object migrated.
+    ///
+    /// * failed - The migration failed. Check failureReason for the cause.
+    ///
+    /// * cancelling - You cancelled the migration, and it is finishing the work in progress.
+    ///
+    /// * cancelled - The migration is cancelled.
+    ///
+    ///
+    /// A migration ends in the succeeded, failed or cancelled state. You can cancel it until it ends.
+    /// This member is required.
+    public var state: S3TablesClientTypes.MigrationState?
+    /// The date and time that the migration's state last changed.
+    /// This member is required.
+    public var stateUpdatedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the destination table, once the migration creates it.
+    public var tableARN: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table bucket that contains the destination table.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+    /// The type of the migration. Valid values:
+    ///
+    /// * start - A migration that StartTableMigration started.
+    ///
+    /// * sync - A migration that SyncTableMigration started.
+    /// This member is required.
+    public var type: S3TablesClientTypes.MigrationType?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        dataMigration: S3TablesClientTypes.DataMigrationOverview? = nil,
+        failureReason: S3TablesClientTypes.MigrationFailureReason? = nil,
+        hasValidPlan: Swift.Bool? = nil,
+        migrationId: Swift.String? = nil,
+        migrationOutput: S3TablesClientTypes.MigrationOutputOverview? = nil,
+        migrationStats: S3TablesClientTypes.MigrationStats? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        planningStats: S3TablesClientTypes.PlanningStats? = nil,
+        reviewMigrationPlan: Swift.Bool? = nil,
+        roleARN: Swift.String? = nil,
+        source: S3TablesClientTypes.SourceConfiguration? = nil,
+        sourceType: S3TablesClientTypes.MigrationSourceType? = nil,
+        state: S3TablesClientTypes.MigrationState? = nil,
+        stateUpdatedAt: Foundation.Date? = nil,
+        tableARN: Swift.String? = nil,
+        tableBucketARN: Swift.String? = nil,
+        type: S3TablesClientTypes.MigrationType? = nil
+    ) {
+        self.createdAt = createdAt
+        self.dataMigration = dataMigration
+        self.failureReason = failureReason
+        self.hasValidPlan = hasValidPlan
+        self.migrationId = migrationId
+        self.migrationOutput = migrationOutput
+        self.migrationStats = migrationStats
+        self.name = name
+        self.namespace = namespace
+        self.planningStats = planningStats
+        self.reviewMigrationPlan = reviewMigrationPlan
+        self.roleARN = roleARN
+        self.source = source
+        self.sourceType = sourceType
+        self.state = state
+        self.stateUpdatedAt = stateUpdatedAt
+        self.tableARN = tableARN
+        self.tableBucketARN = tableBucketARN
+        self.type = type
     }
 }
 
@@ -2614,6 +3478,142 @@ public struct ListTableBucketsOutput: Swift.Sendable {
     }
 }
 
+public struct ListTableMigrationsInput: Swift.Sendable {
+    /// The hasValidPlan value to filter the list by. Migrations that are still planning aren't listed, whichever value you specify.
+    public var hasValidPlan: Swift.Bool?
+    /// The maximum number of migrations to return, from 1 to 1,000. If you don't specify a value, the default is 100.
+    public var maxResults: Swift.Int?
+    /// The name of the table to list migrations for. Requires tableBucketARN and namespace.
+    public var name: Swift.String?
+    /// The namespace to list migrations for. Requires tableBucketARN.
+    public var namespace: Swift.String?
+    /// The nextToken from a previous response, to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The state to filter the list by. For the valid values, see the state member of GetTableMigration.
+    public var state: S3TablesClientTypes.MigrationState?
+    /// The Amazon Resource Name (ARN) of the table to list migrations for. The list includes the migrations into this table. To also list migrations into an earlier table of the same name, specify tableBucketARN, namespace and name instead. Specify either tableARN or tableBucketARN, not both.
+    public var tableARN: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table bucket to list migrations for.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        hasValidPlan: Swift.Bool? = nil,
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        state: S3TablesClientTypes.MigrationState? = nil,
+        tableARN: Swift.String? = nil,
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.hasValidPlan = hasValidPlan
+        self.maxResults = maxResults
+        self.name = name
+        self.namespace = namespace
+        self.nextToken = nextToken
+        self.state = state
+        self.tableARN = tableARN
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// A summary of a migration.
+    public struct MigrationSummary: Swift.Sendable {
+        /// The date and time that the migration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// A Boolean value that specifies whether planning produced a plan that the migration can run. If planning hasn't finished, this value isn't returned.
+        public var hasValidPlan: Swift.Bool?
+        /// The ID of the migration.
+        /// This member is required.
+        public var migrationId: Swift.String?
+        /// The name of the destination table.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The namespace of the destination table.
+        /// This member is required.
+        public var namespace: Swift.String?
+        /// The state of the migration. Valid values:
+        ///
+        /// * new - S3 Tables accepted the request.
+        ///
+        /// * planning - The migration is checking the source table, its objects and the destination for compatibility, and writing the compatibility reports.
+        ///
+        /// * pendingReview - Planning finished, and the migration waits for you to continue or cancel it with UpdateTableMigration.
+        ///
+        /// * queued - The migration is waiting to start migrating data.
+        ///
+        /// * migrating - The migration is running the plan from the planning state: it copies data and commits it to the destination table. A migration reaches this state only if hasValidPlan is true.
+        ///
+        /// * succeeded - Every planned object migrated.
+        ///
+        /// * failed - The migration failed. Check failureReason for the cause.
+        ///
+        /// * cancelling - You cancelled the migration, and it is finishing the work in progress.
+        ///
+        /// * cancelled - The migration is cancelled.
+        /// This member is required.
+        public var state: S3TablesClientTypes.MigrationState?
+        /// The date and time that the migration's state last changed.
+        /// This member is required.
+        public var stateUpdatedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the destination table, once the migration creates it.
+        public var tableARN: Swift.String?
+        /// The Amazon Resource Name (ARN) of the table bucket that contains the destination table.
+        /// This member is required.
+        public var tableBucketARN: Swift.String?
+        /// The type of the migration. Valid values:
+        ///
+        /// * start - A migration that StartTableMigration started.
+        ///
+        /// * sync - A migration that SyncTableMigration started.
+        /// This member is required.
+        public var type: S3TablesClientTypes.MigrationType?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            hasValidPlan: Swift.Bool? = nil,
+            migrationId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            namespace: Swift.String? = nil,
+            state: S3TablesClientTypes.MigrationState? = nil,
+            stateUpdatedAt: Foundation.Date? = nil,
+            tableARN: Swift.String? = nil,
+            tableBucketARN: Swift.String? = nil,
+            type: S3TablesClientTypes.MigrationType? = nil
+        ) {
+            self.createdAt = createdAt
+            self.hasValidPlan = hasValidPlan
+            self.migrationId = migrationId
+            self.name = name
+            self.namespace = namespace
+            self.state = state
+            self.stateUpdatedAt = stateUpdatedAt
+            self.tableARN = tableARN
+            self.tableBucketARN = tableBucketARN
+            self.type = type
+        }
+    }
+}
+
+public struct ListTableMigrationsOutput: Swift.Sendable {
+    /// The migrations, newest first.
+    /// This member is required.
+    public var migrations: [S3TablesClientTypes.MigrationSummary]?
+    /// A token to pass as nextToken to get the next page of results. If there are no more results, this value isn't returned.
+    public var nextToken: Swift.String?
+
+    public init(
+        migrations: [S3TablesClientTypes.MigrationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.migrations = migrations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListTablesInput: Swift.Sendable {
     /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
     public var continuationToken: Swift.String?
@@ -2731,6 +3731,78 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The key prefix for each report. If you don't specify a prefix for a report, its keys start at the root of the bucket.
+    public struct MigrationReportPrefixes: Swift.Sendable {
+        /// The key prefix for the object compatibility report, up to 512 bytes. If not specified, the report's keys start at the root of the bucket.
+        public var objectCompatibilityReport: Swift.String?
+        /// The key prefix for the object migration report, up to 512 bytes. If not specified, the report's keys start at the root of the bucket.
+        public var objectMigrationReport: Swift.String?
+        /// The key prefix for the table compatibility report, up to 512 bytes. If not specified, the report's keys start at the root of the bucket.
+        public var tableCompatibilityReport: Swift.String?
+
+        public init(
+            objectCompatibilityReport: Swift.String? = nil,
+            objectMigrationReport: Swift.String? = nil,
+            tableCompatibilityReport: Swift.String? = nil
+        ) {
+            self.objectCompatibilityReport = objectCompatibilityReport
+            self.objectMigrationReport = objectMigrationReport
+            self.tableCompatibilityReport = tableCompatibilityReport
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The bucket and prefixes that a migration writes its reports to. Every report goes to one bucket, each under its own prefix.
+    public struct MigrationOutputConfiguration: Swift.Sendable {
+        /// The general purpose bucket that the migration writes every report to.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The key prefix for each report.
+        public var prefixes: S3TablesClientTypes.MigrationReportPrefixes?
+
+        public init(
+            bucket: Swift.String? = nil,
+            prefixes: S3TablesClientTypes.MigrationReportPrefixes? = nil
+        ) {
+            self.bucket = bucket
+            self.prefixes = prefixes
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum MigrationRequestedState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case queued
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MigrationRequestedState] {
+            return [
+                .cancelled,
+                .queued
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "cancelled"
+            case .queued: return "queued"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -3005,6 +4077,106 @@ public struct RenameTableInput: Swift.Sendable {
     }
 }
 
+public struct StartTableMigrationInput: Swift.Sendable {
+    /// The maintenance settings and migration policies for the destination table.
+    public var dataMigration: S3TablesClientTypes.DataMigrationSettings?
+    /// The table to create and migrate the source into.
+    /// This member is required.
+    public var destinationTable: S3TablesClientTypes.DestinationTable?
+    /// The bucket and prefixes that the migration writes its reports to. The bucket must be a general purpose bucket in your account and in the same Region as the table bucket, and the migration role must be able to write objects to it. Otherwise, the migration fails when it writes its first report.
+    /// This member is required.
+    public var migrationOutput: S3TablesClientTypes.MigrationOutputConfiguration?
+    /// Specifies whether the migration waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data. If true, the migration continues when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. The default is false.
+    public var reviewMigrationPlan: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that the migration uses to read the source table and its data and to write the destination table and the reports. The role must be in your account, and its trust policy must allow migration.s3tables.amazonaws.com to assume it. You can limit the trust policy to the destination table bucket with the aws:SourceArn and aws:SourceAccount condition keys.
+    /// This member is required.
+    public var roleARN: Swift.String?
+    /// The source table to migrate.
+    /// This member is required.
+    public var source: S3TablesClientTypes.SourceConfiguration?
+    /// The type of the source. It must match the member that you set in source.
+    /// This member is required.
+    public var sourceType: S3TablesClientTypes.MigrationSourceType?
+
+    public init(
+        dataMigration: S3TablesClientTypes.DataMigrationSettings? = nil,
+        destinationTable: S3TablesClientTypes.DestinationTable? = nil,
+        migrationOutput: S3TablesClientTypes.MigrationOutputConfiguration? = nil,
+        reviewMigrationPlan: Swift.Bool? = nil,
+        roleARN: Swift.String? = nil,
+        source: S3TablesClientTypes.SourceConfiguration? = nil,
+        sourceType: S3TablesClientTypes.MigrationSourceType? = nil
+    ) {
+        self.dataMigration = dataMigration
+        self.destinationTable = destinationTable
+        self.migrationOutput = migrationOutput
+        self.reviewMigrationPlan = reviewMigrationPlan
+        self.roleARN = roleARN
+        self.source = source
+        self.sourceType = sourceType
+    }
+}
+
+public struct StartTableMigrationOutput: Swift.Sendable {
+    /// The ID of the migration.
+    /// This member is required.
+    public var migrationId: Swift.String?
+    /// The state of the migration when the request is accepted, such as planning.
+    /// This member is required.
+    public var state: S3TablesClientTypes.MigrationState?
+
+    public init(
+        migrationId: Swift.String? = nil,
+        state: S3TablesClientTypes.MigrationState? = nil
+    ) {
+        self.migrationId = migrationId
+        self.state = state
+    }
+}
+
+public struct SyncTableMigrationInput: Swift.Sendable {
+    /// The bucket and prefixes that the sync writes its reports to. The bucket must be a general purpose bucket in your account and in the same Region as the table bucket, and the migration role must be able to write objects to it. Otherwise, the migration fails when it writes its first report.
+    /// This member is required.
+    public var migrationOutput: S3TablesClientTypes.MigrationOutputConfiguration?
+    /// Specifies whether the sync waits in the pendingReview state, so that you can review the compatibility reports before it migrates any data. If true, the migration continues when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. The default is false.
+    public var reviewMigrationPlan: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that the sync uses to read the source table and its data and to write the destination table and the reports. The role must be in your account, and its trust policy must allow migration.s3tables.amazonaws.com to assume it. You can limit the trust policy to the destination table bucket with the aws:SourceArn and aws:SourceAccount condition keys.
+    /// This member is required.
+    public var roleARN: Swift.String?
+    /// The Amazon Resource Name (ARN) of the destination table to sync. The table must have a migration, and you must not have called CompleteTableMigration for it.
+    /// This member is required.
+    public var tableARN: Swift.String?
+
+    public init(
+        migrationOutput: S3TablesClientTypes.MigrationOutputConfiguration? = nil,
+        reviewMigrationPlan: Swift.Bool? = nil,
+        roleARN: Swift.String? = nil,
+        tableARN: Swift.String? = nil
+    ) {
+        self.migrationOutput = migrationOutput
+        self.reviewMigrationPlan = reviewMigrationPlan
+        self.roleARN = roleARN
+        self.tableARN = tableARN
+    }
+}
+
+public struct SyncTableMigrationOutput: Swift.Sendable {
+    /// The migration ID of the sync.
+    /// This member is required.
+    public var migrationId: Swift.String?
+    /// The state of the migration when the request is accepted, such as planning.
+    /// This member is required.
+    public var state: S3TablesClientTypes.MigrationState?
+
+    public init(
+        migrationId: Swift.String? = nil,
+        state: S3TablesClientTypes.MigrationState? = nil
+    ) {
+        self.migrationId = migrationId
+        self.state = state
+    }
+}
+
 public struct UpdateTableMetadataLocationInput: Swift.Sendable {
     /// The new metadata location for the table.
     /// This member is required.
@@ -3069,6 +4241,51 @@ public struct UpdateTableMetadataLocationOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateTableMigrationInput: Swift.Sendable {
+    /// The ID of the migration to update. Specify either migrationId or tableARN, not both.
+    public var migrationId: Swift.String?
+    /// The state to move the migration to: queued to continue a migration in the pendingReview state, or cancelled to cancel a migration in the new, planning, pendingReview, queued or migrating state.
+    /// This member is required.
+    public var requestedState: S3TablesClientTypes.MigrationRequestedState?
+    /// The Amazon Resource Name (ARN) of the destination table. Updates the table's most recent migration. Until the migration creates the destination table, specify migrationId. Specify either tableARN or migrationId, not both.
+    public var tableARN: Swift.String?
+    /// A description of the update, up to 1,024 characters, with no control characters. GetTableMigration doesn't return it.
+    public var updateDescription: Swift.String?
+
+    public init(
+        migrationId: Swift.String? = nil,
+        requestedState: S3TablesClientTypes.MigrationRequestedState? = nil,
+        tableARN: Swift.String? = nil,
+        updateDescription: Swift.String? = nil
+    ) {
+        self.migrationId = migrationId
+        self.requestedState = requestedState
+        self.tableARN = tableARN
+        self.updateDescription = updateDescription
+    }
+}
+
+public struct UpdateTableMigrationOutput: Swift.Sendable {
+    /// The ID of the migration.
+    /// This member is required.
+    public var migrationId: Swift.String?
+    /// The state of the migration after the update, such as queued, migrating or cancelling.
+    /// This member is required.
+    public var state: S3TablesClientTypes.MigrationState?
+    /// The Amazon Resource Name (ARN) of the destination table.
+    public var tableARN: Swift.String?
+
+    public init(
+        migrationId: Swift.String? = nil,
+        state: S3TablesClientTypes.MigrationState? = nil,
+        tableARN: Swift.String? = nil
+    ) {
+        self.migrationId = migrationId
+        self.state = state
+        self.tableARN = tableARN
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're applying tags to. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags).
     /// This member is required.
@@ -3111,6 +4328,27 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension CompleteTableMigrationInput {
+
+    static func urlPathProvider(_ value: CompleteTableMigrationInput) -> Swift.String? {
+        return "/complete-table-migration"
+    }
+}
+
+extension CompleteTableMigrationInput {
+
+    static func queryItemProvider(_ value: CompleteTableMigrationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let tableARN = value.tableARN else {
+            let message = "Creating a URL Query Item failed. tableARN is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let tableARNQueryItem = Smithy.URIQueryItem(name: "tableARN".urlPercentEncoding(), value: Swift.String(tableARN).urlPercentEncoding())
+        items.append(tableARNQueryItem)
+        return items
+    }
 }
 
 extension CreateNamespaceInput {
@@ -3481,6 +4719,29 @@ extension GetTableMetadataLocationInput {
     }
 }
 
+extension GetTableMigrationInput {
+
+    static func urlPathProvider(_ value: GetTableMigrationInput) -> Swift.String? {
+        return "/get-table-migration"
+    }
+}
+
+extension GetTableMigrationInput {
+
+    static func queryItemProvider(_ value: GetTableMigrationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let migrationId = value.migrationId {
+            let migrationIdQueryItem = Smithy.URIQueryItem(name: "migrationId".urlPercentEncoding(), value: Swift.String(migrationId).urlPercentEncoding())
+            items.append(migrationIdQueryItem)
+        }
+        if let tableARN = value.tableARN {
+            let tableARNQueryItem = Smithy.URIQueryItem(name: "tableARN".urlPercentEncoding(), value: Swift.String(tableARN).urlPercentEncoding())
+            items.append(tableARNQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetTablePolicyInput {
 
     static func urlPathProvider(_ value: GetTablePolicyInput) -> Swift.String? {
@@ -3653,6 +4914,53 @@ extension ListTableBucketsInput {
         if let continuationToken = value.continuationToken {
             let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuationToken".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTableMigrationsInput {
+
+    static func urlPathProvider(_ value: ListTableMigrationsInput) -> Swift.String? {
+        return "/list-table-migrations"
+    }
+}
+
+extension ListTableMigrationsInput {
+
+    static func queryItemProvider(_ value: ListTableMigrationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let tableBucketARN = value.tableBucketARN {
+            let tableBucketARNQueryItem = Smithy.URIQueryItem(name: "tableBucketARN".urlPercentEncoding(), value: Swift.String(tableBucketARN).urlPercentEncoding())
+            items.append(tableBucketARNQueryItem)
+        }
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let state = value.state {
+            let stateQueryItem = Smithy.URIQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        if let hasValidPlan = value.hasValidPlan {
+            let hasValidPlanQueryItem = Smithy.URIQueryItem(name: "hasValidPlan".urlPercentEncoding(), value: Swift.String(hasValidPlan).urlPercentEncoding())
+            items.append(hasValidPlanQueryItem)
+        }
+        if let tableARN = value.tableARN {
+            let tableARNQueryItem = Smithy.URIQueryItem(name: "tableARN".urlPercentEncoding(), value: Swift.String(tableARN).urlPercentEncoding())
+            items.append(tableARNQueryItem)
         }
         return items
     }
@@ -3877,6 +5185,20 @@ extension RenameTableInput {
     }
 }
 
+extension StartTableMigrationInput {
+
+    static func urlPathProvider(_ value: StartTableMigrationInput) -> Swift.String? {
+        return "/start-table-migration"
+    }
+}
+
+extension SyncTableMigrationInput {
+
+    static func urlPathProvider(_ value: SyncTableMigrationInput) -> Swift.String? {
+        return "/sync-table-migration"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -3926,6 +5248,29 @@ extension UpdateTableMetadataLocationInput {
             return nil
         }
         return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())/metadata-location"
+    }
+}
+
+extension UpdateTableMigrationInput {
+
+    static func urlPathProvider(_ value: UpdateTableMigrationInput) -> Swift.String? {
+        return "/update-table-migration"
+    }
+}
+
+extension UpdateTableMigrationInput {
+
+    static func queryItemProvider(_ value: UpdateTableMigrationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let migrationId = value.migrationId {
+            let migrationIdQueryItem = Smithy.URIQueryItem(name: "migrationId".urlPercentEncoding(), value: Swift.String(migrationId).urlPercentEncoding())
+            items.append(migrationIdQueryItem)
+        }
+        if let tableARN = value.tableARN {
+            let tableARNQueryItem = Smithy.URIQueryItem(name: "tableARN".urlPercentEncoding(), value: Swift.String(tableARN).urlPercentEncoding())
+            items.append(tableARNQueryItem)
+        }
+        return items
     }
 }
 
@@ -4043,6 +5388,31 @@ extension RenameTableInput {
     }
 }
 
+extension StartTableMigrationInput {
+
+    static func write(value: StartTableMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataMigration"].write(value.dataMigration, with: S3TablesClientTypes.DataMigrationSettings.write(value:to:))
+        try writer["destinationTable"].write(value.destinationTable, with: S3TablesClientTypes.DestinationTable.write(value:to:))
+        try writer["migrationOutput"].write(value.migrationOutput, with: S3TablesClientTypes.MigrationOutputConfiguration.write(value:to:))
+        try writer["reviewMigrationPlan"].write(value.reviewMigrationPlan)
+        try writer["roleARN"].write(value.roleARN)
+        try writer["source"].write(value.source, with: S3TablesClientTypes.SourceConfiguration.write(value:to:))
+        try writer["sourceType"].write(value.sourceType)
+    }
+}
+
+extension SyncTableMigrationInput {
+
+    static func write(value: SyncTableMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["migrationOutput"].write(value.migrationOutput, with: S3TablesClientTypes.MigrationOutputConfiguration.write(value:to:))
+        try writer["reviewMigrationPlan"].write(value.reviewMigrationPlan)
+        try writer["roleARN"].write(value.roleARN)
+        try writer["tableARN"].write(value.tableARN)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -4057,6 +5427,22 @@ extension UpdateTableMetadataLocationInput {
         guard let value else { return }
         try writer["metadataLocation"].write(value.metadataLocation)
         try writer["versionToken"].write(value.versionToken)
+    }
+}
+
+extension UpdateTableMigrationInput {
+
+    static func write(value: UpdateTableMigrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["requestedState"].write(value.requestedState)
+        try writer["updateDescription"].write(value.updateDescription)
+    }
+}
+
+extension CompleteTableMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CompleteTableMigrationOutput {
+        return CompleteTableMigrationOutput()
     }
 }
 
@@ -4350,6 +5736,36 @@ extension GetTableMetadataLocationOutput {
     }
 }
 
+extension GetTableMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableMigrationOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataMigration = try reader["dataMigration"].readIfPresent(with: S3TablesClientTypes.DataMigrationOverview.read(from:))
+        value.failureReason = try reader["failureReason"].readIfPresent(with: S3TablesClientTypes.MigrationFailureReason.read(from:))
+        value.hasValidPlan = try reader["hasValidPlan"].readIfPresent()
+        value.migrationId = try reader["migrationId"].readIfPresent() ?? ""
+        value.migrationOutput = try reader["migrationOutput"].readIfPresent(with: S3TablesClientTypes.MigrationOutputOverview.read(from:))
+        value.migrationStats = try reader["migrationStats"].readIfPresent(with: S3TablesClientTypes.MigrationStats.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.planningStats = try reader["planningStats"].readIfPresent(with: S3TablesClientTypes.PlanningStats.read(from:))
+        value.reviewMigrationPlan = try reader["reviewMigrationPlan"].readIfPresent() ?? false
+        value.roleARN = try reader["roleARN"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent(with: S3TablesClientTypes.SourceConfiguration.read(from:))
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.stateUpdatedAt = try reader["stateUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tableARN = try reader["tableARN"].readIfPresent()
+        value.tableBucketARN = try reader["tableBucketARN"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetTablePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTablePolicyOutput {
@@ -4449,6 +5865,19 @@ extension ListTableBucketsOutput {
         var value = ListTableBucketsOutput()
         value.continuationToken = try reader["continuationToken"].readIfPresent()
         value.tableBuckets = try reader["tableBuckets"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.TableBucketSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListTableMigrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTableMigrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTableMigrationsOutput()
+        value.migrations = try reader["migrations"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.MigrationSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -4567,6 +5996,32 @@ extension RenameTableOutput {
     }
 }
 
+extension StartTableMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTableMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartTableMigrationOutput()
+        value.migrationId = try reader["migrationId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SyncTableMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SyncTableMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SyncTableMigrationOutput()
+        value.migrationId = try reader["migrationId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -4594,6 +6049,40 @@ extension UpdateTableMetadataLocationOutput {
         value.tableARN = try reader["tableARN"].readIfPresent() ?? ""
         value.versionToken = try reader["versionToken"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension UpdateTableMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTableMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTableMigrationOutput()
+        value.migrationId = try reader["migrationId"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.tableARN = try reader["tableARN"].readIfPresent()
+        return value
+    }
+}
+
+enum CompleteTableMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -5078,6 +6567,25 @@ enum GetTableMetadataLocationOutputError {
     }
 }
 
+enum GetTableMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTablePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5224,6 +6732,25 @@ enum ListTableBucketsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTableMigrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
@@ -5482,6 +7009,46 @@ enum RenameTableOutputError {
     }
 }
 
+enum StartTableMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SyncTableMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5536,6 +7103,39 @@ enum UpdateTableMetadataLocationOutputError {
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
+    }
+}
+
+enum UpdateTableMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
     }
 }
 
@@ -5617,19 +7217,6 @@ extension TooManyRequestsException {
     }
 }
 
-extension AccessDeniedException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension MethodNotAllowedException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
@@ -5640,6 +7227,42 @@ extension MethodNotAllowedException {
         value.requestID = baseError.requestID
         value.message = baseError.message
         return value
+    }
+}
+
+extension S3TablesClientTypes.DataMigrationOverview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.DataMigrationOverview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.DataMigrationOverview()
+        value.maintenanceSettings = try reader["maintenanceSettings"].readIfPresent(with: S3TablesClientTypes.MaintenanceSettings.read(from:))
+        value.migrationPolicies = try reader["migrationPolicies"].readIfPresent(with: S3TablesClientTypes.MigrationPolicies.read(from:))
+        return value
+    }
+}
+
+extension S3TablesClientTypes.DataMigrationSettings {
+
+    static func write(value: S3TablesClientTypes.DataMigrationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maintenanceSettings"].write(value.maintenanceSettings, with: S3TablesClientTypes.MaintenanceSettings.write(value:to:))
+        try writer["migrationPolicies"].write(value.migrationPolicies, with: S3TablesClientTypes.MigrationPolicies.write(value:to:))
+    }
+}
+
+extension S3TablesClientTypes.DestinationTable {
+
+    static func write(value: S3TablesClientTypes.DestinationTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3TablesClientTypes.EncryptionConfiguration.write(value:to:))
+        try writer["icebergSortOrder"].write(value.icebergSortOrder, with: S3TablesClientTypes.IcebergSortOrder.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["namespace"].write(value.namespace)
+        try writer["properties"].write(value.properties, with: S3TablesClientTypes.MigrationTableProperties.write(value:to:))
+        try writer["schema"].write(value.schema, with: S3TablesClientTypes.IcebergSchemaV2.write(value:to:))
+        try writer["storageClassConfiguration"].write(value.storageClassConfiguration, with: S3TablesClientTypes.StorageClassConfiguration.write(value:to:))
+        try writer["tableBucketARN"].write(value.tableBucketARN)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5656,6 +7279,25 @@ extension S3TablesClientTypes.EncryptionConfiguration {
         var value = S3TablesClientTypes.EncryptionConfiguration()
         value.sseAlgorithm = try reader["sseAlgorithm"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.GlueTableSource {
+
+    static func write(value: S3TablesClientTypes.GlueTableSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["catalogId"].write(value.catalogId)
+        try writer["databaseName"].write(value.databaseName)
+        try writer["tableName"].write(value.tableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.GlueTableSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.GlueTableSource()
+        value.catalogId = try reader["catalogId"].readIfPresent() ?? ""
+        value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["tableName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5793,6 +7435,23 @@ extension S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
     }
 }
 
+extension S3TablesClientTypes.MaintenanceSettings {
+
+    static func write(value: S3TablesClientTypes.MaintenanceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergCompaction"].write(value.icebergCompaction, with: S3TablesClientTypes.MigrationCompactionSettings.write(value:to:))
+        try writer["icebergSnapshotManagement"].write(value.icebergSnapshotManagement, with: S3TablesClientTypes.MigrationSnapshotManagementSettings.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MaintenanceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MaintenanceSettings()
+        value.icebergCompaction = try reader["icebergCompaction"].readIfPresent(with: S3TablesClientTypes.MigrationCompactionSettings.read(from:))
+        value.icebergSnapshotManagement = try reader["icebergSnapshotManagement"].readIfPresent(with: S3TablesClientTypes.MigrationSnapshotManagementSettings.read(from:))
+        return value
+    }
+}
+
 extension S3TablesClientTypes.ManagedTableInformation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ManagedTableInformation {
@@ -5800,6 +7459,142 @@ extension S3TablesClientTypes.ManagedTableInformation {
         var value = S3TablesClientTypes.ManagedTableInformation()
         value.replicationInformation = try reader["replicationInformation"].readIfPresent(with: S3TablesClientTypes.ReplicationInformation.read(from:))
         return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationCompactionSettings {
+
+    static func write(value: S3TablesClientTypes.MigrationCompactionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["strategy"].write(value.strategy)
+        try writer["targetFileSizeMB"].write(value.targetFileSizeMB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MigrationCompactionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MigrationCompactionSettings()
+        value.targetFileSizeMB = try reader["targetFileSizeMB"].readIfPresent() ?? 512
+        value.strategy = try reader["strategy"].readIfPresent() ?? S3TablesClientTypes.IcebergCompactionStrategy.binpack
+        return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationFailureReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MigrationFailureReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MigrationFailureReason()
+        value.code = try reader["code"].readIfPresent() ?? .sdkUnknown("")
+        value.detail = try reader["detail"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationOutputConfiguration {
+
+    static func write(value: S3TablesClientTypes.MigrationOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["prefixes"].write(value.prefixes, with: S3TablesClientTypes.MigrationReportPrefixes.write(value:to:))
+    }
+}
+
+extension S3TablesClientTypes.MigrationOutputOverview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MigrationOutputOverview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MigrationOutputOverview()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.tableCompatibilityReport = try reader["tableCompatibilityReport"].readIfPresent(with: S3TablesClientTypes.ReportOverview.read(from:))
+        value.objectCompatibilityReport = try reader["objectCompatibilityReport"].readIfPresent(with: S3TablesClientTypes.ReportOverview.read(from:))
+        value.objectMigrationReport = try reader["objectMigrationReport"].readIfPresent(with: S3TablesClientTypes.ReportOverview.read(from:))
+        return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationPolicies {
+
+    static func write(value: S3TablesClientTypes.MigrationPolicies?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["incompatibleValuesPolicy"].write(value.incompatibleValuesPolicy)
+        try writer["unmatchedSourceFieldsPolicy"].write(value.unmatchedSourceFieldsPolicy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MigrationPolicies {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MigrationPolicies()
+        value.unmatchedSourceFieldsPolicy = try reader["unmatchedSourceFieldsPolicy"].readIfPresent() ?? S3TablesClientTypes.UnmatchedSourceFieldsPolicy.fail
+        value.incompatibleValuesPolicy = try reader["incompatibleValuesPolicy"].readIfPresent() ?? S3TablesClientTypes.IncompatibleValuesPolicy.fail
+        return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationReportPrefixes {
+
+    static func write(value: S3TablesClientTypes.MigrationReportPrefixes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["objectCompatibilityReport"].write(value.objectCompatibilityReport)
+        try writer["objectMigrationReport"].write(value.objectMigrationReport)
+        try writer["tableCompatibilityReport"].write(value.tableCompatibilityReport)
+    }
+}
+
+extension S3TablesClientTypes.MigrationSnapshotManagementSettings {
+
+    static func write(value: S3TablesClientTypes.MigrationSnapshotManagementSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxSnapshotAgeHours"].write(value.maxSnapshotAgeHours)
+        try writer["minSnapshotsToKeep"].write(value.minSnapshotsToKeep)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MigrationSnapshotManagementSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MigrationSnapshotManagementSettings()
+        value.minSnapshotsToKeep = try reader["minSnapshotsToKeep"].readIfPresent() ?? 3
+        value.maxSnapshotAgeHours = try reader["maxSnapshotAgeHours"].readIfPresent() ?? 120
+        return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MigrationStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MigrationStats()
+        value.objectsMigrated = try reader["objectsMigrated"].readIfPresent()
+        value.objectsFailedMigration = try reader["objectsFailedMigration"].readIfPresent()
+        value.objectsPendingMigration = try reader["objectsPendingMigration"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.MigrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.MigrationSummary()
+        value.migrationId = try reader["migrationId"].readIfPresent() ?? ""
+        value.tableBucketARN = try reader["tableBucketARN"].readIfPresent() ?? ""
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.tableARN = try reader["tableARN"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        value.hasValidPlan = try reader["hasValidPlan"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.stateUpdatedAt = try reader["stateUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension S3TablesClientTypes.MigrationTableProperties {
+
+    static func write(value: S3TablesClientTypes.MigrationTableProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["compressionCodec"].write(value.compressionCodec)
+        try writer["dictionaryEncoding"].write(value.dictionaryEncoding)
+        try writer["icebergFormatVersion"].write(value.icebergFormatVersion)
+        try writer["writeFormat"].write(value.writeFormat)
     }
 }
 
@@ -5814,6 +7609,18 @@ extension S3TablesClientTypes.NamespaceSummary {
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         value.namespaceId = try reader["namespaceId"].readIfPresent()
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.PlanningStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.PlanningStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.PlanningStats()
+        value.objectsScanned = try reader["objectsScanned"].readIfPresent()
+        value.objectsPlanned = try reader["objectsPlanned"].readIfPresent()
+        value.partitionCount = try reader["partitionCount"].readIfPresent()
         return value
     }
 }
@@ -5857,6 +7664,19 @@ extension S3TablesClientTypes.ReplicationInformation {
     }
 }
 
+extension S3TablesClientTypes.ReportOverview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.ReportOverview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.ReportOverview()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.checksumCRC64NVME = try reader["checksumCRC64NVME"].readIfPresent()
+        value.invalidFindings = try reader["invalidFindings"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension S3TablesClientTypes.SchemaField {
 
     static func write(value: S3TablesClientTypes.SchemaField?, to writer: SmithyJSON.Writer) throws {
@@ -5877,6 +7697,30 @@ extension S3TablesClientTypes.SchemaV2Field {
         try writer["name"].write(value.name)
         try writer["required"].write(value.`required`)
         try writer["type"].write(value.type)
+    }
+}
+
+extension S3TablesClientTypes.SourceConfiguration {
+
+    static func write(value: S3TablesClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .gluetable(gluetable):
+                try writer["glueTable"].write(gluetable, with: S3TablesClientTypes.GlueTableSource.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "glueTable":
+                return .gluetable(try reader["glueTable"].read(with: S3TablesClientTypes.GlueTableSource.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

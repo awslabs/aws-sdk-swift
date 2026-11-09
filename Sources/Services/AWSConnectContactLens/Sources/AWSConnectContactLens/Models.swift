@@ -139,6 +139,111 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+extension ConnectContactLensClientTypes {
+
+    public enum TagComparisonType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equals
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagComparisonType] {
+            return [
+                .equals,
+                .notEquals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "EQUALS"
+            case .notEquals: return "NOT_EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    /// A tag condition that consists of a tag key, a tag value, and a comparison operator.
+    public struct TagCondition: Swift.Sendable {
+        /// The comparison operator for the tag condition. Valid values: EQUALS | NOT_EQUALS.
+        public var comparisonType: ConnectContactLensClientTypes.TagComparisonType?
+        /// The tag key in the tag condition.
+        public var tagKey: Swift.String?
+        /// The tag value in the tag condition.
+        public var tagValue: Swift.String?
+
+        public init(
+            comparisonType: ConnectContactLensClientTypes.TagComparisonType? = nil,
+            tagKey: Swift.String? = nil,
+            tagValue: Swift.String? = nil
+        ) {
+            self.comparisonType = comparisonType
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    /// A list of tag conditions that the filter evaluates together using AND logic. A category segment matches only when the tags on its rule satisfy every tag condition in the list.
+    public struct CategoriesAttributeAndCondition: Swift.Sendable {
+        /// A list of tag conditions. All of the tag conditions must be met for the condition to match.
+        public var tagConditions: [ConnectContactLensClientTypes.TagCondition]?
+
+        public init(
+            tagConditions: [ConnectContactLensClientTypes.TagCondition]? = nil
+        ) {
+            self.tagConditions = tagConditions
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    /// A filter that matches category segments based on the tags assigned to the rules that create the categories. Provide exactly one of OrConditions, AndCondition, or TagCondition.
+    public struct CategoriesAttributeFilter: Swift.Sendable {
+        /// A condition that the filter evaluates using AND logic. A category segment matches only when all of the tag conditions in the condition are met.
+        public var andCondition: ConnectContactLensClientTypes.CategoriesAttributeAndCondition?
+        /// A list of conditions that the filter evaluates using OR logic. A category segment matches when at least one of the conditions in the list is met.
+        public var orConditions: [ConnectContactLensClientTypes.CategoriesAttributeAndCondition]?
+        /// A single tag condition that a category segment must match. The category's rule must have the specified tag.
+        public var tagCondition: ConnectContactLensClientTypes.TagCondition?
+
+        public init(
+            andCondition: ConnectContactLensClientTypes.CategoriesAttributeAndCondition? = nil,
+            orConditions: [ConnectContactLensClientTypes.CategoriesAttributeAndCondition]? = nil,
+            tagCondition: ConnectContactLensClientTypes.TagCondition? = nil
+        ) {
+            self.andCondition = andCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+    }
+}
+
+extension ConnectContactLensClientTypes {
+
+    /// A filter that restricts the segments returned by ListRealtimeContactAnalysisSegments. It supports filtering category segments by the tags on the rules that create them, which enforces tag-based access control on the categories a caller can view.
+    public struct RealTimeContactAnalysisSegmentsFilter: Swift.Sendable {
+        /// A filter applied to category segments based on the tags of the rules that create the matched categories.
+        public var categoriesAttributeFilter: ConnectContactLensClientTypes.CategoriesAttributeFilter?
+
+        public init(
+            categoriesAttributeFilter: ConnectContactLensClientTypes.CategoriesAttributeFilter? = nil
+        ) {
+            self.categoriesAttributeFilter = categoriesAttributeFilter
+        }
+    }
+}
+
 public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Sendable {
     /// The identifier of the contact.
     /// This member is required.
@@ -146,6 +251,8 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance.
     /// This member is required.
     public var instanceId: Swift.String?
+    /// A filter that limits the category segments returned by the operation. When provided, use CategoriesAttributeFilter to return only the category segments whose rules have tags that match the filter. This enforces tag-based access control on the categories that the caller can view.
+    public var listFilter: ConnectContactLensClientTypes.RealTimeContactAnalysisSegmentsFilter?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -154,11 +261,13 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Sendable {
     public init(
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
+        listFilter: ConnectContactLensClientTypes.RealTimeContactAnalysisSegmentsFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.contactId = contactId
         self.instanceId = instanceId
+        self.listFilter = listFilter
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -192,11 +301,15 @@ extension ConnectContactLensClientTypes {
         /// The section of audio where the category rule was detected.
         /// This member is required.
         public var pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]?
+        /// The unique identifier of the rule that created the matched category.
+        public var ruleId: Swift.String?
 
         public init(
-            pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]? = nil
+            pointsOfInterest: [ConnectContactLensClientTypes.PointOfInterest]? = nil,
+            ruleId: Swift.String? = nil
         ) {
             self.pointsOfInterest = pointsOfInterest
+            self.ruleId = ruleId
         }
     }
 }
@@ -606,6 +719,7 @@ extension ListRealtimeContactAnalysisSegmentsInput {
         guard let value else { return }
         try writer["ContactId"].write(value.contactId)
         try writer["InstanceId"].write(value.instanceId)
+        try writer["ListFilter"].write(value.listFilter, with: ConnectContactLensClientTypes.RealTimeContactAnalysisSegmentsFilter.write(value:to:))
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
     }
@@ -718,12 +832,31 @@ extension ConnectContactLensClientTypes.Categories {
     }
 }
 
+extension ConnectContactLensClientTypes.CategoriesAttributeAndCondition {
+
+    static func write(value: ConnectContactLensClientTypes.CategoriesAttributeAndCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TagConditions"].writeList(value.tagConditions, memberWritingClosure: ConnectContactLensClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectContactLensClientTypes.CategoriesAttributeFilter {
+
+    static func write(value: ConnectContactLensClientTypes.CategoriesAttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndCondition"].write(value.andCondition, with: ConnectContactLensClientTypes.CategoriesAttributeAndCondition.write(value:to:))
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectContactLensClientTypes.CategoriesAttributeAndCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TagCondition"].write(value.tagCondition, with: ConnectContactLensClientTypes.TagCondition.write(value:to:))
+    }
+}
+
 extension ConnectContactLensClientTypes.CategoryDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectContactLensClientTypes.CategoryDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectContactLensClientTypes.CategoryDetails()
         value.pointsOfInterest = try reader["PointsOfInterest"].readListIfPresent(memberReadingClosure: ConnectContactLensClientTypes.PointOfInterest.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ruleId = try reader["RuleId"].readIfPresent()
         return value
     }
 }
@@ -807,6 +940,24 @@ extension ConnectContactLensClientTypes.RealtimeContactAnalysisSegment {
         value.postContactSummary = try reader["PostContactSummary"].readIfPresent(with: ConnectContactLensClientTypes.PostContactSummary.read(from:))
         value.extractedInformation = try reader["ExtractedInformation"].readIfPresent(with: ConnectContactLensClientTypes.ExtractedInformation.read(from:))
         return value
+    }
+}
+
+extension ConnectContactLensClientTypes.RealTimeContactAnalysisSegmentsFilter {
+
+    static func write(value: ConnectContactLensClientTypes.RealTimeContactAnalysisSegmentsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoriesAttributeFilter"].write(value.categoriesAttributeFilter, with: ConnectContactLensClientTypes.CategoriesAttributeFilter.write(value:to:))
+    }
+}
+
+extension ConnectContactLensClientTypes.TagCondition {
+
+    static func write(value: ConnectContactLensClientTypes.TagCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonType"].write(value.comparisonType)
+        try writer["TagKey"].write(value.tagKey)
+        try writer["TagValue"].write(value.tagValue)
     }
 }
 

@@ -4772,6 +4772,133 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// The blockchain network for a connected account. Production networks only. Test networks are not supported because connected accounts settle production payments only. Valid values:
+    ///
+    /// * BASE - Base mainnet.
+    ///
+    /// * SOLANA - Solana mainnet.
+    public enum ConnectedAccountChain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base
+        case solana
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectedAccountChain] {
+            return [
+                .base,
+                .solana
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base: return "BASE"
+            case .solana: return "SOLANA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum CryptoCurrency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case usdc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CryptoCurrency] {
+            return [
+                .usdc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .usdc: return "USDC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The price per request for a connected account payment network, specifying the amount and cryptocurrency.
+    public struct ConnectedAccountPrice: Swift.Sendable {
+        /// The price per request as a decimal string in the specified currency. Valid values range from 0.01 to 999999.99 USDC, with up to two decimal places. Sub-cent amounts are not supported.
+        /// This member is required.
+        public var amount: Swift.String?
+        /// The cryptocurrency for payment. Currently only USDC is supported.
+        /// This member is required.
+        public var currency: WAFV2ClientTypes.CryptoCurrency?
+
+        public init(
+            amount: Swift.String? = nil,
+            currency: WAFV2ClientTypes.CryptoCurrency? = nil
+        ) {
+            self.amount = amount
+            self.currency = currency
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A per-network configuration for a connected account, specifying the blockchain network and the price per request. Unlike PaymentNetwork, you do not provide a wallet address; the receiving address is managed for the connected account.
+    public struct ConnectedAccountChainConfig: Swift.Sendable {
+        /// The blockchain network for receiving payments through the connected account. Test networks are not supported for connected accounts. Valid values:
+        ///
+        /// * BASE - Base mainnet.
+        ///
+        /// * SOLANA - Solana mainnet.
+        /// This member is required.
+        public var chain: WAFV2ClientTypes.ConnectedAccountChain?
+        /// The price configuration for this network. Currently supports a single price entry in USDC.
+        /// This member is required.
+        public var prices: [WAFV2ClientTypes.ConnectedAccountPrice]?
+
+        public init(
+            chain: WAFV2ClientTypes.ConnectedAccountChain? = nil,
+            prices: [WAFV2ClientTypes.ConnectedAccountPrice]? = nil
+        ) {
+            self.chain = chain
+            self.prices = prices
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A connected account configuration for AI bot monetization. Specifies the connected account that payments settle to and the per-network pricing. Settlement through a connected account is an alternative to the self-managed wallets in CryptoConfig; wallet addresses are managed for the connected account rather than configured by you. If the referenced connected account is not active or not enabled for crypto settlement, the CreateWebACL, UpdateWebACL, CreateRuleGroup, or UpdateRuleGroup request that includes it is rejected. Specifically, a request that references the account is rejected with WAFInvalidOperationException if the account or its crypto settlement capability isn't active, WAFNonexistentItemException if the ARN no longer exists, AccessDeniedException if you don't have payments:GetConnectedAccount, or WAFInvalidParameterException if the ARN is invalid or the partition is unsupported. Connected accounts are available only in the commercial Amazon Web Services partition.
+    public struct ConnectedAccountConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connected account that payments settle to. You obtain this ARN from Payment preferences > Connected accounts in the Amazon Web Services Billing and Cost Management console. For more information, see [Managing connected accounts](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-connected-accounts.html). The connected account must be active and enabled for crypto settlement; otherwise the request is rejected. To use a connected account, you must have the payments:GetConnectedAccount permission on this ARN.
+        /// This member is required.
+        public var connectedAccountArn: Swift.String?
+        /// The per-network configurations for the connected account. You can specify 1 to 2 networks. Each entry specifies a blockchain network and the price for each request.
+        /// This member is required.
+        public var paymentNetworks: [WAFV2ClientTypes.ConnectedAccountChainConfig]?
+
+        public init(
+            connectedAccountArn: Swift.String? = nil,
+            paymentNetworks: [WAFV2ClientTypes.ConnectedAccountChainConfig]? = nil
+        ) {
+            self.connectedAccountArn = connectedAccountArn
+            self.paymentNetworks = paymentNetworks
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum BlockchainChain: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case base
         case baseSepolia
@@ -4799,32 +4926,6 @@ extension WAFV2ClientTypes {
             case .baseSepolia: return "BASE_SEPOLIA"
             case .solana: return "SOLANA"
             case .solanaDevnet: return "SOLANA_DEVNET"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension WAFV2ClientTypes {
-
-    public enum CryptoCurrency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case usdc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [CryptoCurrency] {
-            return [
-                .usdc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .usdc: return "USDC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4925,17 +5026,25 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// The monetization configuration for a web ACL or rule group. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization. You must provide this configuration when any rule in the web ACL or rule group uses the Monetize action.
+    /// The monetization configuration for a web ACL or rule group. Specifies the payment settlement options (self-managed crypto wallets in CryptoConfig, a connected account in ConnectedAccountConfigs, or both) and the currency mode for artificial intelligence (AI) bot monetization. You must provide this configuration when any rule in the web ACL or rule group uses the Monetize action.
     public struct MonetizationConfig: Swift.Sendable {
+        /// The connected account configurations for settling AI bot payments through a connected account with a supported third-party payment provider (Stripe), as an alternative to the self-managed wallets in CryptoConfig. You can provide CryptoConfig, ConnectedAccountConfigs, or both; however, a given blockchain network (chain) can be used by only one of them. Currently supports exactly one connected account.
+        public var connectedAccountConfigs: [WAFV2ClientTypes.ConnectedAccountConfig]?
         /// The cryptocurrency payment configuration, including the blockchain networks and wallet addresses where you receive payments.
         public var cryptoConfig: WAFV2ClientTypes.CryptoConfig?
-        /// Specifies whether the configuration uses real or test currency. Set to REAL to settle payments in USDC on production blockchain networks (Base, Solana). Set to TEST to settle on testnet networks (Base Sepolia, Solana Devnet) with tokens that have no monetary value. If not specified, defaults to REAL.
+        /// Specifies whether the configuration uses real or test currency. If not specified, defaults to REAL. Connected account configurations support production settlement only; TEST is not supported when ConnectedAccountConfigs is present. Valid values:
+        ///
+        /// * REAL - Settle payments in USDC on production blockchain networks (Base, Solana).
+        ///
+        /// * TEST - Settle on testnet networks (Base Sepolia, Solana Devnet) with tokens that have no monetary value.
         public var currencyMode: WAFV2ClientTypes.CurrencyMode?
 
         public init(
+            connectedAccountConfigs: [WAFV2ClientTypes.ConnectedAccountConfig]? = nil,
             cryptoConfig: WAFV2ClientTypes.CryptoConfig? = nil,
             currencyMode: WAFV2ClientTypes.CurrencyMode? = nil
         ) {
+            self.connectedAccountConfigs = connectedAccountConfigs
             self.cryptoConfig = cryptoConfig
             self.currencyMode = currencyMode
         }
@@ -9887,7 +9996,7 @@ extension WAFV2ClientTypes {
         public var labelNamespace: Swift.String?
         /// Indicates whether this web ACL was created by Firewall Manager and is being managed by Firewall Manager. If true, then only Firewall Manager can delete the web ACL or any Firewall Manager rule groups in the web ACL. See also the properties RetrofittedByFirewallManager, PreProcessFirewallManagerRuleGroups, and PostProcessFirewallManagerRuleGroups.
         public var managedByFirewallManager: Swift.Bool
-        /// The monetization configuration for the web ACL. Required when any rule in the web ACL uses the Monetize action. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization.
+        /// The monetization configuration for the web ACL. Required when any rule in the web ACL uses the Monetize action. Specifies the payment settlement options and currency mode for AI bot monetization.
         public var monetizationConfig: WAFV2ClientTypes.MonetizationConfig?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         /// This member is required.

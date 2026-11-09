@@ -295,6 +295,36 @@ extension ListSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AthenaClient {
+    /// Paginate over `[ListSystemTableStatusesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSystemTableStatusesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSystemTableStatusesOutput`
+    public func listSystemTableStatusesPaginated(input: ListSystemTableStatusesInput) -> ClientRuntime.PaginatorSequence<ListSystemTableStatusesInput, ListSystemTableStatusesOutput> {
+        return ClientRuntime.PaginatorSequence<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSystemTableStatuses(input:))
+    }
+}
+
+extension ListSystemTableStatusesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSystemTableStatusesInput {
+        return ListSystemTableStatusesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSystemTableStatusesInput, OperationStackOutput == ListSystemTableStatusesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSystemTableStatusesPaginated`
+    /// to access the nested member `[AthenaClientTypes.SystemTableStatus]`
+    /// - Returns: `[AthenaClientTypes.SystemTableStatus]`
+    public func items() async throws -> [AthenaClientTypes.SystemTableStatus] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension AthenaClient {
     /// Paginate over `[ListTableMetadataOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

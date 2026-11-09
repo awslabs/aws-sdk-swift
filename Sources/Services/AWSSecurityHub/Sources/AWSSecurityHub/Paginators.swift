@@ -493,6 +493,75 @@ extension PaginatorSequence where OperationStackInput == GetResourcesV2Input, Op
     }
 }
 extension SecurityHubClient {
+    /// Paginate over `[GetSoftwareResourcesV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSoftwareResourcesV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSoftwareResourcesV2Output`
+    public func getSoftwareResourcesV2Paginated(input: GetSoftwareResourcesV2Input) -> ClientRuntime.PaginatorSequence<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output> {
+        return ClientRuntime.PaginatorSequence<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSoftwareResourcesV2(input:))
+    }
+}
+
+extension GetSoftwareResourcesV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetSoftwareResourcesV2Input {
+        return GetSoftwareResourcesV2Input(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            packageName: self.packageName,
+            packageType: self.packageType,
+            packageVersion: self.packageVersion,
+            scopes: self.scopes,
+            sortCriteria: self.sortCriteria
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetSoftwareResourcesV2Input, OperationStackOutput == GetSoftwareResourcesV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getSoftwareResourcesV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.SoftwareResourceResult]`
+    /// - Returns: `[SecurityHubClientTypes.SoftwareResourceResult]`
+    public func softwareResources() async throws -> [SecurityHubClientTypes.SoftwareResourceResult] {
+        return try await self.asyncCompactMap { item in item.softwareResources }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[GetSoftwareV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSoftwareV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSoftwareV2Output`
+    public func getSoftwareV2Paginated(input: GetSoftwareV2Input) -> ClientRuntime.PaginatorSequence<GetSoftwareV2Input, GetSoftwareV2Output> {
+        return ClientRuntime.PaginatorSequence<GetSoftwareV2Input, GetSoftwareV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getSoftwareV2(input:))
+    }
+}
+
+extension GetSoftwareV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetSoftwareV2Input {
+        return GetSoftwareV2Input(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scopes: self.scopes,
+            sortCriteria: self.sortCriteria
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetSoftwareV2Input, OperationStackOutput == GetSoftwareV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `getSoftwareV2Paginated`
+    /// to access the nested member `[SecurityHubClientTypes.SoftwareResult]`
+    /// - Returns: `[SecurityHubClientTypes.SoftwareResult]`
+    public func software() async throws -> [SecurityHubClientTypes.SoftwareResult] {
+        return try await self.asyncCompactMap { item in item.software }
+    }
+}
+extension SecurityHubClient {
     /// Paginate over `[ListAggregatorsV2Output]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

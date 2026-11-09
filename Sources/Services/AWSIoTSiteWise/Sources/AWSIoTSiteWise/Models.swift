@@ -5736,6 +5736,8 @@ public struct CreateDatasetExportJobInput: Swift.Sendable {
     /// The processing input source.
     /// This member is required.
     public var input: IoTSiteWiseClientTypes.ProcessingInput?
+    /// An optional name for the export job. When omitted, one will be created based on type of job and start time.
+    public var jobName: Swift.String?
     /// The name of the workspace in which to create the dataset export job.
     /// This member is required.
     public var workspaceName: Swift.String?
@@ -5745,12 +5747,14 @@ public struct CreateDatasetExportJobInput: Swift.Sendable {
         destinationS3Uri: Swift.String? = nil,
         errorReportLocation: IoTSiteWiseClientTypes.ExportErrorReportLocation? = nil,
         input: IoTSiteWiseClientTypes.ProcessingInput? = nil,
+        jobName: Swift.String? = nil,
         workspaceName: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.destinationS3Uri = destinationS3Uri
         self.errorReportLocation = errorReportLocation
         self.input = input
+        self.jobName = jobName
         self.workspaceName = workspaceName
     }
 }
@@ -8893,6 +8897,8 @@ public struct DescribeDatasetExportJobOutput: Swift.Sendable {
     /// The unique identifier for the dataset export job.
     /// This member is required.
     public var jobId: Swift.String?
+    /// The name of the dataset export job.
+    public var jobName: Swift.String?
     /// The timestamp when the job started processing.
     /// This member is required.
     public var startedAt: Foundation.Date?
@@ -8909,6 +8915,7 @@ public struct DescribeDatasetExportJobOutput: Swift.Sendable {
         errorReportLocation: IoTSiteWiseClientTypes.ExportErrorReportLocation? = nil,
         input: IoTSiteWiseClientTypes.ProcessingInput? = nil,
         jobId: Swift.String? = nil,
+        jobName: Swift.String? = nil,
         startedAt: Foundation.Date? = nil,
         status: IoTSiteWiseClientTypes.DatasetExportJobStatus? = nil,
         workspaceName: Swift.String? = nil
@@ -8918,6 +8925,7 @@ public struct DescribeDatasetExportJobOutput: Swift.Sendable {
         self.errorReportLocation = errorReportLocation
         self.input = input
         self.jobId = jobId
+        self.jobName = jobName
         self.startedAt = startedAt
         self.status = status
         self.workspaceName = workspaceName
@@ -13371,6 +13379,8 @@ extension IoTSiteWiseClientTypes {
         /// The unique identifier for the dataset export job.
         /// This member is required.
         public var jobId: Swift.String?
+        /// The name of the dataset export job.
+        public var jobName: Swift.String?
         /// The timestamp when the job started processing.
         /// This member is required.
         public var startedAt: Foundation.Date?
@@ -13382,12 +13392,14 @@ extension IoTSiteWiseClientTypes {
             completedAt: Foundation.Date? = nil,
             destinationS3Uri: Swift.String? = nil,
             jobId: Swift.String? = nil,
+            jobName: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             status: IoTSiteWiseClientTypes.DatasetExportJobStatus? = nil
         ) {
             self.completedAt = completedAt
             self.destinationS3Uri = destinationS3Uri
             self.jobId = jobId
+            self.jobName = jobName
             self.startedAt = startedAt
             self.status = status
         }
@@ -19381,6 +19393,7 @@ extension CreateDatasetExportJobInput {
         try writer["destinationS3Uri"].write(value.destinationS3Uri)
         try writer["errorReportLocation"].write(value.errorReportLocation, with: IoTSiteWiseClientTypes.ExportErrorReportLocation.write(value:to:))
         try writer["input"].write(value.input, with: IoTSiteWiseClientTypes.ProcessingInput.write(value:to:))
+        try writer["jobName"].write(value.jobName)
     }
 }
 
@@ -20697,6 +20710,7 @@ extension DescribeDatasetExportJobOutput {
         value.errorReportLocation = try reader["errorReportLocation"].readIfPresent(with: IoTSiteWiseClientTypes.ExportErrorReportLocation.read(from:))
         value.input = try reader["input"].readIfPresent(with: IoTSiteWiseClientTypes.ProcessingInput.read(from:))
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent()
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.workspaceName = try reader["workspaceName"].readIfPresent() ?? ""
@@ -26473,6 +26487,7 @@ extension IoTSiteWiseClientTypes.ExportJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.ExportJobSummary()
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobName = try reader["jobName"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.completedAt = try reader["completedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

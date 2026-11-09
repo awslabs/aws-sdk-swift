@@ -6735,6 +6735,231 @@ extension SecurityHubClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetSoftwareResourcesV2` operation on the `SecurityHub` service.
+    ///
+    /// Returns a list of resources that contain a specific software package. You identify the package with PackageName and PackageType. To narrow the results to one version of the package, include PackageVersion. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve resources from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to further refine results based on resource attributes, such as ResourceType or Region.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSoftwareResourcesV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSoftwareResourcesV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `OrganizationalUnitNotFoundException` : The request failed because one or more organizational units specified in the request don't exist within the caller's organization.
+    /// - `OrganizationNotFoundException` : The request failed because one or more organizations specified in the request don't exist or don't belong to the caller's organization.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func getSoftwareResourcesV2(input: GetSoftwareResourcesV2Input) async throws -> GetSoftwareResourcesV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSoftwareResourcesV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>(GetSoftwareResourcesV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSoftwareResourcesV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSoftwareResourcesV2Output>(GetSoftwareResourcesV2Output.httpOutput(from:), GetSoftwareResourcesV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSoftwareResourcesV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSoftwareResourcesV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSoftwareResourcesV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSoftwareResourcesV2Input, GetSoftwareResourcesV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSoftwareResourcesV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetSoftwareStatisticsV2` operation on the `SecurityHub` service.
+    ///
+    /// Retrieves aggregated counts of software packages installed on your resources, grouped by a field that you specify. For example, you can return the most common package types or the accounts with the most installed packages. Each count is the number of package-to-resource pairs that match the grouping value. A package installed on three resources contributes three to the count. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you aggregate software from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. This operation doesn't paginate. Use MaxStatisticResults to control how many grouping values are returned.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSoftwareStatisticsV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSoftwareStatisticsV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `OrganizationalUnitNotFoundException` : The request failed because one or more organizational units specified in the request don't exist within the caller's organization.
+    /// - `OrganizationNotFoundException` : The request failed because one or more organizations specified in the request don't exist or don't belong to the caller's organization.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func getSoftwareStatisticsV2(input: GetSoftwareStatisticsV2Input) async throws -> GetSoftwareStatisticsV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSoftwareStatisticsV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>(GetSoftwareStatisticsV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSoftwareStatisticsV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSoftwareStatisticsV2Output>(GetSoftwareStatisticsV2Output.httpOutput(from:), GetSoftwareStatisticsV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSoftwareStatisticsV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSoftwareStatisticsV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSoftwareStatisticsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSoftwareStatisticsV2Input, GetSoftwareStatisticsV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSoftwareStatisticsV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetSoftwareV2` operation on the `SecurityHub` service.
+    ///
+    /// Returns a list of software packages installed on your resources. Each result identifies a package by name, version, and type, and includes the number of resources that contain that package. You can use the Scopes parameter to define the data boundary for the query. Currently, Scopes supports AwsOrganizations, which lets you retrieve software from your entire organization or from specific organizational units. Only the delegated administrator account can use Scopes. You can use the Filters parameter to refine results based on package and resource attributes. You can use Scopes and Filters independently or together. When both are provided, Scopes narrows the data set first, and then Filters refines results within that scoped data set. To list the resources that contain a specific package, use GetSoftwareResourcesV2. To get counts of software grouped by a field, use GetSoftwareStatisticsV2.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSoftwareV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSoftwareV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `ConflictException` : The request causes conflict with the current state of the service resource.
+    /// - `InternalServerException` : The request has failed due to an internal failure of the service.
+    /// - `OrganizationalUnitNotFoundException` : The request failed because one or more organizational units specified in the request don't exist within the caller's organization.
+    /// - `OrganizationNotFoundException` : The request failed because one or more organizations specified in the request don't exist or don't belong to the caller's organization.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request has failed validation because it's missing required fields or has invalid inputs.
+    public func getSoftwareV2(input: GetSoftwareV2Input) async throws -> GetSoftwareV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSoftwareV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "securityhub")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetSoftwareV2Input, GetSoftwareV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>(GetSoftwareV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetSoftwareV2Input, GetSoftwareV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetSoftwareV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSoftwareV2Output>(GetSoftwareV2Output.httpOutput(from:), GetSoftwareV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSoftwareV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SecurityHub", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSoftwareV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSoftwareV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SecurityHub"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSoftwareV2Input, GetSoftwareV2Output>(serviceID: serviceName, version: SecurityHubClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SecurityHub")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSoftwareV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `InviteMembers` operation on the `SecurityHub` service.
     ///
     /// We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see [Managing Security Hub CSPM administrator and member accounts with Organizations](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-accounts-orgs.html) in the Security Hub CSPM User Guide. Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub CSPM. When the account owner enables Security Hub CSPM and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.

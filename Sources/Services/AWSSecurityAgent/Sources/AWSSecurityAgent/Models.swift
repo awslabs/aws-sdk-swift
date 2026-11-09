@@ -6263,12 +6263,15 @@ extension SecurityAgentClientTypes {
 
     /// Type of membership.
     public enum MembershipType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// IAM Identity Center group member. All members of the group have access to the agent space.
+        case group
         /// Human user member.
         case user
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MembershipType] {
             return [
+                .group,
                 .user
             ]
         }
@@ -6280,6 +6283,7 @@ extension SecurityAgentClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .group: return "GROUP"
             case .user: return "USER"
             case let .sdkUnknown(s): return s
             }
@@ -6297,7 +6301,7 @@ public struct CreateMembershipInput: Swift.Sendable {
     public var applicationId: Swift.String?
     /// The configuration for the membership, such as the user role.
     public var config: SecurityAgentClientTypes.MembershipConfig?
-    /// The type of member. Currently, only USER is supported.
+    /// The type of member. Use USER for an individual user or GROUP for an IAM Identity Center group. All members of a group have access to the agent space.
     /// This member is required.
     public var memberType: SecurityAgentClientTypes.MembershipType?
     /// The unique identifier for the membership.
@@ -7949,6 +7953,25 @@ extension SecurityAgentClientTypes {
 
 extension SecurityAgentClientTypes {
 
+    /// Contains metadata about an IAM Identity Center group member, including the group display name and description.
+    public struct GroupMetadata: Swift.Sendable {
+        /// The description of the group.
+        public var description: Swift.String?
+        /// The display name of the group.
+        public var displayName: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            displayName: Swift.String? = nil
+        ) {
+            self.description = description
+            self.displayName = displayName
+        }
+    }
+}
+
+extension SecurityAgentClientTypes {
+
     public enum SecurityRequirementArtifactFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case doc
         case docx
@@ -8873,6 +8896,8 @@ extension SecurityAgentClientTypes {
     public enum MembershipTypeFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Show all member types.
         case all
+        /// Show only group members.
+        case group
         /// Show only user members.
         case user
         case sdkUnknown(Swift.String)
@@ -8880,6 +8905,7 @@ extension SecurityAgentClientTypes {
         public static var allCases: [MembershipTypeFilter] {
             return [
                 .all,
+                .group,
                 .user
             ]
         }
@@ -8892,6 +8918,7 @@ extension SecurityAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "ALL"
+            case .group: return "GROUP"
             case .user: return "USER"
             case let .sdkUnknown(s): return s
             }
@@ -8956,6 +8983,8 @@ extension SecurityAgentClientTypes {
     public enum MemberMetadata: Swift.Sendable {
         /// The user metadata for the member.
         case user(SecurityAgentClientTypes.UserMetadata)
+        /// The group metadata for the member.
+        case group(SecurityAgentClientTypes.GroupMetadata)
         case sdkUnknown(Swift.String)
     }
 }
@@ -16771,6 +16800,17 @@ extension SecurityAgentClientTypes.GitLabResourceCapabilities {
     }
 }
 
+extension SecurityAgentClientTypes.GroupMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.GroupMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityAgentClientTypes.GroupMetadata()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityAgentClientTypes.HttpVerification {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityAgentClientTypes.HttpVerification {
@@ -17048,6 +17088,8 @@ extension SecurityAgentClientTypes.MemberMetadata {
         switch name {
             case "user":
                 return .user(try reader["user"].read(with: SecurityAgentClientTypes.UserMetadata.read(from:)))
+            case "group":
+                return .group(try reader["group"].read(with: SecurityAgentClientTypes.GroupMetadata.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }

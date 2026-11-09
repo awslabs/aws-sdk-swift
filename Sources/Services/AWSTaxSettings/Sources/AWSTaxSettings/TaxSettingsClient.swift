@@ -754,7 +754,12 @@ extension TaxSettingsClient {
 
     /// Performs the `BatchPutTaxRegistration` operation on the `TaxSettings` service.
     ///
-    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh
+    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Argentina
+    ///
+    /// * RegistrationType valid values are CUIT (Clave Única de Identificación Tributaria) and CDI (Clave de Identificación).
+    ///
+    ///
+    /// Bangladesh
     ///
     /// * You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.
     ///
@@ -875,6 +880,11 @@ extension TaxSettingsClient {
     /// Ukraine
     ///
     /// * The sector valid values are Business and Individual.
+    ///
+    ///
+    /// Uruguay
+    ///
+    /// * RegistrationType valid values are RUT (Registro Único Tributario), NIE (Numero de Identificacion del Extranjero), and CI (Cedula Identidad).
     ///
     ///
     /// Philippines
@@ -1822,7 +1832,12 @@ extension TaxSettingsClient {
 
     /// Performs the `PutTaxRegistration` operation on the `TaxSettings` service.
     ///
-    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh
+    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Argentina
+    ///
+    /// * RegistrationType valid values are CUIT (Clave Única de Identificación Tributaria) and CDI (Clave de Identificación).
+    ///
+    ///
+    /// Bangladesh
     ///
     /// * You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.
     ///
@@ -1943,6 +1958,11 @@ extension TaxSettingsClient {
     /// Ukraine
     ///
     /// * The sector valid values are Business and Individual.
+    ///
+    ///
+    /// Uruguay
+    ///
+    /// * RegistrationType valid values are RUT (Registro Único Tributario), NIE (Numero de Identificacion del Extranjero), and CI (Cedula Identidad).
     ///
     ///
     /// Philippines

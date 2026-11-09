@@ -626,6 +626,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
         let context = Smithy.ContextBuilder()
@@ -695,6 +696,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func createTrustAnchor(input: CreateTrustAnchorInput) async throws -> CreateTrustAnchorOutput {
         let context = Smithy.ContextBuilder()
@@ -765,6 +767,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func deleteAttributeMapping(input: DeleteAttributeMappingInput) async throws -> DeleteAttributeMappingOutput {
         let context = Smithy.ContextBuilder()
@@ -833,6 +836,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func deleteCrl(input: DeleteCrlInput) async throws -> DeleteCrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -899,6 +903,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -965,6 +970,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func deleteTrustAnchor(input: DeleteTrustAnchorInput) async throws -> DeleteTrustAnchorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1031,6 +1037,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func disableCrl(input: DisableCrlInput) async throws -> DisableCrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1097,6 +1104,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func disableProfile(input: DisableProfileInput) async throws -> DisableProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1163,6 +1171,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func disableTrustAnchor(input: DisableTrustAnchorInput) async throws -> DisableTrustAnchorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1229,6 +1238,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func enableCrl(input: EnableCrlInput) async throws -> EnableCrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1295,6 +1305,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func enableProfile(input: EnableProfileInput) async throws -> EnableProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1361,6 +1372,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func enableTrustAnchor(input: EnableTrustAnchorInput) async throws -> EnableTrustAnchorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1426,6 +1438,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func getCrl(input: GetCrlInput) async throws -> GetCrlOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1492,6 +1505,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1558,6 +1572,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     public func getSubject(input: GetSubjectInput) async throws -> GetSubjectOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1624,6 +1639,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func getTrustAnchor(input: GetTrustAnchorInput) async throws -> GetTrustAnchorOutput {
         let context = Smithy.ContextBuilder()
@@ -1690,6 +1706,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func importCrl(input: ImportCrlInput) async throws -> ImportCrlOutput {
         let context = Smithy.ContextBuilder()
@@ -1759,6 +1776,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func listCrls(input: ListCrlsInput) async throws -> ListCrlsOutput {
         let context = Smithy.ContextBuilder()
@@ -1826,6 +1844,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput {
         let context = Smithy.ContextBuilder()
@@ -1893,6 +1912,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func listSubjects(input: ListSubjectsInput) async throws -> ListSubjectsOutput {
         let context = Smithy.ContextBuilder()
@@ -1961,6 +1981,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2028,6 +2049,7 @@ extension RolesAnywhereClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func listTrustAnchors(input: ListTrustAnchorsInput) async throws -> ListTrustAnchorsOutput {
         let context = Smithy.ContextBuilder()
@@ -2096,6 +2118,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func putAttributeMapping(input: PutAttributeMappingInput) async throws -> PutAttributeMappingOutput {
         let context = Smithy.ContextBuilder()
@@ -2166,6 +2189,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func putNotificationSettings(input: PutNotificationSettingsInput) async throws -> PutNotificationSettingsOutput {
         let context = Smithy.ContextBuilder()
@@ -2236,6 +2260,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func resetNotificationSettings(input: ResetNotificationSettingsInput) async throws -> ResetNotificationSettingsOutput {
         let context = Smithy.ContextBuilder()
@@ -2306,6 +2331,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `TooManyTagsException` : Too many tags.
     /// - `ValidationException` : Validation exception error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
@@ -2377,6 +2403,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2447,6 +2474,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func updateCrl(input: UpdateCrlInput) async throws -> UpdateCrlOutput {
         let context = Smithy.ContextBuilder()
@@ -2517,6 +2545,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
         let context = Smithy.ContextBuilder()
@@ -2587,6 +2616,7 @@ extension RolesAnywhereClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the service.
     /// - `ValidationException` : Validation exception error.
     public func updateTrustAnchor(input: UpdateTrustAnchorInput) async throws -> UpdateTrustAnchorOutput {
         let context = Smithy.ContextBuilder()

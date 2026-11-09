@@ -2382,7 +2382,7 @@ extension SSMClient {
 
     /// Performs the `DeleteParameter` operation on the `SSM` service.
     ///
-    /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
+    /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. This operation is authorized against the ssm:DeleteParameter action. Denying that action alone doesn't restrict [DeleteParameters], which is authorized against its own action. For more information, see [Restricting access to specific parameters and paths](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-restrict-parameter-access.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteParameterInput`)
     ///
@@ -2457,7 +2457,7 @@ extension SSMClient {
 
     /// Performs the `DeleteParameters` operation on the `SSM` service.
     ///
-    /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
+    /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. This operation is authorized against the ssm:DeleteParameters action, not against ssm:DeleteParameter. Denying ssm:DeleteParameter for a parameter doesn't prevent a principal from deleting that parameter with this operation. For more information, see [Restricting access to specific parameters and paths](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-restrict-parameter-access.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteParametersInput`)
     ///
@@ -2753,6 +2753,85 @@ extension SSMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourcePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeregisterDefaultHostManagementConfiguration` operation on the `SSM` service.
+    ///
+    /// Removes the Default Host Management Configuration (DHMC) for an Amazon Web Services account and Amazon Web Services Region. After you deregister DHMC, Amazon EC2 instances are no longer automatically managed as managed nodes by Amazon Web Services Systems Manager. To use this operation, you must have the following permissions:
+    ///
+    /// * You need the ssm:GetServiceSetting and ssm:ResetServiceSetting permissions for the /ssm/managed-instance/default-ec2-instance-management-role service setting.
+    ///
+    ///
+    /// If the registered role is service-managed, you also need the iam:DeleteRole permission so that Amazon Web Services Systems Manager can remove the role it created.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeregisterDefaultHostManagementConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeregisterDefaultHostManagementConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    public func deregisterDefaultHostManagementConfiguration(input: DeregisterDefaultHostManagementConfigurationInput) async throws -> DeregisterDefaultHostManagementConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.deregisterDefaultHostManagementConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deregisterDefaultHostManagementConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterDefaultHostManagementConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterDefaultHostManagementConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonSSM.DeregisterDefaultHostManagementConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeregisterDefaultHostManagementConfigurationInput, DeregisterDefaultHostManagementConfigurationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterDefaultHostManagementConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7233,7 +7312,7 @@ extension SSMClient {
 
     /// Performs the `GetParameter` operation on the `SSM` service.
     ///
-    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. To get information about more than one parameter at a time, use the [GetParameters] operation. Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see [Changing Parameter Store throughput](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html).
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. To get information about more than one parameter at a time, use the [GetParameters] operation. This operation is authorized against the ssm:GetParameter action. Denying that action alone doesn't restrict [GetParameters], [GetParameterHistory], or [GetParametersByPath], each of which is authorized against its own action. For more information, see [How Parameter Store authorizes parameter retrieval](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-retrieval-authorization.html) in the Amazon Web Services Systems Manager User Guide. Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see [Changing Parameter Store throughput](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetParameterInput`)
     ///
@@ -7310,7 +7389,7 @@ extension SSMClient {
 
     /// Performs the `GetParameterHistory` operation on the `SSM` service.
     ///
-    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
+    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing. This operation is authorized against the ssm:GetParameterHistory action, not against ssm:GetParameter. Because parameter history includes every version of a parameter, including the current one, a principal who is denied ssm:GetParameter, ssm:GetParameters, and ssm:GetParametersByPath but allowed ssm:GetParameterHistory can still read the current value. To restrict access to a parameter value, deny every action that can return it. For more information, see [How Parameter Store authorizes parameter retrieval](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-retrieval-authorization.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetParameterHistoryInput`)
     ///
@@ -7387,7 +7466,7 @@ extension SSMClient {
 
     /// Performs the `GetParameters` operation on the `SSM` service.
     ///
-    /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see [Changing Parameter Store throughput](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html).
+    /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead. This operation is authorized against the ssm:GetParameters action, not against ssm:GetParameter. Denying ssm:GetParameter for a parameter doesn't prevent a principal from retrieving that parameter with this operation. To restrict access to a parameter value, deny every action that can return it. For more information, see [How Parameter Store authorizes parameter retrieval](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-retrieval-authorization.html) in the Amazon Web Services Systems Manager User Guide. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. Parameter Store throughput defines the number of API transactions per second (TPS) that Systems Manager can process. This applies to GetParameter, GetParameters, and PutParameter API calls for your Amazon Web Services account and Amazon Web Services Region. By default, Parameter Store is configured with a standard throughput quota suitable for low- to moderate-volume workloads. Applications that retrieve configuration data infrequently or operate at smaller scale can use this default setting without additional cost. For higher-volume workloads, you can enable higher throughput. This increases the maximum number of supported transactions per second for your account and Region. Increased throughput supports applications and workloads that need concurrent access to multiple parameters. If you experience ThrottlingException: Rate exceeded errors, enable higher throughput. For more information, see [Changing Parameter Store throughput](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-throughput.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetParametersInput`)
     ///
@@ -7462,7 +7541,7 @@ extension SSMClient {
 
     /// Performs the `GetParametersByPath` operation on the `SSM` service.
     ///
-    /// Retrieve information about one or more parameters under a specified level in a hierarchy. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
+    /// Retrieve information about one or more parameters under a specified level in a hierarchy. This operation is authorized against the ssm:GetParametersByPath action for the path that you specify in the request. It isn't authorized against the individual parameters that it returns, and it isn't authorized against ssm:GetParameter. A principal who is allowed to call this operation for the path /a with Recursive set to true receives every parameter under that path, including /a/b, even if a policy explicitly denies access to /a/b. To prevent a parameter from being returned by this operation, deny the ssm:GetParametersByPath action on every ancestor path that could include the parameter in its results. For more information, see [Restricting access to specific parameters and paths](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-restrict-parameter-access.html) in the Amazon Web Services Systems Manager User Guide. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetParametersByPathInput`)
     ///
@@ -9860,6 +9939,87 @@ extension SSMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutResourcePolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RegisterDefaultHostManagementConfiguration` operation on the `SSM` service.
+    ///
+    /// Enables Default Host Management Configuration (DHMC) for the current Amazon Web Services account and Amazon Web Services Region. With DHMC enabled, you don't need to configure additional resources, such as an instance profile, to use your Amazon EC2 instances as managed nodes in Amazon Web Services Systems Manager. To use this operation, you must have the following permissions:
+    ///
+    /// * You need the ssm:GetServiceSetting and ssm:UpdateServiceSetting permissions for the /ssm/managed-instance/default-ec2-instance-management-role service setting.
+    ///
+    /// * You need the iam:GetRole and iam:PassRole permissions for the role used for Default Host Management Configuration.
+    ///
+    ///
+    /// If PermissionModel is SERVICE_MANAGED, you also need the iam:CreateRole and iam:AttachRolePolicy permissions so that Amazon Web Services Systems Manager can create and configure the role on your behalf.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RegisterDefaultHostManagementConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RegisterDefaultHostManagementConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An error occurred on the server side.
+    public func registerDefaultHostManagementConfiguration(input: RegisterDefaultHostManagementConfigurationInput) async throws -> RegisterDefaultHostManagementConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = SSMClient.registerDefaultHostManagementConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "registerDefaultHostManagementConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ssm")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDefaultHostManagementConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterDefaultHostManagementConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonSSM.RegisterDefaultHostManagementConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "SSM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterDefaultHostManagementConfigurationInput, RegisterDefaultHostManagementConfigurationOutput>(serviceID: serviceName, version: SSMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterDefaultHostManagementConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

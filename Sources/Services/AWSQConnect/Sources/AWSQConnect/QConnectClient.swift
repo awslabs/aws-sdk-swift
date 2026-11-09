@@ -5538,6 +5538,154 @@ extension QConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `RegisterAssistantReplicaKey` operation on the `QConnect` service.
+    ///
+    /// Registers a replica Region KMS key for an Amazon Q in Connect assistant. To use this operation, you must have kms:GenerateDataKey permission on the replica key.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RegisterAssistantReplicaKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RegisterAssistantReplicaKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
+    public func registerAssistantReplicaKey(input: RegisterAssistantReplicaKeyInput) async throws -> RegisterAssistantReplicaKeyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "registerAssistantReplicaKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wisdom")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>(RegisterAssistantReplicaKeyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterAssistantReplicaKeyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterAssistantReplicaKeyOutput>(RegisterAssistantReplicaKeyOutput.httpOutput(from:), RegisterAssistantReplicaKeyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RegisterAssistantReplicaKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterAssistantReplicaKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterAssistantReplicaKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "QConnect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterAssistantReplicaKeyInput, RegisterAssistantReplicaKeyOutput>(serviceID: serviceName, version: QConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterAssistantReplicaKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RegisterKnowledgeBaseReplicaKey` operation on the `QConnect` service.
+    ///
+    /// Registers a replica Region KMS key for an Amazon Q in Connect knowledge base. To use this operation, you must have kms:GenerateDataKey permission on the replica key. You must also have kms:CreateGrant permission on the primary key.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RegisterKnowledgeBaseReplicaKeyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RegisterKnowledgeBaseReplicaKeyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    /// - `UnauthorizedException` : You do not have permission to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
+    public func registerKnowledgeBaseReplicaKey(input: RegisterKnowledgeBaseReplicaKeyInput) async throws -> RegisterKnowledgeBaseReplicaKeyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "registerKnowledgeBaseReplicaKey")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "wisdom")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>(RegisterKnowledgeBaseReplicaKeyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: RegisterKnowledgeBaseReplicaKeyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterKnowledgeBaseReplicaKeyOutput>(RegisterKnowledgeBaseReplicaKeyOutput.httpOutput(from:), RegisterKnowledgeBaseReplicaKeyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RegisterKnowledgeBaseReplicaKeyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("QConnect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterKnowledgeBaseReplicaKeyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterKnowledgeBaseReplicaKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "QConnect"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RegisterKnowledgeBaseReplicaKeyInput, RegisterKnowledgeBaseReplicaKeyOutput>(serviceID: serviceName, version: QConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "QConnect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RegisterKnowledgeBaseReplicaKey")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `RemoveAssistantAIAgent` operation on the `QConnect` service.
     ///
     /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
@@ -5550,6 +5698,7 @@ extension QConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
@@ -6702,6 +6851,7 @@ extension QConnectClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
