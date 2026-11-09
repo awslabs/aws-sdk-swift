@@ -475,6 +475,7 @@ extension ConnectClientTypes {
         case assignSla
         case createCase
         case createTask
+        case endAssociatedEmails
         case endAssociatedTasks
         case extractInformation
         case generateEventbridgeEvent
@@ -490,6 +491,7 @@ extension ConnectClientTypes {
                 .assignSla,
                 .createCase,
                 .createTask,
+                .endAssociatedEmails,
                 .endAssociatedTasks,
                 .extractInformation,
                 .generateEventbridgeEvent,
@@ -511,6 +513,7 @@ extension ConnectClientTypes {
             case .assignSla: return "ASSIGN_SLA"
             case .createCase: return "CREATE_CASE"
             case .createTask: return "CREATE_TASK"
+            case .endAssociatedEmails: return "END_ASSOCIATED_EMAILS"
             case .endAssociatedTasks: return "END_ASSOCIATED_TASKS"
             case .extractInformation: return "EXTRACT_INFORMATION"
             case .generateEventbridgeEvent: return "GENERATE_EVENTBRIDGE_EVENT"
@@ -9985,6 +9988,15 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// End associated emails related to a case.
+    public struct EndAssociatedEmailsActionDefinition: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// End associated tasks related to a case.
     public struct EndAssociatedTasksActionDefinition: Swift.Sendable {
 
@@ -10253,6 +10265,8 @@ extension ConnectClientTypes {
         public var assignSlaAction: ConnectClientTypes.AssignSlaActionDefinition?
         /// Information about the create case action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnPostChatAnalysisAvailable.
         public var createCaseAction: ConnectClientTypes.CreateCaseActionDefinition?
+        /// Information about the end associated emails action. Supported only for TriggerEventSource values: OnCaseUpdate.
+        public var endAssociatedEmailsAction: ConnectClientTypes.EndAssociatedEmailsActionDefinition?
         /// Information about the end associated tasks action. Supported only for TriggerEventSource values: OnCaseUpdate.
         public var endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition?
         /// Information about the EventBridge action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnContactEvaluationSubmit | OnMetricDataUpdate
@@ -10275,6 +10289,7 @@ extension ConnectClientTypes {
             assignContactCategoryAction: ConnectClientTypes.AssignContactCategoryActionDefinition? = nil,
             assignSlaAction: ConnectClientTypes.AssignSlaActionDefinition? = nil,
             createCaseAction: ConnectClientTypes.CreateCaseActionDefinition? = nil,
+            endAssociatedEmailsAction: ConnectClientTypes.EndAssociatedEmailsActionDefinition? = nil,
             endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition? = nil,
             eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition? = nil,
             extractInformationAction: ConnectClientTypes.ExtractInformationActionDefinition? = nil,
@@ -10288,6 +10303,7 @@ extension ConnectClientTypes {
             self.assignContactCategoryAction = assignContactCategoryAction
             self.assignSlaAction = assignSlaAction
             self.createCaseAction = createCaseAction
+            self.endAssociatedEmailsAction = endAssociatedEmailsAction
             self.endAssociatedTasksAction = endAssociatedTasksAction
             self.eventBridgeAction = eventBridgeAction
             self.extractInformationAction = extractInformationAction
@@ -64455,6 +64471,19 @@ extension ConnectClientTypes.EncryptionConfig {
     }
 }
 
+extension ConnectClientTypes.EndAssociatedEmailsActionDefinition {
+
+    static func write(value: ConnectClientTypes.EndAssociatedEmailsActionDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EndAssociatedEmailsActionDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return ConnectClientTypes.EndAssociatedEmailsActionDefinition()
+    }
+}
+
 extension ConnectClientTypes.EndAssociatedTasksActionDefinition {
 
     static func write(value: ConnectClientTypes.EndAssociatedTasksActionDefinition?, to writer: SmithyJSON.Writer) throws {
@@ -68924,6 +68953,7 @@ extension ConnectClientTypes.RuleAction {
         try writer["AssignContactCategoryAction"].write(value.assignContactCategoryAction, with: ConnectClientTypes.AssignContactCategoryActionDefinition.write(value:to:))
         try writer["AssignSlaAction"].write(value.assignSlaAction, with: ConnectClientTypes.AssignSlaActionDefinition.write(value:to:))
         try writer["CreateCaseAction"].write(value.createCaseAction, with: ConnectClientTypes.CreateCaseActionDefinition.write(value:to:))
+        try writer["EndAssociatedEmailsAction"].write(value.endAssociatedEmailsAction, with: ConnectClientTypes.EndAssociatedEmailsActionDefinition.write(value:to:))
         try writer["EndAssociatedTasksAction"].write(value.endAssociatedTasksAction, with: ConnectClientTypes.EndAssociatedTasksActionDefinition.write(value:to:))
         try writer["EventBridgeAction"].write(value.eventBridgeAction, with: ConnectClientTypes.EventBridgeActionDefinition.write(value:to:))
         try writer["ExtractInformationAction"].write(value.extractInformationAction, with: ConnectClientTypes.ExtractInformationActionDefinition.write(value:to:))
@@ -68946,6 +68976,7 @@ extension ConnectClientTypes.RuleAction {
         value.updateCaseAction = try reader["UpdateCaseAction"].readIfPresent(with: ConnectClientTypes.UpdateCaseActionDefinition.read(from:))
         value.assignSlaAction = try reader["AssignSlaAction"].readIfPresent(with: ConnectClientTypes.AssignSlaActionDefinition.read(from:))
         value.endAssociatedTasksAction = try reader["EndAssociatedTasksAction"].readIfPresent(with: ConnectClientTypes.EndAssociatedTasksActionDefinition.read(from:))
+        value.endAssociatedEmailsAction = try reader["EndAssociatedEmailsAction"].readIfPresent(with: ConnectClientTypes.EndAssociatedEmailsActionDefinition.read(from:))
         value.submitAutoEvaluationAction = try reader["SubmitAutoEvaluationAction"].readIfPresent(with: ConnectClientTypes.SubmitAutoEvaluationActionDefinition.read(from:))
         value.extractInformationAction = try reader["ExtractInformationAction"].readIfPresent(with: ConnectClientTypes.ExtractInformationActionDefinition.read(from:))
         value.sendInAppNotificationAction = try reader["SendInAppNotificationAction"].readIfPresent(with: ConnectClientTypes.SendInAppNotificationActionDefinition.read(from:))

@@ -936,6 +936,7 @@ extension RAMClient {
     /// - `InvalidPolicyException` : The operation failed because a policy you specified isn't valid.
     /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
     /// - `MalformedPolicyTemplateException` : The operation failed because the policy template that you provided isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
     /// - `PermissionVersionsLimitExceededException` : The operation failed because it would exceed the limit for the number of versions you can have for a permission. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
@@ -1518,7 +1519,7 @@ extension RAMClient {
 
     /// Performs the `GetPermission` operation on the `RAM` service.
     ///
-    /// Retrieves the contents of a managed permission in JSON format.
+    /// Retrieves the contents of a managed permission in JSON format. If the permission has template parameters, you can include the permissionTemplateParameters parameter in your request. The operation then renders the returned policy with the specified values in place of the template parameter placeholders. If you omit permissionTemplateParameters, the operation returns the raw policy template with @{parameterName} placeholders unchanged.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetPermissionInput`)
     ///
@@ -3131,6 +3132,82 @@ extension RAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdatePermission` operation on the `RAM` service.
+    ///
+    /// Updates the status of the specified customer managed permission. Setting the status to DEPRECATED prevents new resource share associations. Setting it to ATTACHABLE restores a previously deprecated permission. Existing resource shares that use the permission continue to function.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdatePermissionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdatePermissionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `PermissionLimitExceededException` : The operation failed because it would exceed the maximum number of permissions you can create in each Amazon Web Services Region. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
+    public func updatePermission(input: UpdatePermissionInput) async throws -> UpdatePermissionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updatePermission")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ram")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdatePermissionInput, UpdatePermissionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdatePermissionInput, UpdatePermissionOutput>(UpdatePermissionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdatePermissionInput, UpdatePermissionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdatePermissionInput, UpdatePermissionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdatePermissionInput, UpdatePermissionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdatePermissionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePermissionInput, UpdatePermissionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePermissionOutput>(UpdatePermissionOutput.httpOutput(from:), UpdatePermissionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePermissionInput, UpdatePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePermissionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdatePermissionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdatePermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdatePermissionInput, UpdatePermissionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdatePermissionInput, UpdatePermissionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RAM"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdatePermissionInput, UpdatePermissionOutput>(serviceID: serviceName, version: RAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePermission")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

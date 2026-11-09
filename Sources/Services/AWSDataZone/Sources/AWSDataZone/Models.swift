@@ -4196,18 +4196,49 @@ extension DataZoneClientTypes.AuthenticationConfigurationInput: Swift.CustomDebu
 
 extension DataZoneClientTypes {
 
+    /// Contains the OAuth2 properties, such as the client application, grant type, and token URL, that you want to update for a connection.
+    public struct OAuth2PropertiesPatch: Swift.Sendable {
+        /// The OAuth2 client application of the OAuth2 properties to update.
+        public var oAuth2ClientApplication: DataZoneClientTypes.OAuth2ClientApplication?
+        /// The OAuth2 grant type of the OAuth2 properties to update.
+        public var oAuth2GrantType: DataZoneClientTypes.OAuth2GrantType?
+        /// The OAuth2 token URL of the OAuth2 properties to update.
+        public var tokenUrl: Swift.String?
+        /// The OAuth2 token URL parameter map of the OAuth2 properties to update, for example the scope. If you specify an empty map, the existing parameters are kept.
+        public var tokenUrlParametersMap: [Swift.String: Swift.String]?
+
+        public init(
+            oAuth2ClientApplication: DataZoneClientTypes.OAuth2ClientApplication? = nil,
+            oAuth2GrantType: DataZoneClientTypes.OAuth2GrantType? = nil,
+            tokenUrl: Swift.String? = nil,
+            tokenUrlParametersMap: [Swift.String: Swift.String]? = nil
+        ) {
+            self.oAuth2ClientApplication = oAuth2ClientApplication
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParametersMap = tokenUrlParametersMap
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The authentication configuration patch of a connection.
     public struct AuthenticationConfigurationPatch: Swift.Sendable {
         /// The basic authentication credentials of a connection.
         public var basicAuthenticationCredentials: DataZoneClientTypes.BasicAuthenticationCredentials?
+        /// The OAuth2 properties, such as the client application, grant type, and token URL, that you want to update for a connection. Only the properties that you specify are updated; the connection keeps its existing values for the properties that you omit.
+        public var oAuth2Properties: DataZoneClientTypes.OAuth2PropertiesPatch?
         /// The secret ARN of a connection.
         public var secretArn: Swift.String?
 
         public init(
             basicAuthenticationCredentials: DataZoneClientTypes.BasicAuthenticationCredentials? = nil,
+            oAuth2Properties: DataZoneClientTypes.OAuth2PropertiesPatch? = nil,
             secretArn: Swift.String? = nil
         ) {
             self.basicAuthenticationCredentials = basicAuthenticationCredentials
+            self.oAuth2Properties = oAuth2Properties
             self.secretArn = secretArn
         }
     }
@@ -4215,7 +4246,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.AuthenticationConfigurationPatch: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AuthenticationConfigurationPatch(secretArn: \(Swift.String(describing: secretArn)), basicAuthenticationCredentials: \"CONTENT_REDACTED\")"}
+        "AuthenticationConfigurationPatch(oAuth2Properties: \(Swift.String(describing: oAuth2Properties)), secretArn: \(Swift.String(describing: secretArn)), basicAuthenticationCredentials: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -39985,6 +40016,7 @@ extension DataZoneClientTypes.AuthenticationConfigurationPatch {
     static func write(value: DataZoneClientTypes.AuthenticationConfigurationPatch?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["basicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: DataZoneClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["oAuth2Properties"].write(value.oAuth2Properties, with: DataZoneClientTypes.OAuth2PropertiesPatch.write(value:to:))
         try writer["secretArn"].write(value.secretArn)
     }
 }
@@ -42817,6 +42849,17 @@ extension DataZoneClientTypes.OAuth2Properties {
         value.authorizationCodeProperties = try reader["authorizationCodeProperties"].readIfPresent(with: DataZoneClientTypes.AuthorizationCodeProperties.read(from:))
         value.oAuth2Credentials = try reader["oAuth2Credentials"].readIfPresent(with: DataZoneClientTypes.GlueOAuth2Credentials.read(from:))
         return value
+    }
+}
+
+extension DataZoneClientTypes.OAuth2PropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.OAuth2PropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["oAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: DataZoneClientTypes.OAuth2ClientApplication.write(value:to:))
+        try writer["oAuth2GrantType"].write(value.oAuth2GrantType)
+        try writer["tokenUrl"].write(value.tokenUrl)
+        try writer["tokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
