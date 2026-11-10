@@ -4909,6 +4909,10 @@ extension DataZoneClientTypes {
         case sqlserver
         case teradata
         case vertica
+        /// A Workday Data Connect (Iceberg REST) catalog connection type.
+        case workdayicebergrestcatalog
+        /// A Workday Live Data Query connection type.
+        case workdayldq
         case sdkUnknown(Swift.String)
 
         public static var allCases: [GlueConnectionType] {
@@ -4928,7 +4932,9 @@ extension DataZoneClientTypes {
                 .snowflakeicebergrestcatalog,
                 .sqlserver,
                 .teradata,
-                .vertica
+                .vertica,
+                .workdayicebergrestcatalog,
+                .workdayldq
             ]
         }
 
@@ -4955,6 +4961,8 @@ extension DataZoneClientTypes {
             case .sqlserver: return "SQLSERVER"
             case .teradata: return "TERADATA"
             case .vertica: return "VERTICA"
+            case .workdayicebergrestcatalog: return "WORKDAYICEBERGRESTCATALOG"
+            case .workdayldq: return "WORKDAYLDQ"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6823,6 +6831,10 @@ extension DataZoneClientTypes {
         case teradata
         case vertica
         case vpc
+        /// A Workday Data Connect (Iceberg REST) catalog connection type.
+        case workdayicebergrestcatalog
+        /// A Workday Live Data Query connection type.
+        case workdayldq
         case workflowsMwaa
         case sdkUnknown(Swift.String)
 
@@ -6854,6 +6866,8 @@ extension DataZoneClientTypes {
                 .teradata,
                 .vertica,
                 .vpc,
+                .workdayicebergrestcatalog,
+                .workdayldq,
                 .workflowsMwaa
             ]
         }
@@ -6891,6 +6905,8 @@ extension DataZoneClientTypes {
             case .teradata: return "TERADATA"
             case .vertica: return "VERTICA"
             case .vpc: return "VPC"
+            case .workdayicebergrestcatalog: return "WORKDAYICEBERGRESTCATALOG"
+            case .workdayldq: return "WORKDAYLDQ"
             case .workflowsMwaa: return "WORKFLOWS_MWAA"
             case let .sdkUnknown(s): return s
             }
@@ -8398,7 +8414,7 @@ extension CreateDataSourceOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct CreateDesignationInput: Swift.Sendable {
-    /// Whether deletion protection is enabled for this designation. Defaults to true when omitted.
+    /// Specifies whether deletion protection is enabled for this designation. Defaults to true when omitted. When enabled, DeleteDesignation is rejected until protection is disabled through UpdateDesignation.
     public var deletionProtection: Swift.Bool?
     /// A human-readable description of the designation and its intended use.
     public var description: Swift.String?
@@ -8408,7 +8424,7 @@ public struct CreateDesignationInput: Swift.Sendable {
     /// The name of the designation. The name must be unique within the domain.
     /// This member is required.
     public var name: Swift.String?
-    /// The Cedar permit policy that defines what actions holders of this designation are allowed to perform.
+    /// The Cedar permit policy that defines the actions holders of this designation are allowed to perform.
     /// This member is required.
     public var policy: Swift.String?
 
@@ -8471,12 +8487,16 @@ public struct CreateDesignationOutput: Swift.Sendable {
     /// The identifier of the Amazon DataZone user who created the designation.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// Whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+    /// Specifies whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled through UpdateDesignation.
     /// This member is required.
     public var deletionProtection: Swift.Bool?
     /// A human-readable description of the designation and its intended use.
     public var description: Swift.String?
-    /// The classification of this designation. MANAGED designations are system-defined and cannot be modified or deleted.
+    /// The classification of this designation. Valid values:
+    ///
+    /// * MANAGED — System-defined designations that cannot be modified or deleted.
+    ///
+    /// * USER_CREATED — Designations created through CreateDesignation.
     /// This member is required.
     public var designationType: DataZoneClientTypes.DesignationType?
     /// The identifier of the Amazon DataZone domain in which the designation was created.
@@ -8490,7 +8510,7 @@ public struct CreateDesignationOutput: Swift.Sendable {
     /// The name of the designation. The name is unique within the domain.
     /// This member is required.
     public var name: Swift.String?
-    /// The Cedar permit policy that governs what actions holders of this designation are allowed to perform.
+    /// The Cedar permit policy that governs the actions holders of this designation are allowed to perform.
     /// This member is required.
     public var policy: Swift.String?
 
@@ -16185,12 +16205,16 @@ public struct GetDesignationOutput: Swift.Sendable {
     /// The identifier of the Amazon DataZone user who created the designation.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// Whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+    /// Specifies whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled through UpdateDesignation.
     /// This member is required.
     public var deletionProtection: Swift.Bool?
     /// A human-readable description of the designation and its intended use.
     public var description: Swift.String?
-    /// The classification of this designation. MANAGED designations are system-defined and cannot be modified or deleted.
+    /// The classification of this designation. Valid values:
+    ///
+    /// * MANAGED — System-defined designations that cannot be modified or deleted.
+    ///
+    /// * USER_CREATED — Designations created through CreateDesignation.
     /// This member is required.
     public var designationType: DataZoneClientTypes.DesignationType?
     /// The identifier of the Amazon DataZone domain that contains the designation.
@@ -16204,7 +16228,7 @@ public struct GetDesignationOutput: Swift.Sendable {
     /// The name of the designation. The name is unique within the domain.
     /// This member is required.
     public var name: Swift.String?
-    /// The Cedar permit policy that governs what actions holders of this designation are allowed to perform.
+    /// The Cedar permit policy that governs the actions holders of this designation are allowed to perform.
     /// This member is required.
     public var policy: Swift.String?
 
@@ -18632,19 +18656,23 @@ public struct ListDesignationsInput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
-    /// Summary representation of a designation returned by list operations.
+    /// The summary representation of a designation returned by ListDesignations. The summary omits the Cedar permit policy. Call GetDesignation to retrieve the full designation record including the policy.
     public struct DesignationSummary: Swift.Sendable {
         /// The date and time when the designation was created.
         public var createdAt: Foundation.Date?
         /// The identifier of the Amazon DataZone user who created the designation.
         /// This member is required.
         public var createdBy: Swift.String?
-        /// Whether deletion protection is enabled for this designation.
+        /// Specifies whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled through UpdateDesignation.
         /// This member is required.
         public var deletionProtection: Swift.Bool?
         /// A human-readable description of the designation and its intended use.
         public var description: Swift.String?
-        /// The classification of this designation.
+        /// The classification of this designation. Valid values:
+        ///
+        /// * MANAGED — System-defined designation.
+        ///
+        /// * USER_CREATED — User-created designation.
         public var designationType: DataZoneClientTypes.DesignationType?
         /// The identifier of the Amazon DataZone domain that contains the designation.
         /// This member is required.
@@ -25583,7 +25611,7 @@ extension UpdateConnectionOutput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateDesignationInput: Swift.Sendable {
-    /// Whether deletion protection is enabled for this designation. Omit to keep the existing value.
+    /// Specifies whether deletion protection is enabled for this designation. Omit to keep the existing value.
     public var deletionProtection: Swift.Bool?
     /// The updated human-readable description of the designation and its intended use.
     public var description: Swift.String?
@@ -25595,7 +25623,7 @@ public struct UpdateDesignationInput: Swift.Sendable {
     public var identifier: Swift.String?
     /// The updated name of the designation. The name must be unique within the domain.
     public var name: Swift.String?
-    /// The updated Cedar permit policy.
+    /// The updated Cedar permit policy. Omit to keep the existing policy.
     public var policy: Swift.String?
 
     public init(
@@ -25627,12 +25655,16 @@ public struct UpdateDesignationOutput: Swift.Sendable {
     /// The identifier of the Amazon DataZone user who created the designation.
     /// This member is required.
     public var createdBy: Swift.String?
-    /// Whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled via UpdateDesignation.
+    /// Specifies whether deletion protection is enabled for this designation. When true, DeleteDesignation is rejected until protection is disabled through UpdateDesignation.
     /// This member is required.
     public var deletionProtection: Swift.Bool?
     /// A human-readable description of the designation and its intended use.
     public var description: Swift.String?
-    /// The classification of this designation. MANAGED designations are system-defined and cannot be modified or deleted.
+    /// The classification of this designation. Valid values:
+    ///
+    /// * MANAGED — System-defined designations that cannot be modified or deleted.
+    ///
+    /// * USER_CREATED — Designations created through CreateDesignation.
     /// This member is required.
     public var designationType: DataZoneClientTypes.DesignationType?
     /// The identifier of the Amazon DataZone domain that contains the designation.
@@ -25646,7 +25678,7 @@ public struct UpdateDesignationOutput: Swift.Sendable {
     /// The name of the designation. The name is unique within the domain.
     /// This member is required.
     public var name: Swift.String?
-    /// The Cedar permit policy that governs what actions holders of this designation are allowed to perform.
+    /// The Cedar permit policy that governs the actions holders of this designation are allowed to perform.
     /// This member is required.
     public var policy: Swift.String?
 

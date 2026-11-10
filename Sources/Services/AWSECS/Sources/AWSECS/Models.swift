@@ -81,6 +81,8 @@ extension ECSClientTypes {
         case inferentia
         case k520
         case k80
+        case l4
+        case l40s
         case m60
         case radeonProV520
         case t4
@@ -97,6 +99,8 @@ extension ECSClientTypes {
                 .inferentia,
                 .k520,
                 .k80,
+                .l4,
+                .l40s,
                 .m60,
                 .radeonProV520,
                 .t4,
@@ -119,6 +123,8 @@ extension ECSClientTypes {
             case .inferentia: return "inferentia"
             case .k520: return "k520"
             case .k80: return "k80"
+            case .l4: return "l4"
+            case .l40s: return "l40s"
             case .m60: return "m60"
             case .radeonProV520: return "radeon-pro-v520"
             case .t4: return "t4"
@@ -1329,6 +1335,8 @@ extension ECSClientTypes {
         /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
         /// This member is required.
         public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
+        /// Specifies whether instances that this capacity provider launches have [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html) enabled. Enable this setting to run tasks that use the ISOLATED_SANDBOX or CONFIDENTIAL_SANDBOX isolation mode. When you enable this setting, the capacity provider must include at least one instance type that supports Nitro Sandbox. You can't enable this setting together with local storage (the useLocalStorage setting in localStorageConfiguration). The default value is false. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        public var nitroEnclavesEnabled: Swift.Bool?
         /// The storage configuration for Amazon ECS Managed Instances. This defines the data volume properties for the instances.
         public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
 
@@ -1342,6 +1350,7 @@ extension ECSClientTypes {
             localStorageConfiguration: ECSClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            nitroEnclavesEnabled: Swift.Bool? = nil,
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
         ) {
             self.capacityOptionType = capacityOptionType
@@ -1353,6 +1362,7 @@ extension ECSClientTypes {
             self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
+            self.nitroEnclavesEnabled = nitroEnclavesEnabled
             self.storageConfiguration = storageConfiguration
         }
     }
@@ -5714,8 +5724,6 @@ extension ECSClientTypes {
     ///
     /// * Linux platform version 1.4.0 or later.
     ///
-    /// * Windows platform version 1.0.0 or later.
-    ///
     ///
     /// Consider the following when using the Fargate launch type:
     ///
@@ -7673,8 +7681,6 @@ extension ECSClientTypes {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide;. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
-    ///
-    /// * Windows platform version 1.0.0 or later.
     public struct EphemeralStorage: Swift.Sendable {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         /// This member is required.
@@ -8022,6 +8028,68 @@ extension ECSClientTypes {
             case .inactive: return "INACTIVE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The isolation mode determines how a task is isolated from other tasks on the same Amazon EC2 instance.
+    public enum IsolationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        case confidentialSandbox
+        /// The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        case isolatedSandbox
+        /// The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IsolationMode] {
+            return [
+                .confidentialSandbox,
+                .isolatedSandbox,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .confidentialSandbox: return "CONFIDENTIAL_SANDBOX"
+            case .isolatedSandbox: return "ISOLATED_SANDBOX"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The trusted execution configuration for a task. This configuration controls the isolation mode and attestation policy. You set this configuration when you register a task definition. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public struct TrustedExecutionConfiguration: Swift.Sendable {
+        /// The base64-encoded attestation policy envelope for the task. The policy specifies which containers are allowed to run and the runtime configuration that is cryptographically attested. This parameter is required when isolationMode is CONFIDENTIAL_SANDBOX.
+        public var attestationPolicy: Swift.String?
+        /// The isolation mode for tasks that use this task definition. The isolation mode determines how a task is isolated from other tasks on the same Amazon EC2 instance.
+        ///
+        /// * SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        ///
+        /// * ISOLATED_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * CONFIDENTIAL_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var isolationMode: ECSClientTypes.IsolationMode?
+
+        public init(
+            attestationPolicy: Swift.String? = nil,
+            isolationMode: ECSClientTypes.IsolationMode? = nil
+        ) {
+            self.attestationPolicy = attestationPolicy
+            self.isolationMode = isolationMode
         }
     }
 }
@@ -8382,6 +8450,8 @@ extension ECSClientTypes {
         public var taskDefinitionArn: Swift.String?
         /// The short name or full Amazon Resource Name (ARN) of the Identity and Access Management role that grants containers in the task permission to call Amazon Web Services APIs on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
         public var taskRoleArn: Swift.String?
+        /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy. Trusted execution is supported only for Amazon ECS Managed Instances.
+        public var trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration?
         /// The list of data volume definitions for the task. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon Elastic Container Service Developer Guide. The host and sourcePath parameters aren't supported for tasks run on Fargate.
         public var volumes: [ECSClientTypes.Volume]?
 
@@ -8410,6 +8480,7 @@ extension ECSClientTypes {
             status: ECSClientTypes.TaskDefinitionStatus? = nil,
             taskDefinitionArn: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil,
+            trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration? = nil,
             volumes: [ECSClientTypes.Volume]? = nil
         ) {
             self.compatibilities = compatibilities
@@ -8436,6 +8507,7 @@ extension ECSClientTypes {
             self.status = status
             self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
+            self.trustedExecutionConfiguration = trustedExecutionConfiguration
             self.volumes = volumes
         }
     }
@@ -15314,8 +15386,6 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
-    ///
-    /// * Windows platform version 1.0.0 or later.
     public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
     public var executionRoleArn: Swift.String?
@@ -15377,6 +15447,8 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var tags: [ECSClientTypes.Tag]?
     /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide.
     public var taskRoleArn: Swift.String?
+    /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public var trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration?
     /// A list of volume definitions in JSON format that containers in your task might use.
     public var volumes: [ECSClientTypes.Volume]?
 
@@ -15397,6 +15469,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         runtimePlatform: ECSClientTypes.RuntimePlatform? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
         taskRoleArn: Swift.String? = nil,
+        trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration? = nil,
         volumes: [ECSClientTypes.Volume]? = nil
     ) {
         self.containerDefinitions = containerDefinitions
@@ -15415,6 +15488,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         self.runtimePlatform = runtimePlatform
         self.tags = tags
         self.taskRoleArn = taskRoleArn
+        self.trustedExecutionConfiguration = trustedExecutionConfiguration
         self.volumes = volumes
     }
 }
@@ -15753,8 +15827,6 @@ extension ECSClientTypes {
         /// The ephemeral storage setting override for the task. This parameter is only supported for tasks hosted on Fargate that use the following platform versions:
         ///
         /// * Linux platform version 1.4.0 or later.
-        ///
-        /// * Windows platform version 1.0.0 or later.
         public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role override for the task. For more information, see [Amazon ECS task execution IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html) in the Amazon Elastic Container Service Developer Guide.
         public var executionRoleArn: Swift.String?
@@ -15821,6 +15893,60 @@ extension ECSClientTypes {
             case .userInitiated: return "UserInitiated"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The status of the attestation policy for a task that uses the CONFIDENTIAL_SANDBOX isolation mode.
+    public enum AttestationPolicyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// An attestation policy is configured for the task.
+        case configured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttestationPolicyStatus] {
+            return [
+                .configured
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configured: return "CONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of the trusted execution configuration for a task. This is a read-only view of the isolation configuration that was set on the task definition. Use it to see a task's isolation configuration in the response to DescribeTasks, RunTask, or StopTask without calling DescribeTaskDefinition. This summary never includes the attestation policy itself. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public struct TrustedExecutionSummary: Swift.Sendable {
+        /// The status of the attestation policy for the task. This value is present only for tasks that use the CONFIDENTIAL_SANDBOX isolation mode.
+        public var attestationPolicyStatus: ECSClientTypes.AttestationPolicyStatus?
+        /// The isolation mode that the task runs in. This value mirrors the isolationMode that was set in the task definition's TrustedExecutionConfiguration.
+        ///
+        /// * SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        ///
+        /// * ISOLATED_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * CONFIDENTIAL_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var isolationMode: ECSClientTypes.IsolationMode?
+
+        public init(
+            attestationPolicyStatus: ECSClientTypes.AttestationPolicyStatus? = nil,
+            isolationMode: ECSClientTypes.IsolationMode? = nil
+        ) {
+            self.attestationPolicyStatus = attestationPolicyStatus
+            self.isolationMode = isolationMode
         }
     }
 }
@@ -15927,6 +16053,8 @@ extension ECSClientTypes {
         public var taskArn: Swift.String?
         /// The ARN of the task definition that creates the task.
         public var taskDefinitionArn: Swift.String?
+        /// A summary of the trusted execution configuration for the task, including the isolation mode. This is a read-only view of the configuration that was set on the task definition. Trusted execution is supported only for Amazon ECS Managed Instances.
+        public var trustedExecutionSummary: ECSClientTypes.TrustedExecutionSummary?
         /// The version counter for the task. Every time a task experiences a change that starts a CloudWatch event, the version counter is incremented. If you replicate your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actions with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public var version: Swift.Int
 
@@ -15966,6 +16094,7 @@ extension ECSClientTypes {
             tags: [ECSClientTypes.Tag]? = nil,
             taskArn: Swift.String? = nil,
             taskDefinitionArn: Swift.String? = nil,
+            trustedExecutionSummary: ECSClientTypes.TrustedExecutionSummary? = nil,
             version: Swift.Int = 0
         ) {
             self.attachments = attachments
@@ -16003,6 +16132,7 @@ extension ECSClientTypes {
             self.tags = tags
             self.taskArn = taskArn
             self.taskDefinitionArn = taskDefinitionArn
+            self.trustedExecutionSummary = trustedExecutionSummary
             self.version = version
         }
     }
