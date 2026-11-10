@@ -314,7 +314,7 @@ extension Route53ProfilesClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Route53Profiles"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -545,7 +545,7 @@ extension Route53ProfilesClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Route53Profiles"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -607,7 +607,7 @@ extension Route53ProfilesClient {
     public static func builder() -> ClientRuntime.ClientBuilder<Route53ProfilesClient> {
         return ClientRuntime.ClientBuilder<Route53ProfilesClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Route53Profiles"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -616,7 +616,18 @@ extension Route53ProfilesClient {
 extension Route53ProfilesClient {
     /// Performs the `AssociateProfile` operation on the `Route53Profiles` service.
     ///
-    /// Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile associated with it, but a Profile can be associated with 1000 of VPCs (and you can request a higher quota). For more information, see [https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities).
+    /// Associates a Route 53 Profiles profile with a VPC. A VPC can have up to two Profile associations. A Profile can be associated with up to 1,000 VPCs, and you can request a higher quota for the number of VPCs. For more information, see [Quotas on Route 53 Profiles](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities-route53-profiles). Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest Priority value. If the VPC has no other Profile associations, you can omit Priority, and the association gets priority 100. When the VPC already has a Profile association, you must specify a Priority, and each Profile association for the VPC must have a unique priority. To change the priority of an existing association, use UpdateProfileAssociation. The request fails with a ValidationException in these cases:
+    ///
+    /// * You omit Priority, and the VPC already has a Profile association.
+    ///
+    /// * Another Profile association for the VPC already uses the priority that you specify.
+    ///
+    /// * The priority is outside the range 100–9900.
+    ///
+    /// * The Profile is already associated with the VPC, and you specify a different Name or Priority. To change the priority, use [UpdateProfileAssociation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_route53profiles_UpdateProfileAssociation.html).
+    ///
+    ///
+    /// The request fails with a LimitExceededException if the VPC already has the maximum number of Profile associations.
     ///
     /// - Parameter input: [no documentation found] (Type: `AssociateProfileInput`)
     ///
@@ -691,7 +702,7 @@ extension Route53ProfilesClient {
 
     /// Performs the `AssociateResourceToProfile` operation on the `Route53Profiles` service.
     ///
-    /// Associates a DNS reource configuration to a Route 53 Profile.
+    /// Associates a DNS resource configuration to a Route 53 Profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `AssociateResourceToProfileInput`)
     ///
@@ -1118,7 +1129,7 @@ extension Route53ProfilesClient {
 
     /// Performs the `GetProfileAssociation` operation on the `Route53Profiles` service.
     ///
-    /// Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
+    /// Retrieves a Route 53 Profile association for a VPC. A VPC can have up to two Profile associations, and a Profile can be associated with up to 1,000 VPCs.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetProfileAssociationInput`)
     ///
@@ -1663,6 +1674,81 @@ extension Route53ProfilesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Profiles")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateProfileAssociation` operation on the `Route53Profiles` service.
+    ///
+    /// Updates the name or priority of the specified Route 53 Profile association with a VPC. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. Only the account that created the association can update it. When you change the priority, the association status is UPDATING until the change propagates, and then COMPLETE. While the status is UPDATING, Route 53 VPC Resolver might still use the previous priority for some queries. When the status is COMPLETE, the new priority applies to all queries from the VPC. The request fails with a ValidationException if another Profile association for the VPC already uses the priority that you specify, or if the priority is outside the range 100–9900. You can update an association whose status is CREATING, UPDATING, or COMPLETE. The request fails with a ConflictException if the association status is DELETING, DELETED, or FAILED, or if the account that owns the association is inactive.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateProfileAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The current account doesn't have the IAM permissions required to perform the specified operation.
+    /// - `ConflictException` : The request you submitted conflicts with an existing request.
+    /// - `InternalServiceErrorException` : An internal server error occured. Retry your request.
+    /// - `InvalidParameterException` : One or more parameters in this request are not valid.
+    /// - `LimitExceededException` : The request caused one or more limits to be exceeded.
+    /// - `ResourceNotFoundException` : The resource you are associating is not found.
+    /// - `ThrottlingException` : The request was throttled. Try again in a few minutes.
+    /// - `ValidationException` : You have provided an invalid command.
+    public func updateProfileAssociation(input: UpdateProfileAssociationInput) async throws -> UpdateProfileAssociationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateProfileAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53profiles")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateProfileAssociationInput, UpdateProfileAssociationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>(UpdateProfileAssociationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateProfileAssociationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileAssociationOutput>(UpdateProfileAssociationOutput.httpOutput(from:), UpdateProfileAssociationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route53Profiles", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProfileAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProfileAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route53Profiles"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateProfileAssociationInput, UpdateProfileAssociationOutput>(serviceID: serviceName, version: Route53ProfilesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53Profiles")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateProfileAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

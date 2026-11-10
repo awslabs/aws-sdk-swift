@@ -137,6 +137,36 @@ extension PaginatorSequence where OperationStackInput == ListFirewallPoliciesInp
     }
 }
 extension NetworkFirewallClient {
+    /// Paginate over `[ListFirewallPoliciesV2Output]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFirewallPoliciesV2Input]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallPoliciesV2Output`
+    public func listFirewallPoliciesV2Paginated(input: ListFirewallPoliciesV2Input) -> ClientRuntime.PaginatorSequence<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output> {
+        return ClientRuntime.PaginatorSequence<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFirewallPoliciesV2(input:))
+    }
+}
+
+extension ListFirewallPoliciesV2Input: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFirewallPoliciesV2Input {
+        return ListFirewallPoliciesV2Input(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFirewallPoliciesV2Input, OperationStackOutput == ListFirewallPoliciesV2Output {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallPoliciesV2Paginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.FirewallPolicyV2Metadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.FirewallPolicyV2Metadata]`
+    public func firewallPoliciesV2() async throws -> [NetworkFirewallClientTypes.FirewallPolicyV2Metadata] {
+        return try await self.asyncCompactMap { item in item.firewallPoliciesV2 }
+    }
+}
+extension NetworkFirewallClient {
     /// Paginate over `[ListFirewallsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

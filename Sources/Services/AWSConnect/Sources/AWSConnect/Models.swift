@@ -14430,6 +14430,200 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// The per-channel conversational analytics configuration for a contact.
+    public struct ContactLensChannelConfiguration: Swift.Sendable {
+        /// The conversational analytics modes enabled for the channel. Valid values:
+        ///
+        /// * RealTime – Real-time analysis is enabled during the contact. Voice channel only.
+        ///
+        /// * PostContact – Post-contact analysis is enabled after the contact ends. Voice channel only.
+        ///
+        /// * ContactLens – Conversational analytics is enabled for the contact. Chat channel only.
+        public var analyticsModes: [Swift.String]?
+
+        public init(
+            analyticsModes: [Swift.String]? = nil
+        ) {
+            self.analyticsModes = analyticsModes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The redaction configuration for conversational analytics transcripts.
+    public struct ContactLensRedactionConfiguration: Swift.Sendable {
+        /// Specifies whether redaction is enabled for sensitive data, such as personal information, in the conversational analytics output. Valid values:
+        ///
+        /// * Enable – Redaction is applied according to the other values in this object.
+        ///
+        /// * Disable – Redaction is not applied, and all other values in this object are ignored.
+        public var behavior: Swift.String?
+        /// The entity types to redact from the transcript (for example, NAME, EMAIL, ADDRESS).
+        public var entities: [Swift.String]?
+        /// How sensitive information is masked in the transcript. Valid values:
+        ///
+        /// * PII – All redacted entities are replaced with the [PII] string.
+        ///
+        /// * EntityType – All redacted entities are replaced with the label of the entity. For example, when the EMAIL entity is configured for redaction, emails in the transcript are replaced with the [EMAIL] string.
+        public var maskMode: Swift.String?
+        /// The redaction policy that determines which versions of the transcript are stored. Valid values:
+        ///
+        /// * None – No redaction is applied.
+        ///
+        /// * RedactedOnly – Only the redacted transcript is stored.
+        ///
+        /// * RedactedAndOriginal – Both the redacted and the original transcript are stored.
+        public var policy: Swift.String?
+
+        public init(
+            behavior: Swift.String? = nil,
+            entities: [Swift.String]? = nil,
+            maskMode: Swift.String? = nil,
+            policy: Swift.String? = nil
+        ) {
+            self.behavior = behavior
+            self.entities = entities
+            self.maskMode = maskMode
+            self.policy = policy
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The conversational analytics sentiment analysis configuration for a contact.
+    public struct ContactLensSentimentConfiguration: Swift.Sendable {
+        /// Specifies whether sentiment analysis is enabled for the contact. The default value is Disable. Valid values:
+        ///
+        /// * Enable – Sentiment analysis is performed on the contact.
+        ///
+        /// * Disable – Sentiment analysis is not performed on the contact.
+        public var behavior: Swift.String?
+
+        public init(
+            behavior: Swift.String? = nil
+        ) {
+            self.behavior = behavior
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The conversational analytics summary configuration for a contact.
+    public struct ContactLensSummaryConfiguration: Swift.Sendable {
+        /// The conversational analytics summary modes enabled for the contact. Valid values: PostContact | AutomatedInteraction | ContactChain.
+        public var summaryModes: [Swift.String]?
+
+        public init(
+            summaryModes: [Swift.String]? = nil
+        ) {
+            self.summaryModes = summaryModes
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The conversational analytics configuration settings for a contact.
+    public struct ConversationalAnalyticsConfiguration: Swift.Sendable {
+        /// The per-channel conversational analytics settings for the contact.
+        public var channelConfiguration: ConnectClientTypes.ContactLensChannelConfiguration?
+        /// Specifies whether conversational analytics is enabled for the contact.
+        public var enabled: Swift.Bool?
+        /// The language locale that conversational analytics uses to analyze the contact (for example, en-US).
+        public var languageLocale: Swift.String?
+        /// The language locales that conversational analytics uses to analyze the contact (for example, en-US and es-ES).
+        public var languageLocales: [Swift.String]?
+        /// The redaction configuration for the contact transcript.
+        public var redactionConfiguration: ConnectClientTypes.ContactLensRedactionConfiguration?
+        /// The sentiment analysis configuration for the contact.
+        public var sentimentConfiguration: ConnectClientTypes.ContactLensSentimentConfiguration?
+        /// The summary configuration for the contact.
+        public var summaryConfiguration: ConnectClientTypes.ContactLensSummaryConfiguration?
+
+        public init(
+            channelConfiguration: ConnectClientTypes.ContactLensChannelConfiguration? = nil,
+            enabled: Swift.Bool? = nil,
+            languageLocale: Swift.String? = nil,
+            languageLocales: [Swift.String]? = nil,
+            redactionConfiguration: ConnectClientTypes.ContactLensRedactionConfiguration? = nil,
+            sentimentConfiguration: ConnectClientTypes.ContactLensSentimentConfiguration? = nil,
+            summaryConfiguration: ConnectClientTypes.ContactLensSummaryConfiguration? = nil
+        ) {
+            self.channelConfiguration = channelConfiguration
+            self.enabled = enabled
+            self.languageLocale = languageLocale
+            self.languageLocales = languageLocales
+            self.redactionConfiguration = redactionConfiguration
+            self.sentimentConfiguration = sentimentConfiguration
+            self.summaryConfiguration = summaryConfiguration
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The current processing state of conversational analytics for a contact, including the analysis status and, when applicable, the reason for that status.
+    public struct ContactAnalysisReferenceState: Swift.Sendable {
+        /// The status of conversational analytics processing for the contact. Valid values:
+        ///
+        /// * REQUESTED – Analysis has been requested for the contact and has not finished.
+        ///
+        /// * COMPLETED – Analysis finished successfully.
+        ///
+        /// * FAILED – Analysis did not finish successfully. See StatusReason for the cause.
+        public var status: Swift.String?
+        /// The reason for the current analysis status. This value is populated only when the status is FAILED.
+        public var statusReason: Swift.String?
+
+        public init(
+            status: Swift.String? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains the conversational analytics configuration and state for a contact.
+    public struct ConversationalAnalytics: Swift.Sendable {
+        /// The conversational analytics settings that apply to the contact.
+        public var configuration: ConnectClientTypes.ConversationalAnalyticsConfiguration?
+        /// The current state of conversational analytics processing for the contact.
+        public var contactAnalysisReferenceState: ConnectClientTypes.ContactAnalysisReferenceState?
+
+        public init(
+            configuration: ConnectClientTypes.ConversationalAnalyticsConfiguration? = nil,
+            contactAnalysisReferenceState: ConnectClientTypes.ContactAnalysisReferenceState? = nil
+        ) {
+            self.configuration = configuration
+            self.contactAnalysisReferenceState = contactAnalysisReferenceState
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the conversational analytics configuration applied to the contact. This field is present only for contacts where conversational analytics is enabled in the contact flow.
+    public struct ContactLens: Swift.Sendable {
+        /// The conversational analytics configuration applied to the contact.
+        public var conversationalAnalytics: ConnectClientTypes.ConversationalAnalytics?
+
+        public init(
+            conversationalAnalytics: ConnectClientTypes.ConversationalAnalytics? = nil
+        ) {
+            self.conversationalAnalytics = conversationalAnalytics
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about the Customer on the contact.
     public struct Customer: Swift.Sendable {
         /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Connect Customer Administrator Guide.
@@ -35658,7 +35852,7 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Additional recipients for UpdateContact, allowing an empty list to clear CC recipients.
+    /// The additional recipients of an outbound email that you can update. An empty list of CcEmailAddresses clears the existing CC recipients.
     public struct NullableAdditionalRecipients: Swift.Sendable {
         /// The additional CC email address recipients. You can specify up to 50 addresses. Provide an empty list to clear the existing CC recipients.
         public var ccEmailAddresses: [ConnectClientTypes.EmailAddressInfo]?
@@ -40661,6 +40855,8 @@ extension ConnectClientTypes {
         public var contactDetails: ConnectClientTypes.ContactDetails?
         /// Information about the contact evaluations where the key is the FormId, which is a unique identifier for the form.
         public var contactEvaluations: [Swift.String: ConnectClientTypes.ContactEvaluation]?
+        /// Information about the conversational analytics configuration applied to the contact. This field is present only for contacts where conversational analytics is enabled in the contact flow.
+        public var contactLens: ConnectClientTypes.ContactLens?
         /// Information about the Customer on the contact.
         public var customer: ConnectClientTypes.Customer?
         /// The customer or external third party participant endpoint.
@@ -40748,6 +40944,7 @@ extension ConnectClientTypes {
             contactAssociationId: Swift.String? = nil,
             contactDetails: ConnectClientTypes.ContactDetails? = nil,
             contactEvaluations: [Swift.String: ConnectClientTypes.ContactEvaluation]? = nil,
+            contactLens: ConnectClientTypes.ContactLens? = nil,
             customer: ConnectClientTypes.Customer? = nil,
             customerEndpoint: ConnectClientTypes.EndpointInfo? = nil,
             customerId: Swift.String? = nil,
@@ -40798,6 +40995,7 @@ extension ConnectClientTypes {
             self.contactAssociationId = contactAssociationId
             self.contactDetails = contactDetails
             self.contactEvaluations = contactEvaluations
+            self.contactLens = contactLens
             self.customer = customer
             self.customerEndpoint = customerEndpoint
             self.customerId = customerId
@@ -40840,7 +41038,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), cases: \(Swift.String(describing: cases)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), cases: \(Swift.String(describing: cases)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), contactLens: \(Swift.String(describing: contactLens)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), nextContacts: \(Swift.String(describing: nextContacts)), outboundStrategy: \(Swift.String(describing: outboundStrategy)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), ringStartTimestamp: \(Swift.String(describing: ringStartTimestamp)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -63327,6 +63525,7 @@ extension ConnectClientTypes.Contact {
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.nextContacts = try reader["NextContacts"].readListIfPresent(memberReadingClosure: ConnectClientTypes.NextContactEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.globalResiliencyMetadata = try reader["GlobalResiliencyMetadata"].readIfPresent(with: ConnectClientTypes.GlobalResiliencyMetadata.read(from:))
+        value.contactLens = try reader["ContactLens"].readIfPresent(with: ConnectClientTypes.ContactLens.read(from:))
         return value
     }
 }
@@ -63350,6 +63549,17 @@ extension ConnectClientTypes.ContactAnalysisReference {
         value.arn = try reader["Arn"].readIfPresent()
         value.analyticsMode = try reader["AnalyticsMode"].readIfPresent()
         value.isRedacted = try reader["IsRedacted"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactAnalysisReferenceState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactAnalysisReferenceState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactAnalysisReferenceState()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         return value
     }
 }
@@ -63685,6 +63895,59 @@ extension ConnectClientTypes.ContactFlowVersionSummary {
     }
 }
 
+extension ConnectClientTypes.ContactLens {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactLens {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactLens()
+        value.conversationalAnalytics = try reader["ConversationalAnalytics"].readIfPresent(with: ConnectClientTypes.ConversationalAnalytics.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactLensChannelConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactLensChannelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactLensChannelConfiguration()
+        value.analyticsModes = try reader["AnalyticsModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactLensRedactionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactLensRedactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactLensRedactionConfiguration()
+        value.behavior = try reader["Behavior"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        value.entities = try reader["Entities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maskMode = try reader["MaskMode"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactLensSentimentConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactLensSentimentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactLensSentimentConfiguration()
+        value.behavior = try reader["Behavior"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ContactLensSummaryConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ContactLensSummaryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ContactLensSummaryConfiguration()
+        value.summaryModes = try reader["SummaryModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ConnectClientTypes.ContactMetricInfo {
 
     static func write(value: ConnectClientTypes.ContactMetricInfo?, to writer: SmithyJSON.Writer) throws {
@@ -63825,6 +64088,33 @@ extension ConnectClientTypes.ControlPlaneUserAttributeFilter {
         try writer["HierarchyGroupCondition"].write(value.hierarchyGroupCondition, with: ConnectClientTypes.HierarchyGroupCondition.write(value:to:))
         try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.AttributeAndCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TagCondition"].write(value.tagCondition, with: ConnectClientTypes.TagCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.ConversationalAnalytics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ConversationalAnalytics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ConversationalAnalytics()
+        value.configuration = try reader["Configuration"].readIfPresent(with: ConnectClientTypes.ConversationalAnalyticsConfiguration.read(from:))
+        value.contactAnalysisReferenceState = try reader["ContactAnalysisReferenceState"].readIfPresent(with: ConnectClientTypes.ContactAnalysisReferenceState.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ConversationalAnalyticsConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ConversationalAnalyticsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ConversationalAnalyticsConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.languageLocale = try reader["LanguageLocale"].readIfPresent()
+        value.languageLocales = try reader["LanguageLocales"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.channelConfiguration = try reader["ChannelConfiguration"].readIfPresent(with: ConnectClientTypes.ContactLensChannelConfiguration.read(from:))
+        value.redactionConfiguration = try reader["RedactionConfiguration"].readIfPresent(with: ConnectClientTypes.ContactLensRedactionConfiguration.read(from:))
+        value.summaryConfiguration = try reader["SummaryConfiguration"].readIfPresent(with: ConnectClientTypes.ContactLensSummaryConfiguration.read(from:))
+        value.sentimentConfiguration = try reader["SentimentConfiguration"].readIfPresent(with: ConnectClientTypes.ContactLensSentimentConfiguration.read(from:))
+        return value
     }
 }
 

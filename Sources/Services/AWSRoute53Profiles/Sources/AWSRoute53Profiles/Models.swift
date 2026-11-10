@@ -192,8 +192,8 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ThrottlingException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { true }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
     public var requestID: Swift.String?
@@ -253,6 +253,8 @@ public struct AssociateProfileInput: Swift.Sendable {
     /// A name for the association.
     /// This member is required.
     public var name: Swift.String?
+    /// The priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. When the VPC already has a Profile association, you must specify a priority that no other Profile association for the VPC uses. If you omit the priority for the first association with a VPC, the association gets priority 100.
+    public var priority: Swift.Int?
     /// ID of the Profile.
     /// This member is required.
     public var profileId: Swift.String?
@@ -264,11 +266,13 @@ public struct AssociateProfileInput: Swift.Sendable {
 
     public init(
         name: Swift.String? = nil,
+        priority: Swift.Int? = nil,
         profileId: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         tags: [Route53ProfilesClientTypes.Tag]? = nil
     ) {
         self.name = name
+        self.priority = priority
         self.profileId = profileId
         self.resourceId = resourceId
         self.tags = tags
@@ -330,6 +334,8 @@ extension Route53ProfilesClientTypes {
         public var name: Swift.String?
         /// Amazon Web Services account ID of the Profile association owner.
         public var ownerId: Swift.String?
+        /// The priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. Associations created without a priority have priority 100.
+        public var priority: Swift.Int?
         /// ID of the Profile.
         public var profileId: Swift.String?
         /// The Amazon Resource Name (ARN) of the VPC.
@@ -345,6 +351,7 @@ extension Route53ProfilesClientTypes {
             modificationTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             ownerId: Swift.String? = nil,
+            priority: Swift.Int? = nil,
             profileId: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             status: Route53ProfilesClientTypes.ProfileStatus? = nil,
@@ -355,6 +362,7 @@ extension Route53ProfilesClientTypes {
             self.modificationTime = modificationTime
             self.name = name
             self.ownerId = ownerId
+            self.priority = priority
             self.profileId = profileId
             self.resourceId = resourceId
             self.status = status
@@ -364,7 +372,7 @@ extension Route53ProfilesClientTypes {
 }
 
 public struct AssociateProfileOutput: Swift.Sendable {
-    /// The association that you just created. The association has an ID that you can use to identify it in other requests, like update and delete.
+    /// The association that you just created. The association has an ID that you can use to identify it in other requests, such as update and delete.
     public var profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
 
     public init(
@@ -384,7 +392,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InternalServiceErrorException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public var message: Swift.String?
@@ -404,7 +412,7 @@ public struct AssociateResourceToProfileInput: Swift.Sendable {
     /// ID of the Profile.
     /// This member is required.
     public var profileId: Swift.String?
-    /// Amazon resource number, ARN, of the DNS resource.
+    /// Amazon resource number, ARN, of the resource to associate. Either a private hosted zone, DNS Firewall rule group, Resolver rule, or an interface VPC endpoint.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// If you are adding a DNS Firewall rule group, include also a priority. The priority indicates the processing order for the rule groups, starting with the priority assinged the lowest value. The allowed values for priority are between 100 and 9900.
@@ -443,7 +451,7 @@ extension Route53ProfilesClientTypes {
         public var resourceArn: Swift.String?
         /// If the DNS resource is a DNS Firewall rule group, this indicates the priority.
         public var resourceProperties: Swift.String?
-        /// Resource type, such as a private hosted zone, or DNS Firewall rule group.
+        /// Resource type, such as a private hosted zone, interface VPC endpoint, Resolver query log configuration, or DNS Firewall rule group.
         public var resourceType: Swift.String?
         /// Status of the Profile resource association.
         public var status: Route53ProfilesClientTypes.ProfileStatus?
@@ -821,6 +829,8 @@ public struct ListProfileResourceAssociationsInput: Swift.Sendable {
     /// The ID of the Profile.
     /// This member is required.
     public var profileId: Swift.String?
+    /// The Amazon Resource Name (ARN) of a resource. If you specify this parameter, only the association with that resource is returned.
+    public var resourceArn: Swift.String?
     /// ID of a resource if you want information on only one type.
     public var resourceType: Swift.String?
 
@@ -828,11 +838,13 @@ public struct ListProfileResourceAssociationsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         profileId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
         resourceType: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.profileId = profileId
+        self.resourceArn = resourceArn
         self.resourceType = resourceType
     }
 }
@@ -975,6 +987,38 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateProfileAssociationInput: Swift.Sendable {
+    /// The name of the Profile association.
+    public var name: Swift.String?
+    /// The new priority of the Profile association. Route 53 VPC Resolver evaluates the Profile associations for a VPC in priority order, starting with the lowest value. The priority must be unique among the Profile associations for the VPC.
+    public var priority: Swift.Int?
+    /// The ID of the Profile association to update.
+    /// This member is required.
+    public var profileAssociationId: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        priority: Swift.Int? = nil,
+        profileAssociationId: Swift.String? = nil
+    ) {
+        self.name = name
+        self.priority = priority
+        self.profileAssociationId = profileAssociationId
+    }
+}
+
+public struct UpdateProfileAssociationOutput: Swift.Sendable {
+    /// Information about the UpdateProfileAssociation request, including a status message.
+    /// This member is required.
+    public var profileAssociation: Route53ProfilesClientTypes.ProfileAssociation?
+
+    public init(
+        profileAssociation: Route53ProfilesClientTypes.ProfileAssociation? = nil
+    ) {
+        self.profileAssociation = profileAssociation
+    }
 }
 
 public struct UpdateProfileResourceAssociationInput: Swift.Sendable {
@@ -1140,6 +1184,10 @@ extension ListProfileResourceAssociationsInput {
 
     static func queryItemProvider(_ value: ListProfileResourceAssociationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let resourceArn = value.resourceArn {
+            let resourceArnQueryItem = Smithy.URIQueryItem(name: "resourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
+            items.append(resourceArnQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -1225,6 +1273,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateProfileAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateProfileAssociationInput) -> Swift.String? {
+        guard let profileAssociationId = value.profileAssociationId else {
+            return nil
+        }
+        return "/profileassociation/\(profileAssociationId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateProfileResourceAssociationInput {
 
     static func urlPathProvider(_ value: UpdateProfileResourceAssociationInput) -> Swift.String? {
@@ -1240,6 +1298,7 @@ extension AssociateProfileInput {
     static func write(value: AssociateProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
+        try writer["Priority"].write(value.priority)
         try writer["ProfileId"].write(value.profileId)
         try writer["ResourceId"].write(value.resourceId)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: Route53ProfilesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1272,6 +1331,15 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UpdateProfileAssociationInput {
+
+    static func write(value: UpdateProfileAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Priority"].write(value.priority)
     }
 }
 
@@ -1454,6 +1522,18 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateProfileAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProfileAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProfileAssociationOutput()
+        value.profileAssociation = try reader["ProfileAssociation"].readIfPresent(with: Route53ProfilesClientTypes.ProfileAssociation.read(from:))
+        return value
     }
 }
 
@@ -1748,6 +1828,27 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateProfileAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceErrorException": return try InternalServiceErrorException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateProfileResourceAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1936,6 +2037,7 @@ extension Route53ProfilesClientTypes.ProfileAssociation {
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modificationTime = try reader["ModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.priority = try reader["Priority"].readIfPresent()
         return value
     }
 }

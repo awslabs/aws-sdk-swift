@@ -4314,6 +4314,84 @@ public struct GetSpaceCredentialsForOrganizationOutput: Swift.Sendable {
     }
 }
 
+/// The requested actions produce a credential that exceeds the maximum size. Request fewer actions.
+public struct PolicyTooLargeException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A description of the error.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PolicyTooLargeException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension CloudWatchOmniClientTypes {
+
+    /// One requested scope: an explicit list of actions for one service. All actions in an entry share one service prefix. The same service may appear in more than one entry.
+    public struct DataAccessTarget: Swift.Sendable {
+        /// The actions of one service, each with its service prefix, for example "logs:StartQuery".
+        /// This member is required.
+        public var actions: [Swift.String]?
+
+        public init(
+            actions: [Swift.String]? = nil
+        ) {
+            self.actions = actions
+        }
+    }
+}
+
+public struct GetSpaceDataAccessInput: Swift.Sendable {
+    /// Caller-supplied key-value pairs that are recorded for auditing. They do not affect authorization or the permissions of the credentials.
+    public var auditContext: [Swift.String: Swift.String]?
+    /// The lifetime of the credentials, in seconds. Defaults to 3600.
+    public var durationSeconds: Swift.Int?
+    /// The unique ID of the space to return credentials for.
+    /// This member is required.
+    public var spaceId: Swift.String?
+    /// The actions to include in the credentials, grouped by service.
+    /// This member is required.
+    public var targetScopes: [CloudWatchOmniClientTypes.DataAccessTarget]?
+
+    public init(
+        auditContext: [Swift.String: Swift.String]? = nil,
+        durationSeconds: Swift.Int? = nil,
+        spaceId: Swift.String? = nil,
+        targetScopes: [CloudWatchOmniClientTypes.DataAccessTarget]? = nil
+    ) {
+        self.auditContext = auditContext
+        self.durationSeconds = durationSeconds
+        self.spaceId = spaceId
+        self.targetScopes = targetScopes
+    }
+}
+
+public struct GetSpaceDataAccessOutput: Swift.Sendable {
+    /// The temporary AWS credentials for the space.
+    /// This member is required.
+    public var credentials: CloudWatchOmniClientTypes.AwsCredentials?
+
+    public init(
+        credentials: CloudWatchOmniClientTypes.AwsCredentials? = nil
+    ) {
+        self.credentials = credentials
+    }
+}
+
 public struct GetTelemetryQueryResultsInput: Swift.Sendable {
     /// The maximum number of result rows to return per page.
     public var maxResults: Swift.Int?

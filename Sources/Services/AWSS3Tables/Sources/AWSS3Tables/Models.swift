@@ -85,6 +85,11 @@ public struct PutTableBucketEncryptionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutTableBucketLoggingOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutTableBucketMaintenanceConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -1754,6 +1759,132 @@ public struct GetTableBucketEncryptionOutput: Swift.Sendable {
         encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil
     ) {
         self.encryptionConfiguration = encryptionConfiguration
+    }
+}
+
+public struct GetTableBucketLoggingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum PartitionDateSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deliveryTime
+        case eventTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PartitionDateSource] {
+            return [
+                .deliveryTime,
+                .eventTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deliveryTime: return "DeliveryTime"
+            case .eventTime: return "EventTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Amazon S3 keys for log objects are partitioned in the following format: [targetPrefix][SourceAccountId]/[SourceRegion]/[SourceTableBucket]/[YYYY]/[MM]/[DD]/[YYYY]-[MM]-[DD]-[hh]-[mm]-[ss]-[UniqueString]
+    public struct PartitionedPrefix: Swift.Sendable {
+        /// The date to use for the log object key partitions. Valid values are EventTime, the time that the requests in the log were made, and DeliveryTime, the time that the log was delivered.
+        /// This member is required.
+        public var partitionDateSource: S3TablesClientTypes.PartitionDateSource?
+
+        public init(
+            partitionDateSource: S3TablesClientTypes.PartitionDateSource? = nil
+        ) {
+            self.partitionDateSource = partitionDateSource
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The key format of the log objects. Only partitionedPrefix is supported.
+    public struct TargetObjectKeyFormat: Swift.Sendable {
+        /// Partitions log object keys by date.
+        /// This member is required.
+        public var partitionedPrefix: S3TablesClientTypes.PartitionedPrefix?
+
+        public init(
+            partitionedPrefix: S3TablesClientTypes.PartitionedPrefix? = nil
+        ) {
+            self.partitionedPrefix = partitionedPrefix
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Describes where logs are stored and the prefix that Amazon S3 assigns to all log object keys for a table bucket.
+    public struct LoggingEnabled: Swift.Sendable {
+        /// The name of the general purpose bucket that logs are delivered to. The bucket must be in the same Amazon Web Services Region and owned by the same Amazon Web Services account as the table bucket. The bucket can't use SSE-KMS or DSSE-KMS default encryption, can't have S3 Object Lock enabled, and can't have Requester Pays enabled. You can deliver logs from multiple table buckets to the same target bucket. In this case, choose a different targetPrefix for each table bucket so that you can tell their log objects apart.
+        /// This member is required.
+        public var targetBucket: Swift.String?
+        /// The key format of the log objects. Log object keys are always partitioned by date.
+        /// This member is required.
+        public var targetObjectKeyFormat: S3TablesClientTypes.TargetObjectKeyFormat?
+        /// The prefix for the keys of the log objects that are delivered to the target bucket.
+        /// This member is required.
+        public var targetPrefix: Swift.String?
+
+        public init(
+            targetBucket: Swift.String? = nil,
+            targetObjectKeyFormat: S3TablesClientTypes.TargetObjectKeyFormat? = nil,
+            targetPrefix: Swift.String? = nil
+        ) {
+            self.targetBucket = targetBucket
+            self.targetObjectKeyFormat = targetObjectKeyFormat
+            self.targetPrefix = targetPrefix
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// The server access logging status of a table bucket. To enable logging, specify loggingEnabled. To disable logging, specify an empty TableBucketLoggingStatus.
+    public struct TableBucketLoggingStatus: Swift.Sendable {
+        /// Where logs for the table bucket are delivered and how the log objects are named. Must be populated to enable logging.
+        public var loggingEnabled: S3TablesClientTypes.LoggingEnabled?
+
+        public init(
+            loggingEnabled: S3TablesClientTypes.LoggingEnabled? = nil
+        ) {
+            self.loggingEnabled = loggingEnabled
+        }
+    }
+}
+
+public struct GetTableBucketLoggingOutput: Swift.Sendable {
+    /// The logging status of the table bucket. If logging is disabled, loggingEnabled is absent.
+    /// This member is required.
+    public var tableBucketLoggingStatus: S3TablesClientTypes.TableBucketLoggingStatus?
+
+    public init(
+        tableBucketLoggingStatus: S3TablesClientTypes.TableBucketLoggingStatus? = nil
+    ) {
+        self.tableBucketLoggingStatus = tableBucketLoggingStatus
     }
 }
 
@@ -3823,6 +3954,23 @@ public struct PutTableBucketEncryptionInput: Swift.Sendable {
     }
 }
 
+public struct PutTableBucketLoggingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+    /// The logging status to apply to the table bucket. To disable logging, specify an empty tableBucketLoggingStatus.
+    /// This member is required.
+    public var tableBucketLoggingStatus: S3TablesClientTypes.TableBucketLoggingStatus?
+
+    public init(
+        tableBucketARN: Swift.String? = nil,
+        tableBucketLoggingStatus: S3TablesClientTypes.TableBucketLoggingStatus? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+        self.tableBucketLoggingStatus = tableBucketLoggingStatus
+    }
+}
+
 public struct PutTableBucketMaintenanceConfigurationInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration.
     /// This member is required.
@@ -4594,6 +4742,16 @@ extension GetTableBucketEncryptionInput {
     }
 }
 
+extension GetTableBucketLoggingInput {
+
+    static func urlPathProvider(_ value: GetTableBucketLoggingInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/logging"
+    }
+}
+
 extension GetTableBucketMaintenanceConfigurationInput {
 
     static func urlPathProvider(_ value: GetTableBucketMaintenanceConfigurationInput) -> Swift.String? {
@@ -5020,6 +5178,16 @@ extension PutTableBucketEncryptionInput {
     }
 }
 
+extension PutTableBucketLoggingInput {
+
+    static func urlPathProvider(_ value: PutTableBucketLoggingInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/logging"
+    }
+}
+
 extension PutTableBucketMaintenanceConfigurationInput {
 
     static func urlPathProvider(_ value: PutTableBucketMaintenanceConfigurationInput) -> Swift.String? {
@@ -5311,6 +5479,14 @@ extension PutTableBucketEncryptionInput {
     static func write(value: PutTableBucketEncryptionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3TablesClientTypes.EncryptionConfiguration.write(value:to:))
+    }
+}
+
+extension PutTableBucketLoggingInput {
+
+    static func write(value: PutTableBucketLoggingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tableBucketLoggingStatus"].write(value.tableBucketLoggingStatus, with: S3TablesClientTypes.TableBucketLoggingStatus.write(value:to:))
     }
 }
 
@@ -5621,6 +5797,18 @@ extension GetTableBucketEncryptionOutput {
     }
 }
 
+extension GetTableBucketLoggingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableBucketLoggingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableBucketLoggingOutput()
+        value.tableBucketLoggingStatus = try reader["tableBucketLoggingStatus"].readIfPresent(with: S3TablesClientTypes.TableBucketLoggingStatus.read(from:))
+        return value
+    }
+}
+
 extension GetTableBucketMaintenanceConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableBucketMaintenanceConfigurationOutput {
@@ -5911,6 +6099,13 @@ extension PutTableBucketEncryptionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableBucketEncryptionOutput {
         return PutTableBucketEncryptionOutput()
+    }
+}
+
+extension PutTableBucketLoggingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableBucketLoggingOutput {
+        return PutTableBucketLoggingOutput()
     }
 }
 
@@ -6395,6 +6590,25 @@ enum GetTableBucketEncryptionOutputError {
     }
 }
 
+enum GetTableBucketLoggingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTableBucketMaintenanceConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6799,6 +7013,25 @@ enum ListTagsForResourceOutputError {
 }
 
 enum PutTableBucketEncryptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutTableBucketLoggingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7435,6 +7668,25 @@ extension S3TablesClientTypes.LastSuccessfulReplicatedUpdate {
     }
 }
 
+extension S3TablesClientTypes.LoggingEnabled {
+
+    static func write(value: S3TablesClientTypes.LoggingEnabled?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetBucket"].write(value.targetBucket)
+        try writer["targetObjectKeyFormat"].write(value.targetObjectKeyFormat, with: S3TablesClientTypes.TargetObjectKeyFormat.write(value:to:))
+        try writer["targetPrefix"].write(value.targetPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.LoggingEnabled {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.LoggingEnabled()
+        value.targetBucket = try reader["targetBucket"].readIfPresent() ?? ""
+        value.targetPrefix = try reader["targetPrefix"].readIfPresent() ?? ""
+        value.targetObjectKeyFormat = try reader["targetObjectKeyFormat"].readIfPresent(with: S3TablesClientTypes.TargetObjectKeyFormat.read(from:))
+        return value
+    }
+}
+
 extension S3TablesClientTypes.MaintenanceSettings {
 
     static func write(value: S3TablesClientTypes.MaintenanceSettings?, to writer: SmithyJSON.Writer) throws {
@@ -7613,6 +7865,21 @@ extension S3TablesClientTypes.NamespaceSummary {
     }
 }
 
+extension S3TablesClientTypes.PartitionedPrefix {
+
+    static func write(value: S3TablesClientTypes.PartitionedPrefix?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["partitionDateSource"].write(value.partitionDateSource)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.PartitionedPrefix {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.PartitionedPrefix()
+        value.partitionDateSource = try reader["partitionDateSource"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension S3TablesClientTypes.PlanningStats {
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.PlanningStats {
@@ -7735,6 +8002,21 @@ extension S3TablesClientTypes.StorageClassConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3TablesClientTypes.StorageClassConfiguration()
         value.storageClass = try reader["storageClass"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TableBucketLoggingStatus {
+
+    static func write(value: S3TablesClientTypes.TableBucketLoggingStatus?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["loggingEnabled"].write(value.loggingEnabled, with: S3TablesClientTypes.LoggingEnabled.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TableBucketLoggingStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TableBucketLoggingStatus()
+        value.loggingEnabled = try reader["loggingEnabled"].readIfPresent(with: S3TablesClientTypes.LoggingEnabled.read(from:))
         return value
     }
 }
@@ -7987,6 +8269,21 @@ extension S3TablesClientTypes.TableSummary {
         value.managedByService = try reader["managedByService"].readIfPresent()
         value.namespaceId = try reader["namespaceId"].readIfPresent()
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        return value
+    }
+}
+
+extension S3TablesClientTypes.TargetObjectKeyFormat {
+
+    static func write(value: S3TablesClientTypes.TargetObjectKeyFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["partitionedPrefix"].write(value.partitionedPrefix, with: S3TablesClientTypes.PartitionedPrefix.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.TargetObjectKeyFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.TargetObjectKeyFormat()
+        value.partitionedPrefix = try reader["partitionedPrefix"].readIfPresent(with: S3TablesClientTypes.PartitionedPrefix.read(from:))
         return value
     }
 }
