@@ -9,9 +9,11 @@ import ClientRuntime
 
 public class DefaultAWSClientPlugin: Plugin {
     private var clientName: String
+    private var sdkID: String?
 
-    public init(clientName: String) {
+    public init(clientName: String, sdkID: String? = nil) {
         self.clientName = clientName
+        self.sdkID = sdkID
     }
 
     public func configureClient<Config: ClientConfiguration>(clientConfiguration: inout Config) async throws {
@@ -20,7 +22,8 @@ public class DefaultAWSClientPlugin: Plugin {
             & AWSRegionClientConfiguration) else { return }
         config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
             config.awsRetryMode,
-            config.maxAttempts
+            config.maxAttempts,
+            sdkID: sdkID
         )
 
         guard let modifiedConfig = config as? Config else { return }

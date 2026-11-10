@@ -38,7 +38,7 @@ public protocol AWSDefaultClientConfiguration {
     /// `standard` and `adaptive` retry strategies are as documented in `AWSClientRuntime.AWSRetryMode`.
     ///
     /// This value is set after resolving retry mode from the standard progression of potential sources.
-    /// Default mode is `legacy`.
+    /// Default mode is `standard`.
     var awsRetryMode: AWSRetryMode { get set }
 
     /// The max number of times to attempt the request until success.
