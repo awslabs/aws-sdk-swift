@@ -59,6 +59,9 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
     // HTTP status codes should be treated as timeouts.
     private static let timeoutStatusCodes = [408, 504]
 
+    // HTTP status codes that should be treated as throttling when the error is not a modeled error.
+    private static let throttlingStatusCodes = [429]
+
     public static func errorInfoProvider(sdkID: String) -> (Error) -> RetryErrorInfo? {
         let isDynamoDB = sdkID == "DynamoDB" || sdkID == "DynamoDB Streams"
         let isSTS = sdkID == "STS"
@@ -70,8 +73,7 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
                 )
             }
             guard var info = errorInfo(for: error) else { return nil }
-            if AWSRetryFeatures.isNewRetries2026Enabled,
-               isDynamoDB, info.errorType != .throttling {
+            if isDynamoDB, info.errorType != .throttling {
                 info.backoffMultiplier = 0.025
             }
             return info
@@ -136,6 +138,15 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
                     error: error
                 )
             }
+            // Handle a 429 that is not a modeled error as an error of retry type "throttling".
+            // A modeled error is left to the default error info provider, so its modeled retryability wins.
+            if !(error is ModeledError),
+               throttlingStatusCodes.contains(httpError.httpResponse.statusCode.rawValue) {
+                return applyRetryAfterHeader(
+                    info: RetryErrorInfo(errorType: .throttling, retryAfterHint: nil, isTimeout: false),
+                    error: error
+                )
+            }
         }
 
         // If custom AWS error matching fails, use the default error info provider to finish matching.
@@ -145,7 +156,6 @@ public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
 
     /// Parses `x-amz-retry-after` header (milliseconds) and applies it as retryAfterHint.
     private static func applyRetryAfterHeader(info: RetryErrorInfo, error: Error) -> RetryErrorInfo {
-        guard AWSRetryFeatures.isNewRetries2026Enabled else { return info }
         guard let httpError = error as? HTTPError,
               let headerValue = httpError.httpResponse.headers.value(for: "x-amz-retry-after"),
               let millis = Int(headerValue), millis >= 0 else {
