@@ -288,6 +288,56 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+/// Input structure for CreateBearerToken operation
+public struct CreateBearerTokenInput: Swift.Sendable {
+    /// The requested token lifetime in seconds, from 300 (5 minutes) up to the maximum allowed for the service, currently 43200 (12 hours). If omitted, the token is valid for 12 hours.
+    public var durationSeconds: Swift.Int?
+    /// The grant type. Must be "client_credentials".
+    /// This member is required.
+    public var grantType: Swift.String?
+    /// The AWS service the bearer token is for. Example: "ecr.amazonaws.com".
+    /// This member is required.
+    public var resource: Swift.String?
+
+    public init(
+        durationSeconds: Swift.Int? = nil,
+        grantType: Swift.String? = nil,
+        resource: Swift.String? = nil
+    ) {
+        self.durationSeconds = durationSeconds
+        self.grantType = grantType
+        self.resource = resource
+    }
+}
+
+/// Output structure for CreateBearerToken operation Contains the bearer token, its type, and its lifetime.
+public struct CreateBearerTokenOutput: Swift.Sendable {
+    /// The bearer token. Present it to the AWS service named in the request.
+    /// This member is required.
+    public var accessToken: Swift.String?
+    /// Token lifetime in seconds.
+    /// This member is required.
+    public var expiresIn: Swift.Int?
+    /// The token type. Always "Bearer".
+    /// This member is required.
+    public var tokenType: Swift.String?
+
+    public init(
+        accessToken: Swift.String? = nil,
+        expiresIn: Swift.Int? = nil,
+        tokenType: Swift.String? = nil
+    ) {
+        self.accessToken = accessToken
+        self.expiresIn = expiresIn
+        self.tokenType = tokenType
+    }
+}
+
+extension CreateBearerTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBearerTokenOutput(expiresIn: \(Swift.String(describing: expiresIn)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\")"}
+}
+
 extension SigninClientTypes {
 
     /// The request body for creating an OAuth 2.0 token. Supports both the authorization code and refresh token flows, selected by the "grant_type" parameter.
@@ -1073,6 +1123,22 @@ public struct RevokeOAuth2TokenWithIAMOutput: Swift.Sendable {
     public init() { }
 }
 
+extension CreateBearerTokenInput {
+
+    static func urlPathProvider(_ value: CreateBearerTokenInput) -> Swift.String? {
+        return "/v1/token"
+    }
+}
+
+extension CreateBearerTokenInput {
+
+    static func queryItemProvider(_ value: CreateBearerTokenInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "x-amz-token-request-type", value: "bearer"))
+        return items
+    }
+}
+
 extension CreateOAuth2TokenInput {
 
     static func urlPathProvider(_ value: CreateOAuth2TokenInput) -> Swift.String? {
@@ -1193,6 +1259,16 @@ extension RevokeOAuth2TokenWithIAMInput {
     }
 }
 
+extension CreateBearerTokenInput {
+
+    static func write(value: CreateBearerTokenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["duration"].write(value.durationSeconds)
+        try writer["grant_type"].write(value.grantType)
+        try writer["resource"].write(value.resource)
+    }
+}
+
 extension CreateOAuth2TokenInput {
 
     static func write(value: CreateOAuth2TokenInput?, to writer: SmithyJSON.Writer) throws {
@@ -1293,6 +1369,20 @@ extension RevokeOAuth2TokenWithIAMInput {
     static func write(value: RevokeOAuth2TokenWithIAMInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["token"].write(value.token)
+    }
+}
+
+extension CreateBearerTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBearerTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateBearerTokenOutput()
+        value.accessToken = try reader["access_token"].readIfPresent() ?? ""
+        value.expiresIn = try reader["expires_in"].readIfPresent() ?? 0
+        value.tokenType = try reader["token_type"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -1452,6 +1542,23 @@ extension RevokeOAuth2TokenWithIAMOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeOAuth2TokenWithIAMOutput {
         return RevokeOAuth2TokenWithIAMOutput()
+    }
+}
+
+enum CreateBearerTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsError": return try TooManyRequestsError.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 

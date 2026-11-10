@@ -3311,6 +3311,35 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum DataQualityEvaluationRunMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case evaluationConfig
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationRunMode] {
+            return [
+                .evaluationConfig,
+                .onDemand
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .evaluationConfig: return "EVALUATION_CONFIG"
+            case .onDemand: return "ON_DEMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Describes the data quality metric value according to the analysis of historical data.
     public struct DataQualityMetricValues: Swift.Sendable {
         /// The actual value of the data quality metric.
@@ -3467,10 +3496,14 @@ extension GlueClientTypes {
         public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
         /// The date and time when this data quality run completed.
         public var completedOn: Foundation.Date?
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table associated with the data quality result, if any.
         public var dataSource: GlueClientTypes.DataSource?
         /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
         public var evaluationContext: Swift.String?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The job name associated with the data quality result, if any.
         public var jobName: Swift.String?
         /// The job run ID associated with the data quality result, if any.
@@ -3496,8 +3529,10 @@ extension GlueClientTypes {
             aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
             analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
             completedOn: Foundation.Date? = nil,
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
             observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -3512,8 +3547,10 @@ extension GlueClientTypes {
             self.aggregatedMetrics = aggregatedMetrics
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.observations = observations
@@ -3564,6 +3601,8 @@ extension GlueClientTypes {
         public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
         /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
         public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table associated with the data quality result, if any.
         public var dataSource: GlueClientTypes.DataSource?
         /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
@@ -3572,6 +3611,8 @@ extension GlueClientTypes {
         public var dimensions: [Swift.String: Swift.String]?
         /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
         public var evaluationContext: Swift.String?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The date and time when this data quality run completed.
         public var executionCompletedOn: Foundation.Date?
         /// The date and time when this data quality run started.
@@ -3595,10 +3636,12 @@ extension GlueClientTypes {
         public init(
             aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
             analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             descriptors: [Swift.String: Swift.String]? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             executionCompletedOn: Foundation.Date? = nil,
             executionStartedOn: Foundation.Date? = nil,
             observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -3611,10 +3654,12 @@ extension GlueClientTypes {
         ) {
             self.aggregatedMetrics = aggregatedMetrics
             self.analyzerResults = analyzerResults
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.descriptors = descriptors
             self.dimensions = dimensions
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.executionCompletedOn = executionCompletedOn
             self.executionStartedOn = executionStartedOn
             self.observations = observations
@@ -13226,6 +13271,295 @@ public struct CreateDatabaseOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Additional run options for each evaluation of a data quality evaluation configuration.
+    public struct DataQualityEvaluationConfigAdditionalRunOptions: Swift.Sendable {
+        /// Specifies whether to enable CloudWatch metrics.
+        public var cloudWatchMetricsEnabled: Swift.Bool?
+        /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
+        public var compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod?
+        /// A custom prefix for the CloudWatch log group names. When specified, evaluation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
+        public var customLogGroupPrefix: Swift.String?
+        /// The configuration for writing rule results to a Glue Data Catalog table.
+        public var dataQualityRuleResults: GlueClientTypes.DataQualityRuleResultsOptions?
+        /// The observation mode for the evaluation run. Specifies how anomaly detection bounds are calculated.
+        public var observationMode: GlueClientTypes.ObservationMode?
+        /// The configuration for writing observation results to a Glue Data Catalog table.
+        public var observationResults: GlueClientTypes.ObservationResultsOptions?
+        /// The scope of the observation for the evaluation run. Specifies whether anomaly detection is enabled or disabled.
+        public var observationScope: GlueClientTypes.ObservationConfiguration?
+        /// The configuration for writing profiling results to a Glue Data Catalog table.
+        public var profilingResults: GlueClientTypes.ProfilingResultsOptions?
+        /// Prefix for Amazon S3 to store results.
+        public var resultsS3Prefix: Swift.String?
+        /// The configuration for writing row-level evaluation results to a Glue Data Catalog table.
+        public var rowLevelResults: GlueClientTypes.RowLevelResultsOptions?
+
+        public init(
+            cloudWatchMetricsEnabled: Swift.Bool? = nil,
+            compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
+            customLogGroupPrefix: Swift.String? = nil,
+            dataQualityRuleResults: GlueClientTypes.DataQualityRuleResultsOptions? = nil,
+            observationMode: GlueClientTypes.ObservationMode? = nil,
+            observationResults: GlueClientTypes.ObservationResultsOptions? = nil,
+            observationScope: GlueClientTypes.ObservationConfiguration? = nil,
+            profilingResults: GlueClientTypes.ProfilingResultsOptions? = nil,
+            resultsS3Prefix: Swift.String? = nil,
+            rowLevelResults: GlueClientTypes.RowLevelResultsOptions? = nil
+        ) {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
+            self.customLogGroupPrefix = customLogGroupPrefix
+            self.dataQualityRuleResults = dataQualityRuleResults
+            self.observationMode = observationMode
+            self.observationResults = observationResults
+            self.observationScope = observationScope
+            self.profilingResults = profilingResults
+            self.resultsS3Prefix = resultsS3Prefix
+            self.rowLevelResults = rowLevelResults
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Identifies the Glue Data Catalog tables that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigGlueTables: Swift.Sendable {
+        /// Options for reading the table. The following keys are supported:
+        ///
+        /// * pushDownPredicate: to filter on partitions without having to list and read all the files in your dataset.
+        ///
+        /// * catalogPartitionPredicate: to use server-side partition pruning using partition indexes in the Glue Data Catalog.
+        public var additionalOptions: [Swift.String: Swift.String]?
+        /// A unique identifier for the Glue Data Catalog.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// The name of the connection to the Glue Data Catalog.
+        public var connectionName: Swift.String?
+        /// A database name in the Glue Data Catalog.
+        public var databaseName: Swift.String?
+        /// SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation. For the CATALOG and DATABASE levels, use the {{DATABASE_NAME}} and {{TABLE_NAME}} placeholders, which are filled in for each table.
+        public var preProcessingQuery: Swift.String?
+        /// For the CATALOG and DATABASE levels, a glob pattern, such as orders_*, that selects tables. If you don't specify a pattern, every table at the level is in scope. For the TABLE level, the name of the table.
+        public var tableNamePattern: Swift.String?
+
+        public init(
+            additionalOptions: [Swift.String: Swift.String]? = nil,
+            catalogId: Swift.String? = nil,
+            connectionName: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            preProcessingQuery: Swift.String? = nil,
+            tableNamePattern: Swift.String? = nil
+        ) {
+            self.additionalOptions = additionalOptions
+            self.catalogId = catalogId
+            self.connectionName = connectionName
+            self.databaseName = databaseName
+            self.preProcessingQuery = preProcessingQuery
+            self.tableNamePattern = tableNamePattern
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The data source that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigDataSource: Swift.Sendable {
+        /// The Glue Data Catalog tables that the configuration applies to.
+        public var glueTables: GlueClientTypes.DataQualityEvaluationConfigGlueTables?
+
+        public init(
+            glueTables: GlueClientTypes.DataQualityEvaluationConfigGlueTables? = nil
+        ) {
+            self.glueTables = glueTables
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEvaluationConfigLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case catalog
+        case database
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationConfigLevel] {
+            return [
+                .catalog,
+                .database,
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .catalog: return "CATALOG"
+            case .database: return "DATABASE"
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEvaluationConfigManagedRuleset: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case simple
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationConfigManagedRuleset] {
+            return [
+                .advanced,
+                .simple
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "ADVANCED"
+            case .simple: return "SIMPLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEvaluationConfigTrigger: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metadataChange
+        case once
+        case schedule
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationConfigTrigger] {
+            return [
+                .metadataChange,
+                .once,
+                .schedule
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metadataChange: return "METADATA_CHANGE"
+            case .once: return "ONCE"
+            case .schedule: return "SCHEDULE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// A unique, case-sensitive identifier that you provide to ensure the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The catalog, database, or table that the configuration applies to, as specified by Level.
+    /// This member is required.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// The Glue Data Catalog hierarchical level that the configuration applies to. Valid values are CATALOG, DATABASE, and TABLE.
+    /// This member is required.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// A built-in ruleset that profiles each table, used when RulesetName is not set. The default is SIMPLE. Choose from the following built-in rulesets: SIMPLE Row count and column count, completeness, minimum, and maximum for every column, mean, sum, and standard deviation for numeric columns, and column length for string columns. ADVANCED Every statistic in SIMPLE, plus distribution, uniqueness, and distinct values count.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// A name for the data quality evaluation configuration. The name must be unique within your account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// The IAM role that evaluations assume. You can specify the role name or the role Amazon Resource Name (ARN). The role must allow the glue.amazonaws.com service principal to assume it, and needs permissions to read the catalog (glue:GetCatalog, glue:GetDatabase, glue:GetTable, glue:SearchTables, and glue:GetPartitions), read and create rulesets (glue:GetDataQualityRuleset and glue:CreateDataQualityRuleset), start evaluations (glue:StartDataQualityRulesetEvaluationRun, glue:PublishDataQuality, and iam:PassRole on the role itself), read the tables' data in Amazon S3, and write logs to Amazon CloudWatch Logs. If a catalog-level or database-level configuration applies to an Amazon S3 Tables catalog, the role also needs s3tables:ListTableBuckets and s3tables:ListTables. If you use Lake Formation, the role needs the DESCRIBE permission on the tables.
+    /// This member is required.
+    public var role: Swift.String?
+    /// The name of a Data Quality Definition Language (DQDL) ruleset, containing analyzers, rules, or both, to evaluate tables with. You create the ruleset using the CreateDataQualityRuleset API. Specify either RulesetName or ManagedRulesetName, not both.
+    public var rulesetName: Swift.String?
+    /// A cron or rate expression, in UTC, for the SCHEDULE trigger, for example cron(0 6 * * ? *). The schedule can run at most once an hour.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// A list of tags applied to the data quality evaluation configuration.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables. You can choose one or more triggers, and each table is evaluated at most once an hour. The default is ONCE. Choose from the following triggers: ONCE Evaluates each table one time, including when tables are added to a database or catalog. SCHEDULE Evaluates each table on the cron or rate expression in ScheduleExpression, between the optional StartAt and EndAt times. METADATA_CHANGE Evaluates a table whenever its Glue Data Catalog metadata changes, such as a schema change or an Apache Iceberg commit.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        clientToken: Swift.String? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.clientToken = clientToken
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.level = level
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.tags = tags
+        self.timeout = timeout
+        self.triggers = triggers
+    }
+}
+
+public struct CreateDataQualityEvaluationConfigOutput: Swift.Sendable {
+    /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+    /// The name of the data quality evaluation configuration.
+    public var name: Swift.String?
+
+    public init(
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.evaluationRunMode = evaluationRunMode
+        self.name = name
+    }
+}
+
+extension GlueClientTypes {
+
     /// An object representing an Glue table.
     public struct DataQualityTargetTable: Swift.Sendable {
         /// The catalog id where the Glue table exists.
@@ -17161,6 +17495,23 @@ public struct DeleteDatabaseInput: Swift.Sendable {
 }
 
 public struct DeleteDatabaseOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// The name of the data quality evaluation configuration to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct DeleteDataQualityEvaluationConfigOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -21800,6 +22151,97 @@ public struct GetDataflowGraphOutput: Swift.Sendable {
     }
 }
 
+public struct GetDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// The name of the data quality evaluation configuration.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct GetDataQualityEvaluationConfigOutput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// The time when the configuration was created.
+    public var createdOn: Foundation.Date?
+    /// The catalog, database, or table that the configuration applies to.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+    /// The time when the configuration was last modified.
+    public var lastModifiedOn: Foundation.Date?
+    /// The Glue Data Catalog hierarchical level that the configuration applies to.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// The built-in ruleset that tables are evaluated with.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// The name of the data quality evaluation configuration.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// Specifies whether evaluations are paused.
+    public var pauseRuns: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that evaluation runs assume.
+    public var role: Swift.String?
+    /// The name of the data quality ruleset that tables are evaluated with.
+    public var rulesetName: Swift.String?
+    /// The cron or rate expression, in UTC, for the SCHEDULE trigger.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables: ONCE Each table is evaluated one time, including when tables are added to a database or catalog. SCHEDULE Each table is evaluated on the cron or rate expression in ScheduleExpression. METADATA_CHANGE A table is evaluated whenever its Glue Data Catalog metadata changes.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        createdOn: Foundation.Date? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+        lastModifiedOn: Foundation.Date? = nil,
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        pauseRuns: Swift.Bool? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.createdOn = createdOn
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.evaluationRunMode = evaluationRunMode
+        self.lastModifiedOn = lastModifiedOn
+        self.level = level
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.pauseRuns = pauseRuns
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.timeout = timeout
+        self.triggers = triggers
+    }
+}
+
 public struct GetDataQualityModelInput: Swift.Sendable {
     /// The Profile ID.
     /// This member is required.
@@ -21958,10 +22400,14 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
     public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
     /// The date and time when the run for this data quality result was completed.
     public var completedOn: Foundation.Date?
+    /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+    public var dataQualityEvaluationConfig: Swift.String?
     /// The table associated with the data quality result, if any.
     public var dataSource: GlueClientTypes.DataSource?
     /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
     public var evaluationContext: Swift.String?
+    /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
     /// The job name associated with the data quality result, if any.
     public var jobName: Swift.String?
     /// The job run ID associated with the data quality result, if any.
@@ -21987,8 +22433,10 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
         analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
         completedOn: Foundation.Date? = nil,
+        dataQualityEvaluationConfig: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         evaluationContext: Swift.String? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
         jobName: Swift.String? = nil,
         jobRunId: Swift.String? = nil,
         observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -22003,8 +22451,10 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         self.aggregatedMetrics = aggregatedMetrics
         self.analyzerResults = analyzerResults
         self.completedOn = completedOn
+        self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
         self.dataSource = dataSource
         self.evaluationContext = evaluationContext
+        self.evaluationRunMode = evaluationRunMode
         self.jobName = jobName
         self.jobRunId = jobRunId
         self.observations = observations
@@ -22035,6 +22485,8 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
     /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
     public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+    /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+    public var dataQualityEvaluationConfig: Swift.String?
     /// The table associated with the data quality result, if any.
     public var dataSource: GlueClientTypes.DataSource?
     /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
@@ -22043,6 +22495,8 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     public var dimensions: [Swift.String: Swift.String]?
     /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
     public var evaluationContext: Swift.String?
+    /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
     /// The date and time when this data quality run completed.
     public var executionCompletedOn: Foundation.Date?
     /// The date and time when this data quality run started.
@@ -22067,10 +22521,12 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     public init(
         aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
         analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
+        dataQualityEvaluationConfig: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         descriptors: [Swift.String: Swift.String]? = nil,
         dimensions: [Swift.String: Swift.String]? = nil,
         evaluationContext: Swift.String? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
         executionCompletedOn: Foundation.Date? = nil,
         executionStartedOn: Foundation.Date? = nil,
         observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -22084,10 +22540,12 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     ) {
         self.aggregatedMetrics = aggregatedMetrics
         self.analyzerResults = analyzerResults
+        self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
         self.dataSource = dataSource
         self.descriptors = descriptors
         self.dimensions = dimensions
         self.evaluationContext = evaluationContext
+        self.evaluationRunMode = evaluationRunMode
         self.executionCompletedOn = executionCompletedOn
         self.executionStartedOn = executionStartedOn
         self.observations = observations
@@ -27128,12 +27586,136 @@ public struct ListCustomEntityTypesOutput: Swift.Sendable {
     }
 }
 
+public struct ListDataQualityEvaluationConfigsInput: Swift.Sendable {
+    /// Lists only the configurations that apply to this level.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A paginated token to offset the results. If you don't specify a token, the operation returns results starting from the beginning of the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.level = level
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Identifies the Glue Data Catalog tables that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigListGlueTables: Swift.Sendable {
+        /// A unique identifier for the Glue Data Catalog.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// A database name in the Glue Data Catalog.
+        public var databaseName: Swift.String?
+        /// For the CATALOG and DATABASE levels, a glob pattern, such as orders_*, that selects tables. If you don't specify a pattern, every table at the level is in scope. For the TABLE level, the name of the table.
+        public var tableNamePattern: Swift.String?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            tableNamePattern: Swift.String? = nil
+        ) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableNamePattern = tableNamePattern
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The data source that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigListDataSource: Swift.Sendable {
+        /// The Glue Data Catalog tables that the configuration applies to.
+        public var glueTables: GlueClientTypes.DataQualityEvaluationConfigListGlueTables?
+
+        public init(
+            glueTables: GlueClientTypes.DataQualityEvaluationConfigListGlueTables? = nil
+        ) {
+            self.glueTables = glueTables
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Describes a data quality evaluation configuration.
+    public struct DataQualityEvaluationConfigListDetails: Swift.Sendable {
+        /// The time when the configuration was created.
+        public var createdOn: Foundation.Date?
+        /// The catalog, database, or table that the configuration applies to.
+        public var dataSource: GlueClientTypes.DataQualityEvaluationConfigListDataSource?
+        /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+        /// The time when the configuration was last modified.
+        public var lastModifiedOn: Foundation.Date?
+        /// The Glue Data Catalog hierarchical level that the configuration applies to.
+        public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+        /// The built-in ruleset that tables are evaluated with.
+        public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+        /// The name of the data quality evaluation configuration.
+        public var name: Swift.String?
+        /// Specifies whether evaluations are paused.
+        public var pauseRuns: Swift.Bool?
+        /// The name of the data quality ruleset that tables are evaluated with.
+        public var rulesetName: Swift.String?
+
+        public init(
+            createdOn: Foundation.Date? = nil,
+            dataSource: GlueClientTypes.DataQualityEvaluationConfigListDataSource? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+            lastModifiedOn: Foundation.Date? = nil,
+            level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+            managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+            name: Swift.String? = nil,
+            pauseRuns: Swift.Bool? = nil,
+            rulesetName: Swift.String? = nil
+        ) {
+            self.createdOn = createdOn
+            self.dataSource = dataSource
+            self.evaluationRunMode = evaluationRunMode
+            self.lastModifiedOn = lastModifiedOn
+            self.level = level
+            self.managedRulesetName = managedRulesetName
+            self.name = name
+            self.pauseRuns = pauseRuns
+            self.rulesetName = rulesetName
+        }
+    }
+}
+
+public struct ListDataQualityEvaluationConfigsOutput: Swift.Sendable {
+    /// A list of DataQualityEvaluationConfigListDetails objects.
+    public var dataQualityEvaluationConfigs: [GlueClientTypes.DataQualityEvaluationConfigListDetails]?
+    /// A pagination token, if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataQualityEvaluationConfigs: [GlueClientTypes.DataQualityEvaluationConfigListDetails]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dataQualityEvaluationConfigs = dataQualityEvaluationConfigs
+        self.nextToken = nextToken
+    }
+}
+
 extension GlueClientTypes {
 
     /// Criteria used to return data quality results.
     public struct DataQualityResultFilterCriteria: Swift.Sendable {
+        /// Filter results by the evaluation configuration name which started the evaluation run.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// Filter results by the specified data source. For example, retrieving all results for an Glue table.
         public var dataSource: GlueClientTypes.DataSource?
+        /// Filter results by how their evaluation run started: ON_DEMAND or EVALUATION_CONFIG. Results that no evaluation run produced match neither value.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// Filter results by the specified job name.
         public var jobName: Swift.String?
         /// Filter results by the specified job run ID.
@@ -27144,13 +27726,17 @@ extension GlueClientTypes {
         public var startedBefore: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
+            self.evaluationRunMode = evaluationRunMode
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.startedAfter = startedAfter
@@ -27182,8 +27768,12 @@ extension GlueClientTypes {
 
     /// Describes a data quality result.
     public struct DataQualityResultDescription: Swift.Sendable {
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table name associated with the data quality result.
         public var dataSource: GlueClientTypes.DataSource?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The job name associated with the data quality result.
         public var jobName: Swift.String?
         /// The job run ID associated with the data quality result.
@@ -27194,13 +27784,17 @@ extension GlueClientTypes {
         public var startedOn: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
             resultId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
+            self.evaluationRunMode = evaluationRunMode
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.resultId = resultId
@@ -27229,27 +27823,35 @@ extension GlueClientTypes {
 
     /// Describes the criteria used to filter the data quality results returned by ListDataQualityResultsV2.
     public struct DataQualityResultsV2FilterCriteria: Swift.Sendable {
+        /// Filter results by the evaluation configuration name which started the evaluation run.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The data source used to filter the results. For example, you can retrieve all results for an Glue table. DatabaseName and TableName are required. If you omit CatalogId, the catalog of the calling account is used. When you filter by data source, a page of results can be empty but still include a NextToken. Keep requesting pages until NextToken is absent.
         public var dataSource: GlueClientTypes.DataSource?
         /// The platform dimensions to filter results by.
         public var dimensions: [Swift.String: Swift.String]?
         /// The evaluation context to filter results by.
         public var evaluationContext: Swift.String?
+        /// Filter results by how their evaluation run started: ON_DEMAND or EVALUATION_CONFIG. Results that no evaluation run produced match neither value.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The time after which to include published results.
         public var publishedAfter: Foundation.Date?
         /// The time before which to include published results.
         public var publishedBefore: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             publishedAfter: Foundation.Date? = nil,
             publishedBefore: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.dimensions = dimensions
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.publishedAfter = publishedAfter
             self.publishedBefore = publishedBefore
         }
@@ -27279,6 +27881,8 @@ extension GlueClientTypes {
 
     /// Describes a data quality result returned by ListDataQualityResultsV2.
     public struct DataQualityResultsV2Description: Swift.Sendable {
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table associated with the data quality result, if any.
         public var dataSource: GlueClientTypes.DataSource?
         /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
@@ -27287,23 +27891,29 @@ extension GlueClientTypes {
         public var dimensions: [Swift.String: Swift.String]?
         /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
         public var evaluationContext: Swift.String?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The unique result ID for this data quality result.
         public var resultId: Swift.String?
         /// The date and time when this data quality result was published.
         public var resultPublishedOn: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             descriptors: [Swift.String: Swift.String]? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             resultId: Swift.String? = nil,
             resultPublishedOn: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.descriptors = descriptors
             self.dimensions = dimensions
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.resultId = resultId
             self.resultPublishedOn = resultPublishedOn
         }
@@ -29100,12 +29710,19 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    ///
     public struct DataQualityTelemetry: Swift.Sendable {
+        ///
         public var engine: GlueClientTypes.DataQualityEngine?
+        ///
         public var flagsEnabled: [Swift.String: Swift.String]?
+        ///
         public var hostRuntimeVersion: Swift.String?
+        ///
         public var libraryVersion: Swift.String?
+        ///
         public var sparkVersion: Swift.String?
+        ///
         public var vcpuHours: Swift.Double?
 
         public init(
@@ -29163,6 +29780,7 @@ public struct PublishDataQualityResultV2Input: Swift.Sendable {
     public var statistics: [GlueClientTypes.StatisticSummary]?
     /// The tags for the result.
     public var tags: [Swift.String: Swift.String]?
+    ///
     public var telemetry: GlueClientTypes.DataQualityTelemetry?
 
     public init(
@@ -32597,6 +33215,149 @@ public struct UpdateDatabaseInput: Swift.Sendable {
 public struct UpdateDatabaseOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// The database or table that the configuration applies to. Replaces the current data source.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// A built-in ruleset, SIMPLE or ADVANCED, that profiles each table.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// The name of the data quality evaluation configuration to update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// Specifies whether to pause the configuration. While paused, the configuration evaluates nothing, including tables added to the catalog or database.
+    public var pauseRuns: Swift.Bool?
+    /// The IAM role that evaluations assume. You can specify the role name or the role Amazon Resource Name (ARN). The role needs the trust policy and permissions described for CreateDataQualityEvaluationConfig.
+    public var role: Swift.String?
+    /// The name of a Data Quality Definition Language (DQDL) ruleset, containing analyzers, rules, or both, to evaluate tables with. You create the ruleset using the CreateDataQualityRuleset API. Specify either RulesetName or ManagedRulesetName, not both.
+    public var rulesetName: Swift.String?
+    /// A cron or rate expression, in UTC, for the SCHEDULE trigger, for example cron(0 6 * * ? *). The schedule can run at most once an hour.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables. Replaces the current triggers. Choose from the following triggers: ONCE Evaluates each table one time, including when tables are added to a database or catalog. SCHEDULE Evaluates each table on the cron or rate expression in ScheduleExpression, between the optional StartAt and EndAt times. METADATA_CHANGE Evaluates a table whenever its Glue Data Catalog metadata changes, such as a schema change or an Apache Iceberg commit.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        pauseRuns: Swift.Bool? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.pauseRuns = pauseRuns
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.timeout = timeout
+        self.triggers = triggers
+    }
+}
+
+public struct UpdateDataQualityEvaluationConfigOutput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// The time when the configuration was created.
+    public var createdOn: Foundation.Date?
+    /// The catalog, database, or table that the configuration applies to.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+    /// The time when the configuration was last modified.
+    public var lastModifiedOn: Foundation.Date?
+    /// The Glue Data Catalog hierarchical level that the configuration applies to.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// The built-in ruleset that tables are evaluated with.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// The name of the data quality evaluation configuration.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// Specifies whether evaluations are paused.
+    public var pauseRuns: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that evaluation runs assume.
+    public var role: Swift.String?
+    /// The name of the data quality ruleset that tables are evaluated with.
+    public var rulesetName: Swift.String?
+    /// The cron or rate expression, in UTC, for the SCHEDULE trigger.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables: ONCE Each table is evaluated one time, including when tables are added to a database or catalog. SCHEDULE Each table is evaluated on the cron or rate expression in ScheduleExpression. METADATA_CHANGE A table is evaluated whenever its Glue Data Catalog metadata changes.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        createdOn: Foundation.Date? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+        lastModifiedOn: Foundation.Date? = nil,
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        pauseRuns: Swift.Bool? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.createdOn = createdOn
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.evaluationRunMode = evaluationRunMode
+        self.lastModifiedOn = lastModifiedOn
+        self.level = level
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.pauseRuns = pauseRuns
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.timeout = timeout
+        self.triggers = triggers
+    }
 }
 
 public struct UpdateDataQualityRulesetInput: Swift.Sendable {

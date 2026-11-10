@@ -6499,6 +6499,25 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The aliases to add to and remove from a pipeline version. An alias can't appear in both lists. After the update, the version can have up to 10 aliases.
+    public struct AliasOperations: Swift.Sendable {
+        /// The aliases to add to the pipeline version. If you assigned an alias to another version of the same pipeline, you must remove it from that version before you add it here.
+        public var add: [Swift.String]?
+        /// The aliases to remove from the pipeline version.
+        public var remove: [Swift.String]?
+
+        public init(
+            add: [Swift.String]? = nil,
+            remove: [Swift.String]? = nil
+        ) {
+            self.add = add
+            self.remove = remove
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum FeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -19009,6 +19028,51 @@ public struct CreateClusterOutput: Swift.Sendable {
     }
 }
 
+public struct CreateClusterExtensionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the operation completes no more than one time. This token is valid for 8 hours. If you retry the request with the same client token and the same parameters within this time, the API returns the Amazon Resource Name (ARN) of the extension that the original request created, without creating a duplicate. If you use the same client token with different parameters, the request fails.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which to install the extension. The cluster must use Slurm as the orchestrator and have NodeProvisioningMode set to Continuous.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The configuration settings for the extension, as a JSON object serialized as a string, for example {"metricsProvider":{"nodeMetrics":{"level":"ADVANCED"}}}. Each extension version defines which settings it accepts. SageMaker HyperPod validates the settings against that definition, and rejects the request if a setting is unknown or has an invalid value. Settings that you omit use the extension's default values. If you omit ConfigurationValues, all settings use their default values.
+    public var configurationValues: Swift.String?
+    /// The name of the extension to install, for example sagemaker-observability.
+    /// This member is required.
+    public var extensionName: Swift.String?
+    /// The version of the extension to install, in MAJOR.MINOR.PATCH format, for example 1.0.0. If you don't specify a version, SageMaker HyperPod installs the latest available version of the extension.
+    public var extensionVersion: Swift.String?
+    /// Custom tags for managing the extension as an Amazon Web Services resource. You can add tags to your extension in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html). To use this operation to add tags when you create an extension, you must have the sagemaker:AddTags permission.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        configurationValues: Swift.String? = nil,
+        extensionName: Swift.String? = nil,
+        extensionVersion: Swift.String? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterArn = clusterArn
+        self.configurationValues = configurationValues
+        self.extensionName = extensionName
+        self.extensionVersion = extensionVersion
+        self.tags = tags
+    }
+}
+
+public struct CreateClusterExtensionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the extension that you created. Use this ARN to describe, update, or delete the extension.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        extensionArn: Swift.String? = nil
+    ) {
+        self.extensionArn = extensionArn
+    }
+}
+
 extension SageMakerClientTypes {
 
     public enum FairShare: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -31006,6 +31070,8 @@ public struct CreatePipelineInput: Swift.Sendable {
     /// The name of the pipeline.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The aliases to assign to the first version of the pipeline. You can use an alias instead of a pipeline version ID to start an execution, describe the pipeline, or list its executions. Each alias can contain 1-128 letters, numbers, periods (.), hyphens (-), and underscores (_), and can't consist of numbers only. An alias must be unique within the pipeline, and a version can have up to 10 aliases.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The Amazon Resource Name (ARN) of the role used by the pipeline to access and create resources.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -31020,6 +31086,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         pipelineDescription: Swift.String? = nil,
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         roleArn: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
     ) {
@@ -31030,6 +31097,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         self.pipelineDescription = pipelineDescription
         self.pipelineDisplayName = pipelineDisplayName
         self.pipelineName = pipelineName
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.roleArn = roleArn
         self.tags = tags
     }
@@ -34244,6 +34312,35 @@ public struct DeleteClusterOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteClusterExtensionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the extension to delete.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        extensionArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.extensionArn = extensionArn
+    }
+}
+
+public struct DeleteClusterExtensionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the extension that is being deleted.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        extensionArn: Swift.String? = nil
+    ) {
+        self.extensionArn = extensionArn
+    }
+}
+
 public struct DeleteClusterSchedulerConfigInput: Swift.Sendable {
     /// ID of the cluster policy.
     /// This member is required.
@@ -36347,6 +36444,155 @@ public struct DescribeClusterEventOutput: Swift.Sendable {
         eventDetails: SageMakerClientTypes.ClusterEventDetail? = nil
     ) {
         self.eventDetails = eventDetails
+    }
+}
+
+public struct DescribeClusterExtensionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the extension to describe. CreateClusterExtension returns this ARN, and ListClusterExtensions lists it. If you delete an extension and create it again, the new extension has a new ARN.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        extensionArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.extensionArn = extensionArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ExtensionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case createFailed
+        case creating
+        case degraded
+        case deleteFailed
+        case deleting
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtensionStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .degraded,
+                .deleteFailed,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .createFailed: return "CreateFailed"
+            case .creating: return "Creating"
+            case .degraded: return "Degraded"
+            case .deleteFailed: return "DeleteFailed"
+            case .deleting: return "Deleting"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details of an extension installed on a SageMaker HyperPod cluster.
+    public struct ExtensionDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// The configuration of the extension, as a JSON object serialized as a string. The configuration includes the default value of every setting that you didn't specify.
+        public var configurationValues: Swift.String?
+        /// The time when the extension was created.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the extension.
+        /// This member is required.
+        public var extensionArn: Swift.String?
+        /// The name of the extension.
+        /// This member is required.
+        public var extensionName: Swift.String?
+        /// The version of the extension. While SageMaker HyperPod creates or updates the extension, some nodes might still run a different version. To see how many nodes run this version, see NodeSummary.
+        /// This member is required.
+        public var extensionVersion: Swift.String?
+        /// The time when the extension was last updated.
+        public var lastModifiedTime: Foundation.Date?
+        /// The status of the extension can be one of the following values: Creating SageMaker HyperPod is installing the extension on the cluster's nodes. Active The extension runs its current version and configuration on all of the cluster's nodes. Updating SageMaker HyperPod is applying a configuration change or version update to the cluster's nodes. Degraded The extension runs its current version and configuration on some of the cluster's nodes but not all of them. Or, at least one node recently reported that the extension is unhealthy. CreateFailed SageMaker HyperPod couldn't install the extension on any of the cluster's nodes. UpdateFailed SageMaker HyperPod couldn't apply the update on any of the cluster's nodes. Deleting SageMaker HyperPod is removing the extension from the cluster's nodes. DeleteFailed SageMaker HyperPod couldn't remove the extension from any of the cluster's nodes.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ExtensionStatus?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            configurationValues: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            extensionArn: Swift.String? = nil,
+            extensionName: Swift.String? = nil,
+            extensionVersion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            status: SageMakerClientTypes.ExtensionStatus? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.configurationValues = configurationValues
+            self.creationTime = creationTime
+            self.extensionArn = extensionArn
+            self.extensionName = extensionName
+            self.extensionVersion = extensionVersion
+            self.lastModifiedTime = lastModifiedTime
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of an extension's installation across the nodes of a SageMaker HyperPod cluster.
+    public struct ExtensionNodeSummary: Swift.Sendable {
+        /// The number of nodes that are running the extension's current version and configuration. While SageMaker HyperPod creates or updates the extension, ActiveCount is lower than TotalCount.
+        /// This member is required.
+        public var activeCount: Swift.Int?
+        /// The number of nodes in your cluster that the extension targets. SageMaker HyperPod targets every running node in your cluster, including nodes that you add after you create the extension.
+        /// This member is required.
+        public var totalCount: Swift.Int?
+
+        public init(
+            activeCount: Swift.Int? = nil,
+            totalCount: Swift.Int? = nil
+        ) {
+            self.activeCount = activeCount
+            self.totalCount = totalCount
+        }
+    }
+}
+
+public struct DescribeClusterExtensionOutput: Swift.Sendable {
+    /// The details of the extension.
+    /// This member is required.
+    public var extensionDetails: SageMakerClientTypes.ExtensionDetails?
+    /// A summary of how many nodes in your cluster the extension targets, and how many of them run the extension's current version and configuration.
+    public var nodeSummary: SageMakerClientTypes.ExtensionNodeSummary?
+
+    public init(
+        extensionDetails: SageMakerClientTypes.ExtensionDetails? = nil,
+        nodeSummary: SageMakerClientTypes.ExtensionNodeSummary? = nil
+    ) {
+        self.extensionDetails = extensionDetails
+        self.nodeSummary = nodeSummary
     }
 }
 
@@ -43209,14 +43455,18 @@ public struct DescribePipelineInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
     /// This member is required.
     public var pipelineName: Swift.String?
-    /// The ID of the pipeline version to describe.
+    /// The alias of the pipeline version to describe. You can't specify this with PipelineVersionId. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error. If you specify neither, SageMaker describes the latest version of the pipeline.
+    public var pipelineVersionAlias: Swift.String?
+    /// The ID of the pipeline version to describe. You can't specify this with PipelineVersionAlias.
     public var pipelineVersionId: Swift.Int?
 
     public init(
         pipelineName: Swift.String? = nil,
+        pipelineVersionAlias: Swift.String? = nil,
         pipelineVersionId: Swift.Int? = nil
     ) {
         self.pipelineName = pipelineName
+        self.pipelineVersionAlias = pipelineVersionAlias
         self.pipelineVersionId = pipelineVersionId
     }
 }
@@ -43275,6 +43525,8 @@ public struct DescribePipelineOutput: Swift.Sendable {
     public var pipelineName: Swift.String?
     /// The status of the pipeline execution.
     public var pipelineStatus: SageMakerClientTypes.PipelineStatus?
+    /// The aliases assigned to the pipeline version.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The description of the pipeline version.
     public var pipelineVersionDescription: Swift.String?
     /// The display name of the pipeline version.
@@ -43295,6 +43547,7 @@ public struct DescribePipelineOutput: Swift.Sendable {
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         pipelineStatus: SageMakerClientTypes.PipelineStatus? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         pipelineVersionDescription: Swift.String? = nil,
         pipelineVersionDisplayName: Swift.String? = nil,
         roleArn: Swift.String? = nil
@@ -43311,6 +43564,7 @@ public struct DescribePipelineOutput: Swift.Sendable {
         self.pipelineDisplayName = pipelineDisplayName
         self.pipelineName = pipelineName
         self.pipelineStatus = pipelineStatus
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.pipelineVersionDescription = pipelineVersionDescription
         self.pipelineVersionDisplayName = pipelineVersionDisplayName
         self.roleArn = roleArn
@@ -43499,8 +43753,12 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
     public var pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus?
     /// Specifies the names of the experiment and trial created by a pipeline.
     public var pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig?
+    /// The aliases currently assigned to the pipeline version that the execution ran.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The ID of the pipeline version.
     public var pipelineVersionId: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. SageMaker returns this value only for executions of pipelines that AWS manages.
+    public var roleArn: Swift.String?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
 
@@ -43518,7 +43776,9 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         pipelineExecutionDisplayName: Swift.String? = nil,
         pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
         pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         pipelineVersionId: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
     ) {
         self.createdBy = createdBy
@@ -43534,7 +43794,9 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
         self.pipelineExecutionStatus = pipelineExecutionStatus
         self.pipelineExperimentConfig = pipelineExperimentConfig
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.pipelineVersionId = pipelineVersionId
+        self.roleArn = roleArn
         self.selectiveExecutionConfig = selectiveExecutionConfig
     }
 }
@@ -47528,6 +47790,41 @@ public struct ExtendTrainingPlanOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// A summary of an extension installed on a SageMaker HyperPod cluster.
+    public struct ExtensionSummary: Swift.Sendable {
+        /// The time when the extension was created.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the extension.
+        /// This member is required.
+        public var extensionArn: Swift.String?
+        /// The name of the extension.
+        /// This member is required.
+        public var extensionName: Swift.String?
+        /// The version of the extension.
+        /// This member is required.
+        public var extensionVersion: Swift.String?
+        /// The status of the extension. For the meaning of each status, see ExtensionDetails.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ExtensionStatus?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            extensionArn: Swift.String? = nil,
+            extensionName: Swift.String? = nil,
+            extensionVersion: Swift.String? = nil,
+            status: SageMakerClientTypes.ExtensionStatus? = nil
+        ) {
+            self.creationTime = creationTime
+            self.extensionArn = extensionArn
+            self.extensionName = extensionName
+            self.extensionVersion = extensionVersion
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The container for the metadata for Fail step.
     public struct FailStepMetadata: Swift.Sendable {
         /// A message that you define and then is processed and rendered by the Fail step when the error occurs.
@@ -48632,6 +48929,25 @@ extension SageMakerClientTypes {
             case .hubContentStatus: return "HubContentStatus"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The hub and the hub content that a HubContent step imported.
+    public struct HubContentStepMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the hub that the step imported the content into.
+        public var hubArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the hub content that was imported by this step execution.
+        public var hubContentArn: Swift.String?
+
+        public init(
+            hubArn: Swift.String? = nil,
+            hubContentArn: Swift.String? = nil
+        ) {
+            self.hubArn = hubArn
+            self.hubContentArn = hubContentArn
         }
     }
 }
@@ -50895,6 +51211,50 @@ public struct ListClusterEventsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.events = events
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster whose extensions you want to list.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// A filter that returns extensions created at or after the specified time. Timestamps are formatted according to the ISO 8601 standard.
+    public var creationTimeAfter: Foundation.Date?
+    /// A filter that returns extensions created at or before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter.
+    public var creationTimeBefore: Foundation.Date?
+    /// The maximum number of extensions to return in the response. If you don't specify a value, SageMaker HyperPod returns up to 100 extensions.
+    public var maxResults: Swift.Int?
+    /// If the result of the previous ListClusterExtensions request was truncated, the response includes a NextToken. To retrieve the next set of extensions, use the token in the next request. When you use the CreationTimeAfter or CreationTimeBefore filters, a response can contain fewer extensions than MaxResults, or none, and still include a NextToken. Continue until the response doesn't include a NextToken.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionsOutput: Swift.Sendable {
+    /// The list of extensions installed on the cluster.
+    /// This member is required.
+    public var extensions: [SageMakerClientTypes.ExtensionSummary]?
+    /// The next token specified for listing extensions on a SageMaker HyperPod cluster.
+    public var nextToken: Swift.String?
+
+    public init(
+        extensions: [SageMakerClientTypes.ExtensionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.extensions = extensions
         self.nextToken = nextToken
     }
 }
@@ -55915,6 +56275,8 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the pipeline.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The alias of a pipeline version. The response includes only the executions of the version that has this alias when you make the request. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error.
+    public var pipelineVersionAlias: Swift.String?
     /// The field by which to sort results. The default is CreatedTime.
     public var sortBy: SageMakerClientTypes.SortPipelineExecutionsBy?
     /// The sort order for results.
@@ -55926,6 +56288,7 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
+        pipelineVersionAlias: Swift.String? = nil,
         sortBy: SageMakerClientTypes.SortPipelineExecutionsBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
     ) {
@@ -55934,6 +56297,7 @@ public struct ListPipelineExecutionsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineName = pipelineName
+        self.pipelineVersionAlias = pipelineVersionAlias
         self.sortBy = sortBy
         self.sortOrder = sortOrder
     }
@@ -55953,6 +56317,8 @@ extension SageMakerClientTypes {
         public var pipelineExecutionFailureReason: Swift.String?
         /// The status of the pipeline execution.
         public var pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus?
+        /// The aliases currently assigned to the pipeline version that the execution ran.
+        public var pipelineVersionAliases: [Swift.String]?
         /// The start time of the pipeline execution.
         public var startTime: Foundation.Date?
 
@@ -55962,6 +56328,7 @@ extension SageMakerClientTypes {
             pipelineExecutionDisplayName: Swift.String? = nil,
             pipelineExecutionFailureReason: Swift.String? = nil,
             pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
+            pipelineVersionAliases: [Swift.String]? = nil,
             startTime: Foundation.Date? = nil
         ) {
             self.pipelineExecutionArn = pipelineExecutionArn
@@ -55969,6 +56336,7 @@ extension SageMakerClientTypes {
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
             self.pipelineExecutionFailureReason = pipelineExecutionFailureReason
             self.pipelineExecutionStatus = pipelineExecutionStatus
+            self.pipelineVersionAliases = pipelineVersionAliases
             self.startTime = startTime
         }
     }
@@ -56205,6 +56573,8 @@ extension SageMakerClientTypes {
         public var fail: SageMakerClientTypes.FailStepMetadata?
         /// The metadata for the ForEach step execution.
         public var forEach: SageMakerClientTypes.ForEachStepMetadata?
+        /// The metadata for the HubContent step execution.
+        public var hubContent: SageMakerClientTypes.HubContentStepMetadata?
         /// The metadata of the inference component used in pipeline execution step.
         public var inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata?
         /// The metadata for a SageMaker job used in a pipeline execution step.
@@ -56261,6 +56631,7 @@ extension SageMakerClientTypes {
             endpointConfig: SageMakerClientTypes.EndpointConfigStepMetadata? = nil,
             fail: SageMakerClientTypes.FailStepMetadata? = nil,
             forEach: SageMakerClientTypes.ForEachStepMetadata? = nil,
+            hubContent: SageMakerClientTypes.HubContentStepMetadata? = nil,
             inferenceComponent: SageMakerClientTypes.InferenceComponentMetadata? = nil,
             job: SageMakerClientTypes.JobStepMetadata? = nil,
             lambda: SageMakerClientTypes.LambdaStepMetadata? = nil,
@@ -56289,6 +56660,7 @@ extension SageMakerClientTypes {
             self.endpointConfig = endpointConfig
             self.fail = fail
             self.forEach = forEach
+            self.hubContent = hubContent
             self.inferenceComponent = inferenceComponent
             self.job = job
             self.lambda = lambda
@@ -56492,6 +56864,35 @@ public struct ListPipelineParametersForExecutionOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    public enum PipelineManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipelineManagedBy] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "AWS"
+            case .customer: return "CUSTOMER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum SortPipelinesBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case name
@@ -56524,6 +56925,8 @@ public struct ListPipelinesInput: Swift.Sendable {
     public var createdAfter: Foundation.Date?
     /// A filter that returns the pipelines that were created before a specified time.
     public var createdBefore: Foundation.Date?
+    /// Filters the pipelines by who manages them. Specify AWS to return pipelines that AWS manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes both.
+    public var managedBy: SageMakerClientTypes.PipelineManagedBy?
     /// The maximum number of pipelines to return in the response.
     public var maxResults: Swift.Int?
     /// If the result of the previous ListPipelines request was truncated, the response includes a NextToken. To retrieve the next set of pipelines, use the token in the next request.
@@ -56538,6 +56941,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public init(
         createdAfter: Foundation.Date? = nil,
         createdBefore: Foundation.Date? = nil,
+        managedBy: SageMakerClientTypes.PipelineManagedBy? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         pipelineNamePrefix: Swift.String? = nil,
@@ -56546,6 +56950,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     ) {
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
+        self.managedBy = managedBy
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.pipelineNamePrefix = pipelineNamePrefix
@@ -56654,6 +57059,8 @@ extension SageMakerClientTypes {
         public var lastExecutionPipelineExecutionArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
+        /// The aliases assigned to the pipeline version.
+        public var pipelineVersionAliases: [Swift.String]?
         /// The description of the pipeline version.
         public var pipelineVersionDescription: Swift.String?
         /// The display name of the pipeline version.
@@ -56665,6 +57072,7 @@ extension SageMakerClientTypes {
             creationTime: Foundation.Date? = nil,
             lastExecutionPipelineExecutionArn: Swift.String? = nil,
             pipelineArn: Swift.String? = nil,
+            pipelineVersionAliases: [Swift.String]? = nil,
             pipelineVersionDescription: Swift.String? = nil,
             pipelineVersionDisplayName: Swift.String? = nil,
             pipelineVersionId: Swift.Int? = nil
@@ -56672,6 +57080,7 @@ extension SageMakerClientTypes {
             self.creationTime = creationTime
             self.lastExecutionPipelineExecutionArn = lastExecutionPipelineExecutionArn
             self.pipelineArn = pipelineArn
+            self.pipelineVersionAliases = pipelineVersionAliases
             self.pipelineVersionDescription = pipelineVersionDescription
             self.pipelineVersionDisplayName = pipelineVersionDisplayName
             self.pipelineVersionId = pipelineVersionId
@@ -59680,6 +60089,8 @@ extension SageMakerClientTypes {
         public var lastModifiedTime: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
+        /// The aliases assigned to the pipeline version.
+        public var pipelineVersionAliases: [Swift.String]?
         /// The description of the pipeline version.
         public var pipelineVersionDescription: Swift.String?
         /// The display name of the pipeline version.
@@ -59696,6 +60107,7 @@ extension SageMakerClientTypes {
             lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             pipelineArn: Swift.String? = nil,
+            pipelineVersionAliases: [Swift.String]? = nil,
             pipelineVersionDescription: Swift.String? = nil,
             pipelineVersionDisplayName: Swift.String? = nil,
             pipelineVersionId: Swift.Int? = nil
@@ -59708,6 +60120,7 @@ extension SageMakerClientTypes {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.pipelineArn = pipelineArn
+            self.pipelineVersionAliases = pipelineVersionAliases
             self.pipelineVersionDescription = pipelineVersionDescription
             self.pipelineVersionDisplayName = pipelineVersionDisplayName
             self.pipelineVersionId = pipelineVersionId
@@ -61303,8 +61716,12 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
     public var pipelineName: Swift.String?
     /// Contains a list of pipeline parameters. This list can be empty.
     public var pipelineParameters: [SageMakerClientTypes.Parameter]?
-    /// The ID of the pipeline version to start execution from.
+    /// The alias of the pipeline version to start the execution from. You can't specify this with PipelineVersionId. If no version of the pipeline has this alias, the request fails with a ResourceNotFound error.
+    public var pipelineVersionAlias: Swift.String?
+    /// The ID of the pipeline version to start execution from. You can't specify this with PipelineVersionAlias.
     public var pipelineVersionId: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. You must specify this parameter when you start an execution of a pipeline that AWS manages. You can't specify it for a pipeline that you create, because its executions use the pipeline's role.
+    public var roleArn: Swift.String?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
 
@@ -61316,7 +61733,9 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         pipelineExecutionDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
+        pipelineVersionAlias: Swift.String? = nil,
         pipelineVersionId: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
     ) {
         self.clientRequestToken = clientRequestToken
@@ -61326,7 +61745,9 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
         self.pipelineName = pipelineName
         self.pipelineParameters = pipelineParameters
+        self.pipelineVersionAlias = pipelineVersionAlias
         self.pipelineVersionId = pipelineVersionId
+        self.roleArn = roleArn
         self.selectiveExecutionConfig = selectiveExecutionConfig
     }
 }
@@ -61893,6 +62314,47 @@ public struct UpdateClusterOutput: Swift.Sendable {
         clusterArn: Swift.String? = nil
     ) {
         self.clusterArn = clusterArn
+    }
+}
+
+public struct UpdateClusterExtensionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide so that the request is idempotent. If you send the same update more than once, SageMaker HyperPod applies it once and doesn't return an error.
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster on which the extension is installed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The configuration changes to apply, as a JSON object serialized as a string. Settings that you include are changed, settings that you omit are unchanged, and a setting with the value null returns to its default value. The resulting configuration must be valid for the target extension version. If you omit ConfigurationValues, the configuration is unchanged.
+    public var configurationValues: Swift.String?
+    /// The Amazon Resource Name (ARN) of the extension to update.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+    /// The version to update the extension to, in MAJOR.MINOR.PATCH format. The version must be later than the extension's current version. If you omit this parameter, the extension keeps its current version.
+    public var extensionVersion: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterArn: Swift.String? = nil,
+        configurationValues: Swift.String? = nil,
+        extensionArn: Swift.String? = nil,
+        extensionVersion: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterArn = clusterArn
+        self.configurationValues = configurationValues
+        self.extensionArn = extensionArn
+        self.extensionVersion = extensionVersion
+    }
+}
+
+public struct UpdateClusterExtensionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the extension that is being updated. To track the update, call DescribeClusterExtension.
+    /// This member is required.
+    public var extensionArn: Swift.String?
+
+    public init(
+        extensionArn: Swift.String? = nil
+    ) {
+        self.extensionArn = extensionArn
     }
 }
 
@@ -63327,6 +63789,8 @@ public struct UpdatePipelineInput: Swift.Sendable {
     /// The name of the pipeline to update.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The aliases to assign to the new pipeline version that this update creates. You can specify aliases only when the update changes the pipeline definition. To change the aliases of an existing version, use UpdatePipelineVersion. An alias must be unique within the pipeline. To move an alias from an existing version to the new version, first remove the alias from the existing version with UpdatePipelineVersion.
+    public var pipelineVersionAliases: [Swift.String]?
     /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
     public var roleArn: Swift.String?
 
@@ -63337,6 +63801,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         pipelineDescription: Swift.String? = nil,
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
+        pipelineVersionAliases: [Swift.String]? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.parallelismConfiguration = parallelismConfiguration
@@ -63345,6 +63810,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         self.pipelineDescription = pipelineDescription
         self.pipelineDisplayName = pipelineDisplayName
         self.pipelineName = pipelineName
+        self.pipelineVersionAliases = pipelineVersionAliases
         self.roleArn = roleArn
     }
 }
@@ -63403,6 +63869,8 @@ public struct UpdatePipelineVersionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the pipeline.
     /// This member is required.
     public var pipelineArn: Swift.String?
+    /// The aliases to add to or remove from the pipeline version.
+    public var pipelineVersionAliasOperations: SageMakerClientTypes.AliasOperations?
     /// The description of the pipeline version.
     public var pipelineVersionDescription: Swift.String?
     /// The display name of the pipeline version.
@@ -63413,11 +63881,13 @@ public struct UpdatePipelineVersionInput: Swift.Sendable {
 
     public init(
         pipelineArn: Swift.String? = nil,
+        pipelineVersionAliasOperations: SageMakerClientTypes.AliasOperations? = nil,
         pipelineVersionDescription: Swift.String? = nil,
         pipelineVersionDisplayName: Swift.String? = nil,
         pipelineVersionId: Swift.Int? = nil
     ) {
         self.pipelineArn = pipelineArn
+        self.pipelineVersionAliasOperations = pipelineVersionAliasOperations
         self.pipelineVersionDescription = pipelineVersionDescription
         self.pipelineVersionDisplayName = pipelineVersionDisplayName
         self.pipelineVersionId = pipelineVersionId
