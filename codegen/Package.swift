@@ -101,6 +101,7 @@ private var protocolTestTargets: [Target] {
         .init(name: "EventStream", basePath: baseDirLocal, buildOnly: true),
         .init(name: "RPCEventStream", basePath: baseDirLocal, buildOnly: true),
         .init(name: "StringArrayEndpointParam", basePath: baseDirLocal),
+        .init(name: "EndpointBDD", basePath: baseDirLocal),
         .init(name: "RPCV2CBORTestSDK", basePath: baseDir),
         .init(name: "RPCV2CBORTestQueryCompatSDK", basePath: baseDir),
         .init(name: "RPCV2CBORTestNonQueryCompatSDK", basePath: baseDir),

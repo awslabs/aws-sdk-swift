@@ -39,4 +39,5 @@ rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EventStream/swift-codegen/EventStream/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/RPCEventStream/swift-codegen/RPCEventStream/Package.swift
 rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/StringArrayEndpointParam/swift-codegen/StringArrayEndpointParam/Package.swift
+rm -f codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/EndpointBDD/swift-codegen/EndpointBDD/Package.swift
 
