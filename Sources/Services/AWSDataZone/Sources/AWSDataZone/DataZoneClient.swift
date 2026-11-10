@@ -2103,7 +2103,7 @@ extension DataZoneClient {
 
     /// Performs the `CreateDesignation` operation on the `DataZone` service.
     ///
-    /// Creates a new user-defined designation with a Cedar permit policy. The designation defines a named role that can be assigned to project members.
+    /// Creates a new user-defined designation with a Cedar permit policy. The designation defines a named role that can be assigned to project members through CreateProjectMembership or granted through AddPolicyGrant.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDesignationInput`)
     ///
@@ -4299,7 +4299,7 @@ extension DataZoneClient {
 
     /// Performs the `DeleteDesignation` operation on the `DataZone` service.
     ///
-    /// Deletes a designation. Managed designations cannot be deleted. This operation is idempotent.
+    /// Deletes a user-created designation. Managed designations cannot be deleted. The call fails if the designation has deletionProtection enabled or if any project member still holds it. This operation is idempotent.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDesignationInput`)
     ///
@@ -6695,7 +6695,7 @@ extension DataZoneClient {
 
     /// Performs the `GetDesignation` operation on the `DataZone` service.
     ///
-    /// Gets the details of a designation, including its Cedar policy.
+    /// Gets the details of a designation, including its Cedar permit policy. Returns the full designation record for both system-managed and user-created designations.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDesignationInput`)
     ///
@@ -9562,7 +9562,7 @@ extension DataZoneClient {
 
     /// Performs the `ListDesignations` operation on the `DataZone` service.
     ///
-    /// Lists the designations in a domain. Returns system-managed designations first, followed by user-created designations sorted alphabetically by name.
+    /// Lists the designations in a domain. The response returns system-managed designations first, followed by user-created designations in alphabetical order by name. Results are paginated. Use nextToken to retrieve additional pages of results.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDesignationsInput`)
     ///
@@ -13602,7 +13602,7 @@ extension DataZoneClient {
 
     /// Performs the `UpdateDesignation` operation on the `DataZone` service.
     ///
-    /// Updates an existing designation. Managed designations cannot be modified.
+    /// Updates an existing user-created designation. Managed designations cannot be modified. Omit a field to leave its current value unchanged.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDesignationInput`)
     ///

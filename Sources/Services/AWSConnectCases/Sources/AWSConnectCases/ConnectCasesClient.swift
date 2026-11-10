@@ -615,9 +615,95 @@ extension ConnectCasesClient {
 }
 
 extension ConnectCasesClient {
+    /// Performs the `BatchCreateRelatedItem` operation on the `ConnectCases` service.
+    ///
+    /// Creates a comment and associates it with multiple cases in a single request. All cases must belong to the same domain. This operation supports only the Comment related item type. Each case is processed independently. If some cases fail, the remaining cases still receive the related item. To determine whether individual items failed, inspect the failedItems array in the response. The entire request fails, and no related items are created, in the following cases:
+    ///
+    /// * The specified domain doesn't exist.
+    ///
+    /// * A reference ID doesn't match any case in the domain.
+    ///
+    /// * The request contains duplicate case IDs.
+    ///
+    /// * The content isn't comment content.
+    ///
+    ///
+    /// This operation uses the same IAM action as [CreateRelatedItem](https://docs.aws.amazon.com/cases/latest/APIReference/API_CreateRelatedItem.html) (cases:CreateRelatedItem). You can use the cases:IsBatchAction condition key in IAM policies to allow or deny batch operations independently from single-case operations. If you provide a value for performedBy.userArn, you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide. Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateRelatedItemInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchCreateRelatedItemOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
+    public func batchCreateRelatedItem(input: BatchCreateRelatedItemInput) async throws -> BatchCreateRelatedItemOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchCreateRelatedItem")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cases")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>(BatchCreateRelatedItemInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchCreateRelatedItemInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateRelatedItemOutput>(BatchCreateRelatedItemOutput.httpOutput(from:), BatchCreateRelatedItemOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateRelatedItemOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ConnectCases", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchCreateRelatedItemOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchCreateRelatedItemOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ConnectCases"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchCreateRelatedItemInput, BatchCreateRelatedItemOutput>(serviceID: serviceName, version: ConnectCasesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ConnectCases")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchCreateRelatedItem")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `BatchGetCaseRule` operation on the `ConnectCases` service.
     ///
-    /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    /// Gets a batch of case rules. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchGetCaseRuleInput`)
     ///
@@ -773,7 +859,7 @@ extension ConnectCasesClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func batchPutFieldOptions(input: BatchPutFieldOptionsInput) async throws -> BatchPutFieldOptionsOutput {
@@ -832,13 +918,107 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `BatchUpdateCase` operation on the `ConnectCases` service.
+    ///
+    /// Updates fields on multiple cases in a single request. All cases must belong to the same domain. Set the title, status, and customer ID through the top-level title, status, and customerId parameters, and set other fields through the fields array. Each case is processed independently. If some cases fail, the remaining cases are still updated. To determine whether individual cases failed, inspect the failedCases array in the response. The entire request fails, and no cases are updated, in the following cases:
+    ///
+    /// * The specified domain doesn't exist.
+    ///
+    /// * A reference ID doesn't match any case in the domain.
+    ///
+    /// * The request contains duplicate case IDs.
+    ///
+    /// * The request doesn't specify any update. Provide at least one entry in fields, or a title, status, or customerId.
+    ///
+    /// * A field identifier in fields doesn't resolve to a field in the domain, for example, an unknown field name.
+    ///
+    /// * A field name contains a pipe (|) or comma (,) character.
+    ///
+    /// * fields includes title, status, or customerId.
+    ///
+    ///
+    /// This operation uses the same IAM action as [UpdateCase](https://docs.aws.amazon.com/cases/latest/APIReference/API_UpdateCase.html) (cases:UpdateCase). You can use the cases:IsBatchAction condition key in IAM policies to allow or deny batch operations independently from single-case operations. If you provide a value for performedBy.userArn, you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide. Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateCaseInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `BatchUpdateCaseOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
+    public func batchUpdateCase(input: BatchUpdateCaseInput) async throws -> BatchUpdateCaseOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "batchUpdateCase")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cases")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<BatchUpdateCaseInput, BatchUpdateCaseOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>(BatchUpdateCaseInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: BatchUpdateCaseInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateCaseOutput>(BatchUpdateCaseOutput.httpOutput(from:), BatchUpdateCaseOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateCaseOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ConnectCases", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchUpdateCaseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchUpdateCaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ConnectCases"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<BatchUpdateCaseInput, BatchUpdateCaseOutput>(serviceID: serviceName, version: ConnectCasesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ConnectCases")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BatchUpdateCase")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateCase` operation on the `ConnectCases` service.
     ///
-    /// If you provide a value for PerformedBy.UserArn you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the User ARN resource that you provide Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following fields are required when creating a case:
-    ///
-    /// * customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID
+    /// If you provide a value for PerformedBy.UserArn, you must also have the [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the user ARN that you provide. Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following field is always required when creating a case:
     ///
     /// * title
+    ///
+    ///
+    /// The following field may be required depending on the template configuration:
+    ///
+    /// * customer_id - Required only if the template's requiredFields list includes customer_id. When required, provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account_ID:domains/your_profiles_domain_name/profiles/profile_ID. When not required, the field is optional and can be omitted, added, changed, or removed after case creation.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateCaseInput`)
     ///
@@ -912,7 +1092,7 @@ extension ConnectCasesClient {
 
     /// Performs the `CreateCaseRule` operation on the `ConnectCases` service.
     ///
-    /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    /// Creates a new case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateCaseRuleInput`)
     ///
@@ -925,7 +1105,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createCaseRule(input: CreateCaseRuleInput) async throws -> CreateCaseRuleOutput {
@@ -986,7 +1166,7 @@ extension ConnectCasesClient {
 
     /// Performs the `CreateDomain` operation on the `ConnectCases` service.
     ///
-    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
+    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Connect Customer instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Connect Customer [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
@@ -998,7 +1178,7 @@ extension ConnectCasesClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
@@ -1072,7 +1252,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createField(input: CreateFieldInput) async throws -> CreateFieldOutput {
@@ -1153,7 +1333,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createLayout(input: CreateLayoutInput) async throws -> CreateLayoutOutput {
@@ -1214,7 +1394,7 @@ extension ConnectCasesClient {
 
     /// Performs the `CreateRelatedItem` operation on the `ConnectCases` service.
     ///
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See [Amazon Connect Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas). Use cases Following are examples of related items that you may want to associate with a case:
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See [Connect Customer Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas). Use cases Following are examples of related items that you may want to associate with a case:
     ///
     /// * Related contacts, such as calls, chats, emails tasks
     ///
@@ -1222,7 +1402,7 @@ extension ConnectCasesClient {
     ///
     /// * SLAs, to capture target resolution goals
     ///
-    /// * Cases, to capture related Amazon Connect Cases
+    /// * Cases, to capture related Connect Customer Cases
     ///
     /// * Files, such as policy documentation or customer-provided attachments
     ///
@@ -1235,12 +1415,10 @@ extension ConnectCasesClient {
     ///
     /// * A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.
     ///
-    /// * If you provide a value for performedBy.userArn you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide.
-    ///
-    /// * The type field is reserved for internal use only.
+    /// * If you provide a value for performedBy.userArn, you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide.
     ///
     ///
-    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    /// Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateRelatedItemInput`)
     ///
@@ -1252,7 +1430,7 @@ extension ConnectCasesClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutput {
@@ -1334,7 +1512,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutput {
@@ -1473,7 +1651,7 @@ extension ConnectCasesClient {
 
     /// Performs the `DeleteCaseRule` operation on the `ConnectCases` service.
     ///
-    /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    /// Deletes a case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteCaseRuleInput`)
     ///
@@ -1542,7 +1720,7 @@ extension ConnectCasesClient {
 
     /// Performs the `DeleteDomain` operation on the `ConnectCases` service.
     ///
-    /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
+    /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Connect Customer instance with another API call before being able to use Cases again with this Connect Customer instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
@@ -1612,7 +1790,7 @@ extension ConnectCasesClient {
 
     /// Performs the `DeleteField` operation on the `ConnectCases` service.
     ///
-    /// Deletes a field from a cases template. After a field is deleted:
+    /// Deletes a field from a Cases template. After a field is deleted:
     ///
     /// * You can still retrieve the field by calling BatchGetField.
     ///
@@ -1649,7 +1827,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func deleteField(input: DeleteFieldInput) async throws -> DeleteFieldOutput {
@@ -1707,7 +1885,7 @@ extension ConnectCasesClient {
 
     /// Performs the `DeleteLayout` operation on the `ConnectCases` service.
     ///
-    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted:
+    /// Deletes a layout from a Cases template. You can delete up to 100 layouts per domain. After a layout is deleted:
     ///
     /// * You can still retrieve the layout by calling GetLayout.
     ///
@@ -1852,7 +2030,7 @@ extension ConnectCasesClient {
 
     /// Performs the `DeleteTemplate` operation on the `ConnectCases` service.
     ///
-    /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted:
+    /// Deletes a Cases template. You can delete up to 100 templates per domain. After a Cases template is deleted:
     ///
     /// * You can still retrieve the template by calling GetTemplate.
     ///
@@ -2358,7 +2536,7 @@ extension ConnectCasesClient {
 
     /// Performs the `ListCaseRules` operation on the `ConnectCases` service.
     ///
-    /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    /// Lists all case rules in a Cases domain. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `ListCaseRulesInput`)
     ///
@@ -2926,7 +3104,7 @@ extension ConnectCasesClient {
 
     /// Performs the `PutCaseEventConfiguration` operation on the `ConnectCases` service.
     ///
-    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html) in the Amazon Connect Administrator Guide
+    /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html) in the Connect Customer Administrator Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutCaseEventConfigurationInput`)
     ///
@@ -3015,7 +3193,7 @@ extension ConnectCasesClient {
     /// * This API searches across related items content, not case fields. Use the [SearchCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchCases.html) API to search within case field values.
     ///
     ///
-    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    /// Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchAllRelatedItemsInput`)
     ///
@@ -3373,7 +3551,7 @@ extension ConnectCasesClient {
 
     /// Performs the `UpdateCase` operation on the `ConnectCases` service.
     ///
-    /// If you provide a value for PerformedBy.UserArn you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// If you provide a value for PerformedBy.UserArn, you must also have the [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the user ARN that you provide. Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateCaseInput`)
     ///
@@ -3445,7 +3623,7 @@ extension ConnectCasesClient {
 
     /// Performs the `UpdateCaseRule` operation on the `ConnectCases` service.
     ///
-    /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
+    /// Updates a case rule. In the Connect Customer admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateCaseRuleInput`)
     ///
@@ -3458,7 +3636,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateCaseRule(input: UpdateCaseRuleInput) async throws -> UpdateCaseRuleOutput {
@@ -3605,7 +3783,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateLayout(input: UpdateLayoutInput) async throws -> UpdateLayoutOutput {
@@ -3670,19 +3848,19 @@ extension ConnectCasesClient {
     ///
     /// * Comment - Update the text content of an existing comment
     ///
-    /// * Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See [Amazon Connect Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas).
+    /// * Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See [Connect Customer Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas).
     ///
     ///
     /// Important things to know
     ///
     /// * When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.
     ///
-    /// * If you provide a value for performedBy.userArn you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide.
+    /// * If you provide a value for performedBy.userArn, you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide.
     ///
     /// * [System case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html#system-case-fields) cannot be used in a custom related item.
     ///
     ///
-    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    /// Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateRelatedItemInput`)
     ///
@@ -3694,7 +3872,7 @@ extension ConnectCasesClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateRelatedItem(input: UpdateRelatedItemInput) async throws -> UpdateRelatedItemOutput {
@@ -3776,7 +3954,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
-    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {

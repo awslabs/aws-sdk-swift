@@ -190,6 +190,7 @@ extension ListCallerAccessGrantsInput: ClientRuntime.PaginateToken {
             accountId: self.accountId,
             allowedByApplication: self.allowedByApplication,
             grantScope: self.grantScope,
+            instanceScope: self.instanceScope,
             maxResults: self.maxResults,
             nextToken: token
         )}

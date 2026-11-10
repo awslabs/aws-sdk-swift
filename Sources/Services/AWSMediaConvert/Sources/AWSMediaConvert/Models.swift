@@ -5325,8 +5325,40 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify the source of the captions for this caption description. Choose Captions input source (INPUT_CAPTION_SELECTOR) to use a caption selector from your input. Choose Smart subtitling (SMART_SUBTITLE) to have MediaConvert and Elemental Inference generate subtitles automatically from an audio source that you specify.
+    public enum CaptionSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inputCaptionSelector
+        case smartSubtitle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CaptionSource] {
+            return [
+                .inputCaptionSelector,
+                .smartSubtitle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inputCaptionSelector: return "INPUT_CAPTION_SELECTOR"
+            case .smartSubtitle: return "SMART_SUBTITLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// This object holds groups of settings related to captions for one output. For each output that has captions, include one instance of CaptionDescriptions.
     public struct CaptionDescription: Swift.Sendable {
+        /// Specifies the audio selector or audio selector group that MediaConvert uses to generate Smart subtitles. The audio selector you choose must exist in all inputs for the job. If MediaConvert can't detect speech in the audio, it can't generate subtitles. Required when source is SMART_SUBTITLE; not allowed otherwise.
+        public var audioSourceNames: [Swift.String]?
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
         public var captionSelectorName: Swift.String?
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
@@ -5337,19 +5369,25 @@ extension MediaConvertClientTypes {
         public var languageCode: MediaConvertClientTypes.LanguageCode?
         /// Specify a label for this set of output captions. For example, "English", "Director commentary", or "track_2". For streaming outputs, MediaConvert passes this information into destination manifests for display on the end-viewer's player device. For outputs in other output groups, the service ignores this setting.
         public var languageDescription: Swift.String?
+        /// Specify the source of the captions for this caption description. Choose Captions input source (INPUT_CAPTION_SELECTOR) to use a caption selector from your input. Choose Smart subtitling (SMART_SUBTITLE) to have MediaConvert and Elemental Inference generate subtitles automatically from an audio source that you specify.
+        public var source: MediaConvertClientTypes.CaptionSource?
 
         public init(
+            audioSourceNames: [Swift.String]? = nil,
             captionSelectorName: Swift.String? = nil,
             customLanguageCode: Swift.String? = nil,
             destinationSettings: MediaConvertClientTypes.CaptionDestinationSettings? = nil,
             languageCode: MediaConvertClientTypes.LanguageCode? = nil,
-            languageDescription: Swift.String? = nil
+            languageDescription: Swift.String? = nil,
+            source: MediaConvertClientTypes.CaptionSource? = nil
         ) {
+            self.audioSourceNames = audioSourceNames
             self.captionSelectorName = captionSelectorName
             self.customLanguageCode = customLanguageCode
             self.destinationSettings = destinationSettings
             self.languageCode = languageCode
             self.languageDescription = languageDescription
+            self.source = source
         }
     }
 }
@@ -5676,11 +5714,13 @@ extension MediaConvertClientTypes {
     /// Elemental Inference feature.
     public enum ElementalInferenceFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case smartCrop
+        case smartSubtitle
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ElementalInferenceFeature] {
             return [
-                .smartCrop
+                .smartCrop,
+                .smartSubtitle
             ]
         }
 
@@ -5692,6 +5732,7 @@ extension MediaConvertClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .smartCrop: return "SMART_CROP"
+            case .smartSubtitle: return "SMART_SUBTITLE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5736,9 +5777,9 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Elemental Inference Feed.
+    /// An AWS Elemental Inference Feed.
     public struct ElementalInferenceFeed: Swift.Sendable {
-        /// Feed ARN.
+        /// The ARN of an AWS Elemental Inference Feed.
         public var arn: Swift.String?
         /// Elemental Inference Feed management state.
         public var feedManagementState: MediaConvertClientTypes.ElementalInferenceFeedManagementState?
@@ -8496,7 +8537,7 @@ extension MediaConvertClientTypes {
     public struct ElementalInferenceConfiguration: Swift.Sendable {
         /// A list of Elemental Inference features used in this job.
         public var features: [MediaConvertClientTypes.ElementalInferenceFeature]?
-        /// A list of Elemental Inference feeds used by this job.
+        /// A list of Elemental Inference feeds created during this job.
         public var feeds: [MediaConvertClientTypes.ElementalInferenceFeed]?
 
         public init(
@@ -8505,6 +8546,36 @@ extension MediaConvertClientTypes {
         ) {
             self.features = features
             self.feeds = feeds
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The source of your Elemental Inference Feed configuration.
+    public struct ElementalInferenceFeedConfigurationSource: Swift.Sendable {
+        /// The ARN of an Elemental Inference Feed.
+        public var feedArn: Swift.String?
+
+        public init(
+            feedArn: Swift.String? = nil
+        ) {
+            self.feedArn = feedArn
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The Elemental Inference settings used in this job.
+    public struct ElementalInferenceSettings: Swift.Sendable {
+        /// Optional. The source of your Elemental Inference Feed configuration. MediaConvert will reference this configuration source when you specify job settings which use Elemental Inference.
+        public var feedConfigurationSource: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource?
+
+        public init(
+            feedConfigurationSource: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource? = nil
+        ) {
+            self.feedConfigurationSource = feedConfigurationSource
         }
     }
 }
@@ -23177,6 +23248,8 @@ extension MediaConvertClientTypes {
         public var currentPhase: MediaConvertClientTypes.JobPhase?
         /// The Elemental Inference configuration used in this job.
         public var elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration?
+        /// The Elemental Inference settings used in this job.
+        public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
         /// Error code for the job
         public var errorCode: Swift.Int?
         /// Error message of Job
@@ -23237,6 +23310,7 @@ extension MediaConvertClientTypes {
             createdAt: Foundation.Date? = nil,
             currentPhase: MediaConvertClientTypes.JobPhase? = nil,
             elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration? = nil,
+            elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
             errorCode: Swift.Int? = nil,
             errorMessage: Swift.String? = nil,
             hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
@@ -23270,6 +23344,7 @@ extension MediaConvertClientTypes {
             self.createdAt = createdAt
             self.currentPhase = currentPhase
             self.elementalInferenceConfiguration = elementalInferenceConfiguration
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.hopDestinations = hopDestinations
@@ -23498,6 +23573,8 @@ extension MediaConvertClientTypes {
         public var createdAt: Foundation.Date?
         /// An optional description you create for each job template.
         public var description: Swift.String?
+        /// The Elemental Inference settings used in this job.
+        public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
         /// Optional list of hop destinations.
         public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
         /// The timestamp in epoch seconds when the Job template was last updated.
@@ -23523,6 +23600,7 @@ extension MediaConvertClientTypes {
             category: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
             hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -23537,6 +23615,7 @@ extension MediaConvertClientTypes {
             self.category = category
             self.createdAt = createdAt
             self.description = description
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.hopDestinations = hopDestinations
             self.lastUpdated = lastUpdated
             self.name = name
@@ -25148,6 +25227,8 @@ public struct CreateJobInput: Swift.Sendable {
     public var billingTagsSource: MediaConvertClientTypes.BillingTagsSource?
     /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
     public var clientRequestToken: Swift.String?
+    /// The Elemental Inference settings used in this job.
+    public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
     /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
     /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
@@ -25177,6 +25258,7 @@ public struct CreateJobInput: Swift.Sendable {
         accelerationSettings: MediaConvertClientTypes.AccelerationSettings? = nil,
         billingTagsSource: MediaConvertClientTypes.BillingTagsSource? = nil,
         clientRequestToken: Swift.String? = nil,
+        elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
         hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
         jobEngineVersion: Swift.String? = nil,
         jobTemplate: Swift.String? = nil,
@@ -25192,6 +25274,7 @@ public struct CreateJobInput: Swift.Sendable {
         self.accelerationSettings = accelerationSettings
         self.billingTagsSource = billingTagsSource
         self.clientRequestToken = clientRequestToken
+        self.elementalInferenceSettings = elementalInferenceSettings
         self.hopDestinations = hopDestinations
         self.jobEngineVersion = jobEngineVersion
         self.jobTemplate = jobTemplate
@@ -25224,6 +25307,8 @@ public struct CreateJobTemplateInput: Swift.Sendable {
     public var category: Swift.String?
     /// Optional. A description of the job template you are creating.
     public var description: Swift.String?
+    /// The Elemental Inference settings used in this job.
+    public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
     /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
     /// The name of the job template you are creating.
@@ -25245,6 +25330,7 @@ public struct CreateJobTemplateInput: Swift.Sendable {
         accelerationSettings: MediaConvertClientTypes.AccelerationSettings? = nil,
         category: Swift.String? = nil,
         description: Swift.String? = nil,
+        elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
         hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -25256,6 +25342,7 @@ public struct CreateJobTemplateInput: Swift.Sendable {
         self.accelerationSettings = accelerationSettings
         self.category = category
         self.description = description
+        self.elementalInferenceSettings = elementalInferenceSettings
         self.hopDestinations = hopDestinations
         self.name = name
         self.priority = priority
@@ -26358,6 +26445,8 @@ public struct UpdateJobTemplateInput: Swift.Sendable {
     public var category: Swift.String?
     /// The new description for the job template, if you are changing it.
     public var description: Swift.String?
+    /// The Elemental Inference settings used in this job.
+    public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
     /// Optional list of hop destinations.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
     /// The name of the job template you are modifying
@@ -26376,6 +26465,7 @@ public struct UpdateJobTemplateInput: Swift.Sendable {
         accelerationSettings: MediaConvertClientTypes.AccelerationSettings? = nil,
         category: Swift.String? = nil,
         description: Swift.String? = nil,
+        elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
         hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -26386,6 +26476,7 @@ public struct UpdateJobTemplateInput: Swift.Sendable {
         self.accelerationSettings = accelerationSettings
         self.category = category
         self.description = description
+        self.elementalInferenceSettings = elementalInferenceSettings
         self.hopDestinations = hopDestinations
         self.name = name
         self.priority = priority
@@ -26938,6 +27029,7 @@ extension CreateJobInput {
         try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
         try writer["billingTagsSource"].write(value.billingTagsSource)
         try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["elementalInferenceSettings"].write(value.elementalInferenceSettings, with: MediaConvertClientTypes.ElementalInferenceSettings.write(value:to:))
         try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["jobEngineVersion"].write(value.jobEngineVersion)
         try writer["jobTemplate"].write(value.jobTemplate)
@@ -26959,6 +27051,7 @@ extension CreateJobTemplateInput {
         try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
         try writer["category"].write(value.category)
         try writer["description"].write(value.description)
+        try writer["elementalInferenceSettings"].write(value.elementalInferenceSettings, with: MediaConvertClientTypes.ElementalInferenceSettings.write(value:to:))
         try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["priority"].write(value.priority)
@@ -27066,6 +27159,7 @@ extension UpdateJobTemplateInput {
         try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
         try writer["category"].write(value.category)
         try writer["description"].write(value.description)
+        try writer["elementalInferenceSettings"].write(value.elementalInferenceSettings, with: MediaConvertClientTypes.ElementalInferenceSettings.write(value:to:))
         try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["priority"].write(value.priority)
         try writer["queue"].write(value.queue)
@@ -28949,21 +29043,25 @@ extension MediaConvertClientTypes.CaptionDescription {
 
     static func write(value: MediaConvertClientTypes.CaptionDescription?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioSourceNames"].writeList(value.audioSourceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["captionSelectorName"].write(value.captionSelectorName)
         try writer["customLanguageCode"].write(value.customLanguageCode)
         try writer["destinationSettings"].write(value.destinationSettings, with: MediaConvertClientTypes.CaptionDestinationSettings.write(value:to:))
         try writer["languageCode"].write(value.languageCode)
         try writer["languageDescription"].write(value.languageDescription)
+        try writer["source"].write(value.source)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.CaptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.CaptionDescription()
+        value.audioSourceNames = try reader["audioSourceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.captionSelectorName = try reader["captionSelectorName"].readIfPresent()
         value.customLanguageCode = try reader["customLanguageCode"].readIfPresent()
         value.destinationSettings = try reader["destinationSettings"].readIfPresent(with: MediaConvertClientTypes.CaptionDestinationSettings.read(from:))
         value.languageCode = try reader["languageCode"].readIfPresent()
         value.languageDescription = try reader["languageDescription"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
         return value
     }
 }
@@ -30028,6 +30126,36 @@ extension MediaConvertClientTypes.ElementalInferenceFeed {
         var value = MediaConvertClientTypes.ElementalInferenceFeed()
         value.arn = try reader["arn"].readIfPresent()
         value.feedManagementState = try reader["feedManagementState"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource {
+
+    static func write(value: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["feedArn"].write(value.feedArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource()
+        value.feedArn = try reader["feedArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.ElementalInferenceSettings {
+
+    static func write(value: MediaConvertClientTypes.ElementalInferenceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["feedConfigurationSource"].write(value.feedConfigurationSource, with: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceSettings()
+        value.feedConfigurationSource = try reader["feedConfigurationSource"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource.read(from:))
         return value
     }
 }
@@ -31220,6 +31348,7 @@ extension MediaConvertClientTypes.Job {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.currentPhase = try reader["currentPhase"].readIfPresent()
         value.elementalInferenceConfiguration = try reader["elementalInferenceConfiguration"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceConfiguration.read(from:))
+        value.elementalInferenceSettings = try reader["elementalInferenceSettings"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceSettings.read(from:))
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.hopDestinations = try reader["hopDestinations"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HopDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31332,6 +31461,7 @@ extension MediaConvertClientTypes.JobTemplate {
         value.category = try reader["category"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
+        value.elementalInferenceSettings = try reader["elementalInferenceSettings"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceSettings.read(from:))
         value.hopDestinations = try reader["hopDestinations"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HopDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent() ?? ""

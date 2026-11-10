@@ -8614,6 +8614,159 @@ public struct InvokeHarnessOutput: Swift.Sendable {
     }
 }
 
+/// The service can't handle the request right now. Retry the request. If the response includes retryAfterSeconds, wait that many seconds before you retry.
+public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A message that describes the error.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The number of seconds to wait before you retry the request.
+        public internal(set) var retryAfterSeconds: Swift.Int? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceUnavailableException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        retryAfterSeconds: Swift.Int? = nil
+    ) {
+        self.properties.message = message
+        self.properties.retryAfterSeconds = retryAfterSeconds
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The domains to include in or exclude from the results. A root domain also matches its subdomains. For example, example.com also matches docs.example.com.
+    public struct DomainFilter: Swift.Sendable {
+        /// The domains to never return results from.
+        public var exclude: [Swift.String]?
+        /// The domains to return results from. Results from other domains are not returned.
+        public var include: [Swift.String]?
+
+        public init(
+            exclude: [Swift.String]? = nil,
+            include: [Swift.String]? = nil
+        ) {
+            self.exclude = exclude
+            self.include = include
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A publication time range for the results. Both bounds are optional, and both are inclusive. If publishedAfter is later than publishedBefore, the request fails with a ValidationException.
+    public struct PublishedDateFilter: Swift.Sendable {
+        /// The earliest publication time of the results, inclusive.
+        public var publishedAfter: Foundation.Date?
+        /// The latest publication time of the results, inclusive. A date without a time, such as one passed to the AWS CLI, means midnight UTC. To include a whole day, use the last second of that day, for example 2026-01-31T23:59:59Z.
+        public var publishedBefore: Foundation.Date?
+
+        public init(
+            publishedAfter: Foundation.Date? = nil,
+            publishedBefore: Foundation.Date? = nil
+        ) {
+            self.publishedAfter = publishedAfter
+            self.publishedBefore = publishedBefore
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The filters to apply to a web search.
+    public struct WebSearchFilters: Swift.Sendable {
+        /// The domains to include in or exclude from the results.
+        public var domainFilter: BedrockAgentCoreClientTypes.DomainFilter?
+        /// The publication time range of the results.
+        public var publishedDateFilter: BedrockAgentCoreClientTypes.PublishedDateFilter?
+
+        public init(
+            domainFilter: BedrockAgentCoreClientTypes.DomainFilter? = nil,
+            publishedDateFilter: BedrockAgentCoreClientTypes.PublishedDateFilter? = nil
+        ) {
+            self.domainFilter = domainFilter
+            self.publishedDateFilter = publishedDateFilter
+        }
+    }
+}
+
+/// Request for the InvokeWebSearch operation.
+public struct InvokeWebSearchInput: Swift.Sendable {
+    /// The filters to apply to the search results.
+    public var filters: BedrockAgentCoreClientTypes.WebSearchFilters?
+    /// The maximum number of results to return. Defaults to 25.
+    public var maxResults: Swift.Int?
+    /// The text to search for.
+    /// This member is required.
+    public var searchQuery: Swift.String?
+    /// The identifier of the web search tool to invoke. The Amazon Web Services-managed web search tool is web-search.v1.
+    /// This member is required.
+    public var webSearchId: Swift.String?
+
+    public init(
+        filters: BedrockAgentCoreClientTypes.WebSearchFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        searchQuery: Swift.String? = nil,
+        webSearchId: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.searchQuery = searchQuery
+        self.webSearchId = webSearchId
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// A web search result.
+    public struct WebSearchResult: Swift.Sendable {
+        /// The time the page was published. This field is absent when the publication time is not known.
+        public var publishedAt: Foundation.Date?
+        /// A text extract from the page.
+        /// This member is required.
+        public var text: Swift.String?
+        /// The title of the page.
+        public var title: Swift.String?
+        /// The URL of the page.
+        public var url: Swift.String?
+
+        public init(
+            publishedAt: Foundation.Date? = nil,
+            text: Swift.String? = nil,
+            title: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.publishedAt = publishedAt
+            self.text = text
+            self.title = title
+            self.url = url
+        }
+    }
+}
+
+/// Response for the InvokeWebSearch operation.
+public struct InvokeWebSearchOutput: Swift.Sendable {
+    /// The search results, in ranked order.
+    /// This member is required.
+    public var results: [BedrockAgentCoreClientTypes.WebSearchResult]?
+
+    public init(
+        results: [BedrockAgentCoreClientTypes.WebSearchResult]? = nil
+    ) {
+        self.results = results
+    }
+}
+
 /// The service encountered an internal error. Try your request again later.
 public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -12851,6 +13004,16 @@ extension InvokeHarnessInput {
     }
 }
 
+extension InvokeWebSearchInput {
+
+    static func urlPathProvider(_ value: InvokeWebSearchInput) -> Swift.String? {
+        guard let webSearchId = value.webSearchId else {
+            return nil
+        }
+        return "/web-search/\(webSearchId.urlPercentEncoding())/invoke"
+    }
+}
+
 extension ListABTestsInput {
 
     static func urlPathProvider(_ value: ListABTestsInput) -> Swift.String? {
@@ -13608,6 +13771,16 @@ extension InvokeHarnessInput {
         try writer["systemPrompt"].writeList(value.systemPrompt, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessSystemContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timeoutSeconds"].write(value.timeoutSeconds)
         try writer["tools"].writeList(value.tools, memberWritingClosure: BedrockAgentCoreClientTypes.HarnessTool.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InvokeWebSearchInput {
+
+    static func write(value: InvokeWebSearchInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].write(value.filters, with: BedrockAgentCoreClientTypes.WebSearchFilters.write(value:to:))
+        try writer["maxResults"].write(value.maxResults)
+        try writer["searchQuery"].write(value.searchQuery)
     }
 }
 
@@ -14488,6 +14661,18 @@ extension InvokeHarnessOutput {
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockAgentCoreClientTypes.InvokeHarnessStreamOutput.unmarshal)
             value.stream = decoderStream.toAsyncStream()
         }
+        return value
+    }
+}
+
+extension InvokeWebSearchOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> InvokeWebSearchOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = InvokeWebSearchOutput()
+        value.results = try reader["results"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.WebSearchResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15651,6 +15836,25 @@ enum InvokeHarnessOutputError {
     }
 }
 
+enum InvokeWebSearchOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListABTestsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16366,6 +16570,20 @@ extension RuntimeClientError {
         let reader = baseError.errorBodyReader
         var value = RuntimeClientError()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.retryAfterSeconds = try reader["retryAfterSeconds"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -17418,6 +17636,15 @@ extension BedrockAgentCoreClientTypes.Descriptors {
         value.custom = try reader["custom"].readIfPresent(with: BedrockAgentCoreClientTypes.CustomDescriptor.read(from:))
         value.agentSkills = try reader["agentSkills"].readIfPresent(with: BedrockAgentCoreClientTypes.AgentSkillsDescriptor.read(from:))
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.DomainFilter {
+
+    static func write(value: BedrockAgentCoreClientTypes.DomainFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exclude"].writeList(value.exclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -19491,6 +19718,15 @@ extension BedrockAgentCoreClientTypes.ProxyCredentials {
     }
 }
 
+extension BedrockAgentCoreClientTypes.PublishedDateFilter {
+
+    static func write(value: BedrockAgentCoreClientTypes.PublishedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["publishedAfter"].writeTimestamp(value.publishedAfter, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["publishedBefore"].writeTimestamp(value.publishedBefore, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
 extension BedrockAgentCoreClientTypes.RecommendationConfig {
 
     static func write(value: BedrockAgentCoreClientTypes.RecommendationConfig?, to writer: SmithyJSON.Writer) throws {
@@ -20500,6 +20736,28 @@ extension BedrockAgentCoreClientTypes.ViewPort {
         var value = BedrockAgentCoreClientTypes.ViewPort()
         value.width = try reader["width"].readIfPresent() ?? 0
         value.height = try reader["height"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.WebSearchFilters {
+
+    static func write(value: BedrockAgentCoreClientTypes.WebSearchFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainFilter"].write(value.domainFilter, with: BedrockAgentCoreClientTypes.DomainFilter.write(value:to:))
+        try writer["publishedDateFilter"].write(value.publishedDateFilter, with: BedrockAgentCoreClientTypes.PublishedDateFilter.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreClientTypes.WebSearchResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.WebSearchResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.WebSearchResult()
+        value.title = try reader["title"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.publishedAt = try reader["publishedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }

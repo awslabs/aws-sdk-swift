@@ -615,6 +615,78 @@ extension SigninClient {
 }
 
 extension SigninClient {
+    /// Performs the `CreateBearerToken` operation on the `Signin` service.
+    ///
+    /// Creates a bearer token that represents your IAM credentials and can be used to access a supported AWS service. By default, the token is valid for 12 hours.
+    ///
+    /// - Parameter input: Input structure for CreateBearerToken operation (Type: `CreateBearerTokenInput`)
+    ///
+    /// - Returns: Output structure for CreateBearerToken operation Contains the bearer token, its type, and its lifetime. (Type: `CreateBearerTokenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request failed because of an internal server error.
+    /// - `TooManyRequestsError` : The request failed because you exceeded the request rate limit for this operation.
+    /// - `ValidationException` : The request failed because it contains a malformed, missing, or invalid parameter.
+    public func createBearerToken(input: CreateBearerTokenInput) async throws -> CreateBearerTokenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createBearerToken")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "signin")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateBearerTokenInput, CreateBearerTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>(CreateBearerTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>(CreateBearerTokenInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateBearerTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBearerTokenOutput>(CreateBearerTokenOutput.httpOutput(from:), CreateBearerTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateBearerTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Signin", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, isOAuthEndpoint: true, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateBearerTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateBearerTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Signin"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateBearerTokenInput, CreateBearerTokenOutput>(serviceID: serviceName, version: SigninClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Signin")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateBearerToken")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateOAuth2Token` operation on the `Signin` service.
     ///
     /// Exchanges an authorization code or refresh token for an OAuth 2.0 access token and refresh token.

@@ -381,25 +381,29 @@ public struct AssumeRoleForPodIdentityOutput: Swift.Sendable {
     /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
     /// This member is required.
     public var subject: EKSAuthClientTypes.Subject?
+    /// The ARN of the workload identity provider for the returned credentials. Returned only for associations with workload identity enabled.
+    public var workloadIdentityProviderArn: Swift.String?
 
     public init(
         assumedRoleUser: EKSAuthClientTypes.AssumedRoleUser? = nil,
         audience: Swift.String? = nil,
         credentials: EKSAuthClientTypes.Credentials? = nil,
         podIdentityAssociation: EKSAuthClientTypes.PodIdentityAssociation? = nil,
-        subject: EKSAuthClientTypes.Subject? = nil
+        subject: EKSAuthClientTypes.Subject? = nil,
+        workloadIdentityProviderArn: Swift.String? = nil
     ) {
         self.assumedRoleUser = assumedRoleUser
         self.audience = audience
         self.credentials = credentials
         self.podIdentityAssociation = podIdentityAssociation
         self.subject = subject
+        self.workloadIdentityProviderArn = workloadIdentityProviderArn
     }
 }
 
 extension AssumeRoleForPodIdentityOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssumeRoleForPodIdentityOutput(assumedRoleUser: \(Swift.String(describing: assumedRoleUser)), audience: \(Swift.String(describing: audience)), podIdentityAssociation: \(Swift.String(describing: podIdentityAssociation)), subject: \(Swift.String(describing: subject)), credentials: \"CONTENT_REDACTED\")"}
+        "AssumeRoleForPodIdentityOutput(assumedRoleUser: \(Swift.String(describing: assumedRoleUser)), audience: \(Swift.String(describing: audience)), podIdentityAssociation: \(Swift.String(describing: podIdentityAssociation)), subject: \(Swift.String(describing: subject)), workloadIdentityProviderArn: \(Swift.String(describing: workloadIdentityProviderArn)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 extension AssumeRoleForPodIdentityInput {
@@ -435,6 +439,7 @@ extension AssumeRoleForPodIdentityOutput {
         value.credentials = try reader["credentials"].readIfPresent(with: EKSAuthClientTypes.Credentials.read(from:))
         value.podIdentityAssociation = try reader["podIdentityAssociation"].readIfPresent(with: EKSAuthClientTypes.PodIdentityAssociation.read(from:))
         value.subject = try reader["subject"].readIfPresent(with: EKSAuthClientTypes.Subject.read(from:))
+        value.workloadIdentityProviderArn = try reader["workloadIdentityProviderArn"].readIfPresent()
         return value
     }
 }

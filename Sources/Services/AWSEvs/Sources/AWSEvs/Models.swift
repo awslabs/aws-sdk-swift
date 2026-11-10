@@ -551,13 +551,17 @@ extension EvsClientTypes {
         case i4iMetal
         case i7iMetal24xl
         case i7iMetal48xl
+        case r7iMetal24xl
+        case r7iMetal48xl
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceType] {
             return [
                 .i4iMetal,
                 .i7iMetal24xl,
-                .i7iMetal48xl
+                .i7iMetal48xl,
+                .r7iMetal24xl,
+                .r7iMetal48xl
             ]
         }
 
@@ -571,6 +575,8 @@ extension EvsClientTypes {
             case .i4iMetal: return "i4i.metal"
             case .i7iMetal24xl: return "i7i.metal-24xl"
             case .i7iMetal48xl: return "i7i.metal-48xl"
+            case .r7iMetal24xl: return "r7i.metal-24xl"
+            case .r7iMetal48xl: return "r7i.metal-48xl"
             case let .sdkUnknown(s): return s
             }
         }
@@ -586,7 +592,7 @@ extension EvsClientTypes {
         /// The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF.
         /// This member is required.
         public var hostName: Swift.String?
-        /// The EC2 instance type that represents the host.
+        /// The EC2 instance type that represents the host. With VCF 5.2.x, you can use only the i4i.metal, i7i.metal-24xl, and i7i.metal-48xl instance types. All of these instance types are supported with vcfVersion set to SELF_DEPLOYED.
         /// This member is required.
         public var instanceType: EvsClientTypes.InstanceType?
         /// The name of the SSH key that is used to access the host.

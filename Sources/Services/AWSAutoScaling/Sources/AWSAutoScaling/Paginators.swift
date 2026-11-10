@@ -31,6 +31,7 @@ extension DescribeAutoScalingGroupsInput: ClientRuntime.PaginateToken {
             autoScalingGroupNames: self.autoScalingGroupNames,
             filters: self.filters,
             includeInstances: self.includeInstances,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )}
@@ -61,6 +62,7 @@ extension AutoScalingClient {
 extension DescribeAutoScalingInstancesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeAutoScalingInstancesInput {
         return DescribeAutoScalingInstancesInput(
+            includeManagedResources: self.includeManagedResources,
             instanceIds: self.instanceIds,
             maxRecords: self.maxRecords,
             nextToken: token
@@ -191,6 +193,7 @@ extension DescribeNotificationConfigurationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeNotificationConfigurationsInput {
         return DescribeNotificationConfigurationsInput(
             autoScalingGroupNames: self.autoScalingGroupNames,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )}
@@ -222,6 +225,7 @@ extension DescribePoliciesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribePoliciesInput {
         return DescribePoliciesInput(
             autoScalingGroupName: self.autoScalingGroupName,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token,
             policyNames: self.policyNames,
@@ -258,6 +262,7 @@ extension DescribeScalingActivitiesInput: ClientRuntime.PaginateToken {
             autoScalingGroupName: self.autoScalingGroupName,
             filters: self.filters,
             includeDeletedGroups: self.includeDeletedGroups,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )}
@@ -290,6 +295,7 @@ extension DescribeScheduledActionsInput: ClientRuntime.PaginateToken {
         return DescribeScheduledActionsInput(
             autoScalingGroupName: self.autoScalingGroupName,
             endTime: self.endTime,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token,
             scheduledActionNames: self.scheduledActionNames,
@@ -323,6 +329,7 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeTagsInput {
         return DescribeTagsInput(
             filters: self.filters,
+            includeManagedResources: self.includeManagedResources,
             maxRecords: self.maxRecords,
             nextToken: token
         )}
