@@ -1372,6 +1372,83 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateSystemTableConfiguration` operation on the `Athena` service.
+    ///
+    /// Enables system tables for the current account. System tables are enabled or disabled for the entire account: creating this configuration enables them. If a configuration already exists, use [UpdateSystemTableConfiguration] to update it.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSystemTableConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSystemTableConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
+    /// - `TooManyRequestsException` : Indicates that the request was throttled.
+    public func createSystemTableConfiguration(input: CreateSystemTableConfigurationInput) async throws -> CreateSystemTableConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AthenaClient.createSystemTableConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSystemTableConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "athena")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>(keyPath: \.clientRequestToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSystemTableConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Athena", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSystemTableConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.CreateSystemTableConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Athena"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSystemTableConfigurationInput, CreateSystemTableConfigurationOutput>(serviceID: serviceName, version: AthenaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSystemTableConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateWorkGroup` operation on the `Athena` service.
     ///
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
@@ -1813,6 +1890,82 @@ extension AthenaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeletePreparedStatement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteSystemTableConfiguration` operation on the `Athena` service.
+    ///
+    /// Disables system tables for the current account by deleting the account-level configuration. If the configuration doesn't exist, the operation succeeds without making any changes. The system table and previously published data are left intact.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSystemTableConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSystemTableConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
+    /// - `TooManyRequestsException` : Indicates that the request was throttled.
+    public func deleteSystemTableConfiguration(input: DeleteSystemTableConfigurationInput) async throws -> DeleteSystemTableConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AthenaClient.deleteSystemTableConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSystemTableConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "athena")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSystemTableConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Athena", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSystemTableConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.DeleteSystemTableConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Athena"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSystemTableConfigurationInput, DeleteSystemTableConfigurationOutput>(serviceID: serviceName, version: AthenaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSystemTableConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3262,6 +3415,83 @@ extension AthenaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetSystemTableConfiguration` operation on the `Athena` service.
+    ///
+    /// Returns the account-level system tables configuration. Fails with a ResourceNotFoundException if system tables are not enabled for the account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSystemTableConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSystemTableConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
+    /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
+    /// - `TooManyRequestsException` : Indicates that the request was throttled.
+    public func getSystemTableConfiguration(input: GetSystemTableConfigurationInput) async throws -> GetSystemTableConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AthenaClient.getSystemTableConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSystemTableConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "athena")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSystemTableConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Athena", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSystemTableConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.GetSystemTableConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Athena"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSystemTableConfigurationInput, GetSystemTableConfigurationOutput>(serviceID: serviceName, version: AthenaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSystemTableConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTableMetadata` operation on the `Athena` service.
     ///
     /// Returns table metadata for the specified catalog, database, and table.
@@ -4459,6 +4689,82 @@ extension AthenaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSessions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSystemTableStatuses` operation on the `Athena` service.
+    ///
+    /// Lists the system tables that the account-level configuration activates, along with whether each is currently enabled. Because system tables are enabled at the account level, every entry reflects the same account-wide state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSystemTableStatusesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSystemTableStatusesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
+    /// - `TooManyRequestsException` : Indicates that the request was throttled.
+    public func listSystemTableStatuses(input: ListSystemTableStatusesInput) async throws -> ListSystemTableStatusesOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AthenaClient.listSystemTableStatusesOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSystemTableStatuses")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "athena")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSystemTableStatusesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Athena", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSystemTableStatusesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>(overrides: ["X-Amz-Target": "AmazonAthena.ListSystemTableStatuses"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSystemTableStatusesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Athena"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSystemTableStatusesInput, ListSystemTableStatusesOutput>(serviceID: serviceName, version: AthenaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSystemTableStatuses")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5825,6 +6131,83 @@ extension AthenaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdatePreparedStatement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateSystemTableConfiguration` operation on the `Athena` service.
+    ///
+    /// Updates the account-level system tables configuration. If no configuration exists, use [CreateSystemTableConfiguration] to create one. Fields that you omit retain their current values.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSystemTableConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSystemTableConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Indicates a platform issue, which may be due to a transient condition or outage.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
+    /// - `ResourceNotFoundException` : A resource, such as a workgroup, was not found.
+    /// - `TooManyRequestsException` : Indicates that the request was throttled.
+    public func updateSystemTableConfiguration(input: UpdateSystemTableConfigurationInput) async throws -> UpdateSystemTableConfigurationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = AthenaClient.updateSystemTableConfigurationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSystemTableConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "athena")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSystemTableConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Athena", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSystemTableConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>(overrides: ["X-Amz-Target": "AmazonAthena.UpdateSystemTableConfiguration"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Athena"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSystemTableConfigurationInput, UpdateSystemTableConfigurationOutput>(serviceID: serviceName, version: AthenaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Athena")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSystemTableConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

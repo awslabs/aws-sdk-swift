@@ -76,6 +76,38 @@ extension PaginatorSequence where OperationStackInput == DescribeCertificatesInp
     }
 }
 extension RDSClient {
+    /// Paginate over `[DescribeDBCapacityReservationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBCapacityReservationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBCapacityReservationsOutput`
+    public func describeDBCapacityReservationsPaginated(input: DescribeDBCapacityReservationsInput) -> ClientRuntime.PaginatorSequence<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeDBCapacityReservations(input:))
+    }
+}
+
+extension DescribeDBCapacityReservationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeDBCapacityReservationsInput {
+        return DescribeDBCapacityReservationsInput(
+            dbCapacityReservationIdentifier: self.dbCapacityReservationIdentifier,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeDBCapacityReservationsInput, OperationStackOutput == DescribeDBCapacityReservationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBCapacityReservationsPaginated`
+    /// to access the nested member `[RDSClientTypes.DBCapacityReservation]`
+    /// - Returns: `[RDSClientTypes.DBCapacityReservation]`
+    public func dbCapacityReservations() async throws -> [RDSClientTypes.DBCapacityReservation] {
+        return try await self.asyncCompactMap { item in item.dbCapacityReservations }
+    }
+}
+extension RDSClient {
     /// Paginate over `[DescribeDBClusterAutomatedBackupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

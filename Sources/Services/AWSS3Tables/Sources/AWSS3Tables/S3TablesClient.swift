@@ -614,6 +614,80 @@ extension S3TablesClient {
 }
 
 extension S3TablesClient {
+    /// Performs the `CompleteTableMigration` operation on the `S3Tables` service.
+    ///
+    /// Completes the migration of a table. The table's most recent migration must be in the succeeded, failed or cancelled state. After you complete the migration, you can't sync the table again, and you can write to and maintain the table as you do any other table: compaction starts, and unreferenced file removal follows the table bucket's configuration. You can't undo this operation. Calling it again for the same table returns a ConflictException. Permissions
+    ///
+    /// * You must have the s3tables:CompleteTableMigration permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CompleteTableMigrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CompleteTableMigrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func completeTableMigration(input: CompleteTableMigrationInput) async throws -> CompleteTableMigrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "completeTableMigration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CompleteTableMigrationInput, CompleteTableMigrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CompleteTableMigrationInput, CompleteTableMigrationOutput>(CompleteTableMigrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CompleteTableMigrationInput, CompleteTableMigrationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<CompleteTableMigrationInput, CompleteTableMigrationOutput>(CompleteTableMigrationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteTableMigrationOutput>(CompleteTableMigrationOutput.httpOutput(from:), CompleteTableMigrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteTableMigrationInput, CompleteTableMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CompleteTableMigrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CompleteTableMigrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CompleteTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CompleteTableMigrationInput, CompleteTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CompleteTableMigrationInput, CompleteTableMigrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Tables"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CompleteTableMigrationInput, CompleteTableMigrationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CompleteTableMigration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateNamespace` operation on the `S3Tables` service.
     ///
     /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see [Create a namespace](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace-create.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:CreateNamespace permission to use this operation.
@@ -2409,6 +2483,79 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTableMigration` operation on the `S3Tables` service.
+    ///
+    /// Gets the details of a migration, including its state, the reason it failed, its statistics and the location of its reports. Identify the migration by its migrationId, or specify the tableARN of a destination table to get that table's most recent migration. Permissions
+    ///
+    /// * You must have the s3tables:GetTableMigration permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTableMigrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTableMigrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func getTableMigration(input: GetTableMigrationInput) async throws -> GetTableMigrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTableMigration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTableMigrationInput, GetTableMigrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTableMigrationInput, GetTableMigrationOutput>(GetTableMigrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableMigrationInput, GetTableMigrationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetTableMigrationInput, GetTableMigrationOutput>(GetTableMigrationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableMigrationOutput>(GetTableMigrationOutput.httpOutput(from:), GetTableMigrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableMigrationInput, GetTableMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTableMigrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTableMigrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTableMigrationInput, GetTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTableMigrationInput, GetTableMigrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Tables"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTableMigrationInput, GetTableMigrationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTableMigration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTablePolicy` operation on the `S3Tables` service.
     ///
     /// Gets details about a table policy. For more information, see [Viewing a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-get) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTablePolicy permission to use this operation.
@@ -2966,6 +3113,79 @@ extension S3TablesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTableBuckets")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListTableMigrations` operation on the `S3Tables` service.
+    ///
+    /// Lists the migrations whose destination is in a table bucket, a namespace or a table. Specify a tableBucketARN to list the migrations into a table bucket, and add a namespace, or a namespace and a name, to narrow the list. Or specify a tableARN to list the migrations into a table. Migrations are listed newest first. Results are paginated: use maxResults to set the page size, and pass the nextToken from a response to retrieve the next page of results. A page can contain fewer migrations than maxResults, or none, and still return a nextToken. Continue until a response has no nextToken. Permissions
+    ///
+    /// * You must have the s3tables:ListTableMigrations permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListTableMigrationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListTableMigrationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func listTableMigrations(input: ListTableMigrationsInput) async throws -> ListTableMigrationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTableMigrations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTableMigrationsInput, ListTableMigrationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTableMigrationsInput, ListTableMigrationsOutput>(ListTableMigrationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTableMigrationsInput, ListTableMigrationsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListTableMigrationsInput, ListTableMigrationsOutput>(ListTableMigrationsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTableMigrationsOutput>(ListTableMigrationsOutput.httpOutput(from:), ListTableMigrationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTableMigrationsInput, ListTableMigrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTableMigrationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTableMigrationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTableMigrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTableMigrationsInput, ListTableMigrationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTableMigrationsInput, ListTableMigrationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Tables"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTableMigrationsInput, ListTableMigrationsOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTableMigrations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3964,6 +4184,164 @@ extension S3TablesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartTableMigration` operation on the `S3Tables` service.
+    ///
+    /// Starts migrating an Amazon Web Services Glue Data Catalog table into a new table in a table bucket. The migration runs asynchronously: this operation returns the migration ID and its initial state, and you track progress with GetTableMigration. The namespace must already exist, and a table with the specified name must not. The migration creates the table during planning and commits data to it as it runs. Until you call CompleteTableMigration, you can read the table but you can't write to it. If the migration fails or is cancelled, the table and the data already committed to it remain. The migration first checks the source and the destination, and writes the table compatibility and object compatibility reports to the bucket that you specify in migrationOutput. If you set reviewMigrationPlan to true, the migration waits in the pendingReview state so that you can review the reports, and continues only when you call UpdateTableMigration with requestedState set to queued. If you don't continue or cancel the migration within 30 days, the migration fails. Otherwise it continues to migrate the data, and writes the object migration report when the migration ends. If planning fails, the migration writes no object migration report. Permissions
+    ///
+    /// * You must have the s3tables:StartTableMigration permission to use this operation.
+    ///
+    /// * You must have the iam:PassRole permission on the role that you specify in roleARN, with a condition that allows passing it to migration.s3tables.amazonaws.com. The associated resource is the table bucket.
+    ///
+    /// * If destinationTable specifies SSE-KMS encryption, you must have the kms:DescribeKey and kms:GenerateDataKey permissions on the KMS key. You must also grant the S3 Tables maintenance principal access to the key. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartTableMigrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartTableMigrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func startTableMigration(input: StartTableMigrationInput) async throws -> StartTableMigrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startTableMigration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartTableMigrationInput, StartTableMigrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartTableMigrationInput, StartTableMigrationOutput>(StartTableMigrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTableMigrationInput, StartTableMigrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTableMigrationInput, StartTableMigrationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartTableMigrationInput, StartTableMigrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartTableMigrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTableMigrationInput, StartTableMigrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTableMigrationOutput>(StartTableMigrationOutput.httpOutput(from:), StartTableMigrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTableMigrationInput, StartTableMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartTableMigrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTableMigrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTableMigrationInput, StartTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartTableMigrationInput, StartTableMigrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Tables"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartTableMigrationInput, StartTableMigrationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartTableMigration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SyncTableMigration` operation on the `S3Tables` service.
+    ///
+    /// Migrates the changes in the source table since the previous start or sync, such as added and deleted source objects, into the destination table. The sync runs asynchronously: this operation returns the migration ID of the sync and its initial state, and you track progress with GetTableMigration. A sync uses the source, destination and data migration settings of the table's migration, and plans the work and writes its reports in the same way as StartTableMigration. You can sync after a start or sync that succeeded, failed or was cancelled, if an earlier start or sync of the table has a valid plan (hasValidPlan). You can't sync a table while a start or sync is in progress for it, and you can sync a table until you call CompleteTableMigration for it. If a source object that an earlier migration migrated has since been overwritten, the sync fails. Permissions
+    ///
+    /// * You must have the s3tables:SyncTableMigration permission to use this operation.
+    ///
+    /// * You must have the iam:PassRole permission on the role that you specify in roleARN, with a condition that allows passing it to migration.s3tables.amazonaws.com. The associated resource is the table.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SyncTableMigrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SyncTableMigrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func syncTableMigration(input: SyncTableMigrationInput) async throws -> SyncTableMigrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "syncTableMigration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SyncTableMigrationInput, SyncTableMigrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>(SyncTableMigrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SyncTableMigrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SyncTableMigrationOutput>(SyncTableMigrationOutput.httpOutput(from:), SyncTableMigrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<SyncTableMigrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SyncTableMigrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SyncTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Tables"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SyncTableMigrationInput, SyncTableMigrationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SyncTableMigration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `S3Tables` service.
     ///
     /// Applies one or more user-defined tags to an Amazon S3 Tables resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each S3 resource. For a list of S3 resources that support tagging, see [Managing tags for Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#manage-tags). Permissions For tables and table buckets, you must have the s3tables:TagResource permission to use this operation.
@@ -4169,6 +4547,83 @@ extension S3TablesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTableMetadataLocation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateTableMigration` operation on the `S3Tables` service.
+    ///
+    /// Requests a state change for a migration. Identify the migration by its migrationId or by the tableARN of its destination table. Set requestedState to queued to continue a migration in the pendingReview state; the migration moves to queued or migrating. Set it to cancelled to cancel a migration in the new, planning, pendingReview, queued or migrating state; the migration moves to cancelling, finishes the work in progress, and then ends in the cancelled state, or in the failed state if any objects failed to migrate. Data that the migration already committed stays in the destination table. Permissions
+    ///
+    /// * You must have the s3tables:UpdateTableMigration permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableMigrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateTableMigrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The action cannot be performed because you do not have the required permission.
+    /// - `BadRequestException` : The request is invalid or malformed.
+    /// - `ConflictException` : The request failed because there is a conflict with a previous write. You can retry the request.
+    /// - `ForbiddenException` : The caller isn't authorized to make the request.
+    /// - `InternalServerErrorException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource could not be found.
+    /// - `TooManyRequestsException` : The limit on the number of requests per second was exceeded.
+    public func updateTableMigration(input: UpdateTableMigrationInput) async throws -> UpdateTableMigrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateTableMigration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3tables")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTableMigrationInput, UpdateTableMigrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>(UpdateTableMigrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>(UpdateTableMigrationInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTableMigrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableMigrationOutput>(UpdateTableMigrationOutput.httpOutput(from:), UpdateTableMigrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableMigrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Tables", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTableMigrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Tables"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTableMigrationInput, UpdateTableMigrationOutput>(serviceID: serviceName, version: S3TablesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Tables")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTableMigration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

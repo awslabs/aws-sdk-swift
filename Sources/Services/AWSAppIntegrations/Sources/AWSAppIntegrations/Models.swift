@@ -326,11 +326,13 @@ extension AppIntegrationsClientTypes {
 
     public enum AuthType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case apiKey
+        case connectJwt
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AuthType] {
             return [
-                .apiKey
+                .apiKey,
+                .connectJwt
             ]
         }
 
@@ -342,6 +344,7 @@ extension AppIntegrationsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .apiKey: return "API_KEY"
+            case .connectJwt: return "CONNECT_JWT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -350,17 +353,25 @@ extension AppIntegrationsClientTypes {
 
 extension AppIntegrationsClientTypes {
 
-    /// Contains the authentication settings that Connect Customer uses to call an external application endpoint. The configuration includes the authentication type and credential location.
+    /// Contains the authentication settings that Connect Customer uses to call an external application endpoint.
     public struct AuthConfig: Swift.Sendable {
-        /// The type of authentication used when calling the external application.
+        /// The value that Connect Customer uses as the audience (aud) claim of the JSON Web Token (JWT) that it issues. You can specify this parameter only when AuthType is CONNECT_JWT. If you don't specify it, the audience is the AccessUrl of the application. The value can't contain connect.amazonaws.com.
+        public var audienceOverride: Swift.String?
+        /// The type of authentication that Connect Customer uses to call the external application endpoint. You must specify an authentication type for A2A_SERVER applications. Valid values:
+        ///
+        /// * API_KEY: Connect Customer sends an API key that is stored in the Secrets Manager secret that you specify in CredentialProviderIdentifier.
+        ///
+        /// * CONNECT_JWT: Connect Customer issues a short-lived, signed JSON Web Token (JWT). This authentication type doesn't require a stored credential.
         public var authType: AppIntegrationsClientTypes.AuthType?
-        /// The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer.
+        /// The ARN of the Secrets Manager secret that stores the credentials. The secret must be accessible to Connect Customer. You must specify this ARN when AuthType is API_KEY. Don't specify it when AuthType is CONNECT_JWT.
         public var credentialProviderIdentifier: Swift.String?
 
         public init(
+            audienceOverride: Swift.String? = nil,
             authType: AppIntegrationsClientTypes.AuthType? = nil,
             credentialProviderIdentifier: Swift.String? = nil
         ) {
+            self.audienceOverride = audienceOverride
             self.authType = authType
             self.credentialProviderIdentifier = credentialProviderIdentifier
         }
@@ -958,6 +969,8 @@ public struct GetApplicationOutput: Swift.Sendable {
     /// Indicates whether the application is a service.
     @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
     public var isService: Swift.Bool
+    /// The Amazon Web Services Region where the application was last modified.
+    public var lastModifiedRegion: Swift.String?
     /// The last modified time of the Application.
     public var lastModifiedTime: Foundation.Date?
     /// The name of the application.
@@ -987,6 +1000,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
         initializationTimeout: Swift.Int? = nil,
         isService: Swift.Bool = false,
+        lastModifiedRegion: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
@@ -1006,6 +1020,7 @@ public struct GetApplicationOutput: Swift.Sendable {
         self.iframeConfig = iframeConfig
         self.initializationTimeout = initializationTimeout
         self.isService = isService
+        self.lastModifiedRegion = lastModifiedRegion
         self.lastModifiedTime = lastModifiedTime
         self.name = name
         self.namespace = namespace
@@ -1210,6 +1225,8 @@ extension AppIntegrationsClientTypes {
         /// Indicates whether the application is a service.
         @available(*, deprecated, message: "IsService has been deprecated in favor of ApplicationType API deprecated since 2025-12-01")
         public var isService: Swift.Bool
+        /// The Amazon Web Services Region where the application was last modified.
+        public var lastModifiedRegion: Swift.String?
         /// The time when the application was last modified.
         public var lastModifiedTime: Foundation.Date?
         /// The name of the application.
@@ -1223,6 +1240,7 @@ extension AppIntegrationsClientTypes {
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             isService: Swift.Bool = false,
+            lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil
@@ -1232,6 +1250,7 @@ extension AppIntegrationsClientTypes {
             self.createdTime = createdTime
             self.id = id
             self.isService = isService
+            self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -1586,6 +1605,29 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+/// The request conflicts with the current state of the resource. Verify the resource's current state and retry the request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
@@ -1628,29 +1670,6 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct UpdateApplicationInput: Swift.Sendable {
@@ -2352,6 +2371,7 @@ extension GetApplicationOutput {
         value.iframeConfig = try reader["IframeConfig"].readIfPresent(with: AppIntegrationsClientTypes.IframeConfig.read(from:))
         value.initializationTimeout = try reader["InitializationTimeout"].readIfPresent()
         value.isService = try reader["IsService"].readIfPresent() ?? false
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent()
         value.namespace = try reader["Namespace"].readIfPresent()
@@ -2831,6 +2851,7 @@ enum ListTagsForResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -2848,6 +2869,8 @@ enum TagResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -2865,6 +2888,8 @@ enum UntagResourceOutputError {
         let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceError": return try InternalServiceError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -3118,6 +3143,7 @@ extension AppIntegrationsClientTypes.ApplicationSummary {
         value.namespace = try reader["Namespace"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.isService = try reader["IsService"].readIfPresent() ?? false
         value.applicationType = try reader["ApplicationType"].readIfPresent()
         return value
@@ -3128,6 +3154,7 @@ extension AppIntegrationsClientTypes.AuthConfig {
 
     static func write(value: AppIntegrationsClientTypes.AuthConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AudienceOverride"].write(value.audienceOverride)
         try writer["AuthType"].write(value.authType)
         try writer["CredentialProviderIdentifier"].write(value.credentialProviderIdentifier)
     }
@@ -3137,6 +3164,7 @@ extension AppIntegrationsClientTypes.AuthConfig {
         var value = AppIntegrationsClientTypes.AuthConfig()
         value.authType = try reader["AuthType"].readIfPresent()
         value.credentialProviderIdentifier = try reader["CredentialProviderIdentifier"].readIfPresent()
+        value.audienceOverride = try reader["AudienceOverride"].readIfPresent()
         return value
     }
 }

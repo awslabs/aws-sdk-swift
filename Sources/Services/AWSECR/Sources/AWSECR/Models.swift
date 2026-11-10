@@ -1440,7 +1440,7 @@ extension ECRClientTypes {
         public var imageTagMutabilityExclusionFilters: [ECRClientTypes.ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public var registryId: Swift.String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository-namespace/repository-name.
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, and repository name. For example, arn:aws:ecr:region:012345678910:repository/repository-name.
         public var repositoryArn: Swift.String?
         /// The name of the repository.
         public var repositoryName: Swift.String?
@@ -3577,6 +3577,240 @@ public struct DescribeRegistryOutput: Swift.Sendable {
     }
 }
 
+/// The specified replication backfill could not be found. Check the specified replication backfill ID and ensure that you are operating on the correct registry.
+public struct ReplicationBackfillNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicationBackfillNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ECRClientTypes {
+
+    public enum ReplicationBackfillResultStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationBackfillResultStatus] {
+            return [
+                .complete,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeReplicationBackfillResultsInput: Swift.Sendable {
+    /// The maximum number of replication backfill results returned by DescribeReplicationBackfillResults in paginated output. When this parameter is used, DescribeReplicationBackfillResults only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeReplicationBackfillResults request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeReplicationBackfillResults returns up to 100 results and a nextToken value, if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated DescribeReplicationBackfillResults request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services account ID associated with the registry that contains the replication backfill to describe. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+    /// The ID of the replication backfill to describe.
+    /// This member is required.
+    public var replicationBackfillId: Swift.String?
+    /// The status used to filter the returned results. Each result has a status of COMPLETE or FAILED. If you omit this parameter, results with both statuses are returned.
+    public var resultStatusFilter: ECRClientTypes.ReplicationBackfillResultStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registryId: Swift.String? = nil,
+        replicationBackfillId: Swift.String? = nil,
+        resultStatusFilter: ECRClientTypes.ReplicationBackfillResultStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registryId = registryId
+        self.replicationBackfillId = replicationBackfillId
+        self.resultStatusFilter = resultStatusFilter
+    }
+}
+
+extension ECRClientTypes {
+
+    /// An object representing the progress of a replication backfill, including the total, completed, and failed replication counts.
+    public struct ReplicationBackfillProgress: Swift.Sendable {
+        /// The number of replications that have completed successfully.
+        /// This member is required.
+        public var completedReplicationCount: Swift.Int?
+        /// The number of replications that have failed.
+        /// This member is required.
+        public var failedReplicationCount: Swift.Int?
+        /// The distinct failure codes for the replications that have failed. Each failure code appears at most once, regardless of how many replications failed with that code.
+        /// This member is required.
+        public var failureCodes: [Swift.String]?
+        /// The total number of replications that the backfill will perform. Each image and tag combination is counted as a single replication.
+        /// This member is required.
+        public var totalReplicationCount: Swift.Int?
+
+        public init(
+            completedReplicationCount: Swift.Int? = nil,
+            failedReplicationCount: Swift.Int? = nil,
+            failureCodes: [Swift.String]? = nil,
+            totalReplicationCount: Swift.Int? = nil
+        ) {
+            self.completedReplicationCount = completedReplicationCount
+            self.failedReplicationCount = failedReplicationCount
+            self.failureCodes = failureCodes
+            self.totalReplicationCount = totalReplicationCount
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    /// An object representing the result of a single replication during a replication backfill. Each image and tag combination is replicated as a single replication.
+    public struct ReplicationBackfillResult: Swift.Sendable {
+        /// The failure code for a replication that has failed.
+        public var failureCode: Swift.String?
+        /// An object with identifying information for the image.
+        /// This member is required.
+        public var imageId: ECRClientTypes.ImageIdentifier?
+        /// The name of the repository that contains the image.
+        /// This member is required.
+        public var repositoryName: Swift.String?
+        /// The replication status of the image.
+        /// This member is required.
+        public var status: ECRClientTypes.ReplicationBackfillResultStatus?
+        /// The distinct failure codes for the images referenced by a manifest list that failed to replicate. Each failure code appears at most once, regardless of how many referenced images failed with that code. This field is present only when the image is a manifest list.
+        public var subImageFailureCodes: [Swift.String]?
+
+        public init(
+            failureCode: Swift.String? = nil,
+            imageId: ECRClientTypes.ImageIdentifier? = nil,
+            repositoryName: Swift.String? = nil,
+            status: ECRClientTypes.ReplicationBackfillResultStatus? = nil,
+            subImageFailureCodes: [Swift.String]? = nil
+        ) {
+            self.failureCode = failureCode
+            self.imageId = imageId
+            self.repositoryName = repositoryName
+            self.status = status
+            self.subImageFailureCodes = subImageFailureCodes
+        }
+    }
+}
+
+extension ECRClientTypes {
+
+    public enum ReplicationBackfillStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case failed
+        case inProgress
+        case preparing
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationBackfillStatus] {
+            return [
+                .complete,
+                .failed,
+                .inProgress,
+                .preparing,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .preparing: return "PREPARING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeReplicationBackfillResultsOutput: Swift.Sendable {
+    /// The destination Region and registry to which the images are replicated.
+    public var destination: ECRClientTypes.ReplicationDestination?
+    /// The date and time, in JavaScript date format, when the replication backfill ended. This value is null while the replication backfill is still in progress.
+    public var endedAt: Foundation.Date?
+    /// The failure code for a replication backfill that has failed.
+    public var failureCode: Swift.String?
+    /// The nextToken value to include in a future DescribeReplicationBackfillResults request. When the results of a DescribeReplicationBackfillResults request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The progress of the replication backfill, including the total, completed, and failed replication counts. This value is null until the replication backfill finishes preparing the set of images to replicate. It is therefore null while the replication backfill is PREPARING, and remains null if the replication backfill is stopped before preparation completes.
+    public var progress: ECRClientTypes.ReplicationBackfillProgress?
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The ID of the replication backfill.
+    public var replicationBackfillId: Swift.String?
+    /// The per-image results for the replication backfill. Results are available only after the replication backfill reaches a terminal status.
+    public var results: [ECRClientTypes.ReplicationBackfillResult]?
+    /// The date and time, in JavaScript date format, when the replication backfill was started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the replication backfill.
+    public var status: ECRClientTypes.ReplicationBackfillStatus?
+
+    public init(
+        destination: ECRClientTypes.ReplicationDestination? = nil,
+        endedAt: Foundation.Date? = nil,
+        failureCode: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        progress: ECRClientTypes.ReplicationBackfillProgress? = nil,
+        registryId: Swift.String? = nil,
+        replicationBackfillId: Swift.String? = nil,
+        results: [ECRClientTypes.ReplicationBackfillResult]? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: ECRClientTypes.ReplicationBackfillStatus? = nil
+    ) {
+        self.destination = destination
+        self.endedAt = endedAt
+        self.failureCode = failureCode
+        self.nextToken = nextToken
+        self.progress = progress
+        self.registryId = registryId
+        self.replicationBackfillId = replicationBackfillId
+        self.results = results
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
 public struct DescribeRepositoriesInput: Swift.Sendable {
     /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
     public var maxResults: Swift.Int?
@@ -4686,6 +4920,87 @@ public struct ListPullTimeUpdateExclusionsOutput: Swift.Sendable {
     }
 }
 
+public struct ListReplicationBackfillsInput: Swift.Sendable {
+    /// The maximum number of replication backfill results returned by ListReplicationBackfills in paginated output. When this parameter is used, ListReplicationBackfills only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListReplicationBackfills request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListReplicationBackfills returns up to 25 results and a nextToken value, if applicable.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated ListReplicationBackfills request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    public var nextToken: Swift.String?
+    /// The Amazon Web Services account ID associated with the registry for which to list replication backfills. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.registryId = registryId
+    }
+}
+
+extension ECRClientTypes {
+
+    /// An object representing a summary of a replication backfill, including its status, destination, progress, and start and end times.
+    public struct ReplicationBackfillSummary: Swift.Sendable {
+        /// The destination Region and registry to which the images are replicated.
+        /// This member is required.
+        public var destination: ECRClientTypes.ReplicationDestination?
+        /// The date and time, in JavaScript date format, when the replication backfill ended. This value is null while the replication backfill is still in progress.
+        public var endedAt: Foundation.Date?
+        /// The failure code for a replication backfill that has failed.
+        public var failureCode: Swift.String?
+        /// The progress of the replication backfill, including the total, completed, and failed replication counts. This value is null until the replication backfill finishes preparing the set of images to replicate. It is therefore null while the replication backfill is PREPARING, and remains null if the replication backfill is stopped before preparation completes.
+        public var progress: ECRClientTypes.ReplicationBackfillProgress?
+        /// The ID of the replication backfill.
+        /// This member is required.
+        public var replicationBackfillId: Swift.String?
+        /// The date and time, in JavaScript date format, when the replication backfill was started.
+        /// This member is required.
+        public var startedAt: Foundation.Date?
+        /// The current status of the replication backfill.
+        /// This member is required.
+        public var status: ECRClientTypes.ReplicationBackfillStatus?
+
+        public init(
+            destination: ECRClientTypes.ReplicationDestination? = nil,
+            endedAt: Foundation.Date? = nil,
+            failureCode: Swift.String? = nil,
+            progress: ECRClientTypes.ReplicationBackfillProgress? = nil,
+            replicationBackfillId: Swift.String? = nil,
+            startedAt: Foundation.Date? = nil,
+            status: ECRClientTypes.ReplicationBackfillStatus? = nil
+        ) {
+            self.destination = destination
+            self.endedAt = endedAt
+            self.failureCode = failureCode
+            self.progress = progress
+            self.replicationBackfillId = replicationBackfillId
+            self.startedAt = startedAt
+            self.status = status
+        }
+    }
+}
+
+public struct ListReplicationBackfillsOutput: Swift.Sendable {
+    /// A list of the replication backfills for the registry.
+    public var backfills: [ECRClientTypes.ReplicationBackfillSummary]?
+    /// The nextToken value to include in a future ListReplicationBackfills request. When the results of a ListReplicationBackfills request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+
+    public init(
+        backfills: [ECRClientTypes.ReplicationBackfillSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        registryId: Swift.String? = nil
+    ) {
+        self.backfills = backfills
+        self.nextToken = nextToken
+        self.registryId = registryId
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the only supported resource is an Amazon ECR repository.
     /// This member is required.
@@ -5374,6 +5689,140 @@ public struct StartLifecyclePolicyPreviewOutput: Swift.Sendable {
         self.lifecyclePolicyText = lifecyclePolicyText
         self.registryId = registryId
         self.repositoryName = repositoryName
+        self.status = status
+    }
+}
+
+/// A replication backfill is already in progress for the specified destination Region. This occurs because only one replication backfill can be in progress for a given destination Region at a time. Wait for the in progress backfill to reach a terminal status, or stop it with the [StopReplicationBackfill] operation, before starting another one.
+public struct ReplicationBackfillInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicationBackfillInProgressException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct StartReplicationBackfillInput: Swift.Sendable {
+    /// The destination Region and registry to which the images are replicated.
+    /// This member is required.
+    public var destination: ECRClientTypes.ReplicationDestination?
+    /// The Amazon Web Services account ID associated with the registry from which to start the replication backfill. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+
+    public init(
+        destination: ECRClientTypes.ReplicationDestination? = nil,
+        registryId: Swift.String? = nil
+    ) {
+        self.destination = destination
+        self.registryId = registryId
+    }
+}
+
+public struct StartReplicationBackfillOutput: Swift.Sendable {
+    /// The destination Region and registry to which the images are replicated.
+    public var destination: ECRClientTypes.ReplicationDestination?
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The ID of the replication backfill that was started. Use this value to describe or stop the backfill.
+    public var replicationBackfillId: Swift.String?
+    /// The date and time, in JavaScript date format, when the replication backfill was started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the replication backfill. A newly started replication backfill is returned with a status of PREPARING.
+    public var status: ECRClientTypes.ReplicationBackfillStatus?
+
+    public init(
+        destination: ECRClientTypes.ReplicationDestination? = nil,
+        registryId: Swift.String? = nil,
+        replicationBackfillId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: ECRClientTypes.ReplicationBackfillStatus? = nil
+    ) {
+        self.destination = destination
+        self.registryId = registryId
+        self.replicationBackfillId = replicationBackfillId
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
+/// The requested operation can't be performed on the replication backfill because it is not in a valid status for that operation. For example, you can't stop a replication backfill that has already reached a terminal status. Use the [DescribeReplicationBackfillResults] operation to check the current status before retrying.
+public struct ReplicationBackfillInvalidStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message associated with the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReplicationBackfillInvalidStatusException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct StopReplicationBackfillInput: Swift.Sendable {
+    /// The Amazon Web Services account ID associated with the registry that contains the replication backfill to stop. If you do not specify a registry, the default registry is assumed.
+    public var registryId: Swift.String?
+    /// The ID of the replication backfill to stop.
+    /// This member is required.
+    public var replicationBackfillId: Swift.String?
+
+    public init(
+        registryId: Swift.String? = nil,
+        replicationBackfillId: Swift.String? = nil
+    ) {
+        self.registryId = registryId
+        self.replicationBackfillId = replicationBackfillId
+    }
+}
+
+public struct StopReplicationBackfillOutput: Swift.Sendable {
+    /// The destination Region and registry to which the images are replicated.
+    public var destination: ECRClientTypes.ReplicationDestination?
+    /// The registry ID associated with the request.
+    public var registryId: Swift.String?
+    /// The ID of the replication backfill.
+    public var replicationBackfillId: Swift.String?
+    /// The date and time, in JavaScript date format, when the replication backfill was started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the replication backfill. When you stop a replication backfill, its status is STOPPED if the backfill is stopped immediately, or STOPPING if there are replications still in progress that must complete before the backfill stops.
+    public var status: ECRClientTypes.ReplicationBackfillStatus?
+
+    public init(
+        destination: ECRClientTypes.ReplicationDestination? = nil,
+        registryId: Swift.String? = nil,
+        replicationBackfillId: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: ECRClientTypes.ReplicationBackfillStatus? = nil
+    ) {
+        self.destination = destination
+        self.registryId = registryId
+        self.replicationBackfillId = replicationBackfillId
+        self.startedAt = startedAt
         self.status = status
     }
 }

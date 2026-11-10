@@ -314,6 +314,41 @@ extension AutoScalingClientTypes {
     }
 }
 
+extension AutoScalingClientTypes {
+
+    /// Describes an account setting for Amazon EC2 Auto Scaling. Account settings control how certain features behave for your account. Some settings can be enforced after a specified date, meaning that after the enforcement date, you can no longer modify the setting.
+    public struct AccountSetting: Swift.Sendable {
+        /// The default value of the account setting before the enforcement date. Valid values are enabled and disabled. This parameter is only returned for settings with hard or flexible enforcement types.
+        public var defaultValue: Swift.String?
+        /// The value that will be enforced after the enforcement date. Valid values are enabled and disabled. This parameter is only returned for settings with hard or flexible enforcement types.
+        public var enforcedValue: Swift.String?
+        /// The date when the account setting will be enforced. After this date, for settings with hard enforcement type, you can no longer modify the setting value. This parameter is only returned for settings with hard or flexible enforcement types.
+        public var enforcementDate: Foundation.Date?
+        /// The type of enforcement for the account setting. Valid values include: hard (the setting has a hard enforcement date after which the setting will be enforced and cannot be modified), flexible (the setting has a flexible enforcement where you can always modify the setting value), and none (the setting has no enforcement and can always be modified).
+        public var enforcementType: Swift.String?
+        /// The name of the account setting. Each account setting has a unique name that identifies the specific feature it controls.
+        public var name: Swift.String?
+        /// The current value of the account setting.
+        public var value: Swift.String?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            enforcedValue: Swift.String? = nil,
+            enforcementDate: Foundation.Date? = nil,
+            enforcementType: Swift.String? = nil,
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.enforcedValue = enforcedValue
+            self.enforcementDate = enforcementDate
+            self.enforcementType = enforcementType
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
 /// The request failed because an active instance refresh or rollback for the specified Auto Scaling group was not found.
 public struct ActiveInstanceRefreshNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2733,17 +2768,6 @@ public struct DescribeAccountLimitsOutput: Swift.Sendable {
     }
 }
 
-public struct DescribeAdjustmentTypesOutput: Swift.Sendable {
-    /// The policy adjustment types.
-    public var adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]?
-
-    public init(
-        adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]? = nil
-    ) {
-        self.adjustmentTypes = adjustmentTypes
-    }
-}
-
 /// The NextToken value is not valid.
 public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2765,6 +2789,51 @@ public struct InvalidNextToken: ClientRuntime.ModeledError, AWSClientRuntime.AWS
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct DescribeAccountSettingsInput: Swift.Sendable {
+    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    public var maxRecords: Swift.Int?
+    /// The name of the account setting to describe. If you omit this parameter, all account settings are described.
+    public var name: Swift.String?
+    /// The token for the next set of items to return. (You received this token from a previous call.)
+    public var nextToken: Swift.String?
+
+    public init(
+        maxRecords: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxRecords = maxRecords
+        self.name = name
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeAccountSettingsOutput: Swift.Sendable {
+    /// A string that indicates that the response contains more items than can be returned in a single response. To receive additional items, specify this string for the NextToken value when requesting the next set of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+    /// Information about the account settings.
+    public var settings: [AutoScalingClientTypes.AccountSetting]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        settings: [AutoScalingClientTypes.AccountSetting]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.settings = settings
+    }
+}
+
+public struct DescribeAdjustmentTypesOutput: Swift.Sendable {
+    /// The policy adjustment types.
+    public var adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]?
+
+    public init(
+        adjustmentTypes: [AutoScalingClientTypes.AdjustmentType]? = nil
+    ) {
+        self.adjustmentTypes = adjustmentTypes
     }
 }
 
@@ -2827,7 +2896,9 @@ public struct DescribeAutoScalingGroupsInput: Swift.Sendable {
     public var filters: [AutoScalingClientTypes.Filter]?
     /// Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
     public var includeInstances: Swift.Bool?
-    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    /// Specifies whether to include managed Auto Scaling groups in the response. When set to true (default), the response includes managed Auto Scaling groups.
+    public var includeManagedResources: Swift.Bool?
+    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
@@ -2836,12 +2907,14 @@ public struct DescribeAutoScalingGroupsInput: Swift.Sendable {
         autoScalingGroupNames: [Swift.String]? = nil,
         filters: [AutoScalingClientTypes.Filter]? = nil,
         includeInstances: Swift.Bool? = nil,
+        includeManagedResources: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.autoScalingGroupNames = autoScalingGroupNames
         self.filters = filters
         self.includeInstances = includeInstances
+        self.includeManagedResources = includeManagedResources
         self.maxRecords = maxRecords
         self.nextToken = nextToken
     }
@@ -3451,18 +3524,22 @@ public struct DescribeAutoScalingGroupsOutput: Swift.Sendable {
 }
 
 public struct DescribeAutoScalingInstancesInput: Swift.Sendable {
+    /// Specifies whether to include managed Auto Scaling instances in the response. When set to true (default), the response includes managed Auto Scaling instances.
+    public var includeManagedResources: Swift.Bool?
     /// The IDs of the instances. If you omit this property, all Auto Scaling instances are described. If you specify an ID that does not exist, it is ignored with no error. Array Members: Maximum number of 50 items.
     public var instanceIds: [Swift.String]?
-    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50.
+    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 50. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
+        includeManagedResources: Swift.Bool? = nil,
         instanceIds: [Swift.String]? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.includeManagedResources = includeManagedResources
         self.instanceIds = instanceIds
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -4261,7 +4338,7 @@ extension AutoScalingClientTypes {
         ///
         /// * Added - All Auto Scaling instances are registered with the load balancer.
         ///
-        /// * InService - At least one Auto Scaling instance passed an ELB health check.
+        /// * InService - At least one Auto Scaling instance passed an ELB health check. Note that the load balancer enters this state immediately if you attach it in the [CreateAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html) API call.
         ///
         /// * Removing - The Auto Scaling instances are being deregistered from the load balancer. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.
         ///
@@ -4325,7 +4402,7 @@ extension AutoScalingClientTypes {
         ///
         /// * Added - All Auto Scaling instances are registered with the target group.
         ///
-        /// * InService - At least one Auto Scaling instance passed an ELB health check.
+        /// * InService - At least one Auto Scaling instance passed an ELB health check. Note that the target group enters this state immediately if you attach it in the [CreateAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_CreateAutoScalingGroup.html) API call.
         ///
         /// * Removing - The Auto Scaling instances are being deregistered from the target group. If connection draining is enabled, Elastic Load Balancing waits for in-flight requests to complete before deregistering the instances.
         ///
@@ -4445,17 +4522,21 @@ public struct DescribeMetricCollectionTypesOutput: Swift.Sendable {
 public struct DescribeNotificationConfigurationsInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupNames: [Swift.String]?
-    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    /// Specifies whether to include notification configurations for managed Auto Scaling groups in the response. When set to true (default), the response includes notification configurations for managed Auto Scaling groups.
+    public var includeManagedResources: Swift.Bool?
+    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
         autoScalingGroupNames: [Swift.String]? = nil,
+        includeManagedResources: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.autoScalingGroupNames = autoScalingGroupNames
+        self.includeManagedResources = includeManagedResources
         self.maxRecords = maxRecords
         self.nextToken = nextToken
     }
@@ -4513,7 +4594,9 @@ public struct DescribeNotificationConfigurationsOutput: Swift.Sendable {
 public struct DescribePoliciesInput: Swift.Sendable {
     /// The name of the Auto Scaling group.
     public var autoScalingGroupName: Swift.String?
-    /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100.
+    /// Specifies whether to include scaling policies for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling policies for managed Auto Scaling groups.
+    public var includeManagedResources: Swift.Bool?
+    /// The maximum number of items to be returned with each call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
@@ -4524,12 +4607,14 @@ public struct DescribePoliciesInput: Swift.Sendable {
 
     public init(
         autoScalingGroupName: Swift.String? = nil,
+        includeManagedResources: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         policyNames: [Swift.String]? = nil,
         policyTypes: [Swift.String]? = nil
     ) {
         self.autoScalingGroupName = autoScalingGroupName
+        self.includeManagedResources = includeManagedResources
         self.maxRecords = maxRecords
         self.nextToken = nextToken
         self.policyNames = policyNames
@@ -5437,7 +5522,9 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
     public var filters: [AutoScalingClientTypes.Filter]?
     /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
     public var includeDeletedGroups: Swift.Bool?
-    /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
+    /// Specifies whether to include scaling activities for managed Auto Scaling groups in the response. When set to true (default), the response includes scaling activities for managed Auto Scaling groups.
+    public var includeManagedResources: Swift.Bool?
+    /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
@@ -5447,6 +5534,7 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
         autoScalingGroupName: Swift.String? = nil,
         filters: [AutoScalingClientTypes.Filter]? = nil,
         includeDeletedGroups: Swift.Bool? = nil,
+        includeManagedResources: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
@@ -5454,6 +5542,7 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
         self.autoScalingGroupName = autoScalingGroupName
         self.filters = filters
         self.includeDeletedGroups = includeDeletedGroups
+        self.includeManagedResources = includeManagedResources
         self.maxRecords = maxRecords
         self.nextToken = nextToken
     }
@@ -5525,7 +5614,9 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
     public var autoScalingGroupName: Swift.String?
     /// The latest scheduled start time to return. If scheduled action names are provided, this property is ignored.
     public var endTime: Foundation.Date?
-    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    /// Specifies whether to include scheduled actions for managed Auto Scaling groups in the response. When set to true (default), the response includes scheduled actions for managed Auto Scaling groups.
+    public var includeManagedResources: Swift.Bool?
+    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
@@ -5537,6 +5628,7 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
     public init(
         autoScalingGroupName: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
+        includeManagedResources: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         scheduledActionNames: [Swift.String]? = nil,
@@ -5544,6 +5636,7 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
     ) {
         self.autoScalingGroupName = autoScalingGroupName
         self.endTime = endTime
+        self.includeManagedResources = includeManagedResources
         self.maxRecords = maxRecords
         self.nextToken = nextToken
         self.scheduledActionNames = scheduledActionNames
@@ -5624,17 +5717,21 @@ public struct DescribeScheduledActionsOutput: Swift.Sendable {
 public struct DescribeTagsInput: Swift.Sendable {
     /// One or more filters to scope the tags to return. The maximum number of filters per filter type (for example, auto-scaling-group) is 1000.
     public var filters: [AutoScalingClientTypes.Filter]?
-    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
+    /// Specifies whether to include tags for managed Auto Scaling groups in the response. When set to true (default), the response includes tags for managed Auto Scaling groups.
+    public var includeManagedResources: Swift.Bool?
+    /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100. A response can contain fewer items than the value specified by MaxRecords, even when more items are available. To retrieve the additional items, use the NextToken value in a subsequent call rather than relying on the number of items in the response.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
         filters: [AutoScalingClientTypes.Filter]? = nil,
+        includeManagedResources: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.filters = filters
+        self.includeManagedResources = includeManagedResources
         self.maxRecords = maxRecords
         self.nextToken = nextToken
     }
@@ -6409,6 +6506,28 @@ public struct LaunchInstancesOutput: Swift.Sendable {
         self.errors = errors
         self.instances = instances
     }
+}
+
+public struct PutAccountSettingInput: Swift.Sendable {
+    /// The name of the account setting to modify. Each account setting has a unique name that identifies the specific feature it controls.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The value for the account setting.
+    /// This member is required.
+    public var value: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        value: Swift.String? = nil
+    ) {
+        self.name = name
+        self.value = value
+    }
+}
+
+public struct PutAccountSettingOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct PutLifecycleHookInput: Swift.Sendable {
@@ -7236,6 +7355,13 @@ extension DescribeAccountLimitsInput {
     }
 }
 
+extension DescribeAccountSettingsInput {
+
+    static func urlPathProvider(_ value: DescribeAccountSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeAdjustmentTypesInput {
 
     static func urlPathProvider(_ value: DescribeAdjustmentTypesInput) -> Swift.String? {
@@ -7449,6 +7575,13 @@ extension GetPredictiveScalingForecastInput {
 extension LaunchInstancesInput {
 
     static func urlPathProvider(_ value: LaunchInstancesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutAccountSettingInput {
+
+    static func urlPathProvider(_ value: PutAccountSettingInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7829,6 +7962,18 @@ extension DescribeAccountLimitsInput {
     }
 }
 
+extension DescribeAccountSettingsInput {
+
+    static func write(value: DescribeAccountSettingsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["Name"].write(value.name)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeAccountSettings")
+        try writer["Version"].write("2011-01-01")
+    }
+}
+
 extension DescribeAdjustmentTypesInput {
 
     static func write(value: DescribeAdjustmentTypesInput?, to writer: SmithyFormURL.Writer) throws {
@@ -7846,6 +7991,7 @@ extension DescribeAutoScalingGroupsInput {
         try writer["AutoScalingGroupNames"].writeList(value.autoScalingGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Filters"].writeList(value.filters, memberWritingClosure: AutoScalingClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["IncludeInstances"].write(value.includeInstances)
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeAutoScalingGroups")
@@ -7857,6 +8003,7 @@ extension DescribeAutoScalingInstancesInput {
 
     static func write(value: DescribeAutoScalingInstancesInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
@@ -7960,6 +8107,7 @@ extension DescribeNotificationConfigurationsInput {
     static func write(value: DescribeNotificationConfigurationsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AutoScalingGroupNames"].writeList(value.autoScalingGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeNotificationConfigurations")
@@ -7972,6 +8120,7 @@ extension DescribePoliciesInput {
     static func write(value: DescribePoliciesInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["PolicyNames"].writeList(value.policyNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7989,6 +8138,7 @@ extension DescribeScalingActivitiesInput {
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["Filters"].writeList(value.filters, memberWritingClosure: AutoScalingClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["IncludeDeletedGroups"].write(value.includeDeletedGroups)
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeScalingActivities")
@@ -8012,6 +8162,7 @@ extension DescribeScheduledActionsInput {
         guard let value else { return }
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
         try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["ScheduledActionNames"].writeList(value.scheduledActionNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8026,6 +8177,7 @@ extension DescribeTagsInput {
     static func write(value: DescribeTagsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: AutoScalingClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeManagedResources"].write(value.includeManagedResources)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeTags")
@@ -8198,6 +8350,17 @@ extension LaunchInstancesInput {
         try writer["RetryStrategy"].write(value.retryStrategy)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("LaunchInstances")
+        try writer["Version"].write("2011-01-01")
+    }
+}
+
+extension PutAccountSettingInput {
+
+    static func write(value: PutAccountSettingInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+        try writer["Action"].write("PutAccountSetting")
         try writer["Version"].write("2011-01-01")
     }
 }
@@ -8595,6 +8758,19 @@ extension DescribeAccountLimitsOutput {
     }
 }
 
+extension DescribeAccountSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAccountSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["DescribeAccountSettingsResult"]
+        var value = DescribeAccountSettingsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.settings = try reader["Settings"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.AccountSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeAdjustmentTypesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAdjustmentTypesOutput {
@@ -8954,6 +9130,13 @@ extension LaunchInstancesOutput {
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.LaunchInstancesError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.InstanceCollection.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension PutAccountSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccountSettingOutput {
+        return PutAccountSettingOutput()
     }
 }
 
@@ -9386,6 +9569,20 @@ enum DescribeAccountLimitsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceContention": return try ResourceContentionFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAccountSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidNextToken": return try InvalidNextToken.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9843,6 +10040,19 @@ enum LaunchInstancesOutputError {
     }
 }
 
+enum PutAccountSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutLifecycleHookOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10260,6 +10470,21 @@ extension AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest {
         var value = AutoScalingClientTypes.AcceleratorTotalMemoryMiBRequest()
         value.min = try reader["Min"].readIfPresent()
         value.max = try reader["Max"].readIfPresent()
+        return value
+    }
+}
+
+extension AutoScalingClientTypes.AccountSetting {
+
+    static func read(from reader: SmithyXML.Reader) throws -> AutoScalingClientTypes.AccountSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AutoScalingClientTypes.AccountSetting()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.enforcementType = try reader["EnforcementType"].readIfPresent()
+        value.enforcementDate = try reader["EnforcementDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.enforcedValue = try reader["EnforcedValue"].readIfPresent()
         return value
     }
 }

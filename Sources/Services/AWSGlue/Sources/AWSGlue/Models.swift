@@ -516,6 +516,33 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// The type of upgrade analysis. For auto-upgrade jobs, this value is AUTO_UPGRADE.
+    public enum AnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case autoUpgrade
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisType] {
+            return [
+                .autoUpgrade
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoUpgrade: return "AUTO_UPGRADE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A failed annotation.
     public struct AnnotationError: Swift.Sendable {
         /// The reason why the annotation failed.
@@ -1430,6 +1457,75 @@ extension GlueClientTypes {
         ) {
             self.evaluationContext = evaluationContext
             self.isEnabled = isEnabled
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The current phase of the auto-upgrade lifecycle for a job configured with GlueVersion=auto.
+    public enum AutoUpgradeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case observing
+        case stopped
+        case upgradeFailed
+        case upgradeSucceeded
+        case upgrading
+        case waitingForConsent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoUpgradeStatus] {
+            return [
+                .observing,
+                .stopped,
+                .upgradeFailed,
+                .upgradeSucceeded,
+                .upgrading,
+                .waitingForConsent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .observing: return "OBSERVING"
+            case .stopped: return "STOPPED"
+            case .upgradeFailed: return "UPGRADE_FAILED"
+            case .upgradeSucceeded: return "UPGRADE_SUCCEEDED"
+            case .upgrading: return "UPGRADING"
+            case .waitingForConsent: return "WAITING_FOR_CONSENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The auto-upgrade assessment information for a job configured with glueVersion=auto.
+    public struct AutoUpgradeMetadata: Swift.Sendable {
+        /// The unique identifier of the auto-upgrade assessment analysis.
+        public var analysisId: Swift.String?
+        /// The source Glue runtime version the job was running before auto-version was enabled.
+        public var sourceVersion: Swift.String?
+        /// The current auto-upgrade lifecycle status (OBSERVING, UPGRADING, UPGRADE_SUCCEEDED, UPGRADE_FAILED, STOPPED, WAITING_FOR_CONSENT).
+        public var status: GlueClientTypes.AutoUpgradeStatus?
+        /// The target Glue runtime version the job is being upgraded to.
+        public var targetVersion: Swift.String?
+
+        public init(
+            analysisId: Swift.String? = nil,
+            sourceVersion: Swift.String? = nil,
+            status: GlueClientTypes.AutoUpgradeStatus? = nil,
+            targetVersion: Swift.String? = nil
+        ) {
+            self.analysisId = analysisId
+            self.sourceVersion = sourceVersion
+            self.status = status
+            self.targetVersion = targetVersion
         }
     }
 }
@@ -3215,6 +3311,35 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum DataQualityEvaluationRunMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case evaluationConfig
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationRunMode] {
+            return [
+                .evaluationConfig,
+                .onDemand
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .evaluationConfig: return "EVALUATION_CONFIG"
+            case .onDemand: return "ON_DEMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Describes the data quality metric value according to the analysis of historical data.
     public struct DataQualityMetricValues: Swift.Sendable {
         /// The actual value of the data quality metric.
@@ -3371,10 +3496,14 @@ extension GlueClientTypes {
         public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
         /// The date and time when this data quality run completed.
         public var completedOn: Foundation.Date?
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table associated with the data quality result, if any.
         public var dataSource: GlueClientTypes.DataSource?
         /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
         public var evaluationContext: Swift.String?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The job name associated with the data quality result, if any.
         public var jobName: Swift.String?
         /// The job run ID associated with the data quality result, if any.
@@ -3400,8 +3529,10 @@ extension GlueClientTypes {
             aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
             analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
             completedOn: Foundation.Date? = nil,
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
             observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -3416,8 +3547,10 @@ extension GlueClientTypes {
             self.aggregatedMetrics = aggregatedMetrics
             self.analyzerResults = analyzerResults
             self.completedOn = completedOn
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.observations = observations
@@ -3468,6 +3601,8 @@ extension GlueClientTypes {
         public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
         /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
         public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table associated with the data quality result, if any.
         public var dataSource: GlueClientTypes.DataSource?
         /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
@@ -3476,6 +3611,8 @@ extension GlueClientTypes {
         public var dimensions: [Swift.String: Swift.String]?
         /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
         public var evaluationContext: Swift.String?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The date and time when this data quality run completed.
         public var executionCompletedOn: Foundation.Date?
         /// The date and time when this data quality run started.
@@ -3499,10 +3636,12 @@ extension GlueClientTypes {
         public init(
             aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
             analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             descriptors: [Swift.String: Swift.String]? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             executionCompletedOn: Foundation.Date? = nil,
             executionStartedOn: Foundation.Date? = nil,
             observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -3515,10 +3654,12 @@ extension GlueClientTypes {
         ) {
             self.aggregatedMetrics = aggregatedMetrics
             self.analyzerResults = analyzerResults
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.descriptors = descriptors
             self.dimensions = dimensions
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.executionCompletedOn = executionCompletedOn
             self.executionStartedOn = executionStartedOn
             self.observations = observations
@@ -4006,10 +4147,16 @@ extension GlueClientTypes {
 
     public enum WorkerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case g025x
+        case g12x
+        case g16x
         case g1x
         case g2x
         case g4x
         case g8x
+        case r1x
+        case r2x
+        case r4x
+        case r8x
         case standard
         case z2x
         case sdkUnknown(Swift.String)
@@ -4017,10 +4164,16 @@ extension GlueClientTypes {
         public static var allCases: [WorkerType] {
             return [
                 .g025x,
+                .g12x,
+                .g16x,
                 .g1x,
                 .g2x,
                 .g4x,
                 .g8x,
+                .r1x,
+                .r2x,
+                .r4x,
+                .r8x,
                 .standard,
                 .z2x
             ]
@@ -4034,10 +4187,16 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .g025x: return "G.025X"
+            case .g12x: return "G.12X"
+            case .g16x: return "G.16X"
             case .g1x: return "G.1X"
             case .g2x: return "G.2X"
             case .g4x: return "G.4X"
             case .g8x: return "G.8X"
+            case .r1x: return "R.1X"
+            case .r2x: return "R.2X"
+            case .r4x: return "R.4X"
+            case .r8x: return "R.8X"
             case .standard: return "Standard"
             case .z2x: return "Z.2X"
             case let .sdkUnknown(s): return s
@@ -10682,17 +10841,29 @@ extension GlueClientTypes {
         public var timeout: Swift.Int?
         /// The name of the trigger that started this job run.
         public var triggerName: Swift.String?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.025X, G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+        ///
+        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
         ///
         /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
         /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
         ///
-        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
         ///
-        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
         ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
+        /// * For the G.12X worker type, each worker maps to 12 DPU (48 vCPUs, 192 GB of memory) with 768GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+        ///
+        /// * For the G.16X worker type, each worker maps to 16 DPU (64 vCPUs, 256 GB of memory) with 1024GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+        ///
+        /// * For the R.1X worker type, each worker maps to 1 M-DPU (4 vCPUs, 32 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+        ///
+        /// * For the R.2X worker type, each worker maps to 2 M-DPU (8 vCPUs, 64 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+        ///
+        /// * For the R.4X worker type, each worker maps to 4 M-DPU (16 vCPUs, 128 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+        ///
+        /// * For the R.8X worker type, each worker maps to 8 M-DPU (32 vCPUs, 256 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
         ///
         /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
         public var workerType: GlueClientTypes.WorkerType?
@@ -13100,6 +13271,295 @@ public struct CreateDatabaseOutput: Swift.Sendable {
 
 extension GlueClientTypes {
 
+    /// Additional run options for each evaluation of a data quality evaluation configuration.
+    public struct DataQualityEvaluationConfigAdditionalRunOptions: Swift.Sendable {
+        /// Specifies whether to enable CloudWatch metrics.
+        public var cloudWatchMetricsEnabled: Swift.Bool?
+        /// Set the evaluation method for composite rules in the ruleset to ROW/COLUMN
+        public var compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod?
+        /// A custom prefix for the CloudWatch log group names. When specified, evaluation run logs are written to /error and /output instead of the default /aws-glue/data-quality/error and /aws-glue/data-quality/output log groups.
+        public var customLogGroupPrefix: Swift.String?
+        /// The configuration for writing rule results to a Glue Data Catalog table.
+        public var dataQualityRuleResults: GlueClientTypes.DataQualityRuleResultsOptions?
+        /// The observation mode for the evaluation run. Specifies how anomaly detection bounds are calculated.
+        public var observationMode: GlueClientTypes.ObservationMode?
+        /// The configuration for writing observation results to a Glue Data Catalog table.
+        public var observationResults: GlueClientTypes.ObservationResultsOptions?
+        /// The scope of the observation for the evaluation run. Specifies whether anomaly detection is enabled or disabled.
+        public var observationScope: GlueClientTypes.ObservationConfiguration?
+        /// The configuration for writing profiling results to a Glue Data Catalog table.
+        public var profilingResults: GlueClientTypes.ProfilingResultsOptions?
+        /// Prefix for Amazon S3 to store results.
+        public var resultsS3Prefix: Swift.String?
+        /// The configuration for writing row-level evaluation results to a Glue Data Catalog table.
+        public var rowLevelResults: GlueClientTypes.RowLevelResultsOptions?
+
+        public init(
+            cloudWatchMetricsEnabled: Swift.Bool? = nil,
+            compositeRuleEvaluationMethod: GlueClientTypes.DQCompositeRuleEvaluationMethod? = nil,
+            customLogGroupPrefix: Swift.String? = nil,
+            dataQualityRuleResults: GlueClientTypes.DataQualityRuleResultsOptions? = nil,
+            observationMode: GlueClientTypes.ObservationMode? = nil,
+            observationResults: GlueClientTypes.ObservationResultsOptions? = nil,
+            observationScope: GlueClientTypes.ObservationConfiguration? = nil,
+            profilingResults: GlueClientTypes.ProfilingResultsOptions? = nil,
+            resultsS3Prefix: Swift.String? = nil,
+            rowLevelResults: GlueClientTypes.RowLevelResultsOptions? = nil
+        ) {
+            self.cloudWatchMetricsEnabled = cloudWatchMetricsEnabled
+            self.compositeRuleEvaluationMethod = compositeRuleEvaluationMethod
+            self.customLogGroupPrefix = customLogGroupPrefix
+            self.dataQualityRuleResults = dataQualityRuleResults
+            self.observationMode = observationMode
+            self.observationResults = observationResults
+            self.observationScope = observationScope
+            self.profilingResults = profilingResults
+            self.resultsS3Prefix = resultsS3Prefix
+            self.rowLevelResults = rowLevelResults
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Identifies the Glue Data Catalog tables that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigGlueTables: Swift.Sendable {
+        /// Options for reading the table. The following keys are supported:
+        ///
+        /// * pushDownPredicate: to filter on partitions without having to list and read all the files in your dataset.
+        ///
+        /// * catalogPartitionPredicate: to use server-side partition pruning using partition indexes in the Glue Data Catalog.
+        public var additionalOptions: [Swift.String: Swift.String]?
+        /// A unique identifier for the Glue Data Catalog.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// The name of the connection to the Glue Data Catalog.
+        public var connectionName: Swift.String?
+        /// A database name in the Glue Data Catalog.
+        public var databaseName: Swift.String?
+        /// SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation. For the CATALOG and DATABASE levels, use the {{DATABASE_NAME}} and {{TABLE_NAME}} placeholders, which are filled in for each table.
+        public var preProcessingQuery: Swift.String?
+        /// For the CATALOG and DATABASE levels, a glob pattern, such as orders_*, that selects tables. If you don't specify a pattern, every table at the level is in scope. For the TABLE level, the name of the table.
+        public var tableNamePattern: Swift.String?
+
+        public init(
+            additionalOptions: [Swift.String: Swift.String]? = nil,
+            catalogId: Swift.String? = nil,
+            connectionName: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            preProcessingQuery: Swift.String? = nil,
+            tableNamePattern: Swift.String? = nil
+        ) {
+            self.additionalOptions = additionalOptions
+            self.catalogId = catalogId
+            self.connectionName = connectionName
+            self.databaseName = databaseName
+            self.preProcessingQuery = preProcessingQuery
+            self.tableNamePattern = tableNamePattern
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The data source that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigDataSource: Swift.Sendable {
+        /// The Glue Data Catalog tables that the configuration applies to.
+        public var glueTables: GlueClientTypes.DataQualityEvaluationConfigGlueTables?
+
+        public init(
+            glueTables: GlueClientTypes.DataQualityEvaluationConfigGlueTables? = nil
+        ) {
+            self.glueTables = glueTables
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEvaluationConfigLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case catalog
+        case database
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationConfigLevel] {
+            return [
+                .catalog,
+                .database,
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .catalog: return "CATALOG"
+            case .database: return "DATABASE"
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEvaluationConfigManagedRuleset: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case advanced
+        case simple
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationConfigManagedRuleset] {
+            return [
+                .advanced,
+                .simple
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .advanced: return "ADVANCED"
+            case .simple: return "SIMPLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum DataQualityEvaluationConfigTrigger: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metadataChange
+        case once
+        case schedule
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataQualityEvaluationConfigTrigger] {
+            return [
+                .metadataChange,
+                .once,
+                .schedule
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metadataChange: return "METADATA_CHANGE"
+            case .once: return "ONCE"
+            case .schedule: return "SCHEDULE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// A unique, case-sensitive identifier that you provide to ensure the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The catalog, database, or table that the configuration applies to, as specified by Level.
+    /// This member is required.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// The Glue Data Catalog hierarchical level that the configuration applies to. Valid values are CATALOG, DATABASE, and TABLE.
+    /// This member is required.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// A built-in ruleset that profiles each table, used when RulesetName is not set. The default is SIMPLE. Choose from the following built-in rulesets: SIMPLE Row count and column count, completeness, minimum, and maximum for every column, mean, sum, and standard deviation for numeric columns, and column length for string columns. ADVANCED Every statistic in SIMPLE, plus distribution, uniqueness, and distinct values count.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// A name for the data quality evaluation configuration. The name must be unique within your account.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// The IAM role that evaluations assume. You can specify the role name or the role Amazon Resource Name (ARN). The role must allow the glue.amazonaws.com service principal to assume it, and needs permissions to read the catalog (glue:GetCatalog, glue:GetDatabase, glue:GetTable, glue:SearchTables, and glue:GetPartitions), read and create rulesets (glue:GetDataQualityRuleset and glue:CreateDataQualityRuleset), start evaluations (glue:StartDataQualityRulesetEvaluationRun, glue:PublishDataQuality, and iam:PassRole on the role itself), read the tables' data in Amazon S3, and write logs to Amazon CloudWatch Logs. If a catalog-level or database-level configuration applies to an Amazon S3 Tables catalog, the role also needs s3tables:ListTableBuckets and s3tables:ListTables. If you use Lake Formation, the role needs the DESCRIBE permission on the tables.
+    /// This member is required.
+    public var role: Swift.String?
+    /// The name of a Data Quality Definition Language (DQDL) ruleset, containing analyzers, rules, or both, to evaluate tables with. You create the ruleset using the CreateDataQualityRuleset API. Specify either RulesetName or ManagedRulesetName, not both.
+    public var rulesetName: Swift.String?
+    /// A cron or rate expression, in UTC, for the SCHEDULE trigger, for example cron(0 6 * * ? *). The schedule can run at most once an hour.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// A list of tags applied to the data quality evaluation configuration.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables. You can choose one or more triggers, and each table is evaluated at most once an hour. The default is ONCE. Choose from the following triggers: ONCE Evaluates each table one time, including when tables are added to a database or catalog. SCHEDULE Evaluates each table on the cron or rate expression in ScheduleExpression, between the optional StartAt and EndAt times. METADATA_CHANGE Evaluates a table whenever its Glue Data Catalog metadata changes, such as a schema change or an Apache Iceberg commit.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        clientToken: Swift.String? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.clientToken = clientToken
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.level = level
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.tags = tags
+        self.timeout = timeout
+        self.triggers = triggers
+    }
+}
+
+public struct CreateDataQualityEvaluationConfigOutput: Swift.Sendable {
+    /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+    /// The name of the data quality evaluation configuration.
+    public var name: Swift.String?
+
+    public init(
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.evaluationRunMode = evaluationRunMode
+        self.name = name
+    }
+}
+
+extension GlueClientTypes {
+
     /// An object representing an Glue table.
     public struct DataQualityTargetTable: Swift.Sendable {
         /// The catalog id where the Glue table exists.
@@ -13644,15 +14104,19 @@ extension GlueClientTypes {
         public var refreshInterval: Swift.String?
         /// A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that can be used to customize the behavior of the ODB source during data integration operations.
         public var sourceProperties: [Swift.String: Swift.String]?
+        /// An optional custom namespace for the integration's target. Supply this parameter only when the target is an Amazon S3 Tables table bucket; it is not accepted for other target types. The integration replicates data into the namespace you specify, reusing it if it already exists. If you omit this parameter, the target namespace defaults to zetl_ followed by the integration ID, with hyphens converted to underscores. The value is immutable after the integration is created; ModifyIntegration rejects changes to it. It must be a valid Amazon S3 Tables namespace name: 1 to 255 characters using lowercase letters, numbers, and underscores, with no leading or trailing underscore and no reserved aws prefix.
+        public var targetNamespace: Swift.String?
 
         public init(
             continuousSync: Swift.Bool? = nil,
             refreshInterval: Swift.String? = nil,
-            sourceProperties: [Swift.String: Swift.String]? = nil
+            sourceProperties: [Swift.String: Swift.String]? = nil,
+            targetNamespace: Swift.String? = nil
         ) {
             self.continuousSync = continuousSync
             self.refreshInterval = refreshInterval
             self.sourceProperties = sourceProperties
+            self.targetNamespace = targetNamespace
         }
     }
 }
@@ -15262,15 +15726,27 @@ public struct CreateSessionInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
     /// The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes). Consult the documentation for other job types.
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.
     ///
     /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
     /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
-    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the G.12X worker type, each worker maps to 12 DPU (48 vCPUs, 192 GB of memory) with 768GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the G.16X worker type, each worker maps to 16 DPU (64 vCPUs, 256 GB of memory) with 1024GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.1X worker type, each worker maps to 1 M-DPU (4 vCPUs, 32 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.2X worker type, each worker maps to 2 M-DPU (8 vCPUs, 64 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.4X worker type, each worker maps to 4 M-DPU (16 vCPUs, 128 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.8X worker type, each worker maps to 8 M-DPU (32 vCPUs, 256 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
     /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
@@ -15397,7 +15873,7 @@ extension GlueClientTypes {
         public var sessionType: GlueClientTypes.SessionType?
         /// The session status.
         public var status: GlueClientTypes.SessionStatus?
-        /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark sessions. Accepts the value Z.2X for Ray sessions.
+        /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark sessions. Accepts the value Z.2X for Ray sessions. The G.12X, G.16X, and R.1X through R.8X worker types are available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -16418,6 +16894,35 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum GovernanceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamOnly
+        case lakeFormation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GovernanceMode] {
+            return [
+                .iamOnly,
+                .lakeFormation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamOnly: return "IAM_ONLY"
+            case .lakeFormation: return "LAKE_FORMATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum PrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case group
         case role
@@ -16484,15 +16989,19 @@ extension GlueClientTypes {
 
     /// The URIs for function resources.
     public struct ResourceUri: Swift.Sendable {
+        /// The time at which the resource was last modified in Amazon S3. Glue records this value when you create or update a function whose GovernanceMode is LAKE_FORMATION. Analytics engines use it to verify that the resource hasn't changed. This is an output-only field.
+        public var lastModified: Foundation.Date?
         /// The type of the resource.
         public var resourceType: GlueClientTypes.ResourceType?
         /// The URI for accessing the resource.
         public var uri: Swift.String?
 
         public init(
+            lastModified: Foundation.Date? = nil,
             resourceType: GlueClientTypes.ResourceType? = nil,
             uri: Swift.String? = nil
         ) {
+            self.lastModified = lastModified
             self.resourceType = resourceType
             self.uri = uri
         }
@@ -16503,12 +17012,24 @@ extension GlueClientTypes {
 
     /// A structure used to create or update a user-defined function.
     public struct UserDefinedFunctionInput: Swift.Sendable {
+        /// The Amazon S3 location that contains the function's artifacts. Required when GovernanceMode is LAKE_FORMATION. You must register the location with Lake Formation, and every resource URI must be under this location.
+        public var artifactLocation: Swift.String?
         /// The Java class that contains the function code.
         public var className: Swift.String?
         /// The name of the function.
         public var functionName: Swift.String?
         /// The type of the function.
         public var functionType: GlueClientTypes.FunctionType?
+        /// How access to the function is governed. Specify LAKE_FORMATION to manage access to the function with Lake Formation permissions. If you don't specify a value, the default is IAM_ONLY. You can't change the governance mode after the function is created. When GovernanceMode is LAKE_FORMATION:
+        ///
+        /// * You must be a data lake administrator or have all permissions on the Data Catalog with the grant option.
+        ///
+        /// * You must have the DATA_LOCATION_ACCESS permission on the ArtifactLocation, unless you're a data lake administrator.
+        ///
+        /// * You must specify from 1 to 10 resource URIs, each under the ArtifactLocation.
+        ///
+        /// * You can't rename the function.
+        public var governanceMode: GlueClientTypes.GovernanceMode?
         /// The owner of the function.
         public var ownerName: Swift.String?
         /// The owner type.
@@ -16517,16 +17038,20 @@ extension GlueClientTypes {
         public var resourceUris: [GlueClientTypes.ResourceUri]?
 
         public init(
+            artifactLocation: Swift.String? = nil,
             className: Swift.String? = nil,
             functionName: Swift.String? = nil,
             functionType: GlueClientTypes.FunctionType? = nil,
+            governanceMode: GlueClientTypes.GovernanceMode? = nil,
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
         ) {
+            self.artifactLocation = artifactLocation
             self.className = className
             self.functionName = functionName
             self.functionType = functionType
+            self.governanceMode = governanceMode
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
@@ -16970,6 +17495,23 @@ public struct DeleteDatabaseInput: Swift.Sendable {
 }
 
 public struct DeleteDatabaseOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// The name of the data quality evaluation configuration to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct DeleteDataQualityEvaluationConfigOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -21609,6 +22151,97 @@ public struct GetDataflowGraphOutput: Swift.Sendable {
     }
 }
 
+public struct GetDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// The name of the data quality evaluation configuration.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        name: Swift.String? = nil
+    ) {
+        self.name = name
+    }
+}
+
+public struct GetDataQualityEvaluationConfigOutput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// The time when the configuration was created.
+    public var createdOn: Foundation.Date?
+    /// The catalog, database, or table that the configuration applies to.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+    /// The time when the configuration was last modified.
+    public var lastModifiedOn: Foundation.Date?
+    /// The Glue Data Catalog hierarchical level that the configuration applies to.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// The built-in ruleset that tables are evaluated with.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// The name of the data quality evaluation configuration.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// Specifies whether evaluations are paused.
+    public var pauseRuns: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that evaluation runs assume.
+    public var role: Swift.String?
+    /// The name of the data quality ruleset that tables are evaluated with.
+    public var rulesetName: Swift.String?
+    /// The cron or rate expression, in UTC, for the SCHEDULE trigger.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables: ONCE Each table is evaluated one time, including when tables are added to a database or catalog. SCHEDULE Each table is evaluated on the cron or rate expression in ScheduleExpression. METADATA_CHANGE A table is evaluated whenever its Glue Data Catalog metadata changes.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        createdOn: Foundation.Date? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+        lastModifiedOn: Foundation.Date? = nil,
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        pauseRuns: Swift.Bool? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.createdOn = createdOn
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.evaluationRunMode = evaluationRunMode
+        self.lastModifiedOn = lastModifiedOn
+        self.level = level
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.pauseRuns = pauseRuns
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.timeout = timeout
+        self.triggers = triggers
+    }
+}
+
 public struct GetDataQualityModelInput: Swift.Sendable {
     /// The Profile ID.
     /// This member is required.
@@ -21767,10 +22400,14 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
     public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
     /// The date and time when the run for this data quality result was completed.
     public var completedOn: Foundation.Date?
+    /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+    public var dataQualityEvaluationConfig: Swift.String?
     /// The table associated with the data quality result, if any.
     public var dataSource: GlueClientTypes.DataSource?
     /// In the context of a job in Glue Studio, each node in the canvas is typically assigned some sort of name and data quality nodes will have names. In the case of multiple nodes, the evaluationContext can differentiate the nodes.
     public var evaluationContext: Swift.String?
+    /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
     /// The job name associated with the data quality result, if any.
     public var jobName: Swift.String?
     /// The job run ID associated with the data quality result, if any.
@@ -21796,8 +22433,10 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
         analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
         completedOn: Foundation.Date? = nil,
+        dataQualityEvaluationConfig: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         evaluationContext: Swift.String? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
         jobName: Swift.String? = nil,
         jobRunId: Swift.String? = nil,
         observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -21812,8 +22451,10 @@ public struct GetDataQualityResultOutput: Swift.Sendable {
         self.aggregatedMetrics = aggregatedMetrics
         self.analyzerResults = analyzerResults
         self.completedOn = completedOn
+        self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
         self.dataSource = dataSource
         self.evaluationContext = evaluationContext
+        self.evaluationRunMode = evaluationRunMode
         self.jobName = jobName
         self.jobRunId = jobRunId
         self.observations = observations
@@ -21844,6 +22485,8 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     public var aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics?
     /// A list of DataQualityAnalyzerResult objects representing the results for each analyzer.
     public var analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]?
+    /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+    public var dataQualityEvaluationConfig: Swift.String?
     /// The table associated with the data quality result, if any.
     public var dataSource: GlueClientTypes.DataSource?
     /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
@@ -21852,6 +22495,8 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     public var dimensions: [Swift.String: Swift.String]?
     /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
     public var evaluationContext: Swift.String?
+    /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
     /// The date and time when this data quality run completed.
     public var executionCompletedOn: Foundation.Date?
     /// The date and time when this data quality run started.
@@ -21876,10 +22521,12 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     public init(
         aggregatedMetrics: GlueClientTypes.DataQualityAggregatedMetrics? = nil,
         analyzerResults: [GlueClientTypes.DataQualityAnalyzerResult]? = nil,
+        dataQualityEvaluationConfig: Swift.String? = nil,
         dataSource: GlueClientTypes.DataSource? = nil,
         descriptors: [Swift.String: Swift.String]? = nil,
         dimensions: [Swift.String: Swift.String]? = nil,
         evaluationContext: Swift.String? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
         executionCompletedOn: Foundation.Date? = nil,
         executionStartedOn: Foundation.Date? = nil,
         observations: [GlueClientTypes.DataQualityObservation]? = nil,
@@ -21893,10 +22540,12 @@ public struct GetDataQualityResultV2Output: Swift.Sendable {
     ) {
         self.aggregatedMetrics = aggregatedMetrics
         self.analyzerResults = analyzerResults
+        self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
         self.dataSource = dataSource
         self.descriptors = descriptors
         self.dimensions = dimensions
         self.evaluationContext = evaluationContext
+        self.evaluationRunMode = evaluationRunMode
         self.executionCompletedOn = executionCompletedOn
         self.executionStartedOn = executionStartedOn
         self.observations = observations
@@ -22654,6 +23303,115 @@ public struct GetJobsInput: Swift.Sendable {
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
+    }
+}
+
+public struct GetJobUpgradeAnalysisInput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis to retrieve.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with the analysis.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The current status of an upgrade analysis. Possible values are OBSERVING, WAITING_FOR_CONSENT, UPGRADING, SUCCEEDED, FAILED, TIMEOUT, and STOPPED.
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case observing
+        case stopped
+        case succeeded
+        case timeout
+        case upgrading
+        case waitingForConsent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .failed,
+                .observing,
+                .stopped,
+                .succeeded,
+                .timeout,
+                .upgrading,
+                .waitingForConsent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .observing: return "OBSERVING"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case .timeout: return "TIMEOUT"
+            case .upgrading: return "UPGRADING"
+            case .waitingForConsent: return "WAITING_FOR_CONSENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetJobUpgradeAnalysisOutput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The type of upgrade analysis. For auto-upgrade jobs, this value is AUTO_UPGRADE.
+    public var analysisType: GlueClientTypes.AnalysisType?
+    /// The Amazon S3 URI of the consent report summarizing upgrade assessment findings. Populated when the analysis reaches WAITING_FOR_CONSENT and remains available in all subsequent states.
+    public var autoUpgradeEligibilitySummary: Swift.String?
+    /// The Amazon S3 URI of the terminal-state evaluation summary, available once the analysis reaches a terminal status (SUCCEEDED or FAILED).
+    public var autoUpgradeEvaluationSummary: Swift.String?
+    /// The reason the analysis did not complete.
+    public var errorMessage: Swift.String?
+    /// The name of the job associated with this analysis.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The Glue version the job was running before the upgrade, for example 4.0.
+    public var sourceVersion: Swift.String?
+    /// The current status of the analysis.
+    /// This member is required.
+    public var status: GlueClientTypes.Status?
+    /// The Glue version the job will be upgraded to, for example 6.0.
+    /// This member is required.
+    public var targetVersion: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        analysisType: GlueClientTypes.AnalysisType? = nil,
+        autoUpgradeEligibilitySummary: Swift.String? = nil,
+        autoUpgradeEvaluationSummary: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        sourceVersion: Swift.String? = nil,
+        status: GlueClientTypes.Status? = nil,
+        targetVersion: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.analysisType = analysisType
+        self.autoUpgradeEligibilitySummary = autoUpgradeEligibilitySummary
+        self.autoUpgradeEvaluationSummary = autoUpgradeEvaluationSummary
+        self.errorMessage = errorMessage
+        self.jobName = jobName
+        self.sourceVersion = sourceVersion
+        self.status = status
+        self.targetVersion = targetVersion
     }
 }
 
@@ -26068,6 +26826,8 @@ extension GlueClientTypes {
 
     /// Represents the equivalent of a Hive user-defined function (UDF) definition.
     public struct UserDefinedFunction: Swift.Sendable {
+        /// The Amazon S3 location that contains the function's artifacts. This location must be registered with Lake Formation. Glue returns this field only for functions whose GovernanceMode is LAKE_FORMATION.
+        public var artifactLocation: Swift.String?
         /// The ID of the Data Catalog in which the function resides.
         public var catalogId: Swift.String?
         /// The Java class that contains the function code.
@@ -26080,6 +26840,8 @@ extension GlueClientTypes {
         public var functionName: Swift.String?
         /// The type of the function.
         public var functionType: GlueClientTypes.FunctionType?
+        /// How access to the function is governed. IAM_ONLY means access is controlled by IAM permissions only. LAKE_FORMATION means Lake Formation permissions (EXECUTE, DESCRIBE, ALTER, and DROP) also control who can run, describe, update, and delete the function.
+        public var governanceMode: GlueClientTypes.GovernanceMode?
         /// The owner of the function.
         public var ownerName: Swift.String?
         /// The owner type.
@@ -26088,22 +26850,26 @@ extension GlueClientTypes {
         public var resourceUris: [GlueClientTypes.ResourceUri]?
 
         public init(
+            artifactLocation: Swift.String? = nil,
             catalogId: Swift.String? = nil,
             className: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             databaseName: Swift.String? = nil,
             functionName: Swift.String? = nil,
             functionType: GlueClientTypes.FunctionType? = nil,
+            governanceMode: GlueClientTypes.GovernanceMode? = nil,
             ownerName: Swift.String? = nil,
             ownerType: GlueClientTypes.PrincipalType? = nil,
             resourceUris: [GlueClientTypes.ResourceUri]? = nil
         ) {
+            self.artifactLocation = artifactLocation
             self.catalogId = catalogId
             self.className = className
             self.createTime = createTime
             self.databaseName = databaseName
             self.functionName = functionName
             self.functionType = functionType
+            self.governanceMode = governanceMode
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
@@ -26820,12 +27586,136 @@ public struct ListCustomEntityTypesOutput: Swift.Sendable {
     }
 }
 
+public struct ListDataQualityEvaluationConfigsInput: Swift.Sendable {
+    /// Lists only the configurations that apply to this level.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A paginated token to offset the results. If you don't specify a token, the operation returns results starting from the beginning of the list.
+    public var nextToken: Swift.String?
+
+    public init(
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.level = level
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Identifies the Glue Data Catalog tables that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigListGlueTables: Swift.Sendable {
+        /// A unique identifier for the Glue Data Catalog.
+        /// This member is required.
+        public var catalogId: Swift.String?
+        /// A database name in the Glue Data Catalog.
+        public var databaseName: Swift.String?
+        /// For the CATALOG and DATABASE levels, a glob pattern, such as orders_*, that selects tables. If you don't specify a pattern, every table at the level is in scope. For the TABLE level, the name of the table.
+        public var tableNamePattern: Swift.String?
+
+        public init(
+            catalogId: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            tableNamePattern: Swift.String? = nil
+        ) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableNamePattern = tableNamePattern
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// The data source that a data quality evaluation configuration applies to.
+    public struct DataQualityEvaluationConfigListDataSource: Swift.Sendable {
+        /// The Glue Data Catalog tables that the configuration applies to.
+        public var glueTables: GlueClientTypes.DataQualityEvaluationConfigListGlueTables?
+
+        public init(
+            glueTables: GlueClientTypes.DataQualityEvaluationConfigListGlueTables? = nil
+        ) {
+            self.glueTables = glueTables
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Describes a data quality evaluation configuration.
+    public struct DataQualityEvaluationConfigListDetails: Swift.Sendable {
+        /// The time when the configuration was created.
+        public var createdOn: Foundation.Date?
+        /// The catalog, database, or table that the configuration applies to.
+        public var dataSource: GlueClientTypes.DataQualityEvaluationConfigListDataSource?
+        /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+        /// The time when the configuration was last modified.
+        public var lastModifiedOn: Foundation.Date?
+        /// The Glue Data Catalog hierarchical level that the configuration applies to.
+        public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+        /// The built-in ruleset that tables are evaluated with.
+        public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+        /// The name of the data quality evaluation configuration.
+        public var name: Swift.String?
+        /// Specifies whether evaluations are paused.
+        public var pauseRuns: Swift.Bool?
+        /// The name of the data quality ruleset that tables are evaluated with.
+        public var rulesetName: Swift.String?
+
+        public init(
+            createdOn: Foundation.Date? = nil,
+            dataSource: GlueClientTypes.DataQualityEvaluationConfigListDataSource? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+            lastModifiedOn: Foundation.Date? = nil,
+            level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+            managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+            name: Swift.String? = nil,
+            pauseRuns: Swift.Bool? = nil,
+            rulesetName: Swift.String? = nil
+        ) {
+            self.createdOn = createdOn
+            self.dataSource = dataSource
+            self.evaluationRunMode = evaluationRunMode
+            self.lastModifiedOn = lastModifiedOn
+            self.level = level
+            self.managedRulesetName = managedRulesetName
+            self.name = name
+            self.pauseRuns = pauseRuns
+            self.rulesetName = rulesetName
+        }
+    }
+}
+
+public struct ListDataQualityEvaluationConfigsOutput: Swift.Sendable {
+    /// A list of DataQualityEvaluationConfigListDetails objects.
+    public var dataQualityEvaluationConfigs: [GlueClientTypes.DataQualityEvaluationConfigListDetails]?
+    /// A pagination token, if more results are available.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataQualityEvaluationConfigs: [GlueClientTypes.DataQualityEvaluationConfigListDetails]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dataQualityEvaluationConfigs = dataQualityEvaluationConfigs
+        self.nextToken = nextToken
+    }
+}
+
 extension GlueClientTypes {
 
     /// Criteria used to return data quality results.
     public struct DataQualityResultFilterCriteria: Swift.Sendable {
+        /// Filter results by the evaluation configuration name which started the evaluation run.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// Filter results by the specified data source. For example, retrieving all results for an Glue table.
         public var dataSource: GlueClientTypes.DataSource?
+        /// Filter results by how their evaluation run started: ON_DEMAND or EVALUATION_CONFIG. Results that no evaluation run produced match neither value.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// Filter results by the specified job name.
         public var jobName: Swift.String?
         /// Filter results by the specified job run ID.
@@ -26836,13 +27726,17 @@ extension GlueClientTypes {
         public var startedBefore: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
             startedAfter: Foundation.Date? = nil,
             startedBefore: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
+            self.evaluationRunMode = evaluationRunMode
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.startedAfter = startedAfter
@@ -26874,8 +27768,12 @@ extension GlueClientTypes {
 
     /// Describes a data quality result.
     public struct DataQualityResultDescription: Swift.Sendable {
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table name associated with the data quality result.
         public var dataSource: GlueClientTypes.DataSource?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The job name associated with the data quality result.
         public var jobName: Swift.String?
         /// The job run ID associated with the data quality result.
@@ -26886,13 +27784,17 @@ extension GlueClientTypes {
         public var startedOn: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             jobName: Swift.String? = nil,
             jobRunId: Swift.String? = nil,
             resultId: Swift.String? = nil,
             startedOn: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
+            self.evaluationRunMode = evaluationRunMode
             self.jobName = jobName
             self.jobRunId = jobRunId
             self.resultId = resultId
@@ -26921,27 +27823,35 @@ extension GlueClientTypes {
 
     /// Describes the criteria used to filter the data quality results returned by ListDataQualityResultsV2.
     public struct DataQualityResultsV2FilterCriteria: Swift.Sendable {
+        /// Filter results by the evaluation configuration name which started the evaluation run.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The data source used to filter the results. For example, you can retrieve all results for an Glue table. DatabaseName and TableName are required. If you omit CatalogId, the catalog of the calling account is used. When you filter by data source, a page of results can be empty but still include a NextToken. Keep requesting pages until NextToken is absent.
         public var dataSource: GlueClientTypes.DataSource?
         /// The platform dimensions to filter results by.
         public var dimensions: [Swift.String: Swift.String]?
         /// The evaluation context to filter results by.
         public var evaluationContext: Swift.String?
+        /// Filter results by how their evaluation run started: ON_DEMAND or EVALUATION_CONFIG. Results that no evaluation run produced match neither value.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The time after which to include published results.
         public var publishedAfter: Foundation.Date?
         /// The time before which to include published results.
         public var publishedBefore: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             publishedAfter: Foundation.Date? = nil,
             publishedBefore: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.dimensions = dimensions
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.publishedAfter = publishedAfter
             self.publishedBefore = publishedBefore
         }
@@ -26971,6 +27881,8 @@ extension GlueClientTypes {
 
     /// Describes a data quality result returned by ListDataQualityResultsV2.
     public struct DataQualityResultsV2Description: Swift.Sendable {
+        /// The name of the data quality evaluation configuration that started the evaluation run, returned when EvaluationRunMode is EVALUATION_CONFIG.
+        public var dataQualityEvaluationConfig: Swift.String?
         /// The table associated with the data quality result, if any.
         public var dataSource: GlueClientTypes.DataSource?
         /// A map of user-provided descriptors that add contextual metadata and configuration to the data quality result, such as database name, table name, team, or environment.
@@ -26979,23 +27891,29 @@ extension GlueClientTypes {
         public var dimensions: [Swift.String: Swift.String]?
         /// The evaluation context for the data quality result. This value identifies a specific data quality result, or a series of related results, within a run.
         public var evaluationContext: Swift.String?
+        /// How the evaluation run that produced the result started: ON_DEMAND for a run started by StartDataQualityRulesetEvaluationRun, or EVALUATION_CONFIG for a run started by a data quality evaluation configuration. Not returned for results that no evaluation run produced, such as results from any ETL job.
+        public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
         /// The unique result ID for this data quality result.
         public var resultId: Swift.String?
         /// The date and time when this data quality result was published.
         public var resultPublishedOn: Foundation.Date?
 
         public init(
+            dataQualityEvaluationConfig: Swift.String? = nil,
             dataSource: GlueClientTypes.DataSource? = nil,
             descriptors: [Swift.String: Swift.String]? = nil,
             dimensions: [Swift.String: Swift.String]? = nil,
             evaluationContext: Swift.String? = nil,
+            evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
             resultId: Swift.String? = nil,
             resultPublishedOn: Foundation.Date? = nil
         ) {
+            self.dataQualityEvaluationConfig = dataQualityEvaluationConfig
             self.dataSource = dataSource
             self.descriptors = descriptors
             self.dimensions = dimensions
             self.evaluationContext = evaluationContext
+            self.evaluationRunMode = evaluationRunMode
             self.resultId = resultId
             self.resultPublishedOn = resultPublishedOn
         }
@@ -28792,12 +29710,19 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    ///
     public struct DataQualityTelemetry: Swift.Sendable {
+        ///
         public var engine: GlueClientTypes.DataQualityEngine?
+        ///
         public var flagsEnabled: [Swift.String: Swift.String]?
+        ///
         public var hostRuntimeVersion: Swift.String?
+        ///
         public var libraryVersion: Swift.String?
+        ///
         public var sparkVersion: Swift.String?
+        ///
         public var vcpuHours: Swift.Double?
 
         public init(
@@ -28855,6 +29780,7 @@ public struct PublishDataQualityResultV2Input: Swift.Sendable {
     public var statistics: [GlueClientTypes.StatisticSummary]?
     /// The tags for the result.
     public var tags: [Swift.String: Swift.String]?
+    ///
     public var telemetry: GlueClientTypes.DataQualityTelemetry?
 
     public init(
@@ -30927,17 +31853,29 @@ public struct StartJobRunInput: Swift.Sendable {
     public var securityConfiguration: Swift.String?
     /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.025X, G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+    ///
+    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
     ///
     /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
     /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
-    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
-    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
+    /// * For the G.12X worker type, each worker maps to 12 DPU (48 vCPUs, 192 GB of memory) with 768GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the G.16X worker type, each worker maps to 16 DPU (64 vCPUs, 256 GB of memory) with 1024GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.1X worker type, each worker maps to 1 M-DPU (4 vCPUs, 32 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.2X worker type, each worker maps to 2 M-DPU (8 vCPUs, 64 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.4X worker type, each worker maps to 4 M-DPU (16 vCPUs, 128 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.8X worker type, each worker maps to 8 M-DPU (32 vCPUs, 256 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
     /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?
@@ -30981,6 +31919,70 @@ public struct StartJobRunOutput: Swift.Sendable {
         jobRunId: Swift.String? = nil
     ) {
         self.jobRunId = jobRunId
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum UpgradeConsent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approve
+        case decline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpgradeConsent] {
+            return [
+                .approve,
+                .decline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approve: return "APPROVE"
+            case .decline: return "DECLINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartJobUpgradeAnalysisInput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis. The analysis must be in WAITING_FOR_CONSENT status.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with the analysis to resume.
+    /// This member is required.
+    public var jobName: Swift.String?
+    /// The customer's decision on whether to proceed with the upgrade.
+    public var upgradeConsent: GlueClientTypes.UpgradeConsent?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil,
+        upgradeConsent: GlueClientTypes.UpgradeConsent? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
+        self.upgradeConsent = upgradeConsent
+    }
+}
+
+public struct StartJobUpgradeAnalysisOutput: Swift.Sendable {
+    /// The unique identifier of the upgrade analysis.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with this analysis.
+    public var jobName: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
     }
 }
 
@@ -31372,6 +32374,28 @@ public struct StopCrawlerScheduleInput: Swift.Sendable {
 }
 
 public struct StopCrawlerScheduleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopJobUpgradeAnalysisInput: Swift.Sendable {
+    /// The unique identifier of the analysis to stop.
+    /// This member is required.
+    public var analysisId: Swift.String?
+    /// The name of the job associated with the analysis.
+    /// This member is required.
+    public var jobName: Swift.String?
+
+    public init(
+        analysisId: Swift.String? = nil,
+        jobName: Swift.String? = nil
+    ) {
+        self.analysisId = analysisId
+        self.jobName = jobName
+    }
+}
+
+public struct StopJobUpgradeAnalysisOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -32191,6 +33215,149 @@ public struct UpdateDatabaseInput: Swift.Sendable {
 public struct UpdateDatabaseOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateDataQualityEvaluationConfigInput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// The database or table that the configuration applies to. Replaces the current data source.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// A built-in ruleset, SIMPLE or ADVANCED, that profiles each table.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// The name of the data quality evaluation configuration to update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// Specifies whether to pause the configuration. While paused, the configuration evaluates nothing, including tables added to the catalog or database.
+    public var pauseRuns: Swift.Bool?
+    /// The IAM role that evaluations assume. You can specify the role name or the role Amazon Resource Name (ARN). The role needs the trust policy and permissions described for CreateDataQualityEvaluationConfig.
+    public var role: Swift.String?
+    /// The name of a Data Quality Definition Language (DQDL) ruleset, containing analyzers, rules, or both, to evaluate tables with. You create the ruleset using the CreateDataQualityRuleset API. Specify either RulesetName or ManagedRulesetName, not both.
+    public var rulesetName: Swift.String?
+    /// A cron or rate expression, in UTC, for the SCHEDULE trigger, for example cron(0 6 * * ? *). The schedule can run at most once an hour.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables. Replaces the current triggers. Choose from the following triggers: ONCE Evaluates each table one time, including when tables are added to a database or catalog. SCHEDULE Evaluates each table on the cron or rate expression in ScheduleExpression, between the optional StartAt and EndAt times. METADATA_CHANGE Evaluates a table whenever its Glue Data Catalog metadata changes, such as a schema change or an Apache Iceberg commit.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        pauseRuns: Swift.Bool? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.pauseRuns = pauseRuns
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.timeout = timeout
+        self.triggers = triggers
+    }
+}
+
+public struct UpdateDataQualityEvaluationConfigOutput: Swift.Sendable {
+    /// A map of reference strings to additional data sources you can specify for an evaluation run.
+    public var additionalDataSources: [Swift.String: GlueClientTypes.DataSource]?
+    /// Additional run options you can specify for an evaluation run.
+    public var additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions?
+    /// The time when the configuration was created.
+    public var createdOn: Foundation.Date?
+    /// The catalog, database, or table that the configuration applies to.
+    public var dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource?
+    /// The time at which the schedule stops running, exclusive.
+    public var endAt: Foundation.Date?
+    /// The evaluation run mode of the configuration's results, which is EVALUATION_CONFIG.
+    public var evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode?
+    /// The time when the configuration was last modified.
+    public var lastModifiedOn: Foundation.Date?
+    /// The Glue Data Catalog hierarchical level that the configuration applies to.
+    public var level: GlueClientTypes.DataQualityEvaluationConfigLevel?
+    /// The built-in ruleset that tables are evaluated with.
+    public var managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset?
+    /// The name of the data quality evaluation configuration.
+    public var name: Swift.String?
+    /// The number of G.1X workers to be used in the run. The default is 5.
+    public var numberOfWorkers: Swift.Int?
+    /// Specifies whether evaluations are paused.
+    public var pauseRuns: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that evaluation runs assume.
+    public var role: Swift.String?
+    /// The name of the data quality ruleset that tables are evaluated with.
+    public var rulesetName: Swift.String?
+    /// The cron or rate expression, in UTC, for the SCHEDULE trigger.
+    public var scheduleExpression: Swift.String?
+    /// The time from which the schedule runs, inclusive.
+    public var startAt: Foundation.Date?
+    /// The timeout for a run in minutes. This is the maximum time that a run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
+    public var timeout: Swift.Int?
+    /// When the configuration evaluates tables: ONCE Each table is evaluated one time, including when tables are added to a database or catalog. SCHEDULE Each table is evaluated on the cron or rate expression in ScheduleExpression. METADATA_CHANGE A table is evaluated whenever its Glue Data Catalog metadata changes.
+    public var triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]?
+
+    public init(
+        additionalDataSources: [Swift.String: GlueClientTypes.DataSource]? = nil,
+        additionalRunOptions: GlueClientTypes.DataQualityEvaluationConfigAdditionalRunOptions? = nil,
+        createdOn: Foundation.Date? = nil,
+        dataSource: GlueClientTypes.DataQualityEvaluationConfigDataSource? = nil,
+        endAt: Foundation.Date? = nil,
+        evaluationRunMode: GlueClientTypes.DataQualityEvaluationRunMode? = nil,
+        lastModifiedOn: Foundation.Date? = nil,
+        level: GlueClientTypes.DataQualityEvaluationConfigLevel? = nil,
+        managedRulesetName: GlueClientTypes.DataQualityEvaluationConfigManagedRuleset? = nil,
+        name: Swift.String? = nil,
+        numberOfWorkers: Swift.Int? = nil,
+        pauseRuns: Swift.Bool? = nil,
+        role: Swift.String? = nil,
+        rulesetName: Swift.String? = nil,
+        scheduleExpression: Swift.String? = nil,
+        startAt: Foundation.Date? = nil,
+        timeout: Swift.Int? = nil,
+        triggers: [GlueClientTypes.DataQualityEvaluationConfigTrigger]? = nil
+    ) {
+        self.additionalDataSources = additionalDataSources
+        self.additionalRunOptions = additionalRunOptions
+        self.createdOn = createdOn
+        self.dataSource = dataSource
+        self.endAt = endAt
+        self.evaluationRunMode = evaluationRunMode
+        self.lastModifiedOn = lastModifiedOn
+        self.level = level
+        self.managedRulesetName = managedRulesetName
+        self.name = name
+        self.numberOfWorkers = numberOfWorkers
+        self.pauseRuns = pauseRuns
+        self.role = role
+        self.rulesetName = rulesetName
+        self.scheduleExpression = scheduleExpression
+        self.startAt = startAt
+        self.timeout = timeout
+        self.triggers = triggers
+    }
 }
 
 public struct UpdateDataQualityRulesetInput: Swift.Sendable {
@@ -33975,6 +35142,8 @@ extension GlueClientTypes {
         /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
         @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
         public var allocatedCapacity: Swift.Int
+        /// The auto-upgrade assessment information for a job configured with glueVersion=auto. This field is null when the job is not configured to auto.
+        public var autoUpgradeMetadata: GlueClientTypes.AutoUpgradeMetadata?
         /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
         public var codeGenConfigurationNodes: [Swift.String: GlueClientTypes.CodeGenConfigurationNode]?
         /// The JobCommand that runs this job.
@@ -34055,17 +35224,21 @@ extension GlueClientTypes {
         ///
         /// R Worker Types (Memory-optimized workers):
         ///
-        /// * R.1X: 1 M-DPU (4 vCPUs, 32 GB memory)
+        /// * R.1X: 1 M-DPU (4 vCPUs, 32 GB memory, 94GB disk)
         ///
-        /// * R.2X: 2 M-DPU (8 vCPUs, 64 GB memory)
+        /// * R.2X: 2 M-DPU (8 vCPUs, 64 GB memory, 138GB disk)
         ///
-        /// * R.4X: 4 M-DPU (16 vCPUs, 128 GB memory)
+        /// * R.4X: 4 M-DPU (16 vCPUs, 128 GB memory, 256GB disk)
         ///
-        /// * R.8X: 8 M-DPU (32 vCPUs, 256 GB memory)
+        /// * R.8X: 8 M-DPU (32 vCPUs, 256 GB memory, 512GB disk)
+        ///
+        ///
+        /// The G.12X, G.16X, and R.1X through R.8X worker types are available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
             allocatedCapacity: Swift.Int = 0,
+            autoUpgradeMetadata: GlueClientTypes.AutoUpgradeMetadata? = nil,
             codeGenConfigurationNodes: [Swift.String: GlueClientTypes.CodeGenConfigurationNode]? = nil,
             command: GlueClientTypes.JobCommand? = nil,
             connections: GlueClientTypes.ConnectionsList? = nil,
@@ -34094,6 +35267,7 @@ extension GlueClientTypes {
             workerType: GlueClientTypes.WorkerType? = nil
         ) {
             self.allocatedCapacity = allocatedCapacity
+            self.autoUpgradeMetadata = autoUpgradeMetadata
             self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
@@ -34186,7 +35360,7 @@ extension GlueClientTypes {
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs. For more information, see [Defining job properties for Spark jobs ](https://docs.aws.amazon.com/glue/latest/dg/add-job.html#create-job)
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.025X, G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray jobs. For more information, see [Defining job properties for Spark jobs ](https://docs.aws.amazon.com/glue/latest/dg/add-job.html#create-job) The G.12X, G.16X, and R.1X through R.8X worker types are available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -34307,17 +35481,29 @@ public struct CreateJobInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
     /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2,880 minutes for Glue version 4.0 and earlier, or 480 minutes for Glue version 5.0 and later. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     public var timeout: Swift.Int?
-    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+    /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.025X, G.1X, G.2X, G.4X, G.8X, G.12X, G.16X, R.1X, R.2X, R.4X, or R.8X for Spark jobs. Accepts the value Z.2X for Ray jobs.
+    ///
+    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
     ///
     /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
     /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
     ///
-    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Mumbai), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Spain), Europe (Stockholm), and South America (São Paulo).
+    /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
-    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
+    /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
-    /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
+    /// * For the G.12X worker type, each worker maps to 12 DPU (48 vCPUs, 192 GB of memory) with 768GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the G.16X worker type, each worker maps to 16 DPU (64 vCPUs, 256 GB of memory) with 1024GB disk, and provides 1 executor per worker. We recommend this worker type for jobs with very large workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.1X worker type, each worker maps to 1 M-DPU (4 vCPUs, 32 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.2X worker type, each worker maps to 2 M-DPU (8 vCPUs, 64 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.4X worker type, each worker maps to 4 M-DPU (16 vCPUs, 128 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
+    ///
+    /// * For the R.8X worker type, each worker maps to 8 M-DPU (32 vCPUs, 256 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for memory-intensive workloads. This worker type is available only for Glue version 4.0 or later Spark ETL jobs in select Amazon Web Services Regions. For the supported Regions, see [Configuring job properties for Spark jobs](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide.
     ///
     /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     public var workerType: GlueClientTypes.WorkerType?

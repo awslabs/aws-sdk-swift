@@ -910,7 +910,7 @@ extension ElastiCacheClient {
 
     /// Performs the `CompleteMigration` operation on the `ElastiCache` service.
     ///
-    /// Complete the migration of data.
+    /// Completes the migration of data.
     ///
     /// - Parameter input: [no documentation found] (Type: `CompleteMigrationInput`)
     ///
@@ -919,9 +919,16 @@ extension ElastiCacheClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `MigrationHealthFault` : The migration is not healthy. Check the events for this serverless cache for more details. For CompleteMigration, set Force to true to bypass this check.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
     /// - `ReplicationGroupNotUnderMigrationFault` : The designated replication group is not available for data migration.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheNotUnderMigrationFault` : The serverless cache is not currently under migration.
     public func completeMigration(input: CompleteMigrationInput) async throws -> CompleteMigrationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5497,6 +5504,77 @@ extension ElastiCacheClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PrepareMigration` operation on the `ElastiCache` service.
+    ///
+    /// Prepares the serverless cache for data migration by validating the configuration and setting up the migration resources.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PrepareMigrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PrepareMigrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `ServerlessCacheAlreadyUnderMigrationFault` : A migration is already in progress for this serverless cache. You cannot start another migration until the current one completes.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    public func prepareMigration(input: PrepareMigrationInput) async throws -> PrepareMigrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "prepareMigration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "elasticache")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PrepareMigrationInput, PrepareMigrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PrepareMigrationInput, PrepareMigrationOutput>(PrepareMigrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PrepareMigrationInput, PrepareMigrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PrepareMigrationInput, PrepareMigrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PrepareMigrationOutput>(PrepareMigrationOutput.httpOutput(from:), PrepareMigrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PrepareMigrationInput, PrepareMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PrepareMigrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ElastiCache", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PrepareMigrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<PrepareMigrationInput, PrepareMigrationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: PrepareMigrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PrepareMigrationInput, PrepareMigrationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PrepareMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PrepareMigrationInput, PrepareMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PrepareMigrationInput, PrepareMigrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ElastiCache"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PrepareMigrationInput, PrepareMigrationOutput>(serviceID: serviceName, version: ElastiCacheClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElastiCache")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PrepareMigration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PurchaseReservedCacheNodesOffering` operation on the `ElastiCache` service.
     ///
     /// Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for cancellation and are non-refundable. For more information, see [Managing Costs with Reserved Nodes](https://docs.aws.amazon.com/AmazonElastiCache/latest/dg/reserved-nodes.html).
@@ -5947,7 +6025,7 @@ extension ElastiCacheClient {
 
     /// Performs the `StartMigration` operation on the `ElastiCache` service.
     ///
-    /// Start the migration of data.
+    /// Starts the migration of data.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartMigrationInput`)
     ///
@@ -5956,10 +6034,16 @@ extension ElastiCacheClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `MigrationHealthFault` : The migration is not healthy. Check the events for this serverless cache for more details. For CompleteMigration, set Force to true to bypass this check.
     /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.
     /// - `ReplicationGroupNotFoundFault` : The specified replication group does not exist.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheNotUnderMigrationFault` : The serverless cache is not currently under migration.
     public func startMigration(input: StartMigrationInput) async throws -> StartMigrationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6004,6 +6088,77 @@ extension ElastiCacheClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElastiCache")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMigration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopMigration` operation on the `ElastiCache` service.
+    ///
+    /// Stops an ongoing data sync between the source and the serverless cache. The migration remains open and the data sync can be restarted. This operation is valid only while the migration is syncing; during cutover it returns InvalidServerlessCacheStateFault.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopMigrationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopMigrationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value for a parameter is invalid.
+    /// - `InvalidServerlessCacheStateFault` : The account for these credentials is not currently active.
+    /// - `ServerlessCacheNotFoundFault` : The serverless cache was not found or does not exist.
+    /// - `ServerlessCacheNotUnderMigrationFault` : The serverless cache is not currently under migration.
+    public func stopMigration(input: StopMigrationInput) async throws -> StopMigrationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopMigration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "elasticache")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopMigrationInput, StopMigrationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopMigrationInput, StopMigrationOutput>(StopMigrationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopMigrationInput, StopMigrationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMigrationInput, StopMigrationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMigrationOutput>(StopMigrationOutput.httpOutput(from:), StopMigrationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMigrationInput, StopMigrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopMigrationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ElastiCache", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopMigrationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopMigrationInput, StopMigrationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: StopMigrationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopMigrationInput, StopMigrationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopMigrationInput, StopMigrationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopMigrationInput, StopMigrationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ElastiCache"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopMigrationInput, StopMigrationOutput>(serviceID: serviceName, version: ElastiCacheClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ElastiCache")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopMigration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6134,6 +6289,8 @@ extension ElastiCacheClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InvalidCacheClusterStateFault` : The requested cluster is not in the available state.
+    /// - `InvalidParameterCombinationException` : Two or more incompatible parameters were specified.
     /// - `InvalidParameterValueException` : The value for a parameter is invalid.
     /// - `InvalidReplicationGroupStateFault` : The requested replication group is not in the available state.
     /// - `ReplicationGroupAlreadyUnderMigrationFault` : The targeted replication group is not available.

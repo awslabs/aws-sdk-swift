@@ -1,5 +1,5 @@
 {
-  "modelPath": "codegen/sdk-codegen/aws-models/finspace.json",
+  "modelPath": "codegen/sdk-codegen/aws-models/continuum.json",
   "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",

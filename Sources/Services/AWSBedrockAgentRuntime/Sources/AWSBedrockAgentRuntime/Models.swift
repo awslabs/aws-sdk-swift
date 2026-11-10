@@ -1269,6 +1269,40 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes {
 
+    /// A document that a code execution action reads.
+    public struct AgenticRetrieveCodeExecutionDocument: Swift.Sendable {
+        /// The identifier of the document.
+        public var documentId: Swift.String?
+        /// The source retriever associated with the document.
+        public var sourceRetriever: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceRetriever?
+
+        public init(
+            documentId: Swift.String? = nil,
+            sourceRetriever: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceRetriever? = nil
+        ) {
+            self.documentId = documentId
+            self.sourceRetriever = sourceRetriever
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The details of code that the agent chose to run in an isolated sandbox. The record includes the documents that the code reads. The corresponding CodeExecution step reports the outcome.
+    public struct AgenticRetrieveCodeExecutionDetails: Swift.Sendable {
+        /// The documents that the code reads. This field is present when the code reads documents.
+        public var documents: [BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument]?
+
+        public init(
+            documents: [BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument]? = nil
+        ) {
+            self.documents = documents
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
     /// Details of a full document expansion action.
     public struct AgenticRetrieveFullDocExpansionDetails: Swift.Sendable {
         /// The identifier of the document to expand.
@@ -1375,6 +1409,8 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// An action taken during agentic retrieval.
     public struct AgenticRetrieveAction: Swift.Sendable {
+        /// The details of code that the agent chose to run.
+        public var codeExecution: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails?
         /// Details of a full document expansion action.
         public var fullDocumentExpansion: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails?
         /// The details of a long-term memory retrieval that the agent chose to perform.
@@ -1383,13 +1419,35 @@ extension BedrockAgentRuntimeClientTypes {
         public var retrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails?
 
         public init(
+            codeExecution: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails? = nil,
             fullDocumentExpansion: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails? = nil,
             memoryRetrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails? = nil,
             retrieve: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails? = nil
         ) {
+            self.codeExecution = codeExecution
             self.fullDocumentExpansion = fullDocumentExpansion
             self.memoryRetrieve = memoryRetrieve
             self.retrieve = retrieve
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The retrieval instruction, identified by its ID and version, that was applied to the request.
+    public struct AgenticRetrieveAppliedInstruction: Swift.Sendable {
+        /// The identifier of the retrieval instruction applied.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The version that was applied: a version number, or DRAFT. The service reports this version whenever it reports appliedInstruction, including DRAFT when the request did not specify a version.
+        public var version: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.id = id
+            self.version = version
         }
     }
 }
@@ -1842,6 +1900,26 @@ extension BedrockAgentRuntimeClientTypes {
             self.action = action
             self.id = id
             self.message = message
+            self.version = version
+        }
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+
+    /// The retrieval instruction, identified by its ID and optional version, to apply to this request.
+    public struct AgenticRetrieveInstructionConfiguration: Swift.Sendable {
+        /// The identifier of the retrieval instruction. The instruction must exist in the caller's account and its status must be ACTIVE.
+        /// This member is required.
+        public var retrievalInstructionId: Swift.String?
+        /// The version of the retrieval instruction to apply: a version number, or DRAFT for the instruction's current reviewed content. When omitted, DRAFT is used. This default is permanent.
+        public var version: Swift.String?
+
+        public init(
+            retrievalInstructionId: Swift.String? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.retrievalInstructionId = retrievalInstructionId
             self.version = version
         }
     }
@@ -2357,6 +2435,8 @@ extension BedrockAgentRuntimeClientTypes {
 
     /// The step in the agentic retrieval process.
     public enum AgenticRetrieveStep: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The phase that runs agent-generated code in an isolated sandbox. The code can read documents retrieved earlier in the same request.
+        case codeExecution
         /// The full document expansion phase.
         case fullDocumentExpansion
         /// The planning phase of retrieval.
@@ -2371,6 +2451,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public static var allCases: [AgenticRetrieveStep] {
             return [
+                .codeExecution,
                 .fullDocumentExpansion,
                 .planning,
                 .retrieval,
@@ -2386,6 +2467,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .codeExecution: return "CodeExecution"
             case .fullDocumentExpansion: return "FullDocumentExpansion"
             case .planning: return "Planning"
             case .retrieval: return "Retrieval"
@@ -2672,6 +2754,8 @@ extension BedrockAgentRuntimeClientTypes {
     public struct AgenticRetrieveTraceEventAttributes: Swift.Sendable {
         /// The list of actions taken during this step.
         public var actions: [BedrockAgentRuntimeClientTypes.AgenticRetrieveAction]?
+        /// The agent reports the retrieval instruction applied to this request on the first planning step.
+        public var appliedInstruction: BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction?
         /// Failures that occurred during this step.
         public var failures: [BedrockAgentRuntimeClientTypes.AgenticRetrieveFailure]?
         /// A human-readable message describing the trace event.
@@ -2692,6 +2776,7 @@ extension BedrockAgentRuntimeClientTypes {
 
         public init(
             actions: [BedrockAgentRuntimeClientTypes.AgenticRetrieveAction]? = nil,
+            appliedInstruction: BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction? = nil,
             failures: [BedrockAgentRuntimeClientTypes.AgenticRetrieveFailure]? = nil,
             message: Swift.String? = nil,
             retrievalMetadata: [BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceMetadata]? = nil,
@@ -2701,6 +2786,7 @@ extension BedrockAgentRuntimeClientTypes {
             warnings: [BedrockAgentRuntimeClientTypes.AgenticRetrieveWarning]? = nil
         ) {
             self.actions = actions
+            self.appliedInstruction = appliedInstruction
             self.failures = failures
             self.message = message
             self.retrievalMetadata = retrievalMetadata
@@ -7322,7 +7408,9 @@ public struct GetDocumentContentInput: Swift.Sendable {
     /// The unique identifier of the knowledge base that contains the document.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
-    /// The output format for the document content. RAW returns the original file. EXTRACTED returns parsed text as JSON. Defaults to RAW.
+    /// The unique identifier (in UUID format) of an image embedded in the specified document. Set this parameter to the _media_id value in the metadata of the corresponding Retrieve result. If you specify this parameter, the response contains a pre-signed URL for the image instead of the document, and you must omit outputFormat or set it to RAW.
+    public var mediaId: Swift.String?
+    /// The output format for the content. You can specify one of the following values: RAW Returns the original document, or the selected image if you specify mediaId. EXTRACTED Returns parsed document text as JSON. If you omit this parameter, the default is RAW. You can't use EXTRACTED with mediaId.
     public var outputFormat: BedrockAgentRuntimeClientTypes.DocumentOutputFormat?
     /// Contains information about the user making the request. This is used for access control filtering to ensure that results only include documents the user is authorized to access.
     public var userContext: BedrockAgentRuntimeClientTypes.UserContext?
@@ -7331,12 +7419,14 @@ public struct GetDocumentContentInput: Swift.Sendable {
         dataSourceId: Swift.String? = nil,
         documentId: Swift.String? = nil,
         knowledgeBaseId: Swift.String? = nil,
+        mediaId: Swift.String? = nil,
         outputFormat: BedrockAgentRuntimeClientTypes.DocumentOutputFormat? = nil,
         userContext: BedrockAgentRuntimeClientTypes.UserContext? = nil
     ) {
         self.dataSourceId = dataSourceId
         self.documentId = documentId
         self.knowledgeBaseId = knowledgeBaseId
+        self.mediaId = mediaId
         self.outputFormat = outputFormat
         self.userContext = userContext
     }
@@ -7344,16 +7434,16 @@ public struct GetDocumentContentInput: Swift.Sendable {
 
 extension GetDocumentContentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDocumentContentInput(dataSourceId: \(Swift.String(describing: dataSourceId)), documentId: \(Swift.String(describing: documentId)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), outputFormat: \(Swift.String(describing: outputFormat)), userContext: \"CONTENT_REDACTED\")"}
+        "GetDocumentContentInput(dataSourceId: \(Swift.String(describing: dataSourceId)), documentId: \(Swift.String(describing: documentId)), knowledgeBaseId: \(Swift.String(describing: knowledgeBaseId)), mediaId: \(Swift.String(describing: mediaId)), outputFormat: \(Swift.String(describing: outputFormat)), userContext: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDocumentContentOutput: Swift.Sendable {
-    /// The size of the document content in bytes available at the pre-signed URL.
+    /// The size, in bytes, of the content available at the pre-signed URL.
     public var documentContentLength: Swift.Int?
-    /// The MIME type of the document content. For RAW format, this is the original file type (for example, application/pdf). For EXTRACTED format, this is always application/json.
+    /// The MIME type of the returned content. For RAW format, this is the original file type (for example, application/pdf), or the image type (for example, image/png) if you specify mediaId. For EXTRACTED format, this is always application/json.
     /// This member is required.
     public var mimeType: Swift.String?
-    /// A pre-signed URL for downloading the document content. The URL expires after 5 minutes.
+    /// A pre-signed URL for downloading the document content, or the selected image if you specify mediaId. The URL expires after 5 minutes.
     /// This member is required.
     public var presignedUrl: Swift.String?
 
@@ -11341,6 +11431,8 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// Policy configuration for guardrails and content filtering.
     public var policyConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration?
+    /// A retrieval instruction to apply to this request.
+    public var retrievalInstructionConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration?
     /// The list of retrievers to use for agentic retrieval.
     /// This member is required.
     public var retrievers: [BedrockAgentRuntimeClientTypes.AgenticRetriever]?
@@ -11354,6 +11446,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
         messages: [BedrockAgentRuntimeClientTypes.AgenticRetrieveMessage]? = nil,
         nextToken: Swift.String? = nil,
         policyConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration? = nil,
+        retrievalInstructionConfiguration: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration? = nil,
         retrievers: [BedrockAgentRuntimeClientTypes.AgenticRetriever]? = nil,
         userContext: BedrockAgentRuntimeClientTypes.UserContext? = nil
     ) {
@@ -11363,6 +11456,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
         self.messages = messages
         self.nextToken = nextToken
         self.policyConfiguration = policyConfiguration
+        self.retrievalInstructionConfiguration = retrievalInstructionConfiguration
         self.retrievers = retrievers
         self.userContext = userContext
     }
@@ -11370,7 +11464,7 @@ public struct AgenticRetrieveStreamInput: Swift.Sendable {
 
 extension AgenticRetrieveStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AgenticRetrieveStreamInput(agenticRetrieveConfiguration: \(Swift.String(describing: agenticRetrieveConfiguration)), generateResponse: \(Swift.String(describing: generateResponse)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), messages: \(Swift.String(describing: messages)), nextToken: \(Swift.String(describing: nextToken)), policyConfiguration: \(Swift.String(describing: policyConfiguration)), retrievers: \(Swift.String(describing: retrievers)), userContext: \"CONTENT_REDACTED\")"}
+        "AgenticRetrieveStreamInput(agenticRetrieveConfiguration: \(Swift.String(describing: agenticRetrieveConfiguration)), generateResponse: \(Swift.String(describing: generateResponse)), memoryConfiguration: \(Swift.String(describing: memoryConfiguration)), messages: \(Swift.String(describing: messages)), nextToken: \(Swift.String(describing: nextToken)), policyConfiguration: \(Swift.String(describing: policyConfiguration)), retrievalInstructionConfiguration: \(Swift.String(describing: retrievalInstructionConfiguration)), retrievers: \(Swift.String(describing: retrievers)), userContext: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
@@ -12416,6 +12510,7 @@ extension AgenticRetrieveStreamInput {
         try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveMessage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["nextToken"].write(value.nextToken)
         try writer["policyConfiguration"].write(value.policyConfiguration, with: BedrockAgentRuntimeClientTypes.AgenticRetrievePolicyConfiguration.write(value:to:))
+        try writer["retrievalInstructionConfiguration"].write(value.retrievalInstructionConfiguration, with: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration.write(value:to:))
         try writer["retrievers"].writeList(value.retrievers, memberWritingClosure: BedrockAgentRuntimeClientTypes.AgenticRetriever.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["userContext"].write(value.userContext, with: BedrockAgentRuntimeClientTypes.UserContext.write(value:to:))
     }
@@ -12462,6 +12557,7 @@ extension GetDocumentContentInput {
 
     static func write(value: GetDocumentContentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["mediaId"].write(value.mediaId)
         try writer["outputFormat"].write(value.outputFormat)
         try writer["userContext"].write(value.userContext, with: BedrockAgentRuntimeClientTypes.UserContext.write(value:to:))
     }
@@ -14447,6 +14543,7 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveAction {
         value.retrieve = try reader["retrieve"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails.read(from:))
         value.fullDocumentExpansion = try reader["fullDocumentExpansion"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveFullDocExpansionDetails.read(from:))
         value.memoryRetrieve = try reader["memoryRetrieve"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMemoryRetrieveDetails.read(from:))
+        value.codeExecution = try reader["codeExecution"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails.read(from:))
         return value
     }
 }
@@ -14458,6 +14555,17 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails {
         var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveActionDetails()
         value.inputQuery = try reader["inputQuery"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveMessageContent.read(from:))
         value.sourceRetrievers = try reader["sourceRetrievers"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceRetriever.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
@@ -14505,6 +14613,27 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveCitationReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveCitationReference()
         value.resultIndex = try reader["resultIndex"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDetails()
+        value.documents = try reader["documents"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentRuntimeClientTypes.AgenticRetrieveCodeExecutionDocument()
+        value.documentId = try reader["documentId"].readIfPresent()
+        value.sourceRetriever = try reader["sourceRetriever"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceRetriever.read(from:))
         return value
     }
 }
@@ -14563,6 +14692,15 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveGuardrailWarning {
         value.action = try reader["action"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["message"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration {
+
+    static func write(value: BedrockAgentRuntimeClientTypes.AgenticRetrieveInstructionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["retrievalInstructionId"].write(value.retrievalInstructionId)
+        try writer["version"].write(value.version)
     }
 }
 
@@ -14796,6 +14934,7 @@ extension BedrockAgentRuntimeClientTypes.AgenticRetrieveTraceEventAttributes {
         value.failures = try reader["failures"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.retrievalMetadata = try reader["retrievalMetadata"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveSourceMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.retrievalResponse = try reader["retrievalResponse"].readListIfPresent(memberReadingClosure: BedrockAgentRuntimeClientTypes.AgenticRetrieveTraceResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.appliedInstruction = try reader["appliedInstruction"].readIfPresent(with: BedrockAgentRuntimeClientTypes.AgenticRetrieveAppliedInstruction.read(from:))
         return value
     }
 }

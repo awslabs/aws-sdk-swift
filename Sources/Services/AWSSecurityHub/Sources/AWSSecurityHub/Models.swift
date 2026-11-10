@@ -1634,15 +1634,71 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum ResourceCriticality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case unknown
+        case veryHigh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceCriticality] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .unknown,
+                .veryHigh
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "High"
+            case .low: return "Low"
+            case .medium: return "Medium"
+            case .unknown: return "Unknown"
+            case .veryHigh: return "Very High"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Allows you to define the structure for modifying specific fields of resources.
+    public struct AutomationRulesResourceFieldsUpdateV2: Swift.Sendable {
+        /// The criticality level to be assigned to resources that match the automation rule criteria.
+        /// This member is required.
+        public var criticality: SecurityHubClientTypes.ResourceCriticality?
+
+        public init(
+            criticality: SecurityHubClientTypes.ResourceCriticality? = nil
+        ) {
+            self.criticality = criticality
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum AutomationRulesActionTypeV2: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case externalIntegration
         case findingFieldsUpdate
+        case resourceFieldsUpdate
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AutomationRulesActionTypeV2] {
             return [
                 .externalIntegration,
-                .findingFieldsUpdate
+                .findingFieldsUpdate,
+                .resourceFieldsUpdate
             ]
         }
 
@@ -1655,6 +1711,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .externalIntegration: return "EXTERNAL_INTEGRATION"
             case .findingFieldsUpdate: return "FINDING_FIELDS_UPDATE"
+            case .resourceFieldsUpdate: return "RESOURCE_FIELDS_UPDATE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1669,6 +1726,8 @@ extension SecurityHubClientTypes {
         public var externalIntegrationConfiguration: SecurityHubClientTypes.ExternalIntegrationConfiguration?
         /// The changes to be applied to fields in a security finding when an automation rule is triggered.
         public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2?
+        /// The changes to be applied to resource fields when an automation rule is triggered.
+        public var resourceFieldsUpdate: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2?
         /// The category of action to be executed by the automation rule.
         /// This member is required.
         public var type: SecurityHubClientTypes.AutomationRulesActionTypeV2?
@@ -1676,10 +1735,12 @@ extension SecurityHubClientTypes {
         public init(
             externalIntegrationConfiguration: SecurityHubClientTypes.ExternalIntegrationConfiguration? = nil,
             findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2? = nil,
+            resourceFieldsUpdate: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2? = nil,
             type: SecurityHubClientTypes.AutomationRulesActionTypeV2? = nil
         ) {
             self.externalIntegrationConfiguration = externalIntegrationConfiguration
             self.findingFieldsUpdate = findingFieldsUpdate
+            self.resourceFieldsUpdate = resourceFieldsUpdate
             self.type = type
         }
     }
@@ -23730,6 +23791,8 @@ extension SecurityHubClientTypes {
         case findingInfoTitle
         case findingInfoTypes
         case findingInfoUid
+        case impact
+        case likelihood
         case malwareName
         case malwareScanInfoUid
         case malwareSeverity
@@ -23743,6 +23806,7 @@ extension SecurityHubClientTypes {
         case resourcesCloudFunctionRuntime
         case resourcesCloudFunctionUserUid
         case resourcesCloudPartition
+        case resourcesCriticality
         case resourcesDeviceEncryptionDetailsKeyUid
         case resourcesDeviceImageUid
         case resourcesImageArchitecture
@@ -23810,6 +23874,8 @@ extension SecurityHubClientTypes {
                 .findingInfoTitle,
                 .findingInfoTypes,
                 .findingInfoUid,
+                .impact,
+                .likelihood,
                 .malwareName,
                 .malwareScanInfoUid,
                 .malwareSeverity,
@@ -23823,6 +23889,7 @@ extension SecurityHubClientTypes {
                 .resourcesCloudFunctionRuntime,
                 .resourcesCloudFunctionUserUid,
                 .resourcesCloudPartition,
+                .resourcesCriticality,
                 .resourcesDeviceEncryptionDetailsKeyUid,
                 .resourcesDeviceImageUid,
                 .resourcesImageArchitecture,
@@ -23896,6 +23963,8 @@ extension SecurityHubClientTypes {
             case .findingInfoTitle: return "finding_info.title"
             case .findingInfoTypes: return "finding_info.types"
             case .findingInfoUid: return "finding_info.uid"
+            case .impact: return "impact"
+            case .likelihood: return "likelihood"
             case .malwareName: return "malware.name"
             case .malwareScanInfoUid: return "malware_scan_info.uid"
             case .malwareSeverity: return "malware.severity"
@@ -23909,6 +23978,7 @@ extension SecurityHubClientTypes {
             case .resourcesCloudFunctionRuntime: return "resources.cloud_function.runtime"
             case .resourcesCloudFunctionUserUid: return "resources.cloud_function.user.uid"
             case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesCriticality: return "resources.criticality"
             case .resourcesDeviceEncryptionDetailsKeyUid: return "resources.device.encryption_details.key_uid"
             case .resourcesDeviceImageUid: return "resources.device.image.uid"
             case .resourcesImageArchitecture: return "resources.image.architecture"
@@ -24686,6 +24756,297 @@ public struct CreateAutomationRuleOutput: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    public enum ResourcesDateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourceCreationTimeDt
+        case resourceDetailCaptureTimeDt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesDateField] {
+            return [
+                .resourceCreationTimeDt,
+                .resourceDetailCaptureTimeDt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourceCreationTimeDt: return "ResourceCreationTime"
+            case .resourceDetailCaptureTimeDt: return "ResourceDetailCaptureTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the filtering of Amazon Web Services resources based on date and timestamp attributes.
+    public struct ResourcesDateFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesDateField?
+        /// A date filter for querying findings.
+        public var filter: SecurityHubClientTypes.DateFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesDateField? = nil,
+            filter: SecurityHubClientTypes.DateFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesMapField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesMapField] {
+            return [
+                .tag
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tag: return "ResourceTags"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on key-value map attributes.
+    public struct ResourcesMapFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesMapField?
+        /// A map filter for filtering Security Hub CSPM findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
+        public var filter: SecurityHubClientTypes.MapFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesMapField? = nil,
+            filter: SecurityHubClientTypes.MapFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesNumberField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case selfHostedAiAgentFrameworkResourceCount
+        case selfHostedAiAgentResourceCount
+        case selfHostedAiAgentToolsAndIdentityResourceCount
+        case selfHostedAiDevelopmentResourceCount
+        case selfHostedAiExternalEndpointResourceCount
+        case selfHostedAiModelResourceCount
+        case selfHostedAiModelServingResourceCount
+        case selfHostedTotalAiResourceCount
+        case severityCritical
+        case severityFatal
+        case severityHigh
+        case severityInformational
+        case severityLow
+        case severityMedium
+        case severityOther
+        case severityUnknown
+        case totalFindings
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesNumberField] {
+            return [
+                .selfHostedAiAgentFrameworkResourceCount,
+                .selfHostedAiAgentResourceCount,
+                .selfHostedAiAgentToolsAndIdentityResourceCount,
+                .selfHostedAiDevelopmentResourceCount,
+                .selfHostedAiExternalEndpointResourceCount,
+                .selfHostedAiModelResourceCount,
+                .selfHostedAiModelServingResourceCount,
+                .selfHostedTotalAiResourceCount,
+                .severityCritical,
+                .severityFatal,
+                .severityHigh,
+                .severityInformational,
+                .severityLow,
+                .severityMedium,
+                .severityOther,
+                .severityUnknown,
+                .totalFindings
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .selfHostedAiAgentFrameworkResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
+            case .selfHostedAiAgentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
+            case .selfHostedAiAgentToolsAndIdentityResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
+            case .selfHostedAiDevelopmentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
+            case .selfHostedAiExternalEndpointResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
+            case .selfHostedAiModelResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
+            case .selfHostedAiModelServingResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
+            case .selfHostedTotalAiResourceCount: return "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
+            case .severityCritical: return "FindingsSummary.Severities.Critical"
+            case .severityFatal: return "FindingsSummary.Severities.Fatal"
+            case .severityHigh: return "FindingsSummary.Severities.High"
+            case .severityInformational: return "FindingsSummary.Severities.Informational"
+            case .severityLow: return "FindingsSummary.Severities.Low"
+            case .severityMedium: return "FindingsSummary.Severities.Medium"
+            case .severityOther: return "FindingsSummary.Severities.Other"
+            case .severityUnknown: return "FindingsSummary.Severities.Unknown"
+            case .totalFindings: return "FindingsSummary.TotalFindings"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on numerical values.
+    public struct ResourcesNumberFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesNumberField?
+        /// A number filter for querying findings.
+        public var filter: SecurityHubClientTypes.NumberFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesNumberField? = nil,
+            filter: SecurityHubClientTypes.NumberFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case accountName
+        case canonicalId
+        case discoveryType
+        case findingType
+        case hostResourceGuid
+        case hostResourceType
+        case productName
+        case region
+        case resourceCategory
+        case resourceCloudPartition
+        case resourceCriticality
+        case resourceGuid
+        case resourceId
+        case resourceName
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
+        case resourceSubCategory
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesStringField] {
+            return [
+                .accountId,
+                .accountName,
+                .canonicalId,
+                .discoveryType,
+                .findingType,
+                .hostResourceGuid,
+                .hostResourceType,
+                .productName,
+                .region,
+                .resourceCategory,
+                .resourceCloudPartition,
+                .resourceCriticality,
+                .resourceGuid,
+                .resourceId,
+                .resourceName,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
+                .resourceSubCategory,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .accountName: return "AccountName"
+            case .canonicalId: return "ResourceInfo.AIDetails.CanonicalId"
+            case .discoveryType: return "DiscoveryType"
+            case .findingType: return "FindingsSummary.FindingType"
+            case .hostResourceGuid: return "ResourceInfo.AIDetails.HostResourceGuid"
+            case .hostResourceType: return "ResourceInfo.AIDetails.HostResourceType"
+            case .productName: return "FindingsSummary.ProductName"
+            case .region: return "Region"
+            case .resourceCategory: return "ResourceCategory"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceCriticality: return "ResourceCriticality"
+            case .resourceGuid: return "ResourceGuid"
+            case .resourceId: return "ResourceId"
+            case .resourceName: return "ResourceName"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
+            case .resourceSubCategory: return "ResourceSubCategory"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on string field values.
+    public struct ResourcesStringFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesStringField?
+        /// A string filter for filtering Security Hub CSPM findings.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
 public struct CreateAutomationRuleV2Output: Swift.Sendable {
     /// The ARN of the V2 automation rule.
     public var ruleArn: Swift.String?
@@ -25272,6 +25633,59 @@ public struct CreateTicketV2Output: Swift.Sendable {
     ) {
         self.ticketId = ticketId
         self.ticketSrcUrl = ticketSrcUrl
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum CriticalitySourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automationRule
+        case resourceName
+        case tagInference
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CriticalitySourceType] {
+            return [
+                .automationRule,
+                .resourceName,
+                .tagInference
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automationRule: return "AutomationRule"
+            case .resourceName: return "ResourceName"
+            case .tagInference: return "TagInference"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Details the source and reason of a criticality.
+    public struct CriticalitySource: Swift.Sendable {
+        /// The reason the criticality was assigned.
+        /// This member is required.
+        public var reason: Swift.String?
+        /// The source of the criticality.
+        /// This member is required.
+        public var source: SecurityHubClientTypes.CriticalitySourceType?
+
+        public init(
+            reason: Swift.String? = nil,
+            source: SecurityHubClientTypes.CriticalitySourceType? = nil
+        ) {
+            self.reason = reason
+            self.source = source
+        }
     }
 }
 
@@ -28315,10 +28729,13 @@ extension SecurityHubClientTypes {
         case findingInfoRelatedEventsTraitsCategory
         case findingInfoTitle
         case findingInfoTypes
+        case impact
+        case likelihood
         case metadataProductName
         case metadataProductUid
         case metadataProductVendorName
         case resourcesCloudPartition
+        case resourcesCriticality
         case resourcesName
         case resourcesOwnerAccountName
         case resourcesOwnerAccountUid
@@ -28350,10 +28767,13 @@ extension SecurityHubClientTypes {
                 .findingInfoRelatedEventsTraitsCategory,
                 .findingInfoTitle,
                 .findingInfoTypes,
+                .impact,
+                .likelihood,
                 .metadataProductName,
                 .metadataProductUid,
                 .metadataProductVendorName,
                 .resourcesCloudPartition,
+                .resourcesCriticality,
                 .resourcesName,
                 .resourcesOwnerAccountName,
                 .resourcesOwnerAccountUid,
@@ -28391,10 +28811,13 @@ extension SecurityHubClientTypes {
             case .findingInfoRelatedEventsTraitsCategory: return "finding_info.related_events.traits.category"
             case .findingInfoTitle: return "finding_info.title"
             case .findingInfoTypes: return "finding_info.types"
+            case .impact: return "impact"
+            case .likelihood: return "likelihood"
             case .metadataProductName: return "metadata.product.name"
             case .metadataProductUid: return "metadata.product.uid"
             case .metadataProductVendorName: return "metadata.product.vendor_name"
             case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesCriticality: return "resources.criticality"
             case .resourcesName: return "resources.name"
             case .resourcesOwnerAccountName: return "resources.owner.account.name"
             case .resourcesOwnerAccountUid: return "resources.owner.account.uid"
@@ -29811,294 +30234,6 @@ public struct GetRemediationsV2Output: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
-    public enum ResourcesDateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case resourceCreationTimeDt
-        case resourceDetailCaptureTimeDt
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesDateField] {
-            return [
-                .resourceCreationTimeDt,
-                .resourceDetailCaptureTimeDt
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .resourceCreationTimeDt: return "ResourceCreationTime"
-            case .resourceDetailCaptureTimeDt: return "ResourceDetailCaptureTime"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables the filtering of Amazon Web Services resources based on date and timestamp attributes.
-    public struct ResourcesDateFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesDateField?
-        /// A date filter for querying findings.
-        public var filter: SecurityHubClientTypes.DateFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesDateField? = nil,
-            filter: SecurityHubClientTypes.DateFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    public enum ResourcesMapField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case tag
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesMapField] {
-            return [
-                .tag
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .tag: return "ResourceTags"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables filtering of Amazon Web Services resources based on key-value map attributes.
-    public struct ResourcesMapFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesMapField?
-        /// A map filter for filtering Security Hub CSPM findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
-        public var filter: SecurityHubClientTypes.MapFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesMapField? = nil,
-            filter: SecurityHubClientTypes.MapFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    public enum ResourcesNumberField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case selfHostedAiAgentFrameworkResourceCount
-        case selfHostedAiAgentResourceCount
-        case selfHostedAiAgentToolsAndIdentityResourceCount
-        case selfHostedAiDevelopmentResourceCount
-        case selfHostedAiExternalEndpointResourceCount
-        case selfHostedAiModelResourceCount
-        case selfHostedAiModelServingResourceCount
-        case selfHostedTotalAiResourceCount
-        case severityCritical
-        case severityFatal
-        case severityHigh
-        case severityInformational
-        case severityLow
-        case severityMedium
-        case severityOther
-        case severityUnknown
-        case totalFindings
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesNumberField] {
-            return [
-                .selfHostedAiAgentFrameworkResourceCount,
-                .selfHostedAiAgentResourceCount,
-                .selfHostedAiAgentToolsAndIdentityResourceCount,
-                .selfHostedAiDevelopmentResourceCount,
-                .selfHostedAiExternalEndpointResourceCount,
-                .selfHostedAiModelResourceCount,
-                .selfHostedAiModelServingResourceCount,
-                .selfHostedTotalAiResourceCount,
-                .severityCritical,
-                .severityFatal,
-                .severityHigh,
-                .severityInformational,
-                .severityLow,
-                .severityMedium,
-                .severityOther,
-                .severityUnknown,
-                .totalFindings
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .selfHostedAiAgentFrameworkResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
-            case .selfHostedAiAgentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
-            case .selfHostedAiAgentToolsAndIdentityResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
-            case .selfHostedAiDevelopmentResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
-            case .selfHostedAiExternalEndpointResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
-            case .selfHostedAiModelResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
-            case .selfHostedAiModelServingResourceCount: return "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
-            case .selfHostedTotalAiResourceCount: return "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
-            case .severityCritical: return "FindingsSummary.Severities.Critical"
-            case .severityFatal: return "FindingsSummary.Severities.Fatal"
-            case .severityHigh: return "FindingsSummary.Severities.High"
-            case .severityInformational: return "FindingsSummary.Severities.Informational"
-            case .severityLow: return "FindingsSummary.Severities.Low"
-            case .severityMedium: return "FindingsSummary.Severities.Medium"
-            case .severityOther: return "FindingsSummary.Severities.Other"
-            case .severityUnknown: return "FindingsSummary.Severities.Unknown"
-            case .totalFindings: return "FindingsSummary.TotalFindings"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables filtering of Amazon Web Services resources based on numerical values.
-    public struct ResourcesNumberFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesNumberField?
-        /// A number filter for querying findings.
-        public var filter: SecurityHubClientTypes.NumberFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesNumberField? = nil,
-            filter: SecurityHubClientTypes.NumberFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    public enum ResourcesStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accountId
-        case accountName
-        case canonicalId
-        case discoveryType
-        case findingType
-        case hostResourceGuid
-        case hostResourceType
-        case productName
-        case region
-        case resourceCategory
-        case resourceCloudPartition
-        case resourceGuid
-        case resourceId
-        case resourceName
-        case resourceOwnerAccountId
-        case resourceOwnerOrgId
-        case resourceProvider
-        case resourceRegion
-        case resourceSubCategory
-        case resourceType
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ResourcesStringField] {
-            return [
-                .accountId,
-                .accountName,
-                .canonicalId,
-                .discoveryType,
-                .findingType,
-                .hostResourceGuid,
-                .hostResourceType,
-                .productName,
-                .region,
-                .resourceCategory,
-                .resourceCloudPartition,
-                .resourceGuid,
-                .resourceId,
-                .resourceName,
-                .resourceOwnerAccountId,
-                .resourceOwnerOrgId,
-                .resourceProvider,
-                .resourceRegion,
-                .resourceSubCategory,
-                .resourceType
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accountId: return "AccountId"
-            case .accountName: return "AccountName"
-            case .canonicalId: return "ResourceInfo.AIDetails.CanonicalId"
-            case .discoveryType: return "DiscoveryType"
-            case .findingType: return "FindingsSummary.FindingType"
-            case .hostResourceGuid: return "ResourceInfo.AIDetails.HostResourceGuid"
-            case .hostResourceType: return "ResourceInfo.AIDetails.HostResourceType"
-            case .productName: return "FindingsSummary.ProductName"
-            case .region: return "Region"
-            case .resourceCategory: return "ResourceCategory"
-            case .resourceCloudPartition: return "ResourceCloudPartition"
-            case .resourceGuid: return "ResourceGuid"
-            case .resourceId: return "ResourceId"
-            case .resourceName: return "ResourceName"
-            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
-            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
-            case .resourceProvider: return "ResourceProvider"
-            case .resourceRegion: return "ResourceRegion"
-            case .resourceSubCategory: return "ResourceSubCategory"
-            case .resourceType: return "ResourceType"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables filtering of Amazon Web Services resources based on string field values.
-    public struct ResourcesStringFilter: Swift.Sendable {
-        /// The name of the field.
-        public var fieldName: SecurityHubClientTypes.ResourcesStringField?
-        /// A string filter for filtering Security Hub CSPM findings.
-        public var filter: SecurityHubClientTypes.StringFilter?
-
-        public init(
-            fieldName: SecurityHubClientTypes.ResourcesStringField? = nil,
-            filter: SecurityHubClientTypes.StringFilter? = nil
-        ) {
-            self.fieldName = fieldName
-            self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
     public enum ResourceGroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountId
         case accountName
@@ -30109,6 +30244,7 @@ extension SecurityHubClientTypes {
         case region
         case resourceCategory
         case resourceCloudPartition
+        case resourceCriticality
         case resourceName
         case resourceOwnerAccountId
         case resourceOwnerOrgId
@@ -30129,6 +30265,7 @@ extension SecurityHubClientTypes {
                 .region,
                 .resourceCategory,
                 .resourceCloudPartition,
+                .resourceCriticality,
                 .resourceName,
                 .resourceOwnerAccountId,
                 .resourceOwnerOrgId,
@@ -30155,6 +30292,7 @@ extension SecurityHubClientTypes {
             case .region: return "Region"
             case .resourceCategory: return "ResourceCategory"
             case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceCriticality: return "ResourceCriticality"
             case .resourceName: return "ResourceName"
             case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
             case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
@@ -30575,6 +30713,8 @@ extension SecurityHubClientTypes {
         public var accountId: Swift.String?
         /// The name of the Amazon Web Services account that's associated with the resource.
         public var accountName: Swift.String?
+        /// The sources of criticalities determined from a resource.
+        public var criticalitySources: [SecurityHubClientTypes.CriticalitySource]?
         /// Specifies how the resource was discovered. If the value is Managed, the resource is natively provided by a cloud service provider. If the value is SelfHosted, the resource is hosted on customer-managed infrastructure, such as a compute instance or container image.
         public var discoveryType: SecurityHubClientTypes.DiscoveryType?
         /// An aggregated view of security findings associated with a resource.
@@ -30591,6 +30731,8 @@ extension SecurityHubClientTypes {
         public var resourceConfig: Smithy.Document?
         /// The time when the resource was created.
         public var resourceCreationTimeDt: Swift.String?
+        /// The criticality assigned to a resource.
+        public var resourceCriticality: SecurityHubClientTypes.ResourceCriticality?
         /// The timestamp when information about the resource was captured.
         /// This member is required.
         public var resourceDetailCaptureTimeDt: Swift.String?
@@ -30622,6 +30764,7 @@ extension SecurityHubClientTypes {
         public init(
             accountId: Swift.String? = nil,
             accountName: Swift.String? = nil,
+            criticalitySources: [SecurityHubClientTypes.CriticalitySource]? = nil,
             discoveryType: SecurityHubClientTypes.DiscoveryType? = nil,
             findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]? = nil,
             region: Swift.String? = nil,
@@ -30629,6 +30772,7 @@ extension SecurityHubClientTypes {
             resourceCloudPartition: Swift.String? = nil,
             resourceConfig: Smithy.Document? = nil,
             resourceCreationTimeDt: Swift.String? = nil,
+            resourceCriticality: SecurityHubClientTypes.ResourceCriticality? = nil,
             resourceDetailCaptureTimeDt: Swift.String? = nil,
             resourceGuid: Swift.String? = nil,
             resourceId: Swift.String? = nil,
@@ -30644,6 +30788,7 @@ extension SecurityHubClientTypes {
         ) {
             self.accountId = accountId
             self.accountName = accountName
+            self.criticalitySources = criticalitySources
             self.discoveryType = discoveryType
             self.findingsSummary = findingsSummary
             self.region = region
@@ -30651,6 +30796,7 @@ extension SecurityHubClientTypes {
             self.resourceCloudPartition = resourceCloudPartition
             self.resourceConfig = resourceConfig
             self.resourceCreationTimeDt = resourceCreationTimeDt
+            self.resourceCriticality = resourceCriticality
             self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
             self.resourceGuid = resourceGuid
             self.resourceId = resourceId
@@ -30807,6 +30953,285 @@ public struct GetSecurityControlDefinitionOutput: Swift.Sendable {
         securityControlDefinition: SecurityHubClientTypes.SecurityControlDefinition? = nil
     ) {
         self.securityControlDefinition = securityControlDefinition
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The software or resource field to filter on.
+    public enum SoftwareStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case packageName
+        case packageType
+        case packageVersion
+        case region
+        case resourceCloudPartition
+        case resourceId
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SoftwareStringField] {
+            return [
+                .accountId,
+                .packageName,
+                .packageType,
+                .packageVersion,
+                .region,
+                .resourceCloudPartition,
+                .resourceId,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .packageName: return "PackageName"
+            case .packageType: return "PackageType"
+            case .packageVersion: return "PackageVersion"
+            case .region: return "Region"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceId: return "ResourceId"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of software packages based on string field values.
+    public struct SoftwareStringFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.SoftwareStringField?
+        /// The string value and comparison operator to filter on. Supported comparisons are EQUALS, NOT_EQUALS, PREFIX, and PREFIX_NOT_EQUALS.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.SoftwareStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the data boundary for a software query. Scopes determine which organizational units or organizations to retrieve data from.
+    public struct SoftwareScopes: Swift.Sendable {
+        /// A list of Organizations scopes to include in the query results. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public var awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]?
+
+        public init(
+            awsOrganizations: [SecurityHubClientTypes.AwsOrganizationScope]? = nil
+        ) {
+            self.awsOrganizations = awsOrganizations
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides information about a resource that contains a software package.
+    public struct SoftwareResourceResult: Swift.Sendable {
+        /// The Amazon Web Services account that recorded the resource data in Security Hub.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The Amazon Web Services Region that recorded the resource data in Security Hub.
+        /// This member is required.
+        public var region: Swift.String?
+        /// The cloud partition where the resource exists. For Amazon Web Services, valid values include aws, aws-cn, and aws-us-gov. This field isn't returned for cloud providers that don't use partitions.
+        public var resourceCloudPartition: Swift.String?
+        /// The unique identifier for a resource.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.
+        public var resourceOwnerAccountId: Swift.String?
+        /// The identifier of the cloud organization that owns the resource. For Amazon Web Services resources, this is the Organizations ID. For Azure resources, this is the Azure tenant ID.
+        public var resourceOwnerOrgId: Swift.String?
+        /// The cloud provider where the resource exists. Valid values are AWS and Azure.
+        public var resourceProvider: Swift.String?
+        /// The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, us-east-1). For Azure resources, this is the Azure region (for example, westus2).
+        public var resourceRegion: Swift.String?
+        /// The type of resource, for example AWS::EC2::Instance or AWS::Lambda::Function.
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            region: Swift.String? = nil,
+            resourceCloudPartition: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceOwnerAccountId: Swift.String? = nil,
+            resourceOwnerOrgId: Swift.String? = nil,
+            resourceProvider: Swift.String? = nil,
+            resourceRegion: Swift.String? = nil,
+            resourceType: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.region = region
+            self.resourceCloudPartition = resourceCloudPartition
+            self.resourceId = resourceId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
+            self.resourceProvider = resourceProvider
+            self.resourceRegion = resourceRegion
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct GetSoftwareResourcesV2Output: Swift.Sendable {
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// An array of resources that contain the specified software package.
+    /// This member is required.
+    public var softwareResources: [SecurityHubClientTypes.SoftwareResourceResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        softwareResources: [SecurityHubClientTypes.SoftwareResourceResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.softwareResources = softwareResources
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The software or resource field to group statistics by.
+    public enum SoftwareGroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case packageName
+        case packageType
+        case packageVersion
+        case region
+        case resourceCloudPartition
+        case resourceId
+        case resourceOwnerAccountId
+        case resourceOwnerOrgId
+        case resourceProvider
+        case resourceRegion
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SoftwareGroupByField] {
+            return [
+                .accountId,
+                .packageName,
+                .packageType,
+                .packageVersion,
+                .region,
+                .resourceCloudPartition,
+                .resourceId,
+                .resourceOwnerAccountId,
+                .resourceOwnerOrgId,
+                .resourceProvider,
+                .resourceRegion,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .packageName: return "PackageName"
+            case .packageType: return "PackageType"
+            case .packageVersion: return "PackageVersion"
+            case .region: return "Region"
+            case .resourceCloudPartition: return "ResourceCloudPartition"
+            case .resourceId: return "ResourceId"
+            case .resourceOwnerAccountId: return "ResourceOwnerAccountId"
+            case .resourceOwnerOrgId: return "ResourceOwnerOrgId"
+            case .resourceProvider: return "ResourceProvider"
+            case .resourceRegion: return "ResourceRegion"
+            case .resourceType: return "ResourceType"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetSoftwareStatisticsV2Output: Swift.Sendable {
+    /// The aggregated statistics about software based on the specified grouping rule.
+    /// This member is required.
+    public var groupByResults: [SecurityHubClientTypes.GroupByResult]?
+
+    public init(
+        groupByResults: [SecurityHubClientTypes.GroupByResult]? = nil
+    ) {
+        self.groupByResults = groupByResults
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides information about a software package installed on one or more of your resources.
+    public struct SoftwareResult: Swift.Sendable {
+        /// The name of the software package.
+        /// This member is required.
+        public var packageName: Swift.String?
+        /// The type of the software package, for example operating-system, application, or library.
+        /// This member is required.
+        public var packageType: Swift.String?
+        /// The version of the software package.
+        public var packageVersion: Swift.String?
+        /// The number of resources that contain this software package. To list these resources, call GetSoftwareResourcesV2.
+        /// This member is required.
+        public var resourceCount: Swift.Int?
+
+        public init(
+            packageName: Swift.String? = nil,
+            packageType: Swift.String? = nil,
+            packageVersion: Swift.String? = nil,
+            resourceCount: Swift.Int? = nil
+        ) {
+            self.packageName = packageName
+            self.packageType = packageType
+            self.packageVersion = packageVersion
+            self.resourceCount = resourceCount
+        }
+    }
+}
+
+public struct GetSoftwareV2Output: Swift.Sendable {
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// An array of software packages returned by the operation.
+    /// This member is required.
+    public var software: [SecurityHubClientTypes.SoftwareResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        software: [SecurityHubClientTypes.SoftwareResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.software = software
     }
 }
 
@@ -32289,6 +32714,29 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Enables the creation of criteria for software packages in Security Hub.
+    public struct SoftwareCompositeFilter: Swift.Sendable {
+        /// Provides an additional level of filtering, creating a three-layer nested structure. The first layer is a CompositeFilters array with a CompositeOperator (AND/OR). The second layer is a CompositeFilter object that contains direct filters and NestedCompositeFilters. The third layer is NestedCompositeFilters, which contains additional filter conditions.
+        public var nestedCompositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// Enables filtering based on string field values.
+        public var stringFilters: [SecurityHubClientTypes.SoftwareStringFilter]?
+
+        public init(
+            nestedCompositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.SoftwareStringFilter]? = nil
+        ) {
+            self.nestedCompositeFilters = nestedCompositeFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// The structure that defines filters to apply to findings trend data queries.
     public struct FindingsTrendsFilters: Swift.Sendable {
         /// A list of composite filters to apply to the findings trend data.
@@ -32365,11 +32813,20 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// Defines the parameters and conditions used to evaluate and filter security findings.
-    public indirect enum Criteria: Swift.Sendable {
-        /// The filtering conditions that align with OCSF standards.
-        case ocsffindingcriteria(SecurityHubClientTypes.OcsfFindingFilters)
-        case sdkUnknown(Swift.String)
+    /// Enables filtering of software packages and the resources that contain them.
+    public struct SoftwareFilters: Swift.Sendable {
+        /// A collection of complex filtering conditions that can be applied to software packages.
+        public var compositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]?
+        /// The logical operator used to combine multiple filter conditions in the structure.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.SoftwareCompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
     }
 }
 
@@ -32434,6 +32891,26 @@ extension SecurityHubClientTypes {
         public init(
             filters: SecurityHubClientTypes.ResourcesFilters? = nil,
             groupByField: SecurityHubClientTypes.ResourceGroupByField? = nil
+        ) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the configuration for organizing and categorizing software packages installed on your resources.
+    public struct SoftwareGroupByRule: Swift.Sendable {
+        /// The criteria used to select the software packages included in the statistics. You can nest composite filters up to three levels deep.
+        public var filters: SecurityHubClientTypes.SoftwareFilters?
+        /// Specifies the attribute that software statistics should be grouped by.
+        /// This member is required.
+        public var groupByField: SecurityHubClientTypes.SoftwareGroupByField?
+
+        public init(
+            filters: SecurityHubClientTypes.SoftwareFilters? = nil,
+            groupByField: SecurityHubClientTypes.SoftwareGroupByField? = nil
         ) {
             self.filters = filters
             self.groupByField = groupByField
@@ -32553,12 +33030,249 @@ public struct GetResourcesV2Input: Swift.Sendable {
     }
 }
 
+public struct GetSoftwareResourcesV2Input: Swift.Sendable {
+    /// Filters the returned resources based on a set of criteria. You can nest composite filters up to three levels deep.
+    public var filters: SecurityHubClientTypes.SoftwareFilters?
+    /// The maximum number of results to return. Valid values are 1–100. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response. A token expires one hour after it's issued. If you change the request parameters between calls, the token is no longer valid and the request fails with a ValidationException.
+    public var nextToken: Swift.String?
+    /// The name of the software package, for example openssl. This value must match the PackageName returned by GetSoftwareV2.
+    /// This member is required.
+    public var packageName: Swift.String?
+    /// The type of the software package, for example operating-system, application, or library. This value must match the PackageType returned by GetSoftwareV2.
+    /// This member is required.
+    public var packageType: Swift.String?
+    /// The version of the software package, for example 3.0.8. If you omit this value, the response includes resources that contain any version of the package.
+    public var packageVersion: Swift.String?
+    /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees resources from all accounts across the entire organization. Other accounts see only their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.SoftwareScopes?
+    /// The resource attribute used to sort the list of returned resources, for example Region or ResourceType. You can specify one sort criterion.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.SoftwareFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        packageName: Swift.String? = nil,
+        packageType: Swift.String? = nil,
+        packageVersion: Swift.String? = nil,
+        scopes: SecurityHubClientTypes.SoftwareScopes? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.packageName = packageName
+        self.packageType = packageType
+        self.packageVersion = packageVersion
+        self.scopes = scopes
+        self.sortCriteria = sortCriteria
+    }
+}
+
+public struct GetSoftwareV2Input: Swift.Sendable {
+    /// Filters software packages based on a set of criteria. You can nest composite filters up to three levels deep.
+    public var filters: SecurityHubClientTypes.SoftwareFilters?
+    /// The maximum number of results to return. Valid values are 1–100. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response. A token expires one hour after it's issued. If you change Filters or SortCriteria between calls, the token is no longer valid and the request fails with a ValidationException.
+    public var nextToken: Swift.String?
+    /// Limits the results to software on resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees software from all accounts across the entire organization. Other accounts see only software on their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.SoftwareScopes?
+    /// The software attributes used to sort the list of returned software packages. You can't sort by ResourceCount.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.SoftwareFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scopes: SecurityHubClientTypes.SoftwareScopes? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scopes = scopes
+        self.sortCriteria = sortCriteria
+    }
+}
+
 extension SecurityHubClientTypes {
 
     /// Specifies what data to export and how to format it. This is a union: you must specify exactly one member. Currently, the only supported member is Findings.
     public indirect enum ExportOutput: Swift.Sendable {
         /// Configures an export of Security Hub findings, including the output format and any filters or selected fields.
         case findings(SecurityHubClientTypes.FindingsOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetExportJobV2Output: Swift.Sendable {
+    /// The category of data that the export job produces.
+    /// This member is required.
+    public var dataType: SecurityHubClientTypes.ExportDataType?
+    /// The destination that the export job writes to.
+    /// This member is required.
+    public var destination: SecurityHubClientTypes.ExportDestination?
+    /// The time when the export job reached a terminal state (SUCCEEDED, FAILED, or CANCELLED). This parameter is absent while the job is RUNNING. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    public var endedAt: Foundation.Date?
+    /// The unique identifier of the export job.
+    /// This member is required.
+    public var exportJobId: Swift.String?
+    /// A code that classifies why the export job failed. Present only when Status is FAILED.
+    public var failureCode: SecurityHubClientTypes.ExportFailureCode?
+    /// A human-readable message that provides more detail about why the export job failed. Present only when Status is FAILED.
+    public var failureMessage: Swift.String?
+    /// The user-provided name of the export job, if one was specified when the job was started.
+    public var name: Swift.String?
+    /// The output configuration that the export job was started with, including the format and any filters or selected fields.
+    public var outputConfiguration: SecurityHubClientTypes.ExportOutput?
+    /// The organization scopes that the export job was started with, echoed verbatim. This parameter is absent if the caller didn't supply Scopes. It contains only the organization or organizational unit (OU) identifiers that the caller submitted; it never contains resolved member-account identifiers.
+    public var scopes: SecurityHubClientTypes.ExportScopes?
+    /// The time when the export job was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    /// This member is required.
+    public var startedAt: Foundation.Date?
+    /// The current state of the export job.
+    /// This member is required.
+    public var status: SecurityHubClientTypes.ExportStatus?
+
+    public init(
+        dataType: SecurityHubClientTypes.ExportDataType? = nil,
+        destination: SecurityHubClientTypes.ExportDestination? = nil,
+        endedAt: Foundation.Date? = nil,
+        exportJobId: Swift.String? = nil,
+        failureCode: SecurityHubClientTypes.ExportFailureCode? = nil,
+        failureMessage: Swift.String? = nil,
+        name: Swift.String? = nil,
+        outputConfiguration: SecurityHubClientTypes.ExportOutput? = nil,
+        scopes: SecurityHubClientTypes.ExportScopes? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: SecurityHubClientTypes.ExportStatus? = nil
+    ) {
+        self.dataType = dataType
+        self.destination = destination
+        self.endedAt = endedAt
+        self.exportJobId = exportJobId
+        self.failureCode = failureCode
+        self.failureMessage = failureMessage
+        self.name = name
+        self.outputConfiguration = outputConfiguration
+        self.scopes = scopes
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
+public struct GetFindingStatisticsV2Input: Swift.Sendable {
+    /// Specifies how security findings should be aggregated and organized in the statistical analysis. It can accept up to 5 groupBy fields in a single call.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.GroupByRule]?
+    /// The maximum number of results to be returned.
+    public var maxStatisticResults: Swift.Int?
+    /// Limits the results to findings from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.FindingScopes?
+    /// Orders the aggregation count in descending or ascending order. Descending order is the default.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.GroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        scopes: SecurityHubClientTypes.FindingScopes? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.scopes = scopes
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct GetResourcesStatisticsV2Input: Swift.Sendable {
+    /// How resource statistics should be aggregated and organized in the response.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]?
+    /// The maximum number of results to be returned.
+    public var maxStatisticResults: Swift.Int?
+    /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.ResourceScopes?
+    /// Sorts aggregated statistics.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        scopes: SecurityHubClientTypes.ResourceScopes? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.scopes = scopes
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct GetSoftwareStatisticsV2Input: Swift.Sendable {
+    /// How software statistics should be aggregated and organized in the response.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.SoftwareGroupByRule]?
+    /// The maximum number of grouping values to return. Valid values are 1–400. The default is 400.
+    public var maxStatisticResults: Swift.Int?
+    /// Limits the results to software on resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for software on their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+    public var scopes: SecurityHubClientTypes.SoftwareScopes?
+    /// Sorts aggregated statistics by count. The default is descending, which returns the values with the highest counts first.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.SoftwareGroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        scopes: SecurityHubClientTypes.SoftwareScopes? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.scopes = scopes
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct StartExportJobV2Input: Swift.Sendable {
+    /// A unique identifier used to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The destination that Security Hub writes the export to. You must specify exactly one destination type. Currently, the only supported type is Amazon S3.
+    /// This member is required.
+    public var destination: SecurityHubClientTypes.ExportDestination?
+    /// An optional, user-provided name for the export job that helps you identify it in ListExportJobsV2 results. The value can be 1–256 characters. Alphanumeric characters, spaces, and the following ASCII characters are permitted: . _ , : ( ) / + -.
+    public var name: Swift.String?
+    /// Specifies what data to export and how to format it. You must specify exactly one output type. Currently, the only supported type is Findings.
+    /// This member is required.
+    public var outputConfiguration: SecurityHubClientTypes.ExportOutput?
+    /// Limits the export to findings from specific organizational units (OUs) or from the delegated administrator's organization. Only the delegated administrator account can use this parameter; other accounts that specify it receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator exports findings from all accounts across the entire organization, and other accounts export only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If you specify multiple entries, Security Hub combines them using OR logic.
+    public var scopes: SecurityHubClientTypes.ExportScopes?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        destination: SecurityHubClientTypes.ExportDestination? = nil,
+        name: Swift.String? = nil,
+        outputConfiguration: SecurityHubClientTypes.ExportOutput? = nil,
+        scopes: SecurityHubClientTypes.ExportScopes? = nil
+    ) {
+        self.clientToken = clientToken
+        self.destination = destination
+        self.name = name
+        self.outputConfiguration = outputConfiguration
+        self.scopes = scopes
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the parameters and conditions used to evaluate and filter security findings or resources.
+    public indirect enum Criteria: Swift.Sendable {
+        /// The filtering conditions that align with OCSF standards.
+        case ocsffindingcriteria(SecurityHubClientTypes.OcsfFindingFilters)
+        /// The filtering conditions for resources.
+        case resourcecriteria(SecurityHubClientTypes.ResourcesFilters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -32687,139 +33401,6 @@ public struct UpdateAutomationRuleV2Input: Swift.Sendable {
         self.ruleName = ruleName
         self.ruleOrder = ruleOrder
         self.ruleStatus = ruleStatus
-    }
-}
-
-public struct GetExportJobV2Output: Swift.Sendable {
-    /// The category of data that the export job produces.
-    /// This member is required.
-    public var dataType: SecurityHubClientTypes.ExportDataType?
-    /// The destination that the export job writes to.
-    /// This member is required.
-    public var destination: SecurityHubClientTypes.ExportDestination?
-    /// The time when the export job reached a terminal state (SUCCEEDED, FAILED, or CANCELLED). This parameter is absent while the job is RUNNING. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
-    public var endedAt: Foundation.Date?
-    /// The unique identifier of the export job.
-    /// This member is required.
-    public var exportJobId: Swift.String?
-    /// A code that classifies why the export job failed. Present only when Status is FAILED.
-    public var failureCode: SecurityHubClientTypes.ExportFailureCode?
-    /// A human-readable message that provides more detail about why the export job failed. Present only when Status is FAILED.
-    public var failureMessage: Swift.String?
-    /// The user-provided name of the export job, if one was specified when the job was started.
-    public var name: Swift.String?
-    /// The output configuration that the export job was started with, including the format and any filters or selected fields.
-    public var outputConfiguration: SecurityHubClientTypes.ExportOutput?
-    /// The organization scopes that the export job was started with, echoed verbatim. This parameter is absent if the caller didn't supply Scopes. It contains only the organization or organizational unit (OU) identifiers that the caller submitted; it never contains resolved member-account identifiers.
-    public var scopes: SecurityHubClientTypes.ExportScopes?
-    /// The time when the export job was created. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
-    /// This member is required.
-    public var startedAt: Foundation.Date?
-    /// The current state of the export job.
-    /// This member is required.
-    public var status: SecurityHubClientTypes.ExportStatus?
-
-    public init(
-        dataType: SecurityHubClientTypes.ExportDataType? = nil,
-        destination: SecurityHubClientTypes.ExportDestination? = nil,
-        endedAt: Foundation.Date? = nil,
-        exportJobId: Swift.String? = nil,
-        failureCode: SecurityHubClientTypes.ExportFailureCode? = nil,
-        failureMessage: Swift.String? = nil,
-        name: Swift.String? = nil,
-        outputConfiguration: SecurityHubClientTypes.ExportOutput? = nil,
-        scopes: SecurityHubClientTypes.ExportScopes? = nil,
-        startedAt: Foundation.Date? = nil,
-        status: SecurityHubClientTypes.ExportStatus? = nil
-    ) {
-        self.dataType = dataType
-        self.destination = destination
-        self.endedAt = endedAt
-        self.exportJobId = exportJobId
-        self.failureCode = failureCode
-        self.failureMessage = failureMessage
-        self.name = name
-        self.outputConfiguration = outputConfiguration
-        self.scopes = scopes
-        self.startedAt = startedAt
-        self.status = status
-    }
-}
-
-public struct GetFindingStatisticsV2Input: Swift.Sendable {
-    /// Specifies how security findings should be aggregated and organized in the statistical analysis. It can accept up to 5 groupBy fields in a single call.
-    /// This member is required.
-    public var groupByRules: [SecurityHubClientTypes.GroupByRule]?
-    /// The maximum number of results to be returned.
-    public var maxStatisticResults: Swift.Int?
-    /// Limits the results to findings from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
-    public var scopes: SecurityHubClientTypes.FindingScopes?
-    /// Orders the aggregation count in descending or ascending order. Descending order is the default.
-    public var sortOrder: SecurityHubClientTypes.SortOrder?
-
-    public init(
-        groupByRules: [SecurityHubClientTypes.GroupByRule]? = nil,
-        maxStatisticResults: Swift.Int? = nil,
-        scopes: SecurityHubClientTypes.FindingScopes? = nil,
-        sortOrder: SecurityHubClientTypes.SortOrder? = nil
-    ) {
-        self.groupByRules = groupByRules
-        self.maxStatisticResults = maxStatisticResults
-        self.scopes = scopes
-        self.sortOrder = sortOrder
-    }
-}
-
-public struct GetResourcesStatisticsV2Input: Swift.Sendable {
-    /// How resource statistics should be aggregated and organized in the response.
-    /// This member is required.
-    public var groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]?
-    /// The maximum number of results to be returned.
-    public var maxStatisticResults: Swift.Int?
-    /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
-    public var scopes: SecurityHubClientTypes.ResourceScopes?
-    /// Sorts aggregated statistics.
-    public var sortOrder: SecurityHubClientTypes.SortOrder?
-
-    public init(
-        groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]? = nil,
-        maxStatisticResults: Swift.Int? = nil,
-        scopes: SecurityHubClientTypes.ResourceScopes? = nil,
-        sortOrder: SecurityHubClientTypes.SortOrder? = nil
-    ) {
-        self.groupByRules = groupByRules
-        self.maxStatisticResults = maxStatisticResults
-        self.scopes = scopes
-        self.sortOrder = sortOrder
-    }
-}
-
-public struct StartExportJobV2Input: Swift.Sendable {
-    /// A unique identifier used to ensure idempotency.
-    public var clientToken: Swift.String?
-    /// The destination that Security Hub writes the export to. You must specify exactly one destination type. Currently, the only supported type is Amazon S3.
-    /// This member is required.
-    public var destination: SecurityHubClientTypes.ExportDestination?
-    /// An optional, user-provided name for the export job that helps you identify it in ListExportJobsV2 results. The value can be 1–256 characters. Alphanumeric characters, spaces, and the following ASCII characters are permitted: . _ , : ( ) / + -.
-    public var name: Swift.String?
-    /// Specifies what data to export and how to format it. You must specify exactly one output type. Currently, the only supported type is Findings.
-    /// This member is required.
-    public var outputConfiguration: SecurityHubClientTypes.ExportOutput?
-    /// Limits the export to findings from specific organizational units (OUs) or from the delegated administrator's organization. Only the delegated administrator account can use this parameter; other accounts that specify it receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator exports findings from all accounts across the entire organization, and other accounts export only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If you specify multiple entries, Security Hub combines them using OR logic.
-    public var scopes: SecurityHubClientTypes.ExportScopes?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        destination: SecurityHubClientTypes.ExportDestination? = nil,
-        name: Swift.String? = nil,
-        outputConfiguration: SecurityHubClientTypes.ExportOutput? = nil,
-        scopes: SecurityHubClientTypes.ExportScopes? = nil
-    ) {
-        self.clientToken = clientToken
-        self.destination = destination
-        self.name = name
-        self.outputConfiguration = outputConfiguration
-        self.scopes = scopes
     }
 }
 
@@ -33600,6 +34181,27 @@ extension GetSecurityControlDefinitionInput {
         let securityControlIdQueryItem = Smithy.URIQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
         items.append(securityControlIdQueryItem)
         return items
+    }
+}
+
+extension GetSoftwareResourcesV2Input {
+
+    static func urlPathProvider(_ value: GetSoftwareResourcesV2Input) -> Swift.String? {
+        return "/softwarev2/resources"
+    }
+}
+
+extension GetSoftwareStatisticsV2Input {
+
+    static func urlPathProvider(_ value: GetSoftwareStatisticsV2Input) -> Swift.String? {
+        return "/softwarev2/statistics"
+    }
+}
+
+extension GetSoftwareV2Input {
+
+    static func urlPathProvider(_ value: GetSoftwareV2Input) -> Swift.String? {
+        return "/softwarev2"
     }
 }
 
@@ -34676,6 +35278,44 @@ extension GetResourcesV2Input {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.ResourceScopes.write(value:to:))
+        try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetSoftwareResourcesV2Input {
+
+    static func write(value: GetSoftwareResourcesV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.SoftwareFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PackageName"].write(value.packageName)
+        try writer["PackageType"].write(value.packageType)
+        try writer["PackageVersion"].write(value.packageVersion)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.SoftwareScopes.write(value:to:))
+        try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetSoftwareStatisticsV2Input {
+
+    static func write(value: GetSoftwareStatisticsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupByRules"].writeList(value.groupByRules, memberWritingClosure: SecurityHubClientTypes.SoftwareGroupByRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxStatisticResults"].write(value.maxStatisticResults)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.SoftwareScopes.write(value:to:))
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension GetSoftwareV2Input {
+
+    static func write(value: GetSoftwareV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.SoftwareFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Scopes"].write(value.scopes, with: SecurityHubClientTypes.SoftwareScopes.write(value:to:))
         try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -35944,6 +36584,44 @@ extension GetSecurityControlDefinitionOutput {
         let reader = responseReader
         var value = GetSecurityControlDefinitionOutput()
         value.securityControlDefinition = try reader["SecurityControlDefinition"].readIfPresent(with: SecurityHubClientTypes.SecurityControlDefinition.read(from:))
+        return value
+    }
+}
+
+extension GetSoftwareResourcesV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSoftwareResourcesV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSoftwareResourcesV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.softwareResources = try reader["SoftwareResources"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SoftwareResourceResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetSoftwareStatisticsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSoftwareStatisticsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSoftwareStatisticsV2Output()
+        value.groupByResults = try reader["GroupByResults"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.GroupByResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetSoftwareV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSoftwareV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSoftwareV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.software = try reader["Software"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.SoftwareResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -37944,6 +38622,69 @@ enum GetSecurityControlDefinitionOutputError {
     }
 }
 
+enum GetSoftwareResourcesV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSoftwareStatisticsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetSoftwareV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "OrganizationalUnitNotFoundException": return try OrganizationalUnitNotFoundException.makeError(baseError: baseError)
+            case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum InviteMembersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -39195,6 +39936,7 @@ extension SecurityHubClientTypes.AutomationRulesActionV2 {
         guard let value else { return }
         try writer["ExternalIntegrationConfiguration"].write(value.externalIntegrationConfiguration, with: SecurityHubClientTypes.ExternalIntegrationConfiguration.write(value:to:))
         try writer["FindingFieldsUpdate"].write(value.findingFieldsUpdate, with: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2.write(value:to:))
+        try writer["ResourceFieldsUpdate"].write(value.resourceFieldsUpdate, with: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2.write(value:to:))
         try writer["Type"].write(value.type)
     }
 
@@ -39204,6 +39946,7 @@ extension SecurityHubClientTypes.AutomationRulesActionV2 {
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.findingFieldsUpdate = try reader["FindingFieldsUpdate"].readIfPresent(with: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2.read(from:))
         value.externalIntegrationConfiguration = try reader["ExternalIntegrationConfiguration"].readIfPresent(with: SecurityHubClientTypes.ExternalIntegrationConfiguration.read(from:))
+        value.resourceFieldsUpdate = try reader["ResourceFieldsUpdate"].readIfPresent(with: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2.read(from:))
         return value
     }
 }
@@ -39405,6 +40148,21 @@ extension SecurityHubClientTypes.AutomationRulesMetadataV2 {
         value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AutomationRulesActionTypeObjectV2.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2 {
+
+    static func write(value: SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Criticality"].write(value.criticality)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AutomationRulesResourceFieldsUpdateV2()
+        value.criticality = try reader["Criticality"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -51204,6 +51962,8 @@ extension SecurityHubClientTypes.Criteria {
         switch value {
             case let .ocsffindingcriteria(ocsffindingcriteria):
                 try writer["OcsfFindingCriteria"].write(ocsffindingcriteria, with: SecurityHubClientTypes.OcsfFindingFilters.write(value:to:))
+            case let .resourcecriteria(resourcecriteria):
+                try writer["ResourceCriteria"].write(resourcecriteria, with: SecurityHubClientTypes.ResourcesFilters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -51215,9 +51975,22 @@ extension SecurityHubClientTypes.Criteria {
         switch name {
             case "OcsfFindingCriteria":
                 return .ocsffindingcriteria(try reader["OcsfFindingCriteria"].read(with: SecurityHubClientTypes.OcsfFindingFilters.read(from:)))
+            case "ResourceCriteria":
+                return .resourcecriteria(try reader["ResourceCriteria"].read(with: SecurityHubClientTypes.ResourcesFilters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SecurityHubClientTypes.CriticalitySource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CriticalitySource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.CriticalitySource()
+        value.source = try reader["Source"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["Reason"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -53769,6 +54542,8 @@ extension SecurityHubClientTypes.ResourceResult {
         value.resourceSubCategory = try reader["ResourceSubCategory"].readIfPresent()
         value.discoveryType = try reader["DiscoveryType"].readIfPresent()
         value.resourceInfo = try reader["ResourceInfo"].readIfPresent(with: SecurityHubClientTypes.ResourceInfo.read(from:))
+        value.resourceCriticality = try reader["ResourceCriticality"].readIfPresent()
+        value.criticalitySources = try reader["CriticalitySources"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.CriticalitySource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -53783,6 +54558,18 @@ extension SecurityHubClientTypes.ResourcesCompositeFilter {
         try writer["NumberFilters"].writeList(value.numberFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Operator"].write(value.`operator`)
         try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesCompositeFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesCompositeFilter()
+        value.stringFilters = try reader["StringFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dateFilters = try reader["DateFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesDateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numberFilters = try reader["NumberFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesNumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapFilters = try reader["MapFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nestedCompositeFilters = try reader["NestedCompositeFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent()
+        return value
     }
 }
 
@@ -53811,6 +54598,14 @@ extension SecurityHubClientTypes.ResourcesDateFilter {
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.DateFilter.write(value:to:))
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesDateFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesDateFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.DateFilter.read(from:))
+        return value
+    }
 }
 
 extension SecurityHubClientTypes.ResourceSeverityBreakdown {
@@ -53837,6 +54632,14 @@ extension SecurityHubClientTypes.ResourcesFilters {
         try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CompositeOperator"].write(value.compositeOperator)
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesFilters()
+        value.compositeFilters = try reader["CompositeFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.compositeOperator = try reader["CompositeOperator"].readIfPresent()
+        return value
+    }
 }
 
 extension SecurityHubClientTypes.ResourcesMapFilter {
@@ -53845,6 +54648,14 @@ extension SecurityHubClientTypes.ResourcesMapFilter {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.MapFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesMapFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesMapFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.MapFilter.read(from:))
+        return value
     }
 }
 
@@ -53855,6 +54666,14 @@ extension SecurityHubClientTypes.ResourcesNumberFilter {
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.NumberFilter.write(value:to:))
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesNumberFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesNumberFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.NumberFilter.read(from:))
+        return value
+    }
 }
 
 extension SecurityHubClientTypes.ResourcesStringFilter {
@@ -53863,6 +54682,14 @@ extension SecurityHubClientTypes.ResourcesStringFilter {
         guard let value else { return }
         try writer["FieldName"].write(value.fieldName)
         try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourcesStringFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourcesStringFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.StringFilter.read(from:))
+        return value
     }
 }
 
@@ -54640,6 +55467,34 @@ extension SecurityHubClientTypes.Signal {
     }
 }
 
+extension SecurityHubClientTypes.SoftwareCompositeFilter {
+
+    static func write(value: SecurityHubClientTypes.SoftwareCompositeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NestedCompositeFilters"].writeList(value.nestedCompositeFilters, memberWritingClosure: SecurityHubClientTypes.SoftwareCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Operator"].write(value.`operator`)
+        try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.SoftwareStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareFilters {
+
+    static func write(value: SecurityHubClientTypes.SoftwareFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.SoftwareCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CompositeOperator"].write(value.compositeOperator)
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareGroupByRule {
+
+    static func write(value: SecurityHubClientTypes.SoftwareGroupByRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.SoftwareFilters.write(value:to:))
+        try writer["GroupByField"].write(value.groupByField)
+    }
+}
+
 extension SecurityHubClientTypes.SoftwarePackage {
 
     static func write(value: SecurityHubClientTypes.SoftwarePackage?, to writer: SmithyJSON.Writer) throws {
@@ -54672,6 +55527,54 @@ extension SecurityHubClientTypes.SoftwarePackage {
         value.sourceLayerHash = try reader["SourceLayerHash"].readIfPresent()
         value.sourceLayerArn = try reader["SourceLayerArn"].readIfPresent()
         return value
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareResourceResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SoftwareResourceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.SoftwareResourceResult()
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.resourceProvider = try reader["ResourceProvider"].readIfPresent()
+        value.resourceOwnerOrgId = try reader["ResourceOwnerOrgId"].readIfPresent()
+        value.resourceOwnerAccountId = try reader["ResourceOwnerAccountId"].readIfPresent()
+        value.resourceCloudPartition = try reader["ResourceCloudPartition"].readIfPresent()
+        value.resourceRegion = try reader["ResourceRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.SoftwareResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.SoftwareResult()
+        value.packageName = try reader["PackageName"].readIfPresent() ?? ""
+        value.packageVersion = try reader["PackageVersion"].readIfPresent()
+        value.packageType = try reader["PackageType"].readIfPresent() ?? ""
+        value.resourceCount = try reader["ResourceCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareScopes {
+
+    static func write(value: SecurityHubClientTypes.SoftwareScopes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsOrganizations"].writeList(value.awsOrganizations, memberWritingClosure: SecurityHubClientTypes.AwsOrganizationScope.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.SoftwareStringFilter {
+
+    static func write(value: SecurityHubClientTypes.SoftwareStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
     }
 }
 

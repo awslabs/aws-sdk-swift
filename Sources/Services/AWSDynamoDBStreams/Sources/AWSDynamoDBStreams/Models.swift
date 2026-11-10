@@ -531,6 +531,7 @@ extension DynamoDBStreamsClientTypes {
     public enum ShardIteratorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterSequenceNumber
         case atSequenceNumber
+        case atTimestamp
         case latest
         case trimHorizon
         case sdkUnknown(Swift.String)
@@ -539,6 +540,7 @@ extension DynamoDBStreamsClientTypes {
             return [
                 .afterSequenceNumber,
                 .atSequenceNumber,
+                .atTimestamp,
                 .latest,
                 .trimHorizon
             ]
@@ -553,6 +555,7 @@ extension DynamoDBStreamsClientTypes {
             switch self {
             case .afterSequenceNumber: return "AFTER_SEQUENCE_NUMBER"
             case .atSequenceNumber: return "AT_SEQUENCE_NUMBER"
+            case .atTimestamp: return "AT_TIMESTAMP"
             case .latest: return "LATEST"
             case .trimHorizon: return "TRIM_HORIZON"
             case let .sdkUnknown(s): return s
@@ -577,22 +580,28 @@ public struct GetShardIteratorInput: Swift.Sendable {
     /// * TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.
     ///
     /// * LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.
+    ///
+    /// * AT_TIMESTAMP - Start reading from the position denoted by a specific timestamp, provided in the parameter Timestamp.
     /// This member is required.
     public var shardIteratorType: DynamoDBStreamsClientTypes.ShardIteratorType?
     /// The Amazon Resource Name (ARN) for the stream.
     /// This member is required.
     public var streamArn: Swift.String?
+    /// The timestamp of the stream record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A timestamp is the Unix epoch date with precision in milliseconds. For example, 1791316726.480. The iterator points to the first stream record whose ApproximateCreationDateTime is at or after the specified timestamp. If no record with that exact timestamp exists, the iterator points to the next (later) record. If the timestamp is older than the current trim horizon, the iterator points to the oldest untrimmed stream record (TRIM_HORIZON). If the timestamp is in the future, the request returns a ValidationException.
+    public var timestamp: Foundation.Date?
 
     public init(
         sequenceNumber: Swift.String? = nil,
         shardId: Swift.String? = nil,
         shardIteratorType: DynamoDBStreamsClientTypes.ShardIteratorType? = nil,
-        streamArn: Swift.String? = nil
+        streamArn: Swift.String? = nil,
+        timestamp: Foundation.Date? = nil
     ) {
         self.sequenceNumber = sequenceNumber
         self.shardId = shardId
         self.shardIteratorType = shardIteratorType
         self.streamArn = streamArn
+        self.timestamp = timestamp
     }
 }
 
@@ -705,7 +714,7 @@ extension DynamoDBStreamsClientTypes {
 
     /// A description of a single data modification that was performed on an item in a DynamoDB table.
     public struct StreamRecord: Swift.Sendable {
-        /// The approximate date and time when the stream record was created, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format and rounded down to the closest second.
+        /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format and rounded down to the closest second. Some tools and SDKs may convert this value to a different format, such as [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html).
         public var approximateCreationDateTime: Foundation.Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public var keys: [Swift.String: DynamoDBStreamsClientTypes.AttributeValue]?

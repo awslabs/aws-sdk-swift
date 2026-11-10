@@ -17,7 +17,7 @@ import struct AWSSDKHTTPAuth.SigV4AuthScheme
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class FinspaceClientEndpointPlugin: Plugin {
+public class ContinuumClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -29,7 +29,7 @@ public class FinspaceClientEndpointPlugin: Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        guard var config = clientConfiguration as? FinspaceClient.FinspaceClientConfig else { return }
+        guard var config = clientConfiguration as? ContinuumClient.ContinuumClientConfig else { return }
         config.endpointResolver = self.endpointResolver
         guard let modifiedConfig = config as? Config else { return }
         clientConfiguration = modifiedConfig
@@ -41,8 +41,8 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? FinspaceClient.FinspaceClientConfig {
-            config.authSchemeResolver = DefaultFinspaceAuthSchemeResolver()
+        if var config = clientConfiguration as? ContinuumClient.ContinuumClientConfig {
+            config.authSchemeResolver = DefaultContinuumAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
@@ -52,14 +52,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     }
 }
 
-public class FinspaceClientAuthSchemePlugin: ClientRuntime.Plugin {
+public class ContinuumClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: FinspaceAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: ContinuumAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
         self.authSchemePreference = authSchemePreference ?? []
@@ -68,7 +68,7 @@ public class FinspaceClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? FinspaceClient.FinspaceClientConfig {
+        if var config = clientConfiguration as? ContinuumClient.ContinuumClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

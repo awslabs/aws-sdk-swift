@@ -878,6 +878,52 @@ public struct BatchStopUpdateActionOutput: Swift.Sendable {
     }
 }
 
+/// The requested cluster is not in the available state.
+public struct InvalidCacheClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidCacheClusterState" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The migration is not healthy. Check the events for this serverless cache for more details. For CompleteMigration, set Force to true to bypass this check.
+public struct MigrationHealthFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MigrationHealthFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The designated replication group is not available for data migration.
 public struct ReplicationGroupNotUnderMigrationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -901,19 +947,45 @@ public struct ReplicationGroupNotUnderMigrationFault: ClientRuntime.ModeledError
     }
 }
 
+/// The serverless cache is not currently under migration.
+public struct ServerlessCacheNotUnderMigrationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheNotUnderMigrationFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 public struct CompleteMigrationInput: Swift.Sendable {
     /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
     public var force: Swift.Bool?
     /// The ID of the replication group to which data is being migrated.
-    /// This member is required.
     public var replicationGroupId: Swift.String?
+    /// The name of the serverless cache to which data is being migrated.
+    public var serverlessCacheName: Swift.String?
 
     public init(
         force: Swift.Bool? = nil,
-        replicationGroupId: Swift.String? = nil
+        replicationGroupId: Swift.String? = nil,
+        serverlessCacheName: Swift.String? = nil
     ) {
         self.force = force
         self.replicationGroupId = replicationGroupId
+        self.serverlessCacheName = serverlessCacheName
     }
 }
 
@@ -1880,14 +1952,253 @@ extension ElastiCacheClientTypes {
     }
 }
 
+extension ElastiCacheClientTypes {
+
+    public enum DataStorageUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataStorageUnit] {
+            return [
+                .gb
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gb: return "GB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// The data storage limit.
+    public struct DataStorage: Swift.Sendable {
+        /// The upper limit for data storage the cache is set to use.
+        public var maximum: Swift.Int?
+        /// The lower limit for data storage the cache is set to use.
+        public var minimum: Swift.Int?
+        /// The unit that the storage is measured in, in GB.
+        /// This member is required.
+        public var unit: ElastiCacheClientTypes.DataStorageUnit?
+
+        public init(
+            maximum: Swift.Int? = nil,
+            minimum: Swift.Int? = nil,
+            unit: ElastiCacheClientTypes.DataStorageUnit? = nil
+        ) {
+            self.maximum = maximum
+            self.minimum = minimum
+            self.unit = unit
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
+    public struct ECPUPerSecond: Swift.Sendable {
+        /// The configuration for the maximum number of ECPUs the cache can consume per second.
+        public var maximum: Swift.Int?
+        /// The configuration for the minimum number of ECPUs the cache should be able consume per second.
+        public var minimum: Swift.Int?
+
+        public init(
+            maximum: Swift.Int? = nil,
+            minimum: Swift.Int? = nil
+        ) {
+            self.maximum = maximum
+            self.minimum = minimum
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// The usage limits for storage and ElastiCache Processing Units for the cache.
+    public struct CacheUsageLimits: Swift.Sendable {
+        /// The maximum data storage limit in the cache, expressed in Gigabytes.
+        public var dataStorage: ElastiCacheClientTypes.DataStorage?
+        /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
+        public var ecpuPerSecond: ElastiCacheClientTypes.ECPUPerSecond?
+
+        public init(
+            dataStorage: ElastiCacheClientTypes.DataStorage? = nil,
+            ecpuPerSecond: ElastiCacheClientTypes.ECPUPerSecond? = nil
+        ) {
+            self.dataStorage = dataStorage
+            self.ecpuPerSecond = ecpuPerSecond
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `public`
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionType] {
+            return [
+                .public,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .public: return "public"
+            case .vpc: return "vpc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// Provides a summary of the current migration status for a serverless cache.
+    public struct MigrationSummary: Swift.Sendable {
+        /// The cutover configuration for the migration.
+        public var cutoverMode: Swift.String?
+        /// The migration endpoint, which is the standard endpoint of the serverless cache. Point your application at this endpoint during the migration. Until cutover, ElastiCache routes requests on this endpoint to your source.
+        public var migrationEndpoint: ElastiCacheClientTypes.Endpoint?
+        /// The current status of the migration.
+        public var status: Swift.String?
+
+        public init(
+            cutoverMode: Swift.String? = nil,
+            migrationEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.cutoverMode = cutoverMode
+            self.migrationEndpoint = migrationEndpoint
+            self.status = status
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// The resource representing a serverless cache.
+    public struct ServerlessCache: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the serverless cache.
+        public var arn: Swift.String?
+        /// The cache usage limit for the serverless cache.
+        public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
+        /// The connection type for the serverless cache. Must be either vpc | public. If not specified, defaults to vpc.
+        public var connectionType: ElastiCacheClientTypes.ConnectionType?
+        /// When the serverless cache was created.
+        public var createTime: Foundation.Date?
+        /// The daily time that a cache snapshot will be created. Default is NULL, i.e. snapshots will not be created at a specific time on a daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
+        public var dailySnapshotTime: Swift.String?
+        /// A description of the serverless cache.
+        public var description: Swift.String?
+        /// Represents the information required for client programs to connect to a cache node. This value is read-only.
+        public var endpoint: ElastiCacheClientTypes.Endpoint?
+        /// The engine the serverless cache is compatible with.
+        public var engine: Swift.String?
+        /// The name and version number of the engine the serverless cache is compatible with.
+        public var fullEngineVersion: Swift.String?
+        /// The ID of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt data at rest in the serverless cache.
+        public var kmsKeyId: Swift.String?
+        /// The version number of the engine the serverless cache is compatible with.
+        public var majorEngineVersion: Swift.String?
+        /// Provides a summary of the migration status for the serverless cache.
+        public var migration: ElastiCacheClientTypes.MigrationSummary?
+        /// The type of IP address protocol used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+        public var networkType: ElastiCacheClientTypes.NetworkType?
+        /// Represents the information required for client programs to connect to a cache node. This value is read-only.
+        public var readerEndpoint: ElastiCacheClientTypes.Endpoint?
+        /// The IDs of the EC2 security groups associated with the serverless cache.
+        public var securityGroupIds: [Swift.String]?
+        /// The unique identifier of the serverless cache.
+        public var serverlessCacheName: Swift.String?
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
+        public var snapshotRetentionLimit: Swift.Int?
+        /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
+        public var status: Swift.String?
+        /// Indicates the type of encryption for data stored at rest in the serverless cache. Serverless caches are always encrypted at rest. The value is sse-elasticache if an ElastiCache service-managed key is used, or sse-kms if a customer-managed KMS key is used.
+        public var storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType?
+        /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache will select 2 default subnets across AZs in your VPC. For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
+        public var subnetIds: [Swift.String]?
+        /// The identifier of the user group associated with the serverless cache. Available for Valkey and Redis OSS only. Default is NULL.
+        public var userGroupId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits? = nil,
+            connectionType: ElastiCacheClientTypes.ConnectionType? = nil,
+            createTime: Foundation.Date? = nil,
+            dailySnapshotTime: Swift.String? = nil,
+            description: Swift.String? = nil,
+            endpoint: ElastiCacheClientTypes.Endpoint? = nil,
+            engine: Swift.String? = nil,
+            fullEngineVersion: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
+            majorEngineVersion: Swift.String? = nil,
+            migration: ElastiCacheClientTypes.MigrationSummary? = nil,
+            networkType: ElastiCacheClientTypes.NetworkType? = nil,
+            readerEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            serverlessCacheName: Swift.String? = nil,
+            snapshotRetentionLimit: Swift.Int? = nil,
+            status: Swift.String? = nil,
+            storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType? = nil,
+            subnetIds: [Swift.String]? = nil,
+            userGroupId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.cacheUsageLimits = cacheUsageLimits
+            self.connectionType = connectionType
+            self.createTime = createTime
+            self.dailySnapshotTime = dailySnapshotTime
+            self.description = description
+            self.endpoint = endpoint
+            self.engine = engine
+            self.fullEngineVersion = fullEngineVersion
+            self.kmsKeyId = kmsKeyId
+            self.majorEngineVersion = majorEngineVersion
+            self.migration = migration
+            self.networkType = networkType
+            self.readerEndpoint = readerEndpoint
+            self.securityGroupIds = securityGroupIds
+            self.serverlessCacheName = serverlessCacheName
+            self.snapshotRetentionLimit = snapshotRetentionLimit
+            self.status = status
+            self.storageEncryptionType = storageEncryptionType
+            self.subnetIds = subnetIds
+            self.userGroupId = userGroupId
+        }
+    }
+}
+
 public struct CompleteMigrationOutput: Swift.Sendable {
     /// Contains all of the attributes of a specific Valkey or Redis OSS replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+    /// Provides the details of the serverless cache for which the migration completed.
+    public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
 
     public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil,
+        serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
     ) {
         self.replicationGroup = replicationGroup
+        self.serverlessCache = serverlessCache
     }
 }
 
@@ -3937,29 +4248,6 @@ public struct CreateGlobalReplicationGroupOutput: Swift.Sendable {
     }
 }
 
-/// The requested cluster is not in the available state.
-public struct InvalidCacheClusterStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidCacheClusterState" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The Global datastore is not available or in primary-only state.
 public struct InvalidGlobalReplicationGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4377,123 +4665,6 @@ public struct ServerlessCacheQuotaForCustomerExceededFault: ClientRuntime.Modele
     }
 }
 
-extension ElastiCacheClientTypes {
-
-    public enum DataStorageUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case gb
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [DataStorageUnit] {
-            return [
-                .gb
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .gb: return "GB"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ElastiCacheClientTypes {
-
-    /// The data storage limit.
-    public struct DataStorage: Swift.Sendable {
-        /// The upper limit for data storage the cache is set to use.
-        public var maximum: Swift.Int?
-        /// The lower limit for data storage the cache is set to use.
-        public var minimum: Swift.Int?
-        /// The unit that the storage is measured in, in GB.
-        /// This member is required.
-        public var unit: ElastiCacheClientTypes.DataStorageUnit?
-
-        public init(
-            maximum: Swift.Int? = nil,
-            minimum: Swift.Int? = nil,
-            unit: ElastiCacheClientTypes.DataStorageUnit? = nil
-        ) {
-            self.maximum = maximum
-            self.minimum = minimum
-            self.unit = unit
-        }
-    }
-}
-
-extension ElastiCacheClientTypes {
-
-    /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
-    public struct ECPUPerSecond: Swift.Sendable {
-        /// The configuration for the maximum number of ECPUs the cache can consume per second.
-        public var maximum: Swift.Int?
-        /// The configuration for the minimum number of ECPUs the cache should be able consume per second.
-        public var minimum: Swift.Int?
-
-        public init(
-            maximum: Swift.Int? = nil,
-            minimum: Swift.Int? = nil
-        ) {
-            self.maximum = maximum
-            self.minimum = minimum
-        }
-    }
-}
-
-extension ElastiCacheClientTypes {
-
-    /// The usage limits for storage and ElastiCache Processing Units for the cache.
-    public struct CacheUsageLimits: Swift.Sendable {
-        /// The maximum data storage limit in the cache, expressed in Gigabytes.
-        public var dataStorage: ElastiCacheClientTypes.DataStorage?
-        /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
-        public var ecpuPerSecond: ElastiCacheClientTypes.ECPUPerSecond?
-
-        public init(
-            dataStorage: ElastiCacheClientTypes.DataStorage? = nil,
-            ecpuPerSecond: ElastiCacheClientTypes.ECPUPerSecond? = nil
-        ) {
-            self.dataStorage = dataStorage
-            self.ecpuPerSecond = ecpuPerSecond
-        }
-    }
-}
-
-extension ElastiCacheClientTypes {
-
-    public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case `public`
-        case vpc
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ConnectionType] {
-            return [
-                .public,
-                .vpc
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .public: return "public"
-            case .vpc: return "vpc"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct CreateServerlessCacheInput: Swift.Sendable {
     /// Sets the cache usage limits for storage and ElastiCache Processing Units for the cache.
     public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
@@ -4560,97 +4731,6 @@ public struct CreateServerlessCacheInput: Swift.Sendable {
         self.subnetIds = subnetIds
         self.tags = tags
         self.userGroupId = userGroupId
-    }
-}
-
-extension ElastiCacheClientTypes {
-
-    /// The resource representing a serverless cache.
-    public struct ServerlessCache: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the serverless cache.
-        public var arn: Swift.String?
-        /// The cache usage limit for the serverless cache.
-        public var cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits?
-        /// The connection type for the serverless cache. Must be either vpc | public. If not specified, defaults to vpc.
-        public var connectionType: ElastiCacheClientTypes.ConnectionType?
-        /// When the serverless cache was created.
-        public var createTime: Foundation.Date?
-        /// The daily time that a cache snapshot will be created. Default is NULL, i.e. snapshots will not be created at a specific time on a daily basis. Available for Valkey, Redis OSS and Serverless Memcached only.
-        public var dailySnapshotTime: Swift.String?
-        /// A description of the serverless cache.
-        public var description: Swift.String?
-        /// Represents the information required for client programs to connect to a cache node. This value is read-only.
-        public var endpoint: ElastiCacheClientTypes.Endpoint?
-        /// The engine the serverless cache is compatible with.
-        public var engine: Swift.String?
-        /// The name and version number of the engine the serverless cache is compatible with.
-        public var fullEngineVersion: Swift.String?
-        /// The ID of the Amazon Web Services Key Management Service (KMS) key that is used to encrypt data at rest in the serverless cache.
-        public var kmsKeyId: Swift.String?
-        /// The version number of the engine the serverless cache is compatible with.
-        public var majorEngineVersion: Swift.String?
-        /// The type of IP address protocol used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
-        public var networkType: ElastiCacheClientTypes.NetworkType?
-        /// Represents the information required for client programs to connect to a cache node. This value is read-only.
-        public var readerEndpoint: ElastiCacheClientTypes.Endpoint?
-        /// The IDs of the EC2 security groups associated with the serverless cache.
-        public var securityGroupIds: [Swift.String]?
-        /// The unique identifier of the serverless cache.
-        public var serverlessCacheName: Swift.String?
-        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
-        public var snapshotRetentionLimit: Swift.Int?
-        /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
-        public var status: Swift.String?
-        /// Indicates the type of encryption for data stored at rest in the serverless cache. Serverless caches are always encrypted at rest. The value is sse-elasticache if an ElastiCache service-managed key is used, or sse-kms if a customer-managed KMS key is used.
-        public var storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType?
-        /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache will select 2 default subnets across AZs in your VPC. For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
-        public var subnetIds: [Swift.String]?
-        /// The identifier of the user group associated with the serverless cache. Available for Valkey and Redis OSS only. Default is NULL.
-        public var userGroupId: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            cacheUsageLimits: ElastiCacheClientTypes.CacheUsageLimits? = nil,
-            connectionType: ElastiCacheClientTypes.ConnectionType? = nil,
-            createTime: Foundation.Date? = nil,
-            dailySnapshotTime: Swift.String? = nil,
-            description: Swift.String? = nil,
-            endpoint: ElastiCacheClientTypes.Endpoint? = nil,
-            engine: Swift.String? = nil,
-            fullEngineVersion: Swift.String? = nil,
-            kmsKeyId: Swift.String? = nil,
-            majorEngineVersion: Swift.String? = nil,
-            networkType: ElastiCacheClientTypes.NetworkType? = nil,
-            readerEndpoint: ElastiCacheClientTypes.Endpoint? = nil,
-            securityGroupIds: [Swift.String]? = nil,
-            serverlessCacheName: Swift.String? = nil,
-            snapshotRetentionLimit: Swift.Int? = nil,
-            status: Swift.String? = nil,
-            storageEncryptionType: ElastiCacheClientTypes.StorageEncryptionType? = nil,
-            subnetIds: [Swift.String]? = nil,
-            userGroupId: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.cacheUsageLimits = cacheUsageLimits
-            self.connectionType = connectionType
-            self.createTime = createTime
-            self.dailySnapshotTime = dailySnapshotTime
-            self.description = description
-            self.endpoint = endpoint
-            self.engine = engine
-            self.fullEngineVersion = fullEngineVersion
-            self.kmsKeyId = kmsKeyId
-            self.majorEngineVersion = majorEngineVersion
-            self.networkType = networkType
-            self.readerEndpoint = readerEndpoint
-            self.securityGroupIds = securityGroupIds
-            self.serverlessCacheName = serverlessCacheName
-            self.snapshotRetentionLimit = snapshotRetentionLimit
-            self.status = status
-            self.storageEncryptionType = storageEncryptionType
-            self.subnetIds = subnetIds
-            self.userGroupId = userGroupId
-        }
     }
 }
 
@@ -8823,6 +8903,162 @@ public struct ModifyUserGroupOutput: Swift.Sendable {
     }
 }
 
+/// A migration is already in progress for this serverless cache. You cannot start another migration until the current one completes.
+public struct ServerlessCacheAlreadyUnderMigrationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServerlessCacheAlreadyUnderMigrationFault" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// The endpoint from which data should be migrated.
+    public struct CustomerNodeEndpoint: Swift.Sendable {
+        /// The address of the node endpoint
+        public var address: Swift.String?
+        /// The port of the node endpoint
+        public var port: Swift.Int?
+
+        public init(
+            address: Swift.String? = nil,
+            port: Swift.Int? = nil
+        ) {
+            self.address = address
+            self.port = port
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// Configuration for authenticating with the source using Secrets Manager during migration.
+    public struct SecretManagerAuthConfig: Swift.Sendable {
+        /// The ARN of the secret in AWS Secrets Manager that contains the credentials for authenticating with the source.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// The authentication configuration for connecting to the source during migration.
+    public struct SourceAuthenticationConfiguration: Swift.Sendable {
+        /// The Secrets Manager configuration used for authenticating with the source during migration.
+        public var secretManagerConfig: ElastiCacheClientTypes.SecretManagerAuthConfig?
+
+        public init(
+            secretManagerConfig: ElastiCacheClientTypes.SecretManagerAuthConfig? = nil
+        ) {
+            self.secretManagerConfig = secretManagerConfig
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    public enum TlsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case verifyCa
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TlsMode] {
+            return [
+                .none,
+                .verifyCa
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .verifyCa: return "verify-ca"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElastiCacheClientTypes {
+
+    /// The TLS configuration for connecting to the source during migration.
+    public struct SourceTlsConfiguration: Swift.Sendable {
+        /// The TLS certificate used to verify the identity of the source during migration.
+        public var sourceTlsCertificate: Swift.String?
+        /// The TLS mode to use when connecting to the source. Valid values are none and verify-ca.
+        public var sourceTlsMode: ElastiCacheClientTypes.TlsMode?
+
+        public init(
+            sourceTlsCertificate: Swift.String? = nil,
+            sourceTlsMode: ElastiCacheClientTypes.TlsMode? = nil
+        ) {
+            self.sourceTlsCertificate = sourceTlsCertificate
+            self.sourceTlsMode = sourceTlsMode
+        }
+    }
+}
+
+public struct PrepareMigrationInput: Swift.Sendable {
+    /// The list of endpoints from which to migrate data. For serverless cache migrations, the list should have only one element.
+    /// This member is required.
+    public var customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]?
+    /// The name of the serverless cache to prepare for migration.
+    /// This member is required.
+    public var serverlessCacheName: Swift.String?
+    /// The authentication configuration for connecting to the source during migration.
+    public var sourceAuthenticationConfiguration: ElastiCacheClientTypes.SourceAuthenticationConfiguration?
+    /// The TLS configuration for connecting to the source during migration.
+    public var sourceTlsConfiguration: ElastiCacheClientTypes.SourceTlsConfiguration?
+
+    public init(
+        customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]? = nil,
+        serverlessCacheName: Swift.String? = nil,
+        sourceAuthenticationConfiguration: ElastiCacheClientTypes.SourceAuthenticationConfiguration? = nil,
+        sourceTlsConfiguration: ElastiCacheClientTypes.SourceTlsConfiguration? = nil
+    ) {
+        self.customerNodeEndpointList = customerNodeEndpointList
+        self.serverlessCacheName = serverlessCacheName
+        self.sourceAuthenticationConfiguration = sourceAuthenticationConfiguration
+        self.sourceTlsConfiguration = sourceTlsConfiguration
+    }
+}
+
+public struct PrepareMigrationOutput: Swift.Sendable {
+    /// Provides the details of the serverless cache prepared for migration.
+    public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+
+    public init(
+        serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
+    ) {
+        self.serverlessCache = serverlessCache
+    }
+}
+
 /// You already have a reservation with the given identifier.
 public struct ReservedCacheNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -9140,50 +9376,68 @@ public struct ReplicationGroupAlreadyUnderMigrationFault: ClientRuntime.ModeledE
     }
 }
 
-extension ElastiCacheClientTypes {
-
-    /// The endpoint from which data should be migrated.
-    public struct CustomerNodeEndpoint: Swift.Sendable {
-        /// The address of the node endpoint
-        public var address: Swift.String?
-        /// The port of the node endpoint
-        public var port: Swift.Int?
-
-        public init(
-            address: Swift.String? = nil,
-            port: Swift.Int? = nil
-        ) {
-            self.address = address
-            self.port = port
-        }
-    }
-}
-
 public struct StartMigrationInput: Swift.Sendable {
-    /// List of endpoints from which data should be migrated. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element.
-    /// This member is required.
+    /// Specifies whether ElastiCache automatically attempts to complete the migration after data sync is established.
+    public var autoCutover: Swift.Bool?
+    /// Specifies whether ElastiCache deletes existing data in the serverless cache before migration begins. After StopMigration, StartMigration requires this option to restart the data sync.
+    public var clearTargetCacheData: Swift.Bool?
+    /// The list of endpoints from which to migrate data. For Valkey or Redis OSS (cluster mode disabled), the list should have only one element. For serverless cache migrations, ElastiCache uses the endpoint that you provided in PrepareMigration.
     public var customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]?
     /// The ID of the replication group to which data should be migrated.
-    /// This member is required.
     public var replicationGroupId: Swift.String?
+    /// The name of the serverless cache to which data is being migrated.
+    public var serverlessCacheName: Swift.String?
 
     public init(
+        autoCutover: Swift.Bool? = nil,
+        clearTargetCacheData: Swift.Bool? = nil,
         customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]? = nil,
-        replicationGroupId: Swift.String? = nil
+        replicationGroupId: Swift.String? = nil,
+        serverlessCacheName: Swift.String? = nil
     ) {
+        self.autoCutover = autoCutover
+        self.clearTargetCacheData = clearTargetCacheData
         self.customerNodeEndpointList = customerNodeEndpointList
         self.replicationGroupId = replicationGroupId
+        self.serverlessCacheName = serverlessCacheName
     }
 }
 
 public struct StartMigrationOutput: Swift.Sendable {
     /// Contains all of the attributes of a specific Valkey or Redis OSS replication group.
     public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+    /// Provides the details of the serverless cache to which ElastiCache is migrating data.
+    public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
 
     public init(
-        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil,
+        serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
     ) {
         self.replicationGroup = replicationGroup
+        self.serverlessCache = serverlessCache
+    }
+}
+
+public struct StopMigrationInput: Swift.Sendable {
+    /// The name of the serverless cache for which to stop the data sync.
+    /// This member is required.
+    public var serverlessCacheName: Swift.String?
+
+    public init(
+        serverlessCacheName: Swift.String? = nil
+    ) {
+        self.serverlessCacheName = serverlessCacheName
+    }
+}
+
+public struct StopMigrationOutput: Swift.Sendable {
+    /// Provides the details of the serverless cache for which the data sync stopped.
+    public var serverlessCache: ElastiCacheClientTypes.ServerlessCache?
+
+    public init(
+        serverlessCache: ElastiCacheClientTypes.ServerlessCache? = nil
+    ) {
+        self.serverlessCache = serverlessCache
     }
 }
 
@@ -9774,6 +10028,13 @@ extension ModifyUserGroupInput {
     }
 }
 
+extension PrepareMigrationInput {
+
+    static func urlPathProvider(_ value: PrepareMigrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PurchaseReservedCacheNodesOfferingInput {
 
     static func urlPathProvider(_ value: PurchaseReservedCacheNodesOfferingInput) -> Swift.String? {
@@ -9819,6 +10080,13 @@ extension RevokeCacheSecurityGroupIngressInput {
 extension StartMigrationInput {
 
     static func urlPathProvider(_ value: StartMigrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StopMigrationInput {
+
+    static func urlPathProvider(_ value: StopMigrationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -9890,6 +10158,7 @@ extension CompleteMigrationInput {
         guard let value else { return }
         try writer["Force"].write(value.force)
         try writer["ReplicationGroupId"].write(value.replicationGroupId)
+        try writer["ServerlessCacheName"].write(value.serverlessCacheName)
         try writer["Action"].write("CompleteMigration")
         try writer["Version"].write("2015-02-02")
     }
@@ -10806,6 +11075,19 @@ extension ModifyUserGroupInput {
     }
 }
 
+extension PrepareMigrationInput {
+
+    static func write(value: PrepareMigrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerNodeEndpointList"].writeList(value.customerNodeEndpointList, memberWritingClosure: ElastiCacheClientTypes.CustomerNodeEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ServerlessCacheName"].write(value.serverlessCacheName)
+        try writer["SourceAuthenticationConfiguration"].write(value.sourceAuthenticationConfiguration, with: ElastiCacheClientTypes.SourceAuthenticationConfiguration.write(value:to:))
+        try writer["SourceTlsConfiguration"].write(value.sourceTlsConfiguration, with: ElastiCacheClientTypes.SourceTlsConfiguration.write(value:to:))
+        try writer["Action"].write("PrepareMigration")
+        try writer["Version"].write("2015-02-02")
+    }
+}
+
 extension PurchaseReservedCacheNodesOfferingInput {
 
     static func write(value: PurchaseReservedCacheNodesOfferingInput?, to writer: SmithyFormURL.Writer) throws {
@@ -10880,9 +11162,22 @@ extension StartMigrationInput {
 
     static func write(value: StartMigrationInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AutoCutover"].write(value.autoCutover)
+        try writer["ClearTargetCacheData"].write(value.clearTargetCacheData)
         try writer["CustomerNodeEndpointList"].writeList(value.customerNodeEndpointList, memberWritingClosure: ElastiCacheClientTypes.CustomerNodeEndpoint.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ReplicationGroupId"].write(value.replicationGroupId)
+        try writer["ServerlessCacheName"].write(value.serverlessCacheName)
         try writer["Action"].write("StartMigration")
+        try writer["Version"].write("2015-02-02")
+    }
+}
+
+extension StopMigrationInput {
+
+    static func write(value: StopMigrationInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ServerlessCacheName"].write(value.serverlessCacheName)
+        try writer["Action"].write("StopMigration")
         try writer["Version"].write("2015-02-02")
     }
 }
@@ -10967,6 +11262,7 @@ extension CompleteMigrationOutput {
         let reader = responseReader["CompleteMigrationResult"]
         var value = CompleteMigrationOutput()
         value.replicationGroup = try reader["ReplicationGroup"].readIfPresent(with: ElastiCacheClientTypes.ReplicationGroup.read(from:))
+        value.serverlessCache = try reader["ServerlessCache"].readIfPresent(with: ElastiCacheClientTypes.ServerlessCache.read(from:))
         return value
     }
 }
@@ -11756,6 +12052,18 @@ extension ModifyUserGroupOutput {
     }
 }
 
+extension PrepareMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PrepareMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["PrepareMigrationResult"]
+        var value = PrepareMigrationOutput()
+        value.serverlessCache = try reader["ServerlessCache"].readIfPresent(with: ElastiCacheClientTypes.ServerlessCache.read(from:))
+        return value
+    }
+}
+
 extension PurchaseReservedCacheNodesOfferingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PurchaseReservedCacheNodesOfferingOutput {
@@ -11836,6 +12144,19 @@ extension StartMigrationOutput {
         let reader = responseReader["StartMigrationResult"]
         var value = StartMigrationOutput()
         value.replicationGroup = try reader["ReplicationGroup"].readIfPresent(with: ElastiCacheClientTypes.ReplicationGroup.read(from:))
+        value.serverlessCache = try reader["ServerlessCache"].readIfPresent(with: ElastiCacheClientTypes.ServerlessCache.read(from:))
+        return value
+    }
+}
+
+extension StopMigrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopMigrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["StopMigrationResult"]
+        var value = StopMigrationOutput()
+        value.serverlessCache = try reader["ServerlessCache"].readIfPresent(with: ElastiCacheClientTypes.ServerlessCache.read(from:))
         return value
     }
 }
@@ -11951,9 +12272,16 @@ enum CompleteMigrationOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidCacheClusterState": return try InvalidCacheClusterStateFault.makeError(baseError: baseError)
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
+            case "InvalidServerlessCacheStateFault": return try InvalidServerlessCacheStateFault.makeError(baseError: baseError)
+            case "MigrationHealthFault": return try MigrationHealthFault.makeError(baseError: baseError)
             case "ReplicationGroupNotFoundFault": return try ReplicationGroupNotFoundFault.makeError(baseError: baseError)
             case "ReplicationGroupNotUnderMigrationFault": return try ReplicationGroupNotUnderMigrationFault.makeError(baseError: baseError)
+            case "ServerlessCacheNotFoundFault": return try ServerlessCacheNotFoundFault.makeError(baseError: baseError)
+            case "ServerlessCacheNotUnderMigrationFault": return try ServerlessCacheNotUnderMigrationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13104,6 +13432,23 @@ enum ModifyUserGroupOutputError {
     }
 }
 
+enum PrepareMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidServerlessCacheStateFault": return try InvalidServerlessCacheStateFault.makeError(baseError: baseError)
+            case "ServerlessCacheAlreadyUnderMigrationFault": return try ServerlessCacheAlreadyUnderMigrationFault.makeError(baseError: baseError)
+            case "ServerlessCacheNotFoundFault": return try ServerlessCacheNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PurchaseReservedCacheNodesOfferingOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13229,10 +13574,33 @@ enum StartMigrationOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidCacheClusterState": return try InvalidCacheClusterStateFault.makeError(baseError: baseError)
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
+            case "InvalidServerlessCacheStateFault": return try InvalidServerlessCacheStateFault.makeError(baseError: baseError)
+            case "MigrationHealthFault": return try MigrationHealthFault.makeError(baseError: baseError)
             case "ReplicationGroupAlreadyUnderMigrationFault": return try ReplicationGroupAlreadyUnderMigrationFault.makeError(baseError: baseError)
             case "ReplicationGroupNotFoundFault": return try ReplicationGroupNotFoundFault.makeError(baseError: baseError)
+            case "ServerlessCacheNotFoundFault": return try ServerlessCacheNotFoundFault.makeError(baseError: baseError)
+            case "ServerlessCacheNotUnderMigrationFault": return try ServerlessCacheNotUnderMigrationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopMigrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "InvalidServerlessCacheStateFault": return try InvalidServerlessCacheStateFault.makeError(baseError: baseError)
+            case "ServerlessCacheNotFoundFault": return try ServerlessCacheNotFoundFault.makeError(baseError: baseError)
+            case "ServerlessCacheNotUnderMigrationFault": return try ServerlessCacheNotUnderMigrationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -13268,6 +13636,8 @@ enum TestMigrationOutputError {
         let baseError = try ClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidCacheClusterState": return try InvalidCacheClusterStateFault.makeError(baseError: baseError)
+            case "InvalidParameterCombination": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "InvalidParameterValue": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "InvalidReplicationGroupState": return try InvalidReplicationGroupStateFault.makeError(baseError: baseError)
             case "ReplicationGroupAlreadyUnderMigrationFault": return try ReplicationGroupAlreadyUnderMigrationFault.makeError(baseError: baseError)
@@ -13563,11 +13933,50 @@ extension ServiceUpdateNotFoundFault {
     }
 }
 
+extension InvalidCacheClusterStateFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheClusterStateFault {
+        let reader = baseError.errorBodyReader
+        var value = InvalidCacheClusterStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MigrationHealthFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> MigrationHealthFault {
+        let reader = baseError.errorBodyReader
+        var value = MigrationHealthFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ReplicationGroupNotUnderMigrationFault {
 
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ReplicationGroupNotUnderMigrationFault {
         let reader = baseError.errorBodyReader
         var value = ReplicationGroupNotUnderMigrationFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServerlessCacheNotUnderMigrationFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheNotUnderMigrationFault {
+        let reader = baseError.errorBodyReader
+        var value = ServerlessCacheNotUnderMigrationFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13875,19 +14284,6 @@ extension GlobalReplicationGroupAlreadyExistsFault {
     }
 }
 
-extension InvalidCacheClusterStateFault {
-
-    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidCacheClusterStateFault {
-        let reader = baseError.errorBodyReader
-        var value = InvalidCacheClusterStateFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidGlobalReplicationGroupStateFault {
 
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> InvalidGlobalReplicationGroupStateFault {
@@ -14153,6 +14549,19 @@ extension SubnetInUse {
     static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> SubnetInUse {
         let reader = baseError.errorBodyReader
         var value = SubnetInUse()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServerlessCacheAlreadyUnderMigrationFault {
+
+    static func makeError(baseError: ClientRuntime.AWSQueryError) throws -> ServerlessCacheAlreadyUnderMigrationFault {
+        let reader = baseError.errorBodyReader
+        var value = ServerlessCacheAlreadyUnderMigrationFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14743,6 +15152,18 @@ extension ElastiCacheClientTypes.LogDeliveryConfigurationRequest {
     }
 }
 
+extension ElastiCacheClientTypes.MigrationSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.MigrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElastiCacheClientTypes.MigrationSummary()
+        value.status = try reader["Status"].readIfPresent()
+        value.migrationEndpoint = try reader["MigrationEndpoint"].readIfPresent(with: ElastiCacheClientTypes.Endpoint.read(from:))
+        value.cutoverMode = try reader["CutoverMode"].readIfPresent()
+        return value
+    }
+}
+
 extension ElastiCacheClientTypes.NodeGroup {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.NodeGroup {
@@ -15085,6 +15506,14 @@ extension ElastiCacheClientTypes.ScaleConfig {
     }
 }
 
+extension ElastiCacheClientTypes.SecretManagerAuthConfig {
+
+    static func write(value: ElastiCacheClientTypes.SecretManagerAuthConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
 extension ElastiCacheClientTypes.SecurityGroupMembership {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElastiCacheClientTypes.SecurityGroupMembership {
@@ -15121,6 +15550,7 @@ extension ElastiCacheClientTypes.ServerlessCache {
         value.dailySnapshotTime = try reader["DailySnapshotTime"].readIfPresent()
         value.networkType = try reader["NetworkType"].readIfPresent()
         value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.migration = try reader["Migration"].readIfPresent(with: ElastiCacheClientTypes.MigrationSummary.read(from:))
         return value
     }
 }
@@ -15221,6 +15651,23 @@ extension ElastiCacheClientTypes.Snapshot {
         value.dataTiering = try reader["DataTiering"].readIfPresent()
         value.durability = try reader["Durability"].readIfPresent()
         return value
+    }
+}
+
+extension ElastiCacheClientTypes.SourceAuthenticationConfiguration {
+
+    static func write(value: ElastiCacheClientTypes.SourceAuthenticationConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SecretManagerConfig"].write(value.secretManagerConfig, with: ElastiCacheClientTypes.SecretManagerAuthConfig.write(value:to:))
+    }
+}
+
+extension ElastiCacheClientTypes.SourceTlsConfiguration {
+
+    static func write(value: ElastiCacheClientTypes.SourceTlsConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SourceTlsCertificate"].write(value.sourceTlsCertificate)
+        try writer["SourceTlsMode"].write(value.sourceTlsMode)
     }
 }
 

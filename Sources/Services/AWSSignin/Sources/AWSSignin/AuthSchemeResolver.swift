@@ -35,6 +35,14 @@ public struct DefaultSigninAuthSchemeResolver: SigninAuthSchemeResolver {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
+            case "createBearerToken":
+                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "signin")
+                guard let region = serviceParams.region else {
+                    throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
+                }
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
+                validAuthOptions.append(sigv4Option)
             case "createOAuth2Token":
                 validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "createOAuth2TokenWithIAM":
@@ -45,6 +53,8 @@ public struct DefaultSigninAuthSchemeResolver: SigninAuthSchemeResolver {
                 }
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigv4Option)
+            case "createOAuth2TokenWithTokenExchange":
+                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#noAuth"))
             case "introspectOAuth2TokenWithIAM":
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "signin")

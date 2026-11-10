@@ -1509,6 +1509,91 @@ extension WorkspacesInstancesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyVolume` operation on the `WorkspacesInstances` service.
+    ///
+    /// Modifies the size, volume type, IOPS (input/output operations per second), or throughput of a volume. When you modify a volume, you must specify at least one of these parameters. You can modify a volume only after any previous modification for that volume has finished. To track the progress of a modification, use the Amazon EC2 [DescribeVolumesModifications](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVolumesModifications.html) operation. For more information, see [Monitor the progress of Amazon EBS volume modifications](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-modifications.html) in the Amazon EBS User Guide. After you increase the size of a volume, you must extend the partition and file system to use the new storage capacity. For more information, see [Extend the file system after resizing an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html) in the Amazon EBS User Guide, which covers both [Linux](https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html#extend-linux) and [Windows](https://docs.aws.amazon.com/ebs/latest/userguide/recognize-expanded-volume-linux.html#extend-windows) instances.
+    ///
+    /// - Parameter input: Contains the parameters for modifying a volume, including the target size, volume type, IOPS, or throughput. (Type: `ModifyVolumeInput`)
+    ///
+    /// - Returns: Contains the target configuration of the volume after the modification, including the size, volume type, IOPS, and throughput where applicable. (Type: `ModifyVolumeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Indicates insufficient permissions to perform the requested action.
+    /// - `ConflictException` : Signals a conflict with the current state of the resource.
+    /// - `InternalServerException` : Indicates an unexpected server-side error occurred.
+    /// - `ResourceNotFoundException` : Indicates the requested resource could not be found.
+    /// - `ServiceQuotaExceededException` : Indicates that a service quota has been exceeded.
+    /// - `ThrottlingException` : Indicates the request rate has exceeded limits.
+    /// - `ValidationException` : Indicates invalid input parameters in the request.
+    /// - `VolumeModificationRateExceededException` : The volume has a previous modification that is still in progress, or has reached the limit of four modifications in a rolling 24-hour period. Wait for the current modification to finish, or wait until the time indicated in the error message, and then retry the request.
+    public func modifyVolume(input: ModifyVolumeInput) async throws -> ModifyVolumeOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = WorkspacesInstancesClient.modifyVolumeOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyVolume")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "workspaces-instances")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyVolumeInput, ModifyVolumeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyVolumeInput, ModifyVolumeOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyVolumeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Workspaces Instances", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ModifyVolumeInput, ModifyVolumeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyVolumeInput, ModifyVolumeOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyVolumeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyVolumeInput, ModifyVolumeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Workspaces Instances"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyVolumeInput, ModifyVolumeOutput>(serviceID: serviceName, version: WorkspacesInstancesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WorkspacesInstances")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyVolume")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `WorkspacesInstances` service.
     ///
     /// Adds tags to a WorkSpace Instance.

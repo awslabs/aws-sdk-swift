@@ -863,6 +863,113 @@ extension OpenSearchClientTypes {
     }
 }
 
+/// An exception for creating a resource that already exists.
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// A description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AddReplicationPeerInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// When true, validates the request and reports whether replication could be established, without changing either domain.
+    public var dryRun: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the domain to replicate to. The peer must be in a different Region from the domain you are calling, and in the same AWS account.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.dryRun = dryRun
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum ReplicationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case detached
+        case ejected
+        case failed
+        case failingOver
+        case pendingRemoval
+        case pendingSetup
+        case switchingOver
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationStatus] {
+            return [
+                .active,
+                .detached,
+                .ejected,
+                .failed,
+                .failingOver,
+                .pendingRemoval,
+                .pendingSetup,
+                .switchingOver
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .detached: return "DETACHED"
+            case .ejected: return "EJECTED"
+            case .failed: return "FAILED"
+            case .failingOver: return "FAILING_OVER"
+            case .pendingRemoval: return "PENDING_REMOVAL"
+            case .pendingSetup: return "PENDING_SETUP"
+            case .switchingOver: return "SWITCHING_OVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AddReplicationPeerOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain that is now replicating to the peer.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is PENDING_SETUP immediately after the request is accepted.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
+    }
+}
+
 /// Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain, data source, or application.
 public struct AddTagsInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) for the OpenSearch Service domain, data source, or application to which you want to attach resource tags.
@@ -2153,6 +2260,235 @@ public struct CancelServiceSoftwareUpdateOutput: Swift.Sendable {
     }
 }
 
+public struct CompareDomainConfigurationInput: Swift.Sendable {
+    /// The metadata categories to compare. At least one is required, and only the categories you name are read and returned.
+    ///
+    /// * aliases
+    ///
+    /// * alerting_monitors
+    ///
+    /// * cluster_settings
+    ///
+    /// * component_templates
+    ///
+    /// * ingest_pipelines
+    ///
+    /// * ism_policies — index state management policies
+    ///
+    /// * security_action_groups
+    ///
+    /// * security_internal_users
+    ///
+    /// * security_role_mappings
+    ///
+    /// * security_roles
+    ///
+    /// * templates — index templates
+    ///
+    ///
+    /// The set of categories grows over time, so this list is not fixed. A category the service does not recognise is rejected with the supported categories named in the error message.
+    /// This member is required.
+    public var categories: [Swift.String]?
+    /// The Amazon Resource Name (ARN) of the domain to compare from.
+    /// This member is required.
+    public var sourceDomainArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain to compare against.
+    /// This member is required.
+    public var targetDomainArn: Swift.String?
+
+    public init(
+        categories: [Swift.String]? = nil,
+        sourceDomainArn: Swift.String? = nil,
+        targetDomainArn: Swift.String? = nil
+    ) {
+        self.categories = categories
+        self.sourceDomainArn = sourceDomainArn
+        self.targetDomainArn = targetDomainArn
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum DiffFieldPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case redacted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiffFieldPolicy] {
+            return [
+                .redacted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .redacted: return "redacted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// A single field that differs between the source and target copies of an item.
+    public struct DivergentField: Swift.Sendable {
+        /// The location of the field within the item.
+        public var path: Swift.String?
+        /// How the comparison treats this field.
+        public var policy: OpenSearchClientTypes.DiffFieldPolicy?
+        /// The field's value on the source domain.
+        public var sourceValue: Swift.String?
+        /// The field's value on the target domain.
+        public var targetValue: Swift.String?
+
+        public init(
+            path: Swift.String? = nil,
+            policy: OpenSearchClientTypes.DiffFieldPolicy? = nil,
+            sourceValue: Swift.String? = nil,
+            targetValue: Swift.String? = nil
+        ) {
+            self.path = path
+            self.policy = policy
+            self.sourceValue = sourceValue
+            self.targetValue = targetValue
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// An item that exists on both domains but whose contents differ.
+    public struct DivergentItem: Swift.Sendable {
+        /// The fields of the item that differ.
+        public var fields: [OpenSearchClientTypes.DivergentField]?
+        /// The name of the item.
+        public var name: Swift.String?
+
+        public init(
+            fields: [OpenSearchClientTypes.DivergentField]? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.fields = fields
+            self.name = name
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The items that differ within one metadata category.
+    public struct DiffItems: Swift.Sendable {
+        /// The items that exist on both domains but differ, with the diverging fields.
+        public var diverged: [OpenSearchClientTypes.DivergentItem]?
+        /// The names of items that exist only on the source domain.
+        public var sourceOnly: [Swift.String]?
+        /// The names of items that exist only on the target domain.
+        public var targetOnly: [Swift.String]?
+
+        public init(
+            diverged: [OpenSearchClientTypes.DivergentItem]? = nil,
+            sourceOnly: [Swift.String]? = nil,
+            targetOnly: [Swift.String]? = nil
+        ) {
+            self.diverged = diverged
+            self.sourceOnly = sourceOnly
+            self.targetOnly = targetOnly
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum DiffStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compared
+        case error
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DiffStatus] {
+            return [
+                .compared,
+                .error
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compared: return "compared"
+            case .error: return "error"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The result of comparing one metadata category between two domains.
+    public struct CategoryDiffResult: Swift.Sendable {
+        /// The number of items that exist on both domains but differ.
+        public var diverged: Swift.Int
+        /// The number of items that are identical on both domains.
+        public var inSync: Swift.Int
+        /// The names of the items that differ, and for diverging items, the fields that differ.
+        public var items: OpenSearchClientTypes.DiffItems?
+        /// The number of items that exist only on the source domain.
+        public var sourceOnly: Swift.Int
+        /// Whether the category was compared successfully. compared means the result is complete; error means the category could not be read.
+        public var status: OpenSearchClientTypes.DiffStatus?
+        /// The number of items that exist only on the target domain.
+        public var targetOnly: Swift.Int
+        /// Whether Items omits some differences because the category contained more than the response can carry. The counts remain complete when this is true.
+        public var truncated: Swift.Bool?
+
+        public init(
+            diverged: Swift.Int = 0,
+            inSync: Swift.Int = 0,
+            items: OpenSearchClientTypes.DiffItems? = nil,
+            sourceOnly: Swift.Int = 0,
+            status: OpenSearchClientTypes.DiffStatus? = nil,
+            targetOnly: Swift.Int = 0,
+            truncated: Swift.Bool? = nil
+        ) {
+            self.diverged = diverged
+            self.inSync = inSync
+            self.items = items
+            self.sourceOnly = sourceOnly
+            self.status = status
+            self.targetOnly = targetOnly
+            self.truncated = truncated
+        }
+    }
+}
+
+public struct CompareDomainConfigurationOutput: Swift.Sendable {
+    /// The comparison result for each category you requested, keyed by category name.
+    public var categories: [Swift.String: OpenSearchClientTypes.CategoryDiffResult]?
+    /// The Amazon Resource Name (ARN) of the domain that was compared from.
+    public var sourceDomainArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the domain that was compared against.
+    public var targetDomainArn: Swift.String?
+
+    public init(
+        categories: [Swift.String: OpenSearchClientTypes.CategoryDiffResult]? = nil,
+        sourceDomainArn: Swift.String? = nil,
+        targetDomainArn: Swift.String? = nil
+    ) {
+        self.categories = categories
+        self.sourceDomainArn = sourceDomainArn
+        self.targetDomainArn = targetDomainArn
+    }
+}
+
 extension OpenSearchClientTypes {
 
     public enum AppConfigType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2363,30 +2699,6 @@ public struct InvalidTypeException: ClientRuntime.ModeledError, AWSClientRuntime
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidTypeException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// An exception for creating a resource that already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// A description of the error.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceAlreadyExistsException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3151,6 +3463,7 @@ extension OpenSearchClientTypes {
     public enum TLSSecurityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case policyMinTls10201907
         case policyMinTls12201907
+        case policyMinTls12FipsPq202610
         case policyMinTls12Pfs202310
         case policyMinTls12Rfc9151Fips202408
         case sdkUnknown(Swift.String)
@@ -3159,6 +3472,7 @@ extension OpenSearchClientTypes {
             return [
                 .policyMinTls10201907,
                 .policyMinTls12201907,
+                .policyMinTls12FipsPq202610,
                 .policyMinTls12Pfs202310,
                 .policyMinTls12Rfc9151Fips202408
             ]
@@ -3173,6 +3487,7 @@ extension OpenSearchClientTypes {
             switch self {
             case .policyMinTls10201907: return "Policy-Min-TLS-1-0-2019-07"
             case .policyMinTls12201907: return "Policy-Min-TLS-1-2-2019-07"
+            case .policyMinTls12FipsPq202610: return "Policy-Min-TLS-1-2-FIPS-PQ-2026-10"
             case .policyMinTls12Pfs202310: return "Policy-Min-TLS-1-2-PFS-2023-10"
             case .policyMinTls12Rfc9151Fips202408: return "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
             case let .sdkUnknown(s): return s
@@ -3202,6 +3517,8 @@ extension OpenSearchClientTypes {
         /// * Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
         ///
         /// * Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS security policy that supports TLS version 1.3 with FIPS
+        ///
+        /// * Policy-Min-TLS-1-2-FIPS-PQ-2026-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with FIPS and post-quantum cipher suites
         public var tlsSecurityPolicy: OpenSearchClientTypes.TLSSecurityPolicy?
 
         public init(
@@ -5852,6 +6169,99 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// AutomaticCutoverToPrimaryCluster cuts the domain back over to the primary cluster if you haven't cut over by the scheduled time. DeletePrimaryCluster deletes the primary cluster when the retention period ends.
+    public enum ClonedBlueGreenScheduledActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automaticCutoverToPrimary
+        case deletePrimaryCluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClonedBlueGreenScheduledActionType] {
+            return [
+                .automaticCutoverToPrimary,
+                .deletePrimaryCluster
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automaticCutoverToPrimary: return "AutomaticCutoverToPrimaryCluster"
+            case .deletePrimaryCluster: return "DeletePrimaryCluster"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// An action that the service takes automatically at a scheduled time during a cloned blue/green upgrade.
+    public struct ClonedBlueGreenScheduledAction: Swift.Sendable {
+        /// The action that the service takes.
+        public var action: OpenSearchClientTypes.ClonedBlueGreenScheduledActionType?
+        /// The time at which the service takes the action.
+        public var scheduledTime: Foundation.Date?
+
+        public init(
+            action: OpenSearchClientTypes.ClonedBlueGreenScheduledActionType? = nil,
+            scheduledTime: Foundation.Date? = nil
+        ) {
+            self.action = action
+            self.scheduledTime = scheduledTime
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The split of search traffic between the primary and cloned clusters.
+    public struct TrafficPercents: Swift.Sendable {
+        /// The percentage of search traffic sent to the cloned cluster.
+        /// This member is required.
+        public var cloneReadTrafficPercent: Swift.Int
+        /// The percentage of search traffic sent to the primary cluster.
+        /// This member is required.
+        public var primaryReadTrafficPercent: Swift.Int
+
+        public init(
+            cloneReadTrafficPercent: Swift.Int = 0,
+            primaryReadTrafficPercent: Swift.Int = 0
+        ) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.primaryReadTrafficPercent = primaryReadTrafficPercent
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The state of a cloned blue/green upgrade. Members that don't apply are omitted.
+    public struct ClonedBlueGreenUpgradeDetails: Swift.Sendable {
+        /// The retention period, in hours, for the cluster that you cut over from.
+        public var retentionInHours: Swift.Int?
+        /// The action that the service takes automatically if you don't act before the scheduled time.
+        public var scheduledAction: OpenSearchClientTypes.ClonedBlueGreenScheduledAction?
+        /// The current split of search traffic between the primary and cloned clusters.
+        public var trafficSplit: OpenSearchClientTypes.TrafficPercents?
+
+        public init(
+            retentionInHours: Swift.Int? = nil,
+            scheduledAction: OpenSearchClientTypes.ClonedBlueGreenScheduledAction? = nil,
+            trafficSplit: OpenSearchClientTypes.TrafficPercents? = nil
+        ) {
+            self.retentionInHours = retentionInHours
+            self.scheduledAction = scheduledAction
+            self.trafficSplit = trafficSplit
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// The overall status value of the domain configuration change.
     public enum OverallChangeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
@@ -5948,6 +6358,8 @@ extension OpenSearchClientTypes {
         public var changeId: Swift.String?
         /// The specific stages that the domain is going through to perform the configuration change.
         public var changeProgressStages: [OpenSearchClientTypes.ChangeProgressStage]?
+        /// Details about a cloned blue/green upgrade, when the change is one.
+        public var clonedBlueGreenUpgradeDetails: OpenSearchClientTypes.ClonedBlueGreenUpgradeDetails?
         /// The list of properties in the domain configuration change that have completed.
         public var completedProperties: [Swift.String]?
         /// The current status of the configuration change.
@@ -5971,6 +6383,7 @@ extension OpenSearchClientTypes {
             acceptedWarnings: [Swift.String]? = nil,
             changeId: Swift.String? = nil,
             changeProgressStages: [OpenSearchClientTypes.ChangeProgressStage]? = nil,
+            clonedBlueGreenUpgradeDetails: OpenSearchClientTypes.ClonedBlueGreenUpgradeDetails? = nil,
             completedProperties: [Swift.String]? = nil,
             configChangeStatus: OpenSearchClientTypes.ConfigChangeStatus? = nil,
             initiatedBy: OpenSearchClientTypes.InitiatedBy? = nil,
@@ -5984,6 +6397,7 @@ extension OpenSearchClientTypes {
             self.acceptedWarnings = acceptedWarnings
             self.changeId = changeId
             self.changeProgressStages = changeProgressStages
+            self.clonedBlueGreenUpgradeDetails = clonedBlueGreenUpgradeDetails
             self.completedProperties = completedProperties
             self.configChangeStatus = configChangeStatus
             self.initiatedBy = initiatedBy
@@ -7040,6 +7454,112 @@ public struct DescribeDomainNodesOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeDomainReplicationInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    public enum ReplicationRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case primary
+        case secondary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationRole] {
+            return [
+                .primary,
+                .secondary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .primary: return "PRIMARY"
+            case .secondary: return "SECONDARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// A domain that another domain replicates with, and the state of that relationship.
+    public struct ReplicationPeer: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the peer domain.
+        public var peerDomainArn: Swift.String?
+        /// The peer's role in the relationship, either PRIMARY or SECONDARY.
+        public var peerRole: OpenSearchClientTypes.ReplicationRole?
+        /// The state of the relationship:
+        ///
+        /// * PENDING_SETUP - replication is being established.
+        ///
+        /// * ACTIVE - replication is running.
+        ///
+        /// * SWITCHING_OVER - a planned promotion is in progress.
+        ///
+        /// * FAILING_OVER - an unplanned promotion is in progress.
+        ///
+        /// * PENDING_REMOVAL - replication is being stopped.
+        ///
+        /// * DETACHED - the relationship has ended.
+        ///
+        /// * EJECTED - a failover promoted the other domain. The former primary keeps the data it had when it was ejected and stays read-only until you remove the peer, or discard that data and pair again.
+        ///
+        /// * FAILED - setup or teardown could not complete. You can still remove the relationship.
+        ///
+        ///
+        /// A relationship that is removed successfully no longer appears in Peers.
+        public var status: OpenSearchClientTypes.ReplicationStatus?
+        /// An explanation of why the relationship is in its current state, when more detail is available.
+        public var statusMessage: Swift.String?
+
+        public init(
+            peerDomainArn: Swift.String? = nil,
+            peerRole: OpenSearchClientTypes.ReplicationRole? = nil,
+            status: OpenSearchClientTypes.ReplicationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.peerDomainArn = peerDomainArn
+            self.peerRole = peerRole
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct DescribeDomainReplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain described.
+    public var domainArn: Swift.String?
+    /// The domains that this domain replicates with. Each entry carries the state of that one relationship. Empty when the domain is not replicating.
+    public var peers: [OpenSearchClientTypes.ReplicationPeer]?
+    /// The domain's role in the arrangement, either PRIMARY or SECONDARY. Absent when the domain is not replicating.
+    public var role: OpenSearchClientTypes.ReplicationRole?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        peers: [OpenSearchClientTypes.ReplicationPeer]? = nil,
+        role: OpenSearchClientTypes.ReplicationRole? = nil
+    ) {
+        self.domainArn = domainArn
+        self.peers = peers
+        self.role = role
+    }
+}
+
 /// Container for the parameters to the DescribeDomains operation.
 public struct DescribeDomainsInput: Swift.Sendable {
     /// Array of OpenSearch Service domain names that you want information about. You must specify at least one domain name.
@@ -8073,6 +8593,43 @@ public struct DissociatePackagesOutput: Swift.Sendable {
         domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]? = nil
     ) {
         self.domainPackageDetailsList = domainPackageDetailsList
+    }
+}
+
+public struct FailoverReplicationInput: Swift.Sendable {
+    /// Acknowledges that writes which had not yet replicated are lost. You must set this to true; the request is rejected otherwise.
+    /// This member is required.
+    public var allowDataLoss: Swift.Bool?
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        allowDataLoss: Swift.Bool? = nil,
+        domainName: Swift.String? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.allowDataLoss = allowDataLoss
+        self.domainName = domainName
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+public struct FailoverReplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain being promoted.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is FAILING_OVER while the promotion is in progress.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
     }
 }
 
@@ -10462,6 +11019,38 @@ public struct RejectInboundConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct RemoveReplicationPeerInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the peer to stop replicating with. Both domains are named so that the request identifies exactly one replication relationship.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+public struct RemoveReplicationPeerOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain that is no longer replicating.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is PENDING_REMOVAL while replication is being stopped.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
+    }
+}
+
 /// Container for the request parameters to the RemoveTags operation.
 public struct RemoveTagsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the domain, data source, or application from which you want to delete the specified tags.
@@ -10805,6 +11394,38 @@ public struct StartServiceSoftwareUpdateOutput: Swift.Sendable {
     }
 }
 
+public struct SwitchoverReplicationInput: Swift.Sendable {
+    /// The name of an OpenSearch Service domain. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the relationship's current primary. The request is rejected if this domain is no longer the peer of the domain you are calling.
+    /// This member is required.
+    public var peerDomainArn: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        peerDomainArn: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.peerDomainArn = peerDomainArn
+    }
+}
+
+public struct SwitchoverReplicationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain being promoted.
+    public var domainArn: Swift.String?
+    /// The state of the replication relationship. This is SWITCHING_OVER while the promotion is in progress.
+    public var status: OpenSearchClientTypes.ReplicationStatus?
+
+    public init(
+        domainArn: Swift.String? = nil,
+        status: OpenSearchClientTypes.ReplicationStatus? = nil
+    ) {
+        self.domainArn = domainArn
+        self.status = status
+    }
+}
+
 public struct UpdateApplicationInput: Swift.Sendable {
     /// The configuration settings to modify for the OpenSearch application.
     public var appConfigs: [OpenSearchClientTypes.AppConfig]?
@@ -10865,6 +11486,310 @@ public struct UpdateApplicationOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The cluster to cut over to in a cloned blue/green upgrade.
+    public enum CutoverTarget: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clonedCluster
+        case primaryCluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CutoverTarget] {
+            return [
+                .clonedCluster,
+                .primaryCluster
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clonedCluster: return "ClonedCluster"
+            case .primaryCluster: return "PrimaryCluster"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The cutover to perform for a cloned blue/green upgrade.
+    public struct CutoverRequestOptions: Swift.Sendable {
+        /// The cluster to cut over to. ClonedCluster makes the cloned cluster serve the domain. PrimaryCluster keeps the primary cluster and ends the upgrade.
+        /// This member is required.
+        public var target: OpenSearchClientTypes.CutoverTarget?
+
+        public init(
+            target: OpenSearchClientTypes.CutoverTarget? = nil
+        ) {
+            self.target = target
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The action that ends the retention period. RollbackToPrimaryCluster moves the domain back to the primary cluster. DeletePrimaryCluster deletes the primary cluster.
+    public enum RetentionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deletePrimaryCluster
+        case rollbackToPrimaryCluster
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RetentionAction] {
+            return [
+                .deletePrimaryCluster,
+                .rollbackToPrimaryCluster
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deletePrimaryCluster: return "DeletePrimaryCluster"
+            case .rollbackToPrimaryCluster: return "RollbackToPrimaryCluster"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Controls how long the cluster that you cut over from is kept after cutover completes. Specify exactly one of RetentionInHours or RetentionAction.
+    public enum RetentionOptions: Swift.Sendable {
+        /// The number of hours to keep the cluster that you cut over from. The retention period starts when cutover completes. The minimum is 1 hour. In an UpdateClone response after cutover completes, this value is the number of hours remaining in the retention period, rounded up.
+        case retentioninhours(Swift.Int)
+        /// Ends the retention period now. Valid only after cutover completes.
+        case retentionaction(OpenSearchClientTypes.RetentionAction)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The strategy used to shift traffic between the primary and cloned clusters.
+    public enum TrafficStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case shiftReadTrafficPercent
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrafficStrategy] {
+            return [
+                .shiftReadTrafficPercent
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .shiftReadTrafficPercent: return "ShiftReadTrafficPercent"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The traffic shift to perform for a cloned blue/green upgrade.
+    public struct TrafficSplitRequestOptions: Swift.Sendable {
+        /// The percentage of search traffic, from 0 to 100, to send to the cloned cluster. The rest goes to the primary cluster.
+        /// This member is required.
+        public var cloneReadTrafficPercent: Swift.Int
+        /// The traffic shifting strategy. The only valid value is ShiftReadTrafficPercent.
+        /// This member is required.
+        public var strategy: OpenSearchClientTypes.TrafficStrategy?
+
+        public init(
+            cloneReadTrafficPercent: Swift.Int = 0,
+            strategy: OpenSearchClientTypes.TrafficStrategy? = nil
+        ) {
+            self.cloneReadTrafficPercent = cloneReadTrafficPercent
+            self.strategy = strategy
+        }
+    }
+}
+
+/// Container for the request parameters to the UpdateClone operation.
+public struct UpdateCloneInput: Swift.Sendable {
+    /// Cuts the domain over to the cloned cluster or back to the primary cluster.
+    public var cutoverOptions: OpenSearchClientTypes.CutoverRequestOptions?
+    /// The name of the domain that has a cloned blue/green upgrade in progress.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// Changes the retention period, or ends it after cutover completes.
+    public var retentionOptions: OpenSearchClientTypes.RetentionOptions?
+    /// Shifts a percentage of search traffic from the primary cluster to the cloned cluster.
+    public var trafficSplitOptions: OpenSearchClientTypes.TrafficSplitRequestOptions?
+
+    public init(
+        cutoverOptions: OpenSearchClientTypes.CutoverRequestOptions? = nil,
+        domainName: Swift.String? = nil,
+        retentionOptions: OpenSearchClientTypes.RetentionOptions? = nil,
+        trafficSplitOptions: OpenSearchClientTypes.TrafficSplitRequestOptions? = nil
+    ) {
+        self.cutoverOptions = cutoverOptions
+        self.domainName = domainName
+        self.retentionOptions = retentionOptions
+        self.trafficSplitOptions = trafficSplitOptions
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The status of a cutover.
+    public enum CutoverStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CutoverStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The cutover target and status for a cloned blue/green upgrade.
+    public struct CutoverOptions: Swift.Sendable {
+        /// The status of the cutover.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.CutoverStatus?
+        /// The cluster that the domain is cutting over to.
+        /// This member is required.
+        public var target: OpenSearchClientTypes.CutoverTarget?
+
+        public init(
+            status: OpenSearchClientTypes.CutoverStatus? = nil,
+            target: OpenSearchClientTypes.CutoverTarget? = nil
+        ) {
+            self.status = status
+            self.target = target
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The status of a traffic shift.
+    public enum TrafficSplitStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrafficSplitStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "Completed"
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The traffic split and status for a cloned blue/green upgrade.
+    public struct TrafficSplitOptions: Swift.Sendable {
+        /// The traffic split currently in effect.
+        /// This member is required.
+        public var current: OpenSearchClientTypes.TrafficPercents?
+        /// The status of the traffic shift.
+        /// This member is required.
+        public var status: OpenSearchClientTypes.TrafficSplitStatus?
+        /// The requested traffic split.
+        /// This member is required.
+        public var target: OpenSearchClientTypes.TrafficPercents?
+
+        public init(
+            current: OpenSearchClientTypes.TrafficPercents? = nil,
+            status: OpenSearchClientTypes.TrafficSplitStatus? = nil,
+            target: OpenSearchClientTypes.TrafficPercents? = nil
+        ) {
+            self.current = current
+            self.status = status
+            self.target = target
+        }
+    }
+}
+
+/// Container for the response returned by the UpdateClone operation.
+public struct UpdateCloneOutput: Swift.Sendable {
+    /// The unique identifier of the configuration change. Use it with DescribeDomainChangeProgress to track the change.
+    /// This member is required.
+    public var changeId: Swift.String?
+    /// The requested cutover target and the status of the cutover.
+    public var cutoverOptions: OpenSearchClientTypes.CutoverOptions?
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The retention settings for the upgrade.
+    public var retentionOptions: OpenSearchClientTypes.RetentionOptions?
+    /// The current and requested traffic split, and the status of the traffic shift.
+    public var trafficSplitOptions: OpenSearchClientTypes.TrafficSplitOptions?
+
+    public init(
+        changeId: Swift.String? = nil,
+        cutoverOptions: OpenSearchClientTypes.CutoverOptions? = nil,
+        domainName: Swift.String? = nil,
+        retentionOptions: OpenSearchClientTypes.RetentionOptions? = nil,
+        trafficSplitOptions: OpenSearchClientTypes.TrafficSplitOptions? = nil
+    ) {
+        self.changeId = changeId
+        self.cutoverOptions = cutoverOptions
+        self.domainName = domainName
+        self.retentionOptions = retentionOptions
+        self.trafficSplitOptions = trafficSplitOptions
     }
 }
 
@@ -11385,10 +12310,74 @@ public struct UpdateVpcEndpointOutput: Swift.Sendable {
     }
 }
 
+extension OpenSearchClientTypes {
+
+    /// Options for a cloned blue/green upgrade.
+    public struct ClonedBlueGreenOptions: Swift.Sendable {
+        /// How long to keep the cluster that you cut over from after cutover completes. When you start the upgrade, only RetentionInHours is accepted.
+        public var retentionOptions: OpenSearchClientTypes.RetentionOptions?
+
+        public init(
+            retentionOptions: OpenSearchClientTypes.RetentionOptions? = nil
+        ) {
+            self.retentionOptions = retentionOptions
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The deployment strategy override for an operation. The only valid value is ClonedBlueGreen.
+    public enum DeploymentStrategyOverride: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clonedBlueGreen
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentStrategyOverride] {
+            return [
+                .clonedBlueGreen
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clonedBlueGreen: return "ClonedBlueGreen"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// Overrides the deployment strategy for a single operation, such as a version upgrade.
+    public struct DeploymentStrategyOverrideOptions: Swift.Sendable {
+        /// Options that apply when DeploymentStrategy is ClonedBlueGreen.
+        public var clonedBlueGreenOptions: OpenSearchClientTypes.ClonedBlueGreenOptions?
+        /// The deployment strategy to use for this operation. The only valid value is ClonedBlueGreen, which creates a cloned cluster on the target version next to the primary cluster so that you can validate it and shift traffic to it before you cut over.
+        /// This member is required.
+        public var deploymentStrategy: OpenSearchClientTypes.DeploymentStrategyOverride?
+
+        public init(
+            clonedBlueGreenOptions: OpenSearchClientTypes.ClonedBlueGreenOptions? = nil,
+            deploymentStrategy: OpenSearchClientTypes.DeploymentStrategyOverride? = nil
+        ) {
+            self.clonedBlueGreenOptions = clonedBlueGreenOptions
+            self.deploymentStrategy = deploymentStrategy
+        }
+    }
+}
+
 /// Container for the request parameters to the UpgradeDomain operation.
 public struct UpgradeDomainInput: Swift.Sendable {
     /// Only supports the override_main_response_version parameter and not other advanced options. You can only include this option when upgrading to an OpenSearch version. Specifies whether the domain reports its version as 7.10 so that it continues to work with Elasticsearch OSS clients and plugins.
     public var advancedOptions: [Swift.String: Swift.String]?
+    /// Overrides the deployment strategy for this upgrade. To run a cloned blue/green upgrade, set DeploymentStrategy to ClonedBlueGreen.
+    public var deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOverrideOptions?
     /// Name of the OpenSearch Service domain that you want to upgrade.
     /// This member is required.
     public var domainName: Swift.String?
@@ -11400,11 +12389,13 @@ public struct UpgradeDomainInput: Swift.Sendable {
 
     public init(
         advancedOptions: [Swift.String: Swift.String]? = nil,
+        deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOverrideOptions? = nil,
         domainName: Swift.String? = nil,
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil
     ) {
         self.advancedOptions = advancedOptions
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainName = domainName
         self.performCheckOnly = performCheckOnly
         self.targetVersion = targetVersion
@@ -11417,6 +12408,8 @@ public struct UpgradeDomainOutput: Swift.Sendable {
     public var advancedOptions: [Swift.String: Swift.String]?
     /// Container for information about a configuration change happening on a domain.
     public var changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails?
+    /// The deployment strategy override used for the upgrade.
+    public var deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOverrideOptions?
     /// The name of the domain that was upgraded.
     public var domainName: Swift.String?
     /// When true, indicates that an upgrade eligibility check was performed.
@@ -11429,6 +12422,7 @@ public struct UpgradeDomainOutput: Swift.Sendable {
     public init(
         advancedOptions: [Swift.String: Swift.String]? = nil,
         changeProgressDetails: OpenSearchClientTypes.ChangeProgressDetails? = nil,
+        deploymentStrategyOptions: OpenSearchClientTypes.DeploymentStrategyOverrideOptions? = nil,
         domainName: Swift.String? = nil,
         performCheckOnly: Swift.Bool? = nil,
         targetVersion: Swift.String? = nil,
@@ -11436,6 +12430,7 @@ public struct UpgradeDomainOutput: Swift.Sendable {
     ) {
         self.advancedOptions = advancedOptions
         self.changeProgressDetails = changeProgressDetails
+        self.deploymentStrategyOptions = deploymentStrategyOptions
         self.domainName = domainName
         self.performCheckOnly = performCheckOnly
         self.targetVersion = targetVersion
@@ -11467,6 +12462,16 @@ extension AddDirectQueryDataSourceInput {
 
     static func urlPathProvider(_ value: AddDirectQueryDataSourceInput) -> Swift.String? {
         return "/2021-01-01/opensearch/directQueryDataSource"
+    }
+}
+
+extension AddReplicationPeerInput {
+
+    static func urlPathProvider(_ value: AddReplicationPeerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/addPeer"
     }
 }
 
@@ -11531,6 +12536,13 @@ extension CancelServiceSoftwareUpdateInput {
 
     static func urlPathProvider(_ value: CancelServiceSoftwareUpdateInput) -> Swift.String? {
         return "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel"
+    }
+}
+
+extension CompareDomainConfigurationInput {
+
+    static func urlPathProvider(_ value: CompareDomainConfigurationInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/compareDomainConfiguration"
     }
 }
 
@@ -11786,6 +12798,16 @@ extension DescribeDomainNodesInput {
     }
 }
 
+extension DescribeDomainReplicationInput {
+
+    static func urlPathProvider(_ value: DescribeDomainReplicationInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication"
+    }
+}
+
 extension DescribeDomainsInput {
 
     static func urlPathProvider(_ value: DescribeDomainsInput) -> Swift.String? {
@@ -11960,6 +12982,16 @@ extension DissociatePackagesInput {
 
     static func urlPathProvider(_ value: DissociatePackagesInput) -> Swift.String? {
         return "/2021-01-01/packages/dissociateMultiple"
+    }
+}
+
+extension FailoverReplicationInput {
+
+    static func urlPathProvider(_ value: FailoverReplicationInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/failover"
     }
 }
 
@@ -12569,6 +13601,16 @@ extension RejectInboundConnectionInput {
     }
 }
 
+extension RemoveReplicationPeerInput {
+
+    static func urlPathProvider(_ value: RemoveReplicationPeerInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/removePeer"
+    }
+}
+
 extension RemoveTagsInput {
 
     static func urlPathProvider(_ value: RemoveTagsInput) -> Swift.String? {
@@ -12617,6 +13659,16 @@ extension StartServiceSoftwareUpdateInput {
     }
 }
 
+extension SwitchoverReplicationInput {
+
+    static func urlPathProvider(_ value: SwitchoverReplicationInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/replication/switchover"
+    }
+}
+
 extension UpdateApplicationInput {
 
     static func urlPathProvider(_ value: UpdateApplicationInput) -> Swift.String? {
@@ -12624,6 +13676,16 @@ extension UpdateApplicationInput {
             return nil
         }
         return "/2021-01-01/opensearch/application/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateCloneInput {
+
+    static func urlPathProvider(_ value: UpdateCloneInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/clone"
     }
 }
 
@@ -12734,6 +13796,15 @@ extension AddDirectQueryDataSourceInput {
     }
 }
 
+extension AddReplicationPeerInput {
+
+    static func write(value: AddReplicationPeerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
+    }
+}
+
 extension AddTagsInput {
 
     static func write(value: AddTagsInput?, to writer: SmithyJSON.Writer) throws {
@@ -12795,6 +13866,16 @@ extension CancelServiceSoftwareUpdateInput {
     static func write(value: CancelServiceSoftwareUpdateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DomainName"].write(value.domainName)
+    }
+}
+
+extension CompareDomainConfigurationInput {
+
+    static func write(value: CompareDomainConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Categories"].writeList(value.categories, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceDomainArn"].write(value.sourceDomainArn)
+        try writer["TargetDomainArn"].write(value.targetDomainArn)
     }
 }
 
@@ -12971,6 +14052,15 @@ extension DissociatePackagesInput {
     }
 }
 
+extension FailoverReplicationInput {
+
+    static func write(value: FailoverReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowDataLoss"].write(value.allowDataLoss)
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
+    }
+}
+
 extension InsightFeedbackInput {
 
     static func write(value: InsightFeedbackInput?, to writer: SmithyJSON.Writer) throws {
@@ -13031,6 +14121,14 @@ extension RegisterCapabilityInput {
     }
 }
 
+extension RemoveReplicationPeerInput {
+
+    static func write(value: RemoveReplicationPeerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
+    }
+}
+
 extension RemoveTagsInput {
 
     static func write(value: RemoveTagsInput?, to writer: SmithyJSON.Writer) throws {
@@ -13087,6 +14185,14 @@ extension StartServiceSoftwareUpdateInput {
     }
 }
 
+extension SwitchoverReplicationInput {
+
+    static func write(value: SwitchoverReplicationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeerDomainArn"].write(value.peerDomainArn)
+    }
+}
+
 extension UpdateApplicationInput {
 
     static func write(value: UpdateApplicationInput?, to writer: SmithyJSON.Writer) throws {
@@ -13094,6 +14200,16 @@ extension UpdateApplicationInput {
         try writer["appConfigs"].writeList(value.appConfigs, memberWritingClosure: OpenSearchClientTypes.AppConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: OpenSearchClientTypes.DataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchClientTypes.IamIdentityCenterOptionsInput.write(value:to:))
+    }
+}
+
+extension UpdateCloneInput {
+
+    static func write(value: UpdateCloneInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CutoverOptions"].write(value.cutoverOptions, with: OpenSearchClientTypes.CutoverRequestOptions.write(value:to:))
+        try writer["RetentionOptions"].write(value.retentionOptions, with: OpenSearchClientTypes.RetentionOptions.write(value:to:))
+        try writer["TrafficSplitOptions"].write(value.trafficSplitOptions, with: OpenSearchClientTypes.TrafficSplitRequestOptions.write(value:to:))
     }
 }
 
@@ -13206,6 +14322,7 @@ extension UpgradeDomainInput {
     static func write(value: UpgradeDomainInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdvancedOptions"].writeMap(value.advancedOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DeploymentStrategyOptions"].write(value.deploymentStrategyOptions, with: OpenSearchClientTypes.DeploymentStrategyOverrideOptions.write(value:to:))
         try writer["DomainName"].write(value.domainName)
         try writer["PerformCheckOnly"].write(value.performCheckOnly)
         try writer["TargetVersion"].write(value.targetVersion)
@@ -13244,6 +14361,19 @@ extension AddDirectQueryDataSourceOutput {
         let reader = responseReader
         var value = AddDirectQueryDataSourceOutput()
         value.dataSourceArn = try reader["DataSourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension AddReplicationPeerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddReplicationPeerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddReplicationPeerOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -13329,6 +14459,20 @@ extension CancelServiceSoftwareUpdateOutput {
         let reader = responseReader
         var value = CancelServiceSoftwareUpdateOutput()
         value.serviceSoftwareOptions = try reader["ServiceSoftwareOptions"].readIfPresent(with: OpenSearchClientTypes.ServiceSoftwareOptions.read(from:))
+        return value
+    }
+}
+
+extension CompareDomainConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CompareDomainConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CompareDomainConfigurationOutput()
+        value.categories = try reader["Categories"].readMapIfPresent(valueReadingClosure: OpenSearchClientTypes.CategoryDiffResult.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sourceDomainArn = try reader["SourceDomainArn"].readIfPresent()
+        value.targetDomainArn = try reader["TargetDomainArn"].readIfPresent()
         return value
     }
 }
@@ -13630,6 +14774,20 @@ extension DescribeDomainNodesOutput {
     }
 }
 
+extension DescribeDomainReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeDomainReplicationOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.peers = try reader["Peers"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ReplicationPeer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["Role"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDomainsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDomainsOutput {
@@ -13792,6 +14950,19 @@ extension DissociatePackagesOutput {
         let reader = responseReader
         var value = DissociatePackagesOutput()
         value.domainPackageDetailsList = try reader["DomainPackageDetailsList"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DomainPackageDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FailoverReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> FailoverReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = FailoverReplicationOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -14262,6 +15433,19 @@ extension RejectInboundConnectionOutput {
     }
 }
 
+extension RemoveReplicationPeerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveReplicationPeerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RemoveReplicationPeerOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension RemoveTagsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveTagsOutput {
@@ -14325,6 +15509,19 @@ extension StartServiceSoftwareUpdateOutput {
     }
 }
 
+extension SwitchoverReplicationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SwitchoverReplicationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SwitchoverReplicationOutput()
+        value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateApplicationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateApplicationOutput {
@@ -14340,6 +15537,22 @@ extension UpdateApplicationOutput {
         value.id = try reader["id"].readIfPresent()
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateCloneOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCloneOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCloneOutput()
+        value.changeId = try reader["ChangeId"].readIfPresent() ?? ""
+        value.cutoverOptions = try reader["CutoverOptions"].readIfPresent(with: OpenSearchClientTypes.CutoverOptions.read(from:))
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.retentionOptions = try reader["RetentionOptions"].readIfPresent(with: OpenSearchClientTypes.RetentionOptions.read(from:))
+        value.trafficSplitOptions = try reader["TrafficSplitOptions"].readIfPresent(with: OpenSearchClientTypes.TrafficSplitOptions.read(from:))
         return value
     }
 }
@@ -14453,6 +15666,7 @@ extension UpgradeDomainOutput {
         var value = UpgradeDomainOutput()
         value.advancedOptions = try reader["AdvancedOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.changeProgressDetails = try reader["ChangeProgressDetails"].readIfPresent(with: OpenSearchClientTypes.ChangeProgressDetails.read(from:))
+        value.deploymentStrategyOptions = try reader["DeploymentStrategyOptions"].readIfPresent(with: OpenSearchClientTypes.DeploymentStrategyOverrideOptions.read(from:))
         value.domainName = try reader["DomainName"].readIfPresent()
         value.performCheckOnly = try reader["PerformCheckOnly"].readIfPresent()
         value.targetVersion = try reader["TargetVersion"].readIfPresent()
@@ -14509,6 +15723,24 @@ enum AddDirectQueryDataSourceOutputError {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AddReplicationPeerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14636,6 +15868,23 @@ enum CancelServiceSoftwareUpdateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CompareDomainConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -15062,6 +16311,23 @@ enum DescribeDomainNodesOutputError {
     }
 }
 
+enum DescribeDomainReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDomainsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15281,6 +16547,23 @@ enum DissociatePackagesOutputError {
         switch baseError.code {
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum FailoverReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -15897,6 +17180,23 @@ enum RejectInboundConnectionOutputError {
     }
 }
 
+enum RemoveReplicationPeerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RemoveTagsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16003,6 +17303,23 @@ enum StartServiceSoftwareUpdateOutputError {
     }
 }
 
+enum SwitchoverReplicationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateApplicationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -16014,6 +17331,24 @@ enum UpdateApplicationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCloneOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BaseException": return try BaseException.makeError(baseError: baseError)
             case "DisabledOperationException": return try DisabledOperationException.makeError(baseError: baseError)
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -16286,6 +17621,19 @@ extension ValidationException {
     }
 }
 
+extension ResourceAlreadyExistsException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -16317,19 +17665,6 @@ extension InvalidTypeException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> InvalidTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidTypeException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceAlreadyExistsException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16797,6 +18132,22 @@ extension OpenSearchClientTypes.CapabilityFailure {
     }
 }
 
+extension OpenSearchClientTypes.CategoryDiffResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CategoryDiffResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CategoryDiffResult()
+        value.status = try reader["Status"].readIfPresent()
+        value.inSync = try reader["InSync"].readIfPresent() ?? 0
+        value.sourceOnly = try reader["SourceOnly"].readIfPresent() ?? 0
+        value.targetOnly = try reader["TargetOnly"].readIfPresent() ?? 0
+        value.diverged = try reader["Diverged"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readIfPresent(with: OpenSearchClientTypes.DiffItems.read(from:))
+        value.truncated = try reader["Truncated"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.ChangeProgressDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ChangeProgressDetails {
@@ -16840,8 +18191,47 @@ extension OpenSearchClientTypes.ChangeProgressStatusDetails {
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.configChangeStatus = try reader["ConfigChangeStatus"].readIfPresent()
         value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
+        value.clonedBlueGreenUpgradeDetails = try reader["ClonedBlueGreenUpgradeDetails"].readIfPresent(with: OpenSearchClientTypes.ClonedBlueGreenUpgradeDetails.read(from:))
         value.validationFailures = try reader["ValidationFailures"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.ValidationFailure.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.acceptedWarnings = try reader["AcceptedWarnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ClonedBlueGreenOptions {
+
+    static func write(value: OpenSearchClientTypes.ClonedBlueGreenOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetentionOptions"].write(value.retentionOptions, with: OpenSearchClientTypes.RetentionOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ClonedBlueGreenOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ClonedBlueGreenOptions()
+        value.retentionOptions = try reader["RetentionOptions"].readIfPresent(with: OpenSearchClientTypes.RetentionOptions.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ClonedBlueGreenScheduledAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ClonedBlueGreenScheduledAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ClonedBlueGreenScheduledAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.scheduledTime = try reader["ScheduledTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.ClonedBlueGreenUpgradeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ClonedBlueGreenUpgradeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ClonedBlueGreenUpgradeDetails()
+        value.trafficSplit = try reader["TrafficSplit"].readIfPresent(with: OpenSearchClientTypes.TrafficPercents.read(from:))
+        value.scheduledAction = try reader["ScheduledAction"].readIfPresent(with: OpenSearchClientTypes.ClonedBlueGreenScheduledAction.read(from:))
+        value.retentionInHours = try reader["RetentionInHours"].readIfPresent()
         return value
     }
 }
@@ -17001,6 +18391,25 @@ extension OpenSearchClientTypes.CrossClusterSearchConnectionProperties {
     }
 }
 
+extension OpenSearchClientTypes.CutoverOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.CutoverOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.CutoverOptions()
+        value.target = try reader["Target"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.CutoverRequestOptions {
+
+    static func write(value: OpenSearchClientTypes.CutoverRequestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Target"].write(value.target)
+    }
+}
+
 extension OpenSearchClientTypes.DataSource {
 
     static func write(value: OpenSearchClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
@@ -17095,12 +18504,41 @@ extension OpenSearchClientTypes.DeploymentStrategyOptionsStatus {
     }
 }
 
+extension OpenSearchClientTypes.DeploymentStrategyOverrideOptions {
+
+    static func write(value: OpenSearchClientTypes.DeploymentStrategyOverrideOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClonedBlueGreenOptions"].write(value.clonedBlueGreenOptions, with: OpenSearchClientTypes.ClonedBlueGreenOptions.write(value:to:))
+        try writer["DeploymentStrategy"].write(value.deploymentStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DeploymentStrategyOverrideOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DeploymentStrategyOverrideOptions()
+        value.deploymentStrategy = try reader["DeploymentStrategy"].readIfPresent() ?? .sdkUnknown("")
+        value.clonedBlueGreenOptions = try reader["ClonedBlueGreenOptions"].readIfPresent(with: OpenSearchClientTypes.ClonedBlueGreenOptions.read(from:))
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.DescribePackagesFilter {
 
     static func write(value: OpenSearchClientTypes.DescribePackagesFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension OpenSearchClientTypes.DiffItems {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DiffItems {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DiffItems()
+        value.sourceOnly = try reader["SourceOnly"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetOnly = try reader["TargetOnly"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.diverged = try reader["Diverged"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DivergentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -17148,6 +18586,30 @@ extension OpenSearchClientTypes.DirectQueryDataSourceType {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension OpenSearchClientTypes.DivergentField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DivergentField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DivergentField()
+        value.path = try reader["Path"].readIfPresent()
+        value.sourceValue = try reader["SourceValue"].readIfPresent()
+        value.targetValue = try reader["TargetValue"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.DivergentItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.DivergentItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.DivergentItem()
+        value.name = try reader["Name"].readIfPresent()
+        value.fields = try reader["Fields"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.DivergentField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -18223,6 +19685,19 @@ extension OpenSearchClientTypes.RecurringCharge {
     }
 }
 
+extension OpenSearchClientTypes.ReplicationPeer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ReplicationPeer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.ReplicationPeer()
+        value.peerDomainArn = try reader["PeerDomainArn"].readIfPresent()
+        value.peerRole = try reader["PeerRole"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension OpenSearchClientTypes.ReservedInstance {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.ReservedInstance {
@@ -18260,6 +19735,34 @@ extension OpenSearchClientTypes.ReservedInstanceOffering {
         value.paymentOption = try reader["PaymentOption"].readIfPresent()
         value.recurringCharges = try reader["RecurringCharges"].readListIfPresent(memberReadingClosure: OpenSearchClientTypes.RecurringCharge.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension OpenSearchClientTypes.RetentionOptions {
+
+    static func write(value: OpenSearchClientTypes.RetentionOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .retentionaction(retentionaction):
+                try writer["RetentionAction"].write(retentionaction)
+            case let .retentioninhours(retentioninhours):
+                try writer["RetentionInHours"].write(retentioninhours)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.RetentionOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "RetentionInHours":
+                return .retentioninhours(try reader["RetentionInHours"].read())
+            case "RetentionAction":
+                return .retentionaction(try reader["RetentionAction"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -18544,6 +20047,38 @@ extension OpenSearchClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension OpenSearchClientTypes.TrafficPercents {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.TrafficPercents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.TrafficPercents()
+        value.primaryReadTrafficPercent = try reader["PrimaryReadTrafficPercent"].readIfPresent() ?? 0
+        value.cloneReadTrafficPercent = try reader["CloneReadTrafficPercent"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.TrafficSplitOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.TrafficSplitOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.TrafficSplitOptions()
+        value.current = try reader["Current"].readIfPresent(with: OpenSearchClientTypes.TrafficPercents.read(from:))
+        value.target = try reader["Target"].readIfPresent(with: OpenSearchClientTypes.TrafficPercents.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.TrafficSplitRequestOptions {
+
+    static func write(value: OpenSearchClientTypes.TrafficSplitRequestOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloneReadTrafficPercent"].write(value.cloneReadTrafficPercent)
+        try writer["Strategy"].write(value.strategy)
     }
 }
 

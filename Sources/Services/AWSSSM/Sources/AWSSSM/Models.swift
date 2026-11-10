@@ -4793,6 +4793,16 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeregisterDefaultHostManagementConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeregisterDefaultHostManagementConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeregisterManagedInstanceInput: Swift.Sendable {
     /// The ID assigned to the managed node when you registered it using the activation process.
     /// This member is required.
@@ -13298,7 +13308,7 @@ public struct GetParametersByPathInput: Swift.Sendable {
     /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
     /// This member is required.
     public var path: Swift.String?
-    /// Retrieve all parameters within a hierarchy. If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API operation recursively for /a and view /a/b.
+    /// Retrieve all parameters within a hierarchy.
     public var recursive: Swift.Bool?
     /// Retrieve all parameters in a hierarchy with their value decrypted.
     public var withDecryption: Swift.Bool?
@@ -17720,6 +17730,70 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     ) {
         self.policyHash = policyHash
         self.policyId = policyId
+    }
+}
+
+extension SSMClientTypes {
+
+    public enum DHMCPermissionModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case selfManaged
+        case serviceManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DHMCPermissionModel] {
+            return [
+                .selfManaged,
+                .serviceManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .selfManaged: return "SELF_MANAGED"
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct RegisterDefaultHostManagementConfigurationInput: Swift.Sendable {
+    /// Specifies whether to override the role that is currently registered for Default Host Management Configuration. The default is false, which acts as a guardrail against accidentally replacing an existing configuration. Set this to true to replace the currently registered role.
+    public var overwrite: Swift.Bool?
+    /// The permission model that determines how the IAM role for Default Host Management Configuration is provided. The permission model can be one of the following values: SERVICE_MANAGED Amazon Web Services Systems Manager creates and manages the role on your behalf. SELF_MANAGED You provide the role to register in RoleArn.
+    /// This member is required.
+    public var permissionModel: SSMClientTypes.DHMCPermissionModel?
+    /// The Amazon Resource Name (ARN) of the self-managed IAM role that you register for Default Host Management Configuration. The requirement for this value depends on the permission model:
+    ///
+    /// * If PermissionModel is SELF_MANAGED, this value is required.
+    ///
+    /// * If PermissionModel is SERVICE_MANAGED, this value must not be set.
+    public var roleArn: Swift.String?
+
+    public init(
+        overwrite: Swift.Bool? = false,
+        permissionModel: SSMClientTypes.DHMCPermissionModel? = nil,
+        roleArn: Swift.String? = nil
+    ) {
+        self.overwrite = overwrite
+        self.permissionModel = permissionModel
+        self.roleArn = roleArn
+    }
+}
+
+public struct RegisterDefaultHostManagementConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the IAM role registered for Default Host Management Configuration. The value depends on the permission model: SERVICE_MANAGED The ARN of the role that Amazon Web Services Systems Manager created in the IAM reserved path. SELF_MANAGED The RoleArn that you provided.
+    public var roleArn: Swift.String?
+
+    public init(
+        roleArn: Swift.String? = nil
+    ) {
+        self.roleArn = roleArn
     }
 }
 

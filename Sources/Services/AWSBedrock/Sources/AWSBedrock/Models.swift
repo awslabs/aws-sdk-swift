@@ -8341,16 +8341,74 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilterConfig: Swift.Cus
 
 extension BedrockClientTypes {
 
+    public enum GuardrailContextualGroundingTierName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case classic
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailContextualGroundingTierName] {
+            return [
+                .classic,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .classic: return "CLASSIC"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Specifies the tier that your guardrail uses for contextual grounding checks.
+    public struct GuardrailContextualGroundingTierConfig: Swift.Sendable {
+        /// The tier that your guardrail uses for contextual grounding. Valid values include:
+        ///
+        /// * CLASSIC tier – Provides established contextual grounding functionality supporting English, French, and Spanish languages.
+        ///
+        /// * STANDARD tier – Provides a more robust solution than the CLASSIC tier, with support for reasoning, conversational content and more comprehensive language support. This tier requires that your guardrail use [cross-Region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+        /// This member is required.
+        public var tierName: BedrockClientTypes.GuardrailContextualGroundingTierName?
+
+        public init(
+            tierName: BedrockClientTypes.GuardrailContextualGroundingTierName? = nil
+        ) {
+            self.tierName = tierName
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingTierConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContextualGroundingTierConfig(tierName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     /// The policy configuration details for the guardrails contextual grounding policy.
     public struct GuardrailContextualGroundingPolicyConfig: Swift.Sendable {
         /// The filter configuration details for the guardrails contextual grounding policy.
         /// This member is required.
         public var filtersConfig: [BedrockClientTypes.GuardrailContextualGroundingFilterConfig]?
+        /// The tier that your guardrail uses for contextual grounding.
+        public var tierConfig: BedrockClientTypes.GuardrailContextualGroundingTierConfig?
 
         public init(
-            filtersConfig: [BedrockClientTypes.GuardrailContextualGroundingFilterConfig]? = nil
+            filtersConfig: [BedrockClientTypes.GuardrailContextualGroundingFilterConfig]? = nil,
+            tierConfig: BedrockClientTypes.GuardrailContextualGroundingTierConfig? = nil
         ) {
             self.filtersConfig = filtersConfig
+            self.tierConfig = tierConfig
         }
     }
 }
@@ -9448,16 +9506,45 @@ extension BedrockClientTypes.GuardrailContextualGroundingFilter: Swift.CustomDeb
 
 extension BedrockClientTypes {
 
+    /// Specifies the tier that your guardrail uses for contextual grounding checks.
+    public struct GuardrailContextualGroundingTier: Swift.Sendable {
+        /// The tier that your guardrail uses for contextual grounding. Valid values include:
+        ///
+        /// * CLASSIC tier – Provides established contextual grounding functionality supporting English, French, and Spanish languages.
+        ///
+        /// * STANDARD tier – Provides a more robust solution than the CLASSIC tier, with support for reasoning, conversational content and more comprehensive language support. This tier requires that your guardrail use [cross-Region inference](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-cross-region.html).
+        /// This member is required.
+        public var tierName: BedrockClientTypes.GuardrailContextualGroundingTierName?
+
+        public init(
+            tierName: BedrockClientTypes.GuardrailContextualGroundingTierName? = nil
+        ) {
+            self.tierName = tierName
+        }
+    }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingTier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailContextualGroundingTier(tierName: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     /// The details for the guardrails contextual grounding policy.
     public struct GuardrailContextualGroundingPolicy: Swift.Sendable {
         /// The filter details for the guardrails contextual grounding policy.
         /// This member is required.
         public var filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]?
+        /// The tier that your guardrail uses for contextual grounding.
+        public var tier: BedrockClientTypes.GuardrailContextualGroundingTier?
 
         public init(
-            filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]? = nil
+            filters: [BedrockClientTypes.GuardrailContextualGroundingFilter]? = nil,
+            tier: BedrockClientTypes.GuardrailContextualGroundingTier? = nil
         ) {
             self.filters = filters
+            self.tier = tier
         }
     }
 }
@@ -22412,6 +22499,7 @@ extension BedrockClientTypes.GuardrailContextualGroundingPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.GuardrailContextualGroundingPolicy()
         value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockClientTypes.GuardrailContextualGroundingFilter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tier = try reader["tier"].readIfPresent(with: BedrockClientTypes.GuardrailContextualGroundingTier.read(from:))
         return value
     }
 }
@@ -22421,6 +22509,25 @@ extension BedrockClientTypes.GuardrailContextualGroundingPolicyConfig {
     static func write(value: BedrockClientTypes.GuardrailContextualGroundingPolicyConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filtersConfig"].writeList(value.filtersConfig, memberWritingClosure: BedrockClientTypes.GuardrailContextualGroundingFilterConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tierConfig"].write(value.tierConfig, with: BedrockClientTypes.GuardrailContextualGroundingTierConfig.write(value:to:))
+    }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingTier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.GuardrailContextualGroundingTier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.GuardrailContextualGroundingTier()
+        value.tierName = try reader["tierName"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockClientTypes.GuardrailContextualGroundingTierConfig {
+
+    static func write(value: BedrockClientTypes.GuardrailContextualGroundingTierConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tierName"].write(value.tierName)
     }
 }
 

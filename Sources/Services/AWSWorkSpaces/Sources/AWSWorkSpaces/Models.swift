@@ -2838,11 +2838,17 @@ extension WorkSpacesClientTypes {
 
     public enum OperatingSystemName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonLinux2
+        case rhel10
         case rhel8
+        case rhel9
+        case rocky10
         case rocky8
+        case rocky9
         case ubuntu1804
         case ubuntu2004
         case ubuntu2204
+        case ubuntu2404
+        case ubuntu2604
         case unknown
         case windows10
         case windows11
@@ -2856,11 +2862,17 @@ extension WorkSpacesClientTypes {
         public static var allCases: [OperatingSystemName] {
             return [
                 .amazonLinux2,
+                .rhel10,
                 .rhel8,
+                .rhel9,
+                .rocky10,
                 .rocky8,
+                .rocky9,
                 .ubuntu1804,
                 .ubuntu2004,
                 .ubuntu2204,
+                .ubuntu2404,
+                .ubuntu2604,
                 .unknown,
                 .windows10,
                 .windows11,
@@ -2880,11 +2892,17 @@ extension WorkSpacesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .amazonLinux2: return "AMAZON_LINUX_2"
+            case .rhel10: return "RHEL_10"
             case .rhel8: return "RHEL_8"
+            case .rhel9: return "RHEL_9"
+            case .rocky10: return "ROCKY_10"
             case .rocky8: return "ROCKY_8"
+            case .rocky9: return "ROCKY_9"
             case .ubuntu1804: return "UBUNTU_18_04"
             case .ubuntu2004: return "UBUNTU_20_04"
             case .ubuntu2204: return "UBUNTU_22_04"
+            case .ubuntu2404: return "UBUNTU_24_04"
+            case .ubuntu2604: return "UBUNTU_26_04"
             case .unknown: return "UNKNOWN"
             case .windows10: return "WINDOWS_10"
             case .windows11: return "WINDOWS_11"
@@ -2976,7 +2994,7 @@ extension WorkSpacesClientTypes {
         ///
         /// * Only available for WorkSpaces created with PCoIP bundles.
         ///
-        /// * The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).
+        /// * The Protocols property is case sensitive. Make sure you specify PCOIP or WSP. To use DCV, specify WSP.
         ///
         /// * Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, Graphics.g6, and Graphics.g7).
         public var protocols: [WorkSpacesClientTypes.ModelProtocol]?
@@ -6981,6 +6999,35 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    public enum ImageValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customerManaged
+        case serviceManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageValidationMode] {
+            return [
+                .customerManaged,
+                .serviceManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// The client branding attributes to import for iOS device types. These attributes are displayed on the iOS client login screen. Client branding attributes are public facing. Ensure you do not include sensitive information.
     public struct IosImportClientBrandingAttributes: Swift.Sendable {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
@@ -7161,6 +7208,8 @@ public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
     /// The options for image import source.
     /// This member is required.
     public var imageSource: WorkSpacesClientTypes.ImageSourceIdentifier?
+    /// The image validation mode for the WorkSpace image import.
+    public var imageValidationMode: WorkSpacesClientTypes.ImageValidationMode?
     /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
     /// This member is required.
     public var infrastructureConfigurationArn: Swift.String?
@@ -7181,6 +7230,7 @@ public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
         imageDescription: Swift.String? = nil,
         imageName: Swift.String? = nil,
         imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
+        imageValidationMode: WorkSpacesClientTypes.ImageValidationMode? = nil,
         infrastructureConfigurationArn: Swift.String? = nil,
         osVersion: WorkSpacesClientTypes.OSVersion? = nil,
         platform: WorkSpacesClientTypes.Platform? = nil,
@@ -7191,6 +7241,7 @@ public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
         self.imageDescription = imageDescription
         self.imageName = imageName
         self.imageSource = imageSource
+        self.imageValidationMode = imageValidationMode
         self.infrastructureConfigurationArn = infrastructureConfigurationArn
         self.osVersion = osVersion
         self.platform = platform

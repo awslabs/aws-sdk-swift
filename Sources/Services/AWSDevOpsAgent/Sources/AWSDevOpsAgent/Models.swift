@@ -870,6 +870,31 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// The request would exceed the service quota limit.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Detailed error message describing which quota was exceeded.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension DevOpsAgentClientTypes {
 
     /// Describes one specific validation failure for an input member.
@@ -1451,6 +1476,72 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Represents a channel in a Microsoft Teams team that the DevOps Agent service can send notifications to.
+    public struct MSTeamsChannel: Swift.Sendable {
+        /// The unique identifier of the Microsoft Teams channel, for example 19:abc123def456@thread.tacv2.
+        /// This member is required.
+        public var channelId: Swift.String?
+        /// The name of the Microsoft Teams channel.
+        /// This member is required.
+        public var channelName: Swift.String?
+
+        public init(
+            channelId: Swift.String? = nil,
+            channelName: Swift.String? = nil
+        ) {
+            self.channelId = channelId
+            self.channelName = channelName
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Specifies the Microsoft Teams channels that receive different types of agent notifications.
+    public struct MSTeamsTransmissionTarget: Swift.Sendable {
+        /// The Microsoft Teams channel that receives notifications from the On-call Agent.
+        public var opsOncallTarget: DevOpsAgentClientTypes.MSTeamsChannel?
+        /// The Microsoft Teams channel that receives notifications from the SRE Agent.
+        public var opsSRETarget: DevOpsAgentClientTypes.MSTeamsChannel?
+
+        public init(
+            opsOncallTarget: DevOpsAgentClientTypes.MSTeamsChannel? = nil,
+            opsSRETarget: DevOpsAgentClientTypes.MSTeamsChannel? = nil
+        ) {
+            self.opsOncallTarget = opsOncallTarget
+            self.opsSRETarget = opsSRETarget
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
+    /// Configuration for connecting a Microsoft Teams team to the DevOps Agent service. Use this configuration to specify which team to connect and how to route agent notifications to channels within that team.
+    public struct MSTeamsConfiguration: Swift.Sendable {
+        /// The identifier of the Microsoft Teams team to connect to the DevOps Agent service.
+        /// This member is required.
+        public var teamId: Swift.String?
+        /// The name of the Microsoft Teams team to connect to the DevOps Agent service.
+        /// This member is required.
+        public var teamName: Swift.String?
+        /// The Microsoft Teams channels that receive agent notifications.
+        /// This member is required.
+        public var transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget?
+
+        public init(
+            teamId: Swift.String? = nil,
+            teamName: Swift.String? = nil,
+            transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget? = nil
+        ) {
+            self.teamId = teamId
+            self.teamName = teamName
+            self.transmissionTarget = transmissionTarget
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Configuration for Pagerduty integration.
     public struct PagerDutyConfiguration: Swift.Sendable {
         /// Email to be used in Pagerduty API header
@@ -1761,6 +1852,8 @@ extension DevOpsAgentClientTypes {
         case remoteagent(DevOpsAgentClientTypes.RemoteAgentConfiguration)
         /// Remote A2A agent integration configuration (SigV4 auth).
         case remoteagentsigv4(DevOpsAgentClientTypes.RemoteAgentSigV4Configuration)
+        /// The configuration for connecting a Microsoft Teams team to the DevOps Agent service.
+        case msteams(DevOpsAgentClientTypes.MSTeamsConfiguration)
         /// Release management network environment configuration
         case releasemanagement(DevOpsAgentClientTypes.ReleaseManagementConfiguration)
         case sdkUnknown(Swift.String)
@@ -2150,31 +2243,6 @@ public struct ValidateAwsAssociationsInput: Swift.Sendable {
 public struct ValidateAwsAssociationsOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The request would exceed the service quota limit.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Detailed error message describing which quota was exceeded.
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 /// Input for creating a new AgentSpace.
@@ -6703,6 +6771,7 @@ extension DevOpsAgentClientTypes {
         case mcpServerSigv4
         /// Splunk MCP server.
         case mcpServerSplunk
+        case msTeams
         case pagerduty
         /// Remote A2A agent with token-based authentication (API key or OAuth).
         case remoteAgent
@@ -6727,6 +6796,7 @@ extension DevOpsAgentClientTypes {
                 .mcpServerNewrelic,
                 .mcpServerSigv4,
                 .mcpServerSplunk,
+                .msTeams,
                 .pagerduty,
                 .remoteAgent,
                 .remoteAgentSigv4,
@@ -6755,6 +6825,7 @@ extension DevOpsAgentClientTypes {
             case .mcpServerNewrelic: return "mcpservernewrelic"
             case .mcpServerSigv4: return "mcpserversigv4"
             case .mcpServerSplunk: return "mcpserversplunk"
+            case .msTeams: return "msteams"
             case .pagerduty: return "pagerduty"
             case .remoteAgent: return "remoteagent"
             case .remoteAgentSigv4: return "remoteagentsigv4"
@@ -10403,6 +10474,7 @@ enum AssociateServiceOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11416,6 +11488,7 @@ enum UpdateAssociationOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11605,12 +11678,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ValidationException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11619,11 +11691,12 @@ extension ValidationException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ValidationException {
 
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: DevOpsAgentClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12706,6 +12779,59 @@ extension DevOpsAgentClientTypes.MonthlyRecurrence {
     }
 }
 
+extension DevOpsAgentClientTypes.MSTeamsChannel {
+
+    static func write(value: DevOpsAgentClientTypes.MSTeamsChannel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelId"].write(value.channelId)
+        try writer["channelName"].write(value.channelName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsChannel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MSTeamsChannel()
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
+        value.channelId = try reader["channelId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.MSTeamsConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.MSTeamsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["teamId"].write(value.teamId)
+        try writer["teamName"].write(value.teamName)
+        try writer["transmissionTarget"].write(value.transmissionTarget, with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MSTeamsConfiguration()
+        value.teamId = try reader["teamId"].readIfPresent() ?? ""
+        value.teamName = try reader["teamName"].readIfPresent() ?? ""
+        value.transmissionTarget = try reader["transmissionTarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.read(from:))
+        return value
+    }
+}
+
+extension DevOpsAgentClientTypes.MSTeamsTransmissionTarget {
+
+    static func write(value: DevOpsAgentClientTypes.MSTeamsTransmissionTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["opsOncallTarget"].write(value.opsOncallTarget, with: DevOpsAgentClientTypes.MSTeamsChannel.write(value:to:))
+        try writer["opsSRETarget"].write(value.opsSRETarget, with: DevOpsAgentClientTypes.MSTeamsChannel.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsTransmissionTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MSTeamsTransmissionTarget()
+        value.opsOncallTarget = try reader["opsOncallTarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsChannel.read(from:))
+        value.opsSRETarget = try reader["opsSRETarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsChannel.read(from:))
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.NetworkAccessConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.NetworkAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -13557,6 +13683,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 try writer["mcpserversigv4"].write(mcpserversigv4, with: DevOpsAgentClientTypes.MCPServerSigV4Configuration.write(value:to:))
             case let .mcpserversplunk(mcpserversplunk):
                 try writer["mcpserversplunk"].write(mcpserversplunk, with: DevOpsAgentClientTypes.MCPServerSplunkConfiguration.write(value:to:))
+            case let .msteams(msteams):
+                try writer["msteams"].write(msteams, with: DevOpsAgentClientTypes.MSTeamsConfiguration.write(value:to:))
             case let .pagerduty(pagerduty):
                 try writer["pagerduty"].write(pagerduty, with: DevOpsAgentClientTypes.PagerDutyConfiguration.write(value:to:))
             case let .releasemanagement(releasemanagement):
@@ -13618,6 +13746,8 @@ extension DevOpsAgentClientTypes.ServiceConfiguration {
                 return .remoteagent(try reader["remoteagent"].read(with: DevOpsAgentClientTypes.RemoteAgentConfiguration.read(from:)))
             case "remoteagentsigv4":
                 return .remoteagentsigv4(try reader["remoteagentsigv4"].read(with: DevOpsAgentClientTypes.RemoteAgentSigV4Configuration.read(from:)))
+            case "msteams":
+                return .msteams(try reader["msteams"].read(with: DevOpsAgentClientTypes.MSTeamsConfiguration.read(from:)))
             case "releaseManagement":
                 return .releasemanagement(try reader["releaseManagement"].read(with: DevOpsAgentClientTypes.ReleaseManagementConfiguration.read(from:)))
             default:

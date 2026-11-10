@@ -688,6 +688,13 @@ extension LightsailClientTypes {
         case clienttlsnegotiationerrorcount
         case databaseconnections
         case diskqueuedepth
+        case diskqueuelength
+        case diskreadbytes
+        case diskreadops
+        case disktotalreadtime
+        case disktotalwritetime
+        case diskwritebytes
+        case diskwriteops
         case freestoragespace
         case freeablememory
         case httpcodeInstance2xxCount
@@ -719,6 +726,13 @@ extension LightsailClientTypes {
                 .clienttlsnegotiationerrorcount,
                 .databaseconnections,
                 .diskqueuedepth,
+                .diskqueuelength,
+                .diskreadbytes,
+                .diskreadops,
+                .disktotalreadtime,
+                .disktotalwritetime,
+                .diskwritebytes,
+                .diskwriteops,
                 .freestoragespace,
                 .freeablememory,
                 .httpcodeInstance2xxCount,
@@ -756,6 +770,13 @@ extension LightsailClientTypes {
             case .clienttlsnegotiationerrorcount: return "ClientTLSNegotiationErrorCount"
             case .databaseconnections: return "DatabaseConnections"
             case .diskqueuedepth: return "DiskQueueDepth"
+            case .diskqueuelength: return "DiskQueueLength"
+            case .diskreadbytes: return "DiskReadBytes"
+            case .diskreadops: return "DiskReadOps"
+            case .disktotalreadtime: return "DiskTotalReadTime"
+            case .disktotalwritetime: return "DiskTotalWriteTime"
+            case .diskwritebytes: return "DiskWriteBytes"
+            case .diskwriteops: return "DiskWriteOps"
             case .freestoragespace: return "FreeStorageSpace"
             case .freeablememory: return "FreeableMemory"
             case .httpcodeInstance2xxCount: return "HTTPCode_Instance_2XX_Count"
@@ -5300,6 +5321,240 @@ extension LightsailClientTypes {
     }
 }
 
+extension LightsailClientTypes {
+
+    public enum WafPayloadTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case formEncoded
+        case json
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WafPayloadTypeEnum] {
+            return [
+                .formEncoded,
+                .json
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .formEncoded: return "FORM_ENCODED"
+            case .json: return "JSON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the HTTP status codes that your application returns to indicate successful and failed attempts. The Web Application Firewall (WAF) rule group uses these status codes to track successful and failed attempts.
+    public struct WafResponseInspection: Swift.Sendable {
+        /// The HTTP status codes that indicate a failed attempt (for example, 401). Constraints:
+        ///
+        /// * Must contain from 1 to 10 status codes.
+        ///
+        /// * Each status code must be from 0 to 999.
+        ///
+        /// * Can't contain a status code that is also in successCodes.
+        public var failureCodes: [Swift.Int]?
+        /// The HTTP status codes that indicate a successful attempt (for example, 200). Constraints:
+        ///
+        /// * Must contain from 1 to 10 status codes.
+        ///
+        /// * Each status code must be from 0 to 999.
+        ///
+        /// * Can't contain a status code that is also in failureCodes.
+        public var successCodes: [Swift.Int]?
+
+        public init(
+            failureCodes: [Swift.Int]? = nil,
+            successCodes: [Swift.Int]? = nil
+        ) {
+            self.failureCodes = failureCodes
+            self.successCodes = successCodes
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the configuration of the account creation fraud prevention Web Application Firewall (WAF) rule group. The rule group inspects account creation requests to your application.
+    public struct WafAcfpConfig: Swift.Sendable {
+        /// The path of the endpoint that accepts completed account creation forms (for example, /signup/submit). This endpoint must accept POST requests. Constraints:
+        ///
+        /// * Must start with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 256 characters.
+        public var creationPath: Swift.String?
+        /// The content type of the request body of account creation requests. The following content types are possible:
+        ///
+        /// * JSON – The request body is in JSON format.
+        ///
+        /// * FORM_ENCODED – The request body is form encoded.
+        public var payloadType: LightsailClientTypes.WafPayloadTypeEnum?
+        /// The path of the page that displays the account creation form (for example, /signup). Constraints:
+        ///
+        /// * Must start with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 256 characters.
+        public var registrationPagePath: Swift.String?
+        /// An object that describes the HTTP status codes that your application returns for successful and failed account creation attempts.
+        public var responseInspection: LightsailClientTypes.WafResponseInspection?
+
+        public init(
+            creationPath: Swift.String? = nil,
+            payloadType: LightsailClientTypes.WafPayloadTypeEnum? = nil,
+            registrationPagePath: Swift.String? = nil,
+            responseInspection: LightsailClientTypes.WafResponseInspection? = nil
+        ) {
+            self.creationPath = creationPath
+            self.payloadType = payloadType
+            self.registrationPagePath = registrationPagePath
+            self.responseInspection = responseInspection
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the configuration of the account takeover prevention Web Application Firewall (WAF) rule group. The rule group inspects login requests to the login path of your application.
+    public struct WafAtpConfig: Swift.Sendable {
+        /// The path of the login endpoint of your application (for example, /login). Login paths that start with the path that you specify are a match. Constraints:
+        ///
+        /// * Must start with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 256 characters.
+        public var loginPath: Swift.String?
+        /// The name of the field in the request body that contains the password (for example, /password for JSON or password for FORM_ENCODED). Constraints:
+        ///
+        /// * For a JSON payload, must be a JSON pointer that starts with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 512 characters.
+        public var passwordField: Swift.String?
+        /// The content type of the request body of login requests. The following content types are possible:
+        ///
+        /// * JSON – The request body is in JSON format.
+        ///
+        /// * FORM_ENCODED – The request body is form encoded.
+        public var payloadType: LightsailClientTypes.WafPayloadTypeEnum?
+        /// An object that describes the HTTP status codes that your application returns for successful and failed login attempts.
+        public var responseInspection: LightsailClientTypes.WafResponseInspection?
+        /// The name of the field in the request body that contains the username (for example, /username for JSON or username for FORM_ENCODED). Constraints:
+        ///
+        /// * For a JSON payload, must be a JSON pointer that starts with a forward slash (/).
+        ///
+        /// * Must contain from 1 to 512 characters.
+        public var usernameField: Swift.String?
+
+        public init(
+            loginPath: Swift.String? = nil,
+            passwordField: Swift.String? = nil,
+            payloadType: LightsailClientTypes.WafPayloadTypeEnum? = nil,
+            responseInspection: LightsailClientTypes.WafResponseInspection? = nil,
+            usernameField: Swift.String? = nil
+        ) {
+            self.loginPath = loginPath
+            self.passwordField = passwordField
+            self.payloadType = payloadType
+            self.responseInspection = responseInspection
+            self.usernameField = usernameField
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum WafInspectionLevelEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case common
+        case targeted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WafInspectionLevelEnum] {
+            return [
+                .common,
+                .targeted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .common: return "COMMON"
+            case .targeted: return "TARGETED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the configuration of the bot control Web Application Firewall (WAF) rule group.
+    public struct WafBotControlConfig: Swift.Sendable {
+        /// The inspection level of the bot control rule group. The following inspection levels are possible:
+        ///
+        /// * COMMON – Detects a variety of bots that identify themselves, such as web scraping frameworks, search engines, and automated browsers.
+        ///
+        /// * TARGETED – Includes the COMMON protections, and adds detection for sophisticated bots that don't identify themselves. This level uses rate limiting, CAPTCHA, and background browser challenges.
+        public var inspectionLevel: LightsailClientTypes.WafInspectionLevelEnum?
+
+        public init(
+            inspectionLevel: LightsailClientTypes.WafInspectionLevelEnum? = nil
+        ) {
+            self.inspectionLevel = inspectionLevel
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes a Web Application Firewall (WAF) rule group for a Lightsail distribution. A WAF rule group is a set of rules managed by AWS. The rules inspect viewer requests and block requests that match them.
+    public struct WafRule: Swift.Sendable {
+        /// An object that describes the configuration of the account creation fraud prevention rule group. Constraints:
+        ///
+        /// * Define this parameter only when the name is AWSManagedRulesACFPRuleSet.
+        ///
+        /// * This parameter is required when the name is AWSManagedRulesACFPRuleSet.
+        public var acfpConfig: LightsailClientTypes.WafAcfpConfig?
+        /// An object that describes the configuration of the account takeover prevention rule group. Constraints:
+        ///
+        /// * Define this parameter only when the name is AWSManagedRulesATPRuleSet.
+        ///
+        /// * This parameter is required when the name is AWSManagedRulesATPRuleSet.
+        public var atpConfig: LightsailClientTypes.WafAtpConfig?
+        /// An object that describes the configuration of the bot control rule group. Constraints:
+        ///
+        /// * Define this parameter only when the name is AWSManagedRulesBotControlRuleSet.
+        ///
+        /// * This parameter is required when the name is AWSManagedRulesBotControlRuleSet.
+        public var botControlConfig: LightsailClientTypes.WafBotControlConfig?
+        /// The name of the WAF rule group (for example, AWSManagedRulesCommonRuleSet). For the WAF rule groups that you can specify for each bundle, see the wafRules parameter of the CreateDistribution action.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            acfpConfig: LightsailClientTypes.WafAcfpConfig? = nil,
+            atpConfig: LightsailClientTypes.WafAtpConfig? = nil,
+            botControlConfig: LightsailClientTypes.WafBotControlConfig? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.acfpConfig = acfpConfig
+            self.atpConfig = atpConfig
+            self.botControlConfig = botControlConfig
+            self.name = name
+        }
+    }
+}
+
 public struct CreateDistributionInput: Swift.Sendable {
     /// The bundle ID to use for the distribution. A distribution bundle describes the specifications of your distribution, such as the monthly cost and monthly network transfer quota. Use the GetDistributionBundles action to get a list of distribution bundle IDs that you can specify.
     /// This member is required.
@@ -5322,6 +5577,8 @@ public struct CreateDistributionInput: Swift.Sendable {
     public var distributionName: Swift.String?
     /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
     public var enablePrivateOriginAccess: Swift.Bool?
+    /// Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests. WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle.
+    public var enableWaf: Swift.Bool?
     /// The IP address type for the distribution. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -5331,6 +5588,12 @@ public struct CreateDistributionInput: Swift.Sendable {
     public var tags: [LightsailClientTypes.Tag]?
     /// The minimum TLS protocol version for the SSL/TLS certificate.
     public var viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
+    /// An array of objects that describe the WAF rule groups to enable for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:
+    ///
+    /// * medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.
+    ///
+    /// * large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
+    public var wafRules: [LightsailClientTypes.WafRule]?
 
     public init(
         bundleId: Swift.String? = nil,
@@ -5342,10 +5605,12 @@ public struct CreateDistributionInput: Swift.Sendable {
         defaultRootObject: Swift.String? = nil,
         distributionName: Swift.String? = nil,
         enablePrivateOriginAccess: Swift.Bool? = nil,
+        enableWaf: Swift.Bool? = nil,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
-        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
+        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil,
+        wafRules: [LightsailClientTypes.WafRule]? = nil
     ) {
         self.bundleId = bundleId
         self.cacheBehaviorSettings = cacheBehaviorSettings
@@ -5356,10 +5621,12 @@ public struct CreateDistributionInput: Swift.Sendable {
         self.defaultRootObject = defaultRootObject
         self.distributionName = distributionName
         self.enablePrivateOriginAccess = enablePrivateOriginAccess
+        self.enableWaf = enableWaf
         self.ipAddressType = ipAddressType
         self.origin = origin
         self.tags = tags
         self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+        self.wafRules = wafRules
     }
 }
 
@@ -5398,6 +5665,25 @@ extension LightsailClientTypes {
             self.regionName = regionName
             self.resourceType = resourceType
             self.responseTimeout = responseTimeout
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the Web Application Firewall (WAF) configuration of a Lightsail distribution.
+    public struct WafConfig: Swift.Sendable {
+        /// Specifies whether WAF is enabled for the distribution.
+        public var isWafEnabled: Swift.Bool?
+        /// An array of objects that describe the WAF rule groups enabled for the distribution.
+        public var wafRules: [LightsailClientTypes.WafRule]?
+
+        public init(
+            isWafEnabled: Swift.Bool? = nil,
+            wafRules: [LightsailClientTypes.WafRule]? = nil
+        ) {
+            self.isWafEnabled = isWafEnabled
+            self.wafRules = wafRules
         }
     }
 }
@@ -5452,6 +5738,8 @@ extension LightsailClientTypes {
         public var tags: [LightsailClientTypes.Tag]?
         /// The minimum TLS protocol version that the distribution can use to communicate with viewers.
         public var viewerMinimumTlsProtocolVersion: Swift.String?
+        /// An object that describes the Web Application Firewall (WAF) configuration of the distribution.
+        public var waf: LightsailClientTypes.WafConfig?
 
         public init(
             ableToUpdateBundle: Swift.Bool? = nil,
@@ -5476,7 +5764,8 @@ extension LightsailClientTypes {
             status: Swift.String? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
-            viewerMinimumTlsProtocolVersion: Swift.String? = nil
+            viewerMinimumTlsProtocolVersion: Swift.String? = nil,
+            waf: LightsailClientTypes.WafConfig? = nil
         ) {
             self.ableToUpdateBundle = ableToUpdateBundle
             self.alternativeDomainNames = alternativeDomainNames
@@ -5501,6 +5790,7 @@ extension LightsailClientTypes {
             self.supportCode = supportCode
             self.tags = tags
             self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+            self.waf = waf
         }
     }
 }
@@ -7305,6 +7595,8 @@ extension LightsailClientTypes {
         case http5xxerrorrate
         case requests
         case totalerrorrate
+        case wafallowedrequests
+        case wafblockedrequests
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DistributionMetricName] {
@@ -7314,7 +7606,9 @@ extension LightsailClientTypes {
                 .http4xxerrorrate,
                 .http5xxerrorrate,
                 .requests,
-                .totalerrorrate
+                .totalerrorrate,
+                .wafallowedrequests,
+                .wafblockedrequests
             ]
         }
 
@@ -7331,6 +7625,8 @@ extension LightsailClientTypes {
             case .http5xxerrorrate: return "Http5xxErrorRate"
             case .requests: return "Requests"
             case .totalerrorrate: return "TotalErrorRate"
+            case .wafallowedrequests: return "WafAllowedRequests"
+            case .wafblockedrequests: return "WafBlockedRequests"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8674,6 +8970,10 @@ public struct GetDistributionMetricDataInput: Swift.Sendable {
     /// * 4xxErrorRate - The percentage of all viewer requests for which the response's HTTP status cod was 4xx. In these cases, the client or client viewer may have made an error. For example, a status code of 404 (Not Found) means that the client requested an object that could not be found. Statistics: The most useful statistic is Average. Unit: The published unit is Percent.
     ///
     /// * 5xxErrorRate - The percentage of all viewer requests for which the response's HTTP status code was 5xx. In these cases, the origin server did not satisfy the requests. For example, a status code of 503 (Service Unavailable) means that the origin server is currently unavailable. Statistics: The most useful statistic is Average. Unit: The published unit is Percent.
+    ///
+    /// * WafAllowedRequests - The number of viewer requests that Web Application Firewall (WAF) allowed. This metric is available only when WAF is enabled for the distribution. Statistics: The most useful statistic is Sum. Unit: The published unit is None.
+    ///
+    /// * WafBlockedRequests - The number of viewer requests that WAF blocked. This metric is available only when WAF is enabled for the distribution. Statistics: The most useful statistic is Sum. Unit: The published unit is None.
     /// This member is required.
     public var metricName: LightsailClientTypes.DistributionMetricName?
     /// The granularity, in seconds, for the metric data points that will be returned.
@@ -8846,13 +9146,17 @@ public struct GetExportSnapshotRecordsOutput: Swift.Sendable {
 }
 
 public struct GetInstanceInput: Swift.Sendable {
+    /// Specifies whether to include the instance health status checks in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of the instance. When omitted or set to false, the response doesn't include them.
+    public var includeHealthStatus: Swift.Bool?
     /// The name of the instance.
     /// This member is required.
     public var instanceName: Swift.String?
 
     public init(
+        includeHealthStatus: Swift.Bool? = nil,
         instanceName: Swift.String? = nil
     ) {
+        self.includeHealthStatus = includeHealthStatus
         self.instanceName = instanceName
     }
 }
@@ -8876,6 +9180,165 @@ extension LightsailClientTypes {
             self.cpuCount = cpuCount
             self.disks = disks
             self.ramSizeInGb = ramSizeInGb
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum InstanceHealthStatusDetailName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case reachability
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthStatusDetailName] {
+            return [
+                .reachability
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .reachability: return "reachability"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum InstanceHealthStatusDetailValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case initializing
+        case insufficientData
+        case passed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthStatusDetailValue] {
+            return [
+                .failed,
+                .initializing,
+                .insufficientData,
+                .passed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "failed"
+            case .initializing: return "initializing"
+            case .insufficientData: return "insufficient-data"
+            case .passed: return "passed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the instance status.
+    public struct InstanceHealthStatusDetail: Swift.Sendable {
+        /// The time when a status check failed. For an instance that was launched and impaired, this is the time when the instance was launched.
+        public var impairedSince: Foundation.Date?
+        /// The type of instance status. The only possible value is reachability.
+        public var name: LightsailClientTypes.InstanceHealthStatusDetailName?
+        /// The status. The following values are possible:
+        ///
+        /// * passed - The check passed.
+        ///
+        /// * failed - The check failed.
+        ///
+        /// * initializing - The check is in progress.
+        ///
+        /// * insufficient-data - There isn't enough data yet to determine the result.
+        public var status: LightsailClientTypes.InstanceHealthStatusDetailValue?
+
+        public init(
+            impairedSince: Foundation.Date? = nil,
+            name: LightsailClientTypes.InstanceHealthStatusDetailName? = nil,
+            status: LightsailClientTypes.InstanceHealthStatusDetailValue? = nil
+        ) {
+            self.impairedSince = impairedSince
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum InstanceHealthStatusValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case impaired
+        case initializing
+        case insufficientData
+        case notApplicable
+        case ok
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceHealthStatusValue] {
+            return [
+                .impaired,
+                .initializing,
+                .insufficientData,
+                .notApplicable,
+                .ok
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "impaired"
+            case .initializing: return "initializing"
+            case .insufficientData: return "insufficient-data"
+            case .notApplicable: return "not-applicable"
+            case .ok: return "ok"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the status of an Amazon Lightsail instance.
+    public struct InstanceHealthStatus: Swift.Sendable {
+        /// The system instance health or instance health.
+        public var details: [LightsailClientTypes.InstanceHealthStatusDetail]?
+        /// The status. The following values are possible:
+        ///
+        /// * ok - All checks are passing. The instance is reachable.
+        ///
+        /// * impaired - One or more checks have failed.
+        ///
+        /// * initializing - The instance was recently started, and the checks are in progress.
+        ///
+        /// * insufficient-data - There isn't enough data yet to determine the result.
+        ///
+        /// * not-applicable - The check doesn't apply because the instance isn't running.
+        public var status: LightsailClientTypes.InstanceHealthStatusValue?
+
+        public init(
+            details: [LightsailClientTypes.InstanceHealthStatusDetail]? = nil,
+            status: LightsailClientTypes.InstanceHealthStatusValue? = nil
+        ) {
+            self.details = details
+            self.status = status
         }
     }
 }
@@ -9204,6 +9667,8 @@ extension LightsailClientTypes {
         public var createdAt: Foundation.Date?
         /// The size of the vCPU and the amount of RAM for the instance.
         public var hardware: LightsailClientTypes.InstanceHardware?
+        /// Reports impaired functionality that stems from issues internal to the instance, such as impaired reachability. This value is returned only when you set includeHealthStatus to true in your request.
+        public var instanceStatus: LightsailClientTypes.InstanceHealthStatus?
         /// The IP address type of the instance. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
         public var ipAddressType: LightsailClientTypes.IpAddressType?
         /// The IPv6 addresses of the instance.
@@ -9230,6 +9695,8 @@ extension LightsailClientTypes {
         public var state: LightsailClientTypes.InstanceState?
         /// The support code. Include this code in your email to support when you have questions about an instance or another resource in Lightsail. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
+        /// Reports impaired functionality that stems from issues related to the systems that support an instance, such as hardware failures and network connectivity problems. This value is returned only when you set includeHealthStatus to true in your request.
+        public var systemStatus: LightsailClientTypes.InstanceHealthStatus?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
         /// The user name for connecting to the instance (ec2-user).
@@ -9243,6 +9710,7 @@ extension LightsailClientTypes {
             bundleId: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             hardware: LightsailClientTypes.InstanceHardware? = nil,
+            instanceStatus: LightsailClientTypes.InstanceHealthStatus? = nil,
             ipAddressType: LightsailClientTypes.IpAddressType? = nil,
             ipv6Addresses: [Swift.String]? = nil,
             isStaticIp: Swift.Bool? = nil,
@@ -9256,6 +9724,7 @@ extension LightsailClientTypes {
             sshKeyName: Swift.String? = nil,
             state: LightsailClientTypes.InstanceState? = nil,
             supportCode: Swift.String? = nil,
+            systemStatus: LightsailClientTypes.InstanceHealthStatus? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
             username: Swift.String? = nil
         ) {
@@ -9266,6 +9735,7 @@ extension LightsailClientTypes {
             self.bundleId = bundleId
             self.createdAt = createdAt
             self.hardware = hardware
+            self.instanceStatus = instanceStatus
             self.ipAddressType = ipAddressType
             self.ipv6Addresses = ipv6Addresses
             self.isStaticIp = isStaticIp
@@ -9279,6 +9749,7 @@ extension LightsailClientTypes {
             self.sshKeyName = sshKeyName
             self.state = state
             self.supportCode = supportCode
+            self.systemStatus = systemStatus
             self.tags = tags
             self.username = username
         }
@@ -9479,6 +9950,13 @@ extension LightsailClientTypes {
         case burstcapacitypercentage
         case burstcapacitytime
         case cpuutilization
+        case diskqueuelength
+        case diskreadbytes
+        case diskreadops
+        case disktotalreadtime
+        case disktotalwritetime
+        case diskwritebytes
+        case diskwriteops
         case metadatanotoken
         case networkin
         case networkout
@@ -9492,6 +9970,13 @@ extension LightsailClientTypes {
                 .burstcapacitypercentage,
                 .burstcapacitytime,
                 .cpuutilization,
+                .diskqueuelength,
+                .diskreadbytes,
+                .diskreadops,
+                .disktotalreadtime,
+                .disktotalwritetime,
+                .diskwritebytes,
+                .diskwriteops,
                 .metadatanotoken,
                 .networkin,
                 .networkout,
@@ -9511,6 +9996,13 @@ extension LightsailClientTypes {
             case .burstcapacitypercentage: return "BurstCapacityPercentage"
             case .burstcapacitytime: return "BurstCapacityTime"
             case .cpuutilization: return "CPUUtilization"
+            case .diskqueuelength: return "DiskQueueLength"
+            case .diskreadbytes: return "DiskReadBytes"
+            case .diskreadops: return "DiskReadOps"
+            case .disktotalreadtime: return "DiskTotalReadTime"
+            case .disktotalwritetime: return "DiskTotalWriteTime"
+            case .diskwritebytes: return "DiskWriteBytes"
+            case .diskwriteops: return "DiskWriteOps"
             case .metadatanotoken: return "MetadataNoToken"
             case .networkin: return "NetworkIn"
             case .networkout: return "NetworkOut"
@@ -9549,6 +10041,23 @@ public struct GetInstanceMetricDataInput: Swift.Sendable {
     /// * StatusCheckFailed_System - Reports whether the instance passed or failed the system status check. This metric can be either 0 (passed) or 1 (failed). This metric data is available in 1-minute (60 seconds) granularity. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
     ///
     /// * MetadataNoToken - Reports the number of times that the instance metadata service was successfully accessed without a token. This metric determines if there are any processes accessing instance metadata by using Instance Metadata Service Version 1, which doesn't use a token. If all requests use token-backed sessions, such as Instance Metadata Service Version 2, then the value is 0. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
+    ///
+    /// * DiskReadOps - The number of read operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
+    ///
+    /// * DiskWriteOps - The number of write operations completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Count.
+    ///
+    /// * DiskReadBytes - The number of bytes read from the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Bytes.
+    ///
+    /// * DiskWriteBytes - The number of bytes written to the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Sum. Unit: The published unit is Bytes.
+    ///
+    /// * DiskTotalReadTime - The total number of seconds spent by all read operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Average. Unit: The published unit is Seconds.
+    ///
+    /// * DiskTotalWriteTime - The total number of seconds spent by all write operations that completed on the system disk of the instance during the period. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Average. Unit: The published unit is Seconds.
+    ///
+    /// * DiskQueueLength - The number of read and write requests that are waiting to access the system disk of the instance. This metric doesn't include activity on additional disks that you attach to the instance. Statistics: The most useful statistic is Average. Unit: The published unit is Count.
+    ///
+    ///
+    /// For more information about system disk performance metrics, see [View system disk performance metrics for your Lightsail instance](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-viewing-instance-disk-performance-metrics).
     /// This member is required.
     public var metricName: LightsailClientTypes.InstanceMetricName?
     /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
@@ -9722,12 +10231,16 @@ public struct GetInstancePortStatesOutput: Swift.Sendable {
 }
 
 public struct GetInstancesInput: Swift.Sendable {
+    /// Specifies whether to include the instance health status checks of each instance in the response of your request. When set to true, the response includes the instanceStatus and systemStatus of each instance. When omitted or set to false, the response doesn't include them.
+    public var includeHealthStatus: Swift.Bool?
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetInstances request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
     public init(
+        includeHealthStatus: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
     ) {
+        self.includeHealthStatus = includeHealthStatus
         self.pageToken = pageToken
     }
 }
@@ -12687,6 +13200,30 @@ public struct ImportKeyPairOutput: Swift.Sendable {
     }
 }
 
+extension LightsailClientTypes {
+
+    /// Describes the attributes to update on a Lightsail instance when it starts.
+    public struct InstanceAttributeUpdates: Swift.Sendable {
+        /// The ID of the bundle to update the instance to. Specify one of the following values for the bundle ID:
+        ///
+        /// * auto – Updates an instance that runs on a previous-generation bundle to the newer-generation equivalent of that bundle. For example, specify auto to update an instance that runs on small_2_0 to small_3_0.
+        ///
+        /// * Newer-generation bundle ID – Updates an instance that runs on a previous-generation bundle to the specified bundle. For example, specify small_3_0 to update an instance that runs on small_2_0 to small_3_0.
+        ///
+        /// * Original bundle ID – Updates an instance to the previous-generation bundle that it ran on before an earlier update. For example, specify small_2_0 to return an instance that runs on small_3_0 to small_2_0.
+        ///
+        ///
+        /// The instance must be in the stopped state to update its bundle. There is no additional cost to update an instance to a newer-generation bundle.
+        public var bundleId: Swift.String?
+
+        public init(
+            bundleId: Swift.String? = nil
+        ) {
+            self.bundleId = bundleId
+        }
+    }
+}
+
 public struct IsVpcPeeredInput: Swift.Sendable {
 
     public init() { }
@@ -12763,7 +13300,7 @@ public struct PutAlarmInput: Swift.Sendable {
     public var evaluationPeriods: Swift.Int?
     /// The name of the metric to associate with the alarm. You can configure up to two alarms per metric. The following metrics are available for each resource type:
     ///
-    /// * Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System.
+    /// * Instances: BurstCapacityPercentage, BurstCapacityTime, CPUUtilization, NetworkIn, NetworkOut, StatusCheckFailed, StatusCheckFailed_Instance, StatusCheckFailed_System, DiskReadOps, DiskWriteOps, DiskReadBytes, DiskWriteBytes, DiskTotalReadTime, DiskTotalWriteTime, and DiskQueueLength.
     ///
     /// * Load balancers: ClientTLSNegotiationErrorCount, HealthyHostCount, UnhealthyHostCount, HTTPCode_LB_4XX_Count, HTTPCode_LB_5XX_Count, HTTPCode_Instance_2XX_Count, HTTPCode_Instance_3XX_Count, HTTPCode_Instance_4XX_Count, HTTPCode_Instance_5XX_Count, InstanceResponseTime, RejectedConnectionCount, and RequestCount.
     ///
@@ -13208,13 +13745,17 @@ public struct StartGUISessionOutput: Swift.Sendable {
 }
 
 public struct StartInstanceInput: Swift.Sendable {
+    /// An object that describes the attributes to update on the instance before it starts.
+    public var attributeUpdates: LightsailClientTypes.InstanceAttributeUpdates?
     /// The name of the instance (a virtual private server) to start.
     /// This member is required.
     public var instanceName: Swift.String?
 
     public init(
+        attributeUpdates: LightsailClientTypes.InstanceAttributeUpdates? = nil,
         instanceName: Swift.String? = nil
     ) {
+        self.attributeUpdates = attributeUpdates
         self.instanceName = instanceName
     }
 }
@@ -13584,6 +14125,8 @@ public struct UpdateDistributionInput: Swift.Sendable {
     public var distributionName: Swift.String?
     /// Specifies whether to enable private origin access for the distribution. With private origin access, the distribution can serve objects that aren't publicly accessible from a Lightsail bucket. Lightsail grants the distribution permission to read the bucket's objects. Enabling private origin access doesn't change the bucket's access settings, and you can still retrieve publicly accessible objects directly from the bucket's endpoint. When you include this parameter, you must also include the origin parameter with the resource name, even if the origin is not changing. You can enable private origin access only when the distribution's origin is a Lightsail bucket. If the origin is another resource type, the request fails.
     public var enablePrivateOriginAccess: Swift.Bool?
+    /// Specifies whether to enable Web Application Firewall (WAF) for the distribution. WAF inspects viewer requests and blocks requests that match the WAF rule groups that you enable. When you enable WAF without specifying the wafRules parameter, the distribution has no WAF rule groups enabled and doesn't block any requests. WAF is available only for distributions that use the medium_1_0 or large_1_0 bundle. Setting this parameter to false disables WAF for the distribution and removes its WAF rule groups. You must enable the WAF rule groups again if you enable WAF again.
+    public var enableWaf: Swift.Bool?
     /// Indicates whether to enable the distribution.
     public var isEnabled: Swift.Bool?
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
@@ -13592,6 +14135,12 @@ public struct UpdateDistributionInput: Swift.Sendable {
     public var useDefaultCertificate: Swift.Bool?
     /// Use this parameter to update the minimum TLS protocol version for the SSL/TLS certificate that's attached to the distribution.
     public var viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
+    /// An array of objects that describe the WAF rule groups to enable for the distribution. The array that you specify replaces the existing WAF rule groups of the distribution. To keep a WAF rule group enabled, include it in the array. To disable all WAF rule groups, specify an empty array. You can specify this parameter only when WAF is enabled for the distribution. The WAF rule groups that you can specify depend on the bundle of the distribution:
+    ///
+    /// * medium_1_0 – Supports the AWSManagedRulesCommonRuleSet, AWSManagedRulesKnownBadInputsRuleSet, and AWSManagedRulesAnonymousIpList rule groups.
+    ///
+    /// * large_1_0 – Supports the rule groups for medium_1_0, plus AWSManagedRulesAdminProtectionRuleSet, AWSManagedRulesSQLiRuleSet, AWSManagedRulesLinuxRuleSet, AWSManagedRulesUnixRuleSet, AWSManagedRulesWindowsRuleSet, AWSManagedRulesPHPRuleSet, AWSManagedRulesWordPressRuleSet, AWSManagedRulesAmazonIpReputationList, AWSManagedRulesATPRuleSet, AWSManagedRulesACFPRuleSet, and AWSManagedRulesBotControlRuleSet rule groups.
+    public var wafRules: [LightsailClientTypes.WafRule]?
 
     public init(
         cacheBehaviorSettings: LightsailClientTypes.CacheSettings? = nil,
@@ -13602,10 +14151,12 @@ public struct UpdateDistributionInput: Swift.Sendable {
         defaultRootObject: Swift.String? = nil,
         distributionName: Swift.String? = nil,
         enablePrivateOriginAccess: Swift.Bool? = nil,
+        enableWaf: Swift.Bool? = nil,
         isEnabled: Swift.Bool? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
         useDefaultCertificate: Swift.Bool? = nil,
-        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
+        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil,
+        wafRules: [LightsailClientTypes.WafRule]? = nil
     ) {
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
@@ -13615,10 +14166,12 @@ public struct UpdateDistributionInput: Swift.Sendable {
         self.defaultRootObject = defaultRootObject
         self.distributionName = distributionName
         self.enablePrivateOriginAccess = enablePrivateOriginAccess
+        self.enableWaf = enableWaf
         self.isEnabled = isEnabled
         self.origin = origin
         self.useDefaultCertificate = useDefaultCertificate
         self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
+        self.wafRules = wafRules
     }
 }
 

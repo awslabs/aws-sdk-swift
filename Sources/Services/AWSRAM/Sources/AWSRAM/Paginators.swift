@@ -157,6 +157,8 @@ extension ListPermissionAssociationsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             permissionArn: self.permissionArn,
             permissionVersion: self.permissionVersion,
+            resourceOwner: self.resourceOwner,
+            resourceShareArn: self.resourceShareArn,
             resourceType: self.resourceType
         )}
 }
@@ -179,7 +181,9 @@ extension ListPermissionsInput: ClientRuntime.PaginateToken {
         return ListPermissionsInput(
             maxResults: self.maxResults,
             nextToken: token,
+            permissionStatus: self.permissionStatus,
             permissionType: self.permissionType,
+            resourceOwner: self.resourceOwner,
             resourceType: self.resourceType
         )}
 }

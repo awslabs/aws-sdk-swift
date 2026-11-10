@@ -5231,6 +5231,78 @@ extension NetworkManagerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListAttachmentNatConfigurations` operation on the `NetworkManager` service.
+    ///
+    /// Returns the NAT configurations of core network attachments. You must specify either a core network ID or an attachment ID. Only the core network owner can list NAT configurations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListAttachmentNatConfigurationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListAttachmentNatConfigurationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
+    public func listAttachmentNatConfigurations(input: ListAttachmentNatConfigurationsInput) async throws -> ListAttachmentNatConfigurationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAttachmentNatConfigurations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "networkmanager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>(ListAttachmentNatConfigurationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListAttachmentNatConfigurationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachmentNatConfigurationsOutput>(ListAttachmentNatConfigurationsOutput.httpOutput(from:), ListAttachmentNatConfigurationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachmentNatConfigurationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("NetworkManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAttachmentNatConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAttachmentNatConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "NetworkManager"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListAttachmentNatConfigurationsInput, ListAttachmentNatConfigurationsOutput>(serviceID: serviceName, version: NetworkManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListAttachmentNatConfigurations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListAttachmentRoutingPolicyAssociations` operation on the `NetworkManager` service.
     ///
     /// Lists the routing policy associations for attachments in a core network.
@@ -6706,6 +6778,81 @@ extension NetworkManagerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkManager")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateAttachmentNatConfiguration` operation on the `NetworkManager` service.
+    ///
+    /// Updates the NAT configuration of a core network attachment. You can enable or disable NAT gateway support, specify whether the core network installs system routes for the NAT CIDR blocks, and replace the NAT rules of the attachment. Specify at least one of NatGatewaySupport, NatSystemRouteSupport, or NatGatewayRules. Only the core network owner can update the NAT configuration of an attachment. The attachment must be in the AVAILABLE, PENDING_ATTACHMENT_ACCEPTANCE, or PENDING_TAG_ACCEPTANCE state. Changes are applied asynchronously, and the attachment is in the UPDATING state while they are applied. If the attachment is pending acceptance, the NAT configuration is stored and is applied after the attachment is accepted.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAttachmentNatConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAttachmentNatConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
+    public func updateAttachmentNatConfiguration(input: UpdateAttachmentNatConfigurationInput) async throws -> UpdateAttachmentNatConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAttachmentNatConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "networkmanager")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>(UpdateAttachmentNatConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAttachmentNatConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAttachmentNatConfigurationOutput>(UpdateAttachmentNatConfigurationOutput.httpOutput(from:), UpdateAttachmentNatConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAttachmentNatConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("NetworkManager", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAttachmentNatConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "NetworkManager"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAttachmentNatConfigurationInput, UpdateAttachmentNatConfigurationOutput>(serviceID: serviceName, version: NetworkManagerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "NetworkManager")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAttachmentNatConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

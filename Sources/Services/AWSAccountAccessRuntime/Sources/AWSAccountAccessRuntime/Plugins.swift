@@ -13,11 +13,11 @@ import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSSDKHTTPAuth.SigV4AuthScheme
-@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(ClientConfigDefaultIdentityResolver) import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
+import struct SmithyHTTPAuth.BearerTokenAuthScheme
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class TnbClientEndpointPlugin: Plugin {
+public class AccountAccessRuntimeClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -29,7 +29,7 @@ public class TnbClientEndpointPlugin: Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        guard var config = clientConfiguration as? TnbClient.TnbClientConfig else { return }
+        guard var config = clientConfiguration as? AccountAccessRuntimeClient.AccountAccessRuntimeClientConfig else { return }
         config.endpointResolver = self.endpointResolver
         guard let modifiedConfig = config as? Config else { return }
         clientConfiguration = modifiedConfig
@@ -41,25 +41,25 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? TnbClient.TnbClientConfig {
-            config.authSchemeResolver = DefaultTnbAuthSchemeResolver()
-            config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
+        if var config = clientConfiguration as? AccountAccessRuntimeClient.AccountAccessRuntimeClientConfig {
+            config.authSchemeResolver = DefaultAccountAccessRuntimeAuthSchemeResolver()
+            config.authSchemes = [SmithyHTTPAuth.BearerTokenAuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
-            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            config.bearerTokenIdentityResolver = AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
             guard let modifiedConfig = config as? Config else { return }
             clientConfiguration = modifiedConfig
         }
     }
 }
 
-public class TnbClientAuthSchemePlugin: ClientRuntime.Plugin {
+public class AccountAccessRuntimeClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: TnbAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: AccountAccessRuntimeAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
         self.authSchemePreference = authSchemePreference ?? []
@@ -68,7 +68,7 @@ public class TnbClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
-        if var config = clientConfiguration as? TnbClient.TnbClientConfig {
+        if var config = clientConfiguration as? AccountAccessRuntimeClient.AccountAccessRuntimeClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

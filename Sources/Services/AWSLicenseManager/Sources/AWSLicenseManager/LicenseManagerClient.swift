@@ -942,7 +942,11 @@ extension LicenseManagerClient {
 
     /// Performs the `CreateGrant` operation on the `LicenseManager` service.
     ///
-    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
+    /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide. Set the type of grant with the GrantType field:
+    ///
+    /// * BuyerGrant - The default grant type, created by the seller when a customer subscribes to a product. The seller creates a license for the subscription and a buyer grant for the customer. With a buyer grant, the customer can use, consume, and distribute the license, according to the permissions the seller sets in the product contract.
+    ///
+    /// * DelegateGrant - A delegate grant gives the grantee read-only visibility into the licenses and grants that you have distributed to buyers for a product. The grantee can monitor that activity on your behalf, and can also listen for the related Amazon EventBridge events. A delegate grant conveys no entitlement to use the licenses, and its only allowed operation is ListReceivedLicenses. You must create the delegate grant, and its license, from the same Amazon Web Services account that you used to create those buyer licenses and grants.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateGrantInput`)
     ///

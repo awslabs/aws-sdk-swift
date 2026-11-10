@@ -361,6 +361,38 @@ extension PaginatorSequence where OperationStackInput == ListContactEvaluationsI
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListContactFlowAliasesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContactFlowAliasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactFlowAliasesOutput`
+    public func listContactFlowAliasesPaginated(input: ListContactFlowAliasesInput) -> ClientRuntime.PaginatorSequence<ListContactFlowAliasesInput, ListContactFlowAliasesOutput> {
+        return ClientRuntime.PaginatorSequence<ListContactFlowAliasesInput, ListContactFlowAliasesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContactFlowAliases(input:))
+    }
+}
+
+extension ListContactFlowAliasesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContactFlowAliasesInput {
+        return ListContactFlowAliasesInput(
+            contactFlowId: self.contactFlowId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContactFlowAliasesInput, OperationStackOutput == ListContactFlowAliasesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContactFlowAliasesPaginated`
+    /// to access the nested member `[ConnectClientTypes.ContactFlowAliasSummary]`
+    /// - Returns: `[ConnectClientTypes.ContactFlowAliasSummary]`
+    public func contactFlowAliasSummaryList() async throws -> [ConnectClientTypes.ContactFlowAliasSummary] {
+        return try await self.asyncCompactMap { item in item.contactFlowAliasSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListContactFlowModuleAliasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1435,11 +1467,44 @@ extension ListRealtimeContactAnalysisSegmentsV2Input: ClientRuntime.PaginateToke
         return ListRealtimeContactAnalysisSegmentsV2Input(
             contactId: self.contactId,
             instanceId: self.instanceId,
+            listFilter: self.listFilter,
             maxResults: self.maxResults,
             nextToken: token,
             outputType: self.outputType,
             segmentTypes: self.segmentTypes
         )}
+}
+extension ConnectClient {
+    /// Paginate over `[ListReplicationFindingsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReplicationFindingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReplicationFindingsOutput`
+    public func listReplicationFindingsPaginated(input: ListReplicationFindingsInput) -> ClientRuntime.PaginatorSequence<ListReplicationFindingsInput, ListReplicationFindingsOutput> {
+        return ClientRuntime.PaginatorSequence<ListReplicationFindingsInput, ListReplicationFindingsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReplicationFindings(input:))
+    }
+}
+
+extension ListReplicationFindingsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListReplicationFindingsInput {
+        return ListReplicationFindingsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListReplicationFindingsInput, OperationStackOutput == ListReplicationFindingsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listReplicationFindingsPaginated`
+    /// to access the nested member `[ConnectClientTypes.ReplicationFinding]`
+    /// - Returns: `[ConnectClientTypes.ReplicationFinding]`
+    public func replicationFindingsList() async throws -> [ConnectClientTypes.ReplicationFinding] {
+        return try await self.asyncCompactMap { item in item.replicationFindingsList }
+    }
 }
 extension ConnectClient {
     /// Paginate over `[ListRoutingProfileManualAssignmentQueuesOutput]` results.

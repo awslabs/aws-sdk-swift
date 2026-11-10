@@ -1755,6 +1755,7 @@ extension AppIntegrationsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1823,6 +1824,8 @@ extension AppIntegrationsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. Verify the resource's current state and retry the request.
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1894,6 +1897,8 @@ extension AppIntegrationsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. Verify the resource's current state and retry the request.
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -1964,7 +1969,7 @@ extension AppIntegrationsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : The request conflicts with the current state of the resource. Verify the application's current state and retry the request.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. Verify the resource's current state and retry the request.
     /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.

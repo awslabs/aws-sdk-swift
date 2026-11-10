@@ -9,40 +9,32 @@
 
 import class Smithy.Context
 import enum Smithy.ClientError
-import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-public struct FinspacedataAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+public struct AccountAccessRuntimeAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let authSchemePreference: [String]?
     public let operation: Swift.String
-    // Region is used for SigV4 auth scheme
-    public let region: Swift.String?
 }
 
-public protocol FinspacedataAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+public protocol AccountAccessRuntimeAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
-    // the service Finspacedata must conform to.
+    // the service AccountAccessRuntime must conform to.
 }
 
-public struct DefaultFinspacedataAuthSchemeResolver: FinspacedataAuthSchemeResolver {
+public struct DefaultAccountAccessRuntimeAuthSchemeResolver: AccountAccessRuntimeAuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? FinspacedataAuthSchemeResolverParameters else {
+        guard let serviceParams = params as? AccountAccessRuntimeAuthSchemeResolverParameters else {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
             default:
-                var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "finspace-api")
-                guard let region = serviceParams.region else {
-                    throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
-                }
-                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
-                validAuthOptions.append(sigv4Option)
+                let httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                validAuthOptions.append(httpBearerAuthOption)
         }
         return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
@@ -52,7 +44,6 @@ public struct DefaultFinspacedataAuthSchemeResolver: FinspacedataAuthSchemeResol
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
         let authSchemePreference = context.getAuthSchemePreference()
-        let opRegion = context.getRegion()
-        return FinspacedataAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
+        return AccountAccessRuntimeAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName)
     }
 }

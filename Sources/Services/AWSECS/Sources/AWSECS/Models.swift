@@ -81,6 +81,8 @@ extension ECSClientTypes {
         case inferentia
         case k520
         case k80
+        case l4
+        case l40s
         case m60
         case radeonProV520
         case t4
@@ -97,6 +99,8 @@ extension ECSClientTypes {
                 .inferentia,
                 .k520,
                 .k80,
+                .l4,
+                .l40s,
                 .m60,
                 .radeonProV520,
                 .t4,
@@ -119,6 +123,8 @@ extension ECSClientTypes {
             case .inferentia: return "inferentia"
             case .k520: return "k520"
             case .k80: return "k80"
+            case .l4: return "l4"
+            case .l40s: return "l40s"
             case .m60: return "m60"
             case .radeonProV520: return "radeon-pro-v520"
             case .t4: return "t4"
@@ -208,8 +214,11 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ECSClientTypes {
 
+    /// Specifies whether a resource is publicly accessible from the internet or private to a VPC.
     public enum AccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The resource is private and reachable only from within the VPC.
         case `private`
+        /// The resource is publicly accessible from the internet.
         case `public`
         case sdkUnknown(Swift.String)
 
@@ -1326,6 +1335,8 @@ extension ECSClientTypes {
         /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
         /// This member is required.
         public var networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration?
+        /// Specifies whether instances that this capacity provider launches have [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html) enabled. Enable this setting to run tasks that use the ISOLATED_SANDBOX or CONFIDENTIAL_SANDBOX isolation mode. When you enable this setting, the capacity provider must include at least one instance type that supports Nitro Sandbox. You can't enable this setting together with local storage (the useLocalStorage setting in localStorageConfiguration). The default value is false. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        public var nitroEnclavesEnabled: Swift.Bool?
         /// The storage configuration for Amazon ECS Managed Instances. This defines the data volume properties for the instances.
         public var storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration?
 
@@ -1339,6 +1350,7 @@ extension ECSClientTypes {
             localStorageConfiguration: ECSClientTypes.ManagedInstancesLocalStorageConfiguration? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
+            nitroEnclavesEnabled: Swift.Bool? = nil,
             storageConfiguration: ECSClientTypes.ManagedInstancesStorageConfiguration? = nil
         ) {
             self.capacityOptionType = capacityOptionType
@@ -1350,6 +1362,7 @@ extension ECSClientTypes {
             self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
+            self.nitroEnclavesEnabled = nitroEnclavesEnabled
             self.storageConfiguration = storageConfiguration
         }
     }
@@ -2668,6 +2681,79 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// Describes how a GPU on a container instance is shared between containers.
+    public enum GpuSharingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// One container has exclusive use of the GPU. Amazon ECS assigns GPUs this way to containers that specify value instead of sharingStrategy for the GPU resource type.
+        case dedicated
+        /// No containers are assigned to the GPU, and all of its memory is available.
+        case idle
+        /// One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS). While the GPU is in this mode, Amazon ECS assigns it only to containers that use the nvidiaMps sharing strategy.
+        case nvidiaMps
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GpuSharingMode] {
+            return [
+                .dedicated,
+                .idle,
+                .nvidiaMps
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dedicated: return "DEDICATED"
+            case .idle: return "IDLE"
+            case .nvidiaMps: return "NVIDIA_MPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The state of a GPU on a container instance, including its sharing mode and the memory that's available for new containers.
+    public struct GpuDevice: Swift.Sendable {
+        /// The number of containers that Amazon ECS assigned to the GPU. This value is 0 when the sharing mode is IDLE and 1 when the sharing mode is DEDICATED. Amazon ECS counts the containers that it assigned to the GPU, not the processes that are running on it.
+        public var containerCount: Swift.Int?
+        /// The ID of the GPU. This ID matches the GPU IDs in the gpuIds of the containers that Amazon ECS assigned to the GPU.
+        public var gpuId: Swift.String?
+        /// The amount of GPU memory, in MiB, that's available to allocate to new containers that use the nvidiaMps sharing strategy. Amazon ECS calculates this value from the memory that it allocated to containers on the GPU, not from the memory that the containers use.
+        public var remainingMemoryInMiB: Swift.Int?
+        /// How the GPU is shared between containers. Valid values:
+        ///
+        /// * IDLE - No containers are assigned to the GPU, and all of its memory is available.
+        ///
+        /// * NVIDIA_MPS - One or more containers share the GPU by using NVIDIA Multi-Process Service (MPS).
+        ///
+        /// * DEDICATED - One container has exclusive use of the GPU.
+        public var sharingMode: ECSClientTypes.GpuSharingMode?
+        /// The total amount of GPU memory, in MiB, that the Amazon ECS container agent reported for the GPU. This is the memory that's available to containers, and it can be less than the nominal memory of the GPU.
+        public var totalMemoryInMiB: Swift.Int?
+
+        public init(
+            containerCount: Swift.Int? = nil,
+            gpuId: Swift.String? = nil,
+            remainingMemoryInMiB: Swift.Int? = nil,
+            sharingMode: ECSClientTypes.GpuSharingMode? = nil,
+            totalMemoryInMiB: Swift.Int? = nil
+        ) {
+            self.containerCount = containerCount
+            self.gpuId = gpuId
+            self.remainingMemoryInMiB = remainingMemoryInMiB
+            self.sharingMode = sharingMode
+            self.totalMemoryInMiB = totalMemoryInMiB
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum InstanceHealthCheckState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case impaired
         case initializing
@@ -2862,6 +2948,8 @@ extension ECSClientTypes {
         public var containerInstanceArn: Swift.String?
         /// The ID of the container instance. For Amazon EC2 instances, this value is the Amazon EC2 instance ID. For external instances, this value is the Amazon Web Services Systems Manager managed instance ID.
         public var ec2InstanceId: Swift.String?
+        /// The state of each GPU on the container instance, including its sharing mode and available memory. This field is present only for container instances that support GPU sharing.
+        public var gpuDevices: [ECSClientTypes.GpuDevice]?
         /// An object representing the health status of the container instance.
         public var healthStatus: ECSClientTypes.ContainerInstanceHealthStatus?
         /// The number of tasks on the container instance that are in the PENDING status.
@@ -2907,6 +2995,7 @@ extension ECSClientTypes {
             capacityProviderName: Swift.String? = nil,
             containerInstanceArn: Swift.String? = nil,
             ec2InstanceId: Swift.String? = nil,
+            gpuDevices: [ECSClientTypes.GpuDevice]? = nil,
             healthStatus: ECSClientTypes.ContainerInstanceHealthStatus? = nil,
             pendingTasksCount: Swift.Int = 0,
             registeredAt: Foundation.Date? = nil,
@@ -2926,6 +3015,7 @@ extension ECSClientTypes {
             self.capacityProviderName = capacityProviderName
             self.containerInstanceArn = containerInstanceArn
             self.ec2InstanceId = ec2InstanceId
+            self.gpuDevices = gpuDevices
             self.healthStatus = healthStatus
             self.pendingTasksCount = pendingTasksCount
             self.registeredAt = registeredAt
@@ -5634,8 +5724,6 @@ extension ECSClientTypes {
     ///
     /// * Linux platform version 1.4.0 or later.
     ///
-    /// * Windows platform version 1.0.0 or later.
-    ///
     ///
     /// Consider the following when using the Fargate launch type:
     ///
@@ -6045,7 +6133,7 @@ extension ECSClientTypes {
 
     /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
     ///
-    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+    /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file.
     ///
     /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
     ///
@@ -6053,7 +6141,7 @@ extension ECSClientTypes {
     ///
     /// * For tasks that are on Fargate, because you don't have access to the underlying infrastructure your tasks are hosted on, any additional software needed must be installed outside of the task. For example, the Fluentd output aggregators or a remote host running Logstash to send Gelf logs to.
     public struct LogConfiguration: Swift.Sendable {
-        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
+        /// The log driver to use for the container. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald, syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file. For more information about using the awslogs log driver, see [Send Amazon ECS logs to CloudWatch](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html) in the Amazon Elastic Container Service Developer Guide. For more information about using the awsfirelens log driver, see [Send Amazon ECS logs to an Amazon Web Services service or Amazon Web Services Partner](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html). If you have a custom driver that isn't listed, you can fork the Amazon ECS container agent project that's [available on GitHub](https://github.com/aws/amazon-ecs-agent) and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, we don't currently provide support for running modified copies of this software.
         /// This member is required.
         public var logDriver: ECSClientTypes.LogDriver?
         /// The configuration options to send to the log driver. The options you can specify depend on the log driver. Some of the options you can specify when you use the awslogs log driver to route logs to Amazon CloudWatch include the following: awslogs-create-group Required: No Specify whether you want the log group to be created automatically. If this option isn't specified, it defaults to false. Your IAM policy must include the logs:CreateLogGroup permission before you attempt to use awslogs-create-group. awslogs-region Required: Yes Specify the Amazon Web Services Region that the awslogs log driver is to send your Docker logs to. You can choose to send all of your logs from clusters in different Regions to a single region in CloudWatch Logs. This is so that they're all visible in one location. Otherwise, you can separate them by Region for more granularity. Make sure that the specified log group exists in the Region that you specify with this option. awslogs-group Required: Yes Make sure to specify a log group that the awslogs log driver sends its log streams to. awslogs-stream-prefix Required: Yes, when using Fargate.Optional when using EC2. Use the awslogs-stream-prefix option to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task that the container belongs to. If you specify a prefix with this option, then the log stream takes the format prefix-name/container-name/ecs-task-id. If you don't specify a prefix with this option, then the log stream is named after the container ID that's assigned by the Docker daemon on the container instance. Because it's difficult to trace logs back to the container that sent them with just the Docker container ID (which is only available on the container instance), we recommend that you specify a prefix with this option. For Amazon ECS services, you can use the service name as the prefix. Doing so, you can trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task that the container belongs to. You must specify a stream-prefix for your logs to have your logs appear in the Log pane when using the Amazon ECS console. awslogs-datetime-format Required: No This option defines a multiline start pattern in Python strftime format. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries. The correct pattern allows it to be captured in a single entry. For more information, see [awslogs-datetime-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format). You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. awslogs-multiline-pattern Required: No This option defines a multiline start pattern that uses a regular expression. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern. The matched line is the delimiter between log messages. For more information, see [awslogs-multiline-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern). This option is ignored if awslogs-datetime-format is also configured. You cannot configure both the awslogs-datetime-format and awslogs-multiline-pattern options. Multiline logging performs regular expression parsing and matching of all log messages. This might have a negative impact on logging performance. The following options apply to all supported log drivers. mode Required: No Valid values: non-blocking | blocking This option defines the delivery mode of log messages from the container to the log driver specified using logDriver. The delivery mode you choose affects application availability when the flow of logs from container is interrupted. If you use the blocking mode and the flow of logs is interrupted, calls from container code to write to the stdout and stderr streams will block. The logging thread of the application will block as a result. This may cause the application to become unresponsive and lead to container healthcheck failure. If you use the non-blocking mode, the container's logs are instead stored in an in-memory intermediate buffer configured with the max-buffer-size option. This prevents the application from becoming unresponsive when logs cannot be sent. We recommend using this mode if you want to ensure service availability and are okay with some log loss. For more information, see [Preventing log loss with non-blocking mode in the ]awslogs container log driver(http://aws.amazon.com/blogs/containers/preventing-log-loss-with-non-blocking-mode-in-the-awslogs-container-log-driver/). You can set a default mode for all containers in a specific Amazon Web Services Region by using the defaultLogDriverMode account setting. If you don't specify the mode option or configure the account setting, Amazon ECS will default to the non-blocking mode. For more information about the account setting, see [Default log driver mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#default-log-driver-mode) in the Amazon Elastic Container Service Developer Guide. On June 25, 2025, Amazon ECS changed the default log driver mode from blocking to non-blocking to prioritize task availability over logging. To continue using the blocking mode after this change, do one of the following:
@@ -6509,18 +6597,38 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The configuration for a log driver volume in a daemon task definition. The volume contains the log files for each container on the container instance that uses the specified log driver in its logConfiguration. Containers that use a different log driver don't write log files to the volume. For the json-file log driver, the volume has one directory for each container, named with the container ID. Each directory contains the container's log file, <container-id>-json.log, and any rotated log files. After a container stops and Amazon ECS removes it, Amazon ECS deletes the container's directory. Read the log files before the container is removed.
+    public struct LogDriverVolumeConfiguration: Swift.Sendable {
+        /// The log driver whose log files the volume contains. The only supported value is json-file.
+        /// This member is required.
+        public var driver: ECSClientTypes.LogDriver?
+
+        public init(
+            driver: ECSClientTypes.LogDriver? = nil
+        ) {
+            self.driver = driver
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// A data volume definition for a daemon task.
     public struct DaemonVolume: Swift.Sendable {
         /// The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored.
         public var host: ECSClientTypes.HostVolumeProperties?
+        /// The log driver volume configuration. With a log driver volume, the containers in a daemon task can read the log files that a log driver writes for the other tasks on the container instance. To read the log files, mount the volume into a container in the daemon task with mountPoints. Use host to bind mount a path on the container instance. Use logDriverVolumeConfiguration to read the log output of other tasks. You can't specify both for the same volume.
+        public var logDriverVolumeConfiguration: ECSClientTypes.LogDriverVolumeConfiguration?
         /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
         public var name: Swift.String?
 
         public init(
             host: ECSClientTypes.HostVolumeProperties? = nil,
+            logDriverVolumeConfiguration: ECSClientTypes.LogDriverVolumeConfiguration? = nil,
             name: Swift.String? = nil
         ) {
             self.host = host
+            self.logDriverVolumeConfiguration = logDriverVolumeConfiguration
             self.name = name
         }
     }
@@ -7205,6 +7313,36 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The GPU memory and compute limits for a container that shares a GPU by using NVIDIA Multi-Process Service (MPS). Amazon ECS assigns the container a single GPU that has enough memory available. Other containers that use MPS can share the same GPU.
+    public struct NvidiaMpsAllocation: Swift.Sendable {
+        /// The maximum percentage of the GPU's compute capacity that the container can use. Amazon ECS sets the CUDA_MPS_ACTIVE_THREAD_PERCENTAGE environment variable in the container to this value. This value is a limit, not a reservation. If you don't specify this parameter, Amazon ECS doesn't set CUDA_MPS_ACTIVE_THREAD_PERCENTAGE, and the active thread percentage of the MPS server on the container instance applies. By default, this is 100 percent.
+        public var maxComputePercent: Swift.Int?
+        /// The amount of GPU memory, in MiB, to allocate to the container. Amazon ECS assigns the container a GPU that has at least the specified amount of memory available, and sets the CUDA_MPS_PINNED_DEVICE_MEM_LIMIT environment variable in the container to limit its memory to this amount. The memory must be available on a single GPU. If more than one container in a task uses nvidiaMps, Amazon ECS assigns them the same GPU, which must have enough memory available for all of them.
+        /// This member is required.
+        public var memory: Swift.Int?
+
+        public init(
+            maxComputePercent: Swift.Int? = nil,
+            memory: Swift.Int? = nil
+        ) {
+            self.maxComputePercent = maxComputePercent
+            self.memory = memory
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The strategy that a container uses to share a GPU with other containers. Specify exactly one member.
+    public enum SharingStrategy: Swift.Sendable {
+        /// Shares a GPU between containers by using NVIDIA Multi-Process Service (MPS). You specify the GPU memory to allocate to the container and, optionally, the maximum percentage of the GPU's compute capacity that the container can use.
+        case nvidiamps(ECSClientTypes.NvidiaMpsAllocation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gpu
         case inferenceAccelerator
@@ -7239,17 +7377,20 @@ extension ECSClientTypes {
 
     /// The type and amount of a resource to assign to a container. The supported resource types are GPUs, Neuron devices, and Elastic Inference accelerators. For more information, see [Working with GPUs on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-gpu.html) or [Working with Amazon Elastic Inference on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-inference.html) in the Amazon Elastic Container Service Developer Guide
     public struct ResourceRequirement: Swift.Sendable {
+        /// The strategy that the container uses to share a GPU with other containers. Specify a sharing strategy only when the type is GPU. For a GPU resource requirement, specify either value or sharingStrategy, but not both. If you don't specify a sharing strategy, the container has exclusive use of each GPU that Amazon ECS assigns to it. The containers in a task that request GPUs must all use the same option. You can use GPU sharing with tasks that run on Amazon EC2 instances or Amazon ECS Managed Instances. Task definitions that require EXTERNAL compatibility don't support GPU sharing.
+        public var sharingStrategy: ECSClientTypes.SharingStrategy?
         /// The type of resource to assign to a container.
         /// This member is required.
         public var type: ECSClientTypes.ResourceType?
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
-        /// This member is required.
+        /// The value for the specified resource type. You must specify this parameter unless the type is GPU and you specify sharingStrategy. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an [InferenceAccelerator](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_InferenceAccelerator.html) specified in a task definition.
         public var value: Swift.String?
 
         public init(
+            sharingStrategy: ECSClientTypes.SharingStrategy? = nil,
             type: ECSClientTypes.ResourceType? = nil,
-            value: Swift.String? = nil
+            value: Swift.String? = ""
         ) {
+            self.sharingStrategy = sharingStrategy
             self.type = type
             self.value = value
         }
@@ -7540,8 +7681,6 @@ extension ECSClientTypes {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide;. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
-    ///
-    /// * Windows platform version 1.0.0 or later.
     public struct EphemeralStorage: Swift.Sendable {
         /// The total amount, in GiB, of ephemeral storage to set for the task. The minimum supported value is 21 GiB and the maximum supported value is 200 GiB.
         /// This member is required.
@@ -7889,6 +8028,68 @@ extension ECSClientTypes {
             case .inactive: return "INACTIVE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The isolation mode determines how a task is isolated from other tasks on the same Amazon EC2 instance.
+    public enum IsolationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        case confidentialSandbox
+        /// The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        case isolatedSandbox
+        /// The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        case shared
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IsolationMode] {
+            return [
+                .confidentialSandbox,
+                .isolatedSandbox,
+                .shared
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .confidentialSandbox: return "CONFIDENTIAL_SANDBOX"
+            case .isolatedSandbox: return "ISOLATED_SANDBOX"
+            case .shared: return "SHARED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The trusted execution configuration for a task. This configuration controls the isolation mode and attestation policy. You set this configuration when you register a task definition. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public struct TrustedExecutionConfiguration: Swift.Sendable {
+        /// The base64-encoded attestation policy envelope for the task. The policy specifies which containers are allowed to run and the runtime configuration that is cryptographically attested. This parameter is required when isolationMode is CONFIDENTIAL_SANDBOX.
+        public var attestationPolicy: Swift.String?
+        /// The isolation mode for tasks that use this task definition. The isolation mode determines how a task is isolated from other tasks on the same Amazon EC2 instance.
+        ///
+        /// * SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        ///
+        /// * ISOLATED_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * CONFIDENTIAL_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var isolationMode: ECSClientTypes.IsolationMode?
+
+        public init(
+            attestationPolicy: Swift.String? = nil,
+            isolationMode: ECSClientTypes.IsolationMode? = nil
+        ) {
+            self.attestationPolicy = attestationPolicy
+            self.isolationMode = isolationMode
         }
     }
 }
@@ -8249,6 +8450,8 @@ extension ECSClientTypes {
         public var taskDefinitionArn: Swift.String?
         /// The short name or full Amazon Resource Name (ARN) of the Identity and Access Management role that grants containers in the task permission to call Amazon Web Services APIs on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
         public var taskRoleArn: Swift.String?
+        /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy. Trusted execution is supported only for Amazon ECS Managed Instances.
+        public var trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration?
         /// The list of data volume definitions for the task. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon Elastic Container Service Developer Guide. The host and sourcePath parameters aren't supported for tasks run on Fargate.
         public var volumes: [ECSClientTypes.Volume]?
 
@@ -8277,6 +8480,7 @@ extension ECSClientTypes {
             status: ECSClientTypes.TaskDefinitionStatus? = nil,
             taskDefinitionArn: Swift.String? = nil,
             taskRoleArn: Swift.String? = nil,
+            trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration? = nil,
             volumes: [ECSClientTypes.Volume]? = nil
         ) {
             self.compatibilities = compatibilities
@@ -8303,6 +8507,7 @@ extension ECSClientTypes {
             self.status = status
             self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
+            self.trustedExecutionConfiguration = trustedExecutionConfiguration
             self.volumes = volumes
         }
     }
@@ -8426,6 +8631,1402 @@ public struct DiscoverPollEndpointOutput: Swift.Sendable {
         self.endpoint = endpoint
         self.serviceConnectEndpoint = serviceConnectEndpoint
         self.telemetryEndpoint = telemetryEndpoint
+    }
+}
+
+/// The specified gateway wasn't found. Check that the gateway name or ARN is correct and that the gateway exists in your account and Region.
+public struct GatewayNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GatewayNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AssociateGatewayWithClusterInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the cluster to associate the gateway with.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of the gateway to associate.
+    /// This member is required.
+    public var gateway: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        gateway: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.gateway = gateway
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The status of an association between a gateway and a cluster.
+    public enum GatewayClusterAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The association is active.
+        case active
+        /// The association is being removed and remains in this state until all gateway routes for the cluster are removed.
+        case disassociating
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayClusterAssociationStatus] {
+            return [
+                .active,
+                .disassociating,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .disassociating: return "DISASSOCIATING"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateGatewayWithClusterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the gateway.
+    public var gatewayArn: Swift.String?
+    /// The status of the association. A new association is ACTIVE.
+    public var status: ECSClientTypes.GatewayClusterAssociationStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        gatewayArn: Swift.String? = nil,
+        status: ECSClientTypes.GatewayClusterAssociationStatus? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.gatewayArn = gatewayArn
+        self.status = status
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Amazon S3 destination for the access logs of a gateway's load balancers.
+    public struct GatewayElbAccessLogS3Destination: Swift.Sendable {
+        /// The name of the Amazon S3 bucket where access logs are delivered.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The object key prefix for the access logs in the Amazon S3 bucket.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            `prefix`: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.`prefix` = `prefix`
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The destination where the access logs for a gateway's load balancers are delivered.
+    public enum GatewayElbAccessLogDestination: Swift.Sendable {
+        /// The Amazon S3 destination for access logs.
+        case s3(ECSClientTypes.GatewayElbAccessLogS3Destination)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The access log configuration for the load balancers that a gateway manages.
+    public struct GatewayElbAccessLogConfiguration: Swift.Sendable {
+        /// The destination where access logs are delivered.
+        public var destination: ECSClientTypes.GatewayElbAccessLogDestination?
+
+        public init(
+            destination: ECSClientTypes.GatewayElbAccessLogDestination? = nil
+        ) {
+            self.destination = destination
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The desync mitigation mode for a gateway's load balancers, which determines how the load balancers handle requests that might pose a security risk.
+    public enum GatewayAlbDesyncMitigationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The load balancers allow through most requests but drop those that pose a significant security risk.
+        case defensive
+        /// The load balancers forward requests that are considered ambiguous but allow them to be monitored.
+        case monitor
+        /// The load balancers allow through only requests that comply with HTTP/1.1.
+        case strictest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayAlbDesyncMitigationMode] {
+            return [
+                .defensive,
+                .monitor,
+                .strictest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .defensive: return "defensive"
+            case .monitor: return "monitor"
+            case .strictest: return "strictest"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The IP address type for the load balancers that a gateway manages.
+    public enum GatewayElbIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The load balancers use both IPv4 and IPv6 addresses.
+        case dualstack
+        /// The load balancers use IPv6 addresses and private IPv4 addresses, without public IPv4 addresses.
+        case dualstackWithoutPublicIpv4
+        /// The load balancers use IPv4 addresses only.
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayElbIpAddressType] {
+            return [
+                .dualstack,
+                .dualstackWithoutPublicIpv4,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .dualstackWithoutPublicIpv4: return "dualstack-without-public-ipv4"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The network configuration for the load balancers that a gateway manages.
+    public struct GatewayElbNetworkConfiguration: Swift.Sendable {
+        /// The ID of a security group that you provide to control inbound traffic to the load balancers that the gateway manages. When you specify a security group, the gateway doesn't create inbound rules on the security group it manages.
+        public var inboundSecurityGroup: Swift.String?
+        /// The IP address type for the load balancers that the gateway manages. The default is dualstack.
+        public var ipAddressType: ECSClientTypes.GatewayElbIpAddressType?
+        /// The subnets for the load balancers that the gateway manages. The default is the subnets in the default VPC.
+        public var subnets: [Swift.String]?
+
+        public init(
+            inboundSecurityGroup: Swift.String? = nil,
+            ipAddressType: ECSClientTypes.GatewayElbIpAddressType? = nil,
+            subnets: [Swift.String]? = nil
+        ) {
+            self.inboundSecurityGroup = inboundSecurityGroup
+            self.ipAddressType = ipAddressType
+            self.subnets = subnets
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The protocol for a gateway's load balancer listener.
+    public enum GatewayAlbProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The listener uses HTTP.
+        case http
+        /// The listener uses HTTPS.
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayAlbProtocol] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "HTTP"
+            case .https: return "HTTPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Specifies whether the load balancers that a gateway manages are internet-facing or internal.
+    public enum GatewayElbScheme: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The load balancers are internal.
+        case `internal`
+        /// The load balancers are internet-facing.
+        case internetFacing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayElbScheme] {
+            return [
+                .internal,
+                .internetFacing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internal: return "internal"
+            case .internetFacing: return "internet-facing"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A header-based rule that identifies test traffic for progressive deployments.
+    public struct GatewayTestTrafficHeader: Swift.Sendable {
+        /// The name of the header to match for test traffic routing.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The header values to match for test traffic routing.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The rules that route test traffic to services behind a gateway during progressive deployments.
+    public struct GatewayAlbTestTrafficRules: Swift.Sendable {
+        /// The header-based rule that identifies test traffic.
+        public var header: ECSClientTypes.GatewayTestTrafficHeader?
+
+        public init(
+            header: ECSClientTypes.GatewayTestTrafficHeader? = nil
+        ) {
+            self.header = header
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The configuration for a gateway that uses shared Application Load Balancers with host-based routing. Where they apply, the field names and values are kept consistent with the Elastic Load Balancing API.
+    public struct HostSharedAlbConfiguration: Swift.Sendable {
+        /// The access log configuration for the load balancers that the gateway manages.
+        public var accessLogs: ECSClientTypes.GatewayElbAccessLogConfiguration?
+        /// The desync mitigation mode for the load balancers that the gateway manages, which determines how the load balancers handle requests that might pose a security risk. The default is defensive.
+        public var httpDesync: ECSClientTypes.GatewayAlbDesyncMitigationMode?
+        /// The maximum number of Application Load Balancers that the gateway manages. The default is 10.
+        public var maxAlbCount: Swift.Int?
+        /// The network configuration for the load balancers that the gateway manages.
+        public var networkConfiguration: ECSClientTypes.GatewayElbNetworkConfiguration?
+        /// The port that the load balancer listener uses is 443. The gateway supports only HTTPS at port 443.
+        public var port: Swift.Int?
+        /// The protocol for the load balancer listener is HTTPS. No other protocol is supported.
+        public var `protocol`: ECSClientTypes.GatewayAlbProtocol?
+        /// Specifies whether the load balancers the gateway manages are internet-facing or internal. The default is internet-facing.
+        public var scheme: ECSClientTypes.GatewayElbScheme?
+        /// The rules that route test traffic for progressive deployments. During a progressive deployment, requests whose headers match these rules are routed to the new service revision so that it can be validated before production traffic shifts to it.
+        public var testTrafficRules: ECSClientTypes.GatewayAlbTestTrafficRules?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate with the load balancers that the gateway manages.
+        public var webACLArn: Swift.String?
+
+        public init(
+            accessLogs: ECSClientTypes.GatewayElbAccessLogConfiguration? = nil,
+            httpDesync: ECSClientTypes.GatewayAlbDesyncMitigationMode? = nil,
+            maxAlbCount: Swift.Int? = nil,
+            networkConfiguration: ECSClientTypes.GatewayElbNetworkConfiguration? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: ECSClientTypes.GatewayAlbProtocol? = nil,
+            scheme: ECSClientTypes.GatewayElbScheme? = nil,
+            testTrafficRules: ECSClientTypes.GatewayAlbTestTrafficRules? = nil,
+            webACLArn: Swift.String? = nil
+        ) {
+            self.accessLogs = accessLogs
+            self.httpDesync = httpDesync
+            self.maxAlbCount = maxAlbCount
+            self.networkConfiguration = networkConfiguration
+            self.port = port
+            self.`protocol` = `protocol`
+            self.scheme = scheme
+            self.testTrafficRules = testTrafficRules
+            self.webACLArn = webACLArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The type-specific configuration for a gateway that you provide when you create it. Exactly one variant is set, and it determines the gateway type.
+    public enum GatewayConfiguration: Swift.Sendable {
+        /// The configuration for a host-based, shared Application Load Balancer gateway. Each service that uses the gateway is assigned a unique DNS host name.
+        case hostsharedalb(ECSClientTypes.HostSharedAlbConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Specifies whether the tags on a gateway are propagated to the infrastructure that the gateway manages.
+    public enum PropagateGatewayTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Tags on the gateway are propagated to the infrastructure that the gateway manages.
+        case gateway
+        /// Tags aren't propagated to managed infrastructure.
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropagateGatewayTags] {
+            return [
+                .gateway,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gateway: return "GATEWAY"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateGatewayInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The type-specific configuration for the gateway. Exactly one configuration variant must be set, and it determines the gateway type. For example, hostSharedAlb configures a gateway that uses Application Load Balancers with host-based routing.
+    /// This member is required.
+    public var configuration: ECSClientTypes.GatewayConfiguration?
+    /// Specifies whether to enable deletion protection for the gateway. When enabled, the gateway can't be deleted, and the gateway propagates this setting to the load balancers it manages. The default is true.
+    public var deletionProtection: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the IAM role that the gateway assumes to create and manage infrastructure on your behalf.
+    /// This member is required.
+    public var infrastructureRoleArn: Swift.String?
+    /// The name for the gateway. The name must be unique within your account and can be up to 255 characters.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies whether to propagate the tags from the gateway to the infrastructure that the gateway manages. The default is GATEWAY.
+    public var propagateTags: ECSClientTypes.PropagateGatewayTags?
+    /// The metadata that you apply to the gateway to help you categorize and organize it. Each tag consists of a key and an optional value. Depending on propagateTags, these tags can be applied to the infrastructure the gateway manages.
+    public var tags: [ECSClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        configuration: ECSClientTypes.GatewayConfiguration? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        infrastructureRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        propagateTags: ECSClientTypes.PropagateGatewayTags? = nil,
+        tags: [ECSClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.configuration = configuration
+        self.deletionProtection = deletionProtection
+        self.infrastructureRoleArn = infrastructureRoleArn
+        self.name = name
+        self.propagateTags = propagateTags
+        self.tags = tags
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The status of a gateway.
+    public enum GatewayStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The gateway is active and available for use.
+        case active
+        /// The gateway is deleted.
+        case deleted
+        /// The update to the gateway completed successfully.
+        case updateComplete
+        /// The update to the gateway failed. See statusReason for details.
+        case updateFailed
+        /// An update to the gateway is in progress.
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayStatus] {
+            return [
+                .active,
+                .deleted,
+                .updateComplete,
+                .updateFailed,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .updateComplete: return "UPDATE_COMPLETE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the gateway.
+    public var gatewayArn: Swift.String?
+    /// The name of the gateway.
+    public var name: Swift.String?
+    /// The status of the gateway. A newly created gateway is always ACTIVE.
+    public var status: ECSClientTypes.GatewayStatus?
+
+    public init(
+        gatewayArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ECSClientTypes.GatewayStatus? = nil
+    ) {
+        self.gatewayArn = gatewayArn
+        self.name = name
+        self.status = status
+    }
+}
+
+public struct DeleteGatewayInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the gateway to delete.
+    /// This member is required.
+    public var gateway: Swift.String?
+
+    public init(
+        gateway: Swift.String? = nil
+    ) {
+        self.gateway = gateway
+    }
+}
+
+public struct DeleteGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted gateway.
+    public var gatewayArn: Swift.String?
+    /// The name of the deleted gateway.
+    public var name: Swift.String?
+    /// The status of the gateway. After a successful delete, the status is DELETED.
+    public var status: ECSClientTypes.GatewayStatus?
+
+    public init(
+        gatewayArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ECSClientTypes.GatewayStatus? = nil
+    ) {
+        self.gatewayArn = gatewayArn
+        self.name = name
+        self.status = status
+    }
+}
+
+public struct DescribeGatewayInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the gateway to describe.
+    /// This member is required.
+    public var gateway: Swift.String?
+
+    public init(
+        gateway: Swift.String? = nil
+    ) {
+        self.gateway = gateway
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The configuration for a gateway that uses shared Application Load Balancers, as returned by DescribeGateway. This includes the current number of load balancers in addition to the configured settings.
+    public struct DescribeGatewayAlbConfiguration: Swift.Sendable {
+        /// The access log configuration for the load balancers that the gateway manages.
+        public var accessLogs: ECSClientTypes.GatewayElbAccessLogConfiguration?
+        /// The current number of Application Load Balancers that the gateway has allocated.
+        public var currentAlbCount: Swift.Int?
+        /// The desync mitigation mode for the load balancers that the gateway manages.
+        public var httpDesync: ECSClientTypes.GatewayAlbDesyncMitigationMode?
+        /// The maximum number of Application Load Balancers that the gateway manages.
+        public var maxAlbCount: Swift.Int?
+        /// The network configuration for the load balancers that the gateway manages.
+        public var networkConfiguration: ECSClientTypes.GatewayElbNetworkConfiguration?
+        /// The port that the load balancer listener uses is 443. The gateway supports only HTTPS at port 443.
+        public var port: Swift.Int?
+        /// The protocol for the load balancer listener is HTTPS. No other protocol is supported.
+        public var `protocol`: ECSClientTypes.GatewayAlbProtocol?
+        /// Specifies whether the load balancers the gateway manages are internet-facing or internal.
+        public var scheme: ECSClientTypes.GatewayElbScheme?
+        /// The rules that route test traffic for progressive deployments.
+        public var testTrafficRules: ECSClientTypes.GatewayAlbTestTrafficRules?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL associated with the load balancers that the gateway manages.
+        public var webACLArn: Swift.String?
+
+        public init(
+            accessLogs: ECSClientTypes.GatewayElbAccessLogConfiguration? = nil,
+            currentAlbCount: Swift.Int? = nil,
+            httpDesync: ECSClientTypes.GatewayAlbDesyncMitigationMode? = nil,
+            maxAlbCount: Swift.Int? = nil,
+            networkConfiguration: ECSClientTypes.GatewayElbNetworkConfiguration? = nil,
+            port: Swift.Int? = nil,
+            `protocol`: ECSClientTypes.GatewayAlbProtocol? = nil,
+            scheme: ECSClientTypes.GatewayElbScheme? = nil,
+            testTrafficRules: ECSClientTypes.GatewayAlbTestTrafficRules? = nil,
+            webACLArn: Swift.String? = nil
+        ) {
+            self.accessLogs = accessLogs
+            self.currentAlbCount = currentAlbCount
+            self.httpDesync = httpDesync
+            self.maxAlbCount = maxAlbCount
+            self.networkConfiguration = networkConfiguration
+            self.port = port
+            self.`protocol` = `protocol`
+            self.scheme = scheme
+            self.testTrafficRules = testTrafficRules
+            self.webACLArn = webACLArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The type-specific configuration for a gateway that is returned by DescribeGateway.
+    public enum DescribeGatewayConfiguration: Swift.Sendable {
+        /// The configuration for a host-based, shared Application Load Balancer gateway.
+        case hostsharedalb(ECSClientTypes.DescribeGatewayAlbConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A single failed operation against a resource that a gateway manages.
+    public struct GatewayOperationError: Swift.Sendable {
+        /// The error code returned by the failed operation, passed through from the downstream service, such as AccessDenied.
+        public var code: Swift.String?
+        /// The detailed error message.
+        public var message: Swift.String?
+        /// The IAM-style action identifier of the operation that failed, such as elasticloadbalancing:ModifyLoadBalancerAttributes.
+        public var operation: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            operation: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.operation = operation
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The failures for a single resource that was touched by an asynchronous gateway process.
+    public struct GatewayResourceFailure: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource that failed to update, such as a load balancer ARN.
+        public var arn: Swift.String?
+        /// The errors that were encountered while operating on the resource.
+        public var errors: [ECSClientTypes.GatewayOperationError]?
+
+        public init(
+            arn: Swift.String? = nil,
+            errors: [ECSClientTypes.GatewayOperationError]? = nil
+        ) {
+            self.arn = arn
+            self.errors = errors
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The details of a gateway, including its configuration, status, and the infrastructure settings for its type.
+    public struct Gateway: Swift.Sendable {
+        /// Specifies whether the gateway is publicly accessible (PUBLIC) or private (PRIVATE). The gateway derives this value from its scheme when you create the gateway, and the value is immutable.
+        public var accessType: ECSClientTypes.AccessType?
+        /// The type-specific configuration for the gateway.
+        public var configuration: ECSClientTypes.DescribeGatewayConfiguration?
+        /// The Unix timestamp for the time when the gateway was created.
+        public var createdAt: Foundation.Date?
+        /// Specifies whether deletion protection is enabled for the gateway.
+        public var deletionProtection: Swift.Bool?
+        /// The per-resource failure details for asynchronous gateway processes, such as an UpdateGateway operation that couldn't update every load balancer.
+        public var failures: [ECSClientTypes.GatewayResourceFailure]?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public var gatewayArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that the gateway uses to manage infrastructure on your behalf.
+        public var infrastructureRoleArn: Swift.String?
+        /// The name of the gateway.
+        public var name: Swift.String?
+        /// Specifies whether the gateway propagates its tags to the infrastructure it manages.
+        public var propagateTags: ECSClientTypes.PropagateGatewayTags?
+        /// The status of the gateway.
+        public var status: ECSClientTypes.GatewayStatus?
+        /// A human-readable explanation of the current status. This value is populated when the gateway is in a failure state, such as UPDATE_FAILED.
+        public var statusReason: Swift.String?
+        /// The metadata applied to the gateway. Each tag consists of a key and an optional value.
+        public var tags: [ECSClientTypes.Tag]?
+        /// The Unix timestamp for the time when the gateway was last updated.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            accessType: ECSClientTypes.AccessType? = nil,
+            configuration: ECSClientTypes.DescribeGatewayConfiguration? = nil,
+            createdAt: Foundation.Date? = nil,
+            deletionProtection: Swift.Bool? = nil,
+            failures: [ECSClientTypes.GatewayResourceFailure]? = nil,
+            gatewayArn: Swift.String? = nil,
+            infrastructureRoleArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            propagateTags: ECSClientTypes.PropagateGatewayTags? = nil,
+            status: ECSClientTypes.GatewayStatus? = nil,
+            statusReason: Swift.String? = nil,
+            tags: [ECSClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.accessType = accessType
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.deletionProtection = deletionProtection
+            self.failures = failures
+            self.gatewayArn = gatewayArn
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.name = name
+            self.propagateTags = propagateTags
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct DescribeGatewayOutput: Swift.Sendable {
+    /// The details of the gateway.
+    public var gateway: ECSClientTypes.Gateway?
+
+    public init(
+        gateway: ECSClientTypes.Gateway? = nil
+    ) {
+        self.gateway = gateway
+    }
+}
+
+public struct DescribeGatewayResourcesInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the gateway.
+    /// This member is required.
+    public var gateway: Swift.String?
+    /// The maximum number of results that the operation returns in a single page. The maximum value is 20 and the default is 10.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated request.
+    public var nextToken: Swift.String?
+
+    public init(
+        gateway: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gateway = gateway
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ECSClientTypes {
+
+    /// An Application Load Balancer and its associated resources that a gateway manages.
+    public struct ElbGatewayResources: Swift.Sendable {
+        /// The Amazon Resource Names (ARNs) of the gateway routes that use this load balancer for ingress.
+        public var gatewayRouteArns: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the listener on the load balancer.
+        public var listenerArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public var loadBalancerArn: Swift.String?
+        /// The ID of the security group attached to the load balancer.
+        public var securityGroup: Swift.String?
+
+        public init(
+            gatewayRouteArns: [Swift.String]? = nil,
+            listenerArn: Swift.String? = nil,
+            loadBalancerArn: Swift.String? = nil,
+            securityGroup: Swift.String? = nil
+        ) {
+            self.gatewayRouteArns = gatewayRouteArns
+            self.listenerArn = listenerArn
+            self.loadBalancerArn = loadBalancerArn
+            self.securityGroup = securityGroup
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The gateway-managed infrastructure in a DescribeGatewayResources response, as a union keyed by gateway type.
+    public enum GatewayInfrastructureResources: Swift.Sendable {
+        /// The Application Load Balancer resource groups for a host-based, shared ALB gateway.
+        case hostsharedalb([ECSClientTypes.ElbGatewayResources])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
+    /// DescribeGatewayResources returns the gateway-managed infrastructure, grouped by gateway type.
+    public struct GatewayResources: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public var gatewayArn: Swift.String?
+        /// The infrastructure resources that the gateway manages.
+        public var resources: ECSClientTypes.GatewayInfrastructureResources?
+
+        public init(
+            gatewayArn: Swift.String? = nil,
+            resources: ECSClientTypes.GatewayInfrastructureResources? = nil
+        ) {
+            self.gatewayArn = gatewayArn
+            self.resources = resources
+        }
+    }
+}
+
+public struct DescribeGatewayResourcesOutput: Swift.Sendable {
+    /// The infrastructure resources that the gateway manages, grouped by gateway type.
+    public var gatewayResources: ECSClientTypes.GatewayResources?
+    /// The nextToken value to include in a future request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        gatewayResources: ECSClientTypes.GatewayResources? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gatewayResources = gatewayResources
+        self.nextToken = nextToken
+    }
+}
+
+/// The specified resource wasn't found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Message that describes the cause of the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DisassociateGatewayFromClusterInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the cluster to disassociate the gateway from.
+    /// This member is required.
+    public var cluster: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of the gateway to disassociate.
+    /// This member is required.
+    public var gateway: Swift.String?
+
+    public init(
+        cluster: Swift.String? = nil,
+        gateway: Swift.String? = nil
+    ) {
+        self.cluster = cluster
+        self.gateway = gateway
+    }
+}
+
+public struct DisassociateGatewayFromClusterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the gateway.
+    public var gatewayArn: Swift.String?
+    /// The status of the association. After a successful request, the status is DISASSOCIATING until all routes are removed, after which the association is deleted.
+    public var status: ECSClientTypes.GatewayClusterAssociationStatus?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        gatewayArn: Swift.String? = nil,
+        status: ECSClientTypes.GatewayClusterAssociationStatus? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.gatewayArn = gatewayArn
+        self.status = status
+    }
+}
+
+public struct ListGatewayClusterAssociationsInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+    public var cluster: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+    public var gateway: Swift.String?
+    /// The maximum number of results that the operation returns in a single page. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated request.
+    public var nextToken: Swift.String?
+    /// The association status to filter the results by.
+    public var status: [ECSClientTypes.GatewayClusterAssociationStatus]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        gateway: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: [ECSClientTypes.GatewayClusterAssociationStatus]? = nil
+    ) {
+        self.cluster = cluster
+        self.gateway = gateway
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of an association between a gateway and a cluster.
+    public struct GatewayClusterAssociationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public var clusterArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public var gatewayArn: Swift.String?
+        /// The status of the association.
+        public var status: ECSClientTypes.GatewayClusterAssociationStatus?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            gatewayArn: Swift.String? = nil,
+            status: ECSClientTypes.GatewayClusterAssociationStatus? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.gatewayArn = gatewayArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListGatewayClusterAssociationsOutput: Swift.Sendable {
+    /// The gateway-cluster associations that match the request.
+    public var gatewayClusterAssociations: [ECSClientTypes.GatewayClusterAssociationSummary]?
+    /// The nextToken value to include in a future request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        gatewayClusterAssociations: [ECSClientTypes.GatewayClusterAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gatewayClusterAssociations = gatewayClusterAssociations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListGatewaysInput: Swift.Sendable {
+    /// The maximum number of gateway results that ListGateways returns in a single page. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The gateway names to filter the results by. You can specify up to 10 names.
+    public var names: [Swift.String]?
+    /// The nextToken value returned from a previous paginated ListGateways request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results.
+    public var nextToken: Swift.String?
+    /// The gateway statuses to filter the results by.
+    public var status: [ECSClientTypes.GatewayStatus]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        names: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil,
+        status: [ECSClientTypes.GatewayStatus]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.names = names
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of a gateway that is returned by the ListGateways operation.
+    public struct GatewaySummary: Swift.Sendable {
+        /// The Unix timestamp for the time when the gateway was created.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public var gatewayArn: Swift.String?
+        /// The name of the gateway.
+        public var name: Swift.String?
+        /// The status of the gateway.
+        public var status: ECSClientTypes.GatewayStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            gatewayArn: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: ECSClientTypes.GatewayStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.gatewayArn = gatewayArn
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+public struct ListGatewaysOutput: Swift.Sendable {
+    /// The list of gateways that match the request.
+    public var gateways: [ECSClientTypes.GatewaySummary]?
+    /// The nextToken value to include in a future ListGateways request. When the results of a ListGateways request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        gateways: [ECSClientTypes.GatewaySummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gateways = gateways
+        self.nextToken = nextToken
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The mutable network configuration for the load balancers that a gateway manages.
+    public struct UpdateGatewayNetworkConfiguration: Swift.Sendable {
+        /// The ID of a security group that you provide to control inbound traffic to the load balancers that the gateway manages. When you specify a security group, the gateway doesn't create inbound rules on the security group it manages.
+        public var inboundSecurityGroup: Swift.String?
+
+        public init(
+            inboundSecurityGroup: Swift.String? = nil
+        ) {
+            self.inboundSecurityGroup = inboundSecurityGroup
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The mutable configuration fields for a gateway that uses shared Application Load Balancers. Only fields that can be changed without interrupting traffic are included.
+    public struct UpdateGatewayAlbConfiguration: Swift.Sendable {
+        /// The access log configuration for the load balancers that the gateway manages.
+        public var accessLogs: ECSClientTypes.GatewayElbAccessLogConfiguration?
+        /// The desync mitigation mode for the load balancers that the gateway manages.
+        public var httpDesync: ECSClientTypes.GatewayAlbDesyncMitigationMode?
+        /// The maximum number of Application Load Balancers that the gateway manages.
+        public var maxAlbCount: Swift.Int?
+        /// The mutable network configuration for the load balancers that the gateway manages.
+        public var networkConfiguration: ECSClientTypes.UpdateGatewayNetworkConfiguration?
+        /// The rules that route test traffic for progressive deployments.
+        public var testTrafficRules: ECSClientTypes.GatewayAlbTestTrafficRules?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate with the load balancers that the gateway manages.
+        public var webACLArn: Swift.String?
+
+        public init(
+            accessLogs: ECSClientTypes.GatewayElbAccessLogConfiguration? = nil,
+            httpDesync: ECSClientTypes.GatewayAlbDesyncMitigationMode? = nil,
+            maxAlbCount: Swift.Int? = nil,
+            networkConfiguration: ECSClientTypes.UpdateGatewayNetworkConfiguration? = nil,
+            testTrafficRules: ECSClientTypes.GatewayAlbTestTrafficRules? = nil,
+            webACLArn: Swift.String? = nil
+        ) {
+            self.accessLogs = accessLogs
+            self.httpDesync = httpDesync
+            self.maxAlbCount = maxAlbCount
+            self.networkConfiguration = networkConfiguration
+            self.testTrafficRules = testTrafficRules
+            self.webACLArn = webACLArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The type-specific configuration to change on a gateway. The variant must match the gateway's existing type.
+    public enum UpdateGatewayConfiguration: Swift.Sendable {
+        /// The mutable configuration for a host-based, shared Application Load Balancer gateway.
+        case hostsharedalb(ECSClientTypes.UpdateGatewayAlbConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct UpdateGatewayInput: Swift.Sendable {
+    /// The updated type-specific configuration for the gateway. The configuration variant must match the gateway's existing type, and only mutable fields can be changed.
+    public var configuration: ECSClientTypes.UpdateGatewayConfiguration?
+    /// Specifies whether to enable deletion protection for the gateway. When enabled, the gateway can't be deleted.
+    public var deletionProtection: Swift.Bool?
+    /// The name or Amazon Resource Name (ARN) of the gateway to update.
+    /// This member is required.
+    public var gateway: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that the gateway assumes to manage infrastructure on your behalf.
+    public var infrastructureRoleArn: Swift.String?
+    /// Specifies whether to propagate the tags from the gateway to the infrastructure that the gateway manages. If you don't specify a value, the gateway's existing setting is unchanged.
+    public var propagateTags: ECSClientTypes.PropagateGatewayTags?
+
+    public init(
+        configuration: ECSClientTypes.UpdateGatewayConfiguration? = nil,
+        deletionProtection: Swift.Bool? = nil,
+        gateway: Swift.String? = nil,
+        infrastructureRoleArn: Swift.String? = nil,
+        propagateTags: ECSClientTypes.PropagateGatewayTags? = nil
+    ) {
+        self.configuration = configuration
+        self.deletionProtection = deletionProtection
+        self.gateway = gateway
+        self.infrastructureRoleArn = infrastructureRoleArn
+        self.propagateTags = propagateTags
+    }
+}
+
+public struct UpdateGatewayOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the gateway.
+    public var gatewayArn: Swift.String?
+    /// The name of the gateway.
+    public var name: Swift.String?
+    /// The status of the gateway. After a successful update request, the status is UPDATE_IN_PROGRESS.
+    public var status: ECSClientTypes.GatewayStatus?
+
+    public init(
+        gatewayArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ECSClientTypes.GatewayStatus? = nil
+    ) {
+        self.gatewayArn = gatewayArn
+        self.name = name
+        self.status = status
+    }
+}
+
+public struct DescribeGatewayRouteInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the gateway route to describe.
+    /// This member is required.
+    public var gatewayRouteArn: Swift.String?
+
+    public init(
+        gatewayRouteArn: Swift.String? = nil
+    ) {
+        self.gatewayRouteArn = gatewayRouteArn
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A security group attached to the load balancer for a gateway route.
+    public struct GatewayRouteLoadBalancerSecurityGroup: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the security group.
+        public var arn: Swift.String?
+        /// The Amazon Resource Names (ARNs) of the security group rules.
+        public var ruleArns: [Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            ruleArns: [Swift.String]? = nil
+        ) {
+            self.arn = arn
+            self.ruleArns = ruleArns
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Application Load Balancer resources that a gateway manages for a route.
+    public struct GatewayRouteAlbResources: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager certificate.
+        public var acmCertificateArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the listener.
+        public var listenerArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the listener rule for production traffic.
+        public var listenerRuleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public var loadBalancerArn: Swift.String?
+        /// The security groups attached to the load balancer.
+        public var loadBalancerSecurityGroups: [ECSClientTypes.GatewayRouteLoadBalancerSecurityGroup]?
+        /// The Amazon Resource Name (ARN) of the service security group in which the gateway manages the ingress rule for this route.
+        public var serviceSecurityGroupArn: Swift.String?
+        /// The Amazon Resource Names (ARNs) of the listener rules for test traffic. There is one rule except when a test header configuration is being changed to another.
+        public var testListenerRuleArns: [Swift.String]?
+
+        public init(
+            acmCertificateArn: Swift.String? = nil,
+            listenerArn: Swift.String? = nil,
+            listenerRuleArn: Swift.String? = nil,
+            loadBalancerArn: Swift.String? = nil,
+            loadBalancerSecurityGroups: [ECSClientTypes.GatewayRouteLoadBalancerSecurityGroup]? = nil,
+            serviceSecurityGroupArn: Swift.String? = nil,
+            testListenerRuleArns: [Swift.String]? = nil
+        ) {
+            self.acmCertificateArn = acmCertificateArn
+            self.listenerArn = listenerArn
+            self.listenerRuleArn = listenerRuleArn
+            self.loadBalancerArn = loadBalancerArn
+            self.loadBalancerSecurityGroups = loadBalancerSecurityGroups
+            self.serviceSecurityGroupArn = serviceSecurityGroupArn
+            self.testListenerRuleArns = testListenerRuleArns
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The service-specific infrastructure that a gateway manages for a route, keyed by gateway type.
+    public enum GatewayRouteResources: Swift.Sendable {
+        /// The Application Load Balancer resources for a host-based, shared ALB gateway.
+        case hostsharedalb([ECSClientTypes.GatewayRouteAlbResources])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The status of a gateway route.
+    public enum GatewayRouteStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The gateway route is active and routing traffic.
+        case active
+        /// The gateway route couldn't be created.
+        case createFailed
+        /// The gateway route is being created.
+        case createInProgress
+        /// The gateway route couldn't be deleted.
+        case deleteFailed
+        /// The gateway route is being deleted.
+        case deleteInProgress
+        /// The gateway route couldn't be updated.
+        case updateFailed
+        /// The gateway route is being updated.
+        case updateInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayRouteStatus] {
+            return [
+                .active,
+                .createFailed,
+                .createInProgress,
+                .deleteFailed,
+                .deleteInProgress,
+                .updateFailed,
+                .updateInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A gateway route, which represents the association between a service and a gateway and the service-specific infrastructure that the gateway manages for the service's revisions.
+    public struct GatewayRoute: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the gateway route.
+        public var gatewayRouteArn: Swift.String?
+        /// The service-specific infrastructure that the gateway manages for the route, keyed by gateway type.
+        public var resources: ECSClientTypes.GatewayRouteResources?
+        /// The Amazon Resource Name (ARN) of the service associated with the route.
+        public var serviceArn: Swift.String?
+        /// The task definition container port name that the route targets on the service.
+        public var serviceContainerPortName: Swift.String?
+        /// The URL for accessing the service, including the https:// scheme.
+        public var serviceUrl: Swift.String?
+        /// The status of the gateway route.
+        public var status: ECSClientTypes.GatewayRouteStatus?
+
+        public init(
+            gatewayRouteArn: Swift.String? = nil,
+            resources: ECSClientTypes.GatewayRouteResources? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceContainerPortName: Swift.String? = nil,
+            serviceUrl: Swift.String? = nil,
+            status: ECSClientTypes.GatewayRouteStatus? = nil
+        ) {
+            self.gatewayRouteArn = gatewayRouteArn
+            self.resources = resources
+            self.serviceArn = serviceArn
+            self.serviceContainerPortName = serviceContainerPortName
+            self.serviceUrl = serviceUrl
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeGatewayRouteOutput: Swift.Sendable {
+    /// The details of the gateway route.
+    public var gatewayRoute: ECSClientTypes.GatewayRoute?
+
+    public init(
+        gatewayRoute: ECSClientTypes.GatewayRoute? = nil
+    ) {
+        self.gatewayRoute = gatewayRoute
+    }
+}
+
+public struct ListGatewayRoutesInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of a cluster to filter the results by.
+    public var cluster: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of a gateway to filter the results by.
+    public var gateway: Swift.String?
+    /// The maximum number of results that the operation returns in a single page. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The nextToken value returned from a previous paginated request.
+    public var nextToken: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of a service to filter the results by. Because services can span clusters, a service name isn't necessarily unique and can match multiple services.
+    public var service: Swift.String?
+    /// The name of a task definition container port to filter the results by.
+    public var serviceContainerPortName: Swift.String?
+    /// The gateway route status to filter the results by.
+    public var status: [ECSClientTypes.GatewayRouteStatus]?
+
+    public init(
+        cluster: Swift.String? = nil,
+        gateway: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        service: Swift.String? = nil,
+        serviceContainerPortName: Swift.String? = nil,
+        status: [ECSClientTypes.GatewayRouteStatus]? = nil
+    ) {
+        self.cluster = cluster
+        self.gateway = gateway
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.service = service
+        self.serviceContainerPortName = serviceContainerPortName
+        self.status = status
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of a gateway route that is returned by the ListGatewayRoutes operation.
+    public struct GatewayRouteSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public var clusterArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public var gatewayArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the gateway route.
+        public var gatewayRouteArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the service.
+        public var serviceArn: Swift.String?
+        /// The task definition container port name that the route targets on the service.
+        public var serviceContainerPortName: Swift.String?
+        /// The status of the gateway route.
+        public var status: ECSClientTypes.GatewayRouteStatus?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            gatewayArn: Swift.String? = nil,
+            gatewayRouteArn: Swift.String? = nil,
+            serviceArn: Swift.String? = nil,
+            serviceContainerPortName: Swift.String? = nil,
+            status: ECSClientTypes.GatewayRouteStatus? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.gatewayArn = gatewayArn
+            self.gatewayRouteArn = gatewayRouteArn
+            self.serviceArn = serviceArn
+            self.serviceContainerPortName = serviceContainerPortName
+            self.status = status
+        }
+    }
+}
+
+public struct ListGatewayRoutesOutput: Swift.Sendable {
+    /// The gateway routes that match the request.
+    public var gatewayRoutes: [ECSClientTypes.GatewayRouteSummary]?
+    /// The nextToken value to include in a future request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        gatewayRoutes: [ECSClientTypes.GatewayRouteSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.gatewayRoutes = gatewayRoutes
+        self.nextToken = nextToken
     }
 }
 
@@ -10273,6 +11874,147 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The filters that determine which gateway ingress paths a connector applies to.
+    public struct GatewayConnectorFilters: Swift.Sendable {
+        /// The access types of the gateway ingress paths that the connector applies to. The access type can be one of the following values:
+        ///
+        /// * PUBLIC - The ingress path is publicly accessible.
+        ///
+        /// * PRIVATE - The ingress path is only accessible privately.
+        public var accessTypes: [ECSClientTypes.AccessType]?
+
+        public init(
+            accessTypes: [ECSClientTypes.AccessType]? = nil
+        ) {
+            self.accessTypes = accessTypes
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The protocol that a gateway uses to perform health checks on connector targets.
+    public enum GatewayConnectorHealthCheckProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The gateway performs health checks over HTTP.
+        case http
+        /// The gateway performs health checks over HTTPS.
+        case https
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GatewayConnectorHealthCheckProtocol] {
+            return [
+                .http,
+                .https
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .http: return "HTTP"
+            case .https: return "HTTPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The codes that indicate a successful health check response from a target.
+    public struct GatewayConnectorHealthCheckMatcher: Swift.Sendable {
+        /// The gRPC codes that indicate a successful response from a target.
+        public var grpcCode: Swift.String?
+        /// The HTTP codes that indicate a successful response from a target.
+        public var httpCode: Swift.String?
+
+        public init(
+            grpcCode: Swift.String? = nil,
+            httpCode: Swift.String? = nil
+        ) {
+            self.grpcCode = grpcCode
+            self.httpCode = httpCode
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The health check configuration that a gateway uses to evaluate the targets associated with a gateway connector.
+    public struct GatewayConnectorHealthCheck: Swift.Sendable {
+        /// The approximate amount of time, in seconds, between health checks of an individual target.
+        public var healthCheckIntervalSeconds: Swift.Int?
+        /// The destination path for health check requests.
+        public var healthCheckPath: Swift.String?
+        /// The port that the gateway uses to perform health checks on the targets.
+        public var healthCheckPort: Swift.Int?
+        /// The protocol that the gateway uses to perform health checks. Valid values:
+        ///
+        /// * HTTP - Health checks are performed over HTTP.
+        ///
+        /// * HTTPS - Health checks are performed over HTTPS.
+        public var healthCheckProtocol: ECSClientTypes.GatewayConnectorHealthCheckProtocol?
+        /// The amount of time, in seconds, during which no response from a target means a failed health check.
+        public var healthCheckTimeoutSeconds: Swift.Int?
+        /// The number of consecutive successful health checks that a target must pass before the gateway considers it healthy.
+        public var healthyThresholdCount: Swift.Int?
+        /// The HTTP or gRPC codes that indicate a successful health check response from a target.
+        public var matcher: ECSClientTypes.GatewayConnectorHealthCheckMatcher?
+        /// The number of consecutive failed health checks that a target must fail before the gateway considers it unhealthy.
+        public var unhealthyThresholdCount: Swift.Int?
+
+        public init(
+            healthCheckIntervalSeconds: Swift.Int? = nil,
+            healthCheckPath: Swift.String? = nil,
+            healthCheckPort: Swift.Int? = nil,
+            healthCheckProtocol: ECSClientTypes.GatewayConnectorHealthCheckProtocol? = nil,
+            healthCheckTimeoutSeconds: Swift.Int? = nil,
+            healthyThresholdCount: Swift.Int? = nil,
+            matcher: ECSClientTypes.GatewayConnectorHealthCheckMatcher? = nil,
+            unhealthyThresholdCount: Swift.Int? = nil
+        ) {
+            self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
+            self.healthCheckPath = healthCheckPath
+            self.healthCheckPort = healthCheckPort
+            self.healthCheckProtocol = healthCheckProtocol
+            self.healthCheckTimeoutSeconds = healthCheckTimeoutSeconds
+            self.healthyThresholdCount = healthyThresholdCount
+            self.matcher = matcher
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A gateway connector that attaches an Amazon ECS service to a gateway ingress path. The connector specifies the service port that receives gateway-managed ingress traffic, along with the health check and traffic filters that the gateway applies. A service can have at most one gateway connector.
+    public struct GatewayConnector: Swift.Sendable {
+        /// The filters that control which gateway ingress paths the connector applies to.
+        public var filters: ECSClientTypes.GatewayConnectorFilters?
+        /// The health check that the gateway uses to determine whether the targets for this connector are healthy.
+        public var healthCheck: ECSClientTypes.GatewayConnectorHealthCheck?
+        /// The name of the service port that the gateway routes ingress traffic to.
+        /// This member is required.
+        public var portName: Swift.String?
+
+        public init(
+            filters: ECSClientTypes.GatewayConnectorFilters? = nil,
+            healthCheck: ECSClientTypes.GatewayConnectorHealthCheck? = nil,
+            portName: Swift.String? = nil
+        ) {
+            self.filters = filters
+            self.healthCheck = healthCheck
+            self.portName = portName
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The load balancer configuration to use with a service or task set. When you add, update, or remove a load balancer configuration, Amazon ECS starts a new deployment with the updated Elastic Load Balancing configuration. This causes tasks to register to and deregister from load balancers. We recommend that you verify this on a test environment before you update the Elastic Load Balancing configuration. A service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     public struct LoadBalancer: Swift.Sendable {
         /// The advanced settings for the load balancer used in blue/green deployments. Specify the alternate target group, listener rules, and IAM role required for traffic shifting during blue/green deployments.
@@ -10652,6 +12394,50 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The log level of the Service Connect proxy container. Valid values:
+    ///
+    /// * debug - Collects more detailed proxy logs for troubleshooting connectivity issues between services.
+    ///
+    /// * info - The default log level.
+    public enum ServiceConnectContainerLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case debug
+        case info
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectContainerLogLevel] {
+            return [
+                .debug,
+                .info
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .debug: return "debug"
+            case .info: return "info"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Contains a configuration setting for the Service Connect proxy container, such as the log level. Specify exactly one member in each object.
+    public enum ServiceConnectContainerConfiguration: Swift.Sendable {
+        /// The log level of the Service Connect proxy container. Set the log level to debug to collect more detailed proxy logs when you troubleshoot connectivity issues between services, and set it back to info when you finish. Debug logging increases the volume of logs that the proxy container writes. If you don't specify a log level, the default is info.
+        case loglevel(ECSClientTypes.ServiceConnectContainerLogLevel)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
     /// The header matching rules for test traffic routing in Amazon ECS blue/green deployments. These rules determine how incoming requests are matched based on HTTP headers to route test traffic to the new service revision.
     public struct ServiceConnectTestTrafficHeaderMatchRules: Swift.Sendable {
         /// The exact value that the HTTP header must match for the test traffic routing rule to apply. This provides precise control over which requests are routed to the new service revision during blue/green deployments.
@@ -10826,12 +12612,14 @@ extension ECSClientTypes {
     public struct ServiceConnectConfiguration: Swift.Sendable {
         /// The configuration for Service Connect access logging. Access logs capture detailed information about requests made to your service, including request patterns, response codes, and timing data. They can be useful for debugging connectivity issues, monitoring service performance, and auditing service-to-service communication for security and compliance purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
         public var accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration?
+        /// The settings for the Service Connect proxy container that Amazon ECS adds to each task in this service. Each object in the list sets exactly one setting, and each setting can appear only once in the list. Your changes to these settings apply only to tasks that Amazon ECS launches after you update the service. Your running tasks keep their existing settings until Amazon ECS replaces them. If you update the serviceConnectConfiguration of your service and don't include containerConfigurations, the proxy container settings return to their defaults.
+        public var containerConfigurations: [ECSClientTypes.ServiceConnectContainerConfiguration]?
         /// Specifies whether to use Service Connect with this service.
         /// This member is required.
         public var enabled: Swift.Bool
         /// The log configuration for the container. This parameter maps to LogConfig in the docker container create command and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver configuration in the container definition. Understand the following when specifying a log configuration for your containers.
         ///
-        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens.
+        /// * Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon. Additional log drivers may be available in future releases of the Amazon ECS container agent. For tasks on Fargate, the supported log drivers are awslogs, splunk, and awsfirelens. For tasks hosted on Amazon EC2 instances, the supported log drivers are awslogs, fluentd, gelf, json-file, journald,syslog, splunk, and awsfirelens. For tasks on Amazon ECS Managed Instances, the supported log drivers are awslogs, splunk, awsfirelens, and json-file.
         ///
         /// * This parameter requires version 1.18 of the Docker Remote API or greater on your container instance.
         ///
@@ -10846,12 +12634,14 @@ extension ECSClientTypes {
 
         public init(
             accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration? = nil,
+            containerConfigurations: [ECSClientTypes.ServiceConnectContainerConfiguration]? = nil,
             enabled: Swift.Bool = false,
             logConfiguration: ECSClientTypes.LogConfiguration? = nil,
             namespace: Swift.String? = nil,
             services: [ECSClientTypes.ServiceConnectService]? = nil
         ) {
             self.accessLogConfiguration = accessLogConfiguration
+            self.containerConfigurations = containerConfigurations
             self.enabled = enabled
             self.logConfiguration = logConfiguration
             self.namespace = namespace
@@ -11152,6 +12942,8 @@ public struct CreateServiceInput: Swift.Sendable {
     public var enableECSManagedTags: Swift.Bool?
     /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
     public var enableExecuteCommand: Swift.Bool?
+    /// The gateway connectors that attach the service to a gateway ingress path. You can specify at most one gateway connector.
+    public var gatewayConnectors: [ECSClientTypes.GatewayConnector]?
     /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
@@ -11218,6 +13010,7 @@ public struct CreateServiceInput: Swift.Sendable {
         desiredCount: Swift.Int? = nil,
         enableECSManagedTags: Swift.Bool? = false,
         enableExecuteCommand: Swift.Bool? = false,
+        gatewayConnectors: [ECSClientTypes.GatewayConnector]? = nil,
         healthCheckGracePeriodSeconds: Swift.Int? = nil,
         launchType: ECSClientTypes.LaunchType? = nil,
         loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
@@ -11246,6 +13039,7 @@ public struct CreateServiceInput: Swift.Sendable {
         self.desiredCount = desiredCount
         self.enableECSManagedTags = enableECSManagedTags
         self.enableExecuteCommand = enableExecuteCommand
+        self.gatewayConnectors = gatewayConnectors
         self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
         self.launchType = launchType
         self.loadBalancers = loadBalancers
@@ -11982,30 +13776,6 @@ public struct DeleteServiceOutput: Swift.Sendable {
     }
 }
 
-/// The specified resource wasn't found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Message that describes the cause of the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension ECSClientTypes {
 
     public enum ExpressGatewayServiceInclude: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -12513,6 +14283,8 @@ public struct UpdateServiceInput: Swift.Sendable {
     public var enableExecuteCommand: Swift.Bool?
     /// Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
     public var forceNewDeployment: Swift.Bool?
+    /// The updated set of gateway connectors that connect the service to a gateway ingress path. A service supports no more than one gateway connector.
+    public var gatewayConnectors: [ECSClientTypes.GatewayConnector]?
     /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count. This parameter doesn't trigger a new service deployment.
     public var healthCheckGracePeriodSeconds: Swift.Int?
     /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
@@ -12553,6 +14325,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         enableECSManagedTags: Swift.Bool? = nil,
         enableExecuteCommand: Swift.Bool? = nil,
         forceNewDeployment: Swift.Bool? = false,
+        gatewayConnectors: [ECSClientTypes.GatewayConnector]? = nil,
         healthCheckGracePeriodSeconds: Swift.Int? = nil,
         loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
         monitoring: ECSClientTypes.MonitoringConfiguration? = nil,
@@ -12577,6 +14350,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         self.enableECSManagedTags = enableECSManagedTags
         self.enableExecuteCommand = enableExecuteCommand
         self.forceNewDeployment = forceNewDeployment
+        self.gatewayConnectors = gatewayConnectors
         self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
         self.loadBalancers = loadBalancers
         self.monitoring = monitoring
@@ -12834,6 +14608,102 @@ extension ECSClientTypes {
         ) {
             self.applicationAutoScalingPolicies = applicationAutoScalingPolicies
             self.scalableTarget = scalableTarget
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The Application Load Balancer resources that a gateway created and manages for a connection.
+    public struct GatewayConnectionAlbResources: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager certificate that is attached to the load balancer listener.
+        public var acmCertificateArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the alternate target group that the gateway uses during progressive deployments.
+        public var alternateTargetGroupArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the listener on the load balancer.
+        public var listenerArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the listener rule that routes production traffic to the service.
+        public var listenerRuleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the load balancer.
+        public var loadBalancerArn: Swift.String?
+        /// The Amazon Resource Names (ARNs) of the security groups that the gateway attaches to the load balancer.
+        public var loadBalancerSecurityGroupArns: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the target group that receives production traffic.
+        public var targetGroupArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the listener rule that routes test traffic to the service during progressive deployments.
+        public var testListenerRuleArn: Swift.String?
+
+        public init(
+            acmCertificateArn: Swift.String? = nil,
+            alternateTargetGroupArn: Swift.String? = nil,
+            listenerArn: Swift.String? = nil,
+            listenerRuleArn: Swift.String? = nil,
+            loadBalancerArn: Swift.String? = nil,
+            loadBalancerSecurityGroupArns: [Swift.String]? = nil,
+            targetGroupArn: Swift.String? = nil,
+            testListenerRuleArn: Swift.String? = nil
+        ) {
+            self.acmCertificateArn = acmCertificateArn
+            self.alternateTargetGroupArn = alternateTargetGroupArn
+            self.listenerArn = listenerArn
+            self.listenerRuleArn = listenerRuleArn
+            self.loadBalancerArn = loadBalancerArn
+            self.loadBalancerSecurityGroupArns = loadBalancerSecurityGroupArns
+            self.targetGroupArn = targetGroupArn
+            self.testListenerRuleArn = testListenerRuleArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The gateway-managed infrastructure resources for a connection, as a union keyed by gateway type.
+    public enum GatewayConnectionResources: Swift.Sendable {
+        /// The Application Load Balancer resources for a host-based, shared ALB gateway.
+        case hostsharedalb([ECSClientTypes.GatewayConnectionAlbResources])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A gateway-managed connection for a service revision. A connection represents the association between the service's gateway connector and a specific gateway, along with the infrastructure that the gateway created for it.
+    public struct GatewayConnection: Swift.Sendable {
+        /// The access type of the gateway ingress path. Valid values:
+        ///
+        /// * PUBLIC - The ingress path is publicly accessible.
+        ///
+        /// * PRIVATE - The ingress path is only accessible privately.
+        public var accessType: ECSClientTypes.AccessType?
+        /// The Amazon Resource Name (ARN) of the gateway.
+        public var gatewayArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the gateway route for the connection.
+        public var gatewayRouteArn: Swift.String?
+        /// The name of the service port that receives gateway-managed ingress traffic.
+        public var portName: Swift.String?
+        /// The gateway-managed infrastructure resources for the connection.
+        public var resources: ECSClientTypes.GatewayConnectionResources?
+        /// The URL that the gateway uses to route ingress traffic to the service.
+        public var serviceUrl: Swift.String?
+        /// The status of the gateway route for the connection.
+        public var status: ECSClientTypes.GatewayRouteStatus?
+
+        public init(
+            accessType: ECSClientTypes.AccessType? = nil,
+            gatewayArn: Swift.String? = nil,
+            gatewayRouteArn: Swift.String? = nil,
+            portName: Swift.String? = nil,
+            resources: ECSClientTypes.GatewayConnectionResources? = nil,
+            serviceUrl: Swift.String? = nil,
+            status: ECSClientTypes.GatewayRouteStatus? = nil
+        ) {
+            self.accessType = accessType
+            self.gatewayArn = gatewayArn
+            self.gatewayRouteArn = gatewayRouteArn
+            self.portName = portName
+            self.resources = resources
+            self.serviceUrl = serviceUrl
+            self.status = status
         }
     }
 }
@@ -13159,6 +15029,8 @@ extension ECSClientTypes {
     public struct ECSManagedResources: Swift.Sendable {
         /// The auto-scaling configuration and policies for the Express service.
         public var autoScaling: ECSClientTypes.ManagedAutoScaling?
+        /// The gateway-managed connections for the service revision, including the gateway routes and infrastructure that a gateway created for the service's connector.
+        public var gatewayConnections: [ECSClientTypes.GatewayConnection]?
         /// The ingress paths and endpoints for the Express service.
         public var ingressPaths: [ECSClientTypes.ManagedIngressPath]?
         /// The log groups managed by the Express service.
@@ -13170,12 +15042,14 @@ extension ECSClientTypes {
 
         public init(
             autoScaling: ECSClientTypes.ManagedAutoScaling? = nil,
+            gatewayConnections: [ECSClientTypes.GatewayConnection]? = nil,
             ingressPaths: [ECSClientTypes.ManagedIngressPath]? = nil,
             logGroups: [ECSClientTypes.ManagedLogGroup]? = nil,
             metricAlarms: [ECSClientTypes.ManagedMetricAlarm]? = nil,
             serviceSecurityGroups: [ECSClientTypes.ManagedSecurityGroup]? = nil
         ) {
             self.autoScaling = autoScaling
+            self.gatewayConnections = gatewayConnections
             self.ingressPaths = ingressPaths
             self.logGroups = logGroups
             self.metricAlarms = metricAlarms
@@ -13291,6 +15165,8 @@ extension ECSClientTypes {
         public var ecsManagedResources: ECSClientTypes.ECSManagedResources?
         /// The amount of ephemeral storage to allocate for the deployment.
         public var fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage?
+        /// The gateway connectors that are associated with the service revision.
+        public var gatewayConnectors: [ECSClientTypes.GatewayConnector]?
         /// Indicates whether Runtime Monitoring is turned on.
         public var guardDutyEnabled: Swift.Bool
         /// The launch type the service revision uses.
@@ -13331,6 +15207,7 @@ extension ECSClientTypes {
             createdAt: Foundation.Date? = nil,
             ecsManagedResources: ECSClientTypes.ECSManagedResources? = nil,
             fargateEphemeralStorage: ECSClientTypes.DeploymentEphemeralStorage? = nil,
+            gatewayConnectors: [ECSClientTypes.GatewayConnector]? = nil,
             guardDutyEnabled: Swift.Bool = false,
             launchType: ECSClientTypes.LaunchType? = nil,
             loadBalancers: [ECSClientTypes.LoadBalancer]? = nil,
@@ -13354,6 +15231,7 @@ extension ECSClientTypes {
             self.createdAt = createdAt
             self.ecsManagedResources = ecsManagedResources
             self.fargateEphemeralStorage = fargateEphemeralStorage
+            self.gatewayConnectors = gatewayConnectors
             self.guardDutyEnabled = guardDutyEnabled
             self.launchType = launchType
             self.loadBalancers = loadBalancers
@@ -13508,8 +15386,6 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
-    ///
-    /// * Windows platform version 1.0.0 or later.
     public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
     /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see [IAM roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/security-ecs-iam-role-overview.html) in the Amazon Elastic Container Service Developer Guide.
     public var executionRoleArn: Swift.String?
@@ -13571,6 +15447,8 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var tags: [ECSClientTypes.Tag]?
     /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. All containers in this task are granted the permissions that are specified in this role. For more information, see [IAM Roles for Tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide.
     public var taskRoleArn: Swift.String?
+    /// The trusted execution configuration for tasks that use this task definition, including the isolation mode and, if configured, an attestation policy. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public var trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration?
     /// A list of volume definitions in JSON format that containers in your task might use.
     public var volumes: [ECSClientTypes.Volume]?
 
@@ -13591,6 +15469,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         runtimePlatform: ECSClientTypes.RuntimePlatform? = nil,
         tags: [ECSClientTypes.Tag]? = nil,
         taskRoleArn: Swift.String? = nil,
+        trustedExecutionConfiguration: ECSClientTypes.TrustedExecutionConfiguration? = nil,
         volumes: [ECSClientTypes.Volume]? = nil
     ) {
         self.containerDefinitions = containerDefinitions
@@ -13609,6 +15488,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
         self.runtimePlatform = runtimePlatform
         self.tags = tags
         self.taskRoleArn = taskRoleArn
+        self.trustedExecutionConfiguration = trustedExecutionConfiguration
         self.volumes = volumes
     }
 }
@@ -13799,6 +15679,8 @@ extension ECSClientTypes {
         public var exitCode: Swift.Int?
         /// The IDs of each GPU assigned to the container.
         public var gpuIds: [Swift.String]?
+        /// The GPU sharing strategy that the task definition specifies for the container. This field is present only for containers whose resource requirements include sharingStrategy.
+        public var gpuSharingStrategy: ECSClientTypes.SharingStrategy?
         /// The health status of the container. If health checks aren't configured for this container in its task definition, then it reports the health status as UNKNOWN.
         public var healthStatus: ECSClientTypes.HealthStatus?
         /// The image used for the container.
@@ -13833,6 +15715,7 @@ extension ECSClientTypes {
             cpu: Swift.String? = nil,
             exitCode: Swift.Int? = nil,
             gpuIds: [Swift.String]? = nil,
+            gpuSharingStrategy: ECSClientTypes.SharingStrategy? = nil,
             healthStatus: ECSClientTypes.HealthStatus? = nil,
             image: Swift.String? = nil,
             imageDigest: Swift.String? = nil,
@@ -13852,6 +15735,7 @@ extension ECSClientTypes {
             self.cpu = cpu
             self.exitCode = exitCode
             self.gpuIds = gpuIds
+            self.gpuSharingStrategy = gpuSharingStrategy
             self.healthStatus = healthStatus
             self.image = image
             self.imageDigest = imageDigest
@@ -13943,8 +15827,6 @@ extension ECSClientTypes {
         /// The ephemeral storage setting override for the task. This parameter is only supported for tasks hosted on Fargate that use the following platform versions:
         ///
         /// * Linux platform version 1.4.0 or later.
-        ///
-        /// * Windows platform version 1.0.0 or later.
         public var ephemeralStorage: ECSClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the task execution role override for the task. For more information, see [Amazon ECS task execution IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html) in the Amazon Elastic Container Service Developer Guide.
         public var executionRoleArn: Swift.String?
@@ -14011,6 +15893,60 @@ extension ECSClientTypes {
             case .userInitiated: return "UserInitiated"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The status of the attestation policy for a task that uses the CONFIDENTIAL_SANDBOX isolation mode.
+    public enum AttestationPolicyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// An attestation policy is configured for the task.
+        case configured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttestationPolicyStatus] {
+            return [
+                .configured
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configured: return "CONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A summary of the trusted execution configuration for a task. This is a read-only view of the isolation configuration that was set on the task definition. Use it to see a task's isolation configuration in the response to DescribeTasks, RunTask, or StopTask without calling DescribeTaskDefinition. This summary never includes the attestation policy itself. Trusted execution is supported only for Amazon ECS Managed Instances.
+    public struct TrustedExecutionSummary: Swift.Sendable {
+        /// The status of the attestation policy for the task. This value is present only for tasks that use the CONFIDENTIAL_SANDBOX isolation mode.
+        public var attestationPolicyStatus: ECSClientTypes.AttestationPolicyStatus?
+        /// The isolation mode that the task runs in. This value mirrors the isolationMode that was set in the task definition's TrustedExecutionConfiguration.
+        ///
+        /// * SHARED: The task shares the underlying Amazon EC2 instance with other tasks. This is the default isolation mode.
+        ///
+        /// * ISOLATED_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System. Each task's sandbox is isolated from every other task's sandbox on the same Amazon EC2 instance, so one task can't access another task's memory or storage. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        ///
+        /// * CONFIDENTIAL_SANDBOX: The task runs in its own [Nitro Sandbox](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html), which is a lightweight virtual machine that is isolated by the Amazon Web Services Nitro System, with cryptographic attestation. The host can't access the sandbox's memory or storage, and only the approved workload can decrypt data that you encrypt with your Key Management Service key. For more information, see [Isolated and confidential tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/isolated-confidential-tasks.html) in Amazon Elastic Container Service Developer Guide.
+        /// This member is required.
+        public var isolationMode: ECSClientTypes.IsolationMode?
+
+        public init(
+            attestationPolicyStatus: ECSClientTypes.AttestationPolicyStatus? = nil,
+            isolationMode: ECSClientTypes.IsolationMode? = nil
+        ) {
+            self.attestationPolicyStatus = attestationPolicyStatus
+            self.isolationMode = isolationMode
         }
     }
 }
@@ -14117,6 +16053,8 @@ extension ECSClientTypes {
         public var taskArn: Swift.String?
         /// The ARN of the task definition that creates the task.
         public var taskDefinitionArn: Swift.String?
+        /// A summary of the trusted execution configuration for the task, including the isolation mode. This is a read-only view of the configuration that was set on the task definition. Trusted execution is supported only for Amazon ECS Managed Instances.
+        public var trustedExecutionSummary: ECSClientTypes.TrustedExecutionSummary?
         /// The version counter for the task. Every time a task experiences a change that starts a CloudWatch event, the version counter is incremented. If you replicate your Amazon ECS task state with CloudWatch Events, you can compare the version of a task reported by the Amazon ECS API actions with the version reported in CloudWatch Events for the task (inside the detail object) to verify that the version in your event stream is current.
         public var version: Swift.Int
 
@@ -14156,6 +16094,7 @@ extension ECSClientTypes {
             tags: [ECSClientTypes.Tag]? = nil,
             taskArn: Swift.String? = nil,
             taskDefinitionArn: Swift.String? = nil,
+            trustedExecutionSummary: ECSClientTypes.TrustedExecutionSummary? = nil,
             version: Swift.Int = 0
         ) {
             self.attachments = attachments
@@ -14193,6 +16132,7 @@ extension ECSClientTypes {
             self.tags = tags
             self.taskArn = taskArn
             self.taskDefinitionArn = taskDefinitionArn
+            self.trustedExecutionSummary = trustedExecutionSummary
             self.version = version
         }
     }

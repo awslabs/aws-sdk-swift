@@ -36,11 +36,6 @@ public struct CreateLogStreamOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct DeleteAccountPolicyOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 public struct DeleteDataProtectionPolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -225,6 +220,7 @@ extension CloudWatchLogsClientTypes {
         case dataProtectionPolicy
         case fieldIndexPolicy
         case metricExtractionPolicy
+        case retentionPolicy
         case subscriptionFilterPolicy
         case transformerPolicy
         case sdkUnknown(Swift.String)
@@ -234,6 +230,7 @@ extension CloudWatchLogsClientTypes {
                 .dataProtectionPolicy,
                 .fieldIndexPolicy,
                 .metricExtractionPolicy,
+                .retentionPolicy,
                 .subscriptionFilterPolicy,
                 .transformerPolicy
             ]
@@ -249,6 +246,7 @@ extension CloudWatchLogsClientTypes {
             case .dataProtectionPolicy: return "DATA_PROTECTION_POLICY"
             case .fieldIndexPolicy: return "FIELD_INDEX_POLICY"
             case .metricExtractionPolicy: return "METRIC_EXTRACTION_POLICY"
+            case .retentionPolicy: return "RETENTION_POLICY"
             case .subscriptionFilterPolicy: return "SUBSCRIPTION_FILTER_POLICY"
             case .transformerPolicy: return "TRANSFORMER_POLICY"
             case let .sdkUnknown(s): return s
@@ -1783,6 +1781,7 @@ extension CloudWatchLogsClientTypes {
 
     public enum LogGroupClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case delivery
+        case essentials
         case infrequentAccess
         case standard
         case sdkUnknown(Swift.String)
@@ -1790,6 +1789,7 @@ extension CloudWatchLogsClientTypes {
         public static var allCases: [LogGroupClass] {
             return [
                 .delivery,
+                .essentials,
                 .infrequentAccess,
                 .standard
             ]
@@ -1803,6 +1803,7 @@ extension CloudWatchLogsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .delivery: return "DELIVERY"
+            case .essentials: return "ESSENTIALS"
             case .infrequentAccess: return "INFREQUENT_ACCESS"
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
@@ -1816,11 +1817,13 @@ public struct CreateLogGroupInput: Swift.Sendable {
     public var deletionProtectionEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
     public var kmsKeyId: Swift.String?
-    /// Use this parameter to specify the log group class for this log group. There are three classes:
+    /// Use this parameter to specify the log group class for this log group. There are four classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    /// * The Essentials log class supports a subset of CloudWatch Logs features and incurs lower costs.
     ///
     /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
     ///
@@ -2296,6 +2299,8 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct DeleteAccountPolicyInput: Swift.Sendable {
+    /// Specifies whether to preview the impact of deleting the policy without deleting it. If you specify true, CloudWatch Logs does not delete the policy and returns the estimated impact in dryRunResult. The default is false. Specifying dryRun is valid only when you specify RETENTION_POLICY for policyType. Only one dry run can be in progress for an account at a time.
+    public var dryRun: Swift.Bool?
     /// The name of the policy to delete.
     /// This member is required.
     public var policyName: Swift.String?
@@ -2304,11 +2309,86 @@ public struct DeleteAccountPolicyInput: Swift.Sendable {
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
 
     public init(
+        dryRun: Swift.Bool? = false,
         policyName: Swift.String? = nil,
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil
     ) {
+        self.dryRun = dryRun
         self.policyName = policyName
         self.policyType = policyType
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Describes the estimated effect of an account-level retention policy change on one log group.
+    public struct LogGroupImpact: Swift.Sendable {
+        /// The current effective retention period of the log group, in days. A value of NEVER_EXPIRE indicates that log events in the log group never expire.
+        public var currentRetention: Swift.String?
+        /// The name of the log group.
+        public var logGroupName: Swift.String?
+        /// The effective retention period of the log group, in days, after the change. A value of NEVER_EXPIRE indicates that log events in the log group would never expire.
+        public var proposedRetention: Swift.String?
+        /// The number of bytes stored in the log group.
+        public var storedBytes: Swift.Int?
+
+        public init(
+            currentRetention: Swift.String? = nil,
+            logGroupName: Swift.String? = nil,
+            proposedRetention: Swift.String? = nil,
+            storedBytes: Swift.Int? = nil
+        ) {
+            self.currentRetention = currentRetention
+            self.logGroupName = logGroupName
+            self.proposedRetention = proposedRetention
+            self.storedBytes = storedBytes
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// Contains the estimated impact of creating, updating, or deleting an account-level retention policy. The analysis compares the effective retention period of each log group, which accounts for all account-level retention policies that apply to it, before and after the change. Log groups in the Delivery class are not included.
+    public struct DryRunResult: Swift.Sendable {
+        /// The number of log groups whose effective retention period would become shorter.
+        public var decreasedRetentionLogGroupCount: Swift.Int
+        /// The number of log groups in the scope of the policy that could not be analyzed. These log groups are not included in totalMatchedLogGroups.
+        public var failedAnalysisCount: Swift.Int
+        /// The number of log groups whose effective retention period would become longer.
+        public var increasedRetentionLogGroupCount: Swift.Int
+        /// Up to 20 log groups in the scope of the policy, sorted by stored bytes in descending order. This list can include log groups whose effective retention period would not change.
+        public var topLogGroupsImpacted: [CloudWatchLogsClientTypes.LogGroupImpact]?
+        /// The number of log groups in the scope of the policy that were analyzed. This value is the sum of increasedRetentionLogGroupCount, decreasedRetentionLogGroupCount, and unchangedRetentionLogGroupCount, and does not include log groups that could not be analyzed.
+        public var totalMatchedLogGroups: Swift.Int
+        /// The number of log groups whose effective retention period would not change.
+        public var unchangedRetentionLogGroupCount: Swift.Int
+
+        public init(
+            decreasedRetentionLogGroupCount: Swift.Int = 0,
+            failedAnalysisCount: Swift.Int = 0,
+            increasedRetentionLogGroupCount: Swift.Int = 0,
+            topLogGroupsImpacted: [CloudWatchLogsClientTypes.LogGroupImpact]? = nil,
+            totalMatchedLogGroups: Swift.Int = 0,
+            unchangedRetentionLogGroupCount: Swift.Int = 0
+        ) {
+            self.decreasedRetentionLogGroupCount = decreasedRetentionLogGroupCount
+            self.failedAnalysisCount = failedAnalysisCount
+            self.increasedRetentionLogGroupCount = increasedRetentionLogGroupCount
+            self.topLogGroupsImpacted = topLogGroupsImpacted
+            self.totalMatchedLogGroups = totalMatchedLogGroups
+            self.unchangedRetentionLogGroupCount = unchangedRetentionLogGroupCount
+        }
+    }
+}
+
+public struct DeleteAccountPolicyOutput: Swift.Sendable {
+    /// The estimated impact of deleting the policy. This field is returned only when the request specifies dryRun as true.
+    public var dryRunResult: CloudWatchLogsClientTypes.DryRunResult?
+
+    public init(
+        dryRunResult: CloudWatchLogsClientTypes.DryRunResult? = nil
+    ) {
+        self.dryRunResult = dryRunResult
     }
 }
 
@@ -2889,15 +2969,19 @@ public struct DescribeConfigurationTemplatesOutput: Swift.Sendable {
 }
 
 public struct DescribeDeliveriesInput: Swift.Sendable {
+    /// An array of delivery source names that filters the results to deliveries associated with any specified delivery source.
+    public var deliverySourceNames: [Swift.String]?
     /// Optionally specify the maximum number of deliveries to return in the response.
     public var limit: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
+        deliverySourceNames: [Swift.String]? = nil,
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.deliverySourceNames = deliverySourceNames
         self.limit = limit
         self.nextToken = nextToken
     }
@@ -2921,14 +3005,18 @@ public struct DescribeDeliveriesOutput: Swift.Sendable {
 public struct DescribeDeliveryDestinationsInput: Swift.Sendable {
     /// Optionally specify the maximum number of delivery destinations to return in the response.
     public var limit: Swift.Int?
+    /// An array of delivery destination names that filters the results to delivery destinations with any specified name.
+    public var names: [Swift.String]?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
+        names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.limit = limit
+        self.names = names
         self.nextToken = nextToken
     }
 }
@@ -2953,13 +3041,17 @@ public struct DescribeDeliverySourcesInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
+    /// An array of Amazon Resource Names (ARNs) that filters the results to delivery sources associated with any specified ARN.
+    public var resourceArns: [Swift.String]?
 
     public init(
         limit: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        resourceArns: [Swift.String]? = nil
     ) {
         self.limit = limit
         self.nextToken = nextToken
+        self.resourceArns = resourceArns
     }
 }
 
@@ -3630,11 +3722,13 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
     public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Specifies the log group class for this log group. There are three classes:
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. If you specify either INFREQUENT_ACCESS or ESSENTIALS, the results include log groups in both the Infrequent Access and Essentials log classes. Specifies the log group class for this log group. There are four classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    /// * The Essentials log class supports a subset of CloudWatch Logs features and incurs lower costs.
     ///
     /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
     ///
@@ -3723,16 +3817,18 @@ extension CloudWatchLogsClientTypes {
         ///
         /// * In IAM policies, when specifying permissions for [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html).
         public var logGroupArn: Swift.String?
-        /// This specifies the log group class for this log group. There are three classes:
+        /// This specifies the log group class for this log group. There are four classes:
         ///
         /// * The Standard log class supports all CloudWatch Logs features.
         ///
         /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
         ///
+        /// * The Essentials log class supports a subset of CloudWatch Logs features and incurs lower costs.
+        ///
         /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
         ///
         ///
-        /// For details about the features supported by the Standard and Infrequent Access classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+        /// For details about the features supported by the Standard, Infrequent Access, and Essentials classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
         public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
         /// The name of the log group.
         public var logGroupName: Swift.String?
@@ -3740,6 +3836,8 @@ extension CloudWatchLogsClientTypes {
         public var metricFilterCount: Swift.Int?
         /// The number of days to retain the log events in the specified log group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To set a log group so that its log events do not expire, use [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html).
         public var retentionInDays: Swift.Int?
+        /// The name of the account-level retention policy that determines the retention period of this log group. This field is returned only when an account-level retention policy applies to the log group. When it is returned, retentionInDays shows the retention period from that policy instead of the retention period set on the log group. If the policy specifies that log events never expire, retentionInDays is not returned.
+        public var retentionPolicyName: Swift.String?
         /// The number of bytes stored.
         public var storedBytes: Swift.Int?
 
@@ -3756,6 +3854,7 @@ extension CloudWatchLogsClientTypes {
             logGroupName: Swift.String? = nil,
             metricFilterCount: Swift.Int? = nil,
             retentionInDays: Swift.Int? = nil,
+            retentionPolicyName: Swift.String? = nil,
             storedBytes: Swift.Int? = nil
         ) {
             self.arn = arn
@@ -3770,6 +3869,7 @@ extension CloudWatchLogsClientTypes {
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
             self.retentionInDays = retentionInDays
+            self.retentionPolicyName = retentionPolicyName
             self.storedBytes = storedBytes
         }
     }
@@ -7860,6 +7960,8 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct PutAccountPolicyInput: Swift.Sendable {
+    /// Specifies whether to preview the impact of the policy without creating or updating it. If you specify true, CloudWatch Logs validates the request, does not save the policy, and returns the estimated impact in dryRunResult instead of accountPolicy. The default is false. Specifying dryRun is valid only when you specify RETENTION_POLICY for policyType. Only one dry run can be in progress for an account at a time.
+    public var dryRun: Swift.Bool?
     /// Specify the policy, in JSON. Data protection policy A data protection policy must include two JSON blocks:
     ///
     /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.
@@ -7896,7 +7998,7 @@ public struct PutAccountPolicyInput: Swift.Sendable {
     /// * FieldsV2 The object of field indexes to create along with it's type.
     ///
     ///
-    /// It must contain at least one field index. The following is an example of an index policy document that creates indexes with different types. "policyDocument": "{ \"Fields\": [ \"TransactionId\" ], \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"APIName\": {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET. Field names within Fields and FieldsV2 must be mutually exclusive.
+    /// It must contain at least one field index. The following is an example of an index policy document that creates indexes with different types. "policyDocument": "{ \"Fields\": [ \"TransactionId\" ], \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"APIName\": {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}" You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET. Field names within Fields and FieldsV2 must be mutually exclusive. Retention policy A retention policy must include the following attributes in a JSON block: retentionInDays The number of days to retain log events. Valid values are 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653. To retain log events indefinitely, specify the string NEVER_EXPIRE. enforcementMode Specifies which log groups the policy applies to. Valid values are NEW_ONLY and RETROACTIVE. RETROACTIVE applies the policy to every log group that matches the selection criteria, including log groups that existed before you created the policy. NEW_ONLY applies the policy only to log groups that are created after you create the policy. Log groups that already existed when you created the policy keep their own retention period. The following is an example of a retention policy document. "policyDocument": "{\"retentionInDays\": 90, \"enforcementMode\": \"RETROACTIVE\"}"
     /// This member is required.
     public var policyDocument: Swift.String?
     /// A name for the policy. This must be unique within the account and cannot start with aws/.
@@ -7907,7 +8009,7 @@ public struct PutAccountPolicyInput: Swift.Sendable {
     public var policyType: CloudWatchLogsClientTypes.PolicyType?
     /// Currently the only valid value for this parameter is ALL, which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used.
     public var scope: CloudWatchLogsClientTypes.Scope?
-    /// Use this parameter to apply the new policy to a subset of log groups in the account or a data source name and type combination. Specifying selectionCriteria is valid only when you specify SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY or TRANSFORMER_POLICYfor policyType.
+    /// Use this parameter to apply the new policy to a subset of log groups in the account or a data source name and type combination. Specifying selectionCriteria is valid only when you specify SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY, TRANSFORMER_POLICY, or RETENTION_POLICY for policyType.
     ///
     /// * If policyType is SUBSCRIPTION_FILTER_POLICY, the only supported selectionCriteria filter is LogGroupName NOT IN []
     ///
@@ -7922,17 +8024,21 @@ public struct PutAccountPolicyInput: Swift.Sendable {
     ///
     /// When you specify selectionCriteria for a field index policy you can use either LogGroupNamePrefix by itself or DataSourceName and DataSourceType together.
     ///
+    /// * If policyType is RETENTION_POLICY, the only supported selectionCriteria filter is LogGroupNamePrefix. If you omit selectionCriteria, the retention policy applies to all log groups in the account.
+    ///
     ///
     /// The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter with SUBSCRIPTION_FILTER_POLICY is useful to help prevent infinite loops. For more information, see [Log recursion prevention](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions-recursion-prevention.html).
     public var selectionCriteria: Swift.String?
 
     public init(
+        dryRun: Swift.Bool? = false,
         policyDocument: Swift.String? = nil,
         policyName: Swift.String? = nil,
         policyType: CloudWatchLogsClientTypes.PolicyType? = nil,
         scope: CloudWatchLogsClientTypes.Scope? = nil,
         selectionCriteria: Swift.String? = nil
     ) {
+        self.dryRun = dryRun
         self.policyDocument = policyDocument
         self.policyName = policyName
         self.policyType = policyType
@@ -7944,11 +8050,15 @@ public struct PutAccountPolicyInput: Swift.Sendable {
 public struct PutAccountPolicyOutput: Swift.Sendable {
     /// The account policy that you created.
     public var accountPolicy: CloudWatchLogsClientTypes.AccountPolicy?
+    /// The estimated impact of the policy on log groups in the account. This field is returned only when the request specifies dryRun as true.
+    public var dryRunResult: CloudWatchLogsClientTypes.DryRunResult?
 
     public init(
-        accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil
+        accountPolicy: CloudWatchLogsClientTypes.AccountPolicy? = nil,
+        dryRunResult: CloudWatchLogsClientTypes.DryRunResult? = nil
     ) {
         self.accountPolicy = accountPolicy
+        self.dryRunResult = dryRunResult
     }
 }
 
@@ -8137,7 +8247,11 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.
     ///
+    /// * For Amazon ECS, the valid value is ACTION_LOGS.
+    ///
     /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
+    ///
+    /// * For Amazon EventBridge Event Bus (Custom), the valid values are INFO_LOGS and ERROR_LOGS.
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
@@ -8145,7 +8259,7 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.
     ///
-    /// * For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.
+    /// * For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, PCS_SCHEDULER_AUDIT_LOGS, and PCS_SCALING_LOGS.
     ///
     /// * For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.
     ///

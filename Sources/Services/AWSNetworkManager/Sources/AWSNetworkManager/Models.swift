@@ -323,36 +323,48 @@ extension NetworkManagerClientTypes {
 extension NetworkManagerClientTypes {
 
     public enum AttachmentErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationFailed
+        case deletionFailed
         case directConnectGatewayExistingAttachments
         case directConnectGatewayNotFound
         case directConnectGatewayNoPrivateVif
+        case directConnectGatewayTopologyRestrictions
         case maximumNoEncapLimitExceeded
+        case securityGroupReferencingUnsupportedAvailabilityZone
         case subnetDuplicatedInAvailabilityZone
         case subnetNotFound
         case subnetNoFreeAddresses
         case subnetNoIpv6Cidrs
         case subnetUnsupportedAvailabilityZone
+        case updateFailed
         case vpcNotFound
         case vpcUnsupportedFeatures
         case vpnConnectionNotFound
         case vpnExistingAssociations
+        case vpnStaticRoutesNatUnsupported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AttachmentErrorCode] {
             return [
+                .creationFailed,
+                .deletionFailed,
                 .directConnectGatewayExistingAttachments,
                 .directConnectGatewayNotFound,
                 .directConnectGatewayNoPrivateVif,
+                .directConnectGatewayTopologyRestrictions,
                 .maximumNoEncapLimitExceeded,
+                .securityGroupReferencingUnsupportedAvailabilityZone,
                 .subnetDuplicatedInAvailabilityZone,
                 .subnetNotFound,
                 .subnetNoFreeAddresses,
                 .subnetNoIpv6Cidrs,
                 .subnetUnsupportedAvailabilityZone,
+                .updateFailed,
                 .vpcNotFound,
                 .vpcUnsupportedFeatures,
                 .vpnConnectionNotFound,
-                .vpnExistingAssociations
+                .vpnExistingAssociations,
+                .vpnStaticRoutesNatUnsupported
             ]
         }
 
@@ -363,19 +375,25 @@ extension NetworkManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .creationFailed: return "CREATION_FAILED"
+            case .deletionFailed: return "DELETION_FAILED"
             case .directConnectGatewayExistingAttachments: return "DIRECT_CONNECT_GATEWAY_EXISTING_ATTACHMENTS"
             case .directConnectGatewayNotFound: return "DIRECT_CONNECT_GATEWAY_NOT_FOUND"
             case .directConnectGatewayNoPrivateVif: return "DIRECT_CONNECT_GATEWAY_NO_PRIVATE_VIF"
+            case .directConnectGatewayTopologyRestrictions: return "DIRECT_CONNECT_GATEWAY_TOPOLOGY_RESTRICTIONS"
             case .maximumNoEncapLimitExceeded: return "MAXIMUM_NO_ENCAP_LIMIT_EXCEEDED"
+            case .securityGroupReferencingUnsupportedAvailabilityZone: return "SECURITY_GROUP_REFERENCING_UNSUPPORTED_AVAILABILITY_ZONE"
             case .subnetDuplicatedInAvailabilityZone: return "SUBNET_DUPLICATED_IN_AVAILABILITY_ZONE"
             case .subnetNotFound: return "SUBNET_NOT_FOUND"
             case .subnetNoFreeAddresses: return "SUBNET_NO_FREE_ADDRESSES"
             case .subnetNoIpv6Cidrs: return "SUBNET_NO_IPV6_CIDRS"
             case .subnetUnsupportedAvailabilityZone: return "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
+            case .updateFailed: return "UPDATE_FAILED"
             case .vpcNotFound: return "VPC_NOT_FOUND"
             case .vpcUnsupportedFeatures: return "VPC_UNSUPPORTED_FEATURES"
             case .vpnConnectionNotFound: return "VPN_CONNECTION_NOT_FOUND"
             case .vpnExistingAssociations: return "VPN_EXISTING_ASSOCIATIONS"
+            case .vpnStaticRoutesNatUnsupported: return "VPN_STATIC_ROUTES_NAT_UNSUPPORTED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -405,6 +423,44 @@ extension NetworkManagerClientTypes {
             self.message = message
             self.requestId = requestId
             self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum NatGatewaySupportState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case pendingAttachmentAcceptance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NatGatewaySupportState] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .pendingAttachmentAcceptance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case .pendingAttachmentAcceptance: return "PENDING_ATTACHMENT_ACCEPTANCE"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -546,6 +602,10 @@ extension NetworkManagerClientTypes {
         public var edgeLocations: [Swift.String]?
         /// Describes the error associated with the attachment request.
         public var lastModificationErrors: [NetworkManagerClientTypes.AttachmentError]?
+        /// The state of NAT gateway support on the attachment. This is returned only to the core network owner for attachment types that support NAT.
+        public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportState?
+        /// Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. This is returned only to the core network owner for attachment types that support NAT.
+        public var natSystemRouteSupport: Swift.Bool?
         /// The name of the network function group.
         public var networkFunctionGroupName: Swift.String?
         /// The ID of the attachment account owner.
@@ -575,6 +635,8 @@ extension NetworkManagerClientTypes {
             edgeLocation: Swift.String? = nil,
             edgeLocations: [Swift.String]? = nil,
             lastModificationErrors: [NetworkManagerClientTypes.AttachmentError]? = nil,
+            natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportState? = nil,
+            natSystemRouteSupport: Swift.Bool? = nil,
             networkFunctionGroupName: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
             proposedNetworkFunctionGroupChange: NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange? = nil,
@@ -594,6 +656,8 @@ extension NetworkManagerClientTypes {
             self.edgeLocation = edgeLocation
             self.edgeLocations = edgeLocations
             self.lastModificationErrors = lastModificationErrors
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
             self.networkFunctionGroupName = networkFunctionGroupName
             self.ownerAccountId = ownerAccountId
             self.proposedNetworkFunctionGroupChange = proposedNetworkFunctionGroupChange
@@ -1081,6 +1145,128 @@ public struct AssociateTransitGatewayConnectPeerOutput: Swift.Sendable {
         transitGatewayConnectPeerAssociation: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation? = nil
     ) {
         self.transitGatewayConnectPeerAssociation = transitGatewayConnectPeerAssociation
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum NatRuleState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activated
+        case activating
+        case creating
+        case deactivated
+        case deactivating
+        case deleting
+        case failed
+        case modifying
+        case pendingAttachmentAcceptance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NatRuleState] {
+            return [
+                .activated,
+                .activating,
+                .creating,
+                .deactivated,
+                .deactivating,
+                .deleting,
+                .failed,
+                .modifying,
+                .pendingAttachmentAcceptance
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activated: return "ACTIVATED"
+            case .activating: return "ACTIVATING"
+            case .creating: return "CREATING"
+            case .deactivated: return "DEACTIVATED"
+            case .deactivating: return "DEACTIVATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .modifying: return "MODIFYING"
+            case .pendingAttachmentAcceptance: return "PENDING_ATTACHMENT_ACCEPTANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Describes a NAT rule of an attachment.
+    public struct NatRule: Swift.Sendable {
+        /// The source CIDR block that the rule matches for traffic from the attachment.
+        public var matchSourceCidr: Swift.String?
+        /// The CIDR block that matching source addresses are translated to.
+        public var natCidr: Swift.String?
+        /// The rule number. Rule numbers identify the rules of an attachment and don't set the order in which rules are evaluated.
+        public var ruleNumber: Swift.Int?
+        /// The state of the NAT rule. The possible values are the following:
+        ///
+        /// * CREATING: The rule is being created.
+        ///
+        /// * MODIFYING: The rule is being modified.
+        ///
+        /// * DELETING: The rule is being deleted.
+        ///
+        /// * ACTIVATING: NAT gateway support is being enabled, and the rule is being applied.
+        ///
+        /// * ACTIVATED: NAT gateway support is enabled, and the rule is applied.
+        ///
+        /// * DEACTIVATING: NAT gateway support is being disabled, and the rule is being removed from use.
+        ///
+        /// * DEACTIVATED: NAT gateway support is disabled, and the rule isn't applied.
+        ///
+        /// * FAILED: The attachment failed to be created, and the rule isn't applied.
+        ///
+        /// * PENDING_ATTACHMENT_ACCEPTANCE: The attachment is pending acceptance. The rule is applied after the attachment is accepted.
+        public var state: NetworkManagerClientTypes.NatRuleState?
+
+        public init(
+            matchSourceCidr: Swift.String? = nil,
+            natCidr: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil,
+            state: NetworkManagerClientTypes.NatRuleState? = nil
+        ) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+            self.state = state
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Describes the NAT configuration of a core network attachment.
+    public struct AttachmentNatConfiguration: Swift.Sendable {
+        /// The ID of the attachment.
+        public var attachmentId: Swift.String?
+        /// The NAT rules of the attachment.
+        public var natGatewayRules: [NetworkManagerClientTypes.NatRule]?
+        /// The state of NAT gateway support on the attachment.
+        public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportState?
+        /// Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.
+        public var natSystemRouteSupport: Swift.Bool?
+
+        public init(
+            attachmentId: Swift.String? = nil,
+            natGatewayRules: [NetworkManagerClientTypes.NatRule]? = nil,
+            natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportState? = nil,
+            natSystemRouteSupport: Swift.Bool? = nil
+        ) {
+            self.attachmentId = attachmentId
+            self.natGatewayRules = natGatewayRules
+            self.natGatewaySupport = natGatewaySupport
+            self.natSystemRouteSupport = natSystemRouteSupport
+        }
     }
 }
 
@@ -1636,6 +1822,8 @@ extension NetworkManagerClientTypes {
 extension NetworkManagerClientTypes {
 
     public enum ConnectPeerErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationFailed
+        case deletionFailed
         case edgeLocationNoFreeIps
         case edgeLocationPeerDuplicate
         case invalidInsideCidrBlock
@@ -1646,6 +1834,8 @@ extension NetworkManagerClientTypes {
 
         public static var allCases: [ConnectPeerErrorCode] {
             return [
+                .creationFailed,
+                .deletionFailed,
                 .edgeLocationNoFreeIps,
                 .edgeLocationPeerDuplicate,
                 .invalidInsideCidrBlock,
@@ -1662,6 +1852,8 @@ extension NetworkManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .creationFailed: return "CREATION_FAILED"
+            case .deletionFailed: return "DELETION_FAILED"
             case .edgeLocationNoFreeIps: return "EDGE_LOCATION_NO_FREE_IPS"
             case .edgeLocationPeerDuplicate: return "EDGE_LOCATION_PEER_DUPLICATE"
             case .invalidInsideCidrBlock: return "INVALID_INSIDE_CIDR_BLOCK"
@@ -2231,7 +2423,7 @@ extension NetworkManagerClientTypes {
         public var routingPolicy: Swift.String?
         /// The names of the routing policies and other association details in the core network change values.
         public var routingPolicyAssociationDetails: [NetworkManagerClientTypes.RoutingPolicyAssociationDetail]?
-        /// The routing policy direction (inbound/outbound) in a core network change event.
+        /// The routing policy direction (inbound/outbound) in the core network change values.
         public var routingPolicyDirection: NetworkManagerClientTypes.RoutingPolicyDirection?
         /// Indicates whether security group referencing is enabled for the core network.
         public var securityGroupReferencingSupport: Swift.Bool
@@ -2333,7 +2525,7 @@ extension NetworkManagerClientTypes {
         public var networkFunctionGroupName: Swift.String?
         /// The edge location of the peer in a core network change event.
         public var peerEdgeLocation: Swift.String?
-        /// The names of the routing policies and other association details in the core network change values.
+        /// The names of the routing policies and other association details in a core network change event.
         public var routingPolicyAssociationDetails: [NetworkManagerClientTypes.RoutingPolicyAssociationDetail]?
         /// The routing policy direction (inbound/outbound) in a core network change event.
         public var routingPolicyDirection: NetworkManagerClientTypes.RoutingPolicyDirection?
@@ -2712,6 +2904,61 @@ extension NetworkManagerClientTypes {
     }
 }
 
+extension NetworkManagerClientTypes {
+
+    /// Describes a NAT rule to configure on an attachment. Source addresses in the source CIDR block of traffic from the attachment are translated to the same host addresses in the NAT CIDR block. Traffic to an address in the NAT CIDR block is translated back to the matching address in the source CIDR block.
+    public struct NatRuleRequest: Swift.Sendable {
+        /// The IPv4 CIDR block to match against the source address of traffic from the attachment. The CIDR block can't overlap with the multicast range (224.0.0.0/4).
+        /// This member is required.
+        public var matchSourceCidr: Swift.String?
+        /// The IPv4 CIDR block to translate matching source addresses to. The prefix length must be the same as the prefix length of MatchSourceCidr. The CIDR block must be within a private (RFC 1918) or shared address space (RFC 6598) range. The CIDR blocks of the NAT rules of an attachment can't overlap with each other.
+        /// This member is required.
+        public var natCidr: Swift.String?
+        /// The rule number, from 1 to 32766. Each rule number must be unique for the attachment.
+        /// This member is required.
+        public var ruleNumber: Swift.Int?
+
+        public init(
+            matchSourceCidr: Swift.String? = nil,
+            natCidr: Swift.String? = nil,
+            ruleNumber: Swift.Int? = nil
+        ) {
+            self.matchSourceCidr = matchSourceCidr
+            self.natCidr = natCidr
+            self.ruleNumber = ruleNumber
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum NatGatewaySupportValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NatGatewaySupportValue] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "DISABLE"
+            case .enable: return "ENABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateConnectAttachmentInput: Swift.Sendable {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
@@ -2721,6 +2968,10 @@ public struct CreateConnectAttachmentInput: Swift.Sendable {
     /// The Region where the edge is located.
     /// This member is required.
     public var edgeLocation: Swift.String?
+    /// The NAT rules for the Connect attachment, up to 50 rules.
+    public var natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]?
+    /// Specifies whether to enable NAT gateway support on the Connect attachment. NAT is supported only on Connect attachments that use the GRE tunnel protocol. Tunnel-less Connect attachments aren't supported. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+    public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue?
     /// Options for creating an attachment.
     /// This member is required.
     public var options: NetworkManagerClientTypes.ConnectAttachmentOptions?
@@ -2736,6 +2987,8 @@ public struct CreateConnectAttachmentInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         coreNetworkId: Swift.String? = nil,
         edgeLocation: Swift.String? = nil,
+        natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]? = nil,
+        natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue? = nil,
         options: NetworkManagerClientTypes.ConnectAttachmentOptions? = nil,
         routingPolicyLabel: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
@@ -2744,6 +2997,8 @@ public struct CreateConnectAttachmentInput: Swift.Sendable {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
         self.edgeLocation = edgeLocation
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
         self.options = options
         self.routingPolicyLabel = routingPolicyLabel
         self.tags = tags
@@ -3159,6 +3414,12 @@ public struct CreateDirectConnectGatewayAttachmentInput: Swift.Sendable {
     /// One or more core network edge locations that the Direct Connect gateway attachment is associated with.
     /// This member is required.
     public var edgeLocations: [Swift.String]?
+    /// The NAT rules for the Direct Connect gateway attachment, up to 50 rules.
+    public var natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]?
+    /// Specifies whether to enable NAT gateway support on the Direct Connect gateway attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+    public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue?
+    /// Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. The default is true.
+    public var natSystemRouteSupport: Swift.Bool?
     /// The routing policy label to apply to the Direct Connect Gateway attachment for traffic routing decisions.
     public var routingPolicyLabel: Swift.String?
     /// The key value tags to apply to the Direct Connect gateway attachment during creation.
@@ -3169,6 +3430,9 @@ public struct CreateDirectConnectGatewayAttachmentInput: Swift.Sendable {
         coreNetworkId: Swift.String? = nil,
         directConnectGatewayArn: Swift.String? = nil,
         edgeLocations: [Swift.String]? = nil,
+        natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]? = nil,
+        natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue? = nil,
+        natSystemRouteSupport: Swift.Bool? = nil,
         routingPolicyLabel: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil
     ) {
@@ -3176,6 +3440,9 @@ public struct CreateDirectConnectGatewayAttachmentInput: Swift.Sendable {
         self.coreNetworkId = coreNetworkId
         self.directConnectGatewayArn = directConnectGatewayArn
         self.edgeLocations = edgeLocations
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
         self.routingPolicyLabel = routingPolicyLabel
         self.tags = tags
     }
@@ -3581,6 +3848,12 @@ public struct CreateSiteToSiteVpnAttachmentInput: Swift.Sendable {
     /// The ID of a core network where you're creating a site-to-site VPN attachment.
     /// This member is required.
     public var coreNetworkId: Swift.String?
+    /// The NAT rules for the Site-to-Site VPN attachment, up to 50 rules.
+    public var natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]?
+    /// Specifies whether to enable NAT gateway support on the Site-to-Site VPN attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+    public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue?
+    /// Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. The default is true for VPN connections that use BGP and false for VPN connections that use static routing. If the VPN connection uses static routing, you must specify false or omit this parameter.
+    public var natSystemRouteSupport: Swift.Bool?
     /// The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions.
     public var routingPolicyLabel: Swift.String?
     /// The tags associated with the request.
@@ -3592,12 +3865,18 @@ public struct CreateSiteToSiteVpnAttachmentInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         coreNetworkId: Swift.String? = nil,
+        natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]? = nil,
+        natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue? = nil,
+        natSystemRouteSupport: Swift.Bool? = nil,
         routingPolicyLabel: Swift.String? = nil,
         tags: [NetworkManagerClientTypes.Tag]? = nil,
         vpnConnectionArn: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
         self.routingPolicyLabel = routingPolicyLabel
         self.tags = tags
         self.vpnConnectionArn = vpnConnectionArn
@@ -3662,20 +3941,26 @@ public struct CreateTransitGatewayPeeringInput: Swift.Sendable {
 extension NetworkManagerClientTypes {
 
     public enum PeeringErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationFailed
+        case deletionFailed
         case edgeLocationPeerDuplicate
         case internalError
         case invalidTransitGatewayState
         case missingRequiredPermissions
+        case transitGatewayEncryptionNotSupported
         case transitGatewayNotFound
         case transitGatewayPeersLimitExceeded
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PeeringErrorCode] {
             return [
+                .creationFailed,
+                .deletionFailed,
                 .edgeLocationPeerDuplicate,
                 .internalError,
                 .invalidTransitGatewayState,
                 .missingRequiredPermissions,
+                .transitGatewayEncryptionNotSupported,
                 .transitGatewayNotFound,
                 .transitGatewayPeersLimitExceeded
             ]
@@ -3688,10 +3973,13 @@ extension NetworkManagerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .creationFailed: return "CREATION_FAILED"
+            case .deletionFailed: return "DELETION_FAILED"
             case .edgeLocationPeerDuplicate: return "EDGE_LOCATION_PEER_DUPLICATE"
             case .internalError: return "INTERNAL_ERROR"
             case .invalidTransitGatewayState: return "INVALID_TRANSIT_GATEWAY_STATE"
             case .missingRequiredPermissions: return "MISSING_PERMISSIONS"
+            case .transitGatewayEncryptionNotSupported: return "TRANSIT_GATEWAY_ENCRYPTION_NOT_SUPPORTED"
             case .transitGatewayNotFound: return "TRANSIT_GATEWAY_NOT_FOUND"
             case .transitGatewayPeersLimitExceeded: return "TRANSIT_GATEWAY_PEERS_LIMIT_EXCEEDED"
             case let .sdkUnknown(s): return s
@@ -3819,7 +4107,7 @@ extension NetworkManagerClientTypes {
         public var createdAt: Foundation.Date?
         /// The edge location for the peer.
         public var edgeLocation: Swift.String?
-        /// Describes the error associated with the Connect peer request.
+        /// Describes the error associated with the peering request.
         public var lastModificationErrors: [NetworkManagerClientTypes.PeeringError]?
         /// The ID of the account owner.
         public var ownerAccountId: Swift.String?
@@ -3992,6 +4280,10 @@ public struct CreateVpcAttachmentInput: Swift.Sendable {
     /// The ID of a core network for the VPC attachment.
     /// This member is required.
     public var coreNetworkId: Swift.String?
+    /// The NAT rules for the VPC attachment, up to 50 rules.
+    public var natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]?
+    /// Specifies whether to enable NAT gateway support on the VPC attachment. To enable NAT gateway support, you must also specify at least one NAT rule. If you don't specify a value, NAT gateway support is disabled. Only the core network owner can configure NAT on an attachment.
+    public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue?
     /// Options for the VPC attachment.
     public var options: NetworkManagerClientTypes.VpcOptions?
     /// The routing policy label to apply to the VPC attachment for traffic routing decisions.
@@ -4008,6 +4300,8 @@ public struct CreateVpcAttachmentInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         coreNetworkId: Swift.String? = nil,
+        natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]? = nil,
+        natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue? = nil,
         options: NetworkManagerClientTypes.VpcOptions? = nil,
         routingPolicyLabel: Swift.String? = nil,
         subnetArns: [Swift.String]? = nil,
@@ -4016,6 +4310,8 @@ public struct CreateVpcAttachmentInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.coreNetworkId = coreNetworkId
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
         self.options = options
         self.routingPolicyLabel = routingPolicyLabel
         self.subnetArns = subnetArns
@@ -5571,12 +5867,14 @@ extension NetworkManagerClientTypes {
     public enum RouteType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case propagated
         case `static`
+        case system
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RouteType] {
             return [
                 .propagated,
-                .static
+                .static,
+                .system
             ]
         }
 
@@ -5589,6 +5887,7 @@ extension NetworkManagerClientTypes {
             switch self {
             case .propagated: return "PROPAGATED"
             case .static: return "STATIC"
+            case .system: return "SYSTEM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5605,6 +5904,10 @@ public struct GetNetworkRoutesInput: Swift.Sendable {
     public var globalNetworkId: Swift.String?
     /// The most specific route that matches the traffic (longest prefix match).
     public var longestPrefixMatches: [Swift.String]?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
     /// The IDs of the prefix lists.
     public var prefixListIds: [Swift.String]?
     /// The ID of the route table.
@@ -5624,6 +5927,8 @@ public struct GetNetworkRoutesInput: Swift.Sendable {
         exactCidrMatches: [Swift.String]? = nil,
         globalNetworkId: Swift.String? = nil,
         longestPrefixMatches: [Swift.String]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
         prefixListIds: [Swift.String]? = nil,
         routeTableIdentifier: NetworkManagerClientTypes.RouteTableIdentifier? = nil,
         states: [NetworkManagerClientTypes.RouteState]? = nil,
@@ -5635,6 +5940,8 @@ public struct GetNetworkRoutesInput: Swift.Sendable {
         self.exactCidrMatches = exactCidrMatches
         self.globalNetworkId = globalNetworkId
         self.longestPrefixMatches = longestPrefixMatches
+        self.maxResults = maxResults
+        self.nextToken = nextToken
         self.prefixListIds = prefixListIds
         self.routeTableIdentifier = routeTableIdentifier
         self.states = states
@@ -5695,7 +6002,7 @@ extension NetworkManagerClientTypes {
         public var prefixListId: Swift.String?
         /// The route state. The possible values are active and blackhole.
         public var state: NetworkManagerClientTypes.RouteState?
-        /// The route type. The possible values are propagated and static.
+        /// The route type. The possible values are PROPAGATED, STATIC, and SYSTEM. A SYSTEM route is installed by the core network for the NAT CIDR block of an attachment's NAT rule.
         public var type: NetworkManagerClientTypes.RouteType?
 
         public init(
@@ -5747,10 +6054,14 @@ extension NetworkManagerClientTypes {
 }
 
 public struct GetNetworkRoutesOutput: Swift.Sendable {
+    /// Describes the network function group route table that the routes are from. This field is present only when you specify CoreNetworkNetworkFunctionGroup in RouteTableIdentifier.
+    public var coreNetworkNetworkFunctionGroup: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier?
     /// Describes a core network segment edge.
     public var coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?
     /// The network routes.
     public var networkRoutes: [NetworkManagerClientTypes.NetworkRoute]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
     /// The ARN of the route table.
     public var routeTableArn: Swift.String?
     /// The route table creation time.
@@ -5759,14 +6070,18 @@ public struct GetNetworkRoutesOutput: Swift.Sendable {
     public var routeTableType: NetworkManagerClientTypes.RouteTableType?
 
     public init(
+        coreNetworkNetworkFunctionGroup: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier? = nil,
         coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier? = nil,
         networkRoutes: [NetworkManagerClientTypes.NetworkRoute]? = nil,
+        nextToken: Swift.String? = nil,
         routeTableArn: Swift.String? = nil,
         routeTableTimestamp: Foundation.Date? = nil,
         routeTableType: NetworkManagerClientTypes.RouteTableType? = nil
     ) {
+        self.coreNetworkNetworkFunctionGroup = coreNetworkNetworkFunctionGroup
         self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
         self.networkRoutes = networkRoutes
+        self.nextToken = nextToken
         self.routeTableArn = routeTableArn
         self.routeTableTimestamp = routeTableTimestamp
         self.routeTableType = routeTableType
@@ -6458,6 +6773,61 @@ public struct GetVpcAttachmentOutput: Swift.Sendable {
     }
 }
 
+public struct ListAttachmentNatConfigurationsInput: Swift.Sendable {
+    /// The ID of an attachment. Returns the NAT configuration of the specified attachment. If you specify both an attachment ID and a core network ID, the attachment ID is used.
+    public var attachmentId: Swift.String?
+    /// The ID of a core network. Returns the NAT configurations of attachments in the core network that support NAT.
+    public var coreNetworkId: Swift.String?
+    /// The filters to apply to the results. Values for the same filter are joined with OR, and different filters are joined with AND. You can specify up to 10 filter values in total. The following filters are supported:
+    ///
+    /// * nat-gateway-support: The state of NAT gateway support on the attachment, for example ENABLED.
+    ///
+    /// * nat-system-route-support: Whether system routes are installed for the attachment, true or false.
+    ///
+    /// * rule-number: The rule number of a NAT rule.
+    ///
+    /// * match-source-cidr: The source CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.
+    ///
+    /// * nat-cidr: The NAT CIDR block of a NAT rule. The value must exactly match the CIDR block of the rule.
+    ///
+    /// * nat-rule-state: The state of a NAT rule, for example ACTIVATED.
+    public var filters: [Swift.String: [Swift.String]]?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        coreNetworkId: Swift.String? = nil,
+        filters: [Swift.String: [Swift.String]]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.coreNetworkId = coreNetworkId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAttachmentNatConfigurationsOutput: Swift.Sendable {
+    /// The NAT configurations of the attachments.
+    /// This member is required.
+    public var attachmentNatConfigurations: [NetworkManagerClientTypes.AttachmentNatConfiguration]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        attachmentNatConfigurations: [NetworkManagerClientTypes.AttachmentNatConfiguration]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.attachmentNatConfigurations = attachmentNatConfigurations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListAttachmentRoutingPolicyAssociationsInput: Swift.Sendable {
     /// The ID of a specific attachment to filter the routing policy associations.
     public var attachmentId: Swift.String?
@@ -6644,7 +7014,7 @@ extension NetworkManagerClientTypes {
 
     /// Information about a prefix list association with a core network.
     public struct PrefixListAssociation: Swift.Sendable {
-        /// The core network id in the association.
+        /// The ID of the core network in the association.
         public var coreNetworkId: Swift.String?
         /// The alias of the prefix list in the association.
         public var prefixListAlias: Swift.String?
@@ -6689,42 +7059,73 @@ public struct ListCoreNetworkRoutingInformationInput: Swift.Sendable {
     public var edgeLocation: Swift.String?
     /// Exact AS path values to match when filtering routing information.
     public var exactAsPathMatches: [Swift.String]?
+    /// Exact prefix values to match when filtering routing information.
+    public var exactPrefixMatches: [Swift.String]?
     /// Local preference values to match when filtering routing information.
     public var localPreferenceMatches: [Swift.String]?
+    /// Filters routing information based on the longest prefix that matches each provided IP address.
+    public var longestPrefixMatches: [Swift.String]?
     /// The maximum number of routing information entries to return in a single page.
     public var maxResults: Swift.Int?
     /// Multi-Exit Discriminator (MED) values to match when filtering routing information.
     public var medMatches: [Swift.String]?
-    /// Filters to apply based on next hop information.
+    /// Filters to apply based on next hop information. Each filter value must exactly match the corresponding next hop value. Values for the same filter are joined with OR, and different filters are joined with AND. The following filters are supported:
+    ///
+    /// * core-network-attachment-id: The ID of the core network attachment for the next hop, for example attachment-0123456789abcdef0.
+    ///
+    /// * segment-name: The name of the segment for the next hop.
+    ///
+    /// * edge-location: The edge location for the next hop, for example us-east-1.
+    ///
+    /// * resource-id: The ID of the resource for the next hop.
+    ///
+    /// * resource-type: The type of resource for the next hop. The possible values are vpc, vpn, connect-peer, direct-connect-gateway, transit-gateway-route-table, attachment, and blackhole.
+    ///
+    /// * ip-address: The IP address of the next hop. For a Site-to-Site VPN next hop, this is the outside IP address of the AWS side of the VPN tunnel. For a Connect peer next hop, this is the core network BGP address of the Connect peer. The value must be a single IPv4 or IPv6 address.
+    ///
+    ///
+    /// You can specify up to 10 filter values in total across NextHopFilters and the other match parameters in the request. Each filter value can be up to 256 characters.
     public var nextHopFilters: [Swift.String: [Swift.String]]?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// The name of the segment to filter routing information by.
     /// This member is required.
     public var segmentName: Swift.String?
+    /// Prefix values to filter routing information whose prefix is a subnet of the prefixes provided.
+    public var subnetOfMatches: [Swift.String]?
+    /// Prefix values to filter routing information whose prefix is a supernet of the prefixes provided.
+    public var supernetOfMatches: [Swift.String]?
 
     public init(
         communityMatches: [Swift.String]? = nil,
         coreNetworkId: Swift.String? = nil,
         edgeLocation: Swift.String? = nil,
         exactAsPathMatches: [Swift.String]? = nil,
+        exactPrefixMatches: [Swift.String]? = nil,
         localPreferenceMatches: [Swift.String]? = nil,
+        longestPrefixMatches: [Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
         medMatches: [Swift.String]? = nil,
         nextHopFilters: [Swift.String: [Swift.String]]? = nil,
         nextToken: Swift.String? = nil,
-        segmentName: Swift.String? = nil
+        segmentName: Swift.String? = nil,
+        subnetOfMatches: [Swift.String]? = nil,
+        supernetOfMatches: [Swift.String]? = nil
     ) {
         self.communityMatches = communityMatches
         self.coreNetworkId = coreNetworkId
         self.edgeLocation = edgeLocation
         self.exactAsPathMatches = exactAsPathMatches
+        self.exactPrefixMatches = exactPrefixMatches
         self.localPreferenceMatches = localPreferenceMatches
+        self.longestPrefixMatches = longestPrefixMatches
         self.maxResults = maxResults
         self.medMatches = medMatches
         self.nextHopFilters = nextHopFilters
         self.nextToken = nextToken
         self.segmentName = segmentName
+        self.subnetOfMatches = subnetOfMatches
+        self.supernetOfMatches = supernetOfMatches
     }
 }
 
@@ -7246,6 +7647,57 @@ public struct UntagResourceInput: Swift.Sendable {
 public struct UntagResourceOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateAttachmentNatConfigurationInput: Swift.Sendable {
+    /// The ID of the attachment to update the NAT configuration for.
+    /// This member is required.
+    public var attachmentId: Swift.String?
+    /// The client token associated with the request.
+    public var clientToken: Swift.String?
+    /// The complete set of NAT rules for the attachment, up to 50 rules. The rules that you specify replace the existing rules of the attachment, matched by rule number. Existing rules that aren't included in the request are deleted. To delete all NAT rules, specify an empty list. You can delete all NAT rules only when NAT gateway support is disabled, or when you disable it in the same request. If you omit this parameter, the existing rules are unchanged.
+    public var natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]?
+    /// Specifies whether to enable or disable NAT gateway support on the attachment. When you disable NAT gateway support, the attachment keeps its NAT rules but doesn't apply them. To enable NAT gateway support, the attachment must have at least one NAT rule, either specified in this request or already configured on the attachment. If you omit this parameter, NAT gateway support is unchanged.
+    public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue?
+    /// Specifies whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules. System routes have a route type of SYSTEM. NAT is applied to traffic whether or not this option is enabled. If you omit this parameter, the current value is unchanged.
+    public var natSystemRouteSupport: Swift.Bool?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        natGatewayRules: [NetworkManagerClientTypes.NatRuleRequest]? = nil,
+        natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportValue? = nil,
+        natSystemRouteSupport: Swift.Bool? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.clientToken = clientToken
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+    }
+}
+
+public struct UpdateAttachmentNatConfigurationOutput: Swift.Sendable {
+    /// The ID of the attachment.
+    public var attachmentId: Swift.String?
+    /// The NAT rules of the attachment, including rules that are being deleted.
+    public var natGatewayRules: [NetworkManagerClientTypes.NatRule]?
+    /// The state of NAT gateway support on the attachment. The transitional states ENABLING and DISABLING change to ENABLED or DISABLED after the update is applied. The state is PENDING_ATTACHMENT_ACCEPTANCE when NAT gateway support is enabled on an attachment that is pending acceptance.
+    public var natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportState?
+    /// Indicates whether the core network installs system routes for the NAT CIDR blocks of the attachment's NAT rules.
+    public var natSystemRouteSupport: Swift.Bool?
+
+    public init(
+        attachmentId: Swift.String? = nil,
+        natGatewayRules: [NetworkManagerClientTypes.NatRule]? = nil,
+        natGatewaySupport: NetworkManagerClientTypes.NatGatewaySupportState? = nil,
+        natSystemRouteSupport: Swift.Bool? = nil
+    ) {
+        self.attachmentId = attachmentId
+        self.natGatewayRules = natGatewayRules
+        self.natGatewaySupport = natGatewaySupport
+        self.natSystemRouteSupport = natSystemRouteSupport
+    }
 }
 
 public struct UpdateConnectionInput: Swift.Sendable {
@@ -8706,6 +9158,13 @@ extension GetVpcAttachmentInput {
     }
 }
 
+extension ListAttachmentNatConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListAttachmentNatConfigurationsInput) -> Swift.String? {
+        return "/nat-configurations"
+    }
+}
+
 extension ListAttachmentRoutingPolicyAssociationsInput {
 
     static func urlPathProvider(_ value: ListAttachmentRoutingPolicyAssociationsInput) -> Swift.String? {
@@ -9109,6 +9568,16 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAttachmentNatConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateAttachmentNatConfigurationInput) -> Swift.String? {
+        guard let attachmentId = value.attachmentId else {
+            return nil
+        }
+        return "/attachments/\(attachmentId.urlPercentEncoding())/nat-configuration"
+    }
+}
+
 extension UpdateConnectionInput {
 
     static func urlPathProvider(_ value: UpdateConnectionInput) -> Swift.String? {
@@ -9260,6 +9729,8 @@ extension CreateConnectAttachmentInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["CoreNetworkId"].write(value.coreNetworkId)
         try writer["EdgeLocation"].write(value.edgeLocation)
+        try writer["NatGatewayRules"].writeList(value.natGatewayRules, memberWritingClosure: NetworkManagerClientTypes.NatRuleRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewaySupport"].write(value.natGatewaySupport)
         try writer["Options"].write(value.options, with: NetworkManagerClientTypes.ConnectAttachmentOptions.write(value:to:))
         try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9342,6 +9813,9 @@ extension CreateDirectConnectGatewayAttachmentInput {
         try writer["CoreNetworkId"].write(value.coreNetworkId)
         try writer["DirectConnectGatewayArn"].write(value.directConnectGatewayArn)
         try writer["EdgeLocations"].writeList(value.edgeLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewayRules"].writeList(value.natGatewayRules, memberWritingClosure: NetworkManagerClientTypes.NatRuleRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewaySupport"].write(value.natGatewaySupport)
+        try writer["NatSystemRouteSupport"].write(value.natSystemRouteSupport)
         try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -9385,6 +9859,9 @@ extension CreateSiteToSiteVpnAttachmentInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["NatGatewayRules"].writeList(value.natGatewayRules, memberWritingClosure: NetworkManagerClientTypes.NatRuleRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewaySupport"].write(value.natGatewaySupport)
+        try writer["NatSystemRouteSupport"].write(value.natSystemRouteSupport)
         try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpnConnectionArn"].write(value.vpnConnectionArn)
@@ -9420,6 +9897,8 @@ extension CreateVpcAttachmentInput {
         guard let value else { return }
         try writer["ClientToken"].write(value.clientToken)
         try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["NatGatewayRules"].writeList(value.natGatewayRules, memberWritingClosure: NetworkManagerClientTypes.NatRuleRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewaySupport"].write(value.natGatewaySupport)
         try writer["Options"].write(value.options, with: NetworkManagerClientTypes.VpcOptions.write(value:to:))
         try writer["RoutingPolicyLabel"].write(value.routingPolicyLabel)
         try writer["SubnetArns"].writeList(value.subnetArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9435,12 +9914,26 @@ extension GetNetworkRoutesInput {
         try writer["DestinationFilters"].writeMap(value.destinationFilters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ExactCidrMatches"].writeList(value.exactCidrMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LongestPrefixMatches"].writeList(value.longestPrefixMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
         try writer["PrefixListIds"].writeList(value.prefixListIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RouteTableIdentifier"].write(value.routeTableIdentifier, with: NetworkManagerClientTypes.RouteTableIdentifier.write(value:to:))
         try writer["States"].writeList(value.states, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkManagerClientTypes.RouteState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetOfMatches"].writeList(value.subnetOfMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SupernetOfMatches"].writeList(value.supernetOfMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkManagerClientTypes.RouteType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListAttachmentNatConfigurationsInput {
+
+    static func write(value: ListAttachmentNatConfigurationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentId"].write(value.attachmentId)
+        try writer["CoreNetworkId"].write(value.coreNetworkId)
+        try writer["Filters"].writeMap(value.filters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -9451,10 +9944,14 @@ extension ListCoreNetworkRoutingInformationInput {
         try writer["CommunityMatches"].writeList(value.communityMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EdgeLocation"].write(value.edgeLocation)
         try writer["ExactAsPathMatches"].writeList(value.exactAsPathMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExactPrefixMatches"].writeList(value.exactPrefixMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LocalPreferenceMatches"].writeList(value.localPreferenceMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LongestPrefixMatches"].writeList(value.longestPrefixMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MedMatches"].writeList(value.medMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NextHopFilters"].writeMap(value.nextHopFilters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["SegmentName"].write(value.segmentName)
+        try writer["SubnetOfMatches"].writeList(value.subnetOfMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SupernetOfMatches"].writeList(value.supernetOfMatches, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9520,6 +10017,17 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateAttachmentNatConfigurationInput {
+
+    static func write(value: UpdateAttachmentNatConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["NatGatewayRules"].writeList(value.natGatewayRules, memberWritingClosure: NetworkManagerClientTypes.NatRuleRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NatGatewaySupport"].write(value.natGatewaySupport)
+        try writer["NatSystemRouteSupport"].write(value.natSystemRouteSupport)
     }
 }
 
@@ -10270,8 +10778,10 @@ extension GetNetworkRoutesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetNetworkRoutesOutput()
+        value.coreNetworkNetworkFunctionGroup = try reader["CoreNetworkNetworkFunctionGroup"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier.read(from:))
         value.coreNetworkSegmentEdge = try reader["CoreNetworkSegmentEdge"].readIfPresent(with: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier.read(from:))
         value.networkRoutes = try reader["NetworkRoutes"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.NetworkRoute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         value.routeTableArn = try reader["RouteTableArn"].readIfPresent()
         value.routeTableTimestamp = try reader["RouteTableTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.routeTableType = try reader["RouteTableType"].readIfPresent()
@@ -10399,6 +10909,19 @@ extension GetVpcAttachmentOutput {
         let reader = responseReader
         var value = GetVpcAttachmentOutput()
         value.vpcAttachment = try reader["VpcAttachment"].readIfPresent(with: NetworkManagerClientTypes.VpcAttachment.read(from:))
+        return value
+    }
+}
+
+extension ListAttachmentNatConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAttachmentNatConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAttachmentNatConfigurationsOutput()
+        value.attachmentNatConfigurations = try reader["AttachmentNatConfigurations"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.AttachmentNatConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -10650,6 +11173,21 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAttachmentNatConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAttachmentNatConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAttachmentNatConfigurationOutput()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.natGatewayRules = try reader["NatGatewayRules"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.NatRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.natGatewaySupport = try reader["NatGatewaySupport"].readIfPresent()
+        value.natSystemRouteSupport = try reader["NatSystemRouteSupport"].readIfPresent()
+        return value
     }
 }
 
@@ -11979,6 +12517,24 @@ enum GetVpcAttachmentOutputError {
     }
 }
 
+enum ListAttachmentNatConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAttachmentRoutingPolicyAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12363,6 +12919,26 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateAttachmentNatConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12687,6 +13263,8 @@ extension NetworkManagerClientTypes.Attachment {
         value.attachmentPolicyRuleNumber = try reader["AttachmentPolicyRuleNumber"].readIfPresent()
         value.segmentName = try reader["SegmentName"].readIfPresent()
         value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
+        value.natGatewaySupport = try reader["NatGatewaySupport"].readIfPresent()
+        value.natSystemRouteSupport = try reader["NatSystemRouteSupport"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.proposedSegmentChange = try reader["ProposedSegmentChange"].readIfPresent(with: NetworkManagerClientTypes.ProposedSegmentChange.read(from:))
         value.proposedNetworkFunctionGroupChange = try reader["ProposedNetworkFunctionGroupChange"].readIfPresent(with: NetworkManagerClientTypes.ProposedNetworkFunctionGroupChange.read(from:))
@@ -12706,6 +13284,19 @@ extension NetworkManagerClientTypes.AttachmentError {
         value.message = try reader["Message"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.AttachmentNatConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.AttachmentNatConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.AttachmentNatConfiguration()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.natGatewaySupport = try reader["NatGatewaySupport"].readIfPresent()
+        value.natSystemRouteSupport = try reader["NatSystemRouteSupport"].readIfPresent()
+        value.natGatewayRules = try reader["NatGatewayRules"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.NatRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13038,6 +13629,15 @@ extension NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier {
         try writer["EdgeLocation"].write(value.edgeLocation)
         try writer["NetworkFunctionGroupName"].write(value.networkFunctionGroupName)
     }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.CoreNetworkNetworkFunctionGroupIdentifier()
+        value.coreNetworkId = try reader["CoreNetworkId"].readIfPresent()
+        value.networkFunctionGroupName = try reader["NetworkFunctionGroupName"].readIfPresent()
+        value.edgeLocation = try reader["EdgeLocation"].readIfPresent()
+        return value
+    }
 }
 
 extension NetworkManagerClientTypes.CoreNetworkPolicy {
@@ -13269,6 +13869,29 @@ extension NetworkManagerClientTypes.Location {
         value.latitude = try reader["Latitude"].readIfPresent()
         value.longitude = try reader["Longitude"].readIfPresent()
         return value
+    }
+}
+
+extension NetworkManagerClientTypes.NatRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.NatRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.NatRule()
+        value.ruleNumber = try reader["RuleNumber"].readIfPresent()
+        value.matchSourceCidr = try reader["MatchSourceCidr"].readIfPresent()
+        value.natCidr = try reader["NatCidr"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.NatRuleRequest {
+
+    static func write(value: NetworkManagerClientTypes.NatRuleRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MatchSourceCidr"].write(value.matchSourceCidr)
+        try writer["NatCidr"].write(value.natCidr)
+        try writer["RuleNumber"].write(value.ruleNumber)
     }
 }
 

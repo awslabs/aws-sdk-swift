@@ -58,12 +58,43 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListChannelsInput {
         return ListChannelsInput(
             filterByAdConfigurationArn: self.filterByAdConfigurationArn,
+            filterByFailoverSlateConfigurationArn: self.filterByFailoverSlateConfigurationArn,
             filterByName: self.filterByName,
             filterByPlaybackRestrictionPolicyArn: self.filterByPlaybackRestrictionPolicyArn,
             filterByRecordingConfigurationArn: self.filterByRecordingConfigurationArn,
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+extension IvsClient {
+    /// Paginate over `[ListFailoverSlateConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFailoverSlateConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFailoverSlateConfigurationsOutput`
+    public func listFailoverSlateConfigurationsPaginated(input: ListFailoverSlateConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListFailoverSlateConfigurationsInput, ListFailoverSlateConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListFailoverSlateConfigurationsInput, ListFailoverSlateConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listFailoverSlateConfigurations(input:))
+    }
+}
+
+extension ListFailoverSlateConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFailoverSlateConfigurationsInput {
+        return ListFailoverSlateConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListFailoverSlateConfigurationsInput, OperationStackOutput == ListFailoverSlateConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listFailoverSlateConfigurationsPaginated`
+    /// to access the nested member `[IvsClientTypes.FailoverSlateConfigurationSummary]`
+    /// - Returns: `[IvsClientTypes.FailoverSlateConfigurationSummary]`
+    public func failoverSlateConfigurations() async throws -> [IvsClientTypes.FailoverSlateConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.failoverSlateConfigurations }
+    }
 }
 extension IvsClient {
     /// Paginate over `[ListPlaybackKeyPairsOutput]` results.

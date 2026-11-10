@@ -137,6 +137,7 @@ extension S3FilesClientTypes {
         case deleted
         case deleting
         case error
+        case misconfigured
         case updating
         case sdkUnknown(Swift.String)
 
@@ -147,6 +148,7 @@ extension S3FilesClientTypes {
                 .deleted,
                 .deleting,
                 .error,
+                .misconfigured,
                 .updating
             ]
         }
@@ -163,6 +165,7 @@ extension S3FilesClientTypes {
             case .deleted: return "deleted"
             case .deleting: return "deleting"
             case .error: return "error"
+            case .misconfigured: return "misconfigured"
             case .updating: return "updating"
             case let .sdkUnknown(s): return s
             }
@@ -526,7 +529,7 @@ public struct CreateFileSystemOutput: Swift.Sendable {
     public var `prefix`: Swift.String?
     /// The ARN of the IAM role used for S3 access.
     public var roleArn: Swift.String?
-    /// The lifecycle state of the file system. Valid values are: AVAILABLE (the file system is available for use), CREATING (the file system is being created), DELETING (the file system is being deleted), DELETED (the file system has been deleted), ERROR (the file system is in an error state), or UPDATING (the file system is being updated).
+    /// The lifecycle state of the file system. Valid values are: AVAILABLE (the file system is available for use), CREATING (the file system is being created), DELETING (the file system is being deleted), DELETED (the file system has been deleted), ERROR (the file system is in an error state), MISCONFIGURED (the file system has a misconfiguration), or UPDATING (the file system is being updated).
     public var status: S3FilesClientTypes.LifeCycleState?
     /// Additional information about the file system status. This field provides more details when the status is ERROR, or during state transitions.
     public var statusMessage: Swift.String?

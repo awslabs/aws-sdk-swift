@@ -836,6 +836,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
@@ -1103,6 +1104,79 @@ extension RDSClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RDS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "BacktrackDBCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CancelDBCapacityReservation` operation on the `RDS` service.
+    ///
+    /// Cancels a DB capacity reservation. Amazon RDS changes the state of the reservation to cancelled and stops reporting available capacity for it. Amazon RDS then releases the reserved capacity. A DB instance that uses the reservation keeps running. It continues on unreserved capacity, and Amazon RDS doesn't stop it or modify it. However, Amazon RDS no longer reserves capacity for the DB instance. If Amazon RDS later moves the DB instance to different hardware, for example during hardware maintenance, that move can fail when the Amazon Web Services Region has insufficient capacity for the DB instance class. You can't cancel a reservation in the active state during a capacity commitment. The response of DescribeDBCapacityReservations reports the end of the commitment in CommitmentInfo. Constraints:
+    ///
+    /// * The reservation must be in the active, assessing, or delayed state.
+    ///
+    /// * The reservation must not be past its end date.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelDBCapacityReservationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelDBCapacityReservationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
+    public func cancelDBCapacityReservation(input: CancelDBCapacityReservationInput) async throws -> CancelDBCapacityReservationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelDBCapacityReservation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>(CancelDBCapacityReservationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDBCapacityReservationOutput>(CancelDBCapacityReservationOutput.httpOutput(from:), CancelDBCapacityReservationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelDBCapacityReservationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RDS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelDBCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CancelDBCapacityReservationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDBCapacityReservationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RDS"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelDBCapacityReservationInput, CancelDBCapacityReservationOutput>(serviceID: serviceName, version: RDSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RDS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelDBCapacityReservation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1702,6 +1776,90 @@ extension RDSClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateDBCapacityReservation` operation on the `RDS` service.
+    ///
+    /// Creates a DB capacity reservation. A DB capacity reservation reserves compute and memory capacity for DB instances of one DB instance class and one database engine. Amazon RDS reserves that capacity in each Availability Zone that you specify. Amazon RDS reserves the same amount of capacity in every Availability Zone in the request. You set that amount with CapacityPerAvailabilityZone, and you set the Availability Zones with AvailabilityZones. The total reserved capacity is CapacityPerAvailabilityZone multiplied by the number of Availability Zones. Specify StartDate and CommitmentDuration together to create a future-dated reservation. A future-dated reservation reserves capacity for a period that starts later. Amazon RDS holds that capacity for the length of the commitment. A future-dated reservation has the following additional constraints:
+    ///
+    /// * DBInstanceClass must be a db.c, db.m, db.r, db.t, or db.x DB instance class. The letter after db. gives the DB instance class family. For example, db.x2g.xlarge qualifies, and db.z1d.xlarge doesn't.
+    ///
+    /// * If DBInstanceClass is a db.m or db.r DB instance class, it must be from generation 7 or later. The digit after the family letter gives the generation. For example, db.m7g.xlarge qualifies, and db.m5.xlarge doesn't. A db.c, db.t, or db.x DB instance class has no generation requirement.
+    ///
+    /// * The reserved capacity must total at least 32 vCPUs in each Availability Zone. Multiply CapacityPerAvailabilityZone by the number of vCPUs of the DB instance class. The product must be 32 or more.
+    ///
+    /// * CommitmentDuration must be at least 14 days. For a db.x DB instance class, it must be at least 84 days.
+    ///
+    /// * StartDate must be from 5 to 120 days in the future.
+    ///
+    ///
+    /// Therefore, a DB instance class with 2 vCPUs needs a CapacityPerAvailabilityZone of 16 or more, a class with 4 vCPUs needs 8 or more, a class with 8 vCPUs needs 4 or more, and a class with 16 vCPUs needs 2 or more. For the number of vCPUs of each DB instance class, see [DB instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. You can't modify a future-dated reservation before it starts. You can't cancel a future-dated reservation in the scheduled state. You can't cancel a reservation in the active state during its capacity commitment. Therefore, you can't cancel a future-dated reservation from the time that Amazon RDS schedules it until the commitment ends.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDBCapacityReservationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDBCapacityReservationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBCapacityReservationAlreadyExistsFault` : You already have a DB capacity reservation with the given name. Choose a different name for the new reservation, or use the existing reservation.
+    /// - `DBCapacityReservationUnsupportedFault` : The specified configuration isn't supported for DB capacity reservations.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    public func createDBCapacityReservation(input: CreateDBCapacityReservationInput) async throws -> CreateDBCapacityReservationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDBCapacityReservation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>(CreateDBCapacityReservationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBCapacityReservationOutput>(CreateDBCapacityReservationOutput.httpOutput(from:), CreateDBCapacityReservationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBCapacityReservationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RDS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDBCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDBCapacityReservationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDBCapacityReservationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RDS"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDBCapacityReservationInput, CreateDBCapacityReservationOutput>(serviceID: serviceName, version: RDSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RDS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDBCapacityReservation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateDBCluster` operation on the `RDS` service.
     ///
     /// Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. If you create an Aurora DB cluster, the request creates an empty cluster. You must explicitly create the writer instance for your DB cluster using the [CreateDBInstance](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html) operation. If you create a Multi-AZ DB cluster, the request creates a writer and two reader DB instances for you, each in a different Availability Zone. You can use the ReplicationSourceIdentifier parameter to create an Amazon Aurora DB cluster as a read replica of another DB cluster or Amazon RDS for MySQL or PostgreSQL DB instance. For more information about Amazon Aurora, see [What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. You can also use the ReplicationSourceIdentifier parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see [Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. You can use the WithExpressConfiguration parameter to create an Aurora DB Cluster with express configuration and create cluster in seconds. Express configuration provides a cluster with a writer instance and feature specific values set to all other input parameters of this API. You can use the AssociatedRoles parameter to associate one or more Amazon Web Services Identity and Access Management (IAM) roles with an Aurora DB cluster. Each associated role lets the DB cluster access other Amazon Web Services on your behalf, such as Amazon S3 for data import and export, or Amazon Web Services Lambda for invoking functions.
@@ -2033,6 +2191,7 @@ extension RDSClient {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
@@ -2042,6 +2201,7 @@ extension RDSClient {
     /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
     /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
     /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
@@ -2121,6 +2281,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
@@ -2132,6 +2293,7 @@ extension RDSClient {
     /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
     /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
     /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidDBSubnetGroupFault` : The DBSubnetGroup doesn't belong to the same VPC as that of an existing cross-region read replica of the same source instance.
@@ -4809,6 +4971,74 @@ extension RDSClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RDS")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCertificates")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeDBCapacityReservations` operation on the `RDS` service.
+    ///
+    /// Describes one or more DB capacity reservations. A DB capacity reservation reserves capacity for Amazon RDS DB instances in one or more Availability Zones. If you don't specify a DBCapacityReservationIdentifier, this operation returns information about all DB capacity reservations for your Amazon Web Services account. This operation supports pagination.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBCapacityReservationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeDBCapacityReservationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
+    public func describeDBCapacityReservations(input: DescribeDBCapacityReservationsInput) async throws -> DescribeDBCapacityReservationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeDBCapacityReservations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>(DescribeDBCapacityReservationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBCapacityReservationsOutput>(DescribeDBCapacityReservationsOutput.httpOutput(from:), DescribeDBCapacityReservationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBCapacityReservationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RDS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeDBCapacityReservationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeDBCapacityReservationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeDBCapacityReservationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RDS"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeDBCapacityReservationsInput, DescribeDBCapacityReservationsOutput>(serviceID: serviceName, version: RDSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RDS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeDBCapacityReservations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8140,6 +8370,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
@@ -8490,6 +8721,77 @@ extension RDSClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyDBCapacityReservation` operation on the `RDS` service.
+    ///
+    /// Modifies a DB capacity reservation. You can change the reserved capacity in each Availability Zone of the reservation, and you can change the end date of the reservation. You can't change the Availability Zones of an existing reservation. The reservation must be in the active state. A future-dated reservation that hasn't started isn't modifiable, and neither is a reservation that Amazon RDS is already modifying. You must specify CapacityPerAvailabilityZone, EndDateType, or EndDate. A request that specifies none of the three changes nothing, and Amazon RDS rejects it.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBCapacityReservationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyDBCapacityReservationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
+    /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
+    /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
+    public func modifyDBCapacityReservation(input: ModifyDBCapacityReservationInput) async throws -> ModifyDBCapacityReservationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyDBCapacityReservation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>(ModifyDBCapacityReservationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBCapacityReservationOutput>(ModifyDBCapacityReservationOutput.httpOutput(from:), ModifyDBCapacityReservationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBCapacityReservationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RDS", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyDBCapacityReservationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyDBCapacityReservationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyDBCapacityReservationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "RDS"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyDBCapacityReservationInput, ModifyDBCapacityReservationOutput>(serviceID: serviceName, version: RDSClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RDS")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyDBCapacityReservation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyDBCluster` operation on the `RDS` service.
     ///
     /// Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster. You can change one or more settings by specifying these parameters and the new values in the request. For more information on Amazon Aurora DB clusters, see [ What is Amazon Aurora?](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html) in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide.
@@ -8814,6 +9116,7 @@ extension RDSClient {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
@@ -8821,6 +9124,7 @@ extension RDSClient {
     /// - `DBUpgradeDependencyFailureFault` : The DB upgrade failed because a resource the DB depends on can't be modified.
     /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
     /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidDBSecurityGroupStateFault` : The state of the DB security group doesn't allow deletion.
@@ -10660,6 +10964,7 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `BlueGreenDeploymentNotFoundFault` : BlueGreenDeploymentIdentifier doesn't refer to an existing blue/green deployment.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBProxyEndpointNotFoundFault` : The DB proxy endpoint doesn't exist.
@@ -11147,6 +11452,7 @@ extension RDSClient {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
@@ -11157,6 +11463,7 @@ extension RDSClient {
     /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
     /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
     /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidDBSnapshotStateFault` : The state of the DB snapshot doesn't allow deletion.
     /// - `InvalidRestoreFault` : Cannot restore from VPC backup to non-VPC DB instance.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
@@ -11239,6 +11546,7 @@ extension RDSClient {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
@@ -11246,6 +11554,7 @@ extension RDSClient {
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
     /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
     /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidS3BucketFault` : The specified Amazon S3 bucket name can't be found or Amazon RDS isn't authorized to access the specified Amazon S3 bucket. Verify the SourceS3BucketName and S3IngestionRoleArn values and try again.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
     /// - `InvalidVPCNetworkStateFault` : The DB subnet group doesn't cover all Availability Zones after it's created because of users' change.
@@ -11326,6 +11635,7 @@ extension RDSClient {
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` :
     /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
@@ -11336,6 +11646,7 @@ extension RDSClient {
     /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
     /// - `InstanceQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB instances.
     /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidRestoreFault` : Cannot restore from VPC backup to non-VPC DB instance.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
@@ -11633,11 +11944,13 @@ extension RDSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
+    /// - `DBCapacityReservationNotFoundFault` : DBCapacityReservationIdentifier doesn't refer to an existing DB capacity reservation.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
     /// - `InsufficientDBInstanceCapacityFault` : The specified DB instance class isn't available in the specified Availability Zone.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `InvalidSubnet` : The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.
@@ -12006,6 +12319,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
     /// - `DBSnapshotAlreadyExistsFault` : DBSnapshotIdentifier is already used by an existing snapshot.
+    /// - `InvalidDBCapacityReservationStateFault` : The DB capacity reservation isn't in a valid state.
     /// - `InvalidDBClusterStateFault` : The requested operation can't be performed while the cluster is in this state.
     /// - `InvalidDBInstanceStateFault` : The DB instance isn't in a valid state.
     /// - `SnapshotQuotaExceededFault` : The request would result in the user exceeding the allowed number of DB snapshots.

@@ -890,6 +890,82 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CancelBulkOperation` operation on the `DynamoDB` service.
+    ///
+    /// Cancels an in-progress bulk operation asynchronously. Cancellation doesn't remove items that the operation has already written. Use DescribeBulkOperation to monitor the operation until it reaches a terminal status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelBulkOperationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelBulkOperationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEndpointException` : [no documentation found]
+    /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
+    public func cancelBulkOperation(input: CancelBulkOperationInput) async throws -> CancelBulkOperationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DynamoDBClient.cancelBulkOperationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelBulkOperation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dynamodb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelBulkOperationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, resourceArn: input.bulkOperationArn, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelBulkOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>(overrides: ["X-Amz-Target": "DynamoDB_20120810.CancelBulkOperation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelBulkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelBulkOperationInput, CancelBulkOperationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelBulkOperation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateBackup` operation on the `DynamoDB` service.
     ///
     /// Creates a backup for an existing table. Each time you create an on-demand backup, the entire table data is backed up. There is no limit to the number of on-demand backups that can be taken. When you create an on-demand backup, a time marker of the request is cataloged, and the backup is created asynchronously, by applying all changes until the time of the request to the last full table snapshot. Backup requests are processed instantaneously and become available for restore within minutes. You can call CreateBackup at a maximum rate of 50 times per second. All backups in DynamoDB work without consuming any provisioned throughput on the table. If you submit a backup request on 2018-12-14 at 14:25:00, the backup is guaranteed to contain all data committed to the table up to 14:24:00, and data committed after 14:26:00 will not be. The backup might contain data modifications made between 14:24:00 and 14:26:00. On-demand backup does not support causal consistency. Along with data, the following are also included on the backups:
@@ -1575,6 +1651,82 @@ extension DynamoDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBackup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeBulkOperation` operation on the `DynamoDB` service.
+    ///
+    /// Describes the specified bulk operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeBulkOperationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeBulkOperationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEndpointException` : [no documentation found]
+    /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
+    public func describeBulkOperation(input: DescribeBulkOperationInput) async throws -> DescribeBulkOperationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DynamoDBClient.describeBulkOperationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeBulkOperation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dynamodb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBulkOperationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, resourceArn: input.bulkOperationArn, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBulkOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>(overrides: ["X-Amz-Target": "DynamoDB_20120810.DescribeBulkOperation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBulkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeBulkOperationInput, DescribeBulkOperationOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeBulkOperation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3424,6 +3576,81 @@ extension DynamoDBClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListBulkOperations` operation on the `DynamoDB` service.
+    ///
+    /// Lists bulk operations that started within the past 90 days for the current Amazon Web Services account and Amazon Web Services Region, with the most recent operations first. Results are paginated. Use the NextToken parameter to retrieve additional results.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListBulkOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListBulkOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEndpointException` : [no documentation found]
+    public func listBulkOperations(input: ListBulkOperationsInput) async throws -> ListBulkOperationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DynamoDBClient.listBulkOperationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listBulkOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dynamodb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListBulkOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBulkOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>(overrides: ["X-Amz-Target": "DynamoDB_20120810.ListBulkOperations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBulkOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListBulkOperationsInput, ListBulkOperationsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListBulkOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListContributorInsights` operation on the `DynamoDB` service.
     ///
     /// Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
@@ -4485,6 +4712,95 @@ extension DynamoDBClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchVectors")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartBulkPutItems` operation on the `DynamoDB` service.
+    ///
+    /// Starts an asynchronous bulk operation that reads items from Amazon S3 and writes them to an existing DynamoDB table, so you can efficiently load or migrate large datasets.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartBulkPutItemsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartBulkPutItemsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : DynamoDB rejected the request because you retried a request with a different payload but with an idempotent token that was already used.
+    /// - `InvalidEndpointException` : [no documentation found]
+    /// - `LimitExceededException` : There is no limit to the number of daily on-demand backups that can be taken. For most purposes, up to 500 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime. When you are creating a table with one or more secondary indexes, you can have up to 250 such requests running at a time. However, if the table or index specifications are complex, then DynamoDB might temporarily reduce the number of concurrent operations. When importing into DynamoDB, up to 50 simultaneous import table operations are allowed per account. There is a soft account quota of 2,500 tables. GetRecords was called with a value of more than 1000 for the limit request parameter. More than 2 processes are reading from the same streams shard at the same time. Exceeding this limit may result in request throttling.
+    /// - `ResourceInUseException` : The operation conflicts with the resource's availability. For example:
+    ///
+    /// * You attempted to recreate an existing table.
+    ///
+    /// * You tried to delete a table currently in the CREATING state.
+    ///
+    /// * You tried to update a resource that was already being updated.
+    ///
+    ///
+    /// When appropriate, wait for the ongoing update to complete and attempt the request again.
+    /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
+    public func startBulkPutItems(input: StartBulkPutItemsInput) async throws -> StartBulkPutItemsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = DynamoDBClient.startBulkPutItemsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startBulkPutItems")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withAccountIDEndpointMode(value: config.accountIdEndpointMode)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dynamodb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartBulkPutItemsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DynamoDB", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accountId: context.resolvedAccountID, accountIdEndpointMode: config.accountIdEndpointMode?.rawValue, endpoint: configuredEndpoint, region: config.region, resourceArn: input.tableName, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBulkPutItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>(overrides: ["X-Amz-Target": "DynamoDB_20120810.StartBulkPutItems"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBulkPutItemsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "DynamoDB"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartBulkPutItemsInput, StartBulkPutItemsOutput>(serviceID: serviceName, version: DynamoDBClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DynamoDB")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartBulkPutItems")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5670,7 +5986,7 @@ extension DynamoDBClient {
 
     /// Performs the `UpdateTable` operation on the `DynamoDB` service.
     ///
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once:
+    /// Modifies the provisioned throughput settings, global secondary indexes, DynamoDB Streams settings, or global table replica settings for a given table. You can only perform one of the following operations at once:
     ///
     /// * Modify the provisioned throughput settings of the table.
     ///
@@ -5678,8 +5994,12 @@ extension DynamoDBClient {
     ///
     /// * Create a new global secondary index on the table. After the index begins backfilling, you can use UpdateTable to perform other operations.
     ///
+    /// * Enable or disable disassociation protection for the local global table replica.
     ///
-    /// UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation is complete.
+    /// * Disassociate the local global table replica and keep it as a standalone regional table. The Disassociate action must be the only replica update in the request. If the request includes any other update, UpdateTable fails with a ValidationException and the disassociation does not start.
+    ///
+    ///
+    /// UpdateTable is an asynchronous operation; while it's executing, the table status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another UpdateTable request. Use DescribeTable to monitor the table's status. To use this operation to disassociate a local replica, you must have the dynamodb:UpdateTable and dynamodb:DisassociateTableReplica IAM permissions on the local replica. Send disassociation and disassociation protection requests to the replica's Region using credentials for the account that owns the replica. For prerequisites and the procedure, see [Disassociating a global table replica](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables-disassociate.html) in the Amazon DynamoDB Developer Guide. To confirm successful disassociation, call DescribeTable in the replica's Region and verify that TableStatus is ACTIVE and Replicas is absent or empty. If TableStatus returns to ACTIVE but the response still includes a Replicas list, the disassociation did not complete. Check ReplicaStatus for a replication-permission or encryption-access problem, resolve it, and retry.
     ///
     /// - Parameter input: Represents the input of an UpdateTable operation. (Type: `UpdateTableInput`)
     ///

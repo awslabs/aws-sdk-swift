@@ -303,7 +303,7 @@ extension ExampleClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Example"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -534,7 +534,7 @@ extension ExampleClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Example"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -596,7 +596,7 @@ extension ExampleClient {
     public static func builder() -> ClientRuntime.ClientBuilder<ExampleClient> {
         return ClientRuntime.ClientBuilder<ExampleClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Example"),
             DefaultAWSAuthSchemePlugin()
         ])
     }

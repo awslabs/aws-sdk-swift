@@ -317,6 +317,35 @@ extension ObservabilityAdminClientTypes {
 
 extension ObservabilityAdminClientTypes {
 
+    /// Specifies the deletion protection setting that a rule applies to the log groups that it creates. If you don't specify a value, the rule doesn't enable deletion protection. The following value is supported:
+    ///
+    /// * ENABLED – The rule enables deletion protection on log groups that it creates.
+    public enum DeletionProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionProtection] {
+            return [
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
     public struct LogGroupNameConfiguration: Swift.Sendable {
         /// The pattern used to generate destination log group names during centralization. The pattern can contain static text and dynamic variables that are replaced with source attributes. If a variable cannot be resolved, it inherits the value from its parent variable in the hierarchy. The pattern must be between 1 and 512 characters. Supported variables:
@@ -534,6 +563,8 @@ extension ObservabilityAdminClientTypes {
     public struct DestinationLogsConfiguration: Swift.Sendable {
         /// Configuration defining the backup region and an optional KMS key for the backup destination.
         public var backupConfiguration: ObservabilityAdminClientTypes.LogsBackupConfiguration?
+        /// Specifies whether this centralization rule enables deletion protection on the destination log groups that it creates. If you don't specify this setting, the rule doesn't enable deletion protection on the log groups that it creates. If you specify a backup Region in BackupConfiguration, the setting also applies to the log groups that the rule creates in the backup Region. When you set this to ENABLED, the rule enables deletion protection only on log groups that it creates after you enable the setting. It does not add deletion protection to log groups the rule created before you enabled the setting. If you remove this setting from the rule or delete the rule, deletion protection stays enabled on log groups that already have it. To delete one of these log groups, first disable deletion protection on the log group in the destination account.
+        public var logGroupDeletionProtection: ObservabilityAdminClientTypes.DeletionProtection?
         /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
         public var logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration?
         /// The encryption configuration for centralization destination log groups.
@@ -543,11 +574,13 @@ extension ObservabilityAdminClientTypes {
 
         public init(
             backupConfiguration: ObservabilityAdminClientTypes.LogsBackupConfiguration? = nil,
+            logGroupDeletionProtection: ObservabilityAdminClientTypes.DeletionProtection? = nil,
             logGroupNameConfiguration: ObservabilityAdminClientTypes.LogGroupNameConfiguration? = nil,
             logsEncryptionConfiguration: ObservabilityAdminClientTypes.LogsEncryptionConfiguration? = nil,
             tagPropagationConfiguration: ObservabilityAdminClientTypes.TagPropagationConfiguration? = nil
         ) {
             self.backupConfiguration = backupConfiguration
+            self.logGroupDeletionProtection = logGroupDeletionProtection
             self.logGroupNameConfiguration = logGroupNameConfiguration
             self.logsEncryptionConfiguration = logsEncryptionConfiguration
             self.tagPropagationConfiguration = tagPropagationConfiguration
@@ -2056,6 +2089,7 @@ extension ObservabilityAdminClientTypes {
 extension ObservabilityAdminClientTypes {
 
     public enum TelemetryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case insights
         case logs
         case metrics
         case traces
@@ -2063,6 +2097,7 @@ extension ObservabilityAdminClientTypes {
 
         public static var allCases: [TelemetryType] {
             return [
+                .insights,
                 .logs,
                 .metrics,
                 .traces
@@ -2076,6 +2111,7 @@ extension ObservabilityAdminClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .insights: return "Insights"
             case .logs: return "Logs"
             case .metrics: return "Metrics"
             case .traces: return "Traces"
@@ -2097,7 +2133,7 @@ extension ObservabilityAdminClientTypes {
         public var destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?
         /// An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
         public var regions: [Swift.String]?
-        /// The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Bedrock::KnowledgeBase, or AWS::BedrockAgentCore::PaymentManager).
+        /// The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Bedrock::KnowledgeBase, AWS::BedrockAgentCore::PaymentManager, or AWS::XRay::TransactionSearchConfig).
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The organizational scope to which the rule applies, specified using accounts or organizational units.
         public var scope: Swift.String?
@@ -6184,6 +6220,7 @@ extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
     static func write(value: ObservabilityAdminClientTypes.DestinationLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["BackupConfiguration"].write(value.backupConfiguration, with: ObservabilityAdminClientTypes.LogsBackupConfiguration.write(value:to:))
+        try writer["LogGroupDeletionProtection"].write(value.logGroupDeletionProtection)
         try writer["LogGroupNameConfiguration"].write(value.logGroupNameConfiguration, with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.write(value:to:))
         try writer["LogsEncryptionConfiguration"].write(value.logsEncryptionConfiguration, with: ObservabilityAdminClientTypes.LogsEncryptionConfiguration.write(value:to:))
         try writer["TagPropagationConfiguration"].write(value.tagPropagationConfiguration, with: ObservabilityAdminClientTypes.TagPropagationConfiguration.write(value:to:))
@@ -6196,6 +6233,7 @@ extension ObservabilityAdminClientTypes.DestinationLogsConfiguration {
         value.backupConfiguration = try reader["BackupConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogsBackupConfiguration.read(from:))
         value.logGroupNameConfiguration = try reader["LogGroupNameConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.LogGroupNameConfiguration.read(from:))
         value.tagPropagationConfiguration = try reader["TagPropagationConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TagPropagationConfiguration.read(from:))
+        value.logGroupDeletionProtection = try reader["LogGroupDeletionProtection"].readIfPresent()
         return value
     }
 }

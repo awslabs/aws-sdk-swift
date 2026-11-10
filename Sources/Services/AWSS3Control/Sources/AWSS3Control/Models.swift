@@ -6258,6 +6258,35 @@ public struct GetBucketVersioningOutput: Swift.Sendable {
 
 extension S3ControlClientTypes {
 
+    public enum InstanceScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceScope] {
+            return [
+                .all,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     public enum Privilege: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case minimal
@@ -6293,6 +6322,12 @@ public struct GetDataAccessInput: Swift.Sendable {
     public var auditContext: Swift.String?
     /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
     public var durationSeconds: Swift.Int?
+    /// The scope of S3 Access Grants instances to search for a grant matching the requested S3 URI path.
+    ///
+    /// * SELF – Searches only the instance of the Amazon Web Services account ID in the request.
+    ///
+    /// * ALL – Searches the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
+    public var instanceScope: S3ControlClientTypes.InstanceScope?
     /// The type of permission granted to your S3 data, which can be set to one of the following values:
     ///
     /// * READ – Grant read-only access to the S3 data.
@@ -6318,6 +6353,7 @@ public struct GetDataAccessInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         auditContext: Swift.String? = nil,
         durationSeconds: Swift.Int? = nil,
+        instanceScope: S3ControlClientTypes.InstanceScope? = nil,
         permission: S3ControlClientTypes.Permission? = nil,
         privilege: S3ControlClientTypes.Privilege? = nil,
         target: Swift.String? = nil,
@@ -6326,6 +6362,7 @@ public struct GetDataAccessInput: Swift.Sendable {
         self.accountId = accountId
         self.auditContext = auditContext
         self.durationSeconds = durationSeconds
+        self.instanceScope = instanceScope
         self.permission = permission
         self.privilege = privilege
         self.target = target
@@ -6373,21 +6410,25 @@ public struct GetDataAccessOutput: Swift.Sendable {
     public var grantee: S3ControlClientTypes.Grantee?
     /// The S3 URI path of the data to which you are being granted temporary access credentials.
     public var matchedGrantTarget: Swift.String?
+    /// The Amazon Resource Name (ARN) of the S3 Access Grants instance containing the grant that matched the requested S3 URI path.
+    public var matchedInstanceArn: Swift.String?
 
     public init(
         credentials: S3ControlClientTypes.Credentials? = nil,
         grantee: S3ControlClientTypes.Grantee? = nil,
-        matchedGrantTarget: Swift.String? = nil
+        matchedGrantTarget: Swift.String? = nil,
+        matchedInstanceArn: Swift.String? = nil
     ) {
         self.credentials = credentials
         self.grantee = grantee
         self.matchedGrantTarget = matchedGrantTarget
+        self.matchedInstanceArn = matchedInstanceArn
     }
 }
 
 extension GetDataAccessOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataAccessOutput(grantee: \(Swift.String(describing: grantee)), matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
+        "GetDataAccessOutput(grantee: \(Swift.String(describing: grantee)), matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), matchedInstanceArn: \(Swift.String(describing: matchedInstanceArn)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetJobTaggingInput: Swift.Sendable {
@@ -7481,6 +7522,12 @@ public struct ListCallerAccessGrantsInput: Swift.Sendable {
     public var allowedByApplication: Swift.Bool?
     /// The S3 path of the data that you would like to access. Must start with s3://. You can optionally pass only the beginning characters of a path, and S3 Access Grants will search for all applicable grants for the path fragment.
     public var grantScope: Swift.String?
+    /// The scope of S3 Access Grants instances to list grants from.
+    ///
+    /// * SELF – Lists grants from the instance of the Amazon Web Services account ID in the request.
+    ///
+    /// * ALL – Lists grants from the instance of the Amazon Web Services account ID in the request and all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM).
+    public var instanceScope: S3ControlClientTypes.InstanceScope?
     /// The maximum number of access grants that you would like returned in the List Caller Access Grants response. If the results include the pagination token NextToken, make another call using the NextToken to determine if there are more results.
     public var maxResults: Swift.Int?
     /// A pagination token to request the next page of results. Pass this value into a subsequent List Caller Access Grants request in order to retrieve the next page of results.
@@ -7490,12 +7537,14 @@ public struct ListCallerAccessGrantsInput: Swift.Sendable {
         accountId: Swift.String? = nil,
         allowedByApplication: Swift.Bool? = false,
         grantScope: Swift.String? = nil,
+        instanceScope: S3ControlClientTypes.InstanceScope? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     ) {
         self.accountId = accountId
         self.allowedByApplication = allowedByApplication
         self.grantScope = grantScope
+        self.instanceScope = instanceScope
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -7503,8 +7552,10 @@ public struct ListCallerAccessGrantsInput: Swift.Sendable {
 
 extension S3ControlClientTypes {
 
-    /// Part of ListCallerAccessGrantsResult. Each entry includes the permission level (READ, WRITE, or READWRITE) and the grant scope of the access grant. If the grant also includes an application ARN, the grantee can only access the S3 data through this application.
+    /// Part of ListCallerAccessGrantsResult. Each entry includes the permission level (READ, WRITE, or READWRITE) and the grant scope of the access grant. Each entry also includes the ARN of the S3 Access Grants instance in which the grant was created. If the grant also includes an application ARN, the grantee can only access the S3 data through this application.
     public struct ListCallerAccessGrantsEntry: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3 Access Grants instance in which the grant was created.
+        public var accessGrantsInstanceArn: Swift.String?
         /// The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity Center application associated with your Identity Center instance. If the grant includes an application ARN, the grantee can only access the S3 data through this application.
         public var applicationArn: Swift.String?
         /// The S3 path of the data to which you have been granted access.
@@ -7519,10 +7570,12 @@ extension S3ControlClientTypes {
         public var permission: S3ControlClientTypes.Permission?
 
         public init(
+            accessGrantsInstanceArn: Swift.String? = nil,
             applicationArn: Swift.String? = nil,
             grantScope: Swift.String? = nil,
             permission: S3ControlClientTypes.Permission? = nil
         ) {
+            self.accessGrantsInstanceArn = accessGrantsInstanceArn
             self.applicationArn = applicationArn
             self.grantScope = grantScope
             self.permission = permission
@@ -9868,6 +9921,10 @@ extension GetDataAccessInput {
             let targetTypeQueryItem = Smithy.URIQueryItem(name: "targetType".urlPercentEncoding(), value: Swift.String(targetType.rawValue).urlPercentEncoding())
             items.append(targetTypeQueryItem)
         }
+        if let instanceScope = value.instanceScope {
+            let instanceScopeQueryItem = Smithy.URIQueryItem(name: "instanceScope".urlPercentEncoding(), value: Swift.String(instanceScope.rawValue).urlPercentEncoding())
+            items.append(instanceScopeQueryItem)
+        }
         if let durationSeconds = value.durationSeconds {
             let durationSecondsQueryItem = Smithy.URIQueryItem(name: "durationSeconds".urlPercentEncoding(), value: Swift.String(durationSeconds).urlPercentEncoding())
             items.append(durationSecondsQueryItem)
@@ -10351,6 +10408,10 @@ extension ListCallerAccessGrantsInput {
         if let allowedByApplication = value.allowedByApplication {
             let allowedByApplicationQueryItem = Smithy.URIQueryItem(name: "allowedByApplication".urlPercentEncoding(), value: Swift.String(allowedByApplication).urlPercentEncoding())
             items.append(allowedByApplicationQueryItem)
+        }
+        if let instanceScope = value.instanceScope {
+            let instanceScopeQueryItem = Smithy.URIQueryItem(name: "instanceScope".urlPercentEncoding(), value: Swift.String(instanceScope.rawValue).urlPercentEncoding())
+            items.append(instanceScopeQueryItem)
         }
         return items
     }
@@ -11907,6 +11968,7 @@ extension GetDataAccessOutput {
         value.credentials = try reader["Credentials"].readIfPresent(with: S3ControlClientTypes.Credentials.read(from:))
         value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
         value.matchedGrantTarget = try reader["MatchedGrantTarget"].readIfPresent()
+        value.matchedInstanceArn = try reader["MatchedInstanceArn"].readIfPresent()
         return value
     }
 }
@@ -14755,6 +14817,7 @@ extension S3ControlClientTypes.ListCallerAccessGrantsEntry {
         value.permission = try reader["Permission"].readIfPresent()
         value.grantScope = try reader["GrantScope"].readIfPresent()
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.accessGrantsInstanceArn = try reader["AccessGrantsInstanceArn"].readIfPresent()
         return value
     }
 }

@@ -3889,6 +3889,78 @@ extension ElasticsearchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateClone` operation on the `Elasticsearch` service.
+    ///
+    /// Manages a cloned blue/green upgrade that is in progress on a domain. Use it to shift a percentage of search traffic to the cloned cluster, to cut over to the cloned cluster or back to the primary cluster, or to change the retention period. Specify exactly one of TrafficSplitOptions, CutoverOptions, or RetentionOptions in each request.
+    ///
+    /// - Parameter input: Container for the request parameters to the UpdateClone operation. (Type: `UpdateCloneInput`)
+    ///
+    /// - Returns: Container for the response returned by the UpdateClone operation. (Type: `UpdateCloneOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+    /// - `InternalException` : The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+    /// - `ValidationException` : An exception for missing / invalid input fields. Gives http status code of 400.
+    public func updateClone(input: UpdateCloneInput) async throws -> UpdateCloneOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateClone")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "es")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCloneInput, UpdateCloneOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCloneInput, UpdateCloneOutput>(UpdateCloneInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCloneInput, UpdateCloneOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloneInput, UpdateCloneOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCloneInput, UpdateCloneOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCloneInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloneInput, UpdateCloneOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloneOutput>(UpdateCloneOutput.httpOutput(from:), UpdateCloneOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloneInput, UpdateCloneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloneOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Elasticsearch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCloneOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCloneOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCloneInput, UpdateCloneOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCloneInput, UpdateCloneOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Elasticsearch Service"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCloneInput, UpdateCloneOutput>(serviceID: serviceName, version: ElasticsearchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Elasticsearch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateClone")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateElasticsearchDomainConfig` operation on the `Elasticsearch` service.
     ///
     /// Modifies the cluster configuration of the specified Elasticsearch domain, setting as setting the instance type and the number of instances.

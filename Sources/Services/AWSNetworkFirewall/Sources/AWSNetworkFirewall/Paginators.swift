@@ -185,6 +185,7 @@ extension ListFlowOperationResultsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFlowOperationResultsInput {
         return ListFlowOperationResultsInput(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             firewallArn: self.firewallArn,
             flowOperationId: self.flowOperationId,
             maxResults: self.maxResults,
@@ -220,6 +221,7 @@ extension ListFlowOperationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListFlowOperationsInput {
         return ListFlowOperationsInput(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             firewallArn: self.firewallArn,
             flowOperationType: self.flowOperationType,
             maxResults: self.maxResults,

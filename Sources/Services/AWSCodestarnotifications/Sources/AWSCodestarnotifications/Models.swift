@@ -234,6 +234,8 @@ extension CodestarnotificationsClientTypes {
         /// * Amazon Q Developer in chat applications topics are specified as SNS.
         ///
         /// * Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
+        ///
+        /// * Amazon Q Developer in chat applications clients for Microsoft Teams are specified as AWSChatbotMicrosoftTeams.
         public var targetType: Swift.String?
 
         public init(
@@ -472,7 +474,9 @@ extension CodestarnotificationsClientTypes {
         ///
         /// * Amazon Q Developer in chat applications topics are specified as SNS.
         ///
-        /// * Amazon Q Developer in chat applications clients are specified as AWSChatbotSlack.
+        /// * Amazon Q Developer in chat applications clients for Slack are specified as AWSChatbotSlack.
+        ///
+        /// * Amazon Q Developer in chat applications clients for Microsoft Teams are specified as AWSChatbotMicrosoftTeams.
         public var targetType: Swift.String?
 
         public init(

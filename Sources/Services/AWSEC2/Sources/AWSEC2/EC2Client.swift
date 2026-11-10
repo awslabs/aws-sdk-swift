@@ -16938,7 +16938,7 @@ extension EC2Client {
 
     /// Performs the `DeleteTransitGatewayRouteTable` operation on the `EC2` service.
     ///
-    /// Deletes the specified transit gateway route table. If there are any route tables associated with the transit gateway route table, you must first run [DisassociateRouteTable] before you can delete the transit gateway route table. This removes any route tables associated with the transit gateway route table.
+    /// Deletes the specified transit gateway route table. Before you can delete a transit gateway route table, you must disassociate all attachments from it by using [DisassociateTransitGatewayRouteTable] and wait for the disassociations to complete. You can't delete a transit gateway route table that is the default association route table or default propagation route table for the transit gateway. To change the default route tables, use [ModifyTransitGateway].
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayRouteTableInput`)
     ///
@@ -36404,6 +36404,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetCapacityManagerSupportabilityScores` operation on the `EC2` service.
+    ///
+    /// Scores how well each instance type and Availability Zone combination can support a capacity request, based on current Amazon EC2 capacity. The response includes a score for each combination and an aggregate score for all combinations in the request. This action doesn't launch or reserve instances, and a score doesn't guarantee that a later launch will succeed. Call this action in the Region where you turned on Capacity Manager. A single request can include Availability Zones in any Region. Real-time supportability checks are available only to Amazon Web Services Support customers on the Unified Operations plan. For more information, see [Check supportability](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/capacity-manager-supportability.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityManagerSupportabilityScoresInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCapacityManagerSupportabilityScoresOutput`)
+    public func getCapacityManagerSupportabilityScores(input: GetCapacityManagerSupportabilityScoresInput) async throws -> GetCapacityManagerSupportabilityScoresOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCapacityManagerSupportabilityScores")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(GetCapacityManagerSupportabilityScoresInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityManagerSupportabilityScoresOutput>(GetCapacityManagerSupportabilityScoresOutput.httpOutput(from:), GetCapacityManagerSupportabilityScoresOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityManagerSupportabilityScoresOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityManagerSupportabilityScoresOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetCapacityManagerSupportabilityScoresInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityManagerSupportabilityScoresOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCapacityManagerSupportabilityScoresInput, GetCapacityManagerSupportabilityScoresOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCapacityManagerSupportabilityScores")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCapacityReservationUsage` operation on the `EC2` service.
     ///
     /// Gets usage information about a Capacity Reservation. If the Capacity Reservation is shared, it shows usage information for the Capacity Reservation owner and each Amazon Web Services account that is currently using the shared capacity. If the Capacity Reservation is not shared, it shows only the Capacity Reservation owner's usage.
@@ -37348,6 +37411,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetImageBlockPublicAccessState")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetImageFindings` operation on the `EC2` service.
+    ///
+    /// Describes the Amazon Inspector vulnerability findings for the specified AMI. You can get findings for AMIs that you own, AMIs that are shared with you, and public AMIs. Amazon Inspector returns findings only for AMIs that it has scanned.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetImageFindingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetImageFindingsOutput`)
+    public func getImageFindings(input: GetImageFindingsInput) async throws -> GetImageFindingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getImageFindings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetImageFindingsInput, GetImageFindingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(GetImageFindingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetImageFindingsInput, GetImageFindingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetImageFindingsInput, GetImageFindingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImageFindingsOutput>(GetImageFindingsOutput.httpOutput(from:), GetImageFindingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetImageFindingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetImageFindingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetImageFindingsInput, GetImageFindingsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetImageFindingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetImageFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetImageFindingsInput, GetImageFindingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetImageFindingsInput, GetImageFindingsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetImageFindings")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -39835,6 +39961,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSubnetCidrReservations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTransitGatewayAttachmentNatConfiguration` operation on the `EC2` service.
+    ///
+    /// Describes the NAT configuration for the specified transit gateway attachment. Only the owner of the transit gateway can describe the NAT configuration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayAttachmentNatConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayAttachmentNatConfigurationOutput`)
+    public func getTransitGatewayAttachmentNatConfiguration(input: GetTransitGatewayAttachmentNatConfigurationInput) async throws -> GetTransitGatewayAttachmentNatConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTransitGatewayAttachmentNatConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>(GetTransitGatewayAttachmentNatConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayAttachmentNatConfigurationOutput>(GetTransitGatewayAttachmentNatConfigurationOutput.httpOutput(from:), GetTransitGatewayAttachmentNatConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayAttachmentNatConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTransitGatewayAttachmentNatConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetTransitGatewayAttachmentNatConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTransitGatewayAttachmentNatConfigurationInput, GetTransitGatewayAttachmentNatConfigurationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTransitGatewayAttachmentNatConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -44997,6 +45186,78 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGateway")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyTransitGatewayAttachmentNatConfiguration` operation on the `EC2` service.
+    ///
+    /// Modifies the NAT configuration for the specified transit gateway attachment. Use this operation to do the following:
+    ///
+    /// * Enable or disable NAT gateway support for the attachment.
+    ///
+    /// * Specify whether the transit gateway installs routes for the NAT CIDRs.
+    ///
+    /// * Replace the NAT gateway rules for the attachment.
+    ///
+    ///
+    /// Only the owner of the transit gateway can modify the NAT configuration. With NAT gateway support enabled, the transit gateway translates addresses in each rule's MatchSourceCidr range to the corresponding addresses in its NatCidr range. The transit gateway applies changes asynchronously. To check the result, use GetTransitGatewayAttachmentNatConfiguration.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyTransitGatewayAttachmentNatConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyTransitGatewayAttachmentNatConfigurationOutput`)
+    public func modifyTransitGatewayAttachmentNatConfiguration(input: ModifyTransitGatewayAttachmentNatConfigurationInput) async throws -> ModifyTransitGatewayAttachmentNatConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyTransitGatewayAttachmentNatConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>(ModifyTransitGatewayAttachmentNatConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTransitGatewayAttachmentNatConfigurationOutput>(ModifyTransitGatewayAttachmentNatConfigurationOutput.httpOutput(from:), ModifyTransitGatewayAttachmentNatConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTransitGatewayAttachmentNatConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyTransitGatewayAttachmentNatConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyTransitGatewayAttachmentNatConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyTransitGatewayAttachmentNatConfigurationInput, ModifyTransitGatewayAttachmentNatConfigurationOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGatewayAttachmentNatConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

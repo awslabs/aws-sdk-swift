@@ -564,7 +564,7 @@ extension MWAAServerlessClientTypes {
         /// The key of the code artifact within the Amazon S3 bucket.
         /// This member is required.
         public var objectKey: Swift.String?
-        /// The version ID of the object in Amazon S3. If not specified, the latest version is used.
+        /// Specifies the version ID of the object in Amazon S3. If you don't specify a version, we use the latest version.
         public var versionId: Swift.String?
 
         public init(
@@ -677,7 +677,7 @@ extension MWAAServerlessClientTypes {
         /// The key (name) of the workflow definition file within the S3 bucket.
         /// This member is required.
         public var objectKey: Swift.String?
-        /// Optional. The version ID of the workflow definition file in Amazon S3. If not specified, the latest version is used.
+        /// Optional. The version ID of the workflow definition file in Amazon S3. If you don't specify a version, we use the latest version.
         public var versionId: Swift.String?
 
         public init(
@@ -767,6 +767,30 @@ public enum EngineVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentab
 
 extension MWAAServerlessClientTypes {
 
+    /// Contains the environment variables that tasks in a workflow use during execution.
+    public struct Environment: Swift.Sendable {
+        /// A map of environment variable names to values. Your workflow tasks use these variables while they run. You can specify up to 50 environment variables. Each name must be between 1 and 128 characters, start with a letter, and contain only letters, numbers, and underscores. Each value can be up to 255 characters. Names that start with AWS_ or AIRFLOW__ are reserved. You can use the following Apache Airflow secrets backend settings, which are exceptions:
+        ///
+        /// * AIRFLOW__WORKERS__SECRETS_BACKEND – The secrets backend class that workers use.
+        ///
+        /// * AIRFLOW__WORKERS__SECRETS_BACKEND_KWARGS – The keyword arguments for the secrets backend, as a JSON string.
+        ///
+        /// * AIRFLOW__WORKERS__SECRETS_BACKEND_KWARG__* – Names with this prefix, for additional secrets backend configuration.
+        ///
+        ///
+        /// If you set EncryptionConfiguration to use a customer managed AWS KMS key, we encrypt the environment variables with that key. Otherwise, we store them with default encryption at rest.
+        public var variables: [Swift.String: Swift.String]?
+
+        public init(
+            variables: [Swift.String: Swift.String]? = nil
+        ) {
+            self.variables = variables
+        }
+    }
+}
+
+extension MWAAServerlessClientTypes {
+
     /// Configuration for workflow logging that specifies where you should store your workflow execution logs. Amazon Managed Workflows for Apache Airflow Serverless provides comprehensive logging capabilities that capture workflow execution details, task-level information, and system events. Logs are automatically exported to your specified CloudWatch log group using remote logging functionality, providing centralized observability across the distributed, multi-tenant execution environment. This enables effective debugging, monitoring, and compliance auditing of workflow executions.
     public struct LoggingConfiguration: Swift.Sendable {
         /// The name of the CloudWatch log group where workflow execution logs are stored.
@@ -814,6 +838,8 @@ public struct CreateWorkflowInput: Swift.Sendable {
     public var encryptionConfiguration: MWAAServerlessClientTypes.EncryptionConfiguration?
     /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for this workflow. This determines the feature set, supported operators, and execution environment capabilities available to your workflow. Amazon Managed Workflows for Apache Airflow Serverless maintains backward compatibility across versions while introducing new features and improvements. Currently supports version 1 with plans for additional versions as the service evolves.
     public var engineVersion: EngineVersion?
+    /// The environment variables to set for tasks in the workflow. If you don't specify this parameter, the workflow has no environment variables.
+    public var environment: MWAAServerlessClientTypes.Environment?
     /// The configuration for workflow logging. Specifies the CloudWatch log group where workflow execution logs are stored. Amazon Managed Workflows for Apache Airflow Serverless automatically exports worker logs and task-level information to the specified log group in your account using remote logging functionality. This provides comprehensive observability for debugging and monitoring workflow execution across the distributed, serverless environment.
     public var loggingConfiguration: MWAAServerlessClientTypes.LoggingConfiguration?
     /// The name of the workflow. You must use unique workflow names within your Amazon Web Services account. The service generates a unique identifier that is appended to ensure temporal uniqueness across the account lifecycle.
@@ -836,6 +862,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         description: Swift.String? = nil,
         encryptionConfiguration: MWAAServerlessClientTypes.EncryptionConfiguration? = nil,
         engineVersion: EngineVersion? = nil,
+        environment: MWAAServerlessClientTypes.Environment? = nil,
         loggingConfiguration: MWAAServerlessClientTypes.LoggingConfiguration? = nil,
         name: Swift.String? = nil,
         networkConfiguration: MWAAServerlessClientTypes.NetworkConfiguration? = nil,
@@ -849,6 +876,7 @@ public struct CreateWorkflowInput: Swift.Sendable {
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
         self.engineVersion = engineVersion
+        self.environment = environment
         self.loggingConfiguration = loggingConfiguration
         self.name = name
         self.networkConfiguration = networkConfiguration
@@ -1001,6 +1029,8 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public var encryptionConfiguration: MWAAServerlessClientTypes.EncryptionConfiguration?
     /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that this workflow uses.
     public var engineVersion: EngineVersion?
+    /// The environment variables that tasks in the workflow use during execution.
+    public var environment: MWAAServerlessClientTypes.Environment?
     /// The logging configuration for the workflow.
     public var loggingConfiguration: MWAAServerlessClientTypes.LoggingConfiguration?
     /// The timestamp when the workflow was last modified, in ISO 8601 date-time format.
@@ -1033,6 +1063,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
         description: Swift.String? = nil,
         encryptionConfiguration: MWAAServerlessClientTypes.EncryptionConfiguration? = nil,
         engineVersion: EngineVersion? = nil,
+        environment: MWAAServerlessClientTypes.Environment? = nil,
         loggingConfiguration: MWAAServerlessClientTypes.LoggingConfiguration? = nil,
         modifiedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
@@ -1052,6 +1083,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
         self.description = description
         self.encryptionConfiguration = encryptionConfiguration
         self.engineVersion = engineVersion
+        self.environment = environment
         self.loggingConfiguration = loggingConfiguration
         self.modifiedAt = modifiedAt
         self.name = name
@@ -1151,6 +1183,8 @@ public struct UpdateWorkflowInput: Swift.Sendable {
     public var description: Swift.String?
     /// The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for the updated workflow.
     public var engineVersion: EngineVersion?
+    /// The environment variables to set for tasks in the workflow. The variables that you specify replace all existing environment variables for the workflow. If you don't specify this parameter, the workflow has no environment variables. To keep existing environment variables, include them in the request.
+    public var environment: MWAAServerlessClientTypes.Environment?
     /// Updated logging configuration for the workflow.
     public var loggingConfiguration: MWAAServerlessClientTypes.LoggingConfiguration?
     /// Updated network configuration for the workflow execution environment.
@@ -1169,6 +1203,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
         definitionS3Location: MWAAServerlessClientTypes.DefinitionS3Location? = nil,
         description: Swift.String? = nil,
         engineVersion: EngineVersion? = nil,
+        environment: MWAAServerlessClientTypes.Environment? = nil,
         loggingConfiguration: MWAAServerlessClientTypes.LoggingConfiguration? = nil,
         networkConfiguration: MWAAServerlessClientTypes.NetworkConfiguration? = nil,
         roleArn: Swift.String? = nil,
@@ -1179,6 +1214,7 @@ public struct UpdateWorkflowInput: Swift.Sendable {
         self.definitionS3Location = definitionS3Location
         self.description = description
         self.engineVersion = engineVersion
+        self.environment = environment
         self.loggingConfiguration = loggingConfiguration
         self.networkConfiguration = networkConfiguration
         self.roleArn = roleArn
@@ -1499,7 +1535,7 @@ public struct StartWorkflowRunInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the workflow you want to run.
     /// This member is required.
     public var workflowArn: Swift.String?
-    /// Optional. The specific version of the workflow to execute. If not specified, the latest version is used.
+    /// Optional. The specific version of the workflow to execute. If you don't specify a version, we use the latest version.
     public var workflowVersion: Swift.String?
 
     public init(

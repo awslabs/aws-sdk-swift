@@ -36051,6 +36051,89 @@ extension QuickSightClientTypes.OAuthClientCredentials: Swift.CustomDebugStringC
 
 extension QuickSightClientTypes {
 
+    /// The client credentials for connecting to a Microsoft OneDrive data source using two-legged OAuth (2LO) certificate-based authentication. OneDrive connections access files stored in your OneDrive storage. The tenant ID and client ID are supplied through OneDriveParameters.
+    public struct OneDriveClientCredentials: Swift.Sendable {
+        /// The thumbprint of the certificate used for two-legged OAuth (2LO) authentication to OneDrive. This field is required.
+        /// This member is required.
+        public var certThumbprint: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used to encrypt the OneDrive certificate credentials. This field is required.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            certThumbprint: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.certThumbprint = certThumbprint
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension QuickSightClientTypes.OneDriveClientCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OneDriveClientCredentials(certThumbprint: \"CONTENT_REDACTED\", kmsKeyArn: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The service account credentials used for Google Workspace domain-wide delegation. Use this structure when you authenticate a data source connection using domain-wide delegation across your Google Workspace domain.
+    public struct ServiceAccountCredentials: Swift.Sendable {
+        /// The email address of the Google Workspace administrator account that the service account impersonates through domain-wide delegation. This field is required.
+        /// This member is required.
+        public var adminAccountEmail: Swift.String?
+        /// The client email address of the Google service account used for domain-wide delegation. This field is required.
+        /// This member is required.
+        public var clientEmail: Swift.String?
+        /// The private key of the Google service account used for domain-wide delegation. This field is required.
+        /// This member is required.
+        public var serviceAccountPrivateKey: Swift.String?
+
+        public init(
+            adminAccountEmail: Swift.String? = nil,
+            clientEmail: Swift.String? = nil,
+            serviceAccountPrivateKey: Swift.String? = nil
+        ) {
+            self.adminAccountEmail = adminAccountEmail
+            self.clientEmail = clientEmail
+            self.serviceAccountPrivateKey = serviceAccountPrivateKey
+        }
+    }
+}
+
+extension QuickSightClientTypes.ServiceAccountCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServiceAccountCredentials(adminAccountEmail: \(Swift.String(describing: adminAccountEmail)), clientEmail: \(Swift.String(describing: clientEmail)), serviceAccountPrivateKey: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
+    /// The client credentials for connecting to a Microsoft SharePoint data source using two-legged OAuth (2LO) certificate-based authentication. SharePoint connections access documents stored in SharePoint sites and libraries. The tenant ID and client ID are supplied through SharePointParameters.
+    public struct SharePointClientCredentials: Swift.Sendable {
+        /// The thumbprint of the certificate used for two-legged OAuth (2LO) authentication to SharePoint. This field is required.
+        /// This member is required.
+        public var certThumbprint: Swift.String?
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key used to encrypt the SharePoint certificate credentials. This field is required.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            certThumbprint: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.certThumbprint = certThumbprint
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension QuickSightClientTypes.SharePointClientCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SharePointClientCredentials(certThumbprint: \"CONTENT_REDACTED\", kmsKeyArn: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
     /// The credentials for authenticating with a web proxy server.
     public struct WebProxyCredentials: Swift.Sendable {
         /// The password for authenticating with the web proxy server.
@@ -36082,8 +36165,14 @@ extension QuickSightClientTypes {
         public var keyPairCredentials: QuickSightClientTypes.KeyPairCredentials?
         /// The OAuth client credentials for connecting to a data source using OAuth 2.0 client credentials (2LO) authentication. For more information, see [OAuthClientCredentials](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_OAuthClientCredentials.html).
         public var oAuthClientCredentials: QuickSightClientTypes.OAuthClientCredentials?
+        /// The client credentials for connecting to a Microsoft OneDrive data source using two-legged OAuth (2LO) certificate-based authentication.
+        public var oneDriveClientCredentials: QuickSightClientTypes.OneDriveClientCredentials?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public var secretArn: Swift.String?
+        /// The service account credentials for connecting to a data source that uses Google Workspace domain-wide delegation.
+        public var serviceAccountCredentials: QuickSightClientTypes.ServiceAccountCredentials?
+        /// The client credentials for connecting to a Microsoft SharePoint data source using two-legged OAuth (2LO) certificate-based authentication.
+        public var sharePointClientCredentials: QuickSightClientTypes.SharePointClientCredentials?
         /// The credentials for connecting through a web proxy server.
         public var webProxyCredentials: QuickSightClientTypes.WebProxyCredentials?
 
@@ -36092,14 +36181,20 @@ extension QuickSightClientTypes {
             credentialPair: QuickSightClientTypes.CredentialPair? = nil,
             keyPairCredentials: QuickSightClientTypes.KeyPairCredentials? = nil,
             oAuthClientCredentials: QuickSightClientTypes.OAuthClientCredentials? = nil,
+            oneDriveClientCredentials: QuickSightClientTypes.OneDriveClientCredentials? = nil,
             secretArn: Swift.String? = nil,
+            serviceAccountCredentials: QuickSightClientTypes.ServiceAccountCredentials? = nil,
+            sharePointClientCredentials: QuickSightClientTypes.SharePointClientCredentials? = nil,
             webProxyCredentials: QuickSightClientTypes.WebProxyCredentials? = nil
         ) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
             self.keyPairCredentials = keyPairCredentials
             self.oAuthClientCredentials = oAuthClientCredentials
+            self.oneDriveClientCredentials = oneDriveClientCredentials
             self.secretArn = secretArn
+            self.serviceAccountCredentials = serviceAccountCredentials
+            self.sharePointClientCredentials = sharePointClientCredentials
             self.webProxyCredentials = webProxyCredentials
         }
     }
@@ -46990,6 +47085,75 @@ public struct DescribeRefreshScheduleOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeResourcePermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account whose service role configuration you want to describe.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+
+    public init(
+        awsAccountId: Swift.String? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// The type of service role that Amazon Quick Sight uses to access resources in an Amazon Web Services account. Valid values:
+    ///
+    /// * QUICKSIGHT_MANAGED: Amazon Quick Sight manages the role.
+    ///
+    /// * CUSTOMER_MANAGED: You manage the role and its permissions.
+    public enum ServiceRoleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case customerManaged
+        case quicksightManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceRoleType] {
+            return [
+                .customerManaged,
+                .quicksightManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case .quicksightManaged: return "QUICKSIGHT_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeResourcePermissionsOutput: Swift.Sendable {
+    /// The ARN of the customer-managed role that Amazon Quick Sight uses for your account. Amazon Quick Sight returns this value only when RoleType is CUSTOMER_MANAGED.
+    public var customerManagedRoleArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The type of service role that Amazon Quick Sight uses for your account.
+    public var roleType: QuickSightClientTypes.ServiceRoleType?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        customerManagedRoleArn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        roleType: QuickSightClientTypes.ServiceRoleType? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.customerManagedRoleArn = customerManagedRoleArn
+        self.requestId = requestId
+        self.roleType = roleType
+        self.status = status
+    }
+}
+
 public struct DescribeRoleCustomPermissionInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
@@ -57312,6 +57476,62 @@ public struct UpdateRefreshScheduleOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateResourcePermissionsInput: Swift.Sendable {
+    /// The ID of the Amazon Web Services account whose service role configuration you want to update.
+    /// This member is required.
+    public var awsAccountId: Swift.String?
+    /// The ARN of the customer-managed role that you want Amazon Quick Sight to use. To use this operation, you must have the iam:PassRole permission for the role. Configure the role as follows:
+    ///
+    /// * The role must belong to the Amazon Web Services account specified by AwsAccountId.
+    ///
+    /// * Configure the role trust policy to allow the Amazon Quick Sight service principal to call sts:AssumeRole.
+    ///
+    /// * Attach a permissions policy that allows access to the resources that you want Amazon Quick Sight to use.
+    ///
+    /// * To use features that rely on session tags, configure the role trust policy to allow the Amazon Quick Sight service principal to call sts:TagSession.
+    ///
+    ///
+    /// If the role doesn't exist or its trust policy doesn't allow sts:AssumeRole, the request returns an AccessDeniedException. When you call this operation, Amazon Quick Sight attempts to assume the role with session tags and records whether the attempt succeeds. If you later add or remove sts:TagSession from the trust policy, call this operation again with the same role ARN to refresh the stored capability.
+    /// This member is required.
+    public var customerManagedRoleArn: Swift.String?
+    /// The type of service role that you want Amazon Quick Sight to use. The only supported value for this operation is CUSTOMER_MANAGED. Requests that specify QUICKSIGHT_MANAGED are rejected.
+    /// This member is required.
+    public var roleType: QuickSightClientTypes.ServiceRoleType?
+
+    public init(
+        awsAccountId: Swift.String? = nil,
+        customerManagedRoleArn: Swift.String? = nil,
+        roleType: QuickSightClientTypes.ServiceRoleType? = nil
+    ) {
+        self.awsAccountId = awsAccountId
+        self.customerManagedRoleArn = customerManagedRoleArn
+        self.roleType = roleType
+    }
+}
+
+public struct UpdateResourcePermissionsOutput: Swift.Sendable {
+    /// The ARN of the customer-managed role that Amazon Quick Sight uses for your account after the update.
+    public var customerManagedRoleArn: Swift.String?
+    /// The Amazon Web Services request ID for this operation.
+    public var requestId: Swift.String?
+    /// The type of service role that Amazon Quick Sight uses for your account after the update. This value is CUSTOMER_MANAGED.
+    public var roleType: QuickSightClientTypes.ServiceRoleType?
+    /// The HTTP status of the request.
+    public var status: Swift.Int
+
+    public init(
+        customerManagedRoleArn: Swift.String? = nil,
+        requestId: Swift.String? = nil,
+        roleType: QuickSightClientTypes.ServiceRoleType? = nil,
+        status: Swift.Int = 0
+    ) {
+        self.customerManagedRoleArn = customerManagedRoleArn
+        self.requestId = requestId
+        self.roleType = roleType
+        self.status = status
+    }
+}
+
 public struct UpdateRoleCustomPermissionInput: Swift.Sendable {
     /// The ID for the Amazon Web Services account that you want to create a group in. The Amazon Web Services account ID that you provide must be the same Amazon Web Services account that contains your Amazon Quick Sight account.
     /// This member is required.
@@ -61466,6 +61686,16 @@ extension DescribeRefreshScheduleInput {
     }
 }
 
+extension DescribeResourcePermissionsInput {
+
+    static func urlPathProvider(_ value: DescribeResourcePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/account-resource-permissions"
+    }
+}
+
 extension DescribeRoleCustomPermissionInput {
 
     static func urlPathProvider(_ value: DescribeRoleCustomPermissionInput) -> Swift.String? {
@@ -64110,6 +64340,16 @@ extension UpdateRefreshScheduleInput {
     }
 }
 
+extension UpdateResourcePermissionsInput {
+
+    static func urlPathProvider(_ value: UpdateResourcePermissionsInput) -> Swift.String? {
+        guard let awsAccountId = value.awsAccountId else {
+            return nil
+        }
+        return "/accounts/\(awsAccountId.urlPercentEncoding())/account-resource-permissions"
+    }
+}
+
 extension UpdateRoleCustomPermissionInput {
 
     static func urlPathProvider(_ value: UpdateRoleCustomPermissionInput) -> Swift.String? {
@@ -65549,6 +65789,15 @@ extension UpdateRefreshScheduleInput {
     static func write(value: UpdateRefreshScheduleInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Schedule"].write(value.schedule, with: QuickSightClientTypes.RefreshSchedule.write(value:to:))
+    }
+}
+
+extension UpdateResourcePermissionsInput {
+
+    static func write(value: UpdateResourcePermissionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerManagedRoleArn"].write(value.customerManagedRoleArn)
+        try writer["RoleType"].write(value.roleType)
     }
 }
 
@@ -67746,6 +67995,21 @@ extension DescribeRefreshScheduleOutput {
     }
 }
 
+extension DescribeResourcePermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeResourcePermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeResourcePermissionsOutput()
+        value.customerManagedRoleArn = try reader["CustomerManagedRoleArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.roleType = try reader["RoleType"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
 extension DescribeRoleCustomPermissionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRoleCustomPermissionOutput {
@@ -69887,6 +70151,21 @@ extension UpdateRefreshScheduleOutput {
         value.arn = try reader["Arn"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.scheduleId = try reader["ScheduleId"].readIfPresent()
+        value.status = httpResponse.statusCode.rawValue
+        return value
+    }
+}
+
+extension UpdateResourcePermissionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateResourcePermissionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateResourcePermissionsOutput()
+        value.customerManagedRoleArn = try reader["CustomerManagedRoleArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.roleType = try reader["RoleType"].readIfPresent()
         value.status = httpResponse.statusCode.rawValue
         return value
     }
@@ -72820,6 +73099,24 @@ enum DescribeRefreshScheduleOutputError {
     }
 }
 
+enum DescribeResourcePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeRoleCustomPermissionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -75601,6 +75898,24 @@ enum UpdateRefreshScheduleOutputError {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "PreconditionNotMetException": return try PreconditionNotMetException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateResourcePermissionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -83283,7 +83598,10 @@ extension QuickSightClientTypes.DataSourceCredentials {
         try writer["CredentialPair"].write(value.credentialPair, with: QuickSightClientTypes.CredentialPair.write(value:to:))
         try writer["KeyPairCredentials"].write(value.keyPairCredentials, with: QuickSightClientTypes.KeyPairCredentials.write(value:to:))
         try writer["OAuthClientCredentials"].write(value.oAuthClientCredentials, with: QuickSightClientTypes.OAuthClientCredentials.write(value:to:))
+        try writer["OneDriveClientCredentials"].write(value.oneDriveClientCredentials, with: QuickSightClientTypes.OneDriveClientCredentials.write(value:to:))
         try writer["SecretArn"].write(value.secretArn)
+        try writer["ServiceAccountCredentials"].write(value.serviceAccountCredentials, with: QuickSightClientTypes.ServiceAccountCredentials.write(value:to:))
+        try writer["SharePointClientCredentials"].write(value.sharePointClientCredentials, with: QuickSightClientTypes.SharePointClientCredentials.write(value:to:))
         try writer["WebProxyCredentials"].write(value.webProxyCredentials, with: QuickSightClientTypes.WebProxyCredentials.write(value:to:))
     }
 }
@@ -90250,6 +90568,15 @@ extension QuickSightClientTypes.OAuthParameters {
     }
 }
 
+extension QuickSightClientTypes.OneDriveClientCredentials {
+
+    static func write(value: QuickSightClientTypes.OneDriveClientCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertThumbprint"].write(value.certThumbprint)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+}
+
 extension QuickSightClientTypes.OneDriveParameters {
 
     static func write(value: QuickSightClientTypes.OneDriveParameters?, to writer: SmithyJSON.Writer) throws {
@@ -93580,6 +93907,16 @@ extension QuickSightClientTypes.SeriesItem {
     }
 }
 
+extension QuickSightClientTypes.ServiceAccountCredentials {
+
+    static func write(value: QuickSightClientTypes.ServiceAccountCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdminAccountEmail"].write(value.adminAccountEmail)
+        try writer["ClientEmail"].write(value.clientEmail)
+        try writer["ServiceAccountPrivateKey"].write(value.serviceAccountPrivateKey)
+    }
+}
+
 extension QuickSightClientTypes.ServiceNowParameters {
 
     static func write(value: QuickSightClientTypes.ServiceNowParameters?, to writer: SmithyJSON.Writer) throws {
@@ -93658,6 +93995,15 @@ extension QuickSightClientTypes.SharedViewConfigurations {
     static func write(value: QuickSightClientTypes.SharedViewConfigurations?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+    }
+}
+
+extension QuickSightClientTypes.SharePointClientCredentials {
+
+    static func write(value: QuickSightClientTypes.SharePointClientCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertThumbprint"].write(value.certThumbprint)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
     }
 }
 

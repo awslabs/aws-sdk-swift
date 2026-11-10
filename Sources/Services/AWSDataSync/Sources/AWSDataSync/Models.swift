@@ -154,12 +154,14 @@ extension DataSyncClientTypes {
 
     public enum AzureBlobAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
+        case oidc
         case sas
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AzureBlobAuthenticationType] {
             return [
                 .none,
+                .oidc,
                 .sas
             ]
         }
@@ -172,6 +174,7 @@ extension DataSyncClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .none: return "NONE"
+            case .oidc: return "OIDC"
             case .sas: return "SAS"
             case let .sdkUnknown(s): return s
             }
@@ -217,6 +220,46 @@ extension DataSyncClientTypes {
             case .block: return "BLOCK"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
+    /// External identity parameters for Azure Blob Storage.
+    public struct AzureOidcConfig: Swift.Sendable {
+        /// Azure client ID string.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// Azure tenant ID string.
+        /// This member is required.
+        public var tenantId: Swift.String?
+
+        public init(
+            clientId: Swift.String? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.clientId = clientId
+            self.tenantId = tenantId
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
+    /// Specifies federated identity parameters that allow DataSync to obtain an OpenID Connect token for access to customer Azure Blob Storage. The token allows for temporary, short-term access to the storage. DataSync automatically refreshes the token to assure uninterrupted access to the storage. Federated identity parameters are an alternative to the SasConfiguration credentials that are expected to be valid long-term (e.g. at least for the duration of DataSync task execution). Do not specify federated identity and the SAS configuration for the same Azure Blob location.
+    public struct AzureFederatedIdentityConfig: Swift.Sendable {
+        /// Specifies the ARN for an Amazon Web Services role that allows DataSync to invoke STS GetWebIdentityToken API on behalf of the customer account and to obtain Amazon Web Services STS JWT (web token).
+        public var awsIamRole: Swift.String?
+        /// External identity parameters for Azure Blob Storage.
+        public var azureOidc: DataSyncClientTypes.AzureOidcConfig?
+
+        public init(
+            awsIamRole: Swift.String? = nil,
+            azureOidc: DataSyncClientTypes.AzureOidcConfig? = nil
+        ) {
+            self.awsIamRole = awsIamRole
+            self.azureOidc = azureOidc
         }
     }
 }
@@ -340,13 +383,13 @@ public struct CreateAgentInput: Swift.Sendable {
     public var activationKey: Swift.String?
     /// Specifies a name for your agent. We recommend specifying a name that you can remember.
     public var agentName: Swift.String?
-    /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN.
+    /// Specifies the Amazon Resource Name (ARN) of the security group that allows traffic between your agent and VPC service endpoint. You can only specify one ARN. The ARN must specify your own account, even when the security group was shared with you from the account that owns the VPC. The security group must belong to the same VPC as the subnet that you specify in SubnetArns.
     public var securityGroupArns: [Swift.String]?
-    /// Specifies the ARN of the subnet where your VPC service endpoint is located. You can only specify one ARN.
+    /// Specifies the ARN of the subnet where DataSync creates the [network interfaces](https://docs.aws.amazon.com/datasync/latest/userguide/required-network-interfaces.html) that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC service endpoint. The subnet can be one that another Amazon Web Services account shared with you through [RAM](https://docs.aws.amazon.com/ram/latest/userguide/what-is.html), in which case the ARN must specify the account that owns the subnet. For more information, see [Using a single VPC service endpoint across multiple subnets](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#vpc-endpoint-multiple-subnets).
     public var subnetArns: [Swift.String]?
     /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least one tag for your agent.
     public var tags: [DataSyncClientTypes.TagListEntry]?
-    /// Specifies the ID of the [VPC service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#datasync-in-vpc) that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1. The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync).
+    /// Specifies the ID of the [VPC service endpoint](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#datasync-in-vpc) that you're using. For example, a VPC endpoint ID looks like vpce-01234d5aff67890e1. The VPC service endpoint you use must include the DataSync service name (for example, com.amazonaws.us-east-2.datasync). The endpoint ID is informational. DataSync doesn't verify it or use it to connect to your agent. For more information, see [Using a single VPC service endpoint across multiple subnets](https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#vpc-endpoint-multiple-subnets).
     public var vpcEndpointId: Swift.String?
 
     public init(
@@ -402,7 +445,7 @@ public struct CreateLocationAzureBlobInput: Swift.Sendable {
     public var accessTier: DataSyncClientTypes.AzureAccessTier?
     /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html). Make sure you configure this parameter correctly when you first create your storage location. You cannot add or remove agents from a storage location after you create it.
     public var agentArns: [Swift.String]?
-    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS) or an OpenID Connect (OIDC) token.
     /// This member is required.
     public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
     /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
@@ -414,6 +457,8 @@ public struct CreateLocationAzureBlobInput: Swift.Sendable {
     public var containerUrl: Swift.String?
     /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
+    /// Specifies the federated identity configuration that allows DataSync to access your Azure Blob Storage using an OpenID Connect (OIDC) token instead of a shared access signature (SAS). Provide either FederatedIdentity or SasConfiguration, but not both.
+    public var federatedIdentity: DataSyncClientTypes.AzureFederatedIdentityConfig?
     /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage. If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
     public var sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration?
     /// Specifies path segments if you want to limit your transfer to a virtual directory in your container (for example, /my/images).
@@ -429,6 +474,7 @@ public struct CreateLocationAzureBlobInput: Swift.Sendable {
         cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         containerUrl: Swift.String? = nil,
         customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
+        federatedIdentity: DataSyncClientTypes.AzureFederatedIdentityConfig? = nil,
         sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration? = nil,
         subdirectory: Swift.String? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil
@@ -440,6 +486,7 @@ public struct CreateLocationAzureBlobInput: Swift.Sendable {
         self.cmkSecretConfig = cmkSecretConfig
         self.containerUrl = containerUrl
         self.customSecretConfig = customSecretConfig
+        self.federatedIdentity = federatedIdentity
         self.sasConfiguration = sasConfiguration
         self.subdirectory = subdirectory
         self.tags = tags
@@ -607,6 +654,7 @@ extension DataSyncClientTypes {
         case nfs3
         case nfs40
         case nfs41
+        case nfs42
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NfsVersion] {
@@ -614,7 +662,8 @@ extension DataSyncClientTypes {
                 .automatic,
                 .nfs3,
                 .nfs40,
-                .nfs41
+                .nfs41,
+                .nfs42
             ]
         }
 
@@ -629,6 +678,7 @@ extension DataSyncClientTypes {
             case .nfs3: return "NFS3"
             case .nfs40: return "NFS4_0"
             case .nfs41: return "NFS4_1"
+            case .nfs42: return "NFS4_2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -641,13 +691,15 @@ extension DataSyncClientTypes {
     public struct NfsMountOptions: Swift.Sendable {
         /// Specifies the NFS version that you want DataSync to use when mounting your NFS share. If the server refuses to use the version specified, the task fails. You can specify the following options:
         ///
-        /// * AUTOMATIC (default): DataSync chooses NFS version 4.1.
+        /// * AUTOMATIC (default): DataSync chooses NFS version 4.1. For Amazon FSx for OpenZFS locations, DataSync first attempts to use NFS version 4.2, then falls back to version 4.1, and then to earlier versions if needed.
         ///
         /// * NFS3: Stateless protocol version that allows for asynchronous writes on the server.
         ///
         /// * NFSv4_0: Stateful, firewall-friendly protocol version that supports delegations and pseudo file systems.
         ///
         /// * NFSv4_1: Stateful protocol version that supports sessions, directory delegations, and parallel data processing. NFS version 4.1 also includes all features available in version 4.0.
+        ///
+        /// * NFSv4_2: Stateful protocol version that supports sparse file operations, space reservation, and server-side copy operations, in addition to all features available in version 4.1. Selecting NFS version 4.2 requires an Enhanced mode task.
         ///
         ///
         /// DataSync currently only supports NFS version 3 with Amazon FSx for NetApp ONTAP locations.
@@ -1248,6 +1300,71 @@ public struct CreateLocationNfsOutput: Swift.Sendable {
 
 extension DataSyncClientTypes {
 
+    /// External identity parameters for Google Cloud Storage.
+    public struct GoogleOidcConfig: Swift.Sendable {
+        /// Human-readable pool name (e.g. "my-pool").
+        /// This member is required.
+        public var identityPoolName: Swift.String?
+        /// Human-readable provider name (e.g. "my-oidc-provider").
+        /// This member is required.
+        public var identityProviderName: Swift.String?
+        /// Human-readable project name (e.g. "my-project").
+        /// This member is required.
+        public var projectName: Swift.String?
+        /// Numeric project ID as a string (e.g. "123456789").
+        /// This member is required.
+        public var projectNumber: Swift.String?
+
+        public init(
+            identityPoolName: Swift.String? = nil,
+            identityProviderName: Swift.String? = nil,
+            projectName: Swift.String? = nil,
+            projectNumber: Swift.String? = nil
+        ) {
+            self.identityPoolName = identityPoolName
+            self.identityProviderName = identityProviderName
+            self.projectName = projectName
+            self.projectNumber = projectNumber
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
+    /// Specifies cloud-provider-specific external identity parameters used when exchanging the Amazon Web Services web token for an OpenID Connect token at the object storage provider.
+    public struct ObjectStorageExternalIdentityConfig: Swift.Sendable {
+        /// External identity parameters for Google Cloud Storage.
+        public var googleOidc: DataSyncClientTypes.GoogleOidcConfig?
+
+        public init(
+            googleOidc: DataSyncClientTypes.GoogleOidcConfig? = nil
+        ) {
+            self.googleOidc = googleOidc
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
+    /// Specifies federated identity parameters that allow DataSync to obtain OpenID Connect token for access to customer object storage. The token allows for temporary, short-term access to the storage. DataSync automatically refreshes the token to assure uninterrupted access to the storage. Federated identity parameters are an alternative to the AccessKey/SecretKey credentials that are expected to be valid long-term (e.g. at least for the duration of DataSync task execution). Do not specify federated identity and the key parameters for the same object storage location.
+    public struct ObjectStorageFederatedIdentityConfig: Swift.Sendable {
+        /// Specifies the ARN for an Amazon Web Services role that allows DataSync to invoke STS GetWebIdentityToken API on behalf of the customer account and to obtain Amazon Web Services STS JWT (web token).
+        public var awsIamRole: Swift.String?
+        /// Specifies cloud-provider-specific external identity parameters used when exchanging the Amazon Web Services web token for an OpenID Connect token at the object storage provider.
+        public var externalIdentity: DataSyncClientTypes.ObjectStorageExternalIdentityConfig?
+
+        public init(
+            awsIamRole: Swift.String? = nil,
+            externalIdentity: DataSyncClientTypes.ObjectStorageExternalIdentityConfig? = nil
+        ) {
+            self.awsIamRole = awsIamRole
+            self.externalIdentity = externalIdentity
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
     public enum ObjectStorageServerProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case http
         case https
@@ -1288,6 +1405,8 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. For more information, see [ Using a secret that you manage](https://docs.aws.amazon.com/datasync/latest/userguide/location-credentials.html#custom-secret-custom-key). You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
+    /// Specifies the federated identity configuration that allows DataSync to access your object storage using an OpenID Connect (OIDC) token instead of a long-term access key and secret key. Provide either FederatedIdentity or the AccessKey/SecretKey credentials, but not both.
+    public var federatedIdentity: DataSyncClientTypes.ObjectStorageFederatedIdentityConfig?
     /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server. If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
     public var secretKey: Swift.String?
     /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:
@@ -1319,6 +1438,7 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
         bucketName: Swift.String? = nil,
         cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
+        federatedIdentity: DataSyncClientTypes.ObjectStorageFederatedIdentityConfig? = nil,
         secretKey: Swift.String? = nil,
         serverCertificate: Foundation.Data? = nil,
         serverHostname: Swift.String? = nil,
@@ -1332,6 +1452,7 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
         self.bucketName = bucketName
         self.cmkSecretConfig = cmkSecretConfig
         self.customSecretConfig = customSecretConfig
+        self.federatedIdentity = federatedIdentity
         self.secretKey = secretKey
         self.serverCertificate = serverCertificate
         self.serverHostname = serverHostname
@@ -1847,6 +1968,35 @@ extension DataSyncClientTypes {
 
 extension DataSyncClientTypes {
 
+    public enum ObjectMetadata: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case preserve
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ObjectMetadata] {
+            return [
+                .none,
+                .preserve
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .preserve: return "PRESERVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+
     public enum ObjectTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case preserve
@@ -2188,6 +2338,8 @@ extension DataSyncClientTypes {
         ///
         /// The following applies only to Basic mode tasks: If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE. Enhanced mode tasks don't support Mtime set to NONE.
         public var mtime: DataSyncClientTypes.Mtime?
+        /// Specifies whether you want DataSync to PRESERVE object metadata (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object metadata, specify the NONE value. Even if you specify NONE, metadata for the last modified time is still preserved.
+        public var objectMetadata: DataSyncClientTypes.ObjectMetadata?
         /// Specifies whether you want DataSync to PRESERVE object tags (default behavior) when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value.
         public var objectTags: DataSyncClientTypes.ObjectTags?
         /// Specifies whether DataSync should modify or preserve data at the destination location.
@@ -2276,6 +2428,7 @@ extension DataSyncClientTypes {
             gid: DataSyncClientTypes.Gid? = nil,
             logLevel: DataSyncClientTypes.LogLevel? = nil,
             mtime: DataSyncClientTypes.Mtime? = nil,
+            objectMetadata: DataSyncClientTypes.ObjectMetadata? = nil,
             objectTags: DataSyncClientTypes.ObjectTags? = nil,
             overwriteMode: DataSyncClientTypes.OverwriteMode? = nil,
             posixPermissions: DataSyncClientTypes.PosixPermissions? = nil,
@@ -2292,6 +2445,7 @@ extension DataSyncClientTypes {
             self.gid = gid
             self.logLevel = logLevel
             self.mtime = mtime
+            self.objectMetadata = objectMetadata
             self.objectTags = objectTags
             self.overwriteMode = overwriteMode
             self.posixPermissions = posixPermissions
@@ -2618,7 +2772,7 @@ public struct CreateTaskInput: Swift.Sendable {
     public var tags: [DataSyncClientTypes.TagListEntry]?
     /// Specifies one of the following task modes for your data transfer:
     ///
-    /// * ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for transfers between Amazon S3 locations, transfers between Azure Blob and Amazon S3 without an agent, and transfers between other clouds and Amazon S3 without an agent. To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.
+    /// * ENHANCED - Transfer virtually unlimited numbers of objects with higher performance than Basic mode. Enhanced mode tasks optimize the data transfer process by listing, preparing, transferring, and verifying data in parallel. Enhanced mode is currently available for all transfers except those that use Amazon S3 on Outposts. To create an Enhanced mode task, the IAM role that you use to call the CreateTask operation must have the iam:CreateServiceLinkedRole permission.
     ///
     /// * BASIC (default) - Transfer files or objects between Amazon Web Services storage and all other supported DataSync locations. Basic mode tasks are subject to [quotas](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-limits.html) on the number of files, objects, and directories in a dataset. Basic mode sequentially prepares, transfers, and verifies data, making it slower than Enhanced mode for most workloads.
     ///
@@ -2779,9 +2933,9 @@ extension DataSyncClientTypes {
         public var privateLinkEndpoint: Swift.String?
         /// Specifies the Amazon Resource Names (ARN) of the security group that provides DataSync access to your VPC endpoint. You can only specify one ARN.
         public var securityGroupArns: [Swift.String]?
-        /// Specifies the ARN of the subnet where your VPC endpoint is located. You can only specify one ARN.
+        /// Specifies the ARN of the subnet where DataSync creates the network interfaces that handle data transfer traffic for your tasks. You can only specify one ARN. The subnet doesn't have to be the subnet that contains your VPC endpoint.
         public var subnetArns: [Swift.String]?
-        /// Specifies the ID of the VPC endpoint that your agent connects to.
+        /// Specifies the ID of the VPC service endpoint that's recorded for your agent. The endpoint ID is informational and isn't verified by DataSync. Your agent communicates through the private IP address in PrivateLinkEndpoint, which is set when you activate the agent.
         public var vpcEndpointId: Swift.String?
 
         public init(
@@ -2859,7 +3013,7 @@ public struct DescribeLocationAzureBlobOutput: Swift.Sendable {
     public var accessTier: DataSyncClientTypes.AzureAccessTier?
     /// The ARNs of the DataSync agents that can connect with your Azure Blob Storage container.
     public var agentArns: [Swift.String]?
-    /// The authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+    /// The authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS) or an OpenID Connect (OIDC) token.
     public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
     /// The type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
     public var blobType: DataSyncClientTypes.AzureBlobType?
@@ -2869,6 +3023,8 @@ public struct DescribeLocationAzureBlobOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// Describes configuration information for a customer-managed secret, such as an authentication token that DataSync uses to access a specific storage location, with a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
+    /// The federated identity configuration that DataSync uses to access your Azure Blob Storage using an OpenID Connect (OIDC) token.
+    public var federatedIdentity: DataSyncClientTypes.AzureFederatedIdentityConfig?
     /// The ARN of your Azure Blob Storage transfer location.
     public var locationArn: Swift.String?
     /// The URL of the Azure Blob Storage container involved in your transfer.
@@ -2884,6 +3040,7 @@ public struct DescribeLocationAzureBlobOutput: Swift.Sendable {
         cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         creationTime: Foundation.Date? = nil,
         customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
+        federatedIdentity: DataSyncClientTypes.AzureFederatedIdentityConfig? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig? = nil
@@ -2895,6 +3052,7 @@ public struct DescribeLocationAzureBlobOutput: Swift.Sendable {
         self.cmkSecretConfig = cmkSecretConfig
         self.creationTime = creationTime
         self.customSecretConfig = customSecretConfig
+        self.federatedIdentity = federatedIdentity
         self.locationArn = locationArn
         self.locationUri = locationUri
         self.managedSecretConfig = managedSecretConfig
@@ -3271,6 +3429,8 @@ public struct DescribeLocationObjectStorageOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// Describes configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
+    /// The federated identity configuration that DataSync uses to access your object storage using an OpenID Connect (OIDC) token.
+    public var federatedIdentity: DataSyncClientTypes.ObjectStorageFederatedIdentityConfig?
     /// The ARN of the object storage system location.
     public var locationArn: Swift.String?
     /// The URI of the object storage system location.
@@ -3290,6 +3450,7 @@ public struct DescribeLocationObjectStorageOutput: Swift.Sendable {
         cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         creationTime: Foundation.Date? = nil,
         customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
+        federatedIdentity: DataSyncClientTypes.ObjectStorageFederatedIdentityConfig? = nil,
         locationArn: Swift.String? = nil,
         locationUri: Swift.String? = nil,
         managedSecretConfig: DataSyncClientTypes.ManagedSecretConfig? = nil,
@@ -3302,6 +3463,7 @@ public struct DescribeLocationObjectStorageOutput: Swift.Sendable {
         self.cmkSecretConfig = cmkSecretConfig
         self.creationTime = creationTime
         self.customSecretConfig = customSecretConfig
+        self.federatedIdentity = federatedIdentity
         self.locationArn = locationArn
         self.locationUri = locationUri
         self.managedSecretConfig = managedSecretConfig
@@ -4606,7 +4768,7 @@ public struct UpdateLocationAzureBlobInput: Swift.Sendable {
     public var accessTier: DataSyncClientTypes.AzureAccessTier?
     /// (Optional) Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect with your Azure Blob Storage container. If you are setting up an agentless cross-cloud transfer, you do not need to specify a value for this parameter. You can specify more than one agent. For more information, see [Using multiple agents for your transfer](https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html). You cannot add or remove agents from a storage location after you initially create it.
     public var agentArns: [Swift.String]?
-    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS).
+    /// Specifies the authentication method DataSync uses to access your Azure Blob Storage. DataSync can access blob storage using a shared access signature (SAS) or an OpenID Connect (OIDC) token.
     public var authenticationType: DataSyncClientTypes.AzureBlobAuthenticationType?
     /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the [Azure Blob Storage documentation](https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs).
     public var blobType: DataSyncClientTypes.AzureBlobType?
@@ -4614,6 +4776,8 @@ public struct UpdateLocationAzureBlobInput: Swift.Sendable {
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
+    /// Specifies the federated identity configuration that allows DataSync to access your Azure Blob Storage using an OpenID Connect (OIDC) token instead of a shared access signature (SAS). Provide either FederatedIdentity or SasConfiguration, but not both.
+    public var federatedIdentity: DataSyncClientTypes.AzureFederatedIdentityConfig?
     /// Specifies the ARN of the Azure Blob Storage transfer location that you're updating.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4629,6 +4793,7 @@ public struct UpdateLocationAzureBlobInput: Swift.Sendable {
         blobType: DataSyncClientTypes.AzureBlobType? = nil,
         cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
+        federatedIdentity: DataSyncClientTypes.AzureFederatedIdentityConfig? = nil,
         locationArn: Swift.String? = nil,
         sasConfiguration: DataSyncClientTypes.AzureBlobSasConfiguration? = nil,
         subdirectory: Swift.String? = nil
@@ -4639,6 +4804,7 @@ public struct UpdateLocationAzureBlobInput: Swift.Sendable {
         self.blobType = blobType
         self.cmkSecretConfig = cmkSecretConfig
         self.customSecretConfig = customSecretConfig
+        self.federatedIdentity = federatedIdentity
         self.locationArn = locationArn
         self.sasConfiguration = sasConfiguration
         self.subdirectory = subdirectory
@@ -4968,6 +5134,8 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// Specifies configuration information for a customer-managed secret, such as an authentication token or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed Identity and Access Management (IAM) role that provides access to the secret.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
+    /// Specifies the federated identity configuration that allows DataSync to access your object storage using an OpenID Connect (OIDC) token instead of a long-term access key and secret key. Provide either FederatedIdentity or the AccessKey/SecretKey credentials, but not both.
+    public var federatedIdentity: DataSyncClientTypes.ObjectStorageFederatedIdentityConfig?
     /// Specifies the ARN of the object storage system location that you're updating.
     /// This member is required.
     public var locationArn: Swift.String?
@@ -4998,6 +5166,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
         agentArns: [Swift.String]? = nil,
         cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig? = nil,
         customSecretConfig: DataSyncClientTypes.CustomSecretConfig? = nil,
+        federatedIdentity: DataSyncClientTypes.ObjectStorageFederatedIdentityConfig? = nil,
         locationArn: Swift.String? = nil,
         secretKey: Swift.String? = nil,
         serverCertificate: Foundation.Data? = nil,
@@ -5010,6 +5179,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
         self.agentArns = agentArns
         self.cmkSecretConfig = cmkSecretConfig
         self.customSecretConfig = customSecretConfig
+        self.federatedIdentity = federatedIdentity
         self.locationArn = locationArn
         self.secretKey = secretKey
         self.serverCertificate = serverCertificate

@@ -754,7 +754,12 @@ extension TaxSettingsClient {
 
     /// Performs the `BatchPutTaxRegistration` operation on the `TaxSettings` service.
     ///
-    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh
+    /// Adds or updates tax registration for multiple accounts in batch. This can be used to add or update tax registrations for up to five accounts in one batch. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Argentina
+    ///
+    /// * RegistrationType valid values are CUIT (Clave Única de Identificación Tributaria) and CDI (Clave de Identificación).
+    ///
+    ///
+    /// Bangladesh
     ///
     /// * You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.
     ///
@@ -764,6 +769,13 @@ extension TaxSettingsClient {
     /// * You must complete the tax registration process in the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods) page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.
     ///
     /// * For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.
+    ///
+    ///
+    /// Colombia
+    ///
+    /// * You can provide a Registro Único Tributario (RUT) document in the verificationDetails field.
+    ///
+    /// * If you provide the RUT document, you do not need to provide address and legal name. These will be populated based on your document.
     ///
     ///
     /// Georgia
@@ -870,6 +882,11 @@ extension TaxSettingsClient {
     /// * The sector valid values are Business and Individual.
     ///
     ///
+    /// Uruguay
+    ///
+    /// * RegistrationType valid values are RUT (Registro Único Tributario), NIE (Numero de Identificacion del Extranjero), and CI (Cedula Identidad).
+    ///
+    ///
     /// Philippines
     ///
     /// * You can optionally specify the isVatRegistered in the philippinesAdditionalInfo field of the additionalTaxInformation object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
@@ -895,6 +912,13 @@ extension TaxSettingsClient {
     /// Monaco
     ///
     /// * You must specify the businessNumber in the monacoAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// Germany
+    ///
+    /// * You must provide at least one of the following: a Tax Registration Number (TRN) (registrationId), the economicIdentificationNumber, or the steuernummer.
+    ///
+    /// * You can optionally specify the economicIdentificationNumber (Wirtschafts-Identifikationsnummer, or W-IdNr) and the steuernummer (tax number issued by the local tax office) in the germanyAdditionalInfo field of the additionalTaxInformation object.
     ///
     ///
     /// Poland
@@ -1808,7 +1832,12 @@ extension TaxSettingsClient {
 
     /// Performs the `PutTaxRegistration` operation on the `TaxSettings` service.
     ///
-    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Bangladesh
+    /// Adds or updates tax registration for a single account. You can't set a TRN if there's a pending TRN. You'll need to delete the pending TRN first. To call this API operation for specific countries, see the following country-specific requirements. Argentina
+    ///
+    /// * RegistrationType valid values are CUIT (Clave Única de Identificación Tributaria) and CDI (Clave de Identificación).
+    ///
+    ///
+    /// Bangladesh
     ///
     /// * You must specify the tax registration certificate document in the taxRegistrationDocuments field of the VerificationDetails object.
     ///
@@ -1818,6 +1847,13 @@ extension TaxSettingsClient {
     /// * You must complete the tax registration process in the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods) page in the Billing and Cost Management console. After your TRN and billing address are verified, you can call this API operation.
     ///
     /// * For Amazon Web Services accounts created through Organizations, you can call this API operation when you don't have a billing address.
+    ///
+    ///
+    /// Colombia
+    ///
+    /// * You can provide a Registro Único Tributario (RUT) document in the verificationDetails field.
+    ///
+    /// * If you provide the RUT document, you do not need to provide address and legal name. These will be populated based on your document.
     ///
     ///
     /// Georgia
@@ -1924,6 +1960,11 @@ extension TaxSettingsClient {
     /// * The sector valid values are Business and Individual.
     ///
     ///
+    /// Uruguay
+    ///
+    /// * RegistrationType valid values are RUT (Registro Único Tributario), NIE (Numero de Identificacion del Extranjero), and CI (Cedula Identidad).
+    ///
+    ///
     /// Philippines
     ///
     /// * You can optionally specify the isVatRegistered in the philippinesAdditionalInfo field of the additionalTaxInformation object to indicate your VAT registration status with the Bureau of Internal Revenue (BIR).
@@ -1949,6 +1990,13 @@ extension TaxSettingsClient {
     /// Monaco
     ///
     /// * You must specify the businessNumber in the monacoAdditionalInfo field of the additionalTaxInformation object.
+    ///
+    ///
+    /// Germany
+    ///
+    /// * You must provide at least one of the following: a Tax Registration Number (TRN) (registrationId), the economicIdentificationNumber, or the steuernummer.
+    ///
+    /// * You can optionally specify the economicIdentificationNumber (Wirtschafts-Identifikationsnummer, or W-IdNr) and the steuernummer (tax number issued by the local tax office) in the germanyAdditionalInfo field of the additionalTaxInformation object.
     ///
     ///
     /// Poland

@@ -10208,6 +10208,36 @@ public struct CreateTrustStoreOutput: Swift.Sendable {
 
 extension CloudFrontClientTypes {
 
+    /// IP address type supported for VPC Origins. IPv6-only is not supported for VPC Origins.
+    public enum VpcIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VpcIpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// An Amazon CloudFront VPC origin endpoint configuration.
     public struct VpcOriginEndpointConfig: Swift.Sendable {
         /// The ARN of the CloudFront VPC origin endpoint configuration.
@@ -10219,6 +10249,8 @@ extension CloudFrontClientTypes {
         /// The HTTPS port of the CloudFront VPC origin endpoint configuration. The default value is 443.
         /// This member is required.
         public var httpsPort: Swift.Int?
+        /// The IP address type of the CloudFront VPC origin endpoint configuration. Valid values are ipv4 and dualstack. IPv6-only is not supported for VPC origins.
+        public var ipAddressType: CloudFrontClientTypes.VpcIpAddressType?
         /// The name of the CloudFront VPC origin endpoint configuration.
         /// This member is required.
         public var name: Swift.String?
@@ -10232,6 +10264,7 @@ extension CloudFrontClientTypes {
             arn: Swift.String? = nil,
             httpPort: Swift.Int? = nil,
             httpsPort: Swift.Int? = nil,
+            ipAddressType: CloudFrontClientTypes.VpcIpAddressType? = nil,
             name: Swift.String? = nil,
             originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
             originSslProtocols: CloudFrontClientTypes.OriginSslProtocols? = nil
@@ -10239,6 +10272,7 @@ extension CloudFrontClientTypes {
             self.arn = arn
             self.httpPort = httpPort
             self.httpsPort = httpsPort
+            self.ipAddressType = ipAddressType
             self.name = name
             self.originProtocolPolicy = originProtocolPolicy
             self.originSslProtocols = originSslProtocols
@@ -15226,6 +15260,8 @@ extension CloudFrontClientTypes {
         /// The VPC origin summary ID.
         /// This member is required.
         public var id: Swift.String?
+        /// The IP address type of the CloudFront VPC origin. Valid values are ipv4 and dualstack. IPv6-only is not supported for VPC origins.
+        public var ipAddressType: CloudFrontClientTypes.VpcIpAddressType?
         /// The VPC origin summary last modified time.
         /// This member is required.
         public var lastModifiedTime: Foundation.Date?
@@ -15244,6 +15280,7 @@ extension CloudFrontClientTypes {
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
+            ipAddressType: CloudFrontClientTypes.VpcIpAddressType? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             originEndpointArn: Swift.String? = nil,
@@ -15253,6 +15290,7 @@ extension CloudFrontClientTypes {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
+            self.ipAddressType = ipAddressType
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.originEndpointArn = originEndpointArn
@@ -30856,6 +30894,7 @@ extension CloudFrontClientTypes.VpcOriginEndpointConfig {
         try writer["Arn"].write(value.arn)
         try writer["HTTPPort"].write(value.httpPort)
         try writer["HTTPSPort"].write(value.httpsPort)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["Name"].write(value.name)
         try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
         try writer["OriginSslProtocols"].write(value.originSslProtocols, with: CloudFrontClientTypes.OriginSslProtocols.write(value:to:))
@@ -30870,6 +30909,7 @@ extension CloudFrontClientTypes.VpcOriginEndpointConfig {
         value.httpsPort = try reader["HTTPSPort"].readIfPresent() ?? 0
         value.originProtocolPolicy = try reader["OriginProtocolPolicy"].readIfPresent() ?? .sdkUnknown("")
         value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }
@@ -30902,6 +30942,7 @@ extension CloudFrontClientTypes.VpcOriginSummary {
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.accountId = try reader["AccountId"].readIfPresent()
         value.originEndpointArn = try reader["OriginEndpointArn"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }

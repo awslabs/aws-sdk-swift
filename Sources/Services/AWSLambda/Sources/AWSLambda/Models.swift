@@ -2122,13 +2122,17 @@ extension LambdaClientTypes {
         public var functionName: Swift.String?
         /// The tenant identifier for the chained invocation.
         public var tenantId: Swift.String?
+        /// The X-Ray trace header to use when starting the chained invocation. This parameter is optional. If you omit this value, the child invocation inherits the parent durable execution's trace header. Specify this value on the START update for the chained invocation operation. For more information about the header format, see [Tracing header](https://docs.aws.amazon.com/xray/latest/devguide/xray-concepts.html#xray-concepts-tracingheader) in the X-Ray Developer Guide.
+        public var xAmznTraceId: Swift.String?
 
         public init(
             functionName: Swift.String? = nil,
-            tenantId: Swift.String? = nil
+            tenantId: Swift.String? = nil,
+            xAmznTraceId: Swift.String? = nil
         ) {
             self.functionName = functionName
             self.tenantId = tenantId
+            self.xAmznTraceId = xAmznTraceId
         }
     }
 }
@@ -2264,7 +2268,7 @@ extension LambdaClientTypes {
         public var chainedInvokeOptions: LambdaClientTypes.ChainedInvokeOptions?
         /// Options for context operations.
         public var contextOptions: LambdaClientTypes.ContextOptions?
-        /// The error information for failed operations.
+        /// The error information for failed operations. The combined size of all error fields is limited to 1 MB.
         public var error: LambdaClientTypes.ErrorObject?
         /// The unique identifier for this operation.
         /// This member is required.
@@ -2273,7 +2277,7 @@ extension LambdaClientTypes {
         public var name: Swift.String?
         /// The unique identifier of the parent operation, if this operation is running within a child context.
         public var parentId: Swift.String?
-        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), 1 MB for asynchronous EXECUTION (Event invocationType) and CHAINED_INVOKE operations, and 256 KB for CONTEXT, STEP, WAIT, and CALLBACK operations.
+        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), and 1 MB for asynchronous EXECUTION (Event invocationType), CHAINED_INVOKE, CONTEXT, STEP, WAIT, and CALLBACK operations.
         public var payload: Swift.String?
         /// Options for step operations.
         public var stepOptions: LambdaClientTypes.StepOptions?
@@ -2752,16 +2756,16 @@ public struct GetDurableExecutionOutput: Swift.Sendable {
     public var durableExecutionName: Swift.String?
     /// The date and time when the durable execution ended, in Unix timestamp format. This field is only present if the execution has completed (status is SUCCEEDED, FAILED, TIMED_OUT, or STOPPED).
     public var endTimestamp: Foundation.Date?
-    /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
+    /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 1 MB.
     public var error: LambdaClientTypes.ErrorObject?
     /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
     public var executionDataIncluded: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
     /// This member is required.
     public var functionArn: Swift.String?
-    /// The JSON input payload that was provided when the durable execution was started. For asynchronous invocations, this is limited to 256 KB. For synchronous invocations, this can be up to 6 MB.
+    /// The JSON input payload that you provided when you started the durable execution. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var inputPayload: Swift.String?
-    /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. The result is limited to 256 KB.
+    /// The JSON result returned by the durable execution if it completed successfully. This field is only present when the execution status is SUCCEEDED. Asynchronous invocations support up to 1 MB, and synchronous invocations support up to 6 MB.
     public var result: Swift.String?
     /// The date and time when the durable execution started, in Unix timestamp format.
     /// This member is required.
@@ -3642,7 +3646,7 @@ public struct StopDurableExecutionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the durable execution.
     /// This member is required.
     public var durableExecutionArn: Swift.String?
-    /// Optional error details explaining why the execution is being stopped.
+    /// Optional error details explaining why the execution is being stopped. The combined size of all error fields is limited to 1 MB.
     public var error: LambdaClientTypes.ErrorObject?
 
     public init(
@@ -4007,18 +4011,58 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
+    public enum KafkaEventSourceMappingConsumptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case queue
+        case stream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KafkaEventSourceMappingConsumptionMode] {
+            return [
+                .queue,
+                .stream
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .queue: return "Queue"
+            case .stream: return "Stream"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
     /// Specific configuration settings for a self-managed Apache Kafka event source.
     public struct SelfManagedKafkaEventSourceConfig: Swift.Sendable {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka-process.html#services-smaa-topic-add).
         public var consumerGroupId: Swift.String?
+        /// The mode that Lambda uses to consume records from your self-managed Apache Kafka topic. The default is Stream.
+        ///
+        /// * Stream – Lambda consumes records using a Kafka consumer group and preserves the order of records within each partition. This is the default when you omit ConsumptionMode.
+        ///
+        /// * Queue – Lambda consumes records using a Kafka share group. Multiple consumers can process records from the same partitions concurrently. Queue mode does not preserve per-partition order. Queue mode requires an Apache Kafka cluster running version 4.2 or later with share groups enabled.
+        ///
+        ///
+        /// You cannot change ConsumptionMode after you create the event source mapping. To use a different consumption mode, create a new event source mapping. When ConsumptionMode is Queue, the StartingPosition, StartingPositionTimestamp, and MaximumBatchingWindowInSeconds parameters are not supported.
+        public var consumptionMode: LambdaClientTypes.KafkaEventSourceMappingConsumptionMode?
         /// Specific configuration settings for a Kafka schema registry.
         public var schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig?
 
         public init(
             consumerGroupId: Swift.String? = nil,
+            consumptionMode: LambdaClientTypes.KafkaEventSourceMappingConsumptionMode? = nil,
             schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig? = nil
         ) {
             self.consumerGroupId = consumerGroupId
+            self.consumptionMode = consumptionMode
             self.schemaRegistryConfig = schemaRegistryConfig
         }
     }
@@ -4238,11 +4282,11 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
     public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka Stream consumption mode, the default is -1 (infinite retries; capped at 10 when an on-failure destination is configured). For Kafka Queue consumption mode, the default is 0, and if no on-failure destination is configured the Kafka broker performs retries.
     public var maximumRetryAttempts: Swift.Int?
     /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
@@ -4260,9 +4304,9 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var startingPositionTimestamp: Foundation.Date?
     /// A list of tags to apply to the event source mapping.
     public var tags: [Swift.String: Swift.String]?
@@ -5073,11 +5117,11 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. Use this configuration object to define the level of logs for your event source mapping.
     public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1. Not supported for Kafka event source mappings when ConsumptionMode is Queue.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka Stream consumption mode, the default is -1 (infinite retries; capped at 10 when an on-failure destination is configured). For Kafka Queue consumption mode, the default is 0, and if no on-failure destination is configured the Kafka broker performs retries.
     public var maximumRetryAttempts: Swift.Int?
     /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
@@ -12267,7 +12311,7 @@ public struct SendDurableExecutionCallbackFailureInput: Swift.Sendable {
     /// The unique identifier for the callback operation.
     /// This member is required.
     public var callbackId: Swift.String?
-    /// Error details describing why the callback operation failed.
+    /// Error details describing why the callback operation failed. The combined size of all error fields is limited to 1 MB.
     public var error: LambdaClientTypes.ErrorObject?
 
     public init(
@@ -12305,7 +12349,7 @@ public struct SendDurableExecutionCallbackSuccessInput: Swift.Sendable {
     /// The unique identifier for the callback operation.
     /// This member is required.
     public var callbackId: Swift.String?
-    /// The result data from the successful callback operation. Maximum size is 256 KB.
+    /// The result data from the successful callback operation. Maximum size is 1 MB.
     public var result: Foundation.Data?
 
     public init(
@@ -18755,6 +18799,7 @@ extension LambdaClientTypes.ChainedInvokeOptions {
         guard let value else { return }
         try writer["FunctionName"].write(value.functionName)
         try writer["TenantId"].write(value.tenantId)
+        try writer["XAmznTraceId"].write(value.xAmznTraceId)
     }
 }
 
@@ -19968,6 +20013,7 @@ extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
     static func write(value: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConsumerGroupId"].write(value.consumerGroupId)
+        try writer["ConsumptionMode"].write(value.consumptionMode)
         try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
     }
 
@@ -19976,6 +20022,7 @@ extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
         var value = LambdaClientTypes.SelfManagedKafkaEventSourceConfig()
         value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
         value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
+        value.consumptionMode = try reader["ConsumptionMode"].readIfPresent()
         return value
     }
 }

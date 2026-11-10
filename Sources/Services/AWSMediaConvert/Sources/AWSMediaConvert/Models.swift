@@ -5325,8 +5325,40 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify the source of the captions for this caption description. Choose Captions input source (INPUT_CAPTION_SELECTOR) to use a caption selector from your input. Choose Smart subtitling (SMART_SUBTITLE) to have MediaConvert and Elemental Inference generate subtitles automatically from an audio source that you specify.
+    public enum CaptionSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inputCaptionSelector
+        case smartSubtitle
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CaptionSource] {
+            return [
+                .inputCaptionSelector,
+                .smartSubtitle
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inputCaptionSelector: return "INPUT_CAPTION_SELECTOR"
+            case .smartSubtitle: return "SMART_SUBTITLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// This object holds groups of settings related to captions for one output. For each output that has captions, include one instance of CaptionDescriptions.
     public struct CaptionDescription: Swift.Sendable {
+        /// Specifies the audio selector or audio selector group that MediaConvert uses to generate Smart subtitles. The audio selector you choose must exist in all inputs for the job. If MediaConvert can't detect speech in the audio, it can't generate subtitles. Required when source is SMART_SUBTITLE; not allowed otherwise.
+        public var audioSourceNames: [Swift.String]?
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
         public var captionSelectorName: Swift.String?
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
@@ -5337,19 +5369,25 @@ extension MediaConvertClientTypes {
         public var languageCode: MediaConvertClientTypes.LanguageCode?
         /// Specify a label for this set of output captions. For example, "English", "Director commentary", or "track_2". For streaming outputs, MediaConvert passes this information into destination manifests for display on the end-viewer's player device. For outputs in other output groups, the service ignores this setting.
         public var languageDescription: Swift.String?
+        /// Specify the source of the captions for this caption description. Choose Captions input source (INPUT_CAPTION_SELECTOR) to use a caption selector from your input. Choose Smart subtitling (SMART_SUBTITLE) to have MediaConvert and Elemental Inference generate subtitles automatically from an audio source that you specify.
+        public var source: MediaConvertClientTypes.CaptionSource?
 
         public init(
+            audioSourceNames: [Swift.String]? = nil,
             captionSelectorName: Swift.String? = nil,
             customLanguageCode: Swift.String? = nil,
             destinationSettings: MediaConvertClientTypes.CaptionDestinationSettings? = nil,
             languageCode: MediaConvertClientTypes.LanguageCode? = nil,
-            languageDescription: Swift.String? = nil
+            languageDescription: Swift.String? = nil,
+            source: MediaConvertClientTypes.CaptionSource? = nil
         ) {
+            self.audioSourceNames = audioSourceNames
             self.captionSelectorName = captionSelectorName
             self.customLanguageCode = customLanguageCode
             self.destinationSettings = destinationSettings
             self.languageCode = languageCode
             self.languageDescription = languageDescription
+            self.source = source
         }
     }
 }
@@ -5559,6 +5597,33 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify additional criteria for partitioning video outputs into separate AdaptationSets. These criteria are applied on top of the grouping produced by DashManifestStyle.
+    public enum DashAdaptationSetGrouping: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codec
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashAdaptationSetGrouping] {
+            return [
+                .codec
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .codec: return "CODEC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specify the details for each additional DASH manifest that you want the service to generate for this output group. Each manifest can reference a different subset of outputs in the group.
     public struct DashAdditionalManifest: Swift.Sendable {
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your DASH group is film-name.mpd. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.mpd.
@@ -5649,11 +5714,13 @@ extension MediaConvertClientTypes {
     /// Elemental Inference feature.
     public enum ElementalInferenceFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case smartCrop
+        case smartSubtitle
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ElementalInferenceFeature] {
             return [
-                .smartCrop
+                .smartCrop,
+                .smartSubtitle
             ]
         }
 
@@ -5665,6 +5732,7 @@ extension MediaConvertClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .smartCrop: return "SMART_CROP"
+            case .smartSubtitle: return "SMART_SUBTITLE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5709,9 +5777,9 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Elemental Inference Feed.
+    /// An AWS Elemental Inference Feed.
     public struct ElementalInferenceFeed: Swift.Sendable {
-        /// Feed ARN.
+        /// The ARN of an AWS Elemental Inference Feed.
         public var arn: Swift.String?
         /// Elemental Inference Feed management state.
         public var feedManagementState: MediaConvertClientTypes.ElementalInferenceFeedManagementState?
@@ -8469,7 +8537,7 @@ extension MediaConvertClientTypes {
     public struct ElementalInferenceConfiguration: Swift.Sendable {
         /// A list of Elemental Inference features used in this job.
         public var features: [MediaConvertClientTypes.ElementalInferenceFeature]?
-        /// A list of Elemental Inference feeds used by this job.
+        /// A list of Elemental Inference feeds created during this job.
         public var feeds: [MediaConvertClientTypes.ElementalInferenceFeed]?
 
         public init(
@@ -8478,6 +8546,36 @@ extension MediaConvertClientTypes {
         ) {
             self.features = features
             self.feeds = feeds
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The source of your Elemental Inference Feed configuration.
+    public struct ElementalInferenceFeedConfigurationSource: Swift.Sendable {
+        /// The ARN of an Elemental Inference Feed.
+        public var feedArn: Swift.String?
+
+        public init(
+            feedArn: Swift.String? = nil
+        ) {
+            self.feedArn = feedArn
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// The Elemental Inference settings used in this job.
+    public struct ElementalInferenceSettings: Swift.Sendable {
+        /// Optional. The source of your Elemental Inference Feed configuration. MediaConvert will reference this configuration source when you specify job settings which use Elemental Inference.
+        public var feedConfigurationSource: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource?
+
+        public init(
+            feedConfigurationSource: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource? = nil
+        ) {
+            self.feedConfigurationSource = feedConfigurationSource
         }
     }
 }
@@ -10201,6 +10299,8 @@ extension MediaConvertClientTypes {
         public var clientCache: MediaConvertClientTypes.CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public var codecSpecification: MediaConvertClientTypes.CmafCodecSpecification?
+        /// Specify additional criteria for partitioning video outputs into separate AdaptationSets. These criteria are applied on top of the grouping produced by DashManifestStyle.
+        public var dashAdaptationSetGrouping: [MediaConvertClientTypes.DashAdaptationSetGrouping]?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public var dashIFrameTrickPlayNameModifier: Swift.String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
@@ -10257,6 +10357,7 @@ extension MediaConvertClientTypes {
             baseUrl: Swift.String? = nil,
             clientCache: MediaConvertClientTypes.CmafClientCache? = nil,
             codecSpecification: MediaConvertClientTypes.CmafCodecSpecification? = nil,
+            dashAdaptationSetGrouping: [MediaConvertClientTypes.DashAdaptationSetGrouping]? = nil,
             dashIFrameTrickPlayNameModifier: Swift.String? = nil,
             dashManifestStyle: MediaConvertClientTypes.DashManifestStyle? = nil,
             destination: Swift.String? = nil,
@@ -10287,6 +10388,7 @@ extension MediaConvertClientTypes {
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
+            self.dashAdaptationSetGrouping = dashAdaptationSetGrouping
             self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
@@ -10756,6 +10858,8 @@ extension MediaConvertClientTypes {
         public var audioChannelConfigSchemeIdUri: MediaConvertClientTypes.DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public var baseUrl: Swift.String?
+        /// Specify additional criteria for partitioning video outputs into separate AdaptationSets. These criteria are applied on top of the grouping produced by DashManifestStyle.
+        public var dashAdaptationSetGrouping: [MediaConvertClientTypes.DashAdaptationSetGrouping]?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public var dashIFrameTrickPlayNameModifier: Swift.String?
         /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
@@ -10801,6 +10905,7 @@ extension MediaConvertClientTypes {
             additionalManifests: [MediaConvertClientTypes.DashAdditionalManifest]? = nil,
             audioChannelConfigSchemeIdUri: MediaConvertClientTypes.DashIsoGroupAudioChannelConfigSchemeIdUri? = nil,
             baseUrl: Swift.String? = nil,
+            dashAdaptationSetGrouping: [MediaConvertClientTypes.DashAdaptationSetGrouping]? = nil,
             dashIFrameTrickPlayNameModifier: Swift.String? = nil,
             dashManifestStyle: MediaConvertClientTypes.DashManifestStyle? = nil,
             destination: Swift.String? = nil,
@@ -10825,6 +10930,7 @@ extension MediaConvertClientTypes {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
+            self.dashAdaptationSetGrouping = dashAdaptationSetGrouping
             self.dashIFrameTrickPlayNameModifier = dashIFrameTrickPlayNameModifier
             self.dashManifestStyle = dashManifestStyle
             self.destination = destination
@@ -15028,13 +15134,15 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
+    /// 'With AV1 outputs, for rate control mode, MediaConvert supports quality-defined variable bitrate (QVBR) and constant bitrate (CBR). You can''t use VBR.'
     public enum Av1RateControlMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cbr
         case qvbr
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Av1RateControlMode] {
             return [
+                .cbr,
                 .qvbr
             ]
         }
@@ -15046,7 +15154,41 @@ extension MediaConvertClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cbr: return "CBR"
             case .qvbr: return "QVBR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Optional. Use this setting to have the service insert I-frames at scene changes that it automatically detects. For AV1, scene change detection is disabled by default. Choose Enabled to insert I-frames at detected scene changes, which can improve video quality. If this output uses QVBR, you can instead choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+    public enum Av1SceneChangeDetect: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case transitionDetection
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1SceneChangeDetect] {
+            return [
+                .disabled,
+                .enabled,
+                .transitionDetection
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .transitionDetection: return "TRANSITION_DETECTION"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15091,6 +15233,8 @@ extension MediaConvertClientTypes {
         public var adaptiveQuantization: MediaConvertClientTypes.Av1AdaptiveQuantization?
         /// Specify the Bit depth. You can choose 8-bit or 10-bit.
         public var bitDepth: MediaConvertClientTypes.Av1BitDepth?
+        /// Specify the average bitrate in bits per second. Required when Rate control mode is CBR.
+        public var bitrate: Swift.Int?
         /// Film grain synthesis replaces film grain present in your content with similar quality synthesized AV1 film grain. We recommend that you choose Enabled to reduce the bandwidth of your QVBR quality level 5, 6, 7, or 8 outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep the default value, Disabled. When you include Film grain synthesis, you cannot include the Noise reducer preprocessor.
         public var filmGrainSynthesis: MediaConvertClientTypes.Av1FilmGrainSynthesis?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
@@ -15109,18 +15253,25 @@ extension MediaConvertClientTypes {
         public var numberBFramesBetweenReferenceFrames: Swift.Int?
         /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public var perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]?
-        /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
+        /// Settings for quality-defined variable bitrate encoding with the AV1 codec. Use these settings only when you set QVBR for Rate control mode.
         public var qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings?
-        /// 'With AV1 outputs, for rate control mode, MediaConvert supports only quality-defined variable bitrate (QVBR). You can''t use CBR or VBR.'
+        /// 'With AV1 outputs, for rate control mode, MediaConvert supports quality-defined variable bitrate (QVBR) and constant bitrate (CBR). You can''t use VBR.'
         public var rateControlMode: MediaConvertClientTypes.Av1RateControlMode?
+        /// Optional. Use this setting to have the service insert I-frames at scene changes that it automatically detects. For AV1, scene change detection is disabled by default. Choose Enabled to insert I-frames at detected scene changes, which can improve video quality. If this output uses QVBR, you can instead choose Transition detection for further video quality improvement. For more information about QVBR, see https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
+        public var sceneChangeDetect: MediaConvertClientTypes.Av1SceneChangeDetect?
         /// Specify the number of slices per picture. This value must be 1, 2, 4, 8, 16, or 32. For progressive pictures, this value must be less than or equal to the number of macroblock rows. For interlaced pictures, this value must be less than or equal to half the number of macroblock rows.
         public var slices: Swift.Int?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public var slidingWindowMs: Swift.Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the QVBR rate control mode. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public var slidingWindowPeakBitrate: Swift.Int?
         /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
         public var spatialAdaptiveQuantization: MediaConvertClientTypes.Av1SpatialAdaptiveQuantization?
 
         public init(
             adaptiveQuantization: MediaConvertClientTypes.Av1AdaptiveQuantization? = nil,
             bitDepth: MediaConvertClientTypes.Av1BitDepth? = nil,
+            bitrate: Swift.Int? = nil,
             filmGrainSynthesis: MediaConvertClientTypes.Av1FilmGrainSynthesis? = nil,
             framerateControl: MediaConvertClientTypes.Av1FramerateControl? = nil,
             framerateConversionAlgorithm: MediaConvertClientTypes.Av1FramerateConversionAlgorithm? = nil,
@@ -15132,11 +15283,15 @@ extension MediaConvertClientTypes {
             perFrameMetrics: [MediaConvertClientTypes.FrameMetricType]? = nil,
             qvbrSettings: MediaConvertClientTypes.Av1QvbrSettings? = nil,
             rateControlMode: MediaConvertClientTypes.Av1RateControlMode? = nil,
+            sceneChangeDetect: MediaConvertClientTypes.Av1SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
+            slidingWindowMs: Swift.Int? = nil,
+            slidingWindowPeakBitrate: Swift.Int? = nil,
             spatialAdaptiveQuantization: MediaConvertClientTypes.Av1SpatialAdaptiveQuantization? = nil
         ) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitDepth = bitDepth
+            self.bitrate = bitrate
             self.filmGrainSynthesis = filmGrainSynthesis
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
@@ -15148,7 +15303,10 @@ extension MediaConvertClientTypes {
             self.perFrameMetrics = perFrameMetrics
             self.qvbrSettings = qvbrSettings
             self.rateControlMode = rateControlMode
+            self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
         }
     }
@@ -16809,6 +16967,10 @@ extension MediaConvertClientTypes {
         public var sceneChangeDetect: MediaConvertClientTypes.H264SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public var slices: Swift.Int?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public var slidingWindowMs: Swift.Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the VBR, CBR, and QVBR rate control modes. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public var slidingWindowPeakBitrate: Swift.Int?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public var slowPal: MediaConvertClientTypes.H264SlowPal?
         /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness or by enabling a noise reducer filter. The Softness setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, for flat quantization. Choose the value 1 or 16 to use the default JVT softening quantization matricies from the H.264 specification. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
@@ -16866,6 +17028,8 @@ extension MediaConvertClientTypes {
             scanTypeConversionMode: MediaConvertClientTypes.H264ScanTypeConversionMode? = nil,
             sceneChangeDetect: MediaConvertClientTypes.H264SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
+            slidingWindowMs: Swift.Int? = nil,
+            slidingWindowPeakBitrate: Swift.Int? = nil,
             slowPal: MediaConvertClientTypes.H264SlowPal? = nil,
             softness: Swift.Int? = nil,
             spatialAdaptiveQuantization: MediaConvertClientTypes.H264SpatialAdaptiveQuantization? = nil,
@@ -16914,6 +17078,8 @@ extension MediaConvertClientTypes {
             self.scanTypeConversionMode = scanTypeConversionMode
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.slowPal = slowPal
             self.softness = softness
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
@@ -18063,6 +18229,10 @@ extension MediaConvertClientTypes {
         public var sceneChangeDetect: MediaConvertClientTypes.H265SceneChangeDetect?
         /// Number of slices per picture. Must be less than or equal to the number of macroblock rows for progressive pictures, and less than or equal to half the number of macroblock rows for interlaced pictures.
         public var slices: Swift.Int?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public var slidingWindowMs: Swift.Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the VBR, CBR, and QVBR rate control modes. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public var slidingWindowPeakBitrate: Swift.Int?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public var slowPal: MediaConvertClientTypes.H265SlowPal?
         /// Keep the default value, Enabled, to adjust quantization within each frame based on spatial variation of content complexity. When you enable this feature, the encoder uses fewer bits on areas that can sustain more distortion with no noticeable visual degradation and uses more bits on areas where any small distortion will be noticeable. For example, complex textured blocks are encoded with fewer bits and smooth textured blocks are encoded with more bits. Enabling this feature will almost always improve your video quality. Note, though, that this feature doesn't take into account where the viewer's attention is likely to be. If viewers are likely to be focusing their attention on a part of the screen with a lot of complex texture, you might choose to disable this feature. Related setting: When you enable spatial adaptive quantization, set the value for Adaptive quantization depending on your content. For homogeneous content, such as cartoons and video games, set it to Low. For content with a wider variety of textures, set it to High or Higher.
@@ -18128,6 +18298,8 @@ extension MediaConvertClientTypes {
             scanTypeConversionMode: MediaConvertClientTypes.H265ScanTypeConversionMode? = nil,
             sceneChangeDetect: MediaConvertClientTypes.H265SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
+            slidingWindowMs: Swift.Int? = nil,
+            slidingWindowPeakBitrate: Swift.Int? = nil,
             slowPal: MediaConvertClientTypes.H265SlowPal? = nil,
             spatialAdaptiveQuantization: MediaConvertClientTypes.H265SpatialAdaptiveQuantization? = nil,
             telecine: MediaConvertClientTypes.H265Telecine? = nil,
@@ -18180,6 +18352,8 @@ extension MediaConvertClientTypes {
             self.scanTypeConversionMode = scanTypeConversionMode
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.slowPal = slowPal
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
             self.telecine = telecine
@@ -18868,6 +19042,10 @@ extension MediaConvertClientTypes {
         public var scanTypeConversionMode: MediaConvertClientTypes.Mpeg2ScanTypeConversionMode?
         /// Enable this setting to insert I-frames at scene changes that the service automatically detects. This improves video quality and is enabled by default.
         public var sceneChangeDetect: MediaConvertClientTypes.Mpeg2SceneChangeDetect?
+        /// Optional. Specify the duration, in milliseconds, of the sliding window over which MediaConvert enforces your Peak bitrate. When you specify a Peak bitrate but omit this value, MediaConvert uses a default sliding window of 1000.
+        public var slidingWindowMs: Swift.Int?
+        /// Optional. Specify an instantaneous peak bitrate ceiling, in bits/second, that MediaConvert enforces over the sliding window set by Peak bitrate window. For example, enter fifty megabits per second as 50000000. Applies in the VBR and CBR rate control modes. When you specify a value below Max bitrate, MediaConvert raises it to Max bitrate.
+        public var slidingWindowPeakBitrate: Swift.Int?
         /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per second (fps). Enable slow PAL to create a 25 fps output. When you enable slow PAL, MediaConvert relabels the video frames to 25 fps and resamples your audio to keep it synchronized with the video. Note that enabling this setting will slightly reduce the duration of your video. Required settings: You must also set Framerate to 25.
         public var slowPal: MediaConvertClientTypes.Mpeg2SlowPal?
         /// Ignore this setting unless you need to comply with a specification that requires a specific value. If you don't have a specification requirement, we recommend that you adjust the softness of your output by using a lower value for the setting Sharpness or by enabling a noise reducer filter. The Softness setting specifies the quantization matrices that the encoder uses. Keep the default value, 0, to use the AWS Elemental default matrices. Choose a value from 17 to 128 to use planar interpolation. Increasing values from 17 to 128 result in increasing reduction of high-frequency data. The value 128 results in the softest video.
@@ -18910,6 +19088,8 @@ extension MediaConvertClientTypes {
             rateControlMode: MediaConvertClientTypes.Mpeg2RateControlMode? = nil,
             scanTypeConversionMode: MediaConvertClientTypes.Mpeg2ScanTypeConversionMode? = nil,
             sceneChangeDetect: MediaConvertClientTypes.Mpeg2SceneChangeDetect? = nil,
+            slidingWindowMs: Swift.Int? = nil,
+            slidingWindowPeakBitrate: Swift.Int? = nil,
             slowPal: MediaConvertClientTypes.Mpeg2SlowPal? = nil,
             softness: Swift.Int? = nil,
             spatialAdaptiveQuantization: MediaConvertClientTypes.Mpeg2SpatialAdaptiveQuantization? = nil,
@@ -18945,6 +19125,8 @@ extension MediaConvertClientTypes {
             self.rateControlMode = rateControlMode
             self.scanTypeConversionMode = scanTypeConversionMode
             self.sceneChangeDetect = sceneChangeDetect
+            self.slidingWindowMs = slidingWindowMs
+            self.slidingWindowPeakBitrate = slidingWindowPeakBitrate
             self.slowPal = slowPal
             self.softness = softness
             self.spatialAdaptiveQuantization = spatialAdaptiveQuantization
@@ -22117,13 +22299,15 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
+    /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion. * Perceptual exploits perceptual masking, avoiding encoding bits spent on imperceptible detail. * None disables noise reduction, including the perceptual filter that MediaConvert otherwise applies by default for AVC, HEVC, AV1, MPEG-2, VP8, and VP9 outputs. MediaConvert doesn't apply that default to mezzanine and archival outputs (AVC-Intra, XAVC, Apple ProRes, VC3, Uncompressed), to frame capture outputs, or to outputs that use Dolby Vision, which doesn't support any noise reducer.
     public enum NoiseReducerFilter: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bilateral
         case conserve
         case gaussian
         case lanczos
         case mean
+        case `none`
+        case perceptual
         case sharpen
         case spatial
         case temporal
@@ -22136,6 +22320,8 @@ extension MediaConvertClientTypes {
                 .gaussian,
                 .lanczos,
                 .mean,
+                .none,
+                .perceptual,
                 .sharpen,
                 .spatial,
                 .temporal
@@ -22154,6 +22340,8 @@ extension MediaConvertClientTypes {
             case .gaussian: return "GAUSSIAN"
             case .lanczos: return "LANCZOS"
             case .mean: return "MEAN"
+            case .none: return "NONE"
+            case .perceptual: return "PERCEPTUAL"
             case .sharpen: return "SHARPEN"
             case .spatial: return "SPATIAL"
             case .temporal: return "TEMPORAL"
@@ -22302,7 +22490,7 @@ extension MediaConvertClientTypes {
 
     /// Enable the Noise reducer feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default. When you enable Noise reducer, you must also select a value for Noise reducer filter. For AVC outputs, when you include Noise reducer, you cannot include the Bandwidth reduction filter.
     public struct NoiseReducer: Swift.Sendable {
-        /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
+        /// Use Noise reducer filter to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer. * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion. * Perceptual exploits perceptual masking, avoiding encoding bits spent on imperceptible detail. * None disables noise reduction, including the perceptual filter that MediaConvert otherwise applies by default for AVC, HEVC, AV1, MPEG-2, VP8, and VP9 outputs. MediaConvert doesn't apply that default to mezzanine and archival outputs (AVC-Intra, XAVC, Apple ProRes, VC3, Uncompressed), to frame capture outputs, or to outputs that use Dolby Vision, which doesn't support any noise reducer.
         public var filter: MediaConvertClientTypes.NoiseReducerFilter?
         /// Settings for a noise reducer filter
         public var filterSettings: MediaConvertClientTypes.NoiseReducerFilterSettings?
@@ -23060,6 +23248,8 @@ extension MediaConvertClientTypes {
         public var currentPhase: MediaConvertClientTypes.JobPhase?
         /// The Elemental Inference configuration used in this job.
         public var elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration?
+        /// The Elemental Inference settings used in this job.
+        public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
         /// Error code for the job
         public var errorCode: Swift.Int?
         /// Error message of Job
@@ -23120,6 +23310,7 @@ extension MediaConvertClientTypes {
             createdAt: Foundation.Date? = nil,
             currentPhase: MediaConvertClientTypes.JobPhase? = nil,
             elementalInferenceConfiguration: MediaConvertClientTypes.ElementalInferenceConfiguration? = nil,
+            elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
             errorCode: Swift.Int? = nil,
             errorMessage: Swift.String? = nil,
             hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
@@ -23153,6 +23344,7 @@ extension MediaConvertClientTypes {
             self.createdAt = createdAt
             self.currentPhase = currentPhase
             self.elementalInferenceConfiguration = elementalInferenceConfiguration
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.hopDestinations = hopDestinations
@@ -23381,6 +23573,8 @@ extension MediaConvertClientTypes {
         public var createdAt: Foundation.Date?
         /// An optional description you create for each job template.
         public var description: Swift.String?
+        /// The Elemental Inference settings used in this job.
+        public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
         /// Optional list of hop destinations.
         public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
         /// The timestamp in epoch seconds when the Job template was last updated.
@@ -23406,6 +23600,7 @@ extension MediaConvertClientTypes {
             category: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
             hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
             lastUpdated: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -23420,6 +23615,7 @@ extension MediaConvertClientTypes {
             self.category = category
             self.createdAt = createdAt
             self.description = description
+            self.elementalInferenceSettings = elementalInferenceSettings
             self.hopDestinations = hopDestinations
             self.lastUpdated = lastUpdated
             self.name = name
@@ -25031,6 +25227,8 @@ public struct CreateJobInput: Swift.Sendable {
     public var billingTagsSource: MediaConvertClientTypes.BillingTagsSource?
     /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
     public var clientRequestToken: Swift.String?
+    /// The Elemental Inference settings used in this job.
+    public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
     /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
     /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
@@ -25060,6 +25258,7 @@ public struct CreateJobInput: Swift.Sendable {
         accelerationSettings: MediaConvertClientTypes.AccelerationSettings? = nil,
         billingTagsSource: MediaConvertClientTypes.BillingTagsSource? = nil,
         clientRequestToken: Swift.String? = nil,
+        elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
         hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
         jobEngineVersion: Swift.String? = nil,
         jobTemplate: Swift.String? = nil,
@@ -25075,6 +25274,7 @@ public struct CreateJobInput: Swift.Sendable {
         self.accelerationSettings = accelerationSettings
         self.billingTagsSource = billingTagsSource
         self.clientRequestToken = clientRequestToken
+        self.elementalInferenceSettings = elementalInferenceSettings
         self.hopDestinations = hopDestinations
         self.jobEngineVersion = jobEngineVersion
         self.jobTemplate = jobTemplate
@@ -25107,6 +25307,8 @@ public struct CreateJobTemplateInput: Swift.Sendable {
     public var category: Swift.String?
     /// Optional. A description of the job template you are creating.
     public var description: Swift.String?
+    /// The Elemental Inference settings used in this job.
+    public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
     /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
     /// The name of the job template you are creating.
@@ -25128,6 +25330,7 @@ public struct CreateJobTemplateInput: Swift.Sendable {
         accelerationSettings: MediaConvertClientTypes.AccelerationSettings? = nil,
         category: Swift.String? = nil,
         description: Swift.String? = nil,
+        elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
         hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -25139,6 +25342,7 @@ public struct CreateJobTemplateInput: Swift.Sendable {
         self.accelerationSettings = accelerationSettings
         self.category = category
         self.description = description
+        self.elementalInferenceSettings = elementalInferenceSettings
         self.hopDestinations = hopDestinations
         self.name = name
         self.priority = priority
@@ -26241,6 +26445,8 @@ public struct UpdateJobTemplateInput: Swift.Sendable {
     public var category: Swift.String?
     /// The new description for the job template, if you are changing it.
     public var description: Swift.String?
+    /// The Elemental Inference settings used in this job.
+    public var elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings?
     /// Optional list of hop destinations.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
     /// The name of the job template you are modifying
@@ -26259,6 +26465,7 @@ public struct UpdateJobTemplateInput: Swift.Sendable {
         accelerationSettings: MediaConvertClientTypes.AccelerationSettings? = nil,
         category: Swift.String? = nil,
         description: Swift.String? = nil,
+        elementalInferenceSettings: MediaConvertClientTypes.ElementalInferenceSettings? = nil,
         hopDestinations: [MediaConvertClientTypes.HopDestination]? = nil,
         name: Swift.String? = nil,
         priority: Swift.Int? = nil,
@@ -26269,6 +26476,7 @@ public struct UpdateJobTemplateInput: Swift.Sendable {
         self.accelerationSettings = accelerationSettings
         self.category = category
         self.description = description
+        self.elementalInferenceSettings = elementalInferenceSettings
         self.hopDestinations = hopDestinations
         self.name = name
         self.priority = priority
@@ -26821,6 +27029,7 @@ extension CreateJobInput {
         try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
         try writer["billingTagsSource"].write(value.billingTagsSource)
         try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["elementalInferenceSettings"].write(value.elementalInferenceSettings, with: MediaConvertClientTypes.ElementalInferenceSettings.write(value:to:))
         try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["jobEngineVersion"].write(value.jobEngineVersion)
         try writer["jobTemplate"].write(value.jobTemplate)
@@ -26842,6 +27051,7 @@ extension CreateJobTemplateInput {
         try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
         try writer["category"].write(value.category)
         try writer["description"].write(value.description)
+        try writer["elementalInferenceSettings"].write(value.elementalInferenceSettings, with: MediaConvertClientTypes.ElementalInferenceSettings.write(value:to:))
         try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["priority"].write(value.priority)
@@ -26949,6 +27159,7 @@ extension UpdateJobTemplateInput {
         try writer["accelerationSettings"].write(value.accelerationSettings, with: MediaConvertClientTypes.AccelerationSettings.write(value:to:))
         try writer["category"].write(value.category)
         try writer["description"].write(value.description)
+        try writer["elementalInferenceSettings"].write(value.elementalInferenceSettings, with: MediaConvertClientTypes.ElementalInferenceSettings.write(value:to:))
         try writer["hopDestinations"].writeList(value.hopDestinations, memberWritingClosure: MediaConvertClientTypes.HopDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["priority"].write(value.priority)
         try writer["queue"].write(value.queue)
@@ -28636,6 +28847,7 @@ extension MediaConvertClientTypes.Av1Settings {
         guard let value else { return }
         try writer["adaptiveQuantization"].write(value.adaptiveQuantization)
         try writer["bitDepth"].write(value.bitDepth)
+        try writer["bitrate"].write(value.bitrate)
         try writer["filmGrainSynthesis"].write(value.filmGrainSynthesis)
         try writer["framerateControl"].write(value.framerateControl)
         try writer["framerateConversionAlgorithm"].write(value.framerateConversionAlgorithm)
@@ -28647,7 +28859,10 @@ extension MediaConvertClientTypes.Av1Settings {
         try writer["perFrameMetrics"].writeList(value.perFrameMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.FrameMetricType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["qvbrSettings"].write(value.qvbrSettings, with: MediaConvertClientTypes.Av1QvbrSettings.write(value:to:))
         try writer["rateControlMode"].write(value.rateControlMode)
+        try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
         try writer["slices"].write(value.slices)
+        try writer["slidingWindowMs"].write(value.slidingWindowMs)
+        try writer["slidingWindowPeakBitrate"].write(value.slidingWindowPeakBitrate)
         try writer["spatialAdaptiveQuantization"].write(value.spatialAdaptiveQuantization)
     }
 
@@ -28656,6 +28871,7 @@ extension MediaConvertClientTypes.Av1Settings {
         var value = MediaConvertClientTypes.Av1Settings()
         value.adaptiveQuantization = try reader["adaptiveQuantization"].readIfPresent()
         value.bitDepth = try reader["bitDepth"].readIfPresent()
+        value.bitrate = try reader["bitrate"].readIfPresent()
         value.filmGrainSynthesis = try reader["filmGrainSynthesis"].readIfPresent()
         value.framerateControl = try reader["framerateControl"].readIfPresent()
         value.framerateConversionAlgorithm = try reader["framerateConversionAlgorithm"].readIfPresent()
@@ -28667,7 +28883,10 @@ extension MediaConvertClientTypes.Av1Settings {
         value.perFrameMetrics = try reader["perFrameMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.FrameMetricType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.qvbrSettings = try reader["qvbrSettings"].readIfPresent(with: MediaConvertClientTypes.Av1QvbrSettings.read(from:))
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
+        value.sceneChangeDetect = try reader["sceneChangeDetect"].readIfPresent()
         value.slices = try reader["slices"].readIfPresent()
+        value.slidingWindowMs = try reader["slidingWindowMs"].readIfPresent()
+        value.slidingWindowPeakBitrate = try reader["slidingWindowPeakBitrate"].readIfPresent()
         value.spatialAdaptiveQuantization = try reader["spatialAdaptiveQuantization"].readIfPresent()
         return value
     }
@@ -28824,21 +29043,25 @@ extension MediaConvertClientTypes.CaptionDescription {
 
     static func write(value: MediaConvertClientTypes.CaptionDescription?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["audioSourceNames"].writeList(value.audioSourceNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["captionSelectorName"].write(value.captionSelectorName)
         try writer["customLanguageCode"].write(value.customLanguageCode)
         try writer["destinationSettings"].write(value.destinationSettings, with: MediaConvertClientTypes.CaptionDestinationSettings.write(value:to:))
         try writer["languageCode"].write(value.languageCode)
         try writer["languageDescription"].write(value.languageDescription)
+        try writer["source"].write(value.source)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.CaptionDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.CaptionDescription()
+        value.audioSourceNames = try reader["audioSourceNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.captionSelectorName = try reader["captionSelectorName"].readIfPresent()
         value.customLanguageCode = try reader["customLanguageCode"].readIfPresent()
         value.destinationSettings = try reader["destinationSettings"].readIfPresent(with: MediaConvertClientTypes.CaptionDestinationSettings.read(from:))
         value.languageCode = try reader["languageCode"].readIfPresent()
         value.languageDescription = try reader["languageDescription"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
         return value
     }
 }
@@ -29050,6 +29273,7 @@ extension MediaConvertClientTypes.CmafGroupSettings {
         try writer["baseUrl"].write(value.baseUrl)
         try writer["clientCache"].write(value.clientCache)
         try writer["codecSpecification"].write(value.codecSpecification)
+        try writer["dashAdaptationSetGrouping"].writeList(value.dashAdaptationSetGrouping, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.DashAdaptationSetGrouping>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dashIFrameTrickPlayNameModifier"].write(value.dashIFrameTrickPlayNameModifier)
         try writer["dashManifestStyle"].write(value.dashManifestStyle)
         try writer["destination"].write(value.destination)
@@ -29084,6 +29308,7 @@ extension MediaConvertClientTypes.CmafGroupSettings {
         value.baseUrl = try reader["baseUrl"].readIfPresent()
         value.clientCache = try reader["clientCache"].readIfPresent()
         value.codecSpecification = try reader["codecSpecification"].readIfPresent()
+        value.dashAdaptationSetGrouping = try reader["dashAdaptationSetGrouping"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.DashAdaptationSetGrouping>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashIFrameTrickPlayNameModifier = try reader["dashIFrameTrickPlayNameModifier"].readIfPresent()
         value.dashManifestStyle = try reader["dashManifestStyle"].readIfPresent()
         value.destination = try reader["destination"].readIfPresent()
@@ -29392,6 +29617,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings {
         try writer["additionalManifests"].writeList(value.additionalManifests, memberWritingClosure: MediaConvertClientTypes.DashAdditionalManifest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["audioChannelConfigSchemeIdUri"].write(value.audioChannelConfigSchemeIdUri)
         try writer["baseUrl"].write(value.baseUrl)
+        try writer["dashAdaptationSetGrouping"].writeList(value.dashAdaptationSetGrouping, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaConvertClientTypes.DashAdaptationSetGrouping>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dashIFrameTrickPlayNameModifier"].write(value.dashIFrameTrickPlayNameModifier)
         try writer["dashManifestStyle"].write(value.dashManifestStyle)
         try writer["destination"].write(value.destination)
@@ -29420,6 +29646,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings {
         value.additionalManifests = try reader["additionalManifests"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.DashAdditionalManifest.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.audioChannelConfigSchemeIdUri = try reader["audioChannelConfigSchemeIdUri"].readIfPresent()
         value.baseUrl = try reader["baseUrl"].readIfPresent()
+        value.dashAdaptationSetGrouping = try reader["dashAdaptationSetGrouping"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaConvertClientTypes.DashAdaptationSetGrouping>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashIFrameTrickPlayNameModifier = try reader["dashIFrameTrickPlayNameModifier"].readIfPresent()
         value.dashManifestStyle = try reader["dashManifestStyle"].readIfPresent()
         value.destination = try reader["destination"].readIfPresent()
@@ -29903,6 +30130,36 @@ extension MediaConvertClientTypes.ElementalInferenceFeed {
     }
 }
 
+extension MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource {
+
+    static func write(value: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["feedArn"].write(value.feedArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource()
+        value.feedArn = try reader["feedArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.ElementalInferenceSettings {
+
+    static func write(value: MediaConvertClientTypes.ElementalInferenceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["feedConfigurationSource"].write(value.feedConfigurationSource, with: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.ElementalInferenceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.ElementalInferenceSettings()
+        value.feedConfigurationSource = try reader["feedConfigurationSource"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceFeedConfigurationSource.read(from:))
+        return value
+    }
+}
+
 extension MediaConvertClientTypes.EmbeddedDestinationSettings {
 
     static func write(value: MediaConvertClientTypes.EmbeddedDestinationSettings?, to writer: SmithyJSON.Writer) throws {
@@ -30246,6 +30503,8 @@ extension MediaConvertClientTypes.H264Settings {
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
         try writer["slices"].write(value.slices)
+        try writer["slidingWindowMs"].write(value.slidingWindowMs)
+        try writer["slidingWindowPeakBitrate"].write(value.slidingWindowPeakBitrate)
         try writer["slowPal"].write(value.slowPal)
         try writer["softness"].write(value.softness)
         try writer["spatialAdaptiveQuantization"].write(value.spatialAdaptiveQuantization)
@@ -30298,6 +30557,8 @@ extension MediaConvertClientTypes.H264Settings {
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.sceneChangeDetect = try reader["sceneChangeDetect"].readIfPresent()
         value.slices = try reader["slices"].readIfPresent()
+        value.slidingWindowMs = try reader["slidingWindowMs"].readIfPresent()
+        value.slidingWindowPeakBitrate = try reader["slidingWindowPeakBitrate"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.softness = try reader["softness"].readIfPresent()
         value.spatialAdaptiveQuantization = try reader["spatialAdaptiveQuantization"].readIfPresent()
@@ -30372,6 +30633,8 @@ extension MediaConvertClientTypes.H265Settings {
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
         try writer["slices"].write(value.slices)
+        try writer["slidingWindowMs"].write(value.slidingWindowMs)
+        try writer["slidingWindowPeakBitrate"].write(value.slidingWindowPeakBitrate)
         try writer["slowPal"].write(value.slowPal)
         try writer["spatialAdaptiveQuantization"].write(value.spatialAdaptiveQuantization)
         try writer["telecine"].write(value.telecine)
@@ -30428,6 +30691,8 @@ extension MediaConvertClientTypes.H265Settings {
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.sceneChangeDetect = try reader["sceneChangeDetect"].readIfPresent()
         value.slices = try reader["slices"].readIfPresent()
+        value.slidingWindowMs = try reader["slidingWindowMs"].readIfPresent()
+        value.slidingWindowPeakBitrate = try reader["slidingWindowPeakBitrate"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.spatialAdaptiveQuantization = try reader["spatialAdaptiveQuantization"].readIfPresent()
         value.telecine = try reader["telecine"].readIfPresent()
@@ -31083,6 +31348,7 @@ extension MediaConvertClientTypes.Job {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.currentPhase = try reader["currentPhase"].readIfPresent()
         value.elementalInferenceConfiguration = try reader["elementalInferenceConfiguration"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceConfiguration.read(from:))
+        value.elementalInferenceSettings = try reader["elementalInferenceSettings"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceSettings.read(from:))
         value.errorCode = try reader["errorCode"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
         value.hopDestinations = try reader["hopDestinations"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HopDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -31195,6 +31461,7 @@ extension MediaConvertClientTypes.JobTemplate {
         value.category = try reader["category"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
+        value.elementalInferenceSettings = try reader["elementalInferenceSettings"].readIfPresent(with: MediaConvertClientTypes.ElementalInferenceSettings.read(from:))
         value.hopDestinations = try reader["hopDestinations"].readListIfPresent(memberReadingClosure: MediaConvertClientTypes.HopDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["name"].readIfPresent() ?? ""
@@ -31758,6 +32025,8 @@ extension MediaConvertClientTypes.Mpeg2Settings {
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["scanTypeConversionMode"].write(value.scanTypeConversionMode)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
+        try writer["slidingWindowMs"].write(value.slidingWindowMs)
+        try writer["slidingWindowPeakBitrate"].write(value.slidingWindowPeakBitrate)
         try writer["slowPal"].write(value.slowPal)
         try writer["softness"].write(value.softness)
         try writer["spatialAdaptiveQuantization"].write(value.spatialAdaptiveQuantization)
@@ -31797,6 +32066,8 @@ extension MediaConvertClientTypes.Mpeg2Settings {
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.sceneChangeDetect = try reader["sceneChangeDetect"].readIfPresent()
+        value.slidingWindowMs = try reader["slidingWindowMs"].readIfPresent()
+        value.slidingWindowPeakBitrate = try reader["slidingWindowPeakBitrate"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.softness = try reader["softness"].readIfPresent()
         value.spatialAdaptiveQuantization = try reader["spatialAdaptiveQuantization"].readIfPresent()
