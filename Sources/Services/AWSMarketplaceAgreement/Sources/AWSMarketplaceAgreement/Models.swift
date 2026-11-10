@@ -1112,7 +1112,7 @@ extension MarketplaceAgreementClientTypes {
 
     /// Defines a short-term free pricing model where the buyers aren’t charged anything within a specified limit.
     public struct FreeTrialPricingTerm: Swift.Sendable {
-        /// Duration of the free trial period (5–31 days).
+        /// Duration of the free trial period. The allowed duration depends on the product type. For SaaS products, the free trial lasts 7 to 90 days.
         public var duration: Swift.String?
         /// Entitlements granted to the acceptor of a free trial as part of an agreement execution.
         public var grants: [MarketplaceAgreementClientTypes.GrantItem]?
@@ -2191,6 +2191,8 @@ extension MarketplaceAgreementClientTypes {
         public var endTimeBehaviorType: MarketplaceAgreementClientTypes.EndTimeBehaviorType?
         /// A list of entitlements associated with the agreement.
         public var entitlements: [MarketplaceAgreementClientTypes.Entitlement]?
+        /// The date and time when the free trial of the agreement ends. This field is present only when the agreement includes a free trial. For an agreement that includes both a free trial and usage-based pricing, the agreement converts to paid usage at this time.
+        public var freeTrialEndTime: Foundation.Date?
         /// The unique identifier of the very first agreement in a chain of related agreements, such as renewals or replacements. It stays the same across all agreements in that chain, which lets you trace an agreement back to the original. You can also use it as the InitialAgreementId filter value to return every agreement in the same chain.
         public var initialAgreementId: Swift.String?
         /// The date and time when the agreement was last updated. An agreement is updated when any of its attributes or accepted terms change. Amendments, renewals, and a party changing whether the agreement renews are all examples. Use the BeforeLastUpdateTime and AfterLastUpdateTime filters to search on this value, and LastUpdateTime as the SortBy value to sort by it. Sorting by LastUpdateTime is supported only when PartyType is Proposer.
@@ -2213,6 +2215,7 @@ extension MarketplaceAgreementClientTypes {
             endTimeBehaviorReasonCode: MarketplaceAgreementClientTypes.EndTimeBehaviorReasonCode? = nil,
             endTimeBehaviorType: MarketplaceAgreementClientTypes.EndTimeBehaviorType? = nil,
             entitlements: [MarketplaceAgreementClientTypes.Entitlement]? = nil,
+            freeTrialEndTime: Foundation.Date? = nil,
             initialAgreementId: Swift.String? = nil,
             lastUpdateTime: Foundation.Date? = nil,
             proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
@@ -2228,6 +2231,7 @@ extension MarketplaceAgreementClientTypes {
             self.endTimeBehaviorReasonCode = endTimeBehaviorReasonCode
             self.endTimeBehaviorType = endTimeBehaviorType
             self.entitlements = entitlements
+            self.freeTrialEndTime = freeTrialEndTime
             self.initialAgreementId = initialAgreementId
             self.lastUpdateTime = lastUpdateTime
             self.proposalSummary = proposalSummary
@@ -3051,6 +3055,21 @@ extension MarketplaceAgreementClientTypes {
     }
 }
 
+extension MarketplaceAgreementClientTypes {
+
+    /// Contains details about the free trial of an agreement, including when the free trial ends.
+    public struct FreeTrialSummary: Swift.Sendable {
+        /// The date and time when the free trial ends. For an agreement that includes both a free trial and usage-based pricing, the agreement converts to paid usage at this time.
+        public var trialEndTime: Foundation.Date?
+
+        public init(
+            trialEndTime: Foundation.Date? = nil
+        ) {
+            self.trialEndTime = trialEndTime
+        }
+    }
+}
+
 public struct DescribeAgreementOutput: Swift.Sendable {
     /// The date and time the offer was accepted or the agreement was created. AcceptanceTime and StartTime can differ for future dated agreements (FDAs).
     public var acceptanceTime: Foundation.Date?
@@ -3066,6 +3085,8 @@ public struct DescribeAgreementOutput: Swift.Sendable {
     public var endTimeBehavior: MarketplaceAgreementClientTypes.EndTimeBehavior?
     /// The estimated cost of the agreement.
     public var estimatedCharges: MarketplaceAgreementClientTypes.EstimatedCharges?
+    /// The free trial details of the agreement. This field is present only when the agreement includes a free trial.
+    public var freeTrialSummary: MarketplaceAgreementClientTypes.FreeTrialSummary?
     /// The unique identifier of the very first agreement in a chain of related agreements, such as renewals or replacements. It stays the same across all agreements in that chain, which lets you trace an agreement back to the original. When an agreement isn't derived from another agreement, its InitialAgreementId is its own AgreementId.
     public var initialAgreementId: Swift.String?
     /// A summary of the proposal received from the proposer.
@@ -3097,6 +3118,7 @@ public struct DescribeAgreementOutput: Swift.Sendable {
         endTime: Foundation.Date? = nil,
         endTimeBehavior: MarketplaceAgreementClientTypes.EndTimeBehavior? = nil,
         estimatedCharges: MarketplaceAgreementClientTypes.EstimatedCharges? = nil,
+        freeTrialSummary: MarketplaceAgreementClientTypes.FreeTrialSummary? = nil,
         initialAgreementId: Swift.String? = nil,
         proposalSummary: MarketplaceAgreementClientTypes.ProposalSummary? = nil,
         proposer: MarketplaceAgreementClientTypes.Proposer? = nil,
@@ -3110,6 +3132,7 @@ public struct DescribeAgreementOutput: Swift.Sendable {
         self.endTime = endTime
         self.endTimeBehavior = endTimeBehavior
         self.estimatedCharges = estimatedCharges
+        self.freeTrialSummary = freeTrialSummary
         self.initialAgreementId = initialAgreementId
         self.proposalSummary = proposalSummary
         self.proposer = proposer

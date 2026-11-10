@@ -6189,6 +6189,80 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
+    public enum LogDeliveryDestinationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatch
+        case firehose
+        case s3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogDeliveryDestinationType] {
+            return [
+                .cloudwatch,
+                .firehose,
+                .s3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatch: return "CLOUDWATCH"
+            case .firehose: return "FIREHOSE"
+            case .s3: return "S3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    /// A single destination that receives game session placement insight logs for a game session queue. Amazon CloudWatch Logs vended log charges apply to each destination. Amazon S3 and Amazon Data Firehose destinations also incur their own service charges. For more information, see [Amazon CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
+    public struct LogDeliveryDestination: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource that receives the game session placement insight logs. This resource must match the type that you specify in LogDestination. This value is required for FIREHOSE destinations. For CLOUDWATCH and S3, you can omit this value; Amazon GameLift Servers then creates a destination resource of the specified type on your behalf.
+        public var destinationArn: Swift.String?
+        /// The type of Amazon Web Services resource that receives the game session placement insight logs. This value is required. Valid values are:
+        ///
+        /// * CLOUDWATCH -- an Amazon CloudWatch Logs log group.
+        ///
+        /// * S3 -- an Amazon S3 bucket.
+        ///
+        /// * FIREHOSE -- an Amazon Data Firehose delivery stream.
+        /// This member is required.
+        public var logDestination: GameLiftClientTypes.LogDeliveryDestinationType?
+
+        public init(
+            destinationArn: Swift.String? = nil,
+            logDestination: GameLiftClientTypes.LogDeliveryDestinationType? = nil
+        ) {
+            self.destinationArn = destinationArn
+            self.logDestination = logDestination
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    /// A configuration that delivers game session placement insight logs to one or more destinations of your choice.
+    public struct GameSessionQueueLogConfiguration: Swift.Sendable {
+        /// The destinations that receive game session placement insight logs for the queue. You can specify up to 3 destinations. Each destination must have a unique ARN.
+        /// This member is required.
+        public var deliveryDestinations: [GameLiftClientTypes.LogDeliveryDestination]?
+
+        public init(
+            deliveryDestinations: [GameLiftClientTypes.LogDeliveryDestination]? = nil
+        ) {
+            self.deliveryDestinations = deliveryDestinations
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
     /// Sets a latency cap for individual players when placing a game session. With a latency policy in force, a game session cannot be placed in a fleet location where a player reports latency higher than the cap. Latency policies are used only with placement requests that provide player latency information. Player latency policies can be stacked to gradually relax latency requirements over time.
     public struct PlayerLatencyPolicy: Swift.Sendable {
         /// The maximum latency value that is allowed for any player, in milliseconds. All policies must have a value set for this property.
@@ -6279,6 +6353,8 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
     public var destinations: [GameLiftClientTypes.GameSessionQueueDestination]?
     /// A list of locations where a queue is allowed to place new game sessions. Locations are specified in the form of Amazon Web Services Region codes, such as us-west-2. If this parameter is not set, game sessions can be placed in any queue location.
     public var filterConfiguration: GameLiftClientTypes.FilterConfiguration?
+    /// An optional configuration that delivers game session placement insight logs to one or more destinations of your choice. Use these logs to diagnose why a game session placement is FULFILLED, CANCELLED, TIMED_OUT, or FAILED, which locations were evaluated, and the latency and cost factors that influenced each decision.
+    public var logConfiguration: GameLiftClientTypes.GameSessionQueueLogConfiguration?
     /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region.
     /// This member is required.
     public var name: Swift.String?
@@ -6286,7 +6362,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
     public var notificationTarget: Swift.String?
     /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests. Use multiple policies to gradually relax the cap over time if Amazon GameLift Servers can't make a placement. Policies are evaluated in order starting with the lowest maximum latency value.
     public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
-    /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
+    /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
     /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
@@ -6297,6 +6373,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
         customEventData: Swift.String? = nil,
         destinations: [GameLiftClientTypes.GameSessionQueueDestination]? = nil,
         filterConfiguration: GameLiftClientTypes.FilterConfiguration? = nil,
+        logConfiguration: GameLiftClientTypes.GameSessionQueueLogConfiguration? = nil,
         name: Swift.String? = nil,
         notificationTarget: Swift.String? = nil,
         playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]? = nil,
@@ -6307,6 +6384,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
         self.customEventData = customEventData
         self.destinations = destinations
         self.filterConfiguration = filterConfiguration
+        self.logConfiguration = logConfiguration
         self.name = name
         self.notificationTarget = notificationTarget
         self.playerLatencyPolicies = playerLatencyPolicies
@@ -6328,13 +6406,15 @@ extension GameLiftClientTypes {
         public var filterConfiguration: GameLiftClientTypes.FilterConfiguration?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers game session queue resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::gamesessionqueue/. In a Amazon GameLift Servers game session queue ARN, the resource ID matches the Name value.
         public var gameSessionQueueArn: Swift.String?
+        /// An optional configuration that delivers game session placement insight logs to one or more destinations of your choice. Use these logs to diagnose why a game session placement is FULFILLED, CANCELLED, TIMED_OUT, or FAILED, which locations were evaluated, and the latency and cost factors that influenced each decision.
+        public var logConfiguration: GameLiftClientTypes.GameSessionQueueLogConfiguration?
         /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region.
         public var name: Swift.String?
         /// An SNS topic ARN that is set up to receive game session placement notifications. See [ Setting up notifications for game session placement](https://docs.aws.amazon.com/gamelift/latest/developerguide/queue-notification.html).
         public var notificationTarget: Swift.String?
         /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests. Use multiple policies to gradually relax the cap over time if Amazon GameLift Servers can't make a placement. Policies are evaluated in order starting with the lowest maximum latency value.
         public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
-        /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
+        /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
         public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
         /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. The minimum value is 10 and the maximum value is 600.
         public var timeoutInSeconds: Swift.Int?
@@ -6344,6 +6424,7 @@ extension GameLiftClientTypes {
             destinations: [GameLiftClientTypes.GameSessionQueueDestination]? = nil,
             filterConfiguration: GameLiftClientTypes.FilterConfiguration? = nil,
             gameSessionQueueArn: Swift.String? = nil,
+            logConfiguration: GameLiftClientTypes.GameSessionQueueLogConfiguration? = nil,
             name: Swift.String? = nil,
             notificationTarget: Swift.String? = nil,
             playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]? = nil,
@@ -6354,6 +6435,7 @@ extension GameLiftClientTypes {
             self.destinations = destinations
             self.filterConfiguration = filterConfiguration
             self.gameSessionQueueArn = gameSessionQueueArn
+            self.logConfiguration = logConfiguration
             self.name = name
             self.notificationTarget = notificationTarget
             self.playerLatencyPolicies = playerLatencyPolicies
@@ -7503,13 +7585,27 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// Set of rules for processing a deployment for a container fleet update.
+    /// Set of rules for processing a deployment for a container fleet update. For how Amazon GameLift Servers validates and rolls out a deployment, see [Container fleet deployments](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/containers-deployment-validation.html).
     public struct DeploymentConfiguration: Swift.Sendable {
-        /// Determines what actions to take if a deployment fails. If the fleet is multi-location, this strategy applies across all fleet locations. With a rollback strategy, updated fleet instances are rolled back to the last successful deployment. Alternatively, you can maintain a few impaired containers for the purpose of debugging, while all other tasks return to the last successful deployment.
+        /// Determines what actions to take if a deployment fails validation. If the fleet is multi-location, this strategy applies across all fleet locations.
+        ///
+        /// * ROLLBACK -- Returns all of the fleet's containers to the last successful deployment.
+        ///
+        /// * MAINTAIN -- Keeps the containers that failed validation in place so that you can inspect them, and returns all other containers to the last successful deployment. Use this option when you're deploying a container image that you want to be able to debug on failure.
+        ///
+        ///
+        /// Default value: MAINTAIN
         public var impairmentStrategy: GameLiftClientTypes.DeploymentImpairmentStrategy?
-        /// Sets a minimum level of healthy tasks to maintain during deployment activity.
+        /// Sets the minimum percentage of the fleet's game server container groups to keep healthy during deployment activity. A low value favors deployment speed; a high value favors game server availability. For example, if the fleet runs 20 game server container groups and this value is 75, Amazon GameLift Servers keeps at least 15 of them healthy, so it replaces no more than 5 at a time. Default value: 75
         public var minimumHealthyPercentage: Swift.Int?
-        /// Determines how fleet deployment activity affects active game sessions on the fleet. With protection, a deployment honors game session protection, and delays actions that would interrupt a protected active game session until the game session ends. Without protection, deployment activity can shut down all running tasks, including active game sessions, regardless of game session protection.
+        /// Determines how fleet deployment activity affects active game sessions on the fleet. A protected game session can't be terminated while it's active; a fleet sets the default protection for its new game sessions with NewGameSessionProtectionPolicy.
+        ///
+        /// * WITH_PROTECTION -- The deployment honors game session protection, and delays actions that would interrupt a protected active game session until the game session ends.
+        ///
+        /// * IGNORE_PROTECTION -- The deployment replaces containers regardless of game session activity, including active game sessions. This option is useful during development and testing.
+        ///
+        ///
+        /// This setting also affects how long deployment validation can take. When the fleet's NewGameSessionProtectionPolicy is FullProtection and the deployment uses WITH_PROTECTION, validation waits for protected game sessions to end. Default value: WITH_PROTECTION
         public var protectionStrategy: GameLiftClientTypes.DeploymentProtectionStrategy?
 
         public init(
@@ -8107,19 +8203,24 @@ extension GameLiftClientTypes {
         public var deploymentConfiguration: GameLiftClientTypes.DeploymentConfiguration?
         /// A unique identifier for the deployment.
         public var deploymentId: Swift.String?
-        /// The status of fleet deployment activity in the location.
+        /// The status of the fleet deployment. For per-location status, see LocationalDeployment.
         ///
-        /// * IN_PROGRESS -- The deployment is in progress.
+        /// * PENDING -- Amazon GameLift Servers has accepted the deployment and hasn't started it yet.
         ///
-        /// * IMPAIRED -- The deployment failed and the fleet has some impaired containers.
+        /// * IN_PROGRESS -- The deployment is in progress. This status covers validation as well as the replacement of the fleet's containers.
         ///
-        /// * COMPLETE -- The deployment has completed successfully.
+        /// * IMPAIRED -- The deployment failed validation, and the fleet kept the containers that failed validation so that you can inspect them. A deployment reaches this status when its impairment strategy is MAINTAIN.
         ///
-        /// * ROLLBACK_IN_PROGRESS -- The deployment failed and rollback has been initiated.
+        /// * COMPLETE -- The deployment has completed successfully in every fleet location.
         ///
-        /// * ROLLBACK_IN_COMPLETE -- The deployment failed and rollback has been completed.
+        /// * ROLLBACK_IN_PROGRESS -- The deployment failed and rollback has been initiated. A deployment reaches this status when its impairment strategy is ROLLBACK.
         ///
-        /// * CANCELLED -- The deployment was cancelled.
+        /// * ROLLBACK_COMPLETE -- The deployment failed and rollback has been completed. The fleet is running the configuration from the last successful deployment.
+        ///
+        /// * CANCELLED -- The deployment was cancelled because a new deployment started for the same fleet.
+        ///
+        ///
+        /// For how to debug an impaired deployment or cancel one, see [Container fleet deployments](https://docs.aws.amazon.com/gameliftservers/latest/developerguide/containers-deployment-validation.html).
         public var deploymentStatus: GameLiftClientTypes.DeploymentStatus?
         /// A unique identifier for the container fleet.
         public var fleetId: Swift.String?
@@ -8162,17 +8263,17 @@ extension GameLiftClientTypes {
     public struct LocationalDeployment: Swift.Sendable {
         /// The status of fleet deployment activity in the location.
         ///
-        /// * IN_PROGRESS -- The deployment is in progress.
+        /// * IN_PROGRESS -- The deployment is in progress in the location. This status covers validation as well as the replacement of the location's containers.
         ///
-        /// * IMPAIRED -- The deployment failed and the fleet has some impaired containers.
+        /// * IMPAIRED -- The deployment failed validation in the location, and the location kept the containers that failed validation so that you can inspect them. A location reaches this status when the deployment's impairment strategy is MAINTAIN.
         ///
-        /// * COMPLETE -- The deployment has completed successfully.
+        /// * COMPLETE -- The deployment has completed successfully in the location.
         ///
-        /// * ROLLBACK_IN_PROGRESS -- The deployment failed and rollback has been initiated.
+        /// * ROLLBACK_IN_PROGRESS -- The deployment failed and rollback has been initiated in the location. A location reaches this status when the deployment's impairment strategy is ROLLBACK.
         ///
-        /// * ROLLBACK_IN_COMPLETE -- The deployment failed and rollback has been completed.
+        /// * ROLLBACK_COMPLETE -- The deployment failed and rollback has been completed in the location. The location is running the configuration from the last successful deployment.
         ///
-        /// * CANCELLED -- The deployment was cancelled.
+        /// * CANCELLED -- The deployment was cancelled because a new deployment started for the same fleet.
         public var deploymentStatus: GameLiftClientTypes.DeploymentStatus?
 
         public init(
@@ -12468,6 +12569,8 @@ public struct UpdateGameSessionOutput: Swift.Sendable {
 }
 
 public struct UpdateGameSessionQueueInput: Swift.Sendable {
+    /// Log delivery destinations to add to the queue's log configuration (LogConfiguration).
+    public var addLogDeliveryDestinations: [GameLiftClientTypes.LogDeliveryDestination]?
     /// Information to be added to all events that are related to this game session queue.
     public var customEventData: Swift.String?
     /// A list of fleets and/or fleet aliases that can be used to fulfill game session placement requests in the queue. Destinations are identified by either a fleet ARN or a fleet alias ARN, and are listed in order of placement preference. When updating this list, provide a complete list of destinations.
@@ -12481,12 +12584,15 @@ public struct UpdateGameSessionQueueInput: Swift.Sendable {
     public var notificationTarget: Swift.String?
     /// A set of policies that enforce a sliding cap on player latency when processing game sessions placement requests. Use multiple policies to gradually relax the cap over time if Amazon GameLift Servers can't make a placement. Policies are evaluated in order starting with the lowest maximum latency value. When updating policies, provide a complete collection of policies.
     public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
-    /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
+    /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
+    /// Log delivery destinations to remove from the queue's log configuration (LogConfiguration).
+    public var removeLogDeliveryDestinations: [GameLiftClientTypes.LogDeliveryDestination]?
     /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. The minimum value is 10 and the maximum value is 600.
     public var timeoutInSeconds: Swift.Int?
 
     public init(
+        addLogDeliveryDestinations: [GameLiftClientTypes.LogDeliveryDestination]? = nil,
         customEventData: Swift.String? = nil,
         destinations: [GameLiftClientTypes.GameSessionQueueDestination]? = nil,
         filterConfiguration: GameLiftClientTypes.FilterConfiguration? = nil,
@@ -12494,8 +12600,10 @@ public struct UpdateGameSessionQueueInput: Swift.Sendable {
         notificationTarget: Swift.String? = nil,
         playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]? = nil,
         priorityConfiguration: GameLiftClientTypes.PriorityConfiguration? = nil,
+        removeLogDeliveryDestinations: [GameLiftClientTypes.LogDeliveryDestination]? = nil,
         timeoutInSeconds: Swift.Int? = nil
     ) {
+        self.addLogDeliveryDestinations = addLogDeliveryDestinations
         self.customEventData = customEventData
         self.destinations = destinations
         self.filterConfiguration = filterConfiguration
@@ -12503,6 +12611,7 @@ public struct UpdateGameSessionQueueInput: Swift.Sendable {
         self.notificationTarget = notificationTarget
         self.playerLatencyPolicies = playerLatencyPolicies
         self.priorityConfiguration = priorityConfiguration
+        self.removeLogDeliveryDestinations = removeLogDeliveryDestinations
         self.timeoutInSeconds = timeoutInSeconds
     }
 }

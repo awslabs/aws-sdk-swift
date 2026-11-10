@@ -321,7 +321,7 @@ extension DynamoDBClient {
                 accountIdEndpointMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode(),
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "DynamoDB"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -559,7 +559,7 @@ extension DynamoDBClient {
                 accountIdEndpointMode: try AWSClientRuntime.AWSClientConfigDefaultsProvider.accountIDEndpointMode(),
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "DynamoDB"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -622,7 +622,7 @@ extension DynamoDBClient {
     public static func builder() -> ClientRuntime.ClientBuilder<DynamoDBClient> {
         return ClientRuntime.ClientBuilder<DynamoDBClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "DynamoDB"),
             DefaultAWSAuthSchemePlugin()
         ])
     }

@@ -316,7 +316,7 @@ extension ConnectClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Connect"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -547,7 +547,7 @@ extension ConnectClient {
                 signingRegion: region,
                 endpointResolver: try DefaultEndpointResolver(),
                 telemetryProvider: ClientRuntime.DefaultTelemetry.provider,
-                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),
+                retryStrategyOptions: try AWSClientConfigDefaultsProvider.retryStrategyOptions(sdkID: "Connect"),
                 clientLogMode: AWSClientConfigDefaultsProvider.clientLogMode(),
                 endpoint: nil,
                 idempotencyTokenGenerator: AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
@@ -609,7 +609,7 @@ extension ConnectClient {
     public static func builder() -> ClientRuntime.ClientBuilder<ConnectClient> {
         return ClientRuntime.ClientBuilder<ConnectClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName, sdkID: "Connect"),
             DefaultAWSAuthSchemePlugin()
         ])
     }
@@ -19952,7 +19952,7 @@ extension ConnectClient {
 
     /// Performs the `PauseContact` operation on the `Connect` service.
     ///
-    /// Allows pausing an ongoing task contact.
+    /// Pauses an ongoing task or email contact.
     ///
     /// - Parameter input: [no documentation found] (Type: `PauseContactInput`)
     ///
@@ -20249,7 +20249,7 @@ extension ConnectClient {
 
     /// Performs the `ResumeContact` operation on the `Connect` service.
     ///
-    /// Allows resuming a task contact in a paused state.
+    /// Resumes a task or email contact in a paused state.
     ///
     /// - Parameter input: [no documentation found] (Type: `ResumeContactInput`)
     ///

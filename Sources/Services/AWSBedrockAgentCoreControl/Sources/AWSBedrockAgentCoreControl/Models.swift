@@ -1925,6 +1925,82 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// A lifecycle hook action that sends an HTTP POST request to the agent's container. The path and port can't conflict with a path that your agent already serves for AgentCore Runtime, such as the protocol's invocation path or the health check path.
+    public struct HttpPostLifecycleHookAction: Swift.Sendable {
+        /// The path in the agent's container that AgentCore Runtime sends the POST request to.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The port in the agent's container that AgentCore Runtime sends the POST request to. If you don't specify a port, the default is the runtime's server port: the port in the protocol configuration if one is set, otherwise the protocol's default port.
+        public var port: Swift.Int?
+
+        public init(
+            path: Swift.String? = nil,
+            port: Swift.Int? = nil
+        ) {
+            self.path = path
+            self.port = port
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The action that a lifecycle hook runs. Specify exactly one member. Currently, httpPost is the only supported action.
+    public enum LifecycleHookAction: Swift.Sendable {
+        /// Sends an HTTP POST request to your agent's container on the specified port and path to run the hook. The hook succeeds if your container returns a 2xx response. The hook fails if your container returns any other response or doesn't respond before the hook times out.
+        case httppost(BedrockAgentCoreControlClientTypes.HttpPostLifecycleHookAction)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A lifecycle hook, which defines the action that AgentCore Runtime runs at a point in the runtime's lifecycle.
+    public struct LifecycleHook: Swift.Sendable {
+        /// The action that AgentCore Runtime runs for the hook. Specify exactly one action.
+        /// This member is required.
+        public var action: BedrockAgentCoreControlClientTypes.LifecycleHookAction?
+
+        public init(
+            action: BedrockAgentCoreControlClientTypes.LifecycleHookAction? = nil
+        ) {
+            self.action = action
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The lifecycle hooks that run when you create or update the AgentCore Runtime, before any sessions are created.
+    public struct BuildLifecycleHooks: Swift.Sendable {
+        /// The hook that warms up your agent before any sessions are created. Use this hook to load the resources that your sessions need, such as models, libraries, or caches. Your hook must complete within 120 seconds.
+        public var warmup: BedrockAgentCoreControlClientTypes.LifecycleHook?
+
+        public init(
+            warmup: BedrockAgentCoreControlClientTypes.LifecycleHook? = nil
+        ) {
+            self.warmup = warmup
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The lifecycle hooks that AgentCore Runtime runs at fixed points in the runtime's lifecycle.
+    public struct RuntimeHooksConfiguration: Swift.Sendable {
+        /// The hooks that run when you create or update the AgentCore Runtime, before any sessions are created.
+        public var build: BedrockAgentCoreControlClientTypes.BuildLifecycleHooks?
+
+        public init(
+            build: BedrockAgentCoreControlClientTypes.BuildLifecycleHooks? = nil
+        ) {
+            self.build = build
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.
     public struct LifecycleConfiguration: Swift.Sendable {
         /// Timeout in seconds for idle runtime sessions. When a session remains idle for this duration, it will be automatically terminated. Default: 900 seconds (15 minutes).
@@ -2085,6 +2161,22 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The resource configuration for an AgentCore Runtime.
+    public struct ResourceConfiguration: Swift.Sendable {
+        /// The minimum amount of memory, in mebibytes, to allocate to the AgentCore Runtime.
+        /// This member is required.
+        public var minimumMemoryInMiB: Swift.Int?
+
+        public init(
+            minimumMemoryInMiB: Swift.Int? = nil
+        ) {
+            self.minimumMemoryInMiB = minimumMemoryInMiB
+        }
+    }
+}
+
 public struct CreateAgentRuntimeInput: Swift.Sendable {
     /// The artifact of the AgentCore Runtime.
     /// This member is required.
@@ -2106,6 +2198,8 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The filesystem configurations to mount into the AgentCore Runtime. Use filesystem configurations to provide persistent storage to your AgentCore Runtime sessions.
     public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
+    /// The lifecycle hooks configuration for the AgentCore Runtime. Use lifecycle hooks to run actions in the agent's container at fixed points in the runtime's lifecycle, such as warming up the agent before sessions are created.
+    public var hooksConfiguration: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration?
     /// The life cycle configuration for the AgentCore Runtime.
     public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
     /// The network configuration for the AgentCore Runtime.
@@ -2116,6 +2210,8 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
     public var protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?
     /// Configuration for HTTP request headers that will be passed through to the runtime.
     public var requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?
+    /// The resource configurations for the AgentCore Runtime, such as the minimum amount of memory to allocate to the runtime. You can specify at most one resource configuration.
+    public var resourceConfigurations: [BedrockAgentCoreControlClientTypes.ResourceConfiguration]?
     /// The IAM role ARN that provides permissions for the AgentCore Runtime.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -2132,11 +2228,13 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
+        hooksConfiguration: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         platformVersion: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
+        resourceConfigurations: [BedrockAgentCoreControlClientTypes.ResourceConfiguration]? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -2149,11 +2247,13 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
         self.description = description
         self.environmentVariables = environmentVariables
         self.filesystemConfigurations = filesystemConfigurations
+        self.hooksConfiguration = hooksConfiguration
         self.lifecycleConfiguration = lifecycleConfiguration
         self.networkConfiguration = networkConfiguration
         self.platformVersion = platformVersion
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
+        self.resourceConfigurations = resourceConfigurations
         self.roleArn = roleArn
         self.tags = tags
     }
@@ -2161,7 +2261,7 @@ public struct CreateAgentRuntimeInput: Swift.Sendable {
 
 extension CreateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "CreateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), hooksConfiguration: \(Swift.String(describing: hooksConfiguration)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), resourceConfigurations: \(Swift.String(describing: resourceConfigurations)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -2364,6 +2464,8 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     public var failureReason: Swift.String?
     /// The filesystem configurations mounted into the AgentCore Runtime.
     public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
+    /// The lifecycle hooks configuration for the AgentCore Runtime.
+    public var hooksConfiguration: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration?
     /// The timestamp when the AgentCore Runtime was last updated.
     /// This member is required.
     public var lastUpdatedAt: Foundation.Date?
@@ -2380,6 +2482,8 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
     public var protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?
     /// Configuration for HTTP request headers that will be passed through to the runtime.
     public var requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?
+    /// The resource configurations for the AgentCore Runtime.
+    public var resourceConfigurations: [BedrockAgentCoreControlClientTypes.ResourceConfiguration]?
     /// The IAM role ARN that provides permissions for the AgentCore Runtime.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -2403,6 +2507,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         environmentVariables: [Swift.String: Swift.String]? = nil,
         failureReason: Swift.String? = nil,
         filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
+        hooksConfiguration: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration? = nil,
@@ -2410,6 +2515,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         platformVersion: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
+        resourceConfigurations: [BedrockAgentCoreControlClientTypes.ResourceConfiguration]? = nil,
         roleArn: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.AgentRuntimeStatus? = nil,
         workloadIdentityDetails: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails? = nil
@@ -2427,6 +2533,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         self.environmentVariables = environmentVariables
         self.failureReason = failureReason
         self.filesystemConfigurations = filesystemConfigurations
+        self.hooksConfiguration = hooksConfiguration
         self.lastUpdatedAt = lastUpdatedAt
         self.lifecycleConfiguration = lifecycleConfiguration
         self.metadataConfiguration = metadataConfiguration
@@ -2434,6 +2541,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
         self.platformVersion = platformVersion
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
+        self.resourceConfigurations = resourceConfigurations
         self.roleArn = roleArn
         self.status = status
         self.workloadIdentityDetails = workloadIdentityDetails
@@ -2442,7 +2550,7 @@ public struct GetAgentRuntimeOutput: Swift.Sendable {
 
 extension GetAgentRuntimeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "GetAgentRuntimeOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), agentRuntimeName: \(Swift.String(describing: agentRuntimeName)), agentRuntimeVersion: \(Swift.String(describing: agentRuntimeVersion)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), createdAt: \(Swift.String(describing: createdAt)), failureReason: \(Swift.String(describing: failureReason)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), hooksConfiguration: \(Swift.String(describing: hooksConfiguration)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), resourceConfigurations: \(Swift.String(describing: resourceConfigurations)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAgentRuntimesInput: Swift.Sendable {
@@ -2584,6 +2692,8 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     public var environmentVariables: [Swift.String: Swift.String]?
     /// The updated filesystem configurations to mount into the AgentCore Runtime.
     public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
+    /// The updated lifecycle hooks configuration for the AgentCore Runtime.
+    public var hooksConfiguration: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration?
     /// The updated life cycle configuration for the AgentCore Runtime.
     public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
     /// The updated configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
@@ -2596,6 +2706,8 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
     public var protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration?
     /// The updated configuration for HTTP request headers that will be passed through to the runtime.
     public var requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration?
+    /// The updated resource configurations for the AgentCore Runtime. You can specify at most one resource configuration.
+    public var resourceConfigurations: [BedrockAgentCoreControlClientTypes.ResourceConfiguration]?
     /// The updated IAM role ARN that provides permissions for the AgentCore Runtime.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -2610,12 +2722,14 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         description: Swift.String? = nil,
         environmentVariables: [Swift.String: Swift.String]? = nil,
         filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]? = nil,
+        hooksConfiguration: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration? = nil,
         lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration? = nil,
         metadataConfiguration: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration? = nil,
         networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration? = nil,
         platformVersion: Swift.String? = nil,
         protocolConfiguration: BedrockAgentCoreControlClientTypes.ProtocolConfiguration? = nil,
         requestHeaderConfiguration: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration? = nil,
+        resourceConfigurations: [BedrockAgentCoreControlClientTypes.ResourceConfiguration]? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.agentRuntimeArtifact = agentRuntimeArtifact
@@ -2627,19 +2741,21 @@ public struct UpdateAgentRuntimeInput: Swift.Sendable {
         self.description = description
         self.environmentVariables = environmentVariables
         self.filesystemConfigurations = filesystemConfigurations
+        self.hooksConfiguration = hooksConfiguration
         self.lifecycleConfiguration = lifecycleConfiguration
         self.metadataConfiguration = metadataConfiguration
         self.networkConfiguration = networkConfiguration
         self.platformVersion = platformVersion
         self.protocolConfiguration = protocolConfiguration
         self.requestHeaderConfiguration = requestHeaderConfiguration
+        self.resourceConfigurations = resourceConfigurations
         self.roleArn = roleArn
     }
 }
 
 extension UpdateAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
+        "UpdateAgentRuntimeInput(agentRuntimeArtifact: \(Swift.String(describing: agentRuntimeArtifact)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), allowedPorts: \(Swift.String(describing: allowedPorts)), authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), capacityProviderConfiguration: \(Swift.String(describing: capacityProviderConfiguration)), clientToken: \(Swift.String(describing: clientToken)), filesystemConfigurations: \(Swift.String(describing: filesystemConfigurations)), hooksConfiguration: \(Swift.String(describing: hooksConfiguration)), lifecycleConfiguration: \(Swift.String(describing: lifecycleConfiguration)), metadataConfiguration: \(Swift.String(describing: metadataConfiguration)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), platformVersion: \(Swift.String(describing: platformVersion)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), requestHeaderConfiguration: \(Swift.String(describing: requestHeaderConfiguration)), resourceConfigurations: \(Swift.String(describing: resourceConfigurations)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", environmentVariables: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateAgentRuntimeOutput: Swift.Sendable {
@@ -8725,6 +8841,26 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The public domain names for a gateway that clients reach through your own proxy or custom domain. When you configure a domain override, the gateway advertises these domains instead of the inbound Host header in the URLs that it returns for OAuth discovery, such as the protected resource metadata and the WWW-Authenticate challenge.
+    public struct DomainOverride: Swift.Sendable {
+        /// Additional public domain names for the gateway, up to 10. Don't repeat the default domain or list a domain more than once. A request can select one of these domains, or the default domain, with the x-amzn-bedrock-agentcore-gateway-domain header. The gateway rejects a request that selects a domain that isn't configured.
+        public var alternateDomains: [Swift.String]?
+        /// The default public domain name for the gateway. The gateway advertises this domain when a request doesn't select a specific domain.
+        /// This member is required.
+        public var defaultDomain: Swift.String?
+
+        public init(
+            alternateDomains: [Swift.String]? = nil,
+            defaultDomain: Swift.String? = nil
+        ) {
+            self.alternateDomains = alternateDomains
+            self.defaultDomain = defaultDomain
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum ExceptionLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case debug
         case sdkUnknown(Swift.String)
@@ -9103,6 +9239,8 @@ public struct CreateGatewayInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the gateway.
     public var description: Swift.String?
+    /// The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header. Specify this when clients reach the gateway through your own proxy or custom domain.
+    public var domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride?
     /// The level of detail in error messages returned when invoking the gateway.
     ///
     /// * If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.
@@ -9133,6 +9271,7 @@ public struct CreateGatewayInput: Swift.Sendable {
         authorizerType: BedrockAgentCoreControlClientTypes.AuthorizerType? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride? = nil,
         exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel? = nil,
         interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: Swift.String? = nil,
@@ -9147,6 +9286,7 @@ public struct CreateGatewayInput: Swift.Sendable {
         self.authorizerType = authorizerType
         self.clientToken = clientToken
         self.description = description
+        self.domainOverride = domainOverride
         self.exceptionLevel = exceptionLevel
         self.interceptorConfigurations = interceptorConfigurations
         self.kmsKeyArn = kmsKeyArn
@@ -9161,7 +9301,7 @@ public struct CreateGatewayInput: Swift.Sendable {
 
 extension CreateGatewayInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), clientToken: \(Swift.String(describing: clientToken)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), clientToken: \(Swift.String(describing: clientToken)), domainOverride: \(Swift.String(describing: domainOverride)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -9296,6 +9436,8 @@ public struct CreateGatewayOutput: Swift.Sendable {
     public var customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration?
     /// The description of the gateway.
     public var description: Swift.String?
+    /// The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header.
+    public var domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride?
     /// The level of detail in error messages returned when invoking the gateway.
     ///
     /// * If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.
@@ -9346,6 +9488,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration? = nil,
         description: Swift.String? = nil,
+        domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride? = nil,
         exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel? = nil,
         gatewayArn: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
@@ -9369,6 +9512,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.customTransformConfiguration = customTransformConfiguration
         self.description = description
+        self.domainOverride = domainOverride
         self.exceptionLevel = exceptionLevel
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
@@ -9391,7 +9535,7 @@ public struct CreateGatewayOutput: Swift.Sendable {
 
 extension CreateGatewayOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webAclArn: \(Swift.String(describing: webAclArn)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\")"}
+        "CreateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), domainOverride: \(Swift.String(describing: domainOverride)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webAclArn: \(Swift.String(describing: webAclArn)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteGatewayInput: Swift.Sendable {
@@ -9452,6 +9596,8 @@ public struct GetGatewayOutput: Swift.Sendable {
     public var customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration?
     /// The description of the gateway.
     public var description: Swift.String?
+    /// The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header.
+    public var domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride?
     /// The level of detail in error messages returned when invoking the gateway.
     ///
     /// * If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.
@@ -9502,6 +9648,7 @@ public struct GetGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration? = nil,
         description: Swift.String? = nil,
+        domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride? = nil,
         exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel? = nil,
         gatewayArn: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
@@ -9525,6 +9672,7 @@ public struct GetGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.customTransformConfiguration = customTransformConfiguration
         self.description = description
+        self.domainOverride = domainOverride
         self.exceptionLevel = exceptionLevel
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
@@ -9547,7 +9695,7 @@ public struct GetGatewayOutput: Swift.Sendable {
 
 extension GetGatewayOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webAclArn: \(Swift.String(describing: webAclArn)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\")"}
+        "GetGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), domainOverride: \(Swift.String(describing: domainOverride)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webAclArn: \(Swift.String(describing: webAclArn)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGatewaysInput: Swift.Sendable {
@@ -9645,6 +9793,8 @@ public struct UpdateGatewayInput: Swift.Sendable {
     public var customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration?
     /// The updated description for the gateway.
     public var description: Swift.String?
+    /// The updated public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header. Specify this when clients reach the gateway through your own proxy or custom domain.
+    public var domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride?
     /// The level of detail in error messages returned when invoking the gateway.
     ///
     /// * If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.
@@ -9678,6 +9828,7 @@ public struct UpdateGatewayInput: Swift.Sendable {
         authorizerType: BedrockAgentCoreControlClientTypes.AuthorizerType? = nil,
         customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration? = nil,
         description: Swift.String? = nil,
+        domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride? = nil,
         exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel? = nil,
         gatewayIdentifier: Swift.String? = nil,
         interceptorConfigurations: [BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration]? = nil,
@@ -9693,6 +9844,7 @@ public struct UpdateGatewayInput: Swift.Sendable {
         self.authorizerType = authorizerType
         self.customTransformConfiguration = customTransformConfiguration
         self.description = description
+        self.domainOverride = domainOverride
         self.exceptionLevel = exceptionLevel
         self.gatewayIdentifier = gatewayIdentifier
         self.interceptorConfigurations = interceptorConfigurations
@@ -9708,7 +9860,7 @@ public struct UpdateGatewayInput: Swift.Sendable {
 
 extension UpdateGatewayInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), description: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayInput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), domainOverride: \(Swift.String(describing: domainOverride)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayIdentifier: \(Swift.String(describing: gatewayIdentifier)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayOutput: Swift.Sendable {
@@ -9724,6 +9876,8 @@ public struct UpdateGatewayOutput: Swift.Sendable {
     public var customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration?
     /// The updated description of the gateway.
     public var description: Swift.String?
+    /// The public domain names that the gateway advertises in its OAuth discovery URLs instead of the inbound Host header.
+    public var domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride?
     /// The level of detail in error messages returned when invoking the gateway.
     ///
     /// * If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.
@@ -9774,6 +9928,7 @@ public struct UpdateGatewayOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         customTransformConfiguration: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration? = nil,
         description: Swift.String? = nil,
+        domainOverride: BedrockAgentCoreControlClientTypes.DomainOverride? = nil,
         exceptionLevel: BedrockAgentCoreControlClientTypes.ExceptionLevel? = nil,
         gatewayArn: Swift.String? = nil,
         gatewayId: Swift.String? = nil,
@@ -9797,6 +9952,7 @@ public struct UpdateGatewayOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.customTransformConfiguration = customTransformConfiguration
         self.description = description
+        self.domainOverride = domainOverride
         self.exceptionLevel = exceptionLevel
         self.gatewayArn = gatewayArn
         self.gatewayId = gatewayId
@@ -9819,7 +9975,7 @@ public struct UpdateGatewayOutput: Swift.Sendable {
 
 extension UpdateGatewayOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webAclArn: \(Swift.String(describing: webAclArn)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayOutput(authorizerConfiguration: \(Swift.String(describing: authorizerConfiguration)), authorizerType: \(Swift.String(describing: authorizerType)), createdAt: \(Swift.String(describing: createdAt)), customTransformConfiguration: \(Swift.String(describing: customTransformConfiguration)), domainOverride: \(Swift.String(describing: domainOverride)), exceptionLevel: \(Swift.String(describing: exceptionLevel)), gatewayArn: \(Swift.String(describing: gatewayArn)), gatewayId: \(Swift.String(describing: gatewayId)), gatewayUrl: \(Swift.String(describing: gatewayUrl)), interceptorConfigurations: \(Swift.String(describing: interceptorConfigurations)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), name: \(Swift.String(describing: name)), policyEngineConfiguration: \(Swift.String(describing: policyEngineConfiguration)), protocolConfiguration: \(Swift.String(describing: protocolConfiguration)), protocolType: \(Swift.String(describing: protocolType)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), updatedAt: \(Swift.String(describing: updatedAt)), wafConfiguration: \(Swift.String(describing: wafConfiguration)), webAclArn: \(Swift.String(describing: webAclArn)), workloadIdentityDetails: \(Swift.String(describing: workloadIdentityDetails)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -15146,7 +15302,7 @@ public struct CreateMemoryInput: Swift.Sendable {
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the memory data.
     public var encryptionKeyArn: Swift.String?
-    /// The duration after which memory events expire. Specified as an ISO 8601 duration.
+    /// The number of days after which memory events expire, between 7 and 3650 days.
     /// This member is required.
     public var eventExpiryDuration: Swift.Int?
     /// Metadata keys to index for filtering. Once declared, indexed keys cannot be removed.
@@ -16358,7 +16514,7 @@ public struct UpdateMemoryInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The updated description of the AgentCore Memory resource.
     public var description: Swift.String?
-    /// The number of days after which memory events will expire, between 7 and 365 days.
+    /// The number of days after which memory events expire, between 7 and 3650 days.
     public var eventExpiryDuration: Swift.Int?
     /// The ARN of the IAM role that provides permissions for the AgentCore Memory resource.
     public var memoryExecutionRoleArn: Swift.String?
@@ -27199,11 +27355,13 @@ extension CreateAgentRuntimeInput {
         try writer["description"].write(value.description)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["filesystemConfigurations"].writeList(value.filesystemConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["hooksConfiguration"].write(value.hooksConfiguration, with: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration.write(value:to:))
         try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
         try writer["platformVersion"].write(value.platformVersion)
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.write(value:to:))
         try writer["requestHeaderConfiguration"].write(value.requestHeaderConfiguration, with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.write(value:to:))
+        try writer["resourceConfigurations"].writeList(value.resourceConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.ResourceConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -27363,6 +27521,7 @@ extension CreateGatewayInput {
         try writer["authorizerType"].write(value.authorizerType)
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["domainOverride"].write(value.domainOverride, with: BedrockAgentCoreControlClientTypes.DomainOverride.write(value:to:))
         try writer["exceptionLevel"].write(value.exceptionLevel)
         try writer["interceptorConfigurations"].writeList(value.interceptorConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
@@ -27842,12 +28001,14 @@ extension UpdateAgentRuntimeInput {
         try writer["description"].write(value.description)
         try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["filesystemConfigurations"].writeList(value.filesystemConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["hooksConfiguration"].write(value.hooksConfiguration, with: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration.write(value:to:))
         try writer["lifecycleConfiguration"].write(value.lifecycleConfiguration, with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.write(value:to:))
         try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration.write(value:to:))
         try writer["networkConfiguration"].write(value.networkConfiguration, with: BedrockAgentCoreControlClientTypes.NetworkConfiguration.write(value:to:))
         try writer["platformVersion"].write(value.platformVersion)
         try writer["protocolConfiguration"].write(value.protocolConfiguration, with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.write(value:to:))
         try writer["requestHeaderConfiguration"].write(value.requestHeaderConfiguration, with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.write(value:to:))
+        try writer["resourceConfigurations"].writeList(value.resourceConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.ResourceConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
     }
 }
@@ -27947,6 +28108,7 @@ extension UpdateGatewayInput {
         try writer["authorizerType"].write(value.authorizerType)
         try writer["customTransformConfiguration"].write(value.customTransformConfiguration, with: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["domainOverride"].write(value.domainOverride, with: BedrockAgentCoreControlClientTypes.DomainOverride.write(value:to:))
         try writer["exceptionLevel"].write(value.exceptionLevel)
         try writer["interceptorConfigurations"].writeList(value.interceptorConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.GatewayInterceptorConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
@@ -28402,6 +28564,7 @@ extension CreateGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customTransformConfiguration = try reader["customTransformConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
+        value.domainOverride = try reader["domainOverride"].readIfPresent(with: BedrockAgentCoreControlClientTypes.DomainOverride.read(from:))
         value.exceptionLevel = try reader["exceptionLevel"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
@@ -29100,6 +29263,7 @@ extension GetAgentRuntimeOutput {
         value.environmentVariables = try reader["environmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.filesystemConfigurations = try reader["filesystemConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.FilesystemConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hooksConfiguration = try reader["hooksConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration.read(from:))
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lifecycleConfiguration = try reader["lifecycleConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.LifecycleConfiguration.read(from:))
         value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RuntimeMetadataConfiguration.read(from:))
@@ -29107,6 +29271,7 @@ extension GetAgentRuntimeOutput {
         value.platformVersion = try reader["platformVersion"].readIfPresent()
         value.protocolConfiguration = try reader["protocolConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ProtocolConfiguration.read(from:))
         value.requestHeaderConfiguration = try reader["requestHeaderConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RequestHeaderConfiguration.read(from:))
+        value.resourceConfigurations = try reader["resourceConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ResourceConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.workloadIdentityDetails = try reader["workloadIdentityDetails"].readIfPresent(with: BedrockAgentCoreControlClientTypes.WorkloadIdentityDetails.read(from:))
@@ -29374,6 +29539,7 @@ extension GetGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customTransformConfiguration = try reader["customTransformConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
+        value.domainOverride = try reader["domainOverride"].readIfPresent(with: BedrockAgentCoreControlClientTypes.DomainOverride.read(from:))
         value.exceptionLevel = try reader["exceptionLevel"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
@@ -30628,6 +30794,7 @@ extension UpdateGatewayOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.customTransformConfiguration = try reader["customTransformConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.CustomTransformConfiguration.read(from:))
         value.description = try reader["description"].readIfPresent()
+        value.domainOverride = try reader["domainOverride"].readIfPresent(with: BedrockAgentCoreControlClientTypes.DomainOverride.read(from:))
         value.exceptionLevel = try reader["exceptionLevel"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
         value.gatewayId = try reader["gatewayId"].readIfPresent() ?? ""
@@ -34961,6 +35128,21 @@ extension BedrockAgentCoreControlClientTypes.BrowserSummary {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.BuildLifecycleHooks {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.BuildLifecycleHooks?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["warmup"].write(value.warmup, with: BedrockAgentCoreControlClientTypes.LifecycleHook.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BuildLifecycleHooks {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BuildLifecycleHooks()
+        value.warmup = try reader["warmup"].readIfPresent(with: BedrockAgentCoreControlClientTypes.LifecycleHook.read(from:))
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CapacityProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -36187,6 +36369,23 @@ extension BedrockAgentCoreControlClientTypes.DimensionRatingScale {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.DomainOverride {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.DomainOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alternateDomains"].writeList(value.alternateDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["default"].write(value.defaultDomain)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.DomainOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.DomainOverride()
+        value.defaultDomain = try reader["default"].readIfPresent() ?? ""
+        value.alternateDomains = try reader["alternateDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -38016,6 +38215,23 @@ extension BedrockAgentCoreControlClientTypes.HttpConnectorTargetConfiguration {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.HttpPostLifecycleHookAction {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HttpPostLifecycleHookAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["path"].write(value.path)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HttpPostLifecycleHookAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.HttpPostLifecycleHookAction()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.HttpTargetConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.HttpTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -38576,6 +38792,45 @@ extension BedrockAgentCoreControlClientTypes.LifecycleConfiguration {
         value.idleRuntimeSessionTimeout = try reader["idleRuntimeSessionTimeout"].readIfPresent()
         value.maxLifetime = try reader["maxLifetime"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LifecycleHook {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LifecycleHook?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action, with: BedrockAgentCoreControlClientTypes.LifecycleHookAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LifecycleHook {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LifecycleHook()
+        value.action = try reader["action"].readIfPresent(with: BedrockAgentCoreControlClientTypes.LifecycleHookAction.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LifecycleHookAction {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LifecycleHookAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .httppost(httppost):
+                try writer["httpPost"].write(httppost, with: BedrockAgentCoreControlClientTypes.HttpPostLifecycleHookAction.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LifecycleHookAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "httpPost":
+                return .httppost(try reader["httpPost"].read(with: BedrockAgentCoreControlClientTypes.HttpPostLifecycleHookAction.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -40319,6 +40574,21 @@ extension BedrockAgentCoreControlClientTypes.Resource {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.ResourceConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ResourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["minimumMemoryInMiB"].write(value.minimumMemoryInMiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ResourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.ResourceConfiguration()
+        value.minimumMemoryInMiB = try reader["minimumMemoryInMiB"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.ResourceLocation {
 
     static func write(value: BedrockAgentCoreControlClientTypes.ResourceLocation?, to writer: SmithyJSON.Writer) throws {
@@ -40411,6 +40681,21 @@ extension BedrockAgentCoreControlClientTypes.Rule {
         value.samplingConfig = try reader["samplingConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SamplingConfig.read(from:))
         value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.sessionConfig = try reader["sessionConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SessionConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["build"].write(value.build, with: BedrockAgentCoreControlClientTypes.BuildLifecycleHooks.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.RuntimeHooksConfiguration()
+        value.build = try reader["build"].readIfPresent(with: BedrockAgentCoreControlClientTypes.BuildLifecycleHooks.read(from:))
         return value
     }
 }

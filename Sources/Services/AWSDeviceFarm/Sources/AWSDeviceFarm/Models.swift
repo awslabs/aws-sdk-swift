@@ -145,6 +145,7 @@ extension DeviceFarmClientTypes {
         case calabashStandardOutput
         case customerArtifact
         case customerArtifactLog
+        case deviceConnectCommandLog
         case deviceLog
         case exerciserMonkeyOutput
         case explorerEventLog
@@ -177,6 +178,7 @@ extension DeviceFarmClientTypes {
                 .calabashStandardOutput,
                 .customerArtifact,
                 .customerArtifactLog,
+                .deviceConnectCommandLog,
                 .deviceLog,
                 .exerciserMonkeyOutput,
                 .explorerEventLog,
@@ -215,6 +217,7 @@ extension DeviceFarmClientTypes {
             case .calabashStandardOutput: return "CALABASH_STANDARD_OUTPUT"
             case .customerArtifact: return "CUSTOMER_ARTIFACT"
             case .customerArtifactLog: return "CUSTOMER_ARTIFACT_LOG"
+            case .deviceConnectCommandLog: return "DEVICE_CONNECT_COMMAND_LOG"
             case .deviceLog: return "DEVICE_LOG"
             case .exerciserMonkeyOutput: return "EXERCISER_MONKEY_OUTPUT"
             case .explorerEventLog: return "EXPLORER_EVENT_LOG"
@@ -289,6 +292,8 @@ extension DeviceFarmClientTypes {
         /// * CUSTOMER_ARTIFACT_LOG
         ///
         /// * TESTSPEC_OUTPUT
+        ///
+        /// * DEVICE_CONNECT_COMMAND_LOG
         public var type: DeviceFarmClientTypes.ArtifactType?
         /// The presigned Amazon S3 URL that can be used with a GET request to download the artifact's file.
         public var url: Swift.String?
@@ -1186,7 +1191,7 @@ extension DeviceFarmClientTypes {
         public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// The name-value string pairs that specify additional settings for the remote access session.
         ///
-        /// * appium:version: The major version of the Appium server to use for the session (for example, 2 or 3). The service may reject the selected version if it is not available for the selected device.
+        /// * appium:version: The major version of the Appium server to use for the session (for example, 2 or 3). The service might reject the selected version if it is not available for the selected device.
         public var parameters: [Swift.String: Swift.String]?
         /// An array of ARNs included in the VPC endpoint configuration.
         public var vpceConfigurationArns: [Swift.String]?
@@ -2708,13 +2713,19 @@ public struct GetDevicePoolOutput: Swift.Sendable {
 
 extension DeviceFarmClientTypes {
 
-    /// The type of insights to generate.
+    /// The type of insights to generate. Possible values are:
+    ///
+    /// * TEST_REPORT: Specifies that you receive a test summary for each job in the run, and an aggregated summary for the run. This is the default value. Use TEST_REPORT when you want job-level and run-level test summaries.
+    ///
+    /// * NONE: Specifies that you do not receive insights for the run. Use NONE when you do not want insights generated. You cannot combine NONE with any other value.
     public enum InsightsType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
         case testReport
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InsightsType] {
             return [
+                .none,
                 .testReport
             ]
         }
@@ -2726,6 +2737,7 @@ extension DeviceFarmClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .none: return "NONE"
             case .testReport: return "TEST_REPORT"
             case let .sdkUnknown(s): return s
             }
@@ -2799,7 +2811,7 @@ extension DeviceFarmClientTypes {
         public var executionRoleArn: Swift.String?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public var extraDataPackageArn: Swift.String?
-        /// The types of insights to generate for a run. Specify one or more values to opt in to insights generation when scheduling a run. Insights are currently supported for custom mode runs with Instrumentation, Appium Java TestNG, and XCTest UI test types.
+        /// The types of insights to generate for a run. If you do not specify a value, the default is TEST_REPORT for runs that support insights. Specify NONE if you do not want the service to generate insights for the run. You cannot combine NONE with any other value. Insights are supported for custom mode runs of all test types except Appium Ruby and Appium Web Ruby.
         public var insightsTypes: [DeviceFarmClientTypes.InsightsType]?
         /// Information about the locale that is used for the run.
         public var locale: Swift.String?
@@ -4125,6 +4137,8 @@ extension DeviceFarmClientTypes {
         public var status: DeviceFarmClientTypes.ExecutionStatus?
         /// The run's stop time.
         public var stopped: Foundation.Date?
+        /// The ARN of the test package the run was scheduled with. This field is not returned for test types that do not use a test package, such as BUILTIN_FUZZ.
+        public var testPackageArn: Swift.String?
         /// The ARN of the YAML-formatted test specification for the run.
         public var testSpecArn: Swift.String?
         /// The total number of jobs for the run.
@@ -4197,6 +4211,7 @@ extension DeviceFarmClientTypes {
             started: Foundation.Date? = nil,
             status: DeviceFarmClientTypes.ExecutionStatus? = nil,
             stopped: Foundation.Date? = nil,
+            testPackageArn: Swift.String? = nil,
             testSpecArn: Swift.String? = nil,
             totalJobs: Swift.Int? = nil,
             type: DeviceFarmClientTypes.TestType? = nil,
@@ -4235,6 +4250,7 @@ extension DeviceFarmClientTypes {
             self.started = started
             self.status = status
             self.stopped = stopped
+            self.testPackageArn = testPackageArn
             self.testSpecArn = testSpecArn
             self.totalJobs = totalJobs
             self.type = type
