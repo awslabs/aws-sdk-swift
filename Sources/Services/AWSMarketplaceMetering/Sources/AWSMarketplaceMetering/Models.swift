@@ -152,7 +152,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// Sum of allocated usage quantities is not equal to the usage quantity.
+/// Sum of allocated usage quantities is not equal to the usage quantity, or the allocations don't use the same type of quantity (whole number or decimal) as the usage quantity.
 public struct InvalidUsageAllocationsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -269,17 +269,21 @@ extension MarketplaceMeteringClientTypes {
 
     /// Usage allocations allow you to split usage into buckets by tags. Each UsageAllocation indicates the usage quantity for a specific set of tags.
     public struct UsageAllocation: Swift.Sendable {
-        /// The total quantity allocated to this bucket of usage.
-        /// This member is required.
+        /// The total quantity allocated to this bucket of usage, as a whole number. Use AllocatedUsageQuantityAsDecimal instead. Each allocation must specify exactly one of AllocatedUsageQuantity or AllocatedUsageQuantityAsDecimal.
+        @available(*, deprecated, message: "Use AllocatedUsageQuantityAsDecimal instead. API deprecated since 2026-10-20")
         public var allocatedUsageQuantity: Swift.Int?
+        /// The total quantity allocated to this bucket of usage, as a decimal string. Use this when the usage quantity of the request or usage record is specified as a decimal (UsageQuantityAsDecimal or QuantityAsDecimal). A non-negative decimal number, for example 17.42. Each allocation must specify exactly one of AllocatedUsageQuantity or AllocatedUsageQuantityAsDecimal.
+        public var allocatedUsageQuantityAsDecimal: Swift.String?
         /// The set of tags that define the bucket of usage. For the bucket of items with no tags, this parameter can be left out.
         public var tags: [MarketplaceMeteringClientTypes.Tag]?
 
         public init(
-            allocatedUsageQuantity: Swift.Int? = nil,
+            allocatedUsageQuantity: Swift.Int? = 0,
+            allocatedUsageQuantityAsDecimal: Swift.String? = nil,
             tags: [MarketplaceMeteringClientTypes.Tag]? = nil
         ) {
             self.allocatedUsageQuantity = allocatedUsageQuantity
+            self.allocatedUsageQuantityAsDecimal = allocatedUsageQuantityAsDecimal
             self.tags = tags
         }
     }
@@ -298,12 +302,15 @@ extension MarketplaceMeteringClientTypes {
         public var dimension: Swift.String?
         /// The LicenseArn is a unique identifier for a specific granted license. These are used for software purchased through Amazon Web Services Marketplace. To access your CustomerAWSAccountId and LicenseArn mapping, visit [Agreements Feeds](https://docs.aws.amazon.com/marketplace/latest/userguide/data-feed-agreements.html).
         public var licenseArn: Swift.String?
-        /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
+        /// The quantity of usage consumed by the customer for the given dimension and time, as a whole number. Defaults to 0 if neither Quantity nor QuantityAsDecimal is specified. Use QuantityAsDecimal instead. You can't specify both Quantity and QuantityAsDecimal in a usage record.
+        @available(*, deprecated, message: "Use QuantityAsDecimal instead. API deprecated since 2026-10-20")
         public var quantity: Swift.Int?
+        /// The quantity of usage consumed by the customer for the given dimension and time, as a decimal string. Use this instead of Quantity to report fractional usage. A non-negative decimal number, for example 17.42. You can't specify both Quantity and QuantityAsDecimal in a usage record. If you provide UsageAllocations, each allocation must use AllocatedUsageQuantityAsDecimal. If any usage record fails these checks, the entire BatchMeterUsage request fails and no records are processed. Quantities are compared by value when checking for duplicate records, so 17, 17.0, and 17.00 are the same quantity, whether you send it in Quantity or QuantityAsDecimal.
+        public var quantityAsDecimal: Swift.String?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to 24 hours in the past. Make sure the timestamp value is not before the start of the software usage. At the end of each billing cycle, you have a 6-hour grace period to submit usage records for the previous billing month before 06:00 UTC on the first day of the next month.
         /// This member is required.
         public var timestamp: Foundation.Date?
-        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
+        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the quantity of the UsageRecord (Quantity or QuantityAsDecimal). Allocations must use the same type of quantity as the usage record: AllocatedUsageQuantity with Quantity, or AllocatedUsageQuantityAsDecimal with QuantityAsDecimal.
         public var usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]?
 
         public init(
@@ -312,6 +319,7 @@ extension MarketplaceMeteringClientTypes {
             dimension: Swift.String? = nil,
             licenseArn: Swift.String? = nil,
             quantity: Swift.Int? = nil,
+            quantityAsDecimal: Swift.String? = nil,
             timestamp: Foundation.Date? = nil,
             usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil
         ) {
@@ -320,6 +328,7 @@ extension MarketplaceMeteringClientTypes {
             self.dimension = dimension
             self.licenseArn = licenseArn
             self.quantity = quantity
+            self.quantityAsDecimal = quantityAsDecimal
             self.timestamp = timestamp
             self.usageAllocations = usageAllocations
         }
@@ -452,7 +461,7 @@ public struct CustomerNotEntitledException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-/// A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity.
+/// A metering record has already been emitted by the same EC2 instance, ECS task, or EKS pod for the given {usageDimension, timestamp} with a different usageQuantity. Quantities are compared by value, so a whole-number and a decimal quantity with the same value (for example, 17 and 17.00) are not different.
 public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -532,13 +541,16 @@ public struct MeterUsageInput: Swift.Sendable {
     /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
     /// This member is required.
     public var timestamp: Foundation.Date?
-    /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags).
+    /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the usage quantity of the MeterUsage request (UsageQuantity or UsageQuantityAsDecimal), and each UsageAllocation must have a unique set of tags (include no tags). Allocations must use the same type of quantity as the request: AllocatedUsageQuantity with UsageQuantity, or AllocatedUsageQuantityAsDecimal with UsageQuantityAsDecimal.
     public var usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]?
     /// It will be one of the fcp dimension name provided during the publishing of the product.
     /// This member is required.
     public var usageDimension: Swift.String?
-    /// Consumption value for the hour. Defaults to 0 if not specified.
+    /// The consumption value for the hour, as a whole number. Defaults to 0 if neither UsageQuantity nor UsageQuantityAsDecimal is specified. Use UsageQuantityAsDecimal instead. You can't specify both UsageQuantity and UsageQuantityAsDecimal.
+    @available(*, deprecated, message: "Use UsageQuantityAsDecimal instead. API deprecated since 2026-10-20")
     public var usageQuantity: Swift.Int?
+    /// The consumption value for the hour, as a decimal string. Use this instead of UsageQuantity to report fractional usage. A non-negative decimal number, for example 17.42. You can't specify both UsageQuantity and UsageQuantityAsDecimal. If you provide UsageAllocations, each allocation must use AllocatedUsageQuantityAsDecimal. Quantities are compared by value when checking for duplicate or retried requests, so 17, 17.0, and 17.00 are the same quantity, whether you send it in UsageQuantity or UsageQuantityAsDecimal.
+    public var usageQuantityAsDecimal: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -547,7 +559,8 @@ public struct MeterUsageInput: Swift.Sendable {
         timestamp: Foundation.Date? = nil,
         usageAllocations: [MarketplaceMeteringClientTypes.UsageAllocation]? = nil,
         usageDimension: Swift.String? = nil,
-        usageQuantity: Swift.Int? = nil
+        usageQuantity: Swift.Int? = nil,
+        usageQuantityAsDecimal: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.dryRun = dryRun
@@ -556,6 +569,7 @@ public struct MeterUsageInput: Swift.Sendable {
         self.usageAllocations = usageAllocations
         self.usageDimension = usageDimension
         self.usageQuantity = usageQuantity
+        self.usageQuantityAsDecimal = usageQuantityAsDecimal
     }
 }
 

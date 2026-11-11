@@ -623,12 +623,12 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func addApplicationCloudWatchLoggingOption(input: AddApplicationCloudWatchLoggingOptionInput) async throws -> AddApplicationCloudWatchLoggingOptionOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -703,11 +703,11 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CodeValidationException` : The user-provided application code (query) is not valid. This can be a simple syntax error.
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func addApplicationInput(input: AddApplicationInputInput) async throws -> AddApplicationInputOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -781,11 +781,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func addApplicationInputProcessingConfiguration(input: AddApplicationInputProcessingConfigurationInput) async throws -> AddApplicationInputProcessingConfigurationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -859,11 +859,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func addApplicationOutput(input: AddApplicationOutputInput) async throws -> AddApplicationOutputOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -937,11 +937,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func addApplicationReferenceDataSource(input: AddApplicationReferenceDataSourceInput) async throws -> AddApplicationReferenceDataSourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1019,11 +1019,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func addApplicationVpcConfiguration(input: AddApplicationVpcConfigurationInput) async throws -> AddApplicationVpcConfigurationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1098,11 +1098,11 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CodeValidationException` : The user-provided application code (query) is not valid. This can be a simple syntax error.
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `LimitExceededException` : The number of allowed resources has been exceeded.
-    /// - `ResourceInUseException` : The application is not available for this operation.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
     /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
@@ -1179,8 +1179,8 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func createApplicationPresignedUrl(input: CreateApplicationPresignedUrlInput) async throws -> CreateApplicationPresignedUrlOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1258,8 +1258,8 @@ extension KinesisAnalyticsV2Client {
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `LimitExceededException` : The number of allowed resources has been exceeded.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func createApplicationSnapshot(input: CreateApplicationSnapshotInput) async throws -> CreateApplicationSnapshotOutput {
         var config = config
@@ -1323,6 +1323,86 @@ extension KinesisAnalyticsV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateSnapshot` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Creates an enhanced snapshot of the state data of a running Managed Service for Apache Flink application. The application must be in the RUNNING status, use Apache Flink version 1.20 or later, and use the ENHANCED_SNAPSHOTS snapshot mode. This operation is asynchronous. The response returns the snapshot ARN with the CREATING status. To check the status of the snapshot, use DescribeSnapshot. To track the progress of the operation, use DescribeSnapshotOperation. An application can have only one CreateSnapshot operation in progress at a time. For information about limits, see [Managed Service for Apache Flink Quotas](https://docs.aws.amazon.com/managed-flink/latest/java/limits.html). For more information about snapshots, see [Enhanced Snapshots](https://docs.aws.amazon.com/managed-flink/latest/java/how-snapshots.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSnapshotInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSnapshotOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `LimitExceededException` : The number of allowed resources has been exceeded.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.createSnapshotOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSnapshot")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.CreateSnapshot"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteApplication` operation on the `KinesisAnalyticsV2` service.
     ///
     /// Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
@@ -1334,12 +1414,12 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1413,12 +1493,12 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func deleteApplicationCloudWatchLoggingOption(input: DeleteApplicationCloudWatchLoggingOptionInput) async throws -> DeleteApplicationCloudWatchLoggingOptionOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1492,11 +1572,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func deleteApplicationInputProcessingConfiguration(input: DeleteApplicationInputProcessingConfigurationInput) async throws -> DeleteApplicationInputProcessingConfigurationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1570,11 +1650,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func deleteApplicationOutput(input: DeleteApplicationOutputInput) async throws -> DeleteApplicationOutputOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1648,11 +1728,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func deleteApplicationReferenceDataSource(input: DeleteApplicationReferenceDataSourceInput) async throws -> DeleteApplicationReferenceDataSourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1726,11 +1806,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func deleteApplicationSnapshot(input: DeleteApplicationSnapshotInput) async throws -> DeleteApplicationSnapshotOutput {
         var config = config
@@ -1805,11 +1885,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func deleteApplicationVpcConfiguration(input: DeleteApplicationVpcConfigurationInput) async throws -> DeleteApplicationVpcConfigurationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1872,6 +1952,84 @@ extension KinesisAnalyticsV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteSnapshot` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Deletes an enhanced snapshot. Snapshots are not scoped to an application, so you can delete a snapshot independently of the application that it was created from. This operation is asynchronous. The response returns the snapshot ARN with the DELETING status. To track the progress of the operation, use DescribeSnapshotOperation. You can delete a snapshot in the READY or FAILED status. If a snapshot operation, such as an export, uses the snapshot, Managed Service for Apache Flink waits for that operation to finish before it deletes the snapshot. For a snapshot in any other status, ResourceInUseException is returned.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSnapshotInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSnapshotOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func deleteSnapshot(input: DeleteSnapshotInput) async throws -> DeleteSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.deleteSnapshotOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSnapshot")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.DeleteSnapshot"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeApplication` operation on the `KinesisAnalyticsV2` service.
     ///
     /// Returns information about a specific Managed Service for Apache Flink application. If you want to retrieve a list of all applications in your account, use the [ListApplications] operation.
@@ -1885,7 +2043,7 @@ extension KinesisAnalyticsV2Client {
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func describeApplication(input: DescribeApplicationInput) async throws -> DescribeApplicationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -1960,7 +2118,7 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func describeApplicationOperation(input: DescribeApplicationOperationInput) async throws -> DescribeApplicationOperationOutput {
         var config = config
@@ -2036,7 +2194,7 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func describeApplicationSnapshot(input: DescribeApplicationSnapshotInput) async throws -> DescribeApplicationSnapshotOutput {
         var config = config
@@ -2112,7 +2270,7 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func describeApplicationVersion(input: DescribeApplicationVersionInput) async throws -> DescribeApplicationVersionOutput {
         var config = config
@@ -2164,6 +2322,158 @@ extension KinesisAnalyticsV2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeApplicationVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeSnapshot` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Returns information about an enhanced snapshot. To see a list of the snapshots in your account, use ListSnapshots.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func describeSnapshot(input: DescribeSnapshotInput) async throws -> DescribeSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.describeSnapshotOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSnapshot")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.DescribeSnapshot"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSnapshotInput, DescribeSnapshotOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeSnapshotOperation` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Provides a detailed description of a specified operation that was performed on an enhanced snapshot. To see a list of the operations of a snapshot, use ListSnapshotOperations. Snapshot operations are available for 90 days after they are created.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeSnapshotOperationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeSnapshotOperationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func describeSnapshotOperation(input: DescribeSnapshotOperationInput) async throws -> DescribeSnapshotOperationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.describeSnapshotOperationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeSnapshotOperation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotOperationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeSnapshotOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.DescribeSnapshotOperation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeSnapshotOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeSnapshotOperationInput, DescribeSnapshotOperationOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeSnapshotOperation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2255,6 +2565,164 @@ extension KinesisAnalyticsV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ExportSnapshot` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Exports the data of an enhanced snapshot to an Amazon S3 location. Managed Service for Apache Flink assumes the IAM role that you specify in ExportDestinationConfiguration to write the snapshot data. The snapshot must be in the READY status. This operation is asynchronous. To track the progress of the export, use DescribeSnapshotOperation. A snapshot can have only one export in progress at a time. If an export of the snapshot is already in progress, LimitExceededException is returned. For more information, see [Import and export](https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ExportSnapshotInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ExportSnapshotOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `LimitExceededException` : The number of allowed resources has been exceeded.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.exportSnapshotOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "exportSnapshot")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExportSnapshotInput, ExportSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportSnapshotInput, ExportSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ExportSnapshotOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ExportSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.ExportSnapshot"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ExportSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ExportSnapshotInput, ExportSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ImportSnapshot` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Imports an Apache Flink savepoint from an Amazon S3 location as an enhanced snapshot. Managed Service for Apache Flink assumes the IAM role that you specify in ImportSourceConfiguration to read the savepoint data. This operation is asynchronous. The response returns the snapshot ARN with the CREATING status. To track the progress of the import, use DescribeSnapshotOperation. For more information, see [Import and export](https://docs.aws.amazon.com/managed-flink/latest/java/snapshots-import-export.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ImportSnapshotInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ImportSnapshotOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `LimitExceededException` : The number of allowed resources has been exceeded.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func importSnapshot(input: ImportSnapshotInput) async throws -> ImportSnapshotOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.importSnapshotOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "importSnapshot")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportSnapshotInput, ImportSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSnapshotInput, ImportSnapshotOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSnapshotInput, ImportSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ImportSnapshotOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportSnapshotOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportSnapshotInput, ImportSnapshotOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.ImportSnapshot"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSnapshotInput, ImportSnapshotOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportSnapshotInput, ImportSnapshotOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportSnapshotInput, ImportSnapshotOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportSnapshotInput, ImportSnapshotOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListApplicationOperations` operation on the `KinesisAnalyticsV2` service.
     ///
     /// Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc. The response also includes a summary of the operation. To get the complete description of a specific operation, invoke the [DescribeApplicationOperation] operation. This operation is supported only for Managed Service for Apache Flink.
@@ -2267,7 +2735,7 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func listApplicationOperations(input: ListApplicationOperationsInput) async throws -> ListApplicationOperationsOutput {
         var config = config
@@ -2418,7 +2886,7 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutput {
         var config = config
@@ -2556,6 +3024,157 @@ extension KinesisAnalyticsV2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListSnapshotOperations` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Lists the operations that were performed on the specified enhanced snapshot, such as CreateSnapshot, ImportSnapshot, and ExportSnapshot. The response includes a summary of each operation. You can specify only one of the SnapshotOperation or SnapshotOperationStatus filters in a request. If you specify both, InvalidArgumentException is returned. To get the complete description of a specific operation, use DescribeSnapshotOperation. Snapshot operations are available for 90 days after they are created.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSnapshotOperationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSnapshotOperationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func listSnapshotOperations(input: ListSnapshotOperationsInput) async throws -> ListSnapshotOperationsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.listSnapshotOperationsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSnapshotOperations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSnapshotOperationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSnapshotOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.ListSnapshotOperations"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSnapshotOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSnapshotOperationsInput, ListSnapshotOperationsOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSnapshotOperations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListSnapshots` operation on the `KinesisAnalyticsV2` service.
+    ///
+    /// Lists the enhanced snapshots in your account. Snapshots are not scoped to an application. To list the snapshots that were created from a specific application, use the SourceApplicationName parameter. You can specify only one of the following filters in a request: SourceApplicationName, SnapshotInitiator, SnapshotInitiatorOperation, or SnapshotStatus. If you specify more than one filter, InvalidArgumentException is returned. The results are sorted in descending order of snapshot creation timestamp. To get detailed information about a specific snapshot, use DescribeSnapshot.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSnapshotsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSnapshotsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : The specified input parameter value is not valid.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
+    public func listSnapshots(input: ListSnapshotsInput) async throws -> ListSnapshotsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = KinesisAnalyticsV2Client.listSnapshotsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSnapshots")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesisanalytics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSnapshotsInput, ListSnapshotsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSnapshotsInput, ListSnapshotsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSnapshotsInput, ListSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSnapshotsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis Analytics V2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSnapshotsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSnapshotsInput, ListSnapshotsOutput>(overrides: ["X-Amz-Target": "KinesisAnalytics_20180523.ListSnapshots"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSnapshotsInput, ListSnapshotsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSnapshotsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSnapshotsInput, ListSnapshotsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSnapshotsInput, ListSnapshotsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Kinesis Analytics V2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSnapshotsInput, ListSnapshotsOutput>(serviceID: serviceName, version: KinesisAnalyticsV2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "KinesisAnalyticsV2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSnapshots")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTagsForResource` operation on the `KinesisAnalyticsV2` service.
     ///
     /// Retrieves the list of key-value tags assigned to the application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
@@ -2567,9 +3186,9 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2643,11 +3262,11 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func rollbackApplication(input: RollbackApplicationInput) async throws -> RollbackApplicationOutput {
         var config = config
@@ -2725,8 +3344,9 @@ extension KinesisAnalyticsV2Client {
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2800,12 +3420,12 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     public func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -2879,10 +3499,10 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
@@ -2957,10 +3577,10 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `TooManyTagsException` : Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
@@ -3036,13 +3656,14 @@ extension KinesisAnalyticsV2Client {
     ///
     /// __Possible Exceptions:__
     /// - `CodeValidationException` : The user-provided application code (query) is not valid. This can be a simple syntax error.
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidApplicationConfigurationException` : The user-provided application configuration is not valid.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
     /// - `InvalidRequestException` : The request JSON is not valid for the operation.
     /// - `LimitExceededException` : The number of allowed resources has been exceeded.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
+    /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
@@ -3116,10 +3737,10 @@ extension KinesisAnalyticsV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application. This error can be the result of attempting to modify an application without using the current application ID.
+    /// - `ConcurrentModificationException` : Exception thrown as a result of concurrent modifications to an application or snapshot. This error can be the result of attempting to modify an application without using the current application ID.
     /// - `InvalidArgumentException` : The specified input parameter value is not valid.
-    /// - `ResourceInUseException` : The application is not available for this operation.
-    /// - `ResourceNotFoundException` : Specified application can't be found.
+    /// - `ResourceInUseException` : The application or snapshot is not available for this operation.
+    /// - `ResourceNotFoundException` : The specified application, snapshot, or snapshot operation can't be found.
     /// - `UnsupportedOperationException` : The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public func updateApplicationMaintenanceConfiguration(input: UpdateApplicationMaintenanceConfigurationInput) async throws -> UpdateApplicationMaintenanceConfigurationOutput {
         var config = config

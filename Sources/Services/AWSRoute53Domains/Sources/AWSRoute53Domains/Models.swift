@@ -10,9 +10,9 @@
 import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 
 public struct PushDomainOutput: Swift.Sendable {
@@ -26,7 +26,7 @@ public struct ResendOperationAuthorizationOutput: Swift.Sendable {
 }
 
 /// The number of domains has exceeded the allowed threshold for the account.
-public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DomainLimitExceeded: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The number of domains has exceeded the allowed threshold for the account.
@@ -50,7 +50,7 @@ public struct DomainLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
-public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidInput: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The requested item is not acceptable. For example, for an OperationId it might refer to the ID of an operation that is already completed. For a domain name, it might not be a valid domain name or belong to the requester account.
@@ -74,7 +74,7 @@ public struct InvalidInput: ClientRuntime.ModeledError, AWSClientRuntime.AWSServ
 }
 
 /// The number of operations or jobs running exceeded the allowed threshold for the account.
-public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct OperationLimitExceeded: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The number of operations or jobs running exceeded the allowed threshold for the account.
@@ -98,7 +98,7 @@ public struct OperationLimitExceeded: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// Amazon Route 53 does not support this top-level domain (TLD).
-public struct UnsupportedTLD: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct UnsupportedTLD: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// Amazon Route 53 does not support this top-level domain (TLD).
@@ -152,7 +152,7 @@ public struct AcceptDomainTransferFromAnotherAwsAccountOutput: Swift.Sendable {
 }
 
 /// This error is returned if you call AssociateDelegationSignerToDomain when the specified domain has reached the maximum number of DS records. You can't add any additional DS records unless you delete an existing one first.
-public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DnssecLimitExceeded: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -175,7 +175,7 @@ public struct DnssecLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 /// The request is already in progress for the domain.
-public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct DuplicateRequest: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The request is already in progress for the domain.
@@ -203,7 +203,7 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
 }
 
 /// The top-level domain does not support this operation.
-public struct TLDRulesViolation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct TLDRulesViolation: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The top-level domain does not support this operation.
@@ -420,7 +420,7 @@ public struct CancelDomainTransferToAnotherAwsAccountOutput: Swift.Sendable {
 }
 
 /// The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
-public struct TLDInMaintenance: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct TLDInMaintenance: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.

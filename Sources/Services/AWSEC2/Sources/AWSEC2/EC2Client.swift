@@ -37110,7 +37110,7 @@ extension EC2Client {
     /// * Create a set of named queries in Athena that you can use to get started quickly
     ///
     ///
-    /// GetFlowLogsIntegrationTemplate does not support integration between Amazon Web Services Transit Gateway Flow Logs and Amazon Athena.
+    /// GetFlowLogsIntegrationTemplate does not support integration between Amazon Web Services Transit Gateway Flow Logs or Amazon Web Services Cloud WAN Flow Logs and Amazon Athena.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFlowLogsIntegrationTemplateInput`)
     ///
