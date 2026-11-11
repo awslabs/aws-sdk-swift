@@ -24,20 +24,11 @@ class CachedAWSCredentialIdentityResolverTests: XCTestCase {
     }
 
     /// A manually-advanced clock, so cache expiration does not depend on wall-clock timing.
-    final class TestClock: @unchecked Sendable {
-        private let lock = NSLock()
-        private var current = Date(timeIntervalSince1970: 1_000_000)
-
-        var now: Date {
-            lock.lock()
-            defer { lock.unlock() }
-            return current
-        }
+    actor TestClock {
+        private(set) var now = Date(timeIntervalSince1970: 1_000_000)
 
         func advance(by interval: TimeInterval) {
-            lock.lock()
-            defer { lock.unlock() }
-            current = current.addingTimeInterval(interval)
+            now = now.addingTimeInterval(interval)
         }
     }
 
@@ -54,7 +45,7 @@ class CachedAWSCredentialIdentityResolverTests: XCTestCase {
         let subject = CachedAWSCredentialIdentityResolver(
             source: coreProvider,
             refreshTime: 60.0,
-            now: { clock.now }
+            now: { await clock.now }
         )
 
         _ = try await subject.getIdentity()
@@ -67,13 +58,13 @@ class CachedAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual(finalCount, 1)
 
         // Just before expiration, cached credentials are still used
-        clock.advance(by: 59.0)
+        await clock.advance(by: 59.0)
         _ = try await subject.getIdentity()
         let countBeforeExpiration = await counter.get()
         XCTAssertEqual(countBeforeExpiration, 1)
 
         // Advance to the refresh time so the cache expires
-        clock.advance(by: 1.0)
+        await clock.advance(by: 1.0)
         let credentials = try await subject.getIdentity()
 
         // Counter is 2 because the cache expired

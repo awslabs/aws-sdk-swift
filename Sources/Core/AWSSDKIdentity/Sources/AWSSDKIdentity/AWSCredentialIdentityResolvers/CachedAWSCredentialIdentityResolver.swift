@@ -16,7 +16,7 @@ public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
     private let refreshTime: TimeInterval
     private var lastFetched: Date?
     private var cachedCredentials: AWSCredentialIdentity?
-    private let now: @Sendable () -> Date
+    private let now: @Sendable () async -> Date
 
     /// Credentials resolved through this resolver will be cached within it until their expiration time.
     /// When the cached credentials expire, new credentials will be fetched when next queried.
@@ -40,7 +40,7 @@ public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
     init(
         source: any AWSCredentialIdentityResolver,
         refreshTime: TimeInterval,
-        now: @escaping @Sendable () -> Date
+        now: @escaping @Sendable () async -> Date
     ) {
         self.underlyingResolver = source
         self.refreshTime = refreshTime
@@ -48,20 +48,21 @@ public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        if let cached = cachedCredentials, !shouldRefreshCredentials() {
+        if let cached = cachedCredentials, !(await shouldRefreshCredentials()) {
             return cached
         }
 
         let creds = try await underlyingResolver.getIdentity(identityProperties: identityProperties)
-        lastFetched = now()
+        lastFetched = await now()
         cachedCredentials = creds
         return creds
     }
 
-    private func shouldRefreshCredentials() -> Bool {
+    private func shouldRefreshCredentials() async -> Bool {
+        let currentTime = await now()
         // It's safe to force-unwrap because this line is reached only if credentials have been cached at least once before,
         //  and the lastFetched is set to a non-nil Date value.
         let refreshAfter = lastFetched!.addingTimeInterval(refreshTime)
-        return now() >= refreshAfter
+        return currentTime >= refreshAfter
     }
 }
