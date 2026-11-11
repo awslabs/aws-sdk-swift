@@ -7231,30 +7231,222 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum EvaluationFormLanguageCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afZa
+        case amEt
+        case arAe
+        case arSa
+        case beBy
+        case bgBg
+        case bnBd
+        case bsBa
+        case caEs
+        case ckbIq
+        case ckbIr
+        case csCz
+        case cyGb
+        case daDk
+        case deAt
+        case deCh
         case deDe
+        case elGr
+        case enAb
+        case enAu
+        case enGb
+        case enIe
+        case enIn
+        case enNz
+        case enSg
         case enUs
+        case enWl
+        case enZa
         case esEs
+        case esMx
+        case esUs
+        case etEe
+        case euEs
+        case faAf
+        case faIr
+        case fiFi
+        case frBe
+        case frCa
         case frFr
+        case gaIe
+        case glEs
+        case guIn
+        case heIl
+        case hiIn
+        case hmn
+        case hrHr
+        case htHt
+        case huHu
+        case hyAm
+        case idId
+        case isIs
         case itIt
         case jaJp
+        case jvId
+        case kaGe
+        case kkKz
+        case kmKh
+        case knIn
         case koKr
+        case lgUg
+        case loLa
+        case ltLt
+        case lvLv
+        case mkMk
+        case mlIn
+        case mrIn
         case msMy
+        case myMm
+        case neNp
+        case nlBe
+        case nlNl
+        case noNo
+        case orIn
+        case paIn
+        case plPl
+        case psAf
         case ptBr
+        case ptPt
+        case roRo
+        case ruRu
+        case siLk
+        case skSk
+        case slSi
+        case soSo
+        case sqAl
+        case srRs
+        case suId
+        case svSe
+        case swBi
+        case swKe
+        case swRw
+        case swTz
+        case swUg
+        case taIn
+        case teIn
+        case thTh
+        case tlPh
+        case trTr
+        case ukUa
+        case uzUz
+        case viVn
+        case xhZa
+        case yueHk
         case zhCn
+        case zhTw
+        case zuZa
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationFormLanguageCode] {
             return [
+                .afZa,
+                .amEt,
+                .arAe,
+                .arSa,
+                .beBy,
+                .bgBg,
+                .bnBd,
+                .bsBa,
+                .caEs,
+                .ckbIq,
+                .ckbIr,
+                .csCz,
+                .cyGb,
+                .daDk,
+                .deAt,
+                .deCh,
                 .deDe,
+                .elGr,
+                .enAb,
+                .enAu,
+                .enGb,
+                .enIe,
+                .enIn,
+                .enNz,
+                .enSg,
                 .enUs,
+                .enWl,
+                .enZa,
                 .esEs,
+                .esMx,
+                .esUs,
+                .etEe,
+                .euEs,
+                .faAf,
+                .faIr,
+                .fiFi,
+                .frBe,
+                .frCa,
                 .frFr,
+                .gaIe,
+                .glEs,
+                .guIn,
+                .heIl,
+                .hiIn,
+                .hmn,
+                .hrHr,
+                .htHt,
+                .huHu,
+                .hyAm,
+                .idId,
+                .isIs,
                 .itIt,
                 .jaJp,
+                .jvId,
+                .kaGe,
+                .kkKz,
+                .kmKh,
+                .knIn,
                 .koKr,
+                .lgUg,
+                .loLa,
+                .ltLt,
+                .lvLv,
+                .mkMk,
+                .mlIn,
+                .mrIn,
                 .msMy,
+                .myMm,
+                .neNp,
+                .nlBe,
+                .nlNl,
+                .noNo,
+                .orIn,
+                .paIn,
+                .plPl,
+                .psAf,
                 .ptBr,
-                .zhCn
+                .ptPt,
+                .roRo,
+                .ruRu,
+                .siLk,
+                .skSk,
+                .slSi,
+                .soSo,
+                .sqAl,
+                .srRs,
+                .suId,
+                .svSe,
+                .swBi,
+                .swKe,
+                .swRw,
+                .swTz,
+                .swUg,
+                .taIn,
+                .teIn,
+                .thTh,
+                .tlPh,
+                .trTr,
+                .ukUa,
+                .uzUz,
+                .viVn,
+                .xhZa,
+                .yueHk,
+                .zhCn,
+                .zhTw,
+                .zuZa
             ]
         }
 
@@ -7265,16 +7457,112 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .afZa: return "af-ZA"
+            case .amEt: return "am-ET"
+            case .arAe: return "ar-AE"
+            case .arSa: return "ar-SA"
+            case .beBy: return "be-BY"
+            case .bgBg: return "bg-BG"
+            case .bnBd: return "bn-BD"
+            case .bsBa: return "bs-BA"
+            case .caEs: return "ca-ES"
+            case .ckbIq: return "ckb-IQ"
+            case .ckbIr: return "ckb-IR"
+            case .csCz: return "cs-CZ"
+            case .cyGb: return "cy-GB"
+            case .daDk: return "da-DK"
+            case .deAt: return "de-AT"
+            case .deCh: return "de-CH"
             case .deDe: return "de-DE"
+            case .elGr: return "el-GR"
+            case .enAb: return "en-AB"
+            case .enAu: return "en-AU"
+            case .enGb: return "en-GB"
+            case .enIe: return "en-IE"
+            case .enIn: return "en-IN"
+            case .enNz: return "en-NZ"
+            case .enSg: return "en-SG"
             case .enUs: return "en-US"
+            case .enWl: return "en-WL"
+            case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
+            case .esMx: return "es-MX"
+            case .esUs: return "es-US"
+            case .etEe: return "et-EE"
+            case .euEs: return "eu-ES"
+            case .faAf: return "fa-AF"
+            case .faIr: return "fa-IR"
+            case .fiFi: return "fi-FI"
+            case .frBe: return "fr-BE"
+            case .frCa: return "fr-CA"
             case .frFr: return "fr-FR"
+            case .gaIe: return "ga-IE"
+            case .glEs: return "gl-ES"
+            case .guIn: return "gu-IN"
+            case .heIl: return "he-IL"
+            case .hiIn: return "hi-IN"
+            case .hmn: return "hmn"
+            case .hrHr: return "hr-HR"
+            case .htHt: return "ht-HT"
+            case .huHu: return "hu-HU"
+            case .hyAm: return "hy-AM"
+            case .idId: return "id-ID"
+            case .isIs: return "is-IS"
             case .itIt: return "it-IT"
             case .jaJp: return "ja-JP"
+            case .jvId: return "jv-ID"
+            case .kaGe: return "ka-GE"
+            case .kkKz: return "kk-KZ"
+            case .kmKh: return "km-KH"
+            case .knIn: return "kn-IN"
             case .koKr: return "ko-KR"
+            case .lgUg: return "lg-UG"
+            case .loLa: return "lo-LA"
+            case .ltLt: return "lt-LT"
+            case .lvLv: return "lv-LV"
+            case .mkMk: return "mk-MK"
+            case .mlIn: return "ml-IN"
+            case .mrIn: return "mr-IN"
             case .msMy: return "ms-MY"
+            case .myMm: return "my-MM"
+            case .neNp: return "ne-NP"
+            case .nlBe: return "nl-BE"
+            case .nlNl: return "nl-NL"
+            case .noNo: return "no-NO"
+            case .orIn: return "or-IN"
+            case .paIn: return "pa-IN"
+            case .plPl: return "pl-PL"
+            case .psAf: return "ps-AF"
             case .ptBr: return "pt-BR"
+            case .ptPt: return "pt-PT"
+            case .roRo: return "ro-RO"
+            case .ruRu: return "ru-RU"
+            case .siLk: return "si-LK"
+            case .skSk: return "sk-SK"
+            case .slSi: return "sl-SI"
+            case .soSo: return "so-SO"
+            case .sqAl: return "sq-AL"
+            case .srRs: return "sr-RS"
+            case .suId: return "su-ID"
+            case .svSe: return "sv-SE"
+            case .swBi: return "sw-BI"
+            case .swKe: return "sw-KE"
+            case .swRw: return "sw-RW"
+            case .swTz: return "sw-TZ"
+            case .swUg: return "sw-UG"
+            case .taIn: return "ta-IN"
+            case .teIn: return "te-IN"
+            case .thTh: return "th-TH"
+            case .tlPh: return "tl-PH"
+            case .trTr: return "tr-TR"
+            case .ukUa: return "uk-UA"
+            case .uzUz: return "uz-UZ"
+            case .viVn: return "vi-VN"
+            case .xhZa: return "xh-ZA"
+            case .yueHk: return "yue-HK"
             case .zhCn: return "zh-CN"
+            case .zhTw: return "zh-TW"
+            case .zuZa: return "zu-ZA"
             case let .sdkUnknown(s): return s
             }
         }

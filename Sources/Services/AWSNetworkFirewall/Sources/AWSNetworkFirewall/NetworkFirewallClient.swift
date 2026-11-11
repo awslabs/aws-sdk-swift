@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -50,6 +50,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -59,10 +60,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -635,7 +636,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func acceptNetworkFirewallTransitGatewayAttachment(input: AcceptNetworkFirewallTransitGatewayAttachmentInput) async throws -> AcceptNetworkFirewallTransitGatewayAttachmentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -654,7 +655,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -663,17 +664,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AcceptNetworkFirewallTransitGatewayAttachment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptNetworkFirewallTransitGatewayAttachmentInput, AcceptNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -721,7 +725,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func associateAvailabilityZones(input: AssociateAvailabilityZonesInput) async throws -> AssociateAvailabilityZonesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -740,7 +744,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -749,17 +753,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAvailabilityZonesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateAvailabilityZonesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AssociateAvailabilityZones"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateAvailabilityZonesInput, AssociateAvailabilityZonesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -806,7 +813,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func associateFirewallPolicy(input: AssociateFirewallPolicyInput) async throws -> AssociateFirewallPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -825,7 +832,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -834,17 +841,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AssociateFirewallPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateFirewallPolicyInput, AssociateFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -892,7 +902,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func associateSubnets(input: AssociateSubnetsInput) async throws -> AssociateSubnetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -911,7 +921,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -920,17 +930,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSubnetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateSubnetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AssociateSubnets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateSubnetsInput, AssociateSubnetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -975,7 +988,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func attachRuleGroupsToProxyConfiguration(input: AttachRuleGroupsToProxyConfigurationInput) async throws -> AttachRuleGroupsToProxyConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -994,7 +1007,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1003,17 +1016,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachRuleGroupsToProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachRuleGroupsToProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.AttachRuleGroupsToProxyConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachRuleGroupsToProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachRuleGroupsToProxyConfigurationInput, AttachRuleGroupsToProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1059,7 +1075,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createContainerAssociation(input: CreateContainerAssociationInput) async throws -> CreateContainerAssociationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1078,7 +1094,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1087,17 +1103,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateContainerAssociation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateContainerAssociationInput, CreateContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1144,7 +1163,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createFirewall(input: CreateFirewallInput) async throws -> CreateFirewallOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1163,7 +1182,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1172,17 +1191,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFirewallInput, CreateFirewallOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallInput, CreateFirewallOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallInput, CreateFirewallOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallInput, CreateFirewallOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallInput, CreateFirewallOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateFirewall"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallInput, CreateFirewallOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallInput, CreateFirewallOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateFirewallInput, CreateFirewallOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallInput, CreateFirewallOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallInput, CreateFirewallOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallInput, CreateFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallInput, CreateFirewallOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1229,7 +1251,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createFirewallPolicy(input: CreateFirewallPolicyInput) async throws -> CreateFirewallPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1248,7 +1270,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1257,17 +1279,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateFirewallPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallPolicyInput, CreateFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1314,7 +1339,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createFirewallPolicyV2(input: CreateFirewallPolicyV2Input) async throws -> CreateFirewallPolicyV2Output {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1333,7 +1358,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1342,17 +1367,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFirewallPolicyV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFirewallPolicyV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateFirewallPolicyV2"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFirewallPolicyV2Input, CreateFirewallPolicyV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1399,7 +1427,7 @@ extension NetworkFirewallClient {
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
     public func createProxy(input: CreateProxyInput) async throws -> CreateProxyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1418,7 +1446,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1427,17 +1455,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyInput, CreateProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyInput, CreateProxyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyInput, CreateProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyInput, CreateProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyInput, CreateProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyInput, CreateProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyInput, CreateProxyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateProxyInput, CreateProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyInput, CreateProxyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyInput, CreateProxyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyInput, CreateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyInput, CreateProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1483,7 +1514,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createProxyConfiguration(input: CreateProxyConfigurationInput) async throws -> CreateProxyConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1502,7 +1533,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1511,17 +1542,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxyConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyConfigurationInput, CreateProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1566,7 +1600,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createProxyRuleGroup(input: CreateProxyRuleGroupInput) async throws -> CreateProxyRuleGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1585,7 +1619,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1594,17 +1628,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxyRuleGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyRuleGroupInput, CreateProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1648,7 +1685,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createProxyRules(input: CreateProxyRulesInput) async throws -> CreateProxyRulesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1667,7 +1704,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1676,17 +1713,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProxyRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProxyRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateProxyRules"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProxyRulesInput, CreateProxyRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1732,7 +1772,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1751,7 +1791,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1760,17 +1800,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateRuleGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRuleGroupInput, CreateRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1816,7 +1859,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1835,7 +1878,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1844,17 +1887,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateTLSInspectionConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTLSInspectionConfigurationInput, CreateTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1902,7 +1948,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func createVpcEndpointAssociation(input: CreateVpcEndpointAssociationInput) async throws -> CreateVpcEndpointAssociationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1921,7 +1967,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1930,17 +1976,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcEndpointAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVpcEndpointAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.CreateVpcEndpointAssociation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVpcEndpointAssociationInput, CreateVpcEndpointAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1986,7 +2035,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteContainerAssociation(input: DeleteContainerAssociationInput) async throws -> DeleteContainerAssociationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2005,7 +2054,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2014,17 +2063,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteContainerAssociation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteContainerAssociationInput, DeleteContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2071,7 +2123,7 @@ extension NetworkFirewallClient {
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
     public func deleteFirewall(input: DeleteFirewallInput) async throws -> DeleteFirewallOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2090,7 +2142,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2099,17 +2151,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteFirewall"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallInput, DeleteFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallInput, DeleteFirewallOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2156,7 +2211,7 @@ extension NetworkFirewallClient {
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
     public func deleteFirewallPolicy(input: DeleteFirewallPolicyInput) async throws -> DeleteFirewallPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2175,7 +2230,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2184,17 +2239,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteFirewallPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallPolicyInput, DeleteFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2241,7 +2299,7 @@ extension NetworkFirewallClient {
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
     public func deleteFirewallPolicyV2(input: DeleteFirewallPolicyV2Input) async throws -> DeleteFirewallPolicyV2Output {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2260,7 +2318,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2269,17 +2327,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFirewallPolicyV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFirewallPolicyV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteFirewallPolicyV2"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFirewallPolicyV2Input, DeleteFirewallPolicyV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2324,7 +2385,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteNetworkFirewallTransitGatewayAttachment(input: DeleteNetworkFirewallTransitGatewayAttachmentInput) async throws -> DeleteNetworkFirewallTransitGatewayAttachmentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2343,7 +2404,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2352,17 +2413,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteNetworkFirewallTransitGatewayAttachment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteNetworkFirewallTransitGatewayAttachmentInput, DeleteNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2408,7 +2472,7 @@ extension NetworkFirewallClient {
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
     public func deleteProxy(input: DeleteProxyInput) async throws -> DeleteProxyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2427,7 +2491,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2436,17 +2500,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyInput, DeleteProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyInput, DeleteProxyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyInput, DeleteProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyInput, DeleteProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyInput, DeleteProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyInput, DeleteProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyInput, DeleteProxyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteProxyInput, DeleteProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyInput, DeleteProxyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyInput, DeleteProxyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyInput, DeleteProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyInput, DeleteProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2491,7 +2558,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteProxyConfiguration(input: DeleteProxyConfigurationInput) async throws -> DeleteProxyConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2510,7 +2577,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2519,17 +2586,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxyConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyConfigurationInput, DeleteProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2574,7 +2644,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteProxyRuleGroup(input: DeleteProxyRuleGroupInput) async throws -> DeleteProxyRuleGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2593,7 +2663,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2602,17 +2672,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxyRuleGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyRuleGroupInput, DeleteProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2657,7 +2730,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteProxyRules(input: DeleteProxyRulesInput) async throws -> DeleteProxyRulesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2676,7 +2749,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2685,17 +2758,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProxyRulesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProxyRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteProxyRules"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProxyRulesInput, DeleteProxyRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2741,7 +2817,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2760,7 +2836,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2769,17 +2845,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2826,7 +2905,7 @@ extension NetworkFirewallClient {
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
     public func deleteRuleGroup(input: DeleteRuleGroupInput) async throws -> DeleteRuleGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2845,7 +2924,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2854,17 +2933,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteRuleGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRuleGroupInput, DeleteRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2910,7 +2992,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteTLSInspectionConfiguration(input: DeleteTLSInspectionConfigurationInput) async throws -> DeleteTLSInspectionConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2929,7 +3011,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2938,17 +3020,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteTLSInspectionConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTLSInspectionConfigurationInput, DeleteTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2994,7 +3079,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func deleteVpcEndpointAssociation(input: DeleteVpcEndpointAssociationInput) async throws -> DeleteVpcEndpointAssociationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3013,7 +3098,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3022,17 +3107,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcEndpointAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVpcEndpointAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DeleteVpcEndpointAssociation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVpcEndpointAssociationInput, DeleteVpcEndpointAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3077,7 +3165,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeContainerAssociation(input: DescribeContainerAssociationInput) async throws -> DescribeContainerAssociationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3096,7 +3184,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3105,17 +3193,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeContainerAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeContainerAssociation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeContainerAssociationInput, DescribeContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3160,7 +3251,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeFirewall(input: DescribeFirewallInput) async throws -> DescribeFirewallOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3179,7 +3270,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3188,17 +3279,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFirewallOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFirewall"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFirewallInput, DescribeFirewallOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFirewallInput, DescribeFirewallOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3243,7 +3337,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeFirewallMetadata(input: DescribeFirewallMetadataInput) async throws -> DescribeFirewallMetadataOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3262,7 +3356,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3271,17 +3365,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFirewallMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFirewallMetadata"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFirewallMetadataInput, DescribeFirewallMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3326,7 +3423,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeFirewallPolicy(input: DescribeFirewallPolicyInput) async throws -> DescribeFirewallPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3345,7 +3442,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3354,17 +3451,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFirewallPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFirewallPolicyInput, DescribeFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3409,7 +3509,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeFirewallPolicyV2(input: DescribeFirewallPolicyV2Input) async throws -> DescribeFirewallPolicyV2Output {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3428,7 +3528,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3437,17 +3537,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFirewallPolicyV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFirewallPolicyV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFirewallPolicyV2"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFirewallPolicyV2Input, DescribeFirewallPolicyV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3492,7 +3595,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeFlowOperation(input: DescribeFlowOperationInput) async throws -> DescribeFlowOperationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3511,7 +3614,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3520,17 +3623,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFlowOperationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeFlowOperationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeFlowOperation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeFlowOperationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeFlowOperationInput, DescribeFlowOperationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3575,7 +3681,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeLoggingConfiguration(input: DescribeLoggingConfigurationInput) async throws -> DescribeLoggingConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3594,7 +3700,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3603,17 +3709,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeLoggingConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLoggingConfigurationInput, DescribeLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3658,7 +3767,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeProxy(input: DescribeProxyInput) async throws -> DescribeProxyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3677,7 +3786,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3686,17 +3795,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyInput, DescribeProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyInput, DescribeProxyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyInput, DescribeProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyInput, DescribeProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyInput, DescribeProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyInput, DescribeProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyInput, DescribeProxyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeProxyInput, DescribeProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyInput, DescribeProxyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyInput, DescribeProxyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyInput, DescribeProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyInput, DescribeProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3741,7 +3853,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeProxyConfiguration(input: DescribeProxyConfigurationInput) async throws -> DescribeProxyConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3760,7 +3872,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3769,17 +3881,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxyConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyConfigurationInput, DescribeProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3824,7 +3939,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeProxyRule(input: DescribeProxyRuleInput) async throws -> DescribeProxyRuleOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3843,7 +3958,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3852,17 +3967,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxyRule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyRuleInput, DescribeProxyRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3907,7 +4025,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeProxyRuleGroup(input: DescribeProxyRuleGroupInput) async throws -> DescribeProxyRuleGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3926,7 +4044,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3935,17 +4053,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProxyRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeProxyRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeProxyRuleGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeProxyRuleGroupInput, DescribeProxyRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3990,7 +4111,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4009,7 +4130,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4018,17 +4139,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4073,7 +4197,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeRuleGroup(input: DescribeRuleGroupInput) async throws -> DescribeRuleGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4092,7 +4216,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4101,17 +4225,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeRuleGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuleGroupInput, DescribeRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4156,7 +4283,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeRuleGroupMetadata(input: DescribeRuleGroupMetadataInput) async throws -> DescribeRuleGroupMetadataOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4175,7 +4302,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4184,17 +4311,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupMetadataOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleGroupMetadataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeRuleGroupMetadata"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuleGroupMetadataInput, DescribeRuleGroupMetadataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4239,7 +4369,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeRuleGroupSummary(input: DescribeRuleGroupSummaryInput) async throws -> DescribeRuleGroupSummaryOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4258,7 +4388,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4267,17 +4397,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRuleGroupSummaryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeRuleGroupSummaryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeRuleGroupSummary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeRuleGroupSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeRuleGroupSummaryInput, DescribeRuleGroupSummaryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4322,7 +4455,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeTLSInspectionConfiguration(input: DescribeTLSInspectionConfigurationInput) async throws -> DescribeTLSInspectionConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4341,7 +4474,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4350,17 +4483,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeTLSInspectionConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTLSInspectionConfigurationInput, DescribeTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4405,7 +4541,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func describeVpcEndpointAssociation(input: DescribeVpcEndpointAssociationInput) async throws -> DescribeVpcEndpointAssociationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4424,7 +4560,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4433,17 +4569,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcEndpointAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeVpcEndpointAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DescribeVpcEndpointAssociation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeVpcEndpointAssociationInput, DescribeVpcEndpointAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4488,7 +4627,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func detachRuleGroupsFromProxyConfiguration(input: DetachRuleGroupsFromProxyConfigurationInput) async throws -> DetachRuleGroupsFromProxyConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4507,7 +4646,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4516,17 +4655,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachRuleGroupsFromProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DetachRuleGroupsFromProxyConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachRuleGroupsFromProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetachRuleGroupsFromProxyConfigurationInput, DetachRuleGroupsFromProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4573,7 +4715,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func disassociateAvailabilityZones(input: DisassociateAvailabilityZonesInput) async throws -> DisassociateAvailabilityZonesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4592,7 +4734,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4601,17 +4743,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAvailabilityZonesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateAvailabilityZonesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DisassociateAvailabilityZones"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateAvailabilityZonesInput, DisassociateAvailabilityZonesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4658,7 +4803,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func disassociateSubnets(input: DisassociateSubnetsInput) async throws -> DisassociateSubnetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4677,7 +4822,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4686,17 +4831,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSubnetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateSubnetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.DisassociateSubnets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateSubnetsInput, DisassociateSubnetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4741,7 +4889,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func getAnalysisReportResults(input: GetAnalysisReportResultsInput) async throws -> GetAnalysisReportResultsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4760,7 +4908,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4769,17 +4917,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnalysisReportResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAnalysisReportResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.GetAnalysisReportResults"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAnalysisReportResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAnalysisReportResultsInput, GetAnalysisReportResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4824,7 +4975,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listAnalysisReports(input: ListAnalysisReportsInput) async throws -> ListAnalysisReportsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4843,7 +4994,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4852,17 +5003,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnalysisReportsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAnalysisReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListAnalysisReports"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAnalysisReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAnalysisReportsInput, ListAnalysisReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4906,7 +5060,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listContainerAssociations(input: ListContainerAssociationsInput) async throws -> ListContainerAssociationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4925,7 +5079,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4934,17 +5088,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListContainerAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListContainerAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListContainerAssociations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListContainerAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListContainerAssociationsInput, ListContainerAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4988,7 +5145,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listFirewallPolicies(input: ListFirewallPoliciesInput) async throws -> ListFirewallPoliciesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5007,7 +5164,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5016,17 +5173,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallPoliciesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFirewallPolicies"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallPoliciesInput, ListFirewallPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5070,7 +5230,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listFirewallPoliciesV2(input: ListFirewallPoliciesV2Input) async throws -> ListFirewallPoliciesV2Output {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5089,7 +5249,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5098,17 +5258,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallPoliciesV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallPoliciesV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFirewallPoliciesV2"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallPoliciesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallPoliciesV2Input, ListFirewallPoliciesV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5152,7 +5315,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listFirewalls(input: ListFirewallsInput) async throws -> ListFirewallsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5171,7 +5334,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5180,17 +5343,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFirewallsInput, ListFirewallsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallsInput, ListFirewallsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallsInput, ListFirewallsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFirewallsInput, ListFirewallsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFirewallsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFirewallsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallsInput, ListFirewallsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFirewalls"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallsInput, ListFirewallsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFirewallsInput, ListFirewallsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFirewallsInput, ListFirewallsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFirewallsInput, ListFirewallsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFirewallsInput, ListFirewallsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFirewallsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFirewallsInput, ListFirewallsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFirewallsInput, ListFirewallsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5235,7 +5401,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listFlowOperationResults(input: ListFlowOperationResultsInput) async throws -> ListFlowOperationResultsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5254,7 +5420,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5263,17 +5429,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowOperationResultsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlowOperationResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFlowOperationResults"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowOperationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFlowOperationResultsInput, ListFlowOperationResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5318,7 +5487,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listFlowOperations(input: ListFlowOperationsInput) async throws -> ListFlowOperationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5337,7 +5506,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5346,17 +5515,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowOperationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFlowOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListFlowOperations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFlowOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFlowOperationsInput, ListFlowOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5400,7 +5572,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listProxies(input: ListProxiesInput) async throws -> ListProxiesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5419,7 +5591,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5428,17 +5600,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProxiesInput, ListProxiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxiesInput, ListProxiesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxiesInput, ListProxiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxiesInput, ListProxiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProxiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxiesInput, ListProxiesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListProxies"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxiesInput, ListProxiesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxiesInput, ListProxiesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListProxiesInput, ListProxiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxiesInput, ListProxiesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxiesInput, ListProxiesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxiesInput, ListProxiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxiesInput, ListProxiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5483,7 +5658,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listProxyConfigurations(input: ListProxyConfigurationsInput) async throws -> ListProxyConfigurationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5502,7 +5677,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5511,17 +5686,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProxyConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxyConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListProxyConfigurations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxyConfigurationsInput, ListProxyConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5566,7 +5744,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listProxyRuleGroups(input: ListProxyRuleGroupsInput) async throws -> ListProxyRuleGroupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5585,7 +5763,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5594,17 +5772,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProxyRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProxyRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListProxyRuleGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProxyRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProxyRuleGroupsInput, ListProxyRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5648,7 +5829,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listRuleGroups(input: ListRuleGroupsInput) async throws -> ListRuleGroupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5667,7 +5848,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5676,17 +5857,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuleGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListRuleGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuleGroupsInput, ListRuleGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5730,7 +5914,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listTLSInspectionConfigurations(input: ListTLSInspectionConfigurationsInput) async throws -> ListTLSInspectionConfigurationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5749,7 +5933,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5758,17 +5942,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTLSInspectionConfigurationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTLSInspectionConfigurationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListTLSInspectionConfigurations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTLSInspectionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTLSInspectionConfigurationsInput, ListTLSInspectionConfigurationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5813,7 +6000,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5832,7 +6019,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5841,17 +6028,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5895,7 +6085,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func listVpcEndpointAssociations(input: ListVpcEndpointAssociationsInput) async throws -> ListVpcEndpointAssociationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -5914,7 +6104,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -5923,17 +6113,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcEndpointAssociationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVpcEndpointAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.ListVpcEndpointAssociations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVpcEndpointAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVpcEndpointAssociationsInput, ListVpcEndpointAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -5986,7 +6179,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6005,7 +6198,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6014,17 +6207,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.PutResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6069,7 +6265,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func rejectNetworkFirewallTransitGatewayAttachment(input: RejectNetworkFirewallTransitGatewayAttachmentInput) async throws -> RejectNetworkFirewallTransitGatewayAttachmentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6088,7 +6284,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6097,17 +6293,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.RejectNetworkFirewallTransitGatewayAttachment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectNetworkFirewallTransitGatewayAttachmentInput, RejectNetworkFirewallTransitGatewayAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6152,7 +6351,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func startAnalysisReport(input: StartAnalysisReportInput) async throws -> StartAnalysisReportOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6171,7 +6370,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6180,17 +6379,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAnalysisReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAnalysisReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.StartAnalysisReport"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAnalysisReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAnalysisReportInput, StartAnalysisReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6235,7 +6437,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func startFlowCapture(input: StartFlowCaptureInput) async throws -> StartFlowCaptureOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6254,7 +6456,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6263,17 +6465,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowCaptureOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFlowCaptureOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.StartFlowCapture"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFlowCaptureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFlowCaptureInput, StartFlowCaptureOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6318,7 +6523,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func startFlowFlush(input: StartFlowFlushInput) async throws -> StartFlowFlushOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6337,7 +6542,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6346,17 +6551,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowFlushOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartFlowFlushOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.StartFlowFlush"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartFlowFlushOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartFlowFlushInput, StartFlowFlushOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartFlowFlushInput, StartFlowFlushOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6401,7 +6609,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6420,7 +6628,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6429,17 +6637,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6484,7 +6695,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6503,7 +6714,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6512,17 +6723,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6569,7 +6783,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateAvailabilityZoneChangeProtection(input: UpdateAvailabilityZoneChangeProtectionInput) async throws -> UpdateAvailabilityZoneChangeProtectionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6588,7 +6802,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6597,17 +6811,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAvailabilityZoneChangeProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateAvailabilityZoneChangeProtection"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAvailabilityZoneChangeProtectionInput, UpdateAvailabilityZoneChangeProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6654,7 +6871,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateContainerAssociation(input: UpdateContainerAssociationInput) async throws -> UpdateContainerAssociationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6673,7 +6890,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6682,17 +6899,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerAssociationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateContainerAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateContainerAssociation"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateContainerAssociationInput, UpdateContainerAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6738,7 +6958,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallAnalysisSettings(input: UpdateFirewallAnalysisSettingsInput) async throws -> UpdateFirewallAnalysisSettingsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6757,7 +6977,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6766,17 +6986,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallAnalysisSettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallAnalysisSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallAnalysisSettings"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallAnalysisSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallAnalysisSettingsInput, UpdateFirewallAnalysisSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6823,7 +7046,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallDeleteProtection(input: UpdateFirewallDeleteProtectionInput) async throws -> UpdateFirewallDeleteProtectionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6842,7 +7065,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6851,17 +7074,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallDeleteProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallDeleteProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallDeleteProtection"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDeleteProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallDeleteProtectionInput, UpdateFirewallDeleteProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6907,7 +7133,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallDescription(input: UpdateFirewallDescriptionInput) async throws -> UpdateFirewallDescriptionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -6926,7 +7152,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -6935,17 +7161,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallDescriptionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallDescriptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallDescription"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallDescriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallDescriptionInput, UpdateFirewallDescriptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -6992,7 +7221,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallEncryptionConfiguration(input: UpdateFirewallEncryptionConfigurationInput) async throws -> UpdateFirewallEncryptionConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7011,7 +7240,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7020,17 +7249,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallEncryptionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallEncryptionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallEncryptionConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallEncryptionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallEncryptionConfigurationInput, UpdateFirewallEncryptionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7077,7 +7309,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallPolicy(input: UpdateFirewallPolicyInput) async throws -> UpdateFirewallPolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7096,7 +7328,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7105,17 +7337,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallPolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallPolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallPolicyInput, UpdateFirewallPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7162,7 +7397,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallPolicyChangeProtection(input: UpdateFirewallPolicyChangeProtectionInput) async throws -> UpdateFirewallPolicyChangeProtectionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7181,7 +7416,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7190,17 +7425,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallPolicyChangeProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallPolicyChangeProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallPolicyChangeProtection"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallPolicyChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallPolicyChangeProtectionInput, UpdateFirewallPolicyChangeProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7247,7 +7485,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateFirewallPolicyV2(input: UpdateFirewallPolicyV2Input) async throws -> UpdateFirewallPolicyV2Output {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7266,7 +7504,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7275,17 +7513,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFirewallPolicyV2Output>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFirewallPolicyV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateFirewallPolicyV2"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFirewallPolicyV2Input, UpdateFirewallPolicyV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7341,7 +7582,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7360,7 +7601,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7369,17 +7610,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoggingConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLoggingConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateLoggingConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7425,7 +7669,7 @@ extension NetworkFirewallClient {
     /// - `UnsupportedOperationException` : The operation you requested isn't supported by Network Firewall.
     public func updateProxy(input: UpdateProxyInput) async throws -> UpdateProxyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7444,7 +7688,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7453,17 +7697,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyInput, UpdateProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyInput, UpdateProxyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyInput, UpdateProxyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyInput, UpdateProxyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyInput, UpdateProxyOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyInput, UpdateProxyOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyInput, UpdateProxyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProxyInput, UpdateProxyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyInput, UpdateProxyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyInput, UpdateProxyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyInput, UpdateProxyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyInput, UpdateProxyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7508,7 +7755,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateProxyConfiguration(input: UpdateProxyConfigurationInput) async throws -> UpdateProxyConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7527,7 +7774,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7536,17 +7783,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyConfigurationInput, UpdateProxyConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7591,7 +7841,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateProxyRule(input: UpdateProxyRuleInput) async throws -> UpdateProxyRuleOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7610,7 +7860,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7619,17 +7869,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRuleOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRuleOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyRule"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRuleInput, UpdateProxyRuleOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7674,7 +7927,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateProxyRuleGroupPriorities(input: UpdateProxyRuleGroupPrioritiesInput) async throws -> UpdateProxyRuleGroupPrioritiesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7693,7 +7946,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7702,17 +7955,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRuleGroupPrioritiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRuleGroupPrioritiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyRuleGroupPriorities"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRuleGroupPrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRuleGroupPrioritiesInput, UpdateProxyRuleGroupPrioritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7757,7 +8013,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateProxyRulePriorities(input: UpdateProxyRulePrioritiesInput) async throws -> UpdateProxyRulePrioritiesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7776,7 +8032,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7785,17 +8041,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxyRulePrioritiesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxyRulePrioritiesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxyRulePriorities"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxyRulePrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxyRulePrioritiesInput, UpdateProxyRulePrioritiesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7843,7 +8102,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateProxySettings(input: UpdateProxySettingsInput) async throws -> UpdateProxySettingsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7862,7 +8121,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7871,17 +8130,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProxySettingsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProxySettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateProxySettings"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProxySettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProxySettingsInput, UpdateProxySettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -7927,7 +8189,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateRuleGroup(input: UpdateRuleGroupInput) async throws -> UpdateRuleGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -7946,7 +8208,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -7955,17 +8217,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuleGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateRuleGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuleGroupInput, UpdateRuleGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8012,7 +8277,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateSubnetChangeProtection(input: UpdateSubnetChangeProtectionInput) async throws -> UpdateSubnetChangeProtectionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8031,7 +8296,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8040,17 +8305,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubnetChangeProtectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSubnetChangeProtectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateSubnetChangeProtection"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSubnetChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSubnetChangeProtectionInput, UpdateSubnetChangeProtectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -8096,7 +8364,7 @@ extension NetworkFirewallClient {
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     public func updateTLSInspectionConfiguration(input: UpdateTLSInspectionConfigurationInput) async throws -> UpdateTLSInspectionConfigurationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -8115,7 +8383,7 @@ extension NetworkFirewallClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -8124,17 +8392,20 @@ extension NetworkFirewallClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTLSInspectionConfigurationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Network Firewall", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTLSInspectionConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(overrides: ["X-Amz-Target": "NetworkFirewall_20201112.UpdateTLSInspectionConfiguration"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTLSInspectionConfigurationInput, UpdateTLSInspectionConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

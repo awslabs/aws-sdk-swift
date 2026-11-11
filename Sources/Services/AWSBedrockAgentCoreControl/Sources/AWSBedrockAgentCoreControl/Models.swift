@@ -1514,6 +1514,54 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// A reference to a PEM-encoded private CA certificate stored as an Amazon S3 object.
+    public struct S3CertificateConfiguration: Swift.Sendable {
+        /// The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket.
+        public var bucketOwnerAccountId: Swift.String?
+        /// The URI of the Amazon S3 object that contains the PEM-encoded certificate.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            bucketOwnerAccountId: Swift.String? = nil,
+            uri: Swift.String? = nil
+        ) {
+            self.bucketOwnerAccountId = bucketOwnerAccountId
+            self.uri = uri
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A reference to a PEM-encoded private CA certificate stored in an Amazon Web Services Secrets Manager secret.
+    public struct SecretsManagerCertificateConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the PEM-encoded certificate.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A reference to a private certificate authority (CA) certificate that AgentCore uses to verify TLS connections to an endpoint, such as a gateway target or an identity provider, that presents a certificate issued by a private CA that is not trusted by default. Specify exactly one certificate source. The configuration is a reference only and never contains the certificate content.
+    public enum CertificateConfiguration: Swift.Sendable {
+        /// The Amazon S3 location of the PEM-encoded private CA certificate.
+        case s3(BedrockAgentCoreControlClientTypes.S3CertificateConfiguration)
+        /// The Amazon Web Services Secrets Manager location of the PEM-encoded private CA certificate.
+        case secretsmanager(BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum ClaimMatchOperatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contains
         case containsAny
@@ -1768,6 +1816,8 @@ extension BedrockAgentCoreControlClientTypes {
         public var allowedScopes: [Swift.String]?
         /// The configuration that restricts which workloads in the request's identity chain are allowed to invoke the target, identified by their hosting environments and workload identities. At launch, this is supported only for AgentCore Runtime targets, and the allowed workloads are AgentCore Gateways.
         public var allowedWorkloadConfiguration: BedrockAgentCoreControlClientTypes.AllowedWorkloadConfiguration?
+        /// The private certificate authority (CA) configurations for the identity provider. Use this to have AgentCore Identity trust a private CA when establishing TLS connections to identity provider endpoints. You can specify only one certificate authority configuration in this list. Provide the certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can use this only together with privateEndpoint.
+        public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
         /// An array of objects that define a custom claim validation name, value, and operation
         public var customClaims: [BedrockAgentCoreControlClientTypes.CustomClaimValidationType]?
         /// This URL is used to fetch OpenID Connect configuration or authorization server metadata for validating incoming tokens.
@@ -1784,6 +1834,7 @@ extension BedrockAgentCoreControlClientTypes {
             allowedClients: [Swift.String]? = nil,
             allowedScopes: [Swift.String]? = nil,
             allowedWorkloadConfiguration: BedrockAgentCoreControlClientTypes.AllowedWorkloadConfiguration? = nil,
+            certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
             customClaims: [BedrockAgentCoreControlClientTypes.CustomClaimValidationType]? = nil,
             discoveryUrl: Swift.String? = nil,
             privateEndpoint: BedrockAgentCoreControlClientTypes.PrivateEndpoint? = nil,
@@ -1794,6 +1845,7 @@ extension BedrockAgentCoreControlClientTypes {
             self.allowedClients = allowedClients
             self.allowedScopes = allowedScopes
             self.allowedWorkloadConfiguration = allowedWorkloadConfiguration
+            self.certificateConfigurations = certificateConfigurations
             self.customClaims = customClaims
             self.discoveryUrl = discoveryUrl
             self.privateEndpoint = privateEndpoint
@@ -10573,54 +10625,6 @@ public struct UpdateGatewayRuleOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// A reference to a PEM-encoded private CA certificate stored as an Amazon S3 object.
-    public struct S3CertificateConfiguration: Swift.Sendable {
-        /// The account ID of the Amazon S3 bucket owner. This ID is used for cross-account access to the bucket.
-        public var bucketOwnerAccountId: Swift.String?
-        /// The URI of the Amazon S3 object that contains the PEM-encoded certificate.
-        /// This member is required.
-        public var uri: Swift.String?
-
-        public init(
-            bucketOwnerAccountId: Swift.String? = nil,
-            uri: Swift.String? = nil
-        ) {
-            self.bucketOwnerAccountId = bucketOwnerAccountId
-            self.uri = uri
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// A reference to a PEM-encoded private CA certificate stored in an Amazon Web Services Secrets Manager secret.
-    public struct SecretsManagerCertificateConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the PEM-encoded certificate.
-        /// This member is required.
-        public var secretArn: Swift.String?
-
-        public init(
-            secretArn: Swift.String? = nil
-        ) {
-            self.secretArn = secretArn
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// A reference to a private certificate authority (CA) certificate that the gateway uses to verify TLS connections to the target endpoint. Use this when the target presents a certificate issued by a private CA that is not trusted by default. Specify exactly one certificate source. The configuration is a reference only and never contains the certificate content.
-    public enum CertificateConfiguration: Swift.Sendable {
-        /// The Amazon S3 location of the PEM-encoded private CA certificate.
-        case s3(BedrockAgentCoreControlClientTypes.S3CertificateConfiguration)
-        /// The Amazon Web Services Secrets Manager location of the PEM-encoded private CA certificate.
-        case secretsmanager(BedrockAgentCoreControlClientTypes.SecretsManagerCertificateConfiguration)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
     public enum ApiKeyCredentialLocation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case header
         case queryParameter
@@ -12394,7 +12398,7 @@ extension BedrockAgentCoreControlClientTypes {
     public struct HarnessAgentCoreRuntimeEnvironmentRequest: Swift.Sendable {
         /// The filesystem configurations for the runtime environment.
         public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
-        /// LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.
+        /// The lifecycle configuration for the harness's runtime environment. For a harness, idleRuntimeSessionTimeout and maxLifetime each accept a value between 60 and 28800 seconds (8 hours), and idleRuntimeSessionTimeout must be less than or equal to maxLifetime. Values above 28800 seconds are rejected with a ValidationException.
         public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
         /// SecurityConfig for the Agent.
         public var networkConfiguration: BedrockAgentCoreControlClientTypes.NetworkConfiguration?
@@ -13224,19 +13228,35 @@ extension BedrockAgentCoreControlClientTypes.HarnessInlineFunctionConfig: Swift.
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Authentication method for calling a remote MCP server.
+    public enum HarnessRemoteMcpOutboundAuth: Swift.Sendable {
+        /// Sign requests to the remote MCP server with Signature Version 4 (SigV4) using the harness execution role. If you don't specify a Region, the harness Region is used.
+        case awsiam(BedrockAgentCoreControlClientTypes.IamCredentialProvider)
+        /// No authentication.
+        case `none`(BedrockAgentCoreControlClientTypes.Unit)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for connecting to a remote MCP server.
     public struct HarnessRemoteMcpConfig: Swift.Sendable {
         /// Custom headers to include when connecting to the remote MCP server.
         public var headers: [Swift.String: Swift.String]?
+        /// How the harness authenticates to this MCP server. Defaults to no authentication.
+        public var outboundAuth: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpOutboundAuth?
         /// URL of the MCP endpoint.
         /// This member is required.
         public var url: Swift.String?
 
         public init(
             headers: [Swift.String: Swift.String]? = nil,
+            outboundAuth: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpOutboundAuth? = nil,
             url: Swift.String? = nil
         ) {
             self.headers = headers
+            self.outboundAuth = outboundAuth
             self.url = url
         }
     }
@@ -13244,7 +13264,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "HarnessRemoteMcpConfig(headers: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+        "HarnessRemoteMcpConfig(outboundAuth: \(Swift.String(describing: outboundAuth)), headers: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -13534,7 +13554,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var agentRuntimeName: Swift.String?
         /// The filesystem configurations for the runtime environment.
         public var filesystemConfigurations: [BedrockAgentCoreControlClientTypes.FilesystemConfiguration]?
-        /// LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.
+        /// The lifecycle configuration for the harness's runtime environment. For a harness, idleRuntimeSessionTimeout and maxLifetime each accept a value between 60 and 28800 seconds (8 hours), and idleRuntimeSessionTimeout must be less than or equal to maxLifetime.
         /// This member is required.
         public var lifecycleConfiguration: BedrockAgentCoreControlClientTypes.LifecycleConfiguration?
         /// SecurityConfig for the Agent.
@@ -16990,6 +17010,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// Input configuration for a custom OAuth2 provider.
     public struct CustomOauth2ProviderConfigInput: Swift.Sendable {
+        /// The private certificate authority (CA) configurations for the identity provider. Use this to have AgentCore Identity trust a private CA when establishing TLS connections to identity provider endpoints. You can specify only one certificate authority configuration in this list. Provide the certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can use this only together with privateEndpoint.
+        public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
         /// The client authentication method to use when authenticating with the token endpoint.
         public var clientAuthenticationMethod: BedrockAgentCoreControlClientTypes.ClientAuthenticationMethodType?
         /// The client ID for the custom OAuth2 provider.
@@ -17013,6 +17035,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var privateKeyJwtConfig: BedrockAgentCoreControlClientTypes.PrivateKeyJwtConfig?
 
         public init(
+            certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
             clientAuthenticationMethod: BedrockAgentCoreControlClientTypes.ClientAuthenticationMethodType? = nil,
             clientId: Swift.String? = "",
             clientSecret: Swift.String? = "",
@@ -17024,6 +17047,7 @@ extension BedrockAgentCoreControlClientTypes {
             privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]? = nil,
             privateKeyJwtConfig: BedrockAgentCoreControlClientTypes.PrivateKeyJwtConfig? = nil
         ) {
+            self.certificateConfigurations = certificateConfigurations
             self.clientAuthenticationMethod = clientAuthenticationMethod
             self.clientId = clientId
             self.clientSecret = clientSecret
@@ -17040,7 +17064,7 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomOauth2ProviderConfigInput(clientAuthenticationMethod: \(Swift.String(describing: clientAuthenticationMethod)), clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), oauthDiscovery: \(Swift.String(describing: oauthDiscovery)), onBehalfOfTokenExchangeConfig: \(Swift.String(describing: onBehalfOfTokenExchangeConfig)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointOverrides: \(Swift.String(describing: privateEndpointOverrides)), privateKeyJwtConfig: \(Swift.String(describing: privateKeyJwtConfig)), clientSecret: \"CONTENT_REDACTED\")"}
+        "CustomOauth2ProviderConfigInput(certificateConfigurations: \(Swift.String(describing: certificateConfigurations)), clientAuthenticationMethod: \(Swift.String(describing: clientAuthenticationMethod)), clientId: \(Swift.String(describing: clientId)), clientSecretConfig: \(Swift.String(describing: clientSecretConfig)), clientSecretSource: \(Swift.String(describing: clientSecretSource)), oauthDiscovery: \(Swift.String(describing: oauthDiscovery)), onBehalfOfTokenExchangeConfig: \(Swift.String(describing: onBehalfOfTokenExchangeConfig)), privateEndpoint: \(Swift.String(describing: privateEndpoint)), privateEndpointOverrides: \(Swift.String(describing: privateEndpointOverrides)), privateKeyJwtConfig: \(Swift.String(describing: privateKeyJwtConfig)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -17366,6 +17390,8 @@ extension BedrockAgentCoreControlClientTypes {
 
     /// Output configuration for a custom OAuth2 provider.
     public struct CustomOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The private certificate authority (CA) configurations for the identity provider. Use this to have AgentCore Identity trust a private CA when establishing TLS connections to identity provider endpoints. You can specify only one certificate authority configuration in this list. Provide the certificate by reference to an Amazon S3 object or an Amazon Web Services Secrets Manager secret. You can use this only together with privateEndpoint.
+        public var certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]?
         /// The client authentication method used when authenticating with the token endpoint.
         public var clientAuthenticationMethod: BedrockAgentCoreControlClientTypes.ClientAuthenticationMethodType?
         /// The client ID for the custom OAuth2 provider.
@@ -17383,6 +17409,7 @@ extension BedrockAgentCoreControlClientTypes {
         public var privateKeyJwtConfig: BedrockAgentCoreControlClientTypes.PrivateKeyJwtConfig?
 
         public init(
+            certificateConfigurations: [BedrockAgentCoreControlClientTypes.CertificateConfiguration]? = nil,
             clientAuthenticationMethod: BedrockAgentCoreControlClientTypes.ClientAuthenticationMethodType? = nil,
             clientId: Swift.String? = nil,
             oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil,
@@ -17391,6 +17418,7 @@ extension BedrockAgentCoreControlClientTypes {
             privateEndpointOverrides: [BedrockAgentCoreControlClientTypes.PrivateEndpointOverride]? = nil,
             privateKeyJwtConfig: BedrockAgentCoreControlClientTypes.PrivateKeyJwtConfig? = nil
         ) {
+            self.certificateConfigurations = certificateConfigurations
             self.clientAuthenticationMethod = clientAuthenticationMethod
             self.clientId = clientId
             self.oauthDiscovery = oauthDiscovery
@@ -36117,6 +36145,7 @@ extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
         try writer["allowedClients"].writeList(value.allowedClients, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedScopes"].writeList(value.allowedScopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["allowedWorkloadConfiguration"].write(value.allowedWorkloadConfiguration, with: BedrockAgentCoreControlClientTypes.AllowedWorkloadConfiguration.write(value:to:))
+        try writer["certificateConfigurations"].writeList(value.certificateConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["customClaims"].writeList(value.customClaims, memberWritingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["discoveryUrl"].write(value.discoveryUrl)
         try writer["privateEndpoint"].write(value.privateEndpoint, with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.write(value:to:))
@@ -36134,6 +36163,7 @@ extension BedrockAgentCoreControlClientTypes.CustomJWTAuthorizerConfiguration {
         value.customClaims = try reader["customClaims"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CustomClaimValidationType.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
         value.privateEndpointOverrides = try reader["privateEndpointOverrides"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificateConfigurations = try reader["certificateConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.allowedWorkloadConfiguration = try reader["allowedWorkloadConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.AllowedWorkloadConfiguration.read(from:))
         return value
     }
@@ -36157,6 +36187,7 @@ extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["certificateConfigurations"].writeList(value.certificateConfigurations, memberWritingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["clientAuthenticationMethod"].write(value.clientAuthenticationMethod)
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
@@ -36181,6 +36212,7 @@ extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput {
         value.clientAuthenticationMethod = try reader["clientAuthenticationMethod"].readIfPresent()
         value.privateEndpoint = try reader["privateEndpoint"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateEndpoint.read(from:))
         value.privateEndpointOverrides = try reader["privateEndpointOverrides"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.PrivateEndpointOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificateConfigurations = try reader["certificateConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CertificateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.privateKeyJwtConfig = try reader["privateKeyJwtConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.PrivateKeyJwtConfig.read(from:))
         return value
     }
@@ -37844,6 +37876,7 @@ extension BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig {
     static func write(value: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["outboundAuth"].write(value.outboundAuth, with: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpOutboundAuth.write(value:to:))
         try writer["url"].write(value.url)
     }
 
@@ -37852,7 +37885,36 @@ extension BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig {
         var value = BedrockAgentCoreControlClientTypes.HarnessRemoteMcpConfig()
         value.url = try reader["url"].readIfPresent() ?? ""
         value.headers = try reader["headers"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outboundAuth = try reader["outboundAuth"].readIfPresent(with: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpOutboundAuth.read(from:))
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.HarnessRemoteMcpOutboundAuth {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.HarnessRemoteMcpOutboundAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .awsiam(awsiam):
+                try writer["awsIam"].write(awsiam, with: BedrockAgentCoreControlClientTypes.IamCredentialProvider.write(value:to:))
+            case let .`none`(`none`):
+                try writer["none"].write(`none`, with: BedrockAgentCoreControlClientTypes.Unit.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.HarnessRemoteMcpOutboundAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "awsIam":
+                return .awsiam(try reader["awsIam"].read(with: BedrockAgentCoreControlClientTypes.IamCredentialProvider.read(from:)))
+            case "none":
+                return .`none`(try reader["none"].read(with: BedrockAgentCoreControlClientTypes.Unit.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

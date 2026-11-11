@@ -2878,10 +2878,18 @@ extension ConfigClientTypes {
         public var allRegions: Swift.Bool
         /// The list of regions from the third-party cloud service provider to include when recording resources. Used when allRegions is set to false.
         public var includedRegions: [Swift.String]?
-        /// The type of scope for the third-party cloud resources. Valid values include tenant and subscription.
+        /// The type of scope for the third-party cloud resources. Valid values include:
+        ///
+        /// * tenant – Applies to all resources in an Azure tenant
+        ///
+        /// * subscription – Applies to resources in the Azure subscriptions you specify
+        ///
+        /// * organization – Applies to all resources in a Google Cloud organization
+        ///
+        /// * project – Applies to resources in the Google Cloud projects you specify
         /// This member is required.
         public var scopeType: Swift.String?
-        /// The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscriptions or management groups.
+        /// The list of specific scope values for the third-party cloud resources. For example, a list of Azure subscription IDs, or a list of Google Cloud project IDs. Don't specify scopeValues when scopeType is tenant or organization.
         public var scopeValues: [Swift.String]?
 
         public init(
@@ -4328,11 +4336,13 @@ extension ConfigClientTypes {
 
     public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azure
+        case gcp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Provider] {
             return [
-                .azure
+                .azure,
+                .gcp
             ]
         }
 
@@ -4344,6 +4354,7 @@ extension ConfigClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .azure: return "AZURE"
+            case .gcp: return "GCP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4360,7 +4371,11 @@ extension ConfigClientTypes {
         /// The name of the configuration recorder.
         /// This member is required.
         public var name: Swift.String?
-        /// For service-linked configuration recorders that record resources from a third-party cloud service provider, indicates the cloud service provider. Currently, AZURE is supported.
+        /// For service-linked configuration recorders that record resources from a third-party cloud service provider, indicates the cloud service provider. Valid values:
+        ///
+        /// * AZURE – The recorder records resources from Microsoft Azure
+        ///
+        /// * GCP – The recorder records resources from Google Cloud
         public var provider: ConfigClientTypes.Provider?
         /// Indicates whether the [ConfigurationItems](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigurationItem.html) in scope for the configuration recorder are recorded for free (INTERNAL) or if you are charged a service fee for recording (PAID).
         /// This member is required.
@@ -4762,15 +4777,44 @@ public struct ConformancePackTemplateValidationException: ClientRuntime.ModeledE
 
 extension ConfigClientTypes {
 
+    /// The configuration details for connecting to Google Cloud.
+    public struct GcpConnectorConfiguration: Swift.Sendable {
+        /// The ID of the Google Cloud organization that contains the connector's management project, which is the project of the service account in serviceAccountEmail. Required if the management project belongs to an organization. A connector needs an organization ID to record an entire organization or more than one project. Omit it only if the management project doesn't belong to an organization. In that case, the connector can record only the management project.
+        public var gcpOrganizationId: Swift.String?
+        /// The email address of the Google Cloud service account that Config uses to access your Google Cloud resources. The format is SERVICE_ACCOUNT_NAME@PROJECT_ID.iam.gserviceaccount.com. The project that contains this service account is the connector's management project. If the connector has no gcpOrganizationId, it can record only the management project.
+        /// This member is required.
+        public var serviceAccountEmail: Swift.String?
+        /// The full resource name of the Google Cloud workload identity pool provider that trusts Config. The format is projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL_ID/providers/PROVIDER_ID.
+        /// This member is required.
+        public var workloadIdentityPoolProvider: Swift.String?
+
+        public init(
+            gcpOrganizationId: Swift.String? = nil,
+            serviceAccountEmail: Swift.String? = nil,
+            workloadIdentityPoolProvider: Swift.String? = nil
+        ) {
+            self.gcpOrganizationId = gcpOrganizationId
+            self.serviceAccountEmail = serviceAccountEmail
+            self.workloadIdentityPoolProvider = workloadIdentityPoolProvider
+        }
+    }
+}
+
+extension ConfigClientTypes {
+
     /// The provider-specific configuration for connecting to the third-party cloud service provider. You must specify exactly one provider configuration.
     public struct ConnectorConfiguration: Swift.Sendable {
         /// The configuration for an Azure connector.
         public var azure: ConfigClientTypes.AzureConnectorConfiguration?
+        /// The configuration for a Google Cloud connector.
+        public var gcp: ConfigClientTypes.GcpConnectorConfiguration?
 
         public init(
-            azure: ConfigClientTypes.AzureConnectorConfiguration? = nil
+            azure: ConfigClientTypes.AzureConnectorConfiguration? = nil,
+            gcp: ConfigClientTypes.GcpConnectorConfiguration? = nil
         ) {
             self.azure = azure
+            self.gcp = gcp
         }
     }
 }
@@ -4838,7 +4882,11 @@ extension ConfigClientTypes {
     public struct ConnectorFilter: Swift.Sendable {
         /// The name of the filter. Currently, only provider is supported.
         public var filterName: ConfigClientTypes.ConnectorFilterName?
-        /// The value of the filter. For provider, valid values include: AZURE.
+        /// The value of the filter. For provider, valid values include:
+        ///
+        /// * AZURE – The connector is for Microsoft Azure
+        ///
+        /// * GCP – The connector is for Google Cloud
         public var filterValues: [Swift.String]?
 
         public init(
@@ -4861,27 +4909,38 @@ extension ConfigClientTypes {
         /// The date and time that the connector was created.
         /// This member is required.
         public var createdTime: Foundation.Date?
+        /// The Google Cloud organization ID for the connector. Returned only for Google Cloud connectors.
+        public var gcpOrganizationId: Swift.String?
         /// The name of the connector.
         /// This member is required.
         public var name: Swift.String?
-        /// The third-party cloud service provider. Currently, AZURE is supported.
+        /// The third-party cloud service provider. Valid values:
+        ///
+        /// * AZURE – The connector is for Microsoft Azure
+        ///
+        /// * GCP – The connector is for Google Cloud
         /// This member is required.
         public var provider: ConfigClientTypes.Provider?
-        /// The Azure tenant identifier for the connector.
-        /// This member is required.
+        /// The email address of the Google Cloud service account for the connector. Returned only for Google Cloud connectors.
+        public var serviceAccountEmail: Swift.String?
+        /// The Azure tenant identifier for the connector. Returned only for Azure connectors.
         public var tenantIdentifier: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
+            gcpOrganizationId: Swift.String? = nil,
             name: Swift.String? = nil,
             provider: ConfigClientTypes.Provider? = nil,
+            serviceAccountEmail: Swift.String? = nil,
             tenantIdentifier: Swift.String? = nil
         ) {
             self.arn = arn
             self.createdTime = createdTime
+            self.gcpOrganizationId = gcpOrganizationId
             self.name = name
             self.provider = provider
+            self.serviceAccountEmail = serviceAccountEmail
             self.tenantIdentifier = tenantIdentifier
         }
     }

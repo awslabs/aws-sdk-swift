@@ -20,11 +20,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -49,6 +49,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -58,10 +59,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -631,7 +632,7 @@ extension CodeDeployClient {
     /// - `TagRequiredException` : A tag was not specified.
     public func addTagsToOnPremisesInstances(input: AddTagsToOnPremisesInstancesInput) async throws -> AddTagsToOnPremisesInstancesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -650,7 +651,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -659,17 +660,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToOnPremisesInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AddTagsToOnPremisesInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.AddTagsToOnPremisesInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AddTagsToOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AddTagsToOnPremisesInstancesInput, AddTagsToOnPremisesInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -710,7 +714,7 @@ extension CodeDeployClient {
     /// - `RevisionRequiredException` : The revision ID was not specified.
     public func batchGetApplicationRevisions(input: BatchGetApplicationRevisionsInput) async throws -> BatchGetApplicationRevisionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -729,7 +733,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -738,17 +742,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetApplicationRevisionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetApplicationRevisionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.BatchGetApplicationRevisions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetApplicationRevisionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetApplicationRevisionsInput, BatchGetApplicationRevisionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -787,7 +794,7 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     public func batchGetApplications(input: BatchGetApplicationsInput) async throws -> BatchGetApplicationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -806,7 +813,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -815,17 +822,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetApplicationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetApplicationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.BatchGetApplications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetApplicationsInput, BatchGetApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -867,7 +877,7 @@ extension CodeDeployClient {
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
     public func batchGetDeploymentGroups(input: BatchGetDeploymentGroupsInput) async throws -> BatchGetDeploymentGroupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -886,7 +896,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -895,17 +905,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDeploymentGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDeploymentGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.BatchGetDeploymentGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDeploymentGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDeploymentGroupsInput, BatchGetDeploymentGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -948,7 +961,7 @@ extension CodeDeployClient {
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func batchGetDeploymentInstances(input: BatchGetDeploymentInstancesInput) async throws -> BatchGetDeploymentInstancesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -967,7 +980,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -976,17 +989,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDeploymentInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDeploymentInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.BatchGetDeploymentInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDeploymentInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDeploymentInstancesInput, BatchGetDeploymentInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1038,7 +1054,7 @@ extension CodeDeployClient {
     /// - `InvalidDeploymentTargetIdException` : The target ID provided was not valid.
     public func batchGetDeploymentTargets(input: BatchGetDeploymentTargetsInput) async throws -> BatchGetDeploymentTargetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1057,7 +1073,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1066,17 +1082,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDeploymentTargetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDeploymentTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.BatchGetDeploymentTargets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDeploymentTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDeploymentTargetsInput, BatchGetDeploymentTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1114,7 +1133,7 @@ extension CodeDeployClient {
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     public func batchGetDeployments(input: BatchGetDeploymentsInput) async throws -> BatchGetDeploymentsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1133,7 +1152,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1142,17 +1161,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetDeploymentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetDeploymentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.BatchGetDeployments"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetDeploymentsInput, BatchGetDeploymentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1190,7 +1212,7 @@ extension CodeDeployClient {
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func batchGetOnPremisesInstances(input: BatchGetOnPremisesInstancesInput) async throws -> BatchGetOnPremisesInstancesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1209,7 +1231,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1218,17 +1240,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetOnPremisesInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetOnPremisesInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.BatchGetOnPremisesInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetOnPremisesInstancesInput, BatchGetOnPremisesInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1271,7 +1296,7 @@ extension CodeDeployClient {
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func continueDeployment(input: ContinueDeploymentInput) async throws -> ContinueDeploymentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1290,7 +1315,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1299,17 +1324,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ContinueDeploymentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ContinueDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ContinueDeployment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ContinueDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ContinueDeploymentInput, ContinueDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1351,7 +1379,7 @@ extension CodeDeployClient {
     /// - `ThrottlingException` : An API function was called too frequently.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1370,7 +1398,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1379,17 +1407,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateApplicationInput, CreateApplicationOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.CreateApplication"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateApplicationInput, CreateApplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateApplicationInput, CreateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateApplicationInput, CreateApplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateApplicationInput, CreateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1472,7 +1503,7 @@ extension CodeDeployClient {
     /// - `ThrottlingException` : An API function was called too frequently.
     public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1491,7 +1522,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1500,17 +1531,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.CreateDeployment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1553,7 +1587,7 @@ extension CodeDeployClient {
     /// - `InvalidZonalDeploymentConfigurationException` : The ZonalConfig object is not valid.
     public func createDeploymentConfig(input: CreateDeploymentConfigInput) async throws -> CreateDeploymentConfigOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1572,7 +1606,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1581,17 +1615,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDeploymentConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.CreateDeploymentConfig"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDeploymentConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDeploymentConfigInput, CreateDeploymentConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1670,7 +1707,7 @@ extension CodeDeployClient {
     /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
     public func createDeploymentGroup(input: CreateDeploymentGroupInput) async throws -> CreateDeploymentGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1689,7 +1726,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1698,17 +1735,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDeploymentGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.CreateDeploymentGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDeploymentGroupInput, CreateDeploymentGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1746,7 +1786,7 @@ extension CodeDeployClient {
     /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1765,7 +1805,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1774,17 +1814,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.DeleteApplication"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1823,7 +1866,7 @@ extension CodeDeployClient {
     /// - `InvalidOperationException` : An invalid operation was detected.
     public func deleteDeploymentConfig(input: DeleteDeploymentConfigInput) async throws -> DeleteDeploymentConfigOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1842,7 +1885,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1851,17 +1894,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDeploymentConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.DeleteDeploymentConfig"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeploymentConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeploymentConfigInput, DeleteDeploymentConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1901,7 +1947,7 @@ extension CodeDeployClient {
     /// - `InvalidRoleException` : The service role ARN was specified in an invalid format. Or, if an Auto Scaling group was specified, the specified service role does not grant the appropriate permissions to Amazon EC2 Auto Scaling.
     public func deleteDeploymentGroup(input: DeleteDeploymentGroupInput) async throws -> DeleteDeploymentGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1920,7 +1966,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1929,17 +1975,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDeploymentGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.DeleteDeploymentGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDeploymentGroupInput, DeleteDeploymentGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1979,7 +2028,7 @@ extension CodeDeployClient {
     /// - `ResourceValidationException` : The specified resource could not be validated.
     public func deleteGitHubAccountToken(input: DeleteGitHubAccountTokenInput) async throws -> DeleteGitHubAccountTokenOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1998,7 +2047,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2007,17 +2056,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGitHubAccountTokenOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGitHubAccountTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.DeleteGitHubAccountToken"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGitHubAccountTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGitHubAccountTokenInput, DeleteGitHubAccountTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2048,7 +2100,7 @@ extension CodeDeployClient {
     /// - Returns: [no documentation found] (Type: `DeleteResourcesByExternalIdOutput`)
     public func deleteResourcesByExternalId(input: DeleteResourcesByExternalIdInput) async throws -> DeleteResourcesByExternalIdOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2067,7 +2119,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2076,17 +2128,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcesByExternalIdOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcesByExternalIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.DeleteResourcesByExternalId"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcesByExternalIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcesByExternalIdInput, DeleteResourcesByExternalIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2123,7 +2178,7 @@ extension CodeDeployClient {
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func deregisterOnPremisesInstance(input: DeregisterOnPremisesInstanceInput) async throws -> DeregisterOnPremisesInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2142,7 +2197,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2151,17 +2206,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterOnPremisesInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeregisterOnPremisesInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.DeregisterOnPremisesInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeregisterOnPremisesInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeregisterOnPremisesInstanceInput, DeregisterOnPremisesInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2199,7 +2257,7 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2218,7 +2276,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2227,17 +2285,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationInput, GetApplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetApplicationInput, GetApplicationOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetApplication"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationInput, GetApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetApplicationInput, GetApplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetApplicationInput, GetApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationInput, GetApplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationInput, GetApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2278,7 +2339,7 @@ extension CodeDeployClient {
     /// - `RevisionRequiredException` : The revision ID was not specified.
     public func getApplicationRevision(input: GetApplicationRevisionInput) async throws -> GetApplicationRevisionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2297,7 +2358,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2306,17 +2367,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationRevisionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetApplicationRevisionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetApplicationRevision"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetApplicationRevisionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetApplicationRevisionInput, GetApplicationRevisionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2354,7 +2418,7 @@ extension CodeDeployClient {
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2373,7 +2437,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2382,17 +2446,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentInput, GetDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentInput, GetDeploymentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentInput, GetDeploymentOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetDeployment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentInput, GetDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentInput, GetDeploymentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDeploymentInput, GetDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentInput, GetDeploymentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentInput, GetDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeploymentInput, GetDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2431,7 +2498,7 @@ extension CodeDeployClient {
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
     public func getDeploymentConfig(input: GetDeploymentConfigInput) async throws -> GetDeploymentConfigOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2450,7 +2517,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2459,17 +2526,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentConfigOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetDeploymentConfig"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeploymentConfigInput, GetDeploymentConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2511,7 +2581,7 @@ extension CodeDeployClient {
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
     public func getDeploymentGroup(input: GetDeploymentGroupInput) async throws -> GetDeploymentGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2530,7 +2600,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2539,17 +2609,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetDeploymentGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeploymentGroupInput, GetDeploymentGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2592,7 +2665,7 @@ extension CodeDeployClient {
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func getDeploymentInstance(input: GetDeploymentInstanceInput) async throws -> GetDeploymentInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2611,7 +2684,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2620,17 +2693,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetDeploymentInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeploymentInstanceInput, GetDeploymentInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2673,7 +2749,7 @@ extension CodeDeployClient {
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func getDeploymentTarget(input: GetDeploymentTargetInput) async throws -> GetDeploymentTargetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2692,7 +2768,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2701,17 +2777,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentTargetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDeploymentTargetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetDeploymentTarget"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDeploymentTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDeploymentTargetInput, GetDeploymentTargetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2749,7 +2828,7 @@ extension CodeDeployClient {
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
     public func getOnPremisesInstance(input: GetOnPremisesInstanceInput) async throws -> GetOnPremisesInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2768,7 +2847,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2777,17 +2856,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOnPremisesInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOnPremisesInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.GetOnPremisesInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOnPremisesInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOnPremisesInstanceInput, GetOnPremisesInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2832,7 +2914,7 @@ extension CodeDeployClient {
     /// - `InvalidSortOrderException` : The sort order was specified in an invalid format.
     public func listApplicationRevisions(input: ListApplicationRevisionsInput) async throws -> ListApplicationRevisionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2851,7 +2933,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2860,17 +2942,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationRevisionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListApplicationRevisionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListApplicationRevisions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationRevisionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationRevisionsInput, ListApplicationRevisionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2906,7 +2991,7 @@ extension CodeDeployClient {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2925,7 +3010,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2934,17 +3019,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListApplicationsInput, ListApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationsInput, ListApplicationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListApplicationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListApplicationsInput, ListApplicationsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListApplications"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationsInput, ListApplicationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListApplicationsInput, ListApplicationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListApplicationsInput, ListApplicationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListApplicationsInput, ListApplicationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListApplicationsInput, ListApplicationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2980,7 +3068,7 @@ extension CodeDeployClient {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     public func listDeploymentConfigs(input: ListDeploymentConfigsInput) async throws -> ListDeploymentConfigsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2999,7 +3087,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3008,17 +3096,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentConfigsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeploymentConfigsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListDeploymentConfigs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeploymentConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeploymentConfigsInput, ListDeploymentConfigsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3057,7 +3148,7 @@ extension CodeDeployClient {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     public func listDeploymentGroups(input: ListDeploymentGroupsInput) async throws -> ListDeploymentGroupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3076,7 +3167,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3085,17 +3176,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeploymentGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListDeploymentGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeploymentGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeploymentGroupsInput, ListDeploymentGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3143,7 +3237,7 @@ extension CodeDeployClient {
     /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
     public func listDeploymentInstances(input: ListDeploymentInstancesInput) async throws -> ListDeploymentInstancesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3162,7 +3256,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3171,17 +3265,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeploymentInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListDeploymentInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeploymentInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeploymentInstancesInput, ListDeploymentInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3227,7 +3324,7 @@ extension CodeDeployClient {
     /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
     public func listDeploymentTargets(input: ListDeploymentTargetsInput) async throws -> ListDeploymentTargetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3246,7 +3343,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3255,17 +3352,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentTargetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeploymentTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListDeploymentTargets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeploymentTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeploymentTargetsInput, ListDeploymentTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3311,7 +3411,7 @@ extension CodeDeployClient {
     /// - `InvalidTimeRangeException` : The specified time range was specified in an invalid format.
     public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3330,7 +3430,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3339,17 +3439,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDeploymentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListDeployments"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDeploymentsInput, ListDeploymentsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDeploymentsInput, ListDeploymentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3387,7 +3490,7 @@ extension CodeDeployClient {
     /// - `ResourceValidationException` : The specified resource could not be validated.
     public func listGitHubAccountTokenNames(input: ListGitHubAccountTokenNamesInput) async throws -> ListGitHubAccountTokenNamesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3406,7 +3509,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3415,17 +3518,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGitHubAccountTokenNamesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListGitHubAccountTokenNamesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListGitHubAccountTokenNames"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListGitHubAccountTokenNamesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListGitHubAccountTokenNamesInput, ListGitHubAccountTokenNamesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3463,7 +3569,7 @@ extension CodeDeployClient {
     /// - `InvalidTagFilterException` : The tag filter was specified in an invalid format.
     public func listOnPremisesInstances(input: ListOnPremisesInstancesInput) async throws -> ListOnPremisesInstancesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3482,7 +3588,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3491,17 +3597,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOnPremisesInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOnPremisesInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListOnPremisesInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOnPremisesInstancesInput, ListOnPremisesInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3539,7 +3648,7 @@ extension CodeDeployClient {
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3558,7 +3667,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3567,17 +3676,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3619,7 +3731,7 @@ extension CodeDeployClient {
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func putLifecycleEventHookExecutionStatus(input: PutLifecycleEventHookExecutionStatusInput) async throws -> PutLifecycleEventHookExecutionStatusOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3638,7 +3750,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3647,17 +3759,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLifecycleEventHookExecutionStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutLifecycleEventHookExecutionStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.PutLifecycleEventHookExecutionStatus"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutLifecycleEventHookExecutionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutLifecycleEventHookExecutionStatusInput, PutLifecycleEventHookExecutionStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3698,7 +3813,7 @@ extension CodeDeployClient {
     /// - `RevisionRequiredException` : The revision ID was not specified.
     public func registerApplicationRevision(input: RegisterApplicationRevisionInput) async throws -> RegisterApplicationRevisionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3717,7 +3832,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3726,17 +3841,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterApplicationRevisionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterApplicationRevisionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.RegisterApplicationRevision"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterApplicationRevisionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterApplicationRevisionInput, RegisterApplicationRevisionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3781,7 +3899,7 @@ extension CodeDeployClient {
     /// - `MultipleIamArnsProvidedException` : Both an user ARN and an IAM session ARN were included in the request. Use only one ARN type.
     public func registerOnPremisesInstance(input: RegisterOnPremisesInstanceInput) async throws -> RegisterOnPremisesInstanceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3800,7 +3918,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3809,17 +3927,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterOnPremisesInstanceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterOnPremisesInstanceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.RegisterOnPremisesInstance"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterOnPremisesInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterOnPremisesInstanceInput, RegisterOnPremisesInstanceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3861,7 +3982,7 @@ extension CodeDeployClient {
     /// - `TagRequiredException` : A tag was not specified.
     public func removeTagsFromOnPremisesInstances(input: RemoveTagsFromOnPremisesInstancesInput) async throws -> RemoveTagsFromOnPremisesInstancesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3880,7 +4001,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3889,17 +4010,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromOnPremisesInstancesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RemoveTagsFromOnPremisesInstancesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.RemoveTagsFromOnPremisesInstances"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RemoveTagsFromOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RemoveTagsFromOnPremisesInstancesInput, RemoveTagsFromOnPremisesInstancesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3941,7 +4065,7 @@ extension CodeDeployClient {
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func skipWaitTimeForInstanceTermination(input: SkipWaitTimeForInstanceTerminationInput) async throws -> SkipWaitTimeForInstanceTerminationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3960,7 +4084,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3969,17 +4093,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<SkipWaitTimeForInstanceTerminationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SkipWaitTimeForInstanceTerminationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.SkipWaitTimeForInstanceTermination"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SkipWaitTimeForInstanceTerminationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SkipWaitTimeForInstanceTerminationInput, SkipWaitTimeForInstanceTerminationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4020,7 +4147,7 @@ extension CodeDeployClient {
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
     public func stopDeployment(input: StopDeploymentInput) async throws -> StopDeploymentOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4039,7 +4166,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4048,17 +4175,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDeploymentInput, StopDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDeploymentInput, StopDeploymentOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDeploymentInput, StopDeploymentOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDeploymentInput, StopDeploymentOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDeploymentOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopDeploymentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopDeploymentInput, StopDeploymentOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.StopDeployment"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDeploymentInput, StopDeploymentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopDeploymentInput, StopDeploymentOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopDeploymentInput, StopDeploymentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopDeploymentInput, StopDeploymentOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDeploymentInput, StopDeploymentOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopDeploymentInput, StopDeploymentOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopDeploymentInput, StopDeploymentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4101,7 +4231,7 @@ extension CodeDeployClient {
     /// - `TagRequiredException` : A tag was not specified.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4120,7 +4250,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4129,17 +4259,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4182,7 +4315,7 @@ extension CodeDeployClient {
     /// - `TagRequiredException` : A tag was not specified.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4201,7 +4334,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4210,17 +4343,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4259,7 +4395,7 @@ extension CodeDeployClient {
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4278,7 +4414,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4287,17 +4423,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateApplicationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.UpdateApplication"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4374,7 +4513,7 @@ extension CodeDeployClient {
     /// - `TriggerTargetsLimitExceededException` : The maximum allowed number of triggers was exceeded.
     public func updateDeploymentGroup(input: UpdateDeploymentGroupInput) async throws -> UpdateDeploymentGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4393,7 +4532,7 @@ extension CodeDeployClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4402,17 +4541,20 @@ extension CodeDeployClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeploymentGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeDeploy", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDeploymentGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>(overrides: ["X-Amz-Target": "CodeDeploy_20141006.UpdateDeploymentGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDeploymentGroupInput, UpdateDeploymentGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

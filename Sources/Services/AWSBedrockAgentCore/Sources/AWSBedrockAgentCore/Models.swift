@@ -7921,19 +7921,55 @@ extension BedrockAgentCoreClientTypes.HarnessInlineFunctionConfig: Swift.CustomD
 
 extension BedrockAgentCoreClientTypes {
 
+    /// An IAM credential provider for authenticating requests. This structure contains the configuration for authenticating with a target endpoint using IAM credentials and SigV4 signing.
+    public struct IamCredentialProvider: Swift.Sendable {
+        /// The Amazon Web Services Region used for SigV4 signing. If not specified, defaults to the Region of the resource that makes the request.
+        public var region: Swift.String?
+        /// The name of the Amazon Web Services service used for SigV4 signing. This value identifies the service to authenticate with when sending requests to the target endpoint.
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            region: Swift.String? = nil,
+            service: Swift.String? = nil
+        ) {
+            self.region = region
+            self.service = service
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Authentication method for calling a remote MCP server.
+    public enum HarnessRemoteMcpOutboundAuth: Swift.Sendable {
+        /// Sign requests to the remote MCP server with Signature Version 4 (SigV4) using the harness execution role. If you don't specify a Region, the harness Region is used.
+        case awsiam(BedrockAgentCoreClientTypes.IamCredentialProvider)
+        /// No authentication.
+        case `none`(BedrockAgentCoreClientTypes.Unit)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     /// Configuration for connecting to a remote MCP server.
     public struct HarnessRemoteMcpConfig: Swift.Sendable {
         /// Custom headers to include when connecting to the remote MCP server.
         public var headers: [Swift.String: Swift.String]?
+        /// How the harness authenticates to this MCP server. Defaults to no authentication.
+        public var outboundAuth: BedrockAgentCoreClientTypes.HarnessRemoteMcpOutboundAuth?
         /// URL of the MCP endpoint.
         /// This member is required.
         public var url: Swift.String?
 
         public init(
             headers: [Swift.String: Swift.String]? = nil,
+            outboundAuth: BedrockAgentCoreClientTypes.HarnessRemoteMcpOutboundAuth? = nil,
             url: Swift.String? = nil
         ) {
             self.headers = headers
+            self.outboundAuth = outboundAuth
             self.url = url
         }
     }
@@ -7941,7 +7977,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "HarnessRemoteMcpConfig(headers: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
+        "HarnessRemoteMcpConfig(outboundAuth: \(Swift.String(describing: outboundAuth)), headers: \"CONTENT_REDACTED\", url: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreClientTypes {
@@ -18446,7 +18482,23 @@ extension BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig {
     static func write(value: BedrockAgentCoreClientTypes.HarnessRemoteMcpConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["outboundAuth"].write(value.outboundAuth, with: BedrockAgentCoreClientTypes.HarnessRemoteMcpOutboundAuth.write(value:to:))
         try writer["url"].write(value.url)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.HarnessRemoteMcpOutboundAuth {
+
+    static func write(value: BedrockAgentCoreClientTypes.HarnessRemoteMcpOutboundAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .awsiam(awsiam):
+                try writer["awsIam"].write(awsiam, with: BedrockAgentCoreClientTypes.IamCredentialProvider.write(value:to:))
+            case let .`none`(`none`):
+                try writer["none"].write(`none`, with: BedrockAgentCoreClientTypes.Unit.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
@@ -18667,6 +18719,15 @@ extension BedrockAgentCoreClientTypes.HarnessToolUseBlockStart {
         value.type = try reader["type"].readIfPresent()
         value.serverName = try reader["serverName"].readIfPresent()
         return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.IamCredentialProvider {
+
+    static func write(value: BedrockAgentCoreClientTypes.IamCredentialProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+        try writer["service"].write(value.service)
     }
 }
 

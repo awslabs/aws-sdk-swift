@@ -1417,6 +1417,8 @@ extension ConnectCasesClient {
     ///
     /// * If you provide a value for performedBy.userArn, you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide.
     ///
+    /// * If the case is the secondary case of a merge that is running, the request fails with a ConflictException. For more information, see [StartMergeCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_StartMergeCases.html).
+    ///
     ///
     /// Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
@@ -1428,6 +1430,7 @@ extension ConnectCasesClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
@@ -1582,7 +1585,7 @@ extension ConnectCasesClient {
     /// * Perform any operations that require the CaseID
     ///
     ///
-    /// This action is irreversible. After you delete a case, you cannot recover its data.
+    /// You can't delete a case while it's part of a merge that is running, as either the primary or the secondary case. The request fails with a ConflictException. For more information, see [StartMergeCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_StartMergeCases.html). This action is irreversible. After you delete a case, you cannot recover its data.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteCaseInput`)
     ///
@@ -1592,6 +1595,7 @@ extension ConnectCasesClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
@@ -1961,7 +1965,7 @@ extension ConnectCasesClient {
 
     /// Performs the `DeleteRelatedItem` operation on the `ConnectCases` service.
     ///
-    /// Deletes the related item resource under a case. This API cannot be used on a FILE type related attachment. To delete this type of file, use the [DeleteAttachedFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteAttachedFile.html) API
+    /// Deletes the related item resource under a case. This API cannot be used on a FILE type related attachment. To delete this type of file, use the [DeleteAttachedFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteAttachedFile.html) API If the case is the secondary case of a merge that is running, the request fails with a ConflictException. For more information, see [StartMergeCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_StartMergeCases.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteRelatedItemInput`)
     ///
@@ -1971,6 +1975,7 @@ extension ConnectCasesClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
@@ -2445,6 +2450,84 @@ extension ConnectCasesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ConnectCases")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetLayout")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetMergeCasesStatus` operation on the `ConnectCases` service.
+    ///
+    /// Returns the merge status of a case. Use this operation to track a merge that you started with [StartMergeCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_StartMergeCases.html), or to check whether a case is part of a merge before you modify it. The operation returns the following, depending on the case:
+    ///
+    /// * For the primary case or the secondary case of a merge that is running, it returns IN_PROGRESS.
+    ///
+    /// * For a case that was merged into another case as the secondary case, it returns COMPLETED.
+    ///
+    /// * For any other case, it returns a ResourceNotFoundException. This includes the primary case after its merge finishes.
+    ///
+    ///
+    /// Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetMergeCasesStatusInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetMergeCasesStatusOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
+    public func getMergeCasesStatus(input: GetMergeCasesStatusInput) async throws -> GetMergeCasesStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMergeCasesStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cases")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetMergeCasesStatusInput, GetMergeCasesStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetMergeCasesStatusInput, GetMergeCasesStatusOutput>(GetMergeCasesStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMergeCasesStatusInput, GetMergeCasesStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMergeCasesStatusOutput>(GetMergeCasesStatusOutput.httpOutput(from:), GetMergeCasesStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMergeCasesStatusInput, GetMergeCasesStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMergeCasesStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ConnectCases", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMergeCasesStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMergeCasesStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMergeCasesStatusInput, GetMergeCasesStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMergeCasesStatusInput, GetMergeCasesStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ConnectCases"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMergeCasesStatusInput, GetMergeCasesStatusOutput>(serviceID: serviceName, version: ConnectCasesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ConnectCases")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMergeCasesStatus")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3407,6 +3490,102 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartMergeCases` operation on the `ConnectCases` service.
+    ///
+    /// Merges a secondary case into a primary case. The primary case, which you specify in the request URI, remains active. Both cases must belong to the same domain. The merge runs asynchronously. To track its progress, call [GetMergeCasesStatus](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetMergeCasesStatus.html). When the merge finishes, the selected field values and related items from the secondary case are on the primary case, the two cases are linked, and the secondary case is closed. Both cases record the merge in their audit history. For more information, see [GetCaseAuditEvents](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCaseAuditEvents.html). Important things to know
+    ///
+    /// * Both cases must have the same customer, or at least one of them must have no customer.
+    ///
+    /// * While the merge runs, you can't modify the secondary case or its related items, and you can't delete the primary case. These requests return a ConflictException.
+    ///
+    /// * After the merge, the secondary case can be reopened, updated, and deleted, but it can't be merged again.
+    ///
+    ///
+    /// The request fails with a ValidationException, and no merge starts, if:
+    ///
+    /// * The primary case and the secondary case are the same case.
+    ///
+    /// * Either case is closed.
+    ///
+    /// * Both cases have a customer, and the customers are different.
+    ///
+    /// * fieldsConfiguration selects a field that can't be merged, or a field that the secondary case doesn't have.
+    ///
+    /// * After the merge, the primary case would have more than 500 field values, or would exceed the maximum case size.
+    ///
+    ///
+    /// The request fails with a ServiceQuotaExceededException if, after the merge, either case would exceed the quota for related items per case. For the primary case, the count is its existing related items, plus the related items moved from the secondary case, plus the new case link. See [Connect Customer Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas). The request fails with a ConflictException if either case is already part of a merge that is running, or was previously merged into another case as the secondary case. Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartMergeCasesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartMergeCasesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
+    public func startMergeCases(input: StartMergeCasesInput) async throws -> StartMergeCasesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startMergeCases")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cases")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartMergeCasesInput, StartMergeCasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMergeCasesInput, StartMergeCasesOutput>(StartMergeCasesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMergeCasesInput, StartMergeCasesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMergeCasesInput, StartMergeCasesOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartMergeCasesInput, StartMergeCasesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMergeCasesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMergeCasesInput, StartMergeCasesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMergeCasesOutput>(StartMergeCasesOutput.httpOutput(from:), StartMergeCasesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMergeCasesInput, StartMergeCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartMergeCasesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ConnectCases", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMergeCasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMergeCasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMergeCasesInput, StartMergeCasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMergeCasesInput, StartMergeCasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "ConnectCases"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMergeCasesInput, StartMergeCasesOutput>(serviceID: serviceName, version: ConnectCasesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ConnectCases")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMergeCases")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `ConnectCases` service.
     ///
     /// Adds tags to a resource.
@@ -3551,7 +3730,7 @@ extension ConnectCasesClient {
 
     /// Performs the `UpdateCase` operation on the `ConnectCases` service.
     ///
-    /// If you provide a value for PerformedBy.UserArn, you must also have the [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the user ARN that you provide. Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// If you provide a value for PerformedBy.UserArn, you must also have the [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the user ARN that you provide. Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input. If the case is the secondary case of a merge that is running, the request fails with a ConflictException. For more information, see [StartMergeCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_StartMergeCases.html). If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateCaseInput`)
     ///
@@ -3561,6 +3740,7 @@ extension ConnectCasesClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
@@ -3859,6 +4039,8 @@ extension ConnectCasesClient {
     ///
     /// * [System case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html#system-case-fields) cannot be used in a custom related item.
     ///
+    /// * If the case is the secondary case of a merge that is running, the request fails with a ConflictException. For more information, see [StartMergeCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_StartMergeCases.html).
+    ///
     ///
     /// Endpoints: See [Connect Customer endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
@@ -3870,6 +4052,7 @@ extension ConnectCasesClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Connect Customer Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Connect Customer Administrator Guide.
