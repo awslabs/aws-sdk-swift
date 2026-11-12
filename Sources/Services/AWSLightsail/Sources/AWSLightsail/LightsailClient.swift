@@ -1096,6 +1096,84 @@ extension LightsailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CheckSubdomainAvailability` operation on the `Lightsail` service.
+    ///
+    /// Checks whether a Lightsail subdomain is available to create. Optionally, reserves the subdomain for your account for 15 minutes. If you don't reserve the subdomain, another account can create it before you do.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CheckSubdomainAvailabilityInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CheckSubdomainAvailabilityOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    public func checkSubdomainAvailability(input: CheckSubdomainAvailabilityInput) async throws -> CheckSubdomainAvailabilityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LightsailClient.checkSubdomainAvailabilityOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "checkSubdomainAvailability")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CheckSubdomainAvailabilityOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lightsail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckSubdomainAvailabilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CheckSubdomainAvailability"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckSubdomainAvailabilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lightsail"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CheckSubdomainAvailabilityInput, CheckSubdomainAvailabilityOutput>(serviceID: serviceName, version: LightsailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lightsail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CheckSubdomainAvailability")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CloseInstancePublicPorts` operation on the `Lightsail` service.
     ///
     /// Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
@@ -3184,6 +3262,85 @@ extension LightsailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateSubdomain` operation on the `Lightsail` service.
+    ///
+    /// Creates a Lightsail subdomain, such as mysite, with the web address mysite.amazonlightsail.com. After the subdomain is created, use the UpdateSubdomainAssociation action to associate it with a Lightsail resource. When you create a nested subdomain, such as blog.mysite, and you don't already have the top-level subdomain (mysite), Lightsail adds the top-level subdomain to your account in the IMPLICIT state. You can have up to 30 subdomains in your account. Nested subdomains, subdomains in the CREATE_FAILED state, and deleted subdomains that other accounts can't create yet count toward this quota. Subdomains in the IMPLICIT state don't count toward this quota.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateSubdomainInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateSubdomainOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    public func createSubdomain(input: CreateSubdomainInput) async throws -> CreateSubdomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LightsailClient.createSubdomainOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSubdomain")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateSubdomainInput, CreateSubdomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubdomainInput, CreateSubdomainOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubdomainInput, CreateSubdomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubdomainOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lightsail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateSubdomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateSubdomainInput, CreateSubdomainOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.CreateSubdomain"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateSubdomainInput, CreateSubdomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateSubdomainOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateSubdomainInput, CreateSubdomainOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateSubdomainInput, CreateSubdomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lightsail"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateSubdomainInput, CreateSubdomainOutput>(serviceID: serviceName, version: LightsailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lightsail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateSubdomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteAlarm` operation on the `Lightsail` service.
     ///
     /// Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
@@ -4858,6 +5015,85 @@ extension LightsailClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lightsail")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRelationalDatabaseSnapshot")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteSubdomain` operation on the `Lightsail` service.
+    ///
+    /// Deletes a Lightsail subdomain. The subdomain must be in the UNATTACHED or CREATE_FAILED state. To delete a subdomain that's associated with a resource, first disassociate it by using the UpdateSubdomainAssociation action. When you delete a top-level subdomain that has nested subdomains, the nested subdomains continue to work, and the top-level subdomain changes to the IMPLICIT state. After you delete a subdomain that was associated with a resource, the subdomain isn't available to other accounts for at least 30 days.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubdomainInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteSubdomainOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    public func deleteSubdomain(input: DeleteSubdomainInput) async throws -> DeleteSubdomainOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LightsailClient.deleteSubdomainOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSubdomain")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubdomainOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lightsail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSubdomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.DeleteSubdomain"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSubdomainOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lightsail"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteSubdomainInput, DeleteSubdomainOutput>(serviceID: serviceName, version: LightsailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lightsail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteSubdomain")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7665,7 +7901,7 @@ extension LightsailClient {
 
     /// Performs the `GetDistributions` operation on the `Lightsail` service.
     ///
-    /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.
+    /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions. The defaultRootObject and customErrorResponses values are returned only when you specify distributionName to retrieve a single distribution. When you call GetDistributions without a distribution name to list all distributions, these two fields aren't included in the response.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDistributionsInput`)
     ///
@@ -10813,6 +11049,84 @@ extension LightsailClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetSubdomains` operation on the `Lightsail` service.
+    ///
+    /// Returns information about one or more of your Lightsail subdomains. When you don't specify a subdomain, the response lists your top-level subdomains, and each top-level subdomain includes its nested subdomains. The results are paginated. To get the next page of results, use the pageToken parameter.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetSubdomainsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetSubdomainsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    public func getSubdomains(input: GetSubdomainsInput) async throws -> GetSubdomainsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LightsailClient.getSubdomainsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSubdomains")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubdomainsInput, GetSubdomainsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSubdomainsInput, GetSubdomainsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubdomainsInput, GetSubdomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetSubdomainsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lightsail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetSubdomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetSubdomainsInput, GetSubdomainsOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.GetSubdomains"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetSubdomainsInput, GetSubdomainsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetSubdomainsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetSubdomainsInput, GetSubdomainsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetSubdomainsInput, GetSubdomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lightsail"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetSubdomainsInput, GetSubdomainsOutput>(serviceID: serviceName, version: LightsailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lightsail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetSubdomains")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ImportKeyPair` operation on the `Lightsail` service.
     ///
     /// Imports a public SSH key from a specific key pair.
@@ -13611,6 +13925,85 @@ extension LightsailClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lightsail")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRelationalDatabaseParameters")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateSubdomainAssociation` operation on the `Lightsail` service.
+    ///
+    /// Associates a Lightsail subdomain with a resource, disassociates it from a resource, or moves it from one resource to another resource. Currently, you can associate a subdomain only with a Lightsail content delivery network (CDN) distribution. A resource can be associated with only one subdomain at a time. When you associate a subdomain with a distribution, Lightsail attaches the subdomain's certificate to the distribution. You can't associate a subdomain with a distribution that uses a custom domain, which is a distribution that has a Lightsail certificate attached. You can transfer each subdomain to another resource only once in a 24-hour period. The update is asynchronous. The response returns the subdomain in the ATTACHING, DETACHING, or TRANSFERRING state, and an operation. To check when the update is complete, use the GetSubdomains action.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubdomainAssociationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateSubdomainAssociationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `ServiceException` : A general service exception.
+    /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
+    public func updateSubdomainAssociation(input: UpdateSubdomainAssociationInput) async throws -> UpdateSubdomainAssociationOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = LightsailClient.updateSubdomainAssociationOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSubdomainAssociation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lightsail")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubdomainAssociationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lightsail", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateSubdomainAssociationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>(overrides: ["X-Amz-Target": "Lightsail_20161128.UpdateSubdomainAssociation"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateSubdomainAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lightsail"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateSubdomainAssociationInput, UpdateSubdomainAssociationOutput>(serviceID: serviceName, version: LightsailClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Lightsail")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateSubdomainAssociation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

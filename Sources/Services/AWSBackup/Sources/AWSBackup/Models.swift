@@ -1603,6 +1603,8 @@ extension BackupClientTypes {
         case copyJobStarted
         case copyJobSuccessful
         case eksBackupObjectFailed
+        case eksRestoreModificationFailed
+        case eksRestoreModificationSuccess
         case eksRestoreObjectFailed
         case eksRestoreObjectSkipped
         case recoveryPointIndexingFailed
@@ -1637,6 +1639,8 @@ extension BackupClientTypes {
                 .copyJobStarted,
                 .copyJobSuccessful,
                 .eksBackupObjectFailed,
+                .eksRestoreModificationFailed,
+                .eksRestoreModificationSuccess,
                 .eksRestoreObjectFailed,
                 .eksRestoreObjectSkipped,
                 .recoveryPointIndexingFailed,
@@ -1677,6 +1681,8 @@ extension BackupClientTypes {
             case .copyJobStarted: return "COPY_JOB_STARTED"
             case .copyJobSuccessful: return "COPY_JOB_SUCCESSFUL"
             case .eksBackupObjectFailed: return "EKS_BACKUP_OBJECT_FAILED"
+            case .eksRestoreModificationFailed: return "EKS_RESTORE_MODIFICATION_FAILED"
+            case .eksRestoreModificationSuccess: return "EKS_RESTORE_MODIFICATION_SUCCESS"
             case .eksRestoreObjectFailed: return "EKS_RESTORE_OBJECT_FAILED"
             case .eksRestoreObjectSkipped: return "EKS_RESTORE_OBJECT_SKIPPED"
             case .recoveryPointIndexingFailed: return "RECOVERY_POINT_INDEXING_FAILED"

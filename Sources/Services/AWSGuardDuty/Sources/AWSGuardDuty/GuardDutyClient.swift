@@ -3850,7 +3850,7 @@ extension GuardDutyClient {
 
     /// Performs the `GetInvestigation` operation on the `GuardDuty` service.
     ///
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Retrieves the results and status of a specific GuardDuty investigation. GuardDuty returns the results, including the summary and the scope of the investigation, only when the investigation status is COMPLETED. By default, GuardDuty returns the summary as text in Summary. To return a typed summary in SummaryData instead, set SummaryFormat to STRUCTURED. An administrator account can retrieve any investigation within the organization. Member accounts can only retrieve investigations that belong to them.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetInvestigationInput`)
     ///
@@ -3886,6 +3886,7 @@ extension GuardDutyClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetInvestigationInput, GetInvestigationOutput>(GetInvestigationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvestigationInput, GetInvestigationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetInvestigationInput, GetInvestigationOutput>(GetInvestigationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvestigationOutput>(GetInvestigationOutput.httpOutput(from:), GetInvestigationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvestigationInput, GetInvestigationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -5404,9 +5405,80 @@ extension GuardDutyClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListInvestigationRecords` operation on the `GuardDuty` service.
+    ///
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns the records for a specific GuardDuty investigation. Each record is one step in the reasoning that GuardDuty followed to reach the results of the investigation. An administrator account can list the records of any investigation within the organization. Member accounts can only list the records of investigations that belong to them.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListInvestigationRecordsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListInvestigationRecordsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
+    /// - `BadRequestException` : A bad request exception object.
+    /// - `InternalServerErrorException` : An internal server error exception object.
+    /// - `ResourceNotFoundException` : The requested resource can't be found.
+    public func listInvestigationRecords(input: ListInvestigationRecordsInput) async throws -> ListInvestigationRecordsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listInvestigationRecords")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "guardduty")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListInvestigationRecordsInput, ListInvestigationRecordsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>(ListInvestigationRecordsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListInvestigationRecordsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvestigationRecordsOutput>(ListInvestigationRecordsOutput.httpOutput(from:), ListInvestigationRecordsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListInvestigationRecordsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GuardDuty", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListInvestigationRecordsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListInvestigationRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "GuardDuty"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListInvestigationRecordsInput, ListInvestigationRecordsOutput>(serviceID: serviceName, version: GuardDutyClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GuardDuty")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListInvestigationRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListInvestigations` operation on the `GuardDuty` service.
     ///
-    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
+    /// This API is currently available as a preview. This feature is available in the following Amazon Web Services Regions: US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), Europe (Frankfurt), Europe (Ireland), Europe (London), Europe (Paris), Europe (Stockholm), and Asia Pacific (Tokyo). Returns a list of investigations associated with the specified GuardDuty detector. You can filter the investigations by status, risk level, confidence, finding ID, and investigation type, and sort them by start time, end time, status, risk level, or confidence. An administrator account sees all investigations across the organization. Member accounts see only the investigations that belong to them.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListInvestigationsInput`)
     ///

@@ -243,6 +243,36 @@ extension ListManagedInsightRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension CloudWatchClient {
+    /// Paginate over `[ListMetricDataQueryDefinitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMetricDataQueryDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMetricDataQueryDefinitionsOutput`
+    public func listMetricDataQueryDefinitionsPaginated(input: ListMetricDataQueryDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMetricDataQueryDefinitions(input:))
+    }
+}
+
+extension ListMetricDataQueryDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMetricDataQueryDefinitionsInput {
+        return ListMetricDataQueryDefinitionsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMetricDataQueryDefinitionsInput, OperationStackOutput == ListMetricDataQueryDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMetricDataQueryDefinitionsPaginated`
+    /// to access the nested member `[CloudWatchClientTypes.MetricDataQueryDefinitionSummary]`
+    /// - Returns: `[CloudWatchClientTypes.MetricDataQueryDefinitionSummary]`
+    public func items() async throws -> [CloudWatchClientTypes.MetricDataQueryDefinitionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension CloudWatchClient {
     /// Paginate over `[ListMetricsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

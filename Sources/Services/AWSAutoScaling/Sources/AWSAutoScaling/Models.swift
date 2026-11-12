@@ -5305,6 +5305,7 @@ extension AutoScalingClientTypes {
     public enum MetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case albrequestcountpertarget
         case asgaveragecpuutilization
+        case asgaveragecpuutilizationhighresolution
         case asgaveragenetworkin
         case asgaveragenetworkout
         case sdkUnknown(Swift.String)
@@ -5313,6 +5314,7 @@ extension AutoScalingClientTypes {
             return [
                 .albrequestcountpertarget,
                 .asgaveragecpuutilization,
+                .asgaveragecpuutilizationhighresolution,
                 .asgaveragenetworkin,
                 .asgaveragenetworkout
             ]
@@ -5327,6 +5329,7 @@ extension AutoScalingClientTypes {
             switch self {
             case .albrequestcountpertarget: return "ALBRequestCountPerTarget"
             case .asgaveragecpuutilization: return "ASGAverageCPUUtilization"
+            case .asgaveragecpuutilizationhighresolution: return "ASGAverageCPUUtilizationHighResolution"
             case .asgaveragenetworkin: return "ASGAverageNetworkIn"
             case .asgaveragenetworkout: return "ASGAverageNetworkOut"
             case let .sdkUnknown(s): return s
@@ -5343,11 +5346,16 @@ extension AutoScalingClientTypes {
         ///
         /// * ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.
         ///
+        /// * ASGAverageCPUUtilizationHighResolution - Average CPU utilization of the Auto Scaling group using a high-resolution metric.
+        ///
         /// * ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.
         ///
         /// * ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.
         ///
         /// * ALBRequestCountPerTarget - Average Application Load Balancer request count per target for your Auto Scaling group.
+        ///
+        ///
+        /// To help ensure that target tracking has metric data to use for the ASGAverageCPUUtilizationHighResolution metric type, configure the Auto Scaling group's launch template and existing instances to publish high-resolution CPU utilization metrics.
         /// This member is required.
         public var predefinedMetricType: AutoScalingClientTypes.MetricType?
         /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the average request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is: app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:
@@ -6646,6 +6654,8 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     /// A target tracking scaling policy. Provides support for predefined or custom metrics. The following predefined metrics are available:
     ///
     /// * ASGAverageCPUUtilization
+    ///
+    /// * ASGAverageCPUUtilizationHighResolution
     ///
     /// * ASGAverageNetworkIn
     ///

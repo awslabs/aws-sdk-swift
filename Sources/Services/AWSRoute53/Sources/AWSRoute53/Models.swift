@@ -1228,7 +1228,7 @@ public struct ChangeCidrCollectionOutput: Swift.Sendable {
     }
 }
 
-/// This exception contains a list of messages that might contain one or more error messages. Each error message indicates one error in the change batch.
+/// This exception contains a list of messages that might contain one or more error messages. Each error message indicates one error in the change batch. Route 53 also returns this error when the change batch creates, updates, or deletes a resource record set whose name and type have a resource record set protection. To make the change, first delete the protection by using DeleteResourceRecordSetProtections.
 public struct InvalidChangeBatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3456,6 +3456,148 @@ public struct CreateQueryLoggingConfigOutput: Swift.Sendable {
     }
 }
 
+extension Route53ClientTypes {
+
+    /// Describes one entry in a CreateResourceRecordSetProtections or DeleteResourceRecordSetProtections request that Route 53 couldn't process.
+    public struct ProtectionError: Swift.Sendable {
+        /// The reason that the entry failed. Valid values include the following:
+        ///
+        /// * InvalidInput means that the entry isn't valid. For example, the name isn't a valid DNS name, the name isn't in the hosted zone, the record type can't be protected, or the same name and type appear more than once in the request.
+        ///
+        /// * ProtectionAlreadyExists means that a protection already exists for the name and type.
+        ///
+        /// * ProtectionNotFound means that no protection exists for the name and type.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A message that explains why Route 53 couldn't process the entry.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The name in the failing entry.
+        /// This member is required.
+        public var recordName: Swift.String?
+        /// The record type in the failing entry.
+        /// This member is required.
+        public var recordType: Route53ClientTypes.RRType?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            recordName: Swift.String? = nil,
+            recordType: Route53ClientTypes.RRType? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+    }
+}
+
+/// One or more entries in the request couldn't be processed, so Route 53 didn't create or delete any of the protections in the request. The Errors element lists the failing entries and the reason that each one failed.
+public struct InvalidResourceRecordSetProtectionBatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The entries that failed, with the reason that each one failed.
+        /// This member is required.
+        public internal(set) var errors: [Route53ClientTypes.ProtectionError]? = nil
+        /// A message that explains why Route 53 couldn't process the CreateResourceRecordSetProtections or DeleteResourceRecordSetProtections request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceRecordSetProtectionBatch" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        errors: [Route53ClientTypes.ProtectionError]? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.errors = errors
+        self.properties.message = message
+    }
+}
+
+/// A protection already exists for every name and type in the request, so Route 53 didn't create any protections. The Errors element lists each entry.
+public struct ProtectionAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The entries that already have a protection.
+        /// This member is required.
+        public internal(set) var errors: [Route53ClientTypes.ProtectionError]? = nil
+        /// A message that explains that a protection already exists for every name and type in the CreateResourceRecordSetProtections request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ProtectionAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        errors: [Route53ClientTypes.ProtectionError]? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.errors = errors
+        self.properties.message = message
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// A protection to create for the resource record sets in a hosted zone that have the specified name and type.
+    public struct ResourceRecordSetProtectionConfig: Swift.Sendable {
+        /// An optional comment about the protection, for example, the reason that the resource record sets are protected. The comment can be up to 256 characters long. If you don't specify a comment, the protection doesn't have a comment. When Route 53 rejects a ChangeResourceRecordSets request because of this protection, the error message includes the comment, so don't include sensitive information.
+        public var comment: Swift.String?
+        /// The name of the resource record sets to protect, for example, www.example.com. The name must be the name of the hosted zone or a subdomain of it.
+        /// This member is required.
+        public var recordName: Swift.String?
+        /// The DNS record type of the resource record sets to protect. You can't protect records of type DNAME or of the DNSSEC record types that Route 53 manages.
+        /// This member is required.
+        public var recordType: Route53ClientTypes.RRType?
+
+        public init(
+            comment: Swift.String? = nil,
+            recordName: Swift.String? = nil,
+            recordType: Route53ClientTypes.RRType? = nil
+        ) {
+            self.comment = comment
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+    }
+}
+
+public struct CreateResourceRecordSetProtectionsInput: Swift.Sendable {
+    /// The ID of the hosted zone that contains the resource record sets that you want to protect.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+    /// The protections to create. Each entry specifies a resource record set name and type, and an optional comment. The list must contain at least one entry and can contain up to 100 entries. Each name and type can appear only once in the list.
+    /// This member is required.
+    public var protections: [Route53ClientTypes.ResourceRecordSetProtectionConfig]?
+
+    public init(
+        hostedZoneId: Swift.String? = nil,
+        protections: [Route53ClientTypes.ResourceRecordSetProtectionConfig]? = nil
+    ) {
+        self.hostedZoneId = hostedZoneId
+        self.protections = protections
+    }
+}
+
+public struct CreateResourceRecordSetProtectionsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// A delegation set with the same owner and caller reference combination has already been created.
 public struct DelegationSetAlreadyCreated: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4290,6 +4432,49 @@ public struct DeleteQueryLoggingConfigInput: Swift.Sendable {
 }
 
 public struct DeleteQueryLoggingConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension Route53ClientTypes {
+
+    /// The name and type that identify a resource record set protection.
+    public struct ResourceRecordSetProtectionKey: Swift.Sendable {
+        /// The name of the protected resource record sets.
+        /// This member is required.
+        public var recordName: Swift.String?
+        /// The DNS record type of the protected resource record sets.
+        /// This member is required.
+        public var recordType: Route53ClientTypes.RRType?
+
+        public init(
+            recordName: Swift.String? = nil,
+            recordType: Route53ClientTypes.RRType? = nil
+        ) {
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+    }
+}
+
+public struct DeleteResourceRecordSetProtectionsInput: Swift.Sendable {
+    /// The ID of the hosted zone that contains the protections that you want to delete.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+    /// The name and type of each protection to delete. The list must contain at least one entry and can contain up to 100 entries. Each name and type can appear only once in the list.
+    /// This member is required.
+    public var protections: [Route53ClientTypes.ResourceRecordSetProtectionKey]?
+
+    public init(
+        hostedZoneId: Swift.String? = nil,
+        protections: [Route53ClientTypes.ResourceRecordSetProtectionKey]? = nil
+    ) {
+        self.hostedZoneId = hostedZoneId
+        self.protections = protections
+    }
+}
+
+public struct DeleteResourceRecordSetProtectionsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -6066,6 +6251,75 @@ public struct ListQueryLoggingConfigsOutput: Swift.Sendable {
     }
 }
 
+public struct ListResourceRecordSetProtectionsInput: Swift.Sendable {
+    /// The ID of the hosted zone that contains the protections that you want to list.
+    /// This member is required.
+    public var hostedZoneId: Swift.String?
+    /// The maximum number of protections that you want Route 53 to return in this response. If you don't specify a value, or if you specify a value greater than 300, Route 53 returns up to 300 protections.
+    public var maxResults: Swift.Int?
+    /// If the response to a previous ListResourceRecordSetProtections request included a NextToken element, specify that value here to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The first resource record set name that you want Route 53 to list protections for. If you don't specify a value, the list starts with the first protection in the hosted zone. If you specify NextToken, Route 53 ignores StartRecordName.
+    public var startRecordName: Swift.String?
+    /// The first resource record set type, within the name specified by StartRecordName, that you want Route 53 to list protections for. If you specify StartRecordType, you must also specify StartRecordName. If you specify NextToken, Route 53 ignores StartRecordType.
+    public var startRecordType: Route53ClientTypes.RRType?
+
+    public init(
+        hostedZoneId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startRecordName: Swift.String? = nil,
+        startRecordType: Route53ClientTypes.RRType? = nil
+    ) {
+        self.hostedZoneId = hostedZoneId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startRecordName = startRecordName
+        self.startRecordType = startRecordType
+    }
+}
+
+extension Route53ClientTypes {
+
+    /// A protection for the resource record sets in a hosted zone that have the specified name and type. While the protection exists, Route 53 rejects ChangeResourceRecordSets requests that create, update, or delete those resource record sets.
+    public struct ResourceRecordSetProtection: Swift.Sendable {
+        /// The comment that was specified when the protection was created, if any.
+        public var comment: Swift.String?
+        /// The name of the protected resource record sets.
+        /// This member is required.
+        public var recordName: Swift.String?
+        /// The DNS record type of the protected resource record sets.
+        /// This member is required.
+        public var recordType: Route53ClientTypes.RRType?
+
+        public init(
+            comment: Swift.String? = nil,
+            recordName: Swift.String? = nil,
+            recordType: Route53ClientTypes.RRType? = nil
+        ) {
+            self.comment = comment
+            self.recordName = recordName
+            self.recordType = recordType
+        }
+    }
+}
+
+public struct ListResourceRecordSetProtectionsOutput: Swift.Sendable {
+    /// If there are more protections to list, a token that you can specify in the NextToken parameter of another request to get the next page of results. If there are no more protections to list, the response doesn't include NextToken.
+    public var nextToken: Swift.String?
+    /// The protections in the hosted zone. The list is empty if the hosted zone has no protections.
+    /// This member is required.
+    public var resourceRecordSetProtections: [Route53ClientTypes.ResourceRecordSetProtection]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceRecordSetProtections: [Route53ClientTypes.ResourceRecordSetProtection]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceRecordSetProtections = resourceRecordSetProtections
+    }
+}
+
 /// A request for the resource record sets that are associated with a specified hosted zone.
 public struct ListResourceRecordSetsInput: Swift.Sendable {
     /// The ID of the hosted zone that contains the resource record sets that you want to list.
@@ -7176,6 +7430,16 @@ extension CreateQueryLoggingConfigInput {
     }
 }
 
+extension CreateResourceRecordSetProtectionsInput {
+
+    static func urlPathProvider(_ value: CreateResourceRecordSetProtectionsInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/rrsetprotection"
+    }
+}
+
 extension CreateReusableDelegationSetInput {
 
     static func urlPathProvider(_ value: CreateReusableDelegationSetInput) -> Swift.String? {
@@ -7280,6 +7544,16 @@ extension DeleteQueryLoggingConfigInput {
             return nil
         }
         return "/2013-04-01/queryloggingconfig/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteResourceRecordSetProtectionsInput {
+
+    static func urlPathProvider(_ value: DeleteResourceRecordSetProtectionsInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/rrsetprotection/delete"
     }
 }
 
@@ -7803,6 +8077,40 @@ extension ListQueryLoggingConfigsInput {
     }
 }
 
+extension ListResourceRecordSetProtectionsInput {
+
+    static func urlPathProvider(_ value: ListResourceRecordSetProtectionsInput) -> Swift.String? {
+        guard let hostedZoneId = value.hostedZoneId else {
+            return nil
+        }
+        return "/2013-04-01/hostedzone/\(hostedZoneId.urlPercentEncoding())/rrsetprotection"
+    }
+}
+
+extension ListResourceRecordSetProtectionsInput {
+
+    static func queryItemProvider(_ value: ListResourceRecordSetProtectionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nexttoken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxresults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let startRecordType = value.startRecordType {
+            let startRecordTypeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(startRecordType.rawValue).urlPercentEncoding())
+            items.append(startRecordTypeQueryItem)
+        }
+        if let startRecordName = value.startRecordName {
+            let startRecordNameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(startRecordName).urlPercentEncoding())
+            items.append(startRecordNameQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListResourceRecordSetsInput {
 
     static func urlPathProvider(_ value: ListResourceRecordSetsInput) -> Swift.String? {
@@ -8249,6 +8557,14 @@ extension CreateQueryLoggingConfigInput {
     }
 }
 
+extension CreateResourceRecordSetProtectionsInput {
+
+    static func write(value: CreateResourceRecordSetProtectionsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Protections"].writeList(value.protections, memberWritingClosure: Route53ClientTypes.ResourceRecordSetProtectionConfig.write(value:to:), memberNodeInfo: "ResourceRecordSetProtectionConfig", isFlattened: false)
+    }
+}
+
 extension CreateReusableDelegationSetInput {
 
     static func write(value: CreateReusableDelegationSetInput?, to writer: SmithyXML.Writer) throws {
@@ -8294,6 +8610,14 @@ extension CreateVPCAssociationAuthorizationInput {
     static func write(value: CreateVPCAssociationAuthorizationInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["VPC"].write(value.vpc, with: Route53ClientTypes.VPC.write(value:to:))
+    }
+}
+
+extension DeleteResourceRecordSetProtectionsInput {
+
+    static func write(value: DeleteResourceRecordSetProtectionsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Protections"].writeList(value.protections, memberWritingClosure: Route53ClientTypes.ResourceRecordSetProtectionKey.write(value:to:), memberNodeInfo: "ResourceRecordSetProtectionKey", isFlattened: false)
     }
 }
 
@@ -8513,6 +8837,13 @@ extension CreateQueryLoggingConfigOutput {
     }
 }
 
+extension CreateResourceRecordSetProtectionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateResourceRecordSetProtectionsOutput {
+        return CreateResourceRecordSetProtectionsOutput()
+    }
+}
+
 extension CreateReusableDelegationSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateReusableDelegationSetOutput {
@@ -8640,6 +8971,13 @@ extension DeleteQueryLoggingConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQueryLoggingConfigOutput {
         return DeleteQueryLoggingConfigOutput()
+    }
+}
+
+extension DeleteResourceRecordSetProtectionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourceRecordSetProtectionsOutput {
+        return DeleteResourceRecordSetProtectionsOutput()
     }
 }
 
@@ -9062,6 +9400,19 @@ extension ListQueryLoggingConfigsOutput {
     }
 }
 
+extension ListResourceRecordSetProtectionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceRecordSetProtectionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceRecordSetProtectionsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resourceRecordSetProtections = try reader["ResourceRecordSetProtections"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ResourceRecordSetProtection.read(from:), memberNodeInfo: "ResourceRecordSetProtection", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListResourceRecordSetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceRecordSetsOutput {
@@ -9477,6 +9828,25 @@ enum CreateQueryLoggingConfigOutputError {
     }
 }
 
+enum CreateResourceRecordSetProtectionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidResourceRecordSetProtectionBatch": return try InvalidResourceRecordSetProtectionBatch.makeError(baseError: baseError)
+            case "LimitsExceeded": return try LimitsExceeded.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
+            case "ProtectionAlreadyExists": return try ProtectionAlreadyExists.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateReusableDelegationSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9669,6 +10039,23 @@ enum DeleteQueryLoggingConfigOutputError {
             case "ConcurrentModification": return try ConcurrentModification.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
             case "NoSuchQueryLoggingConfig": return try NoSuchQueryLoggingConfig.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteResourceRecordSetProtectionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidResourceRecordSetProtectionBatch": return try InvalidResourceRecordSetProtectionBatch.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            case "PriorRequestNotComplete": return try PriorRequestNotComplete.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10190,6 +10577,22 @@ enum ListHostedZonesByVPCOutputError {
 }
 
 enum ListQueryLoggingConfigsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidInput": return try InvalidInput.makeError(baseError: baseError)
+            case "InvalidPaginationToken": return try InvalidPaginationToken.makeError(baseError: baseError)
+            case "NoSuchHostedZone": return try NoSuchHostedZone.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourceRecordSetProtectionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -10909,6 +11312,34 @@ extension QueryLoggingConfigAlreadyExists {
         let reader = baseError.errorBodyReader
         var value = QueryLoggingConfigAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResourceRecordSetProtectionBatch {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> InvalidResourceRecordSetProtectionBatch {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResourceRecordSetProtectionBatch()
+        value.properties.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ProtectionError.read(from:), memberNodeInfo: "ProtectionError", isFlattened: false) ?? []
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ProtectionAlreadyExists {
+
+    static func makeError(baseError: ClientRuntime.RestXMLError) throws -> ProtectionAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = ProtectionAlreadyExists()
+        value.properties.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: Route53ClientTypes.ProtectionError.read(from:), memberNodeInfo: "ProtectionError", isFlattened: false) ?? []
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11833,6 +12264,19 @@ extension Route53ClientTypes.LocationSummary {
     }
 }
 
+extension Route53ClientTypes.ProtectionError {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ProtectionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ProtectionError()
+        value.recordName = try reader["RecordName"].readIfPresent() ?? ""
+        value.recordType = try reader["RecordType"].readIfPresent() ?? .sdkUnknown("")
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension Route53ClientTypes.QueryLoggingConfig {
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.QueryLoggingConfig {
@@ -11900,6 +12344,37 @@ extension Route53ClientTypes.ResourceRecordSet {
         value.cidrRoutingConfig = try reader["CidrRoutingConfig"].readIfPresent(with: Route53ClientTypes.CidrRoutingConfig.read(from:))
         value.geoProximityLocation = try reader["GeoProximityLocation"].readIfPresent(with: Route53ClientTypes.GeoProximityLocation.read(from:))
         return value
+    }
+}
+
+extension Route53ClientTypes.ResourceRecordSetProtection {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceRecordSetProtection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ResourceRecordSetProtection()
+        value.recordName = try reader["RecordName"].readIfPresent() ?? ""
+        value.recordType = try reader["RecordType"].readIfPresent() ?? .sdkUnknown("")
+        value.comment = try reader["Comment"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.ResourceRecordSetProtectionConfig {
+
+    static func write(value: Route53ClientTypes.ResourceRecordSetProtectionConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["RecordName"].write(value.recordName)
+        try writer["RecordType"].write(value.recordType)
+    }
+}
+
+extension Route53ClientTypes.ResourceRecordSetProtectionKey {
+
+    static func write(value: Route53ClientTypes.ResourceRecordSetProtectionKey?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["RecordName"].write(value.recordName)
+        try writer["RecordType"].write(value.recordType)
     }
 }
 

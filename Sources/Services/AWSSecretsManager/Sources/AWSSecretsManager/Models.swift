@@ -67,29 +67,6 @@ extension SecretsManagerClientTypes {
     }
 }
 
-/// Secrets Manager can't decrypt the protected secret text using the provided KMS key.
-public struct DecryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "DecryptionFailure" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// An error occurred on the server side.
 public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -100,29 +77,6 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InternalServiceError" }
     public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The NextToken value is invalid.
-public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidNextTokenException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -188,6 +142,29 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+/// The request failed because it would exceed one of the Secrets Manager quotas.
+public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "LimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// Secrets Manager can't find the resource that you asked for.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -197,6 +174,177 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SecretsManagerClientTypes {
+
+    public enum ReplicaRestrictionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case norestriction
+        case sameorg
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicaRestrictionType] {
+            return [
+                .norestriction,
+                .sameorg
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .norestriction: return "NoRestriction"
+            case .sameorg: return "SameOrg"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateCrossAccountReplicaInput: Swift.Sendable {
+    /// The ARN of the replica secret in the other Amazon Web Services account. The replica secret must be in the same Region and partition as the primary secret. Additionally, the replica account owner must have created the replica secret as a cross-account replica of the primary secret. For more information see [CreateSecret].
+    /// This member is required.
+    public var crossAccountReplicaARN: Swift.String?
+    /// Whether the replica account must belong to the same Amazon Web Services organization as the primary account:
+    ///
+    /// * SameOrg, which requires the replica account to be in the same organization as the primary account. This is the default.
+    ///
+    /// * NoRestriction, which allows the replica account to be in any organization.
+    public var replicaRestriction: SecretsManagerClientTypes.ReplicaRestrictionType?
+    /// The ARN of an IAM role in the primary account that Secrets Manager assumes to perform replication. If you don't include this field, Secrets Manager replicates using the credentials of caller who updates the primary secret. For more information, see [ Cross-account replication permissions](https://docs.aws.amazon.com/secretsmanager/latest/userguide/cross-account-replicate-permissions.html).
+    public var replicationRoleARN: Swift.String?
+    /// The ARN or name of the primary secret in your account to replicate. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
+    /// This member is required.
+    public var secretId: Swift.String?
+
+    public init(
+        crossAccountReplicaARN: Swift.String? = nil,
+        replicaRestriction: SecretsManagerClientTypes.ReplicaRestrictionType? = nil,
+        replicationRoleARN: Swift.String? = nil,
+        secretId: Swift.String? = nil
+    ) {
+        self.crossAccountReplicaARN = crossAccountReplicaARN
+        self.replicaRestriction = replicaRestriction
+        self.replicationRoleARN = replicationRoleARN
+        self.secretId = secretId
+    }
+}
+
+extension SecretsManagerClientTypes {
+
+    public enum StatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case detached
+        case failed
+        case inprogress
+        case insync
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StatusType] {
+            return [
+                .detached,
+                .failed,
+                .inprogress,
+                .insync,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .detached: return "Detached"
+            case .failed: return "Failed"
+            case .inprogress: return "InProgress"
+            case .insync: return "InSync"
+            case .pending: return "Pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateCrossAccountReplicaOutput: Swift.Sendable {
+    /// The ARN of the primary secret.
+    public var arn: Swift.String?
+    /// The ARN of the replica secret in the other account.
+    public var crossAccountReplicaARN: Swift.String?
+    /// The status of replication to the replica secret. Possible values:
+    ///
+    /// * InSync, which indicates that replication to the replica completed successfully and the replica is up to date.
+    ///
+    /// * Failed, which indicates that replication to the replica did not succeed.
+    ///
+    /// * InProgress, which indicates that Secrets Manager is replicating to the replica.
+    ///
+    /// * Pending, which indicates that replication has not yet started.
+    ///
+    /// * Detached, which indicates that primary secret is no longer linked to the replica secret.
+    public var replicationStatus: SecretsManagerClientTypes.StatusType?
+
+    public init(
+        arn: Swift.String? = nil,
+        crossAccountReplicaARN: Swift.String? = nil,
+        replicationStatus: SecretsManagerClientTypes.StatusType? = nil
+    ) {
+        self.arn = arn
+        self.crossAccountReplicaARN = crossAccountReplicaARN
+        self.replicationStatus = replicationStatus
+    }
+}
+
+/// Secrets Manager can't decrypt the protected secret text using the provided KMS key.
+public struct DecryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DecryptionFailure" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The NextToken value is invalid.
+public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidNextTokenException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -423,29 +571,6 @@ public struct EncryptionFailure: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// The request failed because it would exceed one of the Secrets Manager quotas.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "LimitExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The resource policy has syntax errors.
 public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -548,6 +673,8 @@ public struct CreateSecretInput: Swift.Sendable {
     ///
     /// This value becomes the VersionId of the new version.
     public var clientRequestToken: Swift.String?
+    /// The ARN of a primary secret in another Amazon Web Services account. Include this field to create a cross-account replica secret that receives replicated data from that primary secret. The primary secret must be in the same Amazon Web Services Region and partition as the replica, and you must specify a customer managed KMS key in KmsKeyId. You can't include SecretString, SecretBinary, Description, AddReplicaRegions, or Type.
+    public var crossAccountPrimaryARN: Swift.String?
     /// The description of the secret.
     public var description: Swift.String?
     /// Specifies whether to overwrite a secret with the same name in the destination Region. By default, secrets aren't overwritten.
@@ -569,6 +696,7 @@ public struct CreateSecretInput: Swift.Sendable {
     public init(
         addReplicaRegions: [SecretsManagerClientTypes.ReplicaRegionType]? = nil,
         clientRequestToken: Swift.String? = nil,
+        crossAccountPrimaryARN: Swift.String? = nil,
         description: Swift.String? = nil,
         forceOverwriteReplicaSecret: Swift.Bool? = false,
         kmsKeyId: Swift.String? = nil,
@@ -580,6 +708,7 @@ public struct CreateSecretInput: Swift.Sendable {
     ) {
         self.addReplicaRegions = addReplicaRegions
         self.clientRequestToken = clientRequestToken
+        self.crossAccountPrimaryARN = crossAccountPrimaryARN
         self.description = description
         self.forceOverwriteReplicaSecret = forceOverwriteReplicaSecret
         self.kmsKeyId = kmsKeyId
@@ -588,38 +717,6 @@ public struct CreateSecretInput: Swift.Sendable {
         self.secretString = secretString
         self.tags = tags
         self.type = type
-    }
-}
-
-extension SecretsManagerClientTypes {
-
-    public enum StatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case inprogress
-        case insync
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StatusType] {
-            return [
-                .failed,
-                .inprogress,
-                .insync
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "Failed"
-            case .inprogress: return "InProgress"
-            case .insync: return "InSync"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -683,14 +780,86 @@ public struct CreateSecretOutput: Swift.Sendable {
     }
 }
 
+extension SecretsManagerClientTypes {
+
+    /// Contains information about the primary secret that a cross-account replica secret replicates from, including its ARN and replication status. This information is only available for cross-account replica secrets.
+    public struct CrossAccountPrimaryType: Swift.Sendable {
+        /// The ARN of the primary secret replicating into this replica secret.
+        public var primarySecretARN: Swift.String?
+        /// The status of replication from the primary secret to this replica. The status can be:
+        ///
+        /// * InSync: Replication to the replica secret is complete.
+        ///
+        /// * Failed: Replication to the replica secret was unable to be completed.
+        ///
+        /// * InProgress: Replication to the replica secret has started but is not complete.
+        ///
+        /// * Pending: Replication has not yet started for the replica secret.
+        ///
+        /// * Detached: Replication to the replica secret was stopped by the primary.
+        public var replicationStatus: SecretsManagerClientTypes.StatusType?
+        /// A message that describes the replication status, if Secrets Manager has more information to provide.
+        public var statusMessage: Swift.String?
+
+        public init(
+            primarySecretARN: Swift.String? = nil,
+            replicationStatus: SecretsManagerClientTypes.StatusType? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.primarySecretARN = primarySecretARN
+            self.replicationStatus = replicationStatus
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension SecretsManagerClientTypes {
+
+    /// Information about a cross-account replica secret. This information is only available for cross-account primary secrets.
+    public struct CrossAccountReplicaEntry: Swift.Sendable {
+        /// The ARN of the replica secret.
+        public var replicaSecretARN: Swift.String?
+        /// The ARN of the IAM role that Secrets Manager assumes to replicate to this replica, if one was specified when the replica was associated.
+        public var replicationRoleARN: Swift.String?
+        /// The status of replication from this primary secret. The status can be:
+        ///
+        /// * InSync: Replication from the primary secret is complete.
+        ///
+        /// * Failed: Replication from the primary secret was unable to be completed.
+        ///
+        /// * InProgress: Replication from the primary secret has started but is not complete.
+        ///
+        /// * Detached: Replication from the primary secret was stopped by the replica.
+        public var replicationStatus: SecretsManagerClientTypes.StatusType?
+        /// A message that describes the replication status, if Secrets Manager has more information to provide.
+        public var statusMessage: Swift.String?
+
+        public init(
+            replicaSecretARN: Swift.String? = nil,
+            replicationRoleARN: Swift.String? = nil,
+            replicationStatus: SecretsManagerClientTypes.StatusType? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.replicaSecretARN = replicaSecretARN
+            self.replicationRoleARN = replicationRoleARN
+            self.replicationStatus = replicationStatus
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
 public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The name of the resource policy to delete. If you don't specify this field, Secrets Manager uses default. You can only delete the default policy; if you specify any other name, the operation returns an InvalidParameterException.
+    public var policyName: Swift.String?
     /// The ARN or name of the secret to delete the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
 
     public init(
+        policyName: Swift.String? = nil,
         secretId: Swift.String? = nil
     ) {
+        self.policyName = policyName
         self.secretId = secretId
     }
 }
@@ -700,13 +869,17 @@ public struct DeleteResourcePolicyOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The name of the secret that the resource-based policy was deleted for.
     public var name: Swift.String?
+    /// The name of the deleted resource policy. If you didn't specify PolicyName in the request, this is default.
+    public var policyName: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        policyName: Swift.String? = nil
     ) {
         self.arn = arn
         self.name = name
+        self.policyName = policyName
     }
 }
 
@@ -808,6 +981,10 @@ public struct DescribeSecretOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The date the secret was created.
     public var createdDate: Foundation.Date?
+    /// Information about the primary secret in the other Amazon Web Services account that this cross-account replica secret replicates from, including the primary secret ARN and the replication status. This field is omitted if the secret is not a cross-account replica.
+    public var crossAccountPrimary: SecretsManagerClientTypes.CrossAccountPrimaryType?
+    /// A list of this secret's cross-account replica secrets and their replication status, if this secret is the primary for cross-account replication. This field is omitted if the secret has no cross-account replicas.
+    public var crossAccountReplicas: [SecretsManagerClientTypes.CrossAccountReplicaEntry]?
     /// The date the secret is scheduled for deletion. If it is not scheduled for deletion, this field is omitted. When you delete a secret, Secrets Manager requires a recovery window of at least 7 days before deleting the secret. Some time after the deleted date, Secrets Manager deletes the secret, including all of its versions. If a secret is scheduled for deletion, then its details, including the encrypted secret value, is not accessible. To cancel a scheduled deletion and restore access to the secret, use [RestoreSecret].
     public var deletedDate: Foundation.Date?
     /// The description of the secret.
@@ -865,6 +1042,8 @@ public struct DescribeSecretOutput: Swift.Sendable {
     public init(
         arn: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
+        crossAccountPrimary: SecretsManagerClientTypes.CrossAccountPrimaryType? = nil,
+        crossAccountReplicas: [SecretsManagerClientTypes.CrossAccountReplicaEntry]? = nil,
         deletedDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         externalSecretRotationMetadata: [SecretsManagerClientTypes.ExternalSecretRotationMetadataItem]? = nil,
@@ -887,6 +1066,8 @@ public struct DescribeSecretOutput: Swift.Sendable {
     ) {
         self.arn = arn
         self.createdDate = createdDate
+        self.crossAccountPrimary = crossAccountPrimary
+        self.crossAccountReplicas = crossAccountReplicas
         self.deletedDate = deletedDate
         self.description = description
         self.externalSecretRotationMetadata = externalSecretRotationMetadata
@@ -906,6 +1087,38 @@ public struct DescribeSecretOutput: Swift.Sendable {
         self.tags = tags
         self.type = type
         self.versionIdsToStages = versionIdsToStages
+    }
+}
+
+public struct DisassociateCrossAccountReplicaInput: Swift.Sendable {
+    /// The ARN of the cross-account replica secret to unlink from the primary secret.
+    /// This member is required.
+    public var crossAccountReplicaARN: Swift.String?
+    /// The ARN or name of the primary secret in your account. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
+    /// This member is required.
+    public var secretId: Swift.String?
+
+    public init(
+        crossAccountReplicaARN: Swift.String? = nil,
+        secretId: Swift.String? = nil
+    ) {
+        self.crossAccountReplicaARN = crossAccountReplicaARN
+        self.secretId = secretId
+    }
+}
+
+public struct DisassociateCrossAccountReplicaOutput: Swift.Sendable {
+    /// The ARN of the primary secret.
+    public var arn: Swift.String?
+    /// The ARN of the replica secret that was unlinked from the primary secret.
+    public var crossAccountReplicaARN: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        crossAccountReplicaARN: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.crossAccountReplicaARN = crossAccountReplicaARN
     }
 }
 
@@ -960,13 +1173,17 @@ public struct GetRandomPasswordOutput: Swift.Sendable {
 }
 
 public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The name of the resource policy to retrieve. If you don't specify this field, Secrets Manager uses default. If you specify a name other than default and no policy with that name exists, the operation returns a ResourceNotFoundException.
+    public var policyName: Swift.String?
     /// The ARN or name of the secret to retrieve the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
     /// This member is required.
     public var secretId: Swift.String?
 
     public init(
+        policyName: Swift.String? = nil,
         secretId: Swift.String? = nil
     ) {
+        self.policyName = policyName
         self.secretId = secretId
     }
 }
@@ -976,16 +1193,20 @@ public struct GetResourcePolicyOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The name of the secret that the resource-based policy was retrieved for.
     public var name: Swift.String?
+    /// The name of the resource policy. If you didn't specify PolicyName in the request, this is default.
+    public var policyName: Swift.String?
     /// A JSON-formatted string that contains the permissions policy attached to the secret. For more information about permissions policies, see [Authentication and access control for Secrets Manager](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html).
     public var resourcePolicy: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         name: Swift.String? = nil,
+        policyName: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil
     ) {
         self.arn = arn
         self.name = name
+        self.policyName = policyName
         self.resourcePolicy = resourcePolicy
     }
 }
@@ -1042,6 +1263,57 @@ public struct GetSecretValueOutput: Swift.Sendable {
         self.secretString = secretString
         self.versionId = versionId
         self.versionStages = versionStages
+    }
+}
+
+public struct ListResourcePoliciesInput: Swift.Sendable {
+    /// The number of results to include in the response. If you don't specify this value, the service returns up to 100 results. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListResourcePolicies again with the value from NextToken.
+    public var maxResults: Swift.Int?
+    /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListResourcePolicies again with this value.
+    public var nextToken: Swift.String?
+    /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
+    /// This member is required.
+    public var secretId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        secretId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.secretId = secretId
+    }
+}
+
+extension SecretsManagerClientTypes {
+
+    /// A structure that contains details about a resource policy attached to a secret. It does not contain the contents of the resource policy. To view the contents of the policy, use [GetResourcePolicy](https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetResourcePolicy.html) .
+    public struct ResourcePolicySummary: Swift.Sendable {
+        /// The name of the resource policy.
+        public var policyName: Swift.String?
+
+        public init(
+            policyName: Swift.String? = nil
+        ) {
+            self.policyName = policyName
+        }
+    }
+}
+
+public struct ListResourcePoliciesOutput: Swift.Sendable {
+    /// Secrets Manager includes this value if there's more output available than what is included in the current response. To get the next results, call ListResourcePolicies again with this value.
+    public var nextToken: Swift.String?
+    /// A list of the resource policies attached to the secret.
+    /// This member is required.
+    public var resourcePolicies: [SecretsManagerClientTypes.ResourcePolicySummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourcePolicies: [SecretsManagerClientTypes.ResourcePolicySummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourcePolicies = resourcePolicies
     }
 }
 
@@ -1357,6 +1629,8 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     ///
     /// To review permissions to your secrets, see [Determine who has permissions to your secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/determine-acccess_examine-iam-policies.html).
     public var blockPublicPolicy: Swift.Bool?
+    /// The name of the resource policy to attach. If you don't specify this field, Secrets Manager uses default. You can only attach the default policy; if you specify any other name, the operation returns an InvalidParameterException.
+    public var policyName: Swift.String?
     /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see [Permissions policy examples](https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html).
     /// This member is required.
     public var resourcePolicy: Swift.String?
@@ -1366,10 +1640,12 @@ public struct PutResourcePolicyInput: Swift.Sendable {
 
     public init(
         blockPublicPolicy: Swift.Bool? = nil,
+        policyName: Swift.String? = nil,
         resourcePolicy: Swift.String? = nil,
         secretId: Swift.String? = nil
     ) {
         self.blockPublicPolicy = blockPublicPolicy
+        self.policyName = policyName
         self.resourcePolicy = resourcePolicy
         self.secretId = secretId
     }
@@ -1380,13 +1656,17 @@ public struct PutResourcePolicyOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The name of the secret.
     public var name: Swift.String?
+    /// The name of the resource policy. If you didn't specify PolicyName in the request, this is default.
+    public var policyName: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        policyName: Swift.String? = nil
     ) {
         self.arn = arn
         self.name = name
+        self.policyName = policyName
     }
 }
 
@@ -1616,7 +1896,7 @@ public struct RotateSecretOutput: Swift.Sendable {
 }
 
 public struct StopReplicationToReplicaInput: Swift.Sendable {
-    /// The name of the secret or the replica ARN. The replica ARN is the same as the original primary secret ARN expect the Region is changed to the replica Region.
+    /// The ARN or name of the replica secret. For a cross-region replica, the replica ARN is the same as the original primary secret ARN except that the Region is changed to the replica Region. For a cross-account replica, this is the ARN or name of the replica secret in your account.
     /// This member is required.
     public var secretId: Swift.String?
 
@@ -1628,7 +1908,7 @@ public struct StopReplicationToReplicaInput: Swift.Sendable {
 }
 
 public struct StopReplicationToReplicaOutput: Swift.Sendable {
-    /// The ARN of the promoted secret. The ARN is the same as the original primary secret except the Region is changed.
+    /// The ARN of the promoted secret. For a cross-region replica, this ARN is the same as the original primary secret's ARN except that the Region is changed. For a cross-account replica, this is the ARN of the promoted secret in your account.
     public var arn: Swift.String?
 
     public init(

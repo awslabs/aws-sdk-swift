@@ -573,6 +573,7 @@ extension EC2ClientTypes {
         case localGatewayVirtualInterface
         case localGatewayVirtualInterfaceGroup
         case macModificationTask
+        case metricCategory
         case natgateway
         case networkAcl
         case networkInsightsAccessScope
@@ -689,6 +690,7 @@ extension EC2ClientTypes {
                 .localGatewayVirtualInterface,
                 .localGatewayVirtualInterfaceGroup,
                 .macModificationTask,
+                .metricCategory,
                 .natgateway,
                 .networkAcl,
                 .networkInsightsAccessScope,
@@ -811,6 +813,7 @@ extension EC2ClientTypes {
             case .localGatewayVirtualInterface: return "local-gateway-virtual-interface"
             case .localGatewayVirtualInterfaceGroup: return "local-gateway-virtual-interface-group"
             case .macModificationTask: return "mac-modification-task"
+            case .metricCategory: return "metric-category"
             case .natgateway: return "natgateway"
             case .networkAcl: return "network-acl"
             case .networkInsightsAccessScope: return "network-insights-access-scope"
@@ -3378,10 +3381,14 @@ extension EC2ClientTypes {
 
     /// Describes the exclusion configurations for the various resource types in the account-level VPC Encryption Control configuration. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
     public struct AccountVpcEncryptionControlExclusions: Swift.Sendable {
+        /// The exclusion configuration for Amazon API Gateway V2.
+        public var apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for egress-only internet gateway resource.
         public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for Elastic File System service.
         public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionState?
+        /// The exclusion configuration for AWS Global Accelerator.
+        public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for internet gateway resource.
         public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState?
         /// The exclusion configuration for Lambda service.
@@ -3396,8 +3403,10 @@ extension EC2ClientTypes {
         public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionState?
 
         public init(
+            apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
+            globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             lambda: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             natGateway: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
@@ -3405,8 +3414,10 @@ extension EC2ClientTypes {
             vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil,
             vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionState? = nil
         ) {
+            self.apiGatewayV2 = apiGatewayV2
             self.egressOnlyInternetGateway = egressOnlyInternetGateway
             self.elasticFileSystem = elasticFileSystem
+            self.globalAccelerator = globalAccelerator
             self.internetGateway = internetGateway
             self.lambda = lambda
             self.natGateway = natGateway
@@ -18789,10 +18800,14 @@ extension EC2ClientTypes {
 
     /// Describes the exclusion configurations for various resource types in VPC Encryption Control. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
     public struct VpcEncryptionControlExclusions: Swift.Sendable {
+        /// The exclusion configuration for Amazon API Gateway V2 traffic.
+        public var apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for egress-only internet gateway traffic.
         public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for Elastic File System traffic.
         public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusion?
+        /// The exclusion configuration for AWS Global Accelerator traffic.
+        public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for internet gateway traffic.
         public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusion?
         /// The exclusion configuration for Lambda function traffic.
@@ -18807,8 +18822,10 @@ extension EC2ClientTypes {
         public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusion?
 
         public init(
+            apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
+            globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             internetGateway: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             lambda: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             natGateway: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
@@ -18816,8 +18833,10 @@ extension EC2ClientTypes {
             vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusion? = nil,
             vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusion? = nil
         ) {
+            self.apiGatewayV2 = apiGatewayV2
             self.egressOnlyInternetGateway = egressOnlyInternetGateway
             self.elasticFileSystem = elasticFileSystem
+            self.globalAccelerator = globalAccelerator
             self.internetGateway = internetGateway
             self.lambda = lambda
             self.natGateway = natGateway
@@ -21582,11 +21601,11 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var logDestination: Swift.String?
     /// The type of destination for the flow log data. Default: cloud-watch-logs
     public var logDestinationType: EC2ClientTypes.LogDestinationType?
-    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide, [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide, or [Cloud WAN Flow Log records](https://docs.aws.amazon.com/network-manager/latest/cloudwan/cwan-flow-logs.html) in the Amazon Web Services Cloud WAN User Guide. Specify the fields using the ${field-id} format, separated by spaces.
+    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide or [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
     public var logFormat: Swift.String?
     /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
     public var logGroupName: Swift.String?
-    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway and Cloud WAN resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
+    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
     public var maxAggregationInterval: Swift.Int?
     /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 300 for the other resource types.
     /// This member is required.
@@ -21598,7 +21617,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]?
     /// The tags to apply to the flow logs.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
-    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway or Cloud WAN resource types. It is required for the other resource types.
+    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
     public var trafficType: EC2ClientTypes.TrafficType?
 
     public init(
@@ -22012,7 +22031,7 @@ extension EC2ClientTypes {
 
     /// A resource type to include in the report. Associated options can also be specified if the resource type is a launch template.
     public struct ImageUsageResourceTypeRequest: Swift.Sendable {
-        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate
+        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe
         public var resourceType: Swift.String?
         /// The options that affect the scope of the report. Valid only when ResourceType is ec2:LaunchTemplate.
         public var resourceTypeOptions: [EC2ClientTypes.ImageUsageResourceTypeOptionRequest]?
@@ -26067,11 +26086,15 @@ extension EC2ClientTypes {
     public struct LaunchTemplatesMonitoringRequest: Swift.Sendable {
         /// Specify true to enable detailed monitoring. Otherwise, basic monitoring is enabled.
         public var enabled: Swift.Bool?
+        /// The IDs of the metric categories to associate with the instance. To specify metric categories, you must also enable detailed monitoring.
+        public var metricCategoryIds: [Swift.String]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            metricCategoryIds: [Swift.String]? = nil
         ) {
             self.enabled = enabled
+            self.metricCategoryIds = metricCategoryIds
         }
     }
 }
@@ -27281,11 +27304,15 @@ extension EC2ClientTypes {
     public struct LaunchTemplatesMonitoring: Swift.Sendable {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var enabled: Swift.Bool?
+        /// The IDs of the metric categories to associate with the instance.
+        public var metricCategoryIds: [Swift.String]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            metricCategoryIds: [Swift.String]? = nil
         ) {
             self.enabled = enabled
+            self.metricCategoryIds = metricCategoryIds
         }
     }
 }
@@ -28923,6 +28950,64 @@ public struct CreateManagedPrefixListOutput: Swift.Sendable {
         prefixList: EC2ClientTypes.ManagedPrefixList? = nil
     ) {
         self.prefixList = prefixList
+    }
+}
+
+public struct CreateMetricCategoryInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensure Idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The names of the metrics to include in the metric category. Specify each metric by its Amazon CloudWatch metric name or its OpenTelemetry metric name. The two names for a measurement are separate entries, and you can include both. In Regions where Amazon CloudWatch OpenTelemetry metrics aren't available, you can't specify OpenTelemetry metric names.
+    /// This member is required.
+    public var metrics: [Swift.String]?
+    /// The tags to apply to the metric category during creation.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        metrics: [Swift.String]? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.metrics = metrics
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a metric category. A metric category is a set of additional metrics that you can associate with an instance that has detailed monitoring enabled.
+    public struct MetricCategory: Swift.Sendable {
+        /// The ID of the metric category.
+        public var metricCategoryId: Swift.String?
+        /// The names of the metrics in the metric category.
+        public var metrics: [Swift.String]?
+        /// Any tags assigned to the metric category.
+        public var tags: [EC2ClientTypes.Tag]?
+
+        public init(
+            metricCategoryId: Swift.String? = nil,
+            metrics: [Swift.String]? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil
+        ) {
+            self.metricCategoryId = metricCategoryId
+            self.metrics = metrics
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateMetricCategoryOutput: Swift.Sendable {
+    /// Information about the metric category.
+    public var metricCategory: EC2ClientTypes.MetricCategory?
+
+    public init(
+        metricCategory: EC2ClientTypes.MetricCategory? = nil
+    ) {
+        self.metricCategory = metricCategory
     }
 }
 
@@ -37799,10 +37884,14 @@ extension EC2ClientTypes {
 
     /// Describes the configuration settings for VPC Encryption Control. For more information, see [Enforce VPC encryption in transit](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-encryption-controls.html) in the Amazon VPC User Guide.
     public struct VpcEncryptionControlConfiguration: Swift.Sendable {
+        /// Specifies whether to exclude Amazon API Gateway V2 traffic from encryption enforcement.
+        public var apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement.
         public var egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
         public var elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude AWS Global Accelerator traffic from encryption enforcement.
+        public var globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
         public var internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
         /// Specifies whether to exclude Lambda function traffic from encryption enforcement.
@@ -37820,8 +37909,10 @@ extension EC2ClientTypes {
         public var vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
 
         public init(
+            apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+            globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             lambdaExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             mode: EC2ClientTypes.VpcEncryptionControlMode? = nil,
@@ -37830,8 +37921,10 @@ extension EC2ClientTypes {
             vpcLatticeExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
             vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil
         ) {
+            self.apiGatewayV2Exclusion = apiGatewayV2Exclusion
             self.egressOnlyInternetGatewayExclusion = egressOnlyInternetGatewayExclusion
             self.elasticFileSystemExclusion = elasticFileSystemExclusion
+            self.globalAcceleratorExclusion = globalAcceleratorExclusion
             self.internetGatewayExclusion = internetGatewayExclusion
             self.lambdaExclusion = lambdaExclusion
             self.mode = mode
@@ -41864,6 +41957,33 @@ public struct DeleteManagedPrefixListOutput: Swift.Sendable {
         prefixList: EC2ClientTypes.ManagedPrefixList? = nil
     ) {
         self.prefixList = prefixList
+    }
+}
+
+public struct DeleteMetricCategoryInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the metric category.
+    /// This member is required.
+    public var metricCategoryId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        metricCategoryId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.metricCategoryId = metricCategoryId
+    }
+}
+
+public struct DeleteMetricCategoryOutput: Swift.Sendable {
+    /// The ID of the metric category that was deleted.
+    public var metricCategoryId: Swift.String?
+
+    public init(
+        metricCategoryId: Swift.String? = nil
+    ) {
+        self.metricCategoryId = metricCategoryId
     }
 }
 
@@ -52209,7 +52329,7 @@ public struct DescribeImageUsageReportEntriesInput: Swift.Sendable {
     ///
     /// * creation-time - The time when the report was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2025-11-29T11:04:43.305Z. You can use a wildcard (*), for example, 2025-11-29T*, which matches an entire day.
     ///
-    /// * resource-type - The resource type (ec2:Instance | ec2:LaunchTemplate).
+    /// * resource-type - The resource type (ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe).
     public var filters: [EC2ClientTypes.Filter]?
     /// The IDs of the images for filtering the report entries. If specified, only report entries containing these images are returned.
     public var imageIds: [Swift.String]?
@@ -52249,7 +52369,7 @@ extension EC2ClientTypes {
         public var reportCreationTime: Foundation.Date?
         /// The ID of the report.
         public var reportId: Swift.String?
-        /// The type of resource (ec2:Instance or ec2:LaunchTemplate).
+        /// The type of resource (ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe).
         public var resourceType: Swift.String?
         /// The number of times resources of this type reference this image in the account.
         public var usageCount: Swift.Int?
@@ -52349,7 +52469,7 @@ extension EC2ClientTypes {
 
     /// A resource type to include in the report. Associated options can also be specified if the resource type is a launch template.
     public struct ImageUsageResourceType: Swift.Sendable {
-        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate
+        /// The resource type. Valid values: ec2:Instance | ec2:LaunchTemplate | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe
         public var resourceType: Swift.String?
         /// The options that affect the scope of the report. Valid only when ResourceType is ec2:LaunchTemplate.
         public var resourceTypeOptions: [EC2ClientTypes.ImageUsageResourceTypeOption]?
@@ -54283,12 +54403,16 @@ extension EC2ClientTypes {
 
     /// Describes the monitoring of an instance.
     public struct Monitoring: Swift.Sendable {
+        /// The IDs of the metric categories that are associated with the instance.
+        public var metricCategoryIds: [Swift.String]?
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         public var state: EC2ClientTypes.MonitoringState?
 
         public init(
+            metricCategoryIds: [Swift.String]? = nil,
             state: EC2ClientTypes.MonitoringState? = nil
         ) {
+            self.metricCategoryIds = metricCategoryIds
             self.state = state
         }
     }
@@ -59225,6 +59349,50 @@ public struct DescribeManagedPrefixListsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.prefixLists = prefixLists
+    }
+}
+
+public struct DescribeMetricCategoriesInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The filters.
+    ///
+    /// * metric-name - The name of a metric in the metric category.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination). Valid range: 5 - 100.
+    public var maxResults: Swift.Int?
+    /// The IDs of the metric categories. If you specify IDs, you can't specify MaxResults or NextToken.
+    public var metricCategoryIds: [Swift.String]?
+    /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        metricCategoryIds: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.maxResults = maxResults
+        self.metricCategoryIds = metricCategoryIds
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeMetricCategoriesOutput: Swift.Sendable {
+    /// Information about the metric categories.
+    public var metricCategories: [EC2ClientTypes.MetricCategory]?
+    /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        metricCategories: [EC2ClientTypes.MetricCategory]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.metricCategories = metricCategories
+        self.nextToken = nextToken
     }
 }
 
@@ -64260,11 +64428,15 @@ extension EC2ClientTypes {
         /// Indicates whether detailed monitoring is enabled. Otherwise, basic monitoring is enabled.
         /// This member is required.
         public var enabled: Swift.Bool?
+        /// The IDs of the metric categories to associate with the instance. To specify metric categories, you must also enable detailed monitoring.
+        public var metricCategoryIds: [Swift.String]?
 
         public init(
-            enabled: Swift.Bool? = nil
+            enabled: Swift.Bool? = nil,
+            metricCategoryIds: [Swift.String]? = nil
         ) {
             self.enabled = enabled
+            self.metricCategoryIds = metricCategoryIds
         }
     }
 }
@@ -80295,12 +80467,16 @@ public struct LockSnapshotOutput: Swift.Sendable {
 }
 
 public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
+    /// Specifies whether to exclude Amazon API Gateway V2 from account-level encryption enforcement.
+    public var apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// Specifies whether to exclude egress-only internet gateway resource from account-level encryption enforcement.
     public var egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Elastic File System service from account-level encryption enforcement.
     public var elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude AWS Global Accelerator from account-level encryption enforcement.
+    public var globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude internet gateway resource from account-level encryption enforcement.
     public var internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Lambda service from account-level encryption enforcement.
@@ -80317,9 +80493,11 @@ public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
     public var vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
 
     public init(
+        apiGatewayV2: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         dryRun: Swift.Bool? = nil,
         egressOnlyInternetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         elasticFileSystem: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        globalAccelerator: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         internetGateway: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         lambda: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         mode: EC2ClientTypes.AccountVpcEncryptionControlMode? = nil,
@@ -80328,9 +80506,11 @@ public struct ModifyAccountVpcEncryptionControlInput: Swift.Sendable {
         vpcLattice: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         vpcPeering: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil
     ) {
+        self.apiGatewayV2 = apiGatewayV2
         self.dryRun = dryRun
         self.egressOnlyInternetGateway = egressOnlyInternetGateway
         self.elasticFileSystem = elasticFileSystem
+        self.globalAccelerator = globalAccelerator
         self.internetGateway = internetGateway
         self.lambda = lambda
         self.mode = mode
@@ -82883,6 +83063,38 @@ public struct ModifyManagedResourceVisibilityOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyMetricCategoryInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the metric category.
+    /// This member is required.
+    public var metricCategoryId: Swift.String?
+    /// The names of the metrics for the metric category. These metrics replace the existing metrics, and must differ from the current set. Specify each metric by its Amazon CloudWatch metric name or its OpenTelemetry metric name. The two names for a measurement are separate entries, and you can include both. In Regions where Amazon CloudWatch OpenTelemetry metrics aren't available, you can't specify OpenTelemetry metric names.
+    /// This member is required.
+    public var metrics: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        metricCategoryId: Swift.String? = nil,
+        metrics: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.metricCategoryId = metricCategoryId
+        self.metrics = metrics
+    }
+}
+
+public struct ModifyMetricCategoryOutput: Swift.Sendable {
+    /// Information about the metric category.
+    public var metricCategory: EC2ClientTypes.MetricCategory?
+
+    public init(
+        metricCategory: EC2ClientTypes.MetricCategory? = nil
+    ) {
+        self.metricCategory = metricCategory
+    }
+}
+
 extension EC2ClientTypes {
 
     /// Describes an attachment change.
@@ -84940,12 +85152,16 @@ public struct ModifyVpcBlockPublicAccessOptionsOutput: Swift.Sendable {
 }
 
 public struct ModifyVpcEncryptionControlInput: Swift.Sendable {
+    /// Specifies whether to exclude Amazon API Gateway V2 traffic from encryption enforcement.
+    public var apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement.
     public var egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
     public var elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
+    /// Specifies whether to exclude AWS Global Accelerator traffic from encryption enforcement.
+    public var globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
     public var internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
     /// Specifies whether to exclude Lambda function traffic from encryption enforcement.
@@ -84965,9 +85181,11 @@ public struct ModifyVpcEncryptionControlInput: Swift.Sendable {
     public var vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput?
 
     public init(
+        apiGatewayV2Exclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         dryRun: Swift.Bool? = nil,
         egressOnlyInternetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         elasticFileSystemExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
+        globalAcceleratorExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         internetGatewayExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         lambdaExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         mode: EC2ClientTypes.VpcEncryptionControlMode? = nil,
@@ -84977,9 +85195,11 @@ public struct ModifyVpcEncryptionControlInput: Swift.Sendable {
         vpcLatticeExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil,
         vpcPeeringExclusion: EC2ClientTypes.VpcEncryptionControlExclusionStateInput? = nil
     ) {
+        self.apiGatewayV2Exclusion = apiGatewayV2Exclusion
         self.dryRun = dryRun
         self.egressOnlyInternetGatewayExclusion = egressOnlyInternetGatewayExclusion
         self.elasticFileSystemExclusion = elasticFileSystemExclusion
+        self.globalAcceleratorExclusion = globalAcceleratorExclusion
         self.internetGatewayExclusion = internetGatewayExclusion
         self.lambdaExclusion = lambdaExclusion
         self.mode = mode
@@ -85727,13 +85947,17 @@ public struct MonitorInstancesInput: Swift.Sendable {
     /// The IDs of the instances.
     /// This member is required.
     public var instanceIds: [Swift.String]?
+    /// The IDs of the metric categories to associate with the instances. The specified metric categories are added to any metric categories that are already associated with the instances.
+    public var metricCategoryIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
-        instanceIds: [Swift.String]? = nil
+        instanceIds: [Swift.String]? = nil,
+        metricCategoryIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.instanceIds = instanceIds
+        self.metricCategoryIds = metricCategoryIds
     }
 }
 
@@ -90210,13 +90434,17 @@ public struct UnmonitorInstancesInput: Swift.Sendable {
     /// The IDs of the instances.
     /// This member is required.
     public var instanceIds: [Swift.String]?
+    /// The IDs of the metric categories to remove from the instances. If you specify metric categories, only those metric categories are removed and detailed monitoring remains enabled. If you don't specify metric categories, detailed monitoring and all metric categories are turned off.
+    public var metricCategoryIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
-        instanceIds: [Swift.String]? = nil
+        instanceIds: [Swift.String]? = nil,
+        metricCategoryIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.instanceIds = instanceIds
+        self.metricCategoryIds = metricCategoryIds
     }
 }
 
@@ -91302,6 +91530,13 @@ extension CreateManagedPrefixListInput {
     }
 }
 
+extension CreateMetricCategoryInput {
+
+    static func urlPathProvider(_ value: CreateMetricCategoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateNatGatewayInput {
 
     static func urlPathProvider(_ value: CreateNatGatewayInput) -> Swift.String? {
@@ -91991,6 +92226,13 @@ extension DeleteLocalGatewayVirtualInterfaceGroupInput {
 extension DeleteManagedPrefixListInput {
 
     static func urlPathProvider(_ value: DeleteManagedPrefixListInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteMetricCategoryInput {
+
+    static func urlPathProvider(_ value: DeleteMetricCategoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -93181,6 +93423,13 @@ extension DescribeMacModificationTasksInput {
 extension DescribeManagedPrefixListsInput {
 
     static func urlPathProvider(_ value: DescribeManagedPrefixListsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeMetricCategoriesInput {
+
+    static func urlPathProvider(_ value: DescribeMetricCategoriesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -95295,6 +95544,13 @@ extension ModifyManagedPrefixListInput {
 extension ModifyManagedResourceVisibilityInput {
 
     static func urlPathProvider(_ value: ModifyManagedResourceVisibilityInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyMetricCategoryInput {
+
+    static func urlPathProvider(_ value: ModifyMetricCategoryInput) -> Swift.String? {
         return "/"
     }
 }
@@ -98052,6 +98308,23 @@ extension CreateManagedPrefixListInput {
     }
 }
 
+extension CreateMetricCategoryInput {
+
+    static func write(value: CreateMetricCategoryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.metrics?.isEmpty ?? true) {
+            try writer["Metric"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("CreateMetricCategory")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateNatGatewayInput {
 
     static func write(value: CreateNatGatewayInput?, to writer: SmithyFormURL.Writer) throws {
@@ -99627,6 +99900,17 @@ extension DeleteManagedPrefixListInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["PrefixListId"].write(value.prefixListId)
         try writer["Action"].write("DeleteManagedPrefixList")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteMetricCategoryInput {
+
+    static func write(value: DeleteMetricCategoryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MetricCategoryId"].write(value.metricCategoryId)
+        try writer["Action"].write("DeleteMetricCategory")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -102179,6 +102463,24 @@ extension DescribeManagedPrefixListsInput {
             try writer["PrefixListId"].writeList(value.prefixListIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("DescribeManagedPrefixLists")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeMetricCategoriesInput {
+
+    static func write(value: DescribeMetricCategoriesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeMetricCategories")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -106045,9 +106347,11 @@ extension ModifyAccountVpcEncryptionControlInput {
 
     static func write(value: ModifyAccountVpcEncryptionControlInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApiGatewayV2"].write(value.apiGatewayV2)
         try writer["DryRun"].write(value.dryRun)
         try writer["EgressOnlyInternetGateway"].write(value.egressOnlyInternetGateway)
         try writer["ElasticFileSystem"].write(value.elasticFileSystem)
+        try writer["GlobalAccelerator"].write(value.globalAccelerator)
         try writer["InternetGateway"].write(value.internetGateway)
         try writer["Lambda"].write(value.lambda)
         try writer["Mode"].write(value.mode)
@@ -106752,6 +107056,20 @@ extension ModifyManagedResourceVisibilityInput {
     }
 }
 
+extension ModifyMetricCategoryInput {
+
+    static func write(value: ModifyMetricCategoryInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["MetricCategoryId"].write(value.metricCategoryId)
+        if !(value.metrics?.isEmpty ?? true) {
+            try writer["Metric"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("ModifyMetricCategory")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ModifyNetworkInterfaceAttributeInput {
 
     static func write(value: ModifyNetworkInterfaceAttributeInput?, to writer: SmithyFormURL.Writer) throws {
@@ -107242,9 +107560,11 @@ extension ModifyVpcEncryptionControlInput {
 
     static func write(value: ModifyVpcEncryptionControlInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApiGatewayV2Exclusion"].write(value.apiGatewayV2Exclusion)
         try writer["DryRun"].write(value.dryRun)
         try writer["EgressOnlyInternetGatewayExclusion"].write(value.egressOnlyInternetGatewayExclusion)
         try writer["ElasticFileSystemExclusion"].write(value.elasticFileSystemExclusion)
+        try writer["GlobalAcceleratorExclusion"].write(value.globalAcceleratorExclusion)
         try writer["InternetGatewayExclusion"].write(value.internetGatewayExclusion)
         try writer["LambdaExclusion"].write(value.lambdaExclusion)
         try writer["Mode"].write(value.mode)
@@ -107480,6 +107800,9 @@ extension MonitorInstancesInput {
         try writer["DryRun"].write(value.dryRun)
         if !(value.instanceIds?.isEmpty ?? true) {
             try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "InstanceId", isFlattened: true)
+        }
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("MonitorInstances")
         try writer["Version"].write("2016-11-15")
@@ -108600,6 +108923,9 @@ extension UnmonitorInstancesInput {
         try writer["DryRun"].write(value.dryRun)
         if !(value.instanceIds?.isEmpty ?? true) {
             try writer["InstanceId"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "InstanceId", isFlattened: true)
+        }
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("UnmonitorInstances")
         try writer["Version"].write("2016-11-15")
@@ -110126,6 +110452,18 @@ extension CreateManagedPrefixListOutput {
     }
 }
 
+extension CreateMetricCategoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateMetricCategoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateMetricCategoryOutput()
+        value.metricCategory = try reader["metricCategory"].readIfPresent(with: EC2ClientTypes.MetricCategory.read(from:))
+        return value
+    }
+}
+
 extension CreateNatGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNatGatewayOutput {
@@ -111343,6 +111681,18 @@ extension DeleteManagedPrefixListOutput {
         let reader = responseReader
         var value = DeleteManagedPrefixListOutput()
         value.prefixList = try reader["prefixList"].readIfPresent(with: EC2ClientTypes.ManagedPrefixList.read(from:))
+        return value
+    }
+}
+
+extension DeleteMetricCategoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMetricCategoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteMetricCategoryOutput()
+        value.metricCategoryId = try reader["metricCategoryId"].readIfPresent()
         return value
     }
 }
@@ -113436,6 +113786,19 @@ extension DescribeManagedPrefixListsOutput {
         var value = DescribeManagedPrefixListsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.prefixLists = try reader["prefixListSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.ManagedPrefixList.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeMetricCategoriesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetricCategoriesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMetricCategoriesOutput()
+        value.metricCategories = try reader["metricCategorySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.MetricCategory.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -117313,6 +117676,18 @@ extension ModifyManagedResourceVisibilityOutput {
     }
 }
 
+extension ModifyMetricCategoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyMetricCategoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyMetricCategoryOutput()
+        value.metricCategory = try reader["metricCategory"].readIfPresent(with: EC2ClientTypes.MetricCategory.read(from:))
+        return value
+    }
+}
+
 extension ModifyNetworkInterfaceAttributeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyNetworkInterfaceAttributeOutput {
@@ -120286,6 +120661,19 @@ enum CreateManagedPrefixListOutputError {
     }
 }
 
+enum CreateMetricCategoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateNatGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -121561,6 +121949,19 @@ enum DeleteLocalGatewayVirtualInterfaceGroupOutputError {
 }
 
 enum DeleteManagedPrefixListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteMetricCategoryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -123771,6 +124172,19 @@ enum DescribeMacModificationTasksOutputError {
 }
 
 enum DescribeManagedPrefixListsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeMetricCategoriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -127709,6 +128123,19 @@ enum ModifyManagedResourceVisibilityOutputError {
     }
 }
 
+enum ModifyMetricCategoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyNetworkInterfaceAttributeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -129500,6 +129927,8 @@ extension EC2ClientTypes.AccountVpcEncryptionControlExclusions {
         value.lambda = try reader["lambda"].readIfPresent()
         value.vpcLattice = try reader["vpcLattice"].readIfPresent()
         value.elasticFileSystem = try reader["elasticFileSystem"].readIfPresent()
+        value.globalAccelerator = try reader["globalAccelerator"].readIfPresent()
+        value.apiGatewayV2 = try reader["apiGatewayV2"].readIfPresent()
         return value
     }
 }
@@ -136818,6 +137247,7 @@ extension EC2ClientTypes.LaunchTemplatesMonitoring {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.LaunchTemplatesMonitoring()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.metricCategoryIds = try reader["metricCategoryIdSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         return value
     }
 }
@@ -136827,6 +137257,9 @@ extension EC2ClientTypes.LaunchTemplatesMonitoringRequest {
     static func write(value: EC2ClientTypes.LaunchTemplatesMonitoringRequest?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
     }
 }
 
@@ -137332,6 +137765,18 @@ extension EC2ClientTypes.MemoryMiBRequest {
     }
 }
 
+extension EC2ClientTypes.MetricCategory {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.MetricCategory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.MetricCategory()
+        value.metricCategoryId = try reader["metricCategoryId"].readIfPresent()
+        value.metrics = try reader["metricSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension EC2ClientTypes.MetricDataResult {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.MetricDataResult {
@@ -137578,6 +138023,7 @@ extension EC2ClientTypes.Monitoring {
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.Monitoring {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.Monitoring()
+        value.metricCategoryIds = try reader["metricCategoryIdSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
         return value
     }
@@ -139797,11 +140243,15 @@ extension EC2ClientTypes.RunInstancesMonitoringEnabled {
     static func write(value: EC2ClientTypes.RunInstancesMonitoringEnabled?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["Enabled"].write(value.enabled)
+        if !(value.metricCategoryIds?.isEmpty ?? true) {
+            try writer["MetricCategoryId"].writeList(value.metricCategoryIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.RunInstancesMonitoringEnabled {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.RunInstancesMonitoringEnabled()
+        value.metricCategoryIds = try reader["MetricCategoryId"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
         value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
@@ -143212,8 +143662,10 @@ extension EC2ClientTypes.VpcEncryptionControlConfiguration {
 
     static func write(value: EC2ClientTypes.VpcEncryptionControlConfiguration?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["ApiGatewayV2Exclusion"].write(value.apiGatewayV2Exclusion)
         try writer["EgressOnlyInternetGatewayExclusion"].write(value.egressOnlyInternetGatewayExclusion)
         try writer["ElasticFileSystemExclusion"].write(value.elasticFileSystemExclusion)
+        try writer["GlobalAcceleratorExclusion"].write(value.globalAcceleratorExclusion)
         try writer["InternetGatewayExclusion"].write(value.internetGatewayExclusion)
         try writer["LambdaExclusion"].write(value.lambdaExclusion)
         try writer["Mode"].write(value.mode)
@@ -143248,6 +143700,8 @@ extension EC2ClientTypes.VpcEncryptionControlExclusions {
         value.lambda = try reader["lambda"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
         value.vpcLattice = try reader["vpcLattice"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
         value.elasticFileSystem = try reader["elasticFileSystem"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
+        value.globalAccelerator = try reader["globalAccelerator"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
+        value.apiGatewayV2 = try reader["apiGatewayV2"].readIfPresent(with: EC2ClientTypes.VpcEncryptionControlExclusion.read(from:))
         return value
     }
 }

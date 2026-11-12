@@ -747,7 +747,7 @@ extension ConnectClientTypes {
 
     /// Configuration settings for after contact work (ACW) timeout.
     public struct AfterContactWorkConfig: Swift.Sendable {
-        /// The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefinite ACW time.
+        /// The after contact work (ACW) timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). For the CHAT channel, the maximum for a specific duration is 5,400 seconds (90 minutes); higher values end ACW after 90 minutes. For all channels, including chat, you can enter 0 for an indefinite amount of time, meaning agents must manually choose to end ACW.
         public var afterContactWorkTimeLimit: Swift.Int
 
         public init(
@@ -12018,7 +12018,7 @@ extension ConnectClientTypes {
 
     /// Contains information about the phone configuration settings for a user.
     public struct UserPhoneConfig: Swift.Sendable {
-        /// The After Call Work (ACW) timeout setting, in seconds. This parameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). Enter 0 if you don't want to allocate a specific amount of ACW time. It essentially means an indefinite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. When returned by a SearchUsers call, AfterContactWorkTimeLimit is returned in milliseconds.
+        /// The After Call Work (ACW) timeout setting, in seconds. This parameter has a minimum value of 0 and a maximum value of 2,000,000 seconds (24 days). For the CHAT channel, the maximum for a specific duration is 5,400 seconds (90 minutes); higher values end ACW after 90 minutes. For all channels, including chat, you can enter 0 if you don't want to allocate a specific amount of ACW time. It essentially means an indefinite amount of time. When the conversation ends, ACW starts; the agent must choose Close contact to end ACW. When returned by a SearchUsers call, AfterContactWorkTimeLimit is returned in milliseconds.
         public var afterContactWorkTimeLimit: Swift.Int
         /// The Auto accept setting.
         public var autoAccept: Swift.Bool
@@ -26067,6 +26067,10 @@ extension ConnectClientTypes {
         public var integrationAssociationId: Swift.String?
         /// The integration type.
         public var integrationType: ConnectClientTypes.IntegrationType?
+        /// The Amazon Web Services Region where the integration association was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The timestamp when the integration association was last modified.
+        public var lastModifiedTime: Foundation.Date?
         /// The user-provided, friendly name for the external application.
         public var sourceApplicationName: Swift.String?
         /// The URL for the external application.
@@ -26080,6 +26084,8 @@ extension ConnectClientTypes {
             integrationAssociationArn: Swift.String? = nil,
             integrationAssociationId: Swift.String? = nil,
             integrationType: ConnectClientTypes.IntegrationType? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             sourceApplicationName: Swift.String? = nil,
             sourceApplicationUrl: Swift.String? = nil,
             sourceType: ConnectClientTypes.SourceType? = nil
@@ -26089,6 +26095,8 @@ extension ConnectClientTypes {
             self.integrationAssociationArn = integrationAssociationArn
             self.integrationAssociationId = integrationAssociationId
             self.integrationType = integrationType
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
             self.sourceApplicationName = sourceApplicationName
             self.sourceApplicationUrl = sourceApplicationUrl
             self.sourceType = sourceType
@@ -38124,7 +38132,7 @@ public struct UpdateTrafficDistributionOutput: Swift.Sendable {
 }
 
 public struct UpdateUserConfigInput: Swift.Sendable {
-    /// The list of after contact work (ACW) timeout configuration settings for each channel. ACW timeout specifies how many seconds agents have for after contact work, such as entering notes about the contact. The minimum setting is 1 second, and the maximum is 2,000,000 seconds (24 days). Enter 0 for an indefinite amount of time, meaning agents must manually choose to end ACW.
+    /// The list of after contact work (ACW) timeout configuration settings for each channel. ACW timeout specifies how many seconds agents have for after contact work, such as entering notes about the contact. The minimum setting is 1 second, and the maximum is 2,000,000 seconds (24 days). For the CHAT channel, the maximum for a specific duration is 5,400 seconds (90 minutes); higher values end ACW after 90 minutes. For all channels, including chat, you can enter 0 for an indefinite amount of time, meaning agents must manually choose to end ACW.
     public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
     /// The list of auto-accept configuration settings for each channel. When auto-accept is enabled for a channel, available agents are automatically connected to contacts from that channel without needing to manually accept. Auto-accept connects agents to contacts in less than one second.
     public var autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]?
@@ -67229,6 +67237,8 @@ extension ConnectClientTypes.IntegrationAssociationSummary {
         value.sourceApplicationUrl = try reader["SourceApplicationUrl"].readIfPresent()
         value.sourceApplicationName = try reader["SourceApplicationName"].readIfPresent()
         value.sourceType = try reader["SourceType"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         return value
     }
 }

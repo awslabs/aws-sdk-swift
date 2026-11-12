@@ -827,6 +827,7 @@ extension LightsailClientTypes {
         case relationaldatabase
         case relationaldatabasesnapshot
         case staticip
+        case subdomain
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -850,7 +851,8 @@ extension LightsailClientTypes {
                 .peeredvpc,
                 .relationaldatabase,
                 .relationaldatabasesnapshot,
-                .staticip
+                .staticip,
+                .subdomain
             ]
         }
 
@@ -881,6 +883,7 @@ extension LightsailClientTypes {
             case .relationaldatabase: return "RelationalDatabase"
             case .relationaldatabasesnapshot: return "RelationalDatabaseSnapshot"
             case .staticip: return "StaticIp"
+            case .subdomain: return "Subdomain"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1493,6 +1496,7 @@ extension LightsailClientTypes {
         case createrelationaldatabase
         case createrelationaldatabasefromsnapshot
         case createrelationaldatabasesnapshot
+        case createsubdomain
         case deletealarm
         case deletebucket
         case deletebucketaccesskey
@@ -1512,6 +1516,7 @@ extension LightsailClientTypes {
         case deleteloadbalancertlscertificate
         case deleterelationaldatabase
         case deleterelationaldatabasesnapshot
+        case deletesubdomain
         case detachcertificatefromdistribution
         case detachdisk
         case detachinstancesfromloadbalancer
@@ -1550,6 +1555,7 @@ extension LightsailClientTypes {
         case updateloadbalancerattribute
         case updaterelationaldatabase
         case updaterelationaldatabaseparameters
+        case updatesubdomainassociation
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OperationType] {
@@ -1581,6 +1587,7 @@ extension LightsailClientTypes {
                 .createrelationaldatabase,
                 .createrelationaldatabasefromsnapshot,
                 .createrelationaldatabasesnapshot,
+                .createsubdomain,
                 .deletealarm,
                 .deletebucket,
                 .deletebucketaccesskey,
@@ -1600,6 +1607,7 @@ extension LightsailClientTypes {
                 .deleteloadbalancertlscertificate,
                 .deleterelationaldatabase,
                 .deleterelationaldatabasesnapshot,
+                .deletesubdomain,
                 .detachcertificatefromdistribution,
                 .detachdisk,
                 .detachinstancesfromloadbalancer,
@@ -1637,7 +1645,8 @@ extension LightsailClientTypes {
                 .updateinstancemetadataoptions,
                 .updateloadbalancerattribute,
                 .updaterelationaldatabase,
-                .updaterelationaldatabaseparameters
+                .updaterelationaldatabaseparameters,
+                .updatesubdomainassociation
             ]
         }
 
@@ -1675,6 +1684,7 @@ extension LightsailClientTypes {
             case .createrelationaldatabase: return "CreateRelationalDatabase"
             case .createrelationaldatabasefromsnapshot: return "CreateRelationalDatabaseFromSnapshot"
             case .createrelationaldatabasesnapshot: return "CreateRelationalDatabaseSnapshot"
+            case .createsubdomain: return "CreateSubdomain"
             case .deletealarm: return "DeleteAlarm"
             case .deletebucket: return "DeleteBucket"
             case .deletebucketaccesskey: return "DeleteBucketAccessKey"
@@ -1694,6 +1704,7 @@ extension LightsailClientTypes {
             case .deleteloadbalancertlscertificate: return "DeleteLoadBalancerTlsCertificate"
             case .deleterelationaldatabase: return "DeleteRelationalDatabase"
             case .deleterelationaldatabasesnapshot: return "DeleteRelationalDatabaseSnapshot"
+            case .deletesubdomain: return "DeleteSubdomain"
             case .detachcertificatefromdistribution: return "DetachCertificateFromDistribution"
             case .detachdisk: return "DetachDisk"
             case .detachinstancesfromloadbalancer: return "DetachInstancesFromLoadBalancer"
@@ -1732,6 +1743,7 @@ extension LightsailClientTypes {
             case .updateloadbalancerattribute: return "UpdateLoadBalancerAttribute"
             case .updaterelationaldatabase: return "UpdateRelationalDatabase"
             case .updaterelationaldatabaseparameters: return "UpdateRelationalDatabaseParameters"
+            case .updatesubdomainassociation: return "UpdateSubdomainAssociation"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3327,6 +3339,41 @@ extension LightsailClientTypes {
             self.domainName = domainName
             self.tags = tags
         }
+    }
+}
+
+public struct CheckSubdomainAvailabilityInput: Swift.Sendable {
+    /// Specifies whether to reserve the subdomain for your account if it's available. A reservation holds the subdomain for 15 minutes so that other accounts can't create it. Checking the subdomain again doesn't extend the reservation. For a nested subdomain, such as blog.mysite, the top-level subdomain (mysite) is reserved. You can have up to 5 active reservations at a time.
+    public var reserve: Swift.Bool?
+    /// The subdomain to check (for example, mysite or blog.mysite). A subdomain can contain one or two labels separated by a period (.). Each label must start and end with a lowercase letter or a number, and can contain only lowercase letters, numbers, and hyphens (-). The name can be up to 39 characters long, including periods. Labels that start with xn-- aren't supported, and some names are reserved. Specify only the subdomain. A web address, such as mysite.amazonlightsail.com, isn't accepted.
+    /// This member is required.
+    public var subdomainName: Swift.String?
+
+    public init(
+        reserve: Swift.Bool? = nil,
+        subdomainName: Swift.String? = nil
+    ) {
+        self.reserve = reserve
+        self.subdomainName = subdomainName
+    }
+}
+
+public struct CheckSubdomainAvailabilityOutput: Swift.Sendable {
+    /// A Boolean value that indicates whether the subdomain is available to create.
+    public var available: Swift.Bool?
+    /// The timestamp when the reservation of the subdomain expires. The expiry is returned only when your account holds an active reservation for the subdomain.
+    public var reservationExpiresAt: Foundation.Date?
+    /// The subdomain that was checked.
+    public var subdomainName: Swift.String?
+
+    public init(
+        available: Swift.Bool? = nil,
+        reservationExpiresAt: Foundation.Date? = nil,
+        subdomainName: Swift.String? = nil
+    ) {
+        self.available = available
+        self.reservationExpiresAt = reservationExpiresAt
+        self.subdomainName = subdomainName
     }
 }
 
@@ -5584,6 +5631,8 @@ public struct CreateDistributionInput: Swift.Sendable {
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
     /// This member is required.
     public var origin: LightsailClientTypes.InputOrigin?
+    /// The Lightsail subdomain to create and associate with the distribution (for example, mysite, for the web address mysite.amazonlightsail.com). After the distribution is deployed, Lightsail creates the subdomain and associates it with the distribution. If Lightsail can't create or associate the subdomain, it still creates the distribution, but the CreateDistribution operation fails and the state of the distribution's subdomain is Error. To check the status, use the subdomain parameter of the distribution.
+    public var subdomainName: Swift.String?
     /// The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
     /// The minimum TLS protocol version for the SSL/TLS certificate.
@@ -5608,6 +5657,7 @@ public struct CreateDistributionInput: Swift.Sendable {
         enableWaf: Swift.Bool? = nil,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
+        subdomainName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
         viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil,
         wafRules: [LightsailClientTypes.WafRule]? = nil
@@ -5624,6 +5674,7 @@ public struct CreateDistributionInput: Swift.Sendable {
         self.enableWaf = enableWaf
         self.ipAddressType = ipAddressType
         self.origin = origin
+        self.subdomainName = subdomainName
         self.tags = tags
         self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
         self.wafRules = wafRules
@@ -5671,6 +5722,78 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
+    public enum LightsailDistributionSubdomainStateEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attached
+        case attaching
+        case creating
+        case error
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LightsailDistributionSubdomainStateEnum] {
+            return [
+                .attached,
+                .attaching,
+                .creating,
+                .error
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attached: return "Attached"
+            case .attaching: return "Attaching"
+            case .creating: return "Creating"
+            case .error: return "Error"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the Lightsail subdomain of a distribution. The distribution is reachable at the subdomain's web address, which is the subdomain followed by amazonlightsail.com.
+    public struct LightsailDistributionSubdomain: Swift.Sendable {
+        /// The error code that describes why the subdomain is in the Error state.
+        public var errorCode: Swift.String?
+        /// The details of the error that caused the subdomain to be in the Error state.
+        public var errorDetails: Swift.String?
+        /// The subdomain (for example, mysite), not its web address.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The state of the subdomain for the distribution. The following states are possible:
+        ///
+        /// * Creating – The subdomain is being created.
+        ///
+        /// * Attaching – The subdomain is being associated with the distribution.
+        ///
+        /// * Attached – The subdomain is associated with the distribution.
+        ///
+        /// * Error – The subdomain couldn't be created or associated with the distribution. For more information, see the errorCode and errorDetails parameters.
+        /// This member is required.
+        public var state: LightsailClientTypes.LightsailDistributionSubdomainStateEnum?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorDetails: Swift.String? = nil,
+            name: Swift.String? = nil,
+            state: LightsailClientTypes.LightsailDistributionSubdomainStateEnum? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorDetails = errorDetails
+            self.name = name
+            self.state = state
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
     /// Describes the Web Application Firewall (WAF) configuration of a Lightsail distribution.
     public struct WafConfig: Swift.Sendable {
         /// Specifies whether WAF is enabled for the distribution.
@@ -5708,11 +5831,11 @@ extension LightsailClientTypes {
         public var certificateName: Swift.String?
         /// The timestamp when the distribution was created.
         public var createdAt: Foundation.Date?
-        /// An array of objects that describe the custom error responses configured for the distribution.
+        /// An array of objects that describe the custom error responses configured for the distribution. This value is returned only when you specify distributionName in your GetDistributions request. It isn't included in the response when you list all of your distributions.
         public var customErrorResponses: [LightsailClientTypes.DistributionCustomErrorResponse]?
         /// An object that describes the default cache behavior of the distribution.
         public var defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
-        /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object.
+        /// The object (for example, index.html) that the distribution returns when a viewer requests the root URL of the distribution (/) instead of a specific object. This value is returned only when you specify distributionName in your GetDistributions request. It isn't included in the response when you list all of your distributions.
         public var defaultRootObject: Swift.String?
         /// The domain name of the distribution.
         public var domainName: Swift.String?
@@ -5732,6 +5855,8 @@ extension LightsailClientTypes {
         public var resourceType: LightsailClientTypes.ResourceType?
         /// The status of the distribution.
         public var status: Swift.String?
+        /// An object that describes the Lightsail subdomain that's associated with the distribution, or is being associated with it.
+        public var subdomain: LightsailClientTypes.LightsailDistributionSubdomain?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail distribution. This code enables our support team to look up your Lightsail information more easily.
         public var supportCode: Swift.String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags).
@@ -5762,6 +5887,7 @@ extension LightsailClientTypes {
             originPublicDNS: Swift.String? = nil,
             resourceType: LightsailClientTypes.ResourceType? = nil,
             status: Swift.String? = nil,
+            subdomain: LightsailClientTypes.LightsailDistributionSubdomain? = nil,
             supportCode: Swift.String? = nil,
             tags: [LightsailClientTypes.Tag]? = nil,
             viewerMinimumTlsProtocolVersion: Swift.String? = nil,
@@ -5787,6 +5913,7 @@ extension LightsailClientTypes {
             self.originPublicDNS = originPublicDNS
             self.resourceType = resourceType
             self.status = status
+            self.subdomain = subdomain
             self.supportCode = supportCode
             self.tags = tags
             self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
@@ -6621,6 +6748,92 @@ public struct CreateRelationalDatabaseSnapshotOutput: Swift.Sendable {
     }
 }
 
+public struct CreateSubdomainInput: Swift.Sendable {
+    /// The subdomain to create (for example, mysite or blog.mysite). A subdomain can contain one or two labels separated by a period (.). Each label must start and end with a lowercase letter or a number, and can contain only lowercase letters, numbers, and hyphens (-). The name can be up to 39 characters long, including periods. Labels that start with xn-- aren't supported, and some names are reserved. Specify only the subdomain. A web address, such as mysite.amazonlightsail.com, isn't accepted. To create a nested subdomain, you must own the top-level subdomain or be able to create it.
+    /// This member is required.
+    public var subdomainName: Swift.String?
+    /// The tag keys and optional values to add to the subdomain during create. Use the TagResource action to tag a resource after it's created.
+    public var tags: [LightsailClientTypes.Tag]?
+
+    public init(
+        subdomainName: Swift.String? = nil,
+        tags: [LightsailClientTypes.Tag]? = nil
+    ) {
+        self.subdomainName = subdomainName
+        self.tags = tags
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes a Lightsail resource that a subdomain is associated with, or is being associated with.
+    public struct SubdomainAttachableResource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource.
+        public var arn: Swift.String?
+        /// The timestamp when the subdomain was associated with the resource.
+        public var attachedAt: Foundation.Date?
+        /// The name of the resource.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            attachedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.attachedAt = attachedAt
+            self.name = name
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum SubdomainState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attached
+        case attaching
+        case createFailed
+        case creating
+        case detaching
+        case implicit
+        case transferring
+        case unattached
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubdomainState] {
+            return [
+                .attached,
+                .attaching,
+                .createFailed,
+                .creating,
+                .detaching,
+                .implicit,
+                .transferring,
+                .unattached
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attached: return "ATTACHED"
+            case .attaching: return "ATTACHING"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .detaching: return "DETACHING"
+            case .implicit: return "IMPLICIT"
+            case .transferring: return "TRANSFERRING"
+            case .unattached: return "UNATTACHED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DeleteAlarmInput: Swift.Sendable {
     /// The name of the alarm to delete.
     /// This member is required.
@@ -7156,6 +7369,18 @@ public struct DeleteRelationalDatabaseSnapshotOutput: Swift.Sendable {
         operations: [LightsailClientTypes.Operation]? = nil
     ) {
         self.operations = operations
+    }
+}
+
+public struct DeleteSubdomainInput: Swift.Sendable {
+    /// The subdomain to delete (for example, mysite or blog.mysite), not its web address.
+    /// This member is required.
+    public var subdomainName: Swift.String?
+
+    public init(
+        subdomainName: Swift.String? = nil
+    ) {
+        self.subdomainName = subdomainName
     }
 }
 
@@ -13172,6 +13397,21 @@ public struct GetStaticIpsOutput: Swift.Sendable {
     }
 }
 
+public struct GetSubdomainsInput: Swift.Sendable {
+    /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetSubdomains request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+    public var pageToken: Swift.String?
+    /// The subdomain for which to return information (for example, mysite or blog.mysite), not its web address. When omitted, the response includes all of your subdomains. You can't specify this parameter together with the pageToken parameter.
+    public var subdomainName: Swift.String?
+
+    public init(
+        pageToken: Swift.String? = nil,
+        subdomainName: Swift.String? = nil
+    ) {
+        self.pageToken = pageToken
+        self.subdomainName = subdomainName
+    }
+}
+
 public struct ImportKeyPairInput: Swift.Sendable {
     /// The name of the key pair for which you want to import the public key.
     /// This member is required.
@@ -14428,6 +14668,200 @@ public struct UpdateRelationalDatabaseParametersOutput: Swift.Sendable {
         operations: [LightsailClientTypes.Operation]? = nil
     ) {
         self.operations = operations
+    }
+}
+
+extension LightsailClientTypes {
+
+    public enum SubdomainAssociationAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associate
+        case disassociate
+        case transfer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SubdomainAssociationAction] {
+            return [
+                .associate,
+                .disassociate,
+                .transfer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associate: return "ASSOCIATE"
+            case .disassociate: return "DISASSOCIATE"
+            case .transfer: return "TRANSFER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateSubdomainAssociationInput: Swift.Sendable {
+    /// The association change to make. The following actions are possible:
+    ///
+    /// * ASSOCIATE – Associates the subdomain with the resource that you specify in the targetResourceArn parameter. The subdomain must be in the UNATTACHED state.
+    ///
+    /// * DISASSOCIATE – Disassociates the subdomain from its current resource. The subdomain must be in the ATTACHED state.
+    ///
+    /// * TRANSFER – Moves the subdomain from its current resource to the resource that you specify in the targetResourceArn parameter. The subdomain must be in the ATTACHED state. You can transfer each subdomain only once in a 24-hour period.
+    /// This member is required.
+    public var action: LightsailClientTypes.SubdomainAssociationAction?
+    /// The subdomain to update (for example, mysite or blog.mysite), not its web address.
+    /// This member is required.
+    public var subdomainName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource to associate the subdomain with. The resource must be in your account. This parameter is required when the action is ASSOCIATE or TRANSFER. It's ignored when the action is DISASSOCIATE.
+    public var targetResourceArn: Swift.String?
+
+    public init(
+        action: LightsailClientTypes.SubdomainAssociationAction? = nil,
+        subdomainName: Swift.String? = nil,
+        targetResourceArn: Swift.String? = nil
+    ) {
+        self.action = action
+        self.subdomainName = subdomainName
+        self.targetResourceArn = targetResourceArn
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes a Lightsail subdomain. A subdomain is the name that you choose, such as mysite or blog.mysite. Its web address is the subdomain followed by amazonlightsail.com, such as blog.mysite.amazonlightsail.com. You can associate a subdomain with a Lightsail resource to make the resource reachable at the web address.
+    public struct Subdomain: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the subdomain. If you create a subdomain with a depth of 2, such as blog.mysite, without first creating the subdomain with a depth of 1 (mysite), Lightsail holds mysite for your account in the IMPLICIT state. It doesn't have an ARN until you create a subdomain with that name.
+        public var arn: Swift.String?
+        /// An object that describes the resource that the subdomain is associated with. When the subdomain is in the TRANSFERRING state, this is the resource that the subdomain is being moved from.
+        public var attachedResource: LightsailClientTypes.SubdomainAttachableResource?
+        /// An object that describes the resource that the subdomain is being associated with. This parameter is returned only when the subdomain is in the ATTACHING or TRANSFERRING state.
+        public var attachingResource: LightsailClientTypes.SubdomainAttachableResource?
+        /// An array of objects that describe the nested subdomains of the subdomain. This parameter is returned only by the GetSubdomains action when you don't specify a subdomain.
+        public var children: [LightsailClientTypes.Subdomain]?
+        /// The timestamp when the subdomain was created.
+        public var createdAt: Foundation.Date?
+        /// The number of labels in the subdomain. A top-level subdomain, such as mysite, has a depth of 1. A nested subdomain, such as blog.mysite, has a depth of 2.
+        public var depth: Swift.Int?
+        /// The web address of the subdomain, which is the subdomain followed by amazonlightsail.com (for example, blog.mysite.amazonlightsail.com).
+        public var fqdn: Swift.String?
+        /// An object that describes the location of the subdomain, such as the AWS Region.
+        public var location: LightsailClientTypes.ResourceLocation?
+        /// The web address of the parent subdomain (for example, mysite.amazonlightsail.com for blog.mysite). This parameter isn't returned for a subdomain with a depth of 1.
+        public var parentFqdn: Swift.String?
+        /// The state of the subdomain. The following states are possible:
+        ///
+        /// * CREATING – The subdomain is being created.
+        ///
+        /// * CREATE_FAILED – The subdomain couldn't be created. Delete the subdomain, and then create it again if the name is still available.
+        ///
+        /// * UNATTACHED – The subdomain is ready, and isn't associated with a resource.
+        ///
+        /// * ATTACHING – The subdomain is being associated with a resource.
+        ///
+        /// * ATTACHED – The subdomain is associated with a resource, and routes traffic to it.
+        ///
+        /// * DETACHING – The subdomain is being disassociated from a resource.
+        ///
+        /// * TRANSFERRING – The subdomain is being moved from one resource to another resource.
+        ///
+        /// * IMPLICIT – The subdomain is the parent of one or more nested subdomains that you created, but you didn't create the parent subdomain itself. You can't associate or delete a subdomain in this state. To use it, create it with the CreateSubdomain action.
+        public var state: LightsailClientTypes.SubdomainState?
+        /// The subdomain (for example, mysite or blog.mysite). To get the web address, use the fqdn parameter.
+        public var subdomainName: Swift.String?
+        /// The tag keys and optional values for the subdomain. For more information about tags in Lightsail, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags). This parameter is returned only by the GetSubdomains action when you specify a subdomain.
+        public var tags: [LightsailClientTypes.Tag]?
+
+        public init(
+            arn: Swift.String? = nil,
+            attachedResource: LightsailClientTypes.SubdomainAttachableResource? = nil,
+            attachingResource: LightsailClientTypes.SubdomainAttachableResource? = nil,
+            children: [LightsailClientTypes.Subdomain]? = nil,
+            createdAt: Foundation.Date? = nil,
+            depth: Swift.Int? = nil,
+            fqdn: Swift.String? = nil,
+            location: LightsailClientTypes.ResourceLocation? = nil,
+            parentFqdn: Swift.String? = nil,
+            state: LightsailClientTypes.SubdomainState? = nil,
+            subdomainName: Swift.String? = nil,
+            tags: [LightsailClientTypes.Tag]? = nil
+        ) {
+            self.arn = arn
+            self.attachedResource = attachedResource
+            self.attachingResource = attachingResource
+            self.children = children
+            self.createdAt = createdAt
+            self.depth = depth
+            self.fqdn = fqdn
+            self.location = location
+            self.parentFqdn = parentFqdn
+            self.state = state
+            self.subdomainName = subdomainName
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateSubdomainOutput: Swift.Sendable {
+    /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+    public var operation: LightsailClientTypes.Operation?
+    /// An object that describes the subdomain that was created.
+    public var subdomain: LightsailClientTypes.Subdomain?
+
+    public init(
+        operation: LightsailClientTypes.Operation? = nil,
+        subdomain: LightsailClientTypes.Subdomain? = nil
+    ) {
+        self.operation = operation
+        self.subdomain = subdomain
+    }
+}
+
+public struct DeleteSubdomainOutput: Swift.Sendable {
+    /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+    public var operation: LightsailClientTypes.Operation?
+    /// An object that describes the top-level subdomain in the IMPLICIT state. This parameter is returned only when you delete a top-level subdomain that has nested subdomains.
+    public var subdomain: LightsailClientTypes.Subdomain?
+
+    public init(
+        operation: LightsailClientTypes.Operation? = nil,
+        subdomain: LightsailClientTypes.Subdomain? = nil
+    ) {
+        self.operation = operation
+        self.subdomain = subdomain
+    }
+}
+
+public struct GetSubdomainsOutput: Swift.Sendable {
+    /// The token to advance to the next page of results from your request. A next page token is not returned if there are no more results to display. To get the next page of results, perform another GetSubdomains request and specify the next page token using the pageToken parameter.
+    public var nextPageToken: Swift.String?
+    /// An array of objects that describe your subdomains.
+    public var subdomains: [LightsailClientTypes.Subdomain]?
+
+    public init(
+        nextPageToken: Swift.String? = nil,
+        subdomains: [LightsailClientTypes.Subdomain]? = nil
+    ) {
+        self.nextPageToken = nextPageToken
+        self.subdomains = subdomains
+    }
+}
+
+public struct UpdateSubdomainAssociationOutput: Swift.Sendable {
+    /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
+    public var operation: LightsailClientTypes.Operation?
+    /// An object that describes the subdomain that was updated.
+    public var subdomain: LightsailClientTypes.Subdomain?
+
+    public init(
+        operation: LightsailClientTypes.Operation? = nil,
+        subdomain: LightsailClientTypes.Subdomain? = nil
+    ) {
+        self.operation = operation
+        self.subdomain = subdomain
     }
 }
 

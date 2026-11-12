@@ -855,7 +855,7 @@ extension Route53Client {
 
     /// Performs the `ChangeResourceRecordSets` operation on the `Route53` service.
     ///
-    /// Creates, changes, or deletes a resource record set, which contains authoritative DNS information for a specified domain name or subdomain name. For example, you can use ChangeResourceRecordSets to create a resource record set that routes traffic for test.example.com to a web server that has an IP address of 192.0.2.44. Deleting Resource Record Sets To delete a resource record set, you must specify all the same values that you specified when you created it. Change Batches and Transactional Changes The request body must include a document with a ChangeResourceRecordSetsRequest element. The request body contains a list of change items, known as a change batch. Change batches are considered transactional changes. Route 53 validates the changes in the request and then either makes all or none of the changes in the change batch request. This ensures that DNS routing isn't adversely affected by partial changes to the resource record sets in a hosted zone. For example, suppose a change batch request contains two changes: it deletes the CNAME resource record set for www.example.com and creates an alias resource record set for www.example.com. If validation for both records succeeds, Route 53 deletes the first resource record set and creates the second resource record set in a single operation. If validation for either the DELETE or the CREATE action fails, then the request is canceled, and the original CNAME record continues to exist. If you try to delete the same resource record set more than once in a single change batch, Route 53 returns an InvalidChangeBatch error. Traffic Flow To create resource record sets for complex routing configurations, use either the traffic flow visual editor in the Route 53 console or the API actions for traffic policies and traffic policy instances. Save the configuration as a traffic policy, then associate the traffic policy with one or more domain names (such as example.com) or subdomain names (such as www.example.com), in the same hosted zone or in multiple hosted zones. You can roll back the updates if the new configuration isn't performing as expected. For more information, see [Using Traffic Flow to Route DNS Traffic](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html) in the Amazon Route 53 Developer Guide. Create, Delete, and Upsert Use ChangeResourceRecordsSetsRequest to perform the following actions:
+    /// Creates, changes, or deletes a resource record set, which contains authoritative DNS information for a specified domain name or subdomain name. For example, you can use ChangeResourceRecordSets to create a resource record set that routes traffic for test.example.com to a web server that has an IP address of 192.0.2.44. Deleting Resource Record Sets To delete a resource record set, you must specify all the same values that you specified when you created it. Change Batches and Transactional Changes The request body must include a document with a ChangeResourceRecordSetsRequest element. The request body contains a list of change items, known as a change batch. Change batches are considered transactional changes. Route 53 validates the changes in the request and then either makes all or none of the changes in the change batch request. This ensures that DNS routing isn't adversely affected by partial changes to the resource record sets in a hosted zone. For example, suppose a change batch request contains two changes: it deletes the CNAME resource record set for www.example.com and creates an alias resource record set for www.example.com. If validation for both records succeeds, Route 53 deletes the first resource record set and creates the second resource record set in a single operation. If validation for either the DELETE or the CREATE action fails, then the request is canceled, and the original CNAME record continues to exist. If you try to delete the same resource record set more than once in a single change batch, Route 53 returns an InvalidChangeBatch error. Protected Resource Record Sets If a resource record set protection exists for a name and type, Route 53 rejects any change in the change batch that creates, updates, or deletes a resource record set with that name and type. Because change batches are transactional, Route 53 rejects the entire request and returns an InvalidChangeBatch error. Route 53 identifies each protected resource record set in the error message and includes the protection's comment, if any. To make the change, first delete the protection by using DeleteResourceRecordSetProtections. To see which resource record sets are protected, use ListResourceRecordSetProtections. Traffic Flow To create resource record sets for complex routing configurations, use either the traffic flow visual editor in the Route 53 console or the API actions for traffic policies and traffic policy instances. Save the configuration as a traffic policy, then associate the traffic policy with one or more domain names (such as example.com) or subdomain names (such as www.example.com), in the same hosted zone or in multiple hosted zones. You can roll back the updates if the new configuration isn't performing as expected. For more information, see [Using Traffic Flow to Route DNS Traffic](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html) in the Amazon Route 53 Developer Guide. Create, Delete, and Upsert Use ChangeResourceRecordsSetsRequest to perform the following actions:
     ///
     /// * CREATE: Creates a resource record set that has the specified values.
     ///
@@ -873,7 +873,7 @@ extension Route53Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidChangeBatch` : This exception contains a list of messages that might contain one or more error messages. Each error message indicates one error in the change batch.
+    /// - `InvalidChangeBatch` : This exception contains a list of messages that might contain one or more error messages. Each error message indicates one error in the change batch. Route 53 also returns this error when the change batch creates, updates, or deletes a resource record set whose name and type have a resource record set protection. To make the change, first delete the protection by using DeleteResourceRecordSetProtections.
     /// - `InvalidInput` : The input is not valid.
     /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
@@ -1447,6 +1447,87 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateQueryLoggingConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateResourceRecordSetProtections` operation on the `Route53` service.
+    ///
+    /// Creates one or more resource record set protections in a hosted zone. A protection applies to every resource record set in the hosted zone that has the specified name and type. While a protection exists, Route 53 rejects any ChangeResourceRecordSets request that creates, updates, or deletes a resource record set with that name and type, and returns an InvalidChangeBatch error. To change a protected resource record set, first delete its protection by using DeleteResourceRecordSetProtections. You can create a protection for a name and type that doesn't have a resource record set yet. In that case, Route 53 also rejects requests to create that resource record set. You can't delete a hosted zone that has protections. To delete the hosted zone, first delete all of its protections by using DeleteResourceRecordSetProtections. The request is atomic. Route 53 either creates all of the protections in the request or none of them. If one or more entries fail, the response is an error that lists the failing entries and the reason that each one failed. Route 53 checks for invalid entries before it checks for existing protections, so if any entry is invalid, the error lists only the invalid entries. The error that Route 53 returns depends on the failures:
+    ///
+    /// * If every entry already has a protection, Route 53 returns a ProtectionAlreadyExists error.
+    ///
+    /// * For any other combination of failures, Route 53 returns an InvalidResourceRecordSetProtectionBatch error.
+    ///
+    ///
+    /// You can specify up to 100 protections in one request. The number of protections that you can have in a hosted zone is limited by a quota. If the request would exceed that quota, Route 53 returns a LimitsExceeded error.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceRecordSetProtectionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateResourceRecordSetProtectionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidResourceRecordSetProtectionBatch` : One or more entries in the request couldn't be processed, so Route 53 didn't create or delete any of the protections in the request. The Errors element lists the failing entries and the reason that each one failed.
+    /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    /// - `ProtectionAlreadyExists` : A protection already exists for every name and type in the request, so Route 53 didn't create any protections. The Errors element lists each entry.
+    public func createResourceRecordSetProtections(input: CreateResourceRecordSetProtectionsInput) async throws -> CreateResourceRecordSetProtectionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createResourceRecordSetProtections")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>(CreateResourceRecordSetProtectionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput, SmithyXML.Writer>(rootNodeInfo: .init("CreateResourceRecordSetProtectionsRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: CreateResourceRecordSetProtectionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceRecordSetProtectionsOutput>(CreateResourceRecordSetProtectionsOutput.httpOutput(from:), CreateResourceRecordSetProtectionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceRecordSetProtectionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateResourceRecordSetProtectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateResourceRecordSetProtectionsInput, CreateResourceRecordSetProtectionsOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateResourceRecordSetProtections")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2051,7 +2132,7 @@ extension Route53Client {
 
     /// Performs the `DeleteHostedZone` operation on the `Route53` service.
     ///
-    /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see [Deleting Public Hosted Zones That Were Created by Another Service](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service) in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop routing internet traffic to your website or web application, we recommend that you delete resource record sets in the hosted zone instead of deleting the hosted zone. If you delete a hosted zone, you can't undelete it. You must create a new hosted zone and update the name servers for your domain registration, which can require up to 48 hours to take effect. (If you delegated responsibility for a subdomain to a hosted zone and you delete the child hosted zone, you must update the name servers in the parent hosted zone.) In addition, if you delete a hosted zone, someone could hijack the domain and route traffic to their own resources using your domain name. If you want to avoid the monthly charge for the hosted zone, you can transfer DNS service for the domain to a free DNS service. When you transfer DNS service, you have to update the name servers for the domain registration. If the domain is registered with Route 53, see [UpdateDomainNameservers](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html) for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is registered with another registrar, use the method provided by the registrar to update name servers for the domain registration. For more information, perform an internet search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA and NS records and has DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC enabled, you must delete the records and disable DNSSEC before deletion. Attempting to delete a hosted zone with additional records or DNSSEC enabled returns a HostedZoneNotEmpty error. For information about deleting records, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). To verify that the hosted zone has been deleted, do one of the following:
+    /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see [Deleting Public Hosted Zones That Were Created by Another Service](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service) in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop routing internet traffic to your website or web application, we recommend that you delete resource record sets in the hosted zone instead of deleting the hosted zone. If you delete a hosted zone, you can't undelete it. You must create a new hosted zone and update the name servers for your domain registration, which can require up to 48 hours to take effect. (If you delegated responsibility for a subdomain to a hosted zone and you delete the child hosted zone, you must update the name servers in the parent hosted zone.) In addition, if you delete a hosted zone, someone could hijack the domain and route traffic to their own resources using your domain name. If you want to avoid the monthly charge for the hosted zone, you can transfer DNS service for the domain to a free DNS service. When you transfer DNS service, you have to update the name servers for the domain registration. If the domain is registered with Route 53, see [UpdateDomainNameservers](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html) for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is registered with another registrar, use the method provided by the registrar to update name servers for the domain registration. For more information, perform an internet search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA and NS records and has DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC enabled, you must delete the records and disable DNSSEC before deletion. Attempting to delete a hosted zone with additional records or DNSSEC enabled returns a HostedZoneNotEmpty error. For information about deleting records, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). You also can't delete a hosted zone that has resource record set protections. To see the protections in a hosted zone, use ListResourceRecordSetProtections. To delete them, use DeleteResourceRecordSetProtections. To verify that the hosted zone has been deleted, do one of the following:
     ///
     /// * Use the GetHostedZone action to request information about the hosted zone.
     ///
@@ -2249,6 +2330,78 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteQueryLoggingConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteResourceRecordSetProtections` operation on the `Route53` service.
+    ///
+    /// Deletes one or more resource record set protections from a hosted zone. After a protection is deleted, you can change the resource record sets that have that name and type by using ChangeResourceRecordSets. The request is atomic. Route 53 either deletes all of the protections in the request or none of them. If one or more entries fail, for example because no protection exists for the specified name and type, Route 53 returns an InvalidResourceRecordSetProtectionBatch error that lists the failing entries and the reason that each one failed. You can specify up to 100 protections in one request.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceRecordSetProtectionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteResourceRecordSetProtectionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidResourceRecordSetProtectionBatch` : One or more entries in the request couldn't be processed, so Route 53 didn't create or delete any of the protections in the request. The Errors element lists the failing entries and the reason that each one failed.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    public func deleteResourceRecordSetProtections(input: DeleteResourceRecordSetProtectionsInput) async throws -> DeleteResourceRecordSetProtectionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteResourceRecordSetProtections")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>(DeleteResourceRecordSetProtectionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput, SmithyXML.Writer>(rootNodeInfo: .init("DeleteResourceRecordSetProtectionsRequest", namespaceDef: .init(prefix: "", uri: "https://route53.amazonaws.com/doc/2013-04-01/")), inputWritingClosure: DeleteResourceRecordSetProtectionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceRecordSetProtectionsOutput>(DeleteResourceRecordSetProtectionsOutput.httpOutput(from:), DeleteResourceRecordSetProtectionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceRecordSetProtectionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourceRecordSetProtectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteResourceRecordSetProtectionsInput, DeleteResourceRecordSetProtectionsOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteResourceRecordSetProtections")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4582,6 +4735,75 @@ extension Route53Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListQueryLoggingConfigs")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListResourceRecordSetProtections` operation on the `Route53` service.
+    ///
+    /// Lists the resource record set protections in a hosted zone. We recommend using pagination to ensure that the operation returns quickly and successfully. If the response includes a NextToken element, there are more protections to list. To get the next page of results, submit another request and specify the value of NextToken in the NextToken parameter.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListResourceRecordSetProtectionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListResourceRecordSetProtectionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    public func listResourceRecordSetProtections(input: ListResourceRecordSetProtectionsInput) async throws -> ListResourceRecordSetProtectionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listResourceRecordSetProtections")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "route53")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(AWSClientRuntime.Route53TrimHostedZoneMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>(\.hostedZoneId))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>(ListResourceRecordSetProtectionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>(ListResourceRecordSetProtectionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceRecordSetProtectionsOutput>(ListResourceRecordSetProtectionsOutput.httpOutput(from:), ListResourceRecordSetProtectionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceRecordSetProtectionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListResourceRecordSetProtectionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Route 53"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListResourceRecordSetProtectionsInput, ListResourceRecordSetProtectionsOutput>(serviceID: serviceName, version: Route53Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Route53")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListResourceRecordSetProtections")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
