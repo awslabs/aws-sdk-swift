@@ -20,11 +20,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -49,6 +49,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -58,10 +59,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -630,7 +631,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func copyBackupToRegion(input: CopyBackupToRegionInput) async throws -> CopyBackupToRegionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -649,7 +650,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -658,17 +659,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyBackupToRegionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CopyBackupToRegionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(overrides: ["X-Amz-Target": "BaldrApiService.CopyBackupToRegion"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CopyBackupToRegionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CopyBackupToRegionInput, CopyBackupToRegionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -709,7 +713,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -728,7 +732,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -737,17 +741,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClusterInput, CreateClusterOutput>(overrides: ["X-Amz-Target": "BaldrApiService.CreateCluster"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateClusterInput, CreateClusterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateClusterInput, CreateClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateClusterInput, CreateClusterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateClusterInput, CreateClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -787,7 +794,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func createHsm(input: CreateHsmInput) async throws -> CreateHsmOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -806,7 +813,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -815,17 +822,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateHsmInput, CreateHsmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHsmInput, CreateHsmOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHsmInput, CreateHsmOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHsmInput, CreateHsmOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHsmOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHsmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateHsmInput, CreateHsmOutput>(overrides: ["X-Amz-Target": "BaldrApiService.CreateHsm"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHsmInput, CreateHsmOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateHsmInput, CreateHsmOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateHsmInput, CreateHsmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHsmInput, CreateHsmOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHsmInput, CreateHsmOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHsmOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateHsmInput, CreateHsmOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateHsmInput, CreateHsmOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -865,7 +875,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func deleteBackup(input: DeleteBackupInput) async throws -> DeleteBackupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -884,7 +894,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -893,17 +903,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackupInput, DeleteBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBackupInput, DeleteBackupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackupInput, DeleteBackupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackupInput, DeleteBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBackupInput, DeleteBackupOutput>(overrides: ["X-Amz-Target": "BaldrApiService.DeleteBackup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBackupInput, DeleteBackupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBackupInput, DeleteBackupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteBackupInput, DeleteBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBackupInput, DeleteBackupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackupInput, DeleteBackupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBackupInput, DeleteBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBackupInput, DeleteBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -944,7 +957,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -963,7 +976,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -972,17 +985,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterInput, DeleteClusterOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteClusterInput, DeleteClusterOutput>(overrides: ["X-Amz-Target": "BaldrApiService.DeleteCluster"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterInput, DeleteClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteClusterInput, DeleteClusterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteClusterInput, DeleteClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteClusterInput, DeleteClusterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClusterInput, DeleteClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1022,7 +1038,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func deleteHsm(input: DeleteHsmInput) async throws -> DeleteHsmOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1041,7 +1057,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1050,17 +1066,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteHsmInput, DeleteHsmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHsmInput, DeleteHsmOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHsmInput, DeleteHsmOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteHsmInput, DeleteHsmOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteHsmOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteHsmOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHsmInput, DeleteHsmOutput>(overrides: ["X-Amz-Target": "BaldrApiService.DeleteHsm"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHsmInput, DeleteHsmOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteHsmInput, DeleteHsmOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteHsmInput, DeleteHsmOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteHsmInput, DeleteHsmOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteHsmInput, DeleteHsmOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteHsmOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteHsmInput, DeleteHsmOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteHsmInput, DeleteHsmOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1100,7 +1119,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1119,7 +1138,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1128,17 +1147,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "BaldrApiService.DeleteResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1179,7 +1201,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func describeBackups(input: DescribeBackupsInput) async throws -> DescribeBackupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1198,7 +1220,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1207,17 +1229,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBackupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeBackupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(overrides: ["X-Amz-Target": "BaldrApiService.DescribeBackups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeBackupsInput, DescribeBackupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeBackupsInput, DescribeBackupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1257,7 +1282,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func describeClusters(input: DescribeClustersInput) async throws -> DescribeClustersOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1276,7 +1301,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1285,17 +1310,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClustersInput, DescribeClustersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClustersInput, DescribeClustersOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClustersInput, DescribeClustersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClustersInput, DescribeClustersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClustersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeClustersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClustersInput, DescribeClustersOutput>(overrides: ["X-Amz-Target": "BaldrApiService.DescribeClusters"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClustersInput, DescribeClustersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeClustersInput, DescribeClustersOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeClustersInput, DescribeClustersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeClustersInput, DescribeClustersOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClustersInput, DescribeClustersOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeClustersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeClustersInput, DescribeClustersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeClustersInput, DescribeClustersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1335,7 +1363,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1354,7 +1382,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1363,17 +1391,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["X-Amz-Target": "BaldrApiService.GetResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1413,7 +1444,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func initializeCluster(input: InitializeClusterInput) async throws -> InitializeClusterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1432,7 +1463,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1441,17 +1472,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InitializeClusterInput, InitializeClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitializeClusterInput, InitializeClusterOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitializeClusterInput, InitializeClusterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitializeClusterInput, InitializeClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<InitializeClusterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InitializeClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InitializeClusterInput, InitializeClusterOutput>(overrides: ["X-Amz-Target": "BaldrApiService.InitializeCluster"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitializeClusterInput, InitializeClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InitializeClusterInput, InitializeClusterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<InitializeClusterInput, InitializeClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InitializeClusterInput, InitializeClusterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitializeClusterInput, InitializeClusterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InitializeClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InitializeClusterInput, InitializeClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InitializeClusterInput, InitializeClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1492,7 +1526,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1511,7 +1545,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1520,17 +1554,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsInput, ListTagsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsInput, ListTagsOutput>(overrides: ["X-Amz-Target": "BaldrApiService.ListTags"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsInput, ListTagsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsInput, ListTagsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsInput, ListTagsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsInput, ListTagsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsInput, ListTagsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsInput, ListTagsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsInput, ListTagsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1570,7 +1607,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func modifyBackupAttributes(input: ModifyBackupAttributesInput) async throws -> ModifyBackupAttributesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1589,7 +1626,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1598,17 +1635,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyBackupAttributesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyBackupAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(overrides: ["X-Amz-Target": "BaldrApiService.ModifyBackupAttributes"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyBackupAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyBackupAttributesInput, ModifyBackupAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1648,7 +1688,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func modifyCluster(input: ModifyClusterInput) async throws -> ModifyClusterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1667,7 +1707,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1676,17 +1716,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyClusterInput, ModifyClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyClusterInput, ModifyClusterOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterInput, ModifyClusterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClusterInput, ModifyClusterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClusterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyClusterInput, ModifyClusterOutput>(overrides: ["X-Amz-Target": "BaldrApiService.ModifyCluster"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyClusterInput, ModifyClusterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ModifyClusterInput, ModifyClusterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ModifyClusterInput, ModifyClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyClusterInput, ModifyClusterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClusterInput, ModifyClusterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyClusterInput, ModifyClusterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyClusterInput, ModifyClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1731,7 +1774,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1750,7 +1793,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1759,17 +1802,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "BaldrApiService.PutResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1809,7 +1855,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmServiceException` : The request was rejected because an error occurred.
     public func restoreBackup(input: RestoreBackupInput) async throws -> RestoreBackupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1828,7 +1874,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1837,17 +1883,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreBackupInput, RestoreBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreBackupInput, RestoreBackupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreBackupInput, RestoreBackupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreBackupInput, RestoreBackupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreBackupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreBackupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreBackupInput, RestoreBackupOutput>(overrides: ["X-Amz-Target": "BaldrApiService.RestoreBackup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreBackupInput, RestoreBackupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreBackupInput, RestoreBackupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RestoreBackupInput, RestoreBackupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreBackupInput, RestoreBackupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreBackupInput, RestoreBackupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreBackupInput, RestoreBackupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreBackupInput, RestoreBackupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1889,7 +1938,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1908,7 +1957,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1917,17 +1966,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "BaldrApiService.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1968,7 +2020,7 @@ extension CloudHSMV2Client {
     /// - `CloudHsmTagException` : The request was rejected because of a tagging failure. Verify the tag conditions in all applicable policies, and then retry the request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1987,7 +2039,7 @@ extension CloudHSMV2Client {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1996,17 +2048,20 @@ extension CloudHSMV2Client {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudHSM V2", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "BaldrApiService.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

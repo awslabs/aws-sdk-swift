@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -50,6 +50,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -59,10 +60,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -629,7 +630,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func createCallAnalyticsCategory(input: CreateCallAnalyticsCategoryInput) async throws -> CreateCallAnalyticsCategoryOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -648,7 +649,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -657,17 +658,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCallAnalyticsCategoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateCallAnalyticsCategory"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCallAnalyticsCategoryInput, CreateCallAnalyticsCategoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -714,7 +718,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func createLanguageModel(input: CreateLanguageModelInput) async throws -> CreateLanguageModelOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -733,7 +737,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -742,17 +746,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLanguageModelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateLanguageModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateLanguageModel"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateLanguageModelInput, CreateLanguageModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -791,7 +798,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func createMedicalVocabulary(input: CreateMedicalVocabularyInput) async throws -> CreateMedicalVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -810,7 +817,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -819,17 +826,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMedicalVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateMedicalVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateMedicalVocabularyInput, CreateMedicalVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -868,7 +878,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func createVocabulary(input: CreateVocabularyInput) async throws -> CreateVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -887,7 +897,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -896,17 +906,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVocabularyInput, CreateVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVocabularyInput, CreateVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -945,7 +958,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func createVocabularyFilter(input: CreateVocabularyFilterInput) async throws -> CreateVocabularyFilterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -964,7 +977,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -973,17 +986,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVocabularyFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.CreateVocabularyFilter"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateVocabularyFilterInput, CreateVocabularyFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1022,7 +1038,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func deleteCallAnalyticsCategory(input: DeleteCallAnalyticsCategoryInput) async throws -> DeleteCallAnalyticsCategoryOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1041,7 +1057,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1052,15 +1068,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCallAnalyticsCategoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteCallAnalyticsCategory"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCallAnalyticsCategoryInput, DeleteCallAnalyticsCategoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1098,7 +1116,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteCallAnalyticsJob(input: DeleteCallAnalyticsJobInput) async throws -> DeleteCallAnalyticsJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1117,7 +1135,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1128,15 +1146,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCallAnalyticsJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCallAnalyticsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteCallAnalyticsJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCallAnalyticsJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCallAnalyticsJobInput, DeleteCallAnalyticsJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1174,7 +1194,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteLanguageModel(input: DeleteLanguageModelInput) async throws -> DeleteLanguageModelOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1193,7 +1213,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1204,15 +1224,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLanguageModelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteLanguageModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteLanguageModel"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteLanguageModelInput, DeleteLanguageModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1250,7 +1272,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteMedicalScribeJob(input: DeleteMedicalScribeJobInput) async throws -> DeleteMedicalScribeJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1269,7 +1291,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1280,15 +1302,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMedicalScribeJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMedicalScribeJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteMedicalScribeJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMedicalScribeJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMedicalScribeJobInput, DeleteMedicalScribeJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1326,7 +1350,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteMedicalTranscriptionJob(input: DeleteMedicalTranscriptionJobInput) async throws -> DeleteMedicalTranscriptionJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1345,7 +1369,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1356,15 +1380,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMedicalTranscriptionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMedicalTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteMedicalTranscriptionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMedicalTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMedicalTranscriptionJobInput, DeleteMedicalTranscriptionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1403,7 +1429,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func deleteMedicalVocabulary(input: DeleteMedicalVocabularyInput) async throws -> DeleteMedicalVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1422,7 +1448,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1433,15 +1459,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMedicalVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteMedicalVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMedicalVocabularyInput, DeleteMedicalVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1479,7 +1507,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func deleteTranscriptionJob(input: DeleteTranscriptionJobInput) async throws -> DeleteTranscriptionJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1498,7 +1526,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1509,15 +1537,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTranscriptionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteTranscriptionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTranscriptionJobInput, DeleteTranscriptionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1556,7 +1586,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func deleteVocabulary(input: DeleteVocabularyInput) async throws -> DeleteVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1575,7 +1605,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1586,15 +1616,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVocabularyInput, DeleteVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1633,7 +1665,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func deleteVocabularyFilter(input: DeleteVocabularyFilterInput) async throws -> DeleteVocabularyFilterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1652,7 +1684,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1663,15 +1695,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVocabularyFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.DeleteVocabularyFilter"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteVocabularyFilterInput, DeleteVocabularyFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1710,7 +1744,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func describeLanguageModel(input: DescribeLanguageModelInput) async throws -> DescribeLanguageModelOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1729,7 +1763,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1740,15 +1774,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLanguageModelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeLanguageModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(overrides: ["X-Amz-Target": "Transcribe.DescribeLanguageModel"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeLanguageModelInput, DescribeLanguageModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1787,7 +1823,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getCallAnalyticsCategory(input: GetCallAnalyticsCategoryInput) async throws -> GetCallAnalyticsCategoryOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1806,7 +1842,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1817,15 +1853,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallAnalyticsCategoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.GetCallAnalyticsCategory"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCallAnalyticsCategoryInput, GetCallAnalyticsCategoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1864,7 +1902,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getCallAnalyticsJob(input: GetCallAnalyticsJobInput) async throws -> GetCallAnalyticsJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1883,7 +1921,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1894,15 +1932,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallAnalyticsJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCallAnalyticsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetCallAnalyticsJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallAnalyticsJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCallAnalyticsJobInput, GetCallAnalyticsJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1941,7 +1981,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getMedicalScribeJob(input: GetMedicalScribeJobInput) async throws -> GetMedicalScribeJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1960,7 +2000,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1971,15 +2011,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalScribeJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMedicalScribeJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetMedicalScribeJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMedicalScribeJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMedicalScribeJobInput, GetMedicalScribeJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2018,7 +2060,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getMedicalTranscriptionJob(input: GetMedicalTranscriptionJobInput) async throws -> GetMedicalTranscriptionJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2037,7 +2079,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2048,15 +2090,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalTranscriptionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMedicalTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetMedicalTranscriptionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMedicalTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMedicalTranscriptionJobInput, GetMedicalTranscriptionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2095,7 +2139,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getMedicalVocabulary(input: GetMedicalVocabularyInput) async throws -> GetMedicalVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2114,7 +2158,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2125,15 +2169,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.GetMedicalVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMedicalVocabularyInput, GetMedicalVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2172,7 +2218,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getTranscriptionJob(input: GetTranscriptionJobInput) async throws -> GetTranscriptionJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2191,7 +2237,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2202,15 +2248,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTranscriptionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.GetTranscriptionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTranscriptionJobInput, GetTranscriptionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2249,7 +2297,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getVocabulary(input: GetVocabularyInput) async throws -> GetVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2268,7 +2316,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2279,15 +2327,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVocabularyInput, GetVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVocabularyInput, GetVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVocabularyInput, GetVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVocabularyInput, GetVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.GetVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVocabularyInput, GetVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVocabularyInput, GetVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetVocabularyInput, GetVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVocabularyInput, GetVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVocabularyInput, GetVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVocabularyInput, GetVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVocabularyInput, GetVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2326,7 +2376,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func getVocabularyFilter(input: GetVocabularyFilterInput) async throws -> GetVocabularyFilterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2345,7 +2395,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2356,15 +2406,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVocabularyFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.GetVocabularyFilter"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetVocabularyFilterInput, GetVocabularyFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2402,7 +2454,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listCallAnalyticsCategories(input: ListCallAnalyticsCategoriesInput) async throws -> ListCallAnalyticsCategoriesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2421,7 +2473,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2432,15 +2484,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCallAnalyticsCategoriesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCallAnalyticsCategoriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(overrides: ["X-Amz-Target": "Transcribe.ListCallAnalyticsCategories"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCallAnalyticsCategoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCallAnalyticsCategoriesInput, ListCallAnalyticsCategoriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2478,7 +2532,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listCallAnalyticsJobs(input: ListCallAnalyticsJobsInput) async throws -> ListCallAnalyticsJobsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2497,7 +2551,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2508,15 +2562,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCallAnalyticsJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCallAnalyticsJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListCallAnalyticsJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCallAnalyticsJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCallAnalyticsJobsInput, ListCallAnalyticsJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2554,7 +2610,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listLanguageModels(input: ListLanguageModelsInput) async throws -> ListLanguageModelsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2573,7 +2629,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2584,15 +2640,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLanguageModelsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListLanguageModelsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListLanguageModels"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListLanguageModelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListLanguageModelsInput, ListLanguageModelsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2630,7 +2688,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listMedicalScribeJobs(input: ListMedicalScribeJobsInput) async throws -> ListMedicalScribeJobsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2649,7 +2707,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2660,15 +2718,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMedicalScribeJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMedicalScribeJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListMedicalScribeJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMedicalScribeJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMedicalScribeJobsInput, ListMedicalScribeJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2706,7 +2766,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listMedicalTranscriptionJobs(input: ListMedicalTranscriptionJobsInput) async throws -> ListMedicalTranscriptionJobsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2725,7 +2785,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2736,15 +2796,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMedicalTranscriptionJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMedicalTranscriptionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListMedicalTranscriptionJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMedicalTranscriptionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMedicalTranscriptionJobsInput, ListMedicalTranscriptionJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2782,7 +2844,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listMedicalVocabularies(input: ListMedicalVocabulariesInput) async throws -> ListMedicalVocabulariesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2801,7 +2863,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2812,15 +2874,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMedicalVocabulariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMedicalVocabulariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(overrides: ["X-Amz-Target": "Transcribe.ListMedicalVocabularies"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMedicalVocabulariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMedicalVocabulariesInput, ListMedicalVocabulariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2859,7 +2923,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2878,7 +2942,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2889,15 +2953,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["X-Amz-Target": "Transcribe.ListTagsForResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2935,7 +3001,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listTranscriptionJobs(input: ListTranscriptionJobsInput) async throws -> ListTranscriptionJobsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2954,7 +3020,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2965,15 +3031,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTranscriptionJobsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTranscriptionJobsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(overrides: ["X-Amz-Target": "Transcribe.ListTranscriptionJobs"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTranscriptionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTranscriptionJobsInput, ListTranscriptionJobsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3011,7 +3079,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listVocabularies(input: ListVocabulariesInput) async throws -> ListVocabulariesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3030,7 +3098,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3041,15 +3109,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVocabulariesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVocabulariesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(overrides: ["X-Amz-Target": "Transcribe.ListVocabularies"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVocabulariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVocabulariesInput, ListVocabulariesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVocabulariesInput, ListVocabulariesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3087,7 +3157,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func listVocabularyFilters(input: ListVocabularyFiltersInput) async throws -> ListVocabularyFiltersOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3106,7 +3176,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3117,15 +3187,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVocabularyFiltersOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListVocabularyFiltersOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(overrides: ["X-Amz-Target": "Transcribe.ListVocabularyFilters"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListVocabularyFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListVocabularyFiltersInput, ListVocabularyFiltersOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3173,7 +3245,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func startCallAnalyticsJob(input: StartCallAnalyticsJobInput) async throws -> StartCallAnalyticsJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3192,7 +3264,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3201,17 +3273,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCallAnalyticsJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCallAnalyticsJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartCallAnalyticsJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCallAnalyticsJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCallAnalyticsJobInput, StartCallAnalyticsJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3262,7 +3337,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func startMedicalScribeJob(input: StartMedicalScribeJobInput) async throws -> StartMedicalScribeJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3281,7 +3356,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3290,17 +3365,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalScribeJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMedicalScribeJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartMedicalScribeJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMedicalScribeJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMedicalScribeJobInput, StartMedicalScribeJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3353,7 +3431,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func startMedicalTranscriptionJob(input: StartMedicalTranscriptionJobInput) async throws -> StartMedicalTranscriptionJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3372,7 +3450,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3381,17 +3459,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalTranscriptionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMedicalTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartMedicalTranscriptionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMedicalTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMedicalTranscriptionJobInput, StartMedicalTranscriptionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3438,7 +3519,7 @@ extension TranscribeClient {
     /// - `LimitExceededException` : You've either sent too many requests or your input file is too long. Wait before retrying your request, or use a smaller file and try your request again.
     public func startTranscriptionJob(input: StartTranscriptionJobInput) async throws -> StartTranscriptionJobOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3457,7 +3538,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3466,17 +3547,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTranscriptionJobOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartTranscriptionJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(overrides: ["X-Amz-Target": "Transcribe.StartTranscriptionJob"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartTranscriptionJobInput, StartTranscriptionJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3516,7 +3600,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3535,7 +3619,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3544,17 +3628,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["X-Amz-Target": "Transcribe.TagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TagResourceInput, TagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TagResourceInput, TagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TagResourceInput, TagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TagResourceInput, TagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TagResourceInput, TagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3594,7 +3681,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3613,7 +3700,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3624,15 +3711,17 @@ extension TranscribeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UntagResourceOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["X-Amz-Target": "Transcribe.UntagResource"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UntagResourceInput, UntagResourceOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UntagResourceInput, UntagResourceOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UntagResourceInput, UntagResourceOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UntagResourceInput, UntagResourceOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3672,7 +3761,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func updateCallAnalyticsCategory(input: UpdateCallAnalyticsCategoryInput) async throws -> UpdateCallAnalyticsCategoryOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3691,7 +3780,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3700,17 +3789,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCallAnalyticsCategoryOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCallAnalyticsCategoryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateCallAnalyticsCategory"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCallAnalyticsCategoryInput, UpdateCallAnalyticsCategoryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3750,7 +3842,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func updateLanguageModel(input: UpdateLanguageModelInput) async throws -> UpdateLanguageModelOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3769,7 +3861,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3778,17 +3870,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLanguageModelOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateLanguageModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateLanguageModel"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateLanguageModelInput, UpdateLanguageModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3828,7 +3923,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func updateMedicalVocabulary(input: UpdateMedicalVocabularyInput) async throws -> UpdateMedicalVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3847,7 +3942,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3856,17 +3951,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMedicalVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMedicalVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateMedicalVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMedicalVocabularyInput, UpdateMedicalVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3906,7 +4004,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func updateVocabulary(input: UpdateVocabularyInput) async throws -> UpdateVocabularyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3925,7 +4023,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3934,17 +4032,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVocabularyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVocabularyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateVocabulary"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateVocabularyInput, UpdateVocabularyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3984,7 +4085,7 @@ extension TranscribeClient {
     /// - `NotFoundException` : We can't find the requested resource. Check that the specified name is correct and try your request again.
     public func updateVocabularyFilter(input: UpdateVocabularyFilterInput) async throws -> UpdateVocabularyFilterOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4003,7 +4104,7 @@ extension TranscribeClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4012,17 +4113,20 @@ extension TranscribeClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVocabularyFilterOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Transcribe", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateVocabularyFilterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(overrides: ["X-Amz-Target": "Transcribe.UpdateVocabularyFilter"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateVocabularyFilterInput, UpdateVocabularyFilterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

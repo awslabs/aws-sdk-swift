@@ -21,11 +21,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -50,6 +50,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -59,10 +60,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -629,7 +630,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func acceptDomainTransferFromAnotherAwsAccount(input: AcceptDomainTransferFromAnotherAwsAccountInput) async throws -> AcceptDomainTransferFromAnotherAwsAccountOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -648,7 +649,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -657,17 +658,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptDomainTransferFromAnotherAwsAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AcceptDomainTransferFromAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.AcceptDomainTransferFromAnotherAwsAccount"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AcceptDomainTransferFromAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AcceptDomainTransferFromAnotherAwsAccountInput, AcceptDomainTransferFromAnotherAwsAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -708,7 +712,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func associateDelegationSignerToDomain(input: AssociateDelegationSignerToDomainInput) async throws -> AssociateDelegationSignerToDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -727,7 +731,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -736,17 +740,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDelegationSignerToDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateDelegationSignerToDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.AssociateDelegationSignerToDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateDelegationSignerToDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateDelegationSignerToDomainInput, AssociateDelegationSignerToDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -784,7 +791,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func cancelDomainTransferToAnotherAwsAccount(input: CancelDomainTransferToAnotherAwsAccountInput) async throws -> CancelDomainTransferToAnotherAwsAccountOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -803,7 +810,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -812,17 +819,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDomainTransferToAnotherAwsAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelDomainTransferToAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.CancelDomainTransferToAnotherAwsAccount"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelDomainTransferToAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelDomainTransferToAnotherAwsAccountInput, CancelDomainTransferToAnotherAwsAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -860,7 +870,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func checkDomainAvailability(input: CheckDomainAvailabilityInput) async throws -> CheckDomainAvailabilityOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -879,7 +889,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -888,17 +898,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckDomainAvailabilityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckDomainAvailabilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.CheckDomainAvailability"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckDomainAvailabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckDomainAvailabilityInput, CheckDomainAvailabilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -936,7 +949,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func checkDomainTransferability(input: CheckDomainTransferabilityInput) async throws -> CheckDomainTransferabilityOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -955,7 +968,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -964,17 +977,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckDomainTransferabilityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CheckDomainTransferabilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.CheckDomainTransferability"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CheckDomainTransferabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CheckDomainTransferabilityInput, CheckDomainTransferabilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1019,7 +1035,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1038,7 +1054,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1047,17 +1063,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDomainInput, DeleteDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DeleteDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteDomainInput, DeleteDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteDomainInput, DeleteDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteDomainInput, DeleteDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteDomainInput, DeleteDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1095,7 +1114,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func deleteTagsForDomain(input: DeleteTagsForDomainInput) async throws -> DeleteTagsForDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1114,7 +1133,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1123,17 +1142,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsForDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTagsForDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DeleteTagsForDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTagsForDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTagsForDomainInput, DeleteTagsForDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1170,7 +1192,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func disableDomainAutoRenew(input: DisableDomainAutoRenewInput) async throws -> DisableDomainAutoRenewOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1189,7 +1211,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1198,17 +1220,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableDomainAutoRenewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableDomainAutoRenewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DisableDomainAutoRenew"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDomainAutoRenewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableDomainAutoRenewInput, DisableDomainAutoRenewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1248,7 +1273,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func disableDomainTransferLock(input: DisableDomainTransferLockInput) async throws -> DisableDomainTransferLockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1267,7 +1292,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1276,17 +1301,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableDomainTransferLockOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableDomainTransferLockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DisableDomainTransferLock"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableDomainTransferLockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableDomainTransferLockInput, DisableDomainTransferLockOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1326,7 +1354,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func disassociateDelegationSignerFromDomain(input: DisassociateDelegationSignerFromDomainInput) async throws -> DisassociateDelegationSignerFromDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1345,7 +1373,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1354,17 +1382,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDelegationSignerFromDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateDelegationSignerFromDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.DisassociateDelegationSignerFromDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateDelegationSignerFromDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateDelegationSignerFromDomainInput, DisassociateDelegationSignerFromDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1402,7 +1433,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func enableDomainAutoRenew(input: EnableDomainAutoRenewInput) async throws -> EnableDomainAutoRenewOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1421,7 +1452,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1430,17 +1461,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableDomainAutoRenewOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableDomainAutoRenewOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.EnableDomainAutoRenew"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDomainAutoRenewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableDomainAutoRenewInput, EnableDomainAutoRenewOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1480,7 +1514,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func enableDomainTransferLock(input: EnableDomainTransferLockInput) async throws -> EnableDomainTransferLockOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1499,7 +1533,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1508,17 +1542,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableDomainTransferLockOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableDomainTransferLockOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.EnableDomainTransferLock"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableDomainTransferLockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableDomainTransferLockInput, EnableDomainTransferLockOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1556,7 +1593,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func getContactReachabilityStatus(input: GetContactReachabilityStatusInput) async throws -> GetContactReachabilityStatusOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1575,7 +1612,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1584,17 +1621,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactReachabilityStatusOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContactReachabilityStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetContactReachabilityStatus"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContactReachabilityStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetContactReachabilityStatusInput, GetContactReachabilityStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1631,7 +1671,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func getDomainDetail(input: GetDomainDetailInput) async throws -> GetDomainDetailOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1650,7 +1690,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1659,17 +1699,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainDetailInput, GetDomainDetailOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainDetailInput, GetDomainDetailOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainDetailOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainDetailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetDomainDetail"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDomainDetailInput, GetDomainDetailOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainDetailInput, GetDomainDetailOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainDetailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDomainDetailInput, GetDomainDetailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDomainDetailInput, GetDomainDetailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1720,7 +1763,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func getDomainPrices(input: GetDomainPricesInput) async throws -> GetDomainPricesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1739,7 +1782,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1748,17 +1791,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainPricesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainPricesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetDomainPrices"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainPricesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDomainPricesInput, GetDomainPricesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDomainPricesInput, GetDomainPricesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1796,7 +1842,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func getDomainSuggestions(input: GetDomainSuggestionsInput) async throws -> GetDomainSuggestionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1815,7 +1861,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1824,17 +1870,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainSuggestionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetDomainSuggestionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetDomainSuggestions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetDomainSuggestionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetDomainSuggestionsInput, GetDomainSuggestionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1870,7 +1919,7 @@ extension Route53DomainsClient {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     public func getOperationDetail(input: GetOperationDetailInput) async throws -> GetOperationDetailOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1889,7 +1938,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1898,17 +1947,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOperationDetailInput, GetOperationDetailOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOperationDetailInput, GetOperationDetailOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOperationDetailOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOperationDetailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.GetOperationDetail"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetOperationDetailInput, GetOperationDetailOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOperationDetailInput, GetOperationDetailOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOperationDetailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOperationDetailInput, GetOperationDetailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOperationDetailInput, GetOperationDetailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1944,7 +1996,7 @@ extension Route53DomainsClient {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1963,7 +2015,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1972,17 +2024,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListDomainsInput, ListDomainsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainsInput, ListDomainsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListDomainsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDomainsInput, ListDomainsOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListDomains"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainsInput, ListDomainsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListDomainsInput, ListDomainsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListDomainsInput, ListDomainsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListDomainsInput, ListDomainsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListDomainsInput, ListDomainsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListDomainsInput, ListDomainsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2018,7 +2073,7 @@ extension Route53DomainsClient {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2037,7 +2092,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2046,17 +2101,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListOperationsInput, ListOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOperationsInput, ListOperationsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOperationsInput, ListOperationsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOperationsInput, ListOperationsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOperationsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListOperationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOperationsInput, ListOperationsOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListOperations"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOperationsInput, ListOperationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListOperationsInput, ListOperationsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListOperationsInput, ListOperationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListOperationsInput, ListOperationsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOperationsInput, ListOperationsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListOperationsInput, ListOperationsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListOperationsInput, ListOperationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2106,7 +2164,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func listPrices(input: ListPricesInput) async throws -> ListPricesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2125,7 +2183,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2134,17 +2192,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListPricesInput, ListPricesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPricesInput, ListPricesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPricesInput, ListPricesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPricesInput, ListPricesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPricesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListPricesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPricesInput, ListPricesOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListPrices"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPricesInput, ListPricesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListPricesInput, ListPricesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListPricesInput, ListPricesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListPricesInput, ListPricesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPricesInput, ListPricesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListPricesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListPricesInput, ListPricesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListPricesInput, ListPricesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2182,7 +2243,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func listTagsForDomain(input: ListTagsForDomainInput) async throws -> ListTagsForDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2201,7 +2262,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2210,17 +2271,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTagsForDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ListTagsForDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTagsForDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTagsForDomainInput, ListTagsForDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2261,7 +2325,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func pushDomain(input: PushDomainInput) async throws -> PushDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2280,7 +2344,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2289,17 +2353,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PushDomainInput, PushDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PushDomainInput, PushDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PushDomainInput, PushDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PushDomainInput, PushDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PushDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PushDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PushDomainInput, PushDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.PushDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PushDomainInput, PushDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PushDomainInput, PushDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PushDomainInput, PushDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PushDomainInput, PushDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PushDomainInput, PushDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PushDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PushDomainInput, PushDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PushDomainInput, PushDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2350,7 +2417,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2369,7 +2436,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2378,17 +2445,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterDomainInput, RegisterDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDomainInput, RegisterDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDomainInput, RegisterDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDomainInput, RegisterDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RegisterDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterDomainInput, RegisterDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RegisterDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDomainInput, RegisterDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RegisterDomainInput, RegisterDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RegisterDomainInput, RegisterDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RegisterDomainInput, RegisterDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDomainInput, RegisterDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RegisterDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RegisterDomainInput, RegisterDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RegisterDomainInput, RegisterDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2426,7 +2496,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func rejectDomainTransferFromAnotherAwsAccount(input: RejectDomainTransferFromAnotherAwsAccountInput) async throws -> RejectDomainTransferFromAnotherAwsAccountOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2445,7 +2515,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2454,17 +2524,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectDomainTransferFromAnotherAwsAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RejectDomainTransferFromAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RejectDomainTransferFromAnotherAwsAccount"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RejectDomainTransferFromAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RejectDomainTransferFromAnotherAwsAccountInput, RejectDomainTransferFromAnotherAwsAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2504,7 +2577,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func renewDomain(input: RenewDomainInput) async throws -> RenewDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2523,7 +2596,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2532,17 +2605,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RenewDomainInput, RenewDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RenewDomainInput, RenewDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenewDomainInput, RenewDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenewDomainInput, RenewDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RenewDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RenewDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RenewDomainInput, RenewDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RenewDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RenewDomainInput, RenewDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RenewDomainInput, RenewDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RenewDomainInput, RenewDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RenewDomainInput, RenewDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenewDomainInput, RenewDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RenewDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RenewDomainInput, RenewDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RenewDomainInput, RenewDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2581,7 +2657,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func resendContactReachabilityEmail(input: ResendContactReachabilityEmailInput) async throws -> ResendContactReachabilityEmailOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2600,7 +2676,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2609,17 +2685,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ResendContactReachabilityEmailOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResendContactReachabilityEmailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ResendContactReachabilityEmail"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendContactReachabilityEmailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResendContactReachabilityEmailInput, ResendContactReachabilityEmailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2656,7 +2735,7 @@ extension Route53DomainsClient {
     /// - `TLDInMaintenance` : The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
     public func resendOperationAuthorization(input: ResendOperationAuthorizationInput) async throws -> ResendOperationAuthorizationOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2675,7 +2754,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2684,17 +2763,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ResendOperationAuthorizationOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ResendOperationAuthorizationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ResendOperationAuthorization"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ResendOperationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ResendOperationAuthorizationInput, ResendOperationAuthorizationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2733,7 +2815,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func restoreDomain(input: RestoreDomainInput) async throws -> RestoreDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2752,7 +2834,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2761,17 +2843,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreDomainInput, RestoreDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreDomainInput, RestoreDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDomainInput, RestoreDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDomainInput, RestoreDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreDomainInput, RestoreDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RestoreDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreDomainInput, RestoreDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RestoreDomainInput, RestoreDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RestoreDomainInput, RestoreDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RestoreDomainInput, RestoreDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDomainInput, RestoreDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreDomainInput, RestoreDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreDomainInput, RestoreDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2809,7 +2894,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func retrieveDomainAuthCode(input: RetrieveDomainAuthCodeInput) async throws -> RetrieveDomainAuthCodeOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2828,7 +2913,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2837,17 +2922,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveDomainAuthCodeOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetrieveDomainAuthCodeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.RetrieveDomainAuthCode"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetrieveDomainAuthCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetrieveDomainAuthCodeInput, RetrieveDomainAuthCodeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2897,7 +2985,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func transferDomain(input: TransferDomainInput) async throws -> TransferDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2916,7 +3004,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2925,17 +3013,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TransferDomainInput, TransferDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainInput, TransferDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferDomainInput, TransferDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransferDomainInput, TransferDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TransferDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TransferDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TransferDomainInput, TransferDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.TransferDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainInput, TransferDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TransferDomainInput, TransferDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TransferDomainInput, TransferDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainInput, TransferDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferDomainInput, TransferDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TransferDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TransferDomainInput, TransferDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TransferDomainInput, TransferDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2983,7 +3074,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func transferDomainToAnotherAwsAccount(input: TransferDomainToAnotherAwsAccountInput) async throws -> TransferDomainToAnotherAwsAccountOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3002,7 +3093,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3011,17 +3102,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<TransferDomainToAnotherAwsAccountOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<TransferDomainToAnotherAwsAccountOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.TransferDomainToAnotherAwsAccount"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<TransferDomainToAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<TransferDomainToAnotherAwsAccountInput, TransferDomainToAnotherAwsAccountOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3061,7 +3155,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func updateDomainContact(input: UpdateDomainContactInput) async throws -> UpdateDomainContactOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3080,7 +3174,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3089,17 +3183,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainContactOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainContactOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateDomainContact"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainContactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDomainContactInput, UpdateDomainContactOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3139,7 +3236,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func updateDomainContactPrivacy(input: UpdateDomainContactPrivacyInput) async throws -> UpdateDomainContactPrivacyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3158,7 +3255,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3167,17 +3264,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainContactPrivacyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainContactPrivacyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateDomainContactPrivacy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainContactPrivacyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDomainContactPrivacyInput, UpdateDomainContactPrivacyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3217,7 +3317,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func updateDomainNameservers(input: UpdateDomainNameserversInput) async throws -> UpdateDomainNameserversOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3236,7 +3336,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3245,17 +3345,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainNameserversOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateDomainNameserversOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateDomainNameservers"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateDomainNameserversOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateDomainNameserversInput, UpdateDomainNameserversOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3293,7 +3396,7 @@ extension Route53DomainsClient {
     /// - `UnsupportedTLD` : Amazon Route 53 does not support this top-level domain (TLD).
     public func updateTagsForDomain(input: UpdateTagsForDomainInput) async throws -> UpdateTagsForDomainOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3312,7 +3415,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3321,17 +3424,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTagsForDomainOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTagsForDomainOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.UpdateTagsForDomain"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTagsForDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTagsForDomainInput, UpdateTagsForDomainOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3367,7 +3473,7 @@ extension Route53DomainsClient {
     /// - `InvalidInput` : The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     public func viewBilling(input: ViewBillingInput) async throws -> ViewBillingOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3386,7 +3492,7 @@ extension Route53DomainsClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3395,17 +3501,20 @@ extension Route53DomainsClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ViewBillingInput, ViewBillingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ViewBillingInput, ViewBillingOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ViewBillingInput, ViewBillingOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ViewBillingInput, ViewBillingOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ViewBillingOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Route 53 Domains", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ViewBillingOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ViewBillingInput, ViewBillingOutput>(overrides: ["X-Amz-Target": "Route53Domains_v20140515.ViewBilling"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ViewBillingInput, ViewBillingOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ViewBillingInput, ViewBillingOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ViewBillingInput, ViewBillingOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ViewBillingInput, ViewBillingOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ViewBillingInput, ViewBillingOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ViewBillingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ViewBillingInput, ViewBillingOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ViewBillingInput, ViewBillingOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

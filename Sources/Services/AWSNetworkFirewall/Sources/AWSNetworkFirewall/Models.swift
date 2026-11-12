@@ -10,12 +10,12 @@
 import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 /// Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalServerError: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -44,7 +44,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
 /// * You tried to update a property with a value that isn't among the available types.
 ///
 /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidRequestException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -67,7 +67,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// Unable to locate a resource using the parameters that you provided.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -90,7 +90,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// Unable to process the request due to throttling limitations.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ThrottlingException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -500,7 +500,7 @@ extension NetworkFirewallClientTypes {
 }
 
 /// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -523,7 +523,7 @@ public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The operation failed because it's not valid. For example, you might have tried to delete a rule group or firewall policy that's in use.
-public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidOperationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -546,7 +546,7 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The token you provided is stale or isn't valid for the operation.
-public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidTokenException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -1407,7 +1407,7 @@ extension NetworkFirewallClientTypes {
 }
 
 /// Unable to perform the operation because doing so would violate a limit setting.
-public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -4324,7 +4324,7 @@ public struct CreateFirewallPolicyV2Output: Swift.Sendable {
 }
 
 /// The operation you requested isn't supported by Network Firewall.
-public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct UnsupportedOperationException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -6349,7 +6349,7 @@ public struct DeleteProxyRulesOutput: Swift.Sendable {
 }
 
 /// The policy statement failed validation.
-public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidResourcePolicyException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -8711,7 +8711,7 @@ public struct ListVpcEndpointAssociationsOutput: Swift.Sendable {
 }
 
 /// Unable to send logs to a configured logging destination.
-public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct LogDestinationPermissionException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -9019,7 +9019,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 /// Unable to change the resource because your account doesn't own it.
-public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil

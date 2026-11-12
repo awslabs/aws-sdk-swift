@@ -20,11 +20,11 @@ import class ClientRuntime.OrchestratorTelemetry
 import class ClientRuntime.SdkHttpClient
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import enum ClientRuntime.ClientLogMode
+import enum ClientRuntime.DefaultClockSkewProvider
 import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func ClientRuntime.initialize
@@ -49,6 +49,7 @@ import struct AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+import struct ClientRuntime.CborValidateResponseHeaderMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 import struct ClientRuntime.LoggerMiddleware
@@ -58,10 +59,10 @@ import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct Smithy.Attributes
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.HTTPClientProtocol
-@_spi(SchemaBasedSerde) import struct SmithyAWSJSON.Plugin
 import struct SmithyIdentity.BearerTokenIdentity
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.HTTPClientProtocol
+@_spi(SchemaBasedSerde) import struct SmithyRPCv2CBOR.Plugin
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
@@ -625,7 +626,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchDeleteBuilds(input: BatchDeleteBuildsInput) async throws -> BatchDeleteBuildsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -644,7 +645,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -653,17 +654,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteBuildsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchDeleteBuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchDeleteBuilds"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchDeleteBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchDeleteBuildsInput, BatchDeleteBuildsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -699,7 +703,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetBuildBatches(input: BatchGetBuildBatchesInput) async throws -> BatchGetBuildBatchesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -718,7 +722,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -727,17 +731,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetBuildBatchesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetBuildBatchesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetBuildBatches"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetBuildBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetBuildBatchesInput, BatchGetBuildBatchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -773,7 +780,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetBuilds(input: BatchGetBuildsInput) async throws -> BatchGetBuildsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -792,7 +799,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -801,17 +808,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetBuildsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetBuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetBuilds"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetBuildsInput, BatchGetBuildsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -847,7 +857,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetCommandExecutions(input: BatchGetCommandExecutionsInput) async throws -> BatchGetCommandExecutionsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -866,7 +876,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -875,17 +885,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCommandExecutionsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetCommandExecutionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetCommandExecutions"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetCommandExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetCommandExecutionsInput, BatchGetCommandExecutionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -921,7 +934,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetFleets(input: BatchGetFleetsInput) async throws -> BatchGetFleetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -940,7 +953,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -949,17 +962,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetFleets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetFleetsInput, BatchGetFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -995,7 +1011,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetProjects(input: BatchGetProjectsInput) async throws -> BatchGetProjectsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1014,7 +1030,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1023,17 +1039,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetProjectsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetProjects"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetProjectsInput, BatchGetProjectsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1069,7 +1088,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetReportGroups(input: BatchGetReportGroupsInput) async throws -> BatchGetReportGroupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1088,7 +1107,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1097,17 +1116,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetReportGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetReportGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetReportGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetReportGroupsInput, BatchGetReportGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1143,7 +1165,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetReports(input: BatchGetReportsInput) async throws -> BatchGetReportsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1162,7 +1184,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1171,17 +1193,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetReportsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetReports"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetReportsInput, BatchGetReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetReportsInput, BatchGetReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1217,7 +1242,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func batchGetSandboxes(input: BatchGetSandboxesInput) async throws -> BatchGetSandboxesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1236,7 +1261,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1245,17 +1270,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetSandboxesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<BatchGetSandboxesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.BatchGetSandboxes"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<BatchGetSandboxesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<BatchGetSandboxesInput, BatchGetSandboxesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1293,7 +1321,7 @@ extension CodeBuildClient {
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1312,7 +1340,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1321,17 +1349,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateFleetInput, CreateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateFleetInput, CreateFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateFleetInput, CreateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateFleetInput, CreateFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateFleetInput, CreateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1369,7 +1400,7 @@ extension CodeBuildClient {
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1388,7 +1419,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1397,17 +1428,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateProjectInput, CreateProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProjectInput, CreateProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateProject"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateProjectInput, CreateProjectOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateProjectInput, CreateProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateProjectInput, CreateProjectOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateProjectInput, CreateProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1445,7 +1479,7 @@ extension CodeBuildClient {
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func createReportGroup(input: CreateReportGroupInput) async throws -> CreateReportGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1464,7 +1498,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1473,17 +1507,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReportGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateReportGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateReportGroupInput, CreateReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateReportGroupInput, CreateReportGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1522,7 +1559,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func createWebhook(input: CreateWebhookInput) async throws -> CreateWebhookOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1541,7 +1578,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1550,17 +1587,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWebhookInput, CreateWebhookOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWebhookInput, CreateWebhookOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebhookInput, CreateWebhookOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebhookInput, CreateWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWebhookOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWebhookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWebhookInput, CreateWebhookOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.CreateWebhook"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWebhookInput, CreateWebhookOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<CreateWebhookInput, CreateWebhookOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<CreateWebhookInput, CreateWebhookOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWebhookInput, CreateWebhookOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebhookInput, CreateWebhookOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWebhookInput, CreateWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWebhookInput, CreateWebhookOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1596,7 +1636,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteBuildBatch(input: DeleteBuildBatchInput) async throws -> DeleteBuildBatchOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1615,7 +1655,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1624,17 +1664,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBuildBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteBuildBatch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteBuildBatchInput, DeleteBuildBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1670,7 +1713,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1689,7 +1732,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1698,17 +1741,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFleetInput, DeleteFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteFleetInput, DeleteFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteFleetInput, DeleteFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteFleetInput, DeleteFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteFleetInput, DeleteFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1744,7 +1790,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1763,7 +1809,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1772,17 +1818,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProjectInput, DeleteProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteProject"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteProjectInput, DeleteProjectOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteProjectInput, DeleteProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProjectInput, DeleteProjectOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProjectInput, DeleteProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1818,7 +1867,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteReport(input: DeleteReportInput) async throws -> DeleteReportOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1837,7 +1886,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1846,17 +1895,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReportInput, DeleteReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportInput, DeleteReportOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportInput, DeleteReportOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportInput, DeleteReportOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteReportInput, DeleteReportOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteReport"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportInput, DeleteReportOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteReportInput, DeleteReportOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteReportInput, DeleteReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportInput, DeleteReportOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportInput, DeleteReportOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteReportInput, DeleteReportOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteReportInput, DeleteReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1892,7 +1944,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteReportGroup(input: DeleteReportGroupInput) async throws -> DeleteReportGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1911,7 +1963,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1920,17 +1972,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteReportGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteReportGroupInput, DeleteReportGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1966,7 +2021,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -1985,7 +2040,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -1994,17 +2049,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2041,7 +2099,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func deleteSourceCredentials(input: DeleteSourceCredentialsInput) async throws -> DeleteSourceCredentialsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2060,7 +2118,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2069,17 +2127,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSourceCredentialsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteSourceCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteSourceCredentials"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteSourceCredentialsInput, DeleteSourceCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2117,7 +2178,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func deleteWebhook(input: DeleteWebhookInput) async throws -> DeleteWebhookOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2136,7 +2197,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2145,17 +2206,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebhookOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWebhookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DeleteWebhook"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWebhookInput, DeleteWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWebhookInput, DeleteWebhookOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2191,7 +2255,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func describeCodeCoverages(input: DescribeCodeCoveragesInput) async throws -> DescribeCodeCoveragesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2210,7 +2274,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2219,17 +2283,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCodeCoveragesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCodeCoveragesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DescribeCodeCoverages"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCodeCoveragesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2266,7 +2333,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func describeTestCases(input: DescribeTestCasesInput) async throws -> DescribeTestCasesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2285,7 +2352,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2294,17 +2361,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTestCasesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTestCasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.DescribeTestCases"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTestCasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTestCasesInput, DescribeTestCasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2341,7 +2411,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func getReportGroupTrend(input: GetReportGroupTrendInput) async throws -> GetReportGroupTrendOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2360,7 +2430,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2369,17 +2439,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReportGroupTrendOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetReportGroupTrendOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.GetReportGroupTrend"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetReportGroupTrendOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetReportGroupTrendInput, GetReportGroupTrendOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2416,7 +2489,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2435,7 +2508,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2444,17 +2517,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.GetResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2492,7 +2568,7 @@ extension CodeBuildClient {
     /// - `ResourceAlreadyExistsException` : The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
     public func importSourceCredentials(input: ImportSourceCredentialsInput) async throws -> ImportSourceCredentialsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2511,7 +2587,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2520,17 +2596,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportSourceCredentialsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportSourceCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ImportSourceCredentials"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportSourceCredentialsInput, ImportSourceCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2567,7 +2646,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func invalidateProjectCache(input: InvalidateProjectCacheInput) async throws -> InvalidateProjectCacheOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2586,7 +2665,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2595,17 +2674,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<InvalidateProjectCacheOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvalidateProjectCacheOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.InvalidateProjectCache"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvalidateProjectCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvalidateProjectCacheInput, InvalidateProjectCacheOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2641,7 +2723,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listBuildBatches(input: ListBuildBatchesInput) async throws -> ListBuildBatchesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2660,7 +2742,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2669,17 +2751,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildBatchesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildBatchesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuildBatches"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBuildBatchesInput, ListBuildBatchesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2716,7 +2801,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listBuildBatchesForProject(input: ListBuildBatchesForProjectInput) async throws -> ListBuildBatchesForProjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2735,7 +2820,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2744,17 +2829,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildBatchesForProjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildBatchesForProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuildBatchesForProject"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildBatchesForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2790,7 +2878,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listBuilds(input: ListBuildsInput) async throws -> ListBuildsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2809,7 +2897,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2818,17 +2906,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildsInput, ListBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsInput, ListBuildsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsInput, ListBuildsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuilds"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsInput, ListBuildsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBuildsInput, ListBuildsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsInput, ListBuildsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildsInput, ListBuildsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBuildsInput, ListBuildsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2865,7 +2956,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listBuildsForProject(input: ListBuildsForProjectInput) async throws -> ListBuildsForProjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2884,7 +2975,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2893,17 +2984,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuildsForProjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListBuildsForProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListBuildsForProject"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListBuildsForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListBuildsForProjectInput, ListBuildsForProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -2940,7 +3034,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listCommandExecutionsForSandbox(input: ListCommandExecutionsForSandboxInput) async throws -> ListCommandExecutionsForSandboxOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -2959,7 +3053,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -2968,17 +3062,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandExecutionsForSandboxOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCommandExecutionsForSandboxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListCommandExecutionsForSandbox"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCommandExecutionsForSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3009,7 +3106,7 @@ extension CodeBuildClient {
     /// - Returns: [no documentation found] (Type: `ListCuratedEnvironmentImagesOutput`)
     public func listCuratedEnvironmentImages(input: ListCuratedEnvironmentImagesInput) async throws -> ListCuratedEnvironmentImagesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3028,7 +3125,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3039,15 +3136,17 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCuratedEnvironmentImagesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListCuratedEnvironmentImagesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListCuratedEnvironmentImages"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListCuratedEnvironmentImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListCuratedEnvironmentImagesInput, ListCuratedEnvironmentImagesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3083,7 +3182,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3102,7 +3201,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3111,17 +3210,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListFleetsInput, ListFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListFleetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetsInput, ListFleetsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListFleets"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListFleetsInput, ListFleetsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListFleetsInput, ListFleetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListFleetsInput, ListFleetsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListFleetsInput, ListFleetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3157,7 +3259,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3176,7 +3278,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3185,17 +3287,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListProjectsInput, ListProjectsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProjectsInput, ListProjectsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListProjects"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListProjectsInput, ListProjectsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListProjectsInput, ListProjectsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListProjectsInput, ListProjectsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListProjectsInput, ListProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListProjectsInput, ListProjectsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3231,7 +3336,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listReportGroups(input: ListReportGroupsInput) async throws -> ListReportGroupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3250,7 +3355,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3259,17 +3364,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReportGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListReportGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportGroupsInput, ListReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListReportGroupsInput, ListReportGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3305,7 +3413,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listReports(input: ListReportsInput) async throws -> ListReportsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3324,7 +3432,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3333,17 +3441,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReportsInput, ListReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsInput, ListReportsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsInput, ListReportsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportsInput, ListReportsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportsInput, ListReportsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListReports"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsInput, ListReportsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportsInput, ListReportsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListReportsInput, ListReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsInput, ListReportsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsInput, ListReportsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportsInput, ListReportsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListReportsInput, ListReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3380,7 +3491,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listReportsForReportGroup(input: ListReportsForReportGroupInput) async throws -> ListReportsForReportGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3399,7 +3510,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3408,17 +3519,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportsForReportGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListReportsForReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListReportsForReportGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListReportsForReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListReportsForReportGroupInput, ListReportsForReportGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3454,7 +3568,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSandboxes(input: ListSandboxesInput) async throws -> ListSandboxesOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3473,7 +3587,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3482,17 +3596,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSandboxesInput, ListSandboxesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesInput, ListSandboxesOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesInput, ListSandboxesOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSandboxesInput, ListSandboxesOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSandboxesOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSandboxesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSandboxesInput, ListSandboxesOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSandboxes"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesInput, ListSandboxesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSandboxesInput, ListSandboxesOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSandboxesInput, ListSandboxesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesInput, ListSandboxesOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesInput, ListSandboxesOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSandboxesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSandboxesInput, ListSandboxesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSandboxesInput, ListSandboxesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3529,7 +3646,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func listSandboxesForProject(input: ListSandboxesForProjectInput) async throws -> ListSandboxesForProjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3548,7 +3665,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3557,17 +3674,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSandboxesForProjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSandboxesForProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSandboxesForProject"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSandboxesForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSandboxesForProjectInput, ListSandboxesForProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3603,7 +3723,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSharedProjects(input: ListSharedProjectsInput) async throws -> ListSharedProjectsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3622,7 +3742,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3631,17 +3751,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSharedProjectsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSharedProjectsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSharedProjects"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSharedProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSharedProjectsInput, ListSharedProjectsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3677,7 +3800,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSharedReportGroups(input: ListSharedReportGroupsInput) async throws -> ListSharedReportGroupsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3696,7 +3819,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3705,17 +3828,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSharedReportGroupsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSharedReportGroupsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSharedReportGroups"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSharedReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSharedReportGroupsInput, ListSharedReportGroupsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3751,7 +3877,7 @@ extension CodeBuildClient {
     /// - `InvalidInputException` : The input value that was provided is not valid.
     public func listSourceCredentials(input: ListSourceCredentialsInput) async throws -> ListSourceCredentialsOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3770,7 +3896,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3781,15 +3907,17 @@ extension CodeBuildClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceCredentialsOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSourceCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.ListSourceCredentials"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSourceCredentialsInput, ListSourceCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3826,7 +3954,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3845,7 +3973,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3854,17 +3982,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutResourcePolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.PutResourcePolicy"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3902,7 +4033,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func retryBuild(input: RetryBuildInput) async throws -> RetryBuildOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3921,7 +4052,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -3930,17 +4061,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetryBuildInput, RetryBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildInput, RetryBuildOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildInput, RetryBuildOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryBuildInput, RetryBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RetryBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetryBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetryBuildInput, RetryBuildOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.RetryBuild"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildInput, RetryBuildOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetryBuildInput, RetryBuildOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RetryBuildInput, RetryBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildInput, RetryBuildOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildInput, RetryBuildOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetryBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetryBuildInput, RetryBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetryBuildInput, RetryBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -3977,7 +4111,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func retryBuildBatch(input: RetryBuildBatchInput) async throws -> RetryBuildBatchOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -3996,7 +4130,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4005,17 +4139,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<RetryBuildBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RetryBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.RetryBuildBatch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RetryBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RetryBuildBatchInput, RetryBuildBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4053,7 +4190,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startBuild(input: StartBuildInput) async throws -> StartBuildOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4072,7 +4209,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4081,17 +4218,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBuildInput, StartBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildInput, StartBuildOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildInput, StartBuildOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBuildInput, StartBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBuildInput, StartBuildOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartBuild"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildInput, StartBuildOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBuildInput, StartBuildOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartBuildInput, StartBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildInput, StartBuildOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildInput, StartBuildOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBuildInput, StartBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartBuildInput, StartBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4128,7 +4268,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startBuildBatch(input: StartBuildBatchInput) async throws -> StartBuildBatchOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4147,7 +4287,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4156,17 +4296,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBuildBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartBuildBatch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartBuildBatchInput, StartBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartBuildBatchInput, StartBuildBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4203,7 +4346,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startCommandExecution(input: StartCommandExecutionInput) async throws -> StartCommandExecutionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4222,7 +4365,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4231,17 +4374,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCommandExecutionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartCommandExecutionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartCommandExecution"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartCommandExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartCommandExecutionInput, StartCommandExecutionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4279,7 +4425,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startSandbox(input: StartSandboxInput) async throws -> StartSandboxOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4298,7 +4444,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4307,17 +4453,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSandboxInput, StartSandboxOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxInput, StartSandboxOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxInput, StartSandboxOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSandboxInput, StartSandboxOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSandboxOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSandboxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSandboxInput, StartSandboxOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartSandbox"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxInput, StartSandboxOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSandboxInput, StartSandboxOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartSandboxInput, StartSandboxOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxInput, StartSandboxOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxInput, StartSandboxOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSandboxInput, StartSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSandboxInput, StartSandboxOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4354,7 +4503,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func startSandboxConnection(input: StartSandboxConnectionInput) async throws -> StartSandboxConnectionOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4373,7 +4522,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4382,17 +4531,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSandboxConnectionOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartSandboxConnectionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StartSandboxConnection"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartSandboxConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartSandboxConnectionInput, StartSandboxConnectionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4429,7 +4581,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func stopBuild(input: StopBuildInput) async throws -> StopBuildOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4448,7 +4600,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4457,17 +4609,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBuildInput, StopBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildInput, StopBuildOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildInput, StopBuildOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBuildInput, StopBuildOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBuildOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopBuildOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopBuildInput, StopBuildOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StopBuild"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildInput, StopBuildOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopBuildInput, StopBuildOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopBuildInput, StopBuildOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildInput, StopBuildOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildInput, StopBuildOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopBuildInput, StopBuildOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopBuildInput, StopBuildOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4504,7 +4659,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func stopBuildBatch(input: StopBuildBatchInput) async throws -> StopBuildBatchOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4523,7 +4678,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4532,17 +4687,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBuildBatchOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopBuildBatchOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StopBuildBatch"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopBuildBatchInput, StopBuildBatchOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopBuildBatchInput, StopBuildBatchOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4579,7 +4737,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func stopSandbox(input: StopSandboxInput) async throws -> StopSandboxOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4598,7 +4756,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4607,17 +4765,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopSandboxInput, StopSandboxOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSandboxInput, StopSandboxOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSandboxInput, StopSandboxOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSandboxInput, StopSandboxOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSandboxOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopSandboxOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSandboxInput, StopSandboxOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.StopSandbox"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSandboxInput, StopSandboxOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<StopSandboxInput, StopSandboxOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<StopSandboxInput, StopSandboxOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopSandboxInput, StopSandboxOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSandboxInput, StopSandboxOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopSandboxInput, StopSandboxOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopSandboxInput, StopSandboxOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4655,7 +4816,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4674,7 +4835,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4683,17 +4844,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateFleetInput, UpdateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetInput, UpdateFleetOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateFleetOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetInput, UpdateFleetOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateFleet"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateFleetInput, UpdateFleetOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateFleetInput, UpdateFleetOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateFleetInput, UpdateFleetOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateFleetInput, UpdateFleetOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4730,7 +4894,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4749,7 +4913,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4758,17 +4922,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProjectInput, UpdateProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProjectOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProjectInput, UpdateProjectOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateProject"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProjectInput, UpdateProjectOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProjectInput, UpdateProjectOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectInput, UpdateProjectOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProjectInput, UpdateProjectOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4818,7 +4985,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateProjectVisibility(input: UpdateProjectVisibilityInput) async throws -> UpdateProjectVisibilityOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4837,7 +5004,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4846,17 +5013,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectVisibilityOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateProjectVisibilityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateProjectVisibility"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateProjectVisibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateProjectVisibilityInput, UpdateProjectVisibilityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4893,7 +5063,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateReportGroup(input: UpdateReportGroupInput) async throws -> UpdateReportGroupOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4912,7 +5082,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4921,17 +5091,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReportGroupOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateReportGroupOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateReportGroup"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateReportGroupInput, UpdateReportGroupOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -4969,7 +5142,7 @@ extension CodeBuildClient {
     /// - `ResourceNotFoundException` : The specified Amazon Web Services resource cannot be found.
     public func updateWebhook(input: UpdateWebhookInput) async throws -> UpdateWebhookOutput {
         var config = config
-        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
         for plugin in plugins {
             try await plugin.configureClient(clientConfiguration: &config)
         }
@@ -4988,7 +5161,7 @@ extension CodeBuildClient {
                       .withSigningRegion(value: config.signingRegion)
                       .withOperationProperties(value: operation)
                       .build()
-        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_1)
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
         let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
@@ -4997,17 +5170,20 @@ extension CodeBuildClient {
             builder.interceptors.add(provider.create())
         }
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(contentType: "application/cbor"))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(clientLogMode: config.clientLogMode))
-        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebhookOutput>())
         let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CodeBuild", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWebhookOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(overrides: ["X-Amz-Target": "CodeBuild_20161006.UpdateWebhook"]))
-        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWebhookInput, UpdateWebhookOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWebhookInput, UpdateWebhookOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

@@ -3029,6 +3029,142 @@ public struct AdminListUserAuthEventsOutput: Swift.Sendable {
     }
 }
 
+public struct AdminListUserSessionsInput: Swift.Sendable {
+    /// A pagination token that Amazon Cognito returned in a previous response. Use this value to retrieve the next page of results if a NextToken was included in a prior response.
+    public var nextToken: Swift.String?
+    /// The ID of the user pool that contains the user.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+    /// The username of the user whose sessions you want to list.
+    /// This member is required.
+    public var username: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        userPoolId: Swift.String? = nil,
+        username: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+        self.userPoolId = userPoolId
+        self.username = username
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The geographic location of the most recent activity on a session, derived from the IP address.
+    public struct SessionLocationType: Swift.Sendable {
+        /// The city of the most recent activity on the session, derived from the IP address. This value can be null if geo-IP resolution fails. The maximum length is 256 characters.
+        public var city: Swift.String?
+        /// The country of the most recent activity on the session, derived from the IP address and returned in English (for example, United States). This is a country name as returned by the geo-IP database, not an ISO country code, and can be unknown if geo-IP resolution fails.
+        public var country: Swift.String?
+
+        public init(
+            city: Swift.String? = nil,
+            country: Swift.String? = nil
+        ) {
+            self.city = city
+            self.country = country
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The type of a user session. TOKEN identifies a token session, which represents an app's authenticated session for a user and is tied to a refresh token. SSO identifies an SSO session, which is a single sign-on (SSO) session that records an authentication through managed login and can let the user sign in to other apps without re-authenticating.
+    public enum SessionTypeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case sso
+        case token
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionTypeType] {
+            return [
+                .sso,
+                .token
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .sso: return "SSO"
+            case .token: return "TOKEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Describes an active user session. Amazon Cognito returns this type in the responses of ListUserSessions and AdminListUserSessions, for both token sessions and SSO sessions.
+    public struct SessionDescriptionType: Swift.Sendable {
+        /// The ID of the app client that the session belongs to.
+        public var clientId: Swift.String?
+        /// The date and time when the session was created.
+        public var createDate: Foundation.Date?
+        /// A description of the device associated with the most recent activity on the session, derived from the parsed user agent (operating system and browser or app). Amazon Cognito overwrites this value on each sign-in, refresh, and rotation. The value can be unknown. The maximum length is 1,024 characters.
+        public var deviceType: Swift.String?
+        /// Specifies whether this session matches the access token supplied in the request. This value is always false for the AdminListUserSessions operation, which doesn't take an access token.
+        public var isCurrentSession: Swift.Bool?
+        /// The date and time of the most recent activity on the session. For a token session, this is the most recent token refresh or rotation; a new authentication creates a new token session rather than updating an existing one. For an SSO session, this is the most recent authentication, token grant, or token rotation.
+        public var lastActiveDate: Foundation.Date?
+        /// The IP address associated with the most recent activity on the session. Amazon Cognito overwrites this value on each refresh and rotation. The maximum length is 128 characters.
+        public var lastIPAddress: Swift.String?
+        /// The geographic location of the most recent activity on the session, derived from the IP address.
+        public var lastLocation: CognitoIdentityProviderClientTypes.SessionLocationType?
+        /// For a token session, the ID of the SSO session that the token session originated from. This value is null for sessions that were initiated through the API and didn't come through an SSO session. Amazon Cognito returns this value for token sessions only.
+        public var originSessionId: Swift.String?
+        /// The unique identifier for the session. This is a 28-character string of lowercase letters and digits, prefixed with tkn for a token session or sso for an SSO session.
+        public var sessionId: Swift.String?
+        /// The type of the session. Valid values are TOKEN and SSO.
+        public var sessionType: CognitoIdentityProviderClientTypes.SessionTypeType?
+
+        public init(
+            clientId: Swift.String? = nil,
+            createDate: Foundation.Date? = nil,
+            deviceType: Swift.String? = nil,
+            isCurrentSession: Swift.Bool? = nil,
+            lastActiveDate: Foundation.Date? = nil,
+            lastIPAddress: Swift.String? = nil,
+            lastLocation: CognitoIdentityProviderClientTypes.SessionLocationType? = nil,
+            originSessionId: Swift.String? = nil,
+            sessionId: Swift.String? = nil,
+            sessionType: CognitoIdentityProviderClientTypes.SessionTypeType? = nil
+        ) {
+            self.clientId = clientId
+            self.createDate = createDate
+            self.deviceType = deviceType
+            self.isCurrentSession = isCurrentSession
+            self.lastActiveDate = lastActiveDate
+            self.lastIPAddress = lastIPAddress
+            self.lastLocation = lastLocation
+            self.originSessionId = originSessionId
+            self.sessionId = sessionId
+            self.sessionType = sessionType
+        }
+    }
+}
+
+public struct AdminListUserSessionsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of the user's active sessions. Each element describes one token session or SSO session.
+    public var sessions: [CognitoIdentityProviderClientTypes.SessionDescriptionType]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [CognitoIdentityProviderClientTypes.SessionDescriptionType]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
 public struct AdminRemoveUserFromGroupInput: Swift.Sendable {
     /// The name of the group that you want to remove the user from, for example MyTestGroup.
     /// This member is required.
@@ -3326,6 +3462,67 @@ public struct AdminRespondToAuthChallengeOutput: Swift.Sendable {
         self.challengeParameters = challengeParameters
         self.session = session
     }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// Controls whether revoking a session also revokes the sessions that are linked to it. NONE revokes only the targeted session. LINKED also revokes the directly linked session or sessions, interpreted relative to the type of the targeted session: revoking a token session also revokes the parent SSO session it came through, and revoking an SSO session also revokes the token sessions that came through it. The set of linked sessions is eventually consistent, so associated sessions are typically revoked within a few seconds.
+    public enum RevokeAssociatedSessionsType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case linked
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RevokeAssociatedSessionsType] {
+            return [
+                .linked,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .linked: return "LINKED"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AdminRevokeUserSessionInput: Swift.Sendable {
+    /// Specifies whether to also revoke the sessions that are linked to the targeted session. NONE, the default, revokes only the targeted session. LINKED also revokes the directly linked session or sessions, interpreted relative to the type of the targeted session: revoking a token session also revokes the parent SSO session it came through, and revoking an SSO session also revokes the token sessions that came through it. The set of linked sessions is eventually consistent, so associated sessions are typically revoked within a few seconds.
+    public var revokeAssociatedSessions: CognitoIdentityProviderClientTypes.RevokeAssociatedSessionsType?
+    /// The ID of the session to revoke. This is a 28-character string of lowercase letters and digits, prefixed with tkn for a token session or sso for an SSO session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The ID of the user pool that contains the session.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+    /// The username of the user who owns the session. The username must match the user associated with the SessionId, to confirm they are the intended target user.
+    /// This member is required.
+    public var username: Swift.String?
+
+    public init(
+        revokeAssociatedSessions: CognitoIdentityProviderClientTypes.RevokeAssociatedSessionsType? = nil,
+        sessionId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil,
+        username: Swift.String? = nil
+    ) {
+        self.revokeAssociatedSessions = revokeAssociatedSessions
+        self.sessionId = sessionId
+        self.userPoolId = userPoolId
+        self.username = username
+    }
+}
+
+public struct AdminRevokeUserSessionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension CognitoIdentityProviderClientTypes {
@@ -9005,6 +9202,58 @@ public struct GetUserAuthFactorsOutput: Swift.Sendable {
     }
 }
 
+public struct GetUserPoolClientSessionConfigurationInput: Swift.Sendable {
+    /// The ID of the app client where you want to retrieve the session configuration.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The ID of the user pool that contains the app client.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The SSO session settings for a user pool app client.
+    public struct ClientSSOSessionConfigType: Swift.Sendable {
+        /// The maximum amount of time, in minutes, that this app client silently reuses an existing SSO session, returning a new set of tokens without requiring the user to re-authenticate, measured from the user's last fresh authentication. The minimum value is 0 and the maximum value is 129600 (90 days). The default is 60. A value of 0 means that this app client never silently reuses the SSO session and always re-authenticates the user. The SSO session record and its cookie are still created regardless of this value, and other app clients in the same user pool can still reuse the session.
+        /// This member is required.
+        public var maxValidityMinutes: Swift.Int?
+
+        public init(
+            maxValidityMinutes: Swift.Int? = nil
+        ) {
+            self.maxValidityMinutes = maxValidityMinutes
+        }
+    }
+}
+
+public struct GetUserPoolClientSessionConfigurationOutput: Swift.Sendable {
+    /// The ID of the app client that the session configuration applies to.
+    public var clientId: Swift.String?
+    /// The SSO session settings for the app client.
+    public var ssoSession: CognitoIdentityProviderClientTypes.ClientSSOSessionConfigType?
+    /// The ID of the user pool that contains the app client.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        ssoSession: CognitoIdentityProviderClientTypes.ClientSSOSessionConfigType? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.ssoSession = ssoSession
+        self.userPoolId = userPoolId
+    }
+}
+
 public struct GetUserPoolMfaConfigInput: Swift.Sendable {
     /// The ID of the user pool where you want to query WebAuthn and MFA configuration.
     /// This member is required.
@@ -9188,6 +9437,82 @@ public struct GetUserPoolMfaConfigOutput: Swift.Sendable {
         self.smsMfaConfiguration = smsMfaConfiguration
         self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
         self.webAuthnConfiguration = webAuthnConfiguration
+    }
+}
+
+public struct GetUserPoolSessionConfigurationInput: Swift.Sendable {
+    /// The ID of the user pool where you want to retrieve the session configuration.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        userPoolId: Swift.String? = nil
+    ) {
+        self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The pool-wide token session settings for a user pool.
+    public struct UserPoolTokenSessionConfigType: Swift.Sendable {
+        /// The maximum number of active token sessions that a user can have across the user pool. The minimum value is 1 and the maximum value is 100. The default is 20. When a user reaches this limit, the next successful authentication automatically evicts that user's least recently used token session before it creates the new session. Lowering this value doesn't evict existing sessions on its own; the user is brought back within the limit on their next sign-in.
+        /// This member is required.
+        public var maxPerUser: Swift.Int?
+
+        public init(
+            maxPerUser: Swift.Int? = nil
+        ) {
+            self.maxPerUser = maxPerUser
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum UserSessionTrackingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserSessionTrackingType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetUserPoolSessionConfigurationOutput: Swift.Sendable {
+    /// The pool-wide token session settings for the user pool.
+    public var tokenSession: CognitoIdentityProviderClientTypes.UserPoolTokenSessionConfigType?
+    /// The ID of the user pool that the session configuration applies to.
+    public var userPoolId: Swift.String?
+    /// Indicates whether session tracking is enabled for the user pool.
+    public var userSessionTracking: CognitoIdentityProviderClientTypes.UserSessionTrackingType?
+
+    public init(
+        tokenSession: CognitoIdentityProviderClientTypes.UserPoolTokenSessionConfigType? = nil,
+        userPoolId: Swift.String? = nil,
+        userSessionTracking: CognitoIdentityProviderClientTypes.UserSessionTrackingType? = nil
+    ) {
+        self.tokenSession = tokenSession
+        self.userPoolId = userPoolId
+        self.userSessionTracking = userSessionTracking
     }
 }
 
@@ -9958,6 +10283,37 @@ public struct ListUsersOutput: Swift.Sendable {
     }
 }
 
+public struct ListUserSessionsInput: Swift.Sendable {
+    /// A valid access token that Amazon Cognito issued to the user whose sessions you want to list. Amazon Cognito derives the user pool and username from this token.
+    /// This member is required.
+    public var accessToken: Swift.String?
+    /// A pagination token that Amazon Cognito returned in a previous response. Use this value to retrieve the next page of results if a NextToken was included in a prior response.
+    public var nextToken: Swift.String?
+
+    public init(
+        accessToken: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accessToken = accessToken
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListUserSessionsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// A list of the user's active sessions. Each element describes one token session or SSO session.
+    public var sessions: [CognitoIdentityProviderClientTypes.SessionDescriptionType]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessions: [CognitoIdentityProviderClientTypes.SessionDescriptionType]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessions = sessions
+    }
+}
+
 public struct ListUsersInGroupInput: Swift.Sendable {
     /// The name of the group that you want to query for user membership.
     /// This member is required.
@@ -10322,6 +10678,8 @@ public struct RevokeTokenInput: Swift.Sendable {
     public var clientId: Swift.String?
     /// The client secret of the requested app client, if the client has a secret.
     public var clientSecret: Swift.String?
+    /// Specifies whether to also revoke the SSO session that is linked to the token session being revoked. NONE, the default, revokes only the token session that is associated with the refresh token. LINKED also revokes the parent SSO session that the token session came through; the other token sessions that came through that SSO session aren't revoked. LINKED has no effect when session tracking is disabled or when the token session has no parent SSO session.
+    public var revokeAssociatedSessions: CognitoIdentityProviderClientTypes.RevokeAssociatedSessionsType?
     /// The refresh token that you want to revoke.
     /// This member is required.
     public var token: Swift.String?
@@ -10329,15 +10687,43 @@ public struct RevokeTokenInput: Swift.Sendable {
     public init(
         clientId: Swift.String? = nil,
         clientSecret: Swift.String? = nil,
+        revokeAssociatedSessions: CognitoIdentityProviderClientTypes.RevokeAssociatedSessionsType? = nil,
         token: Swift.String? = nil
     ) {
         self.clientId = clientId
         self.clientSecret = clientSecret
+        self.revokeAssociatedSessions = revokeAssociatedSessions
         self.token = token
     }
 }
 
 public struct RevokeTokenOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct RevokeUserSessionInput: Swift.Sendable {
+    /// A valid access token that Amazon Cognito issued to the user. Amazon Cognito uses this token to authorize the request and to identify the user.
+    /// This member is required.
+    public var accessToken: Swift.String?
+    /// Specifies whether to also revoke the sessions that are linked to the targeted session. NONE, the default, revokes only the targeted session. LINKED also revokes the directly linked session or sessions, interpreted relative to the type of the targeted session: revoking a token session also revokes the parent SSO session it came through, and revoking an SSO session also revokes the token sessions that came through it. The set of linked sessions is eventually consistent, so associated sessions are typically revoked within a few seconds.
+    public var revokeAssociatedSessions: CognitoIdentityProviderClientTypes.RevokeAssociatedSessionsType?
+    /// The ID of the session to revoke. This is a 28-character string of lowercase letters and digits, prefixed with tkn for a token session or sso for an SSO session. This value can't identify the caller's own current session.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        accessToken: Swift.String? = nil,
+        revokeAssociatedSessions: CognitoIdentityProviderClientTypes.RevokeAssociatedSessionsType? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.accessToken = accessToken
+        self.revokeAssociatedSessions = revokeAssociatedSessions
+        self.sessionId = sessionId
+    }
+}
+
+public struct RevokeUserSessionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -10479,6 +10865,47 @@ public struct SetUserMFAPreferenceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct SetUserPoolClientSessionConfigurationInput: Swift.Sendable {
+    /// The ID of the app client that you want to configure.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The SSO session settings for the app client.
+    /// This member is required.
+    public var ssoSession: CognitoIdentityProviderClientTypes.ClientSSOSessionConfigType?
+    /// The ID of the user pool that contains the app client.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        ssoSession: CognitoIdentityProviderClientTypes.ClientSSOSessionConfigType? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.ssoSession = ssoSession
+        self.userPoolId = userPoolId
+    }
+}
+
+public struct SetUserPoolClientSessionConfigurationOutput: Swift.Sendable {
+    /// The ID of the app client that the session configuration was applied to.
+    public var clientId: Swift.String?
+    /// The SSO session settings that were applied to the app client.
+    public var ssoSession: CognitoIdentityProviderClientTypes.ClientSSOSessionConfigType?
+    /// The ID of the user pool that contains the app client.
+    public var userPoolId: Swift.String?
+
+    public init(
+        clientId: Swift.String? = nil,
+        ssoSession: CognitoIdentityProviderClientTypes.ClientSSOSessionConfigType? = nil,
+        userPoolId: Swift.String? = nil
+    ) {
+        self.clientId = clientId
+        self.ssoSession = ssoSession
+        self.userPoolId = userPoolId
+    }
+}
+
 public struct SetUserPoolMfaConfigInput: Swift.Sendable {
     /// Sets configuration for user pool email message MFA and sign-in with one-time passwords (OTPs). Includes the subject and body of the email message template for sign-in and MFA messages. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
     public var emailMfaConfiguration: CognitoIdentityProviderClientTypes.EmailMfaConfigType?
@@ -10535,6 +10962,47 @@ public struct SetUserPoolMfaConfigOutput: Swift.Sendable {
         self.smsMfaConfiguration = smsMfaConfiguration
         self.softwareTokenMfaConfiguration = softwareTokenMfaConfiguration
         self.webAuthnConfiguration = webAuthnConfiguration
+    }
+}
+
+public struct SetUserPoolSessionConfigurationInput: Swift.Sendable {
+    /// The pool-wide token session settings to apply.
+    /// This member is required.
+    public var tokenSession: CognitoIdentityProviderClientTypes.UserPoolTokenSessionConfigType?
+    /// The ID of the user pool where you want to configure session tracking.
+    /// This member is required.
+    public var userPoolId: Swift.String?
+    /// Specifies whether Amazon Cognito tracks sessions for users in the user pool. Set this value to ENABLED to turn on server-side session tracking, or DISABLED to turn it off. When you set this value to DISABLED while the user pool remains active, existing client-level session configurations are retained but dormant, and are reactivated when you enable tracking again.
+    /// This member is required.
+    public var userSessionTracking: CognitoIdentityProviderClientTypes.UserSessionTrackingType?
+
+    public init(
+        tokenSession: CognitoIdentityProviderClientTypes.UserPoolTokenSessionConfigType? = nil,
+        userPoolId: Swift.String? = nil,
+        userSessionTracking: CognitoIdentityProviderClientTypes.UserSessionTrackingType? = nil
+    ) {
+        self.tokenSession = tokenSession
+        self.userPoolId = userPoolId
+        self.userSessionTracking = userSessionTracking
+    }
+}
+
+public struct SetUserPoolSessionConfigurationOutput: Swift.Sendable {
+    /// The pool-wide token session settings that were applied.
+    public var tokenSession: CognitoIdentityProviderClientTypes.UserPoolTokenSessionConfigType?
+    /// The ID of the user pool that the session configuration was applied to.
+    public var userPoolId: Swift.String?
+    /// The session tracking setting that was applied to the user pool.
+    public var userSessionTracking: CognitoIdentityProviderClientTypes.UserSessionTrackingType?
+
+    public init(
+        tokenSession: CognitoIdentityProviderClientTypes.UserPoolTokenSessionConfigType? = nil,
+        userPoolId: Swift.String? = nil,
+        userSessionTracking: CognitoIdentityProviderClientTypes.UserSessionTrackingType? = nil
+    ) {
+        self.tokenSession = tokenSession
+        self.userPoolId = userPoolId
+        self.userSessionTracking = userSessionTracking
     }
 }
 

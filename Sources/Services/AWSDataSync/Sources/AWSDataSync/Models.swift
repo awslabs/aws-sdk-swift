@@ -10,9 +10,9 @@
 import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 extension DataSyncClientTypes {
 
@@ -265,7 +265,7 @@ extension DataSyncClientTypes {
 }
 
 /// This exception is thrown when an error occurs in the DataSync service.
-public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InternalException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var errorCode: Swift.String? = nil
@@ -291,7 +291,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 }
 
 /// This exception is thrown when the client submits a malformed request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidRequestException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var datasyncErrorCode: Swift.String? = nil

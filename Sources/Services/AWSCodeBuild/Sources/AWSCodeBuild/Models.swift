@@ -10,12 +10,12 @@
 import Foundation
 import class SmithyHTTPAPI.HTTPResponse
 import enum ClientRuntime.ErrorFault
-import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 /// An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
-public struct AccountLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct AccountLimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -38,7 +38,7 @@ public struct AccountLimitExceededException: ClientRuntime.ModeledError, AWSClie
 }
 
 /// The CodeBuild access has been suspended for the calling Amazon Web Services account.
-public struct AccountSuspendedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct AccountSuspendedException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -216,7 +216,7 @@ extension CodeBuildClientTypes {
 }
 
 /// The input value that was provided is not valid.
-public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct InvalidInputException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -4540,7 +4540,7 @@ extension CodeBuildClientTypes {
 }
 
 /// The specified Amazon Web Services resource cannot be created, because an Amazon Web Services resource with the same settings already exists.
-public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -4889,7 +4889,7 @@ public struct CreateReportGroupOutput: Swift.Sendable {
 }
 
 /// There was a problem with the underlying OAuth provider.
-public struct OAuthProviderException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct OAuthProviderException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
@@ -4912,7 +4912,7 @@ public struct OAuthProviderException: ClientRuntime.ModeledError, AWSClientRunti
 }
 
 /// The specified Amazon Web Services resource cannot be found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil

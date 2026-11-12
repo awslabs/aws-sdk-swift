@@ -4259,7 +4259,7 @@ extension ImagebuilderClientTypes {
     public struct Filter: Swift.Sendable {
         /// The name of the filter. Filter names are case-sensitive.
         public var name: Swift.String?
-        /// The filter values. Filter values are case-sensitive.
+        /// The filter values. Filter values are case-sensitive. The name filter can use a wildcard: web* matches names that begin with web, and *web* matches names that contain web. The wildcard isn't supported in other positions or in other filters.
         public var values: [Swift.String]?
 
         public init(
@@ -6206,7 +6206,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 public struct ListComponentBuildVersionsInput: Swift.Sendable {
     /// The component version ARN whose build versions you want to list. The ARN must specify an exact version, without a build number suffix. If you don't specify an ARN, Image Builder returns build versions for the components that your account owns.
     public var componentVersionArn: Swift.String?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6300,7 +6300,7 @@ public struct ListComponentsInput: Swift.Sendable {
     ///
     /// * version
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6352,7 +6352,7 @@ public struct ListContainerRecipesInput: Swift.Sendable {
     ///
     /// * platform
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6394,7 +6394,7 @@ public struct ListContainerRecipesOutput: Swift.Sendable {
 public struct ListDistributionConfigurationsInput: Swift.Sendable {
     /// You can filter on name to streamline results.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6444,7 +6444,7 @@ public struct ListImageBuildVersionsInput: Swift.Sendable {
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// The Amazon Resource Name (ARN) of the image version whose build versions you want to retrieve. The ARN must specify an exact version (..) - wildcards aren't allowed. This parameter is optional. If you don't specify it, Image Builder returns build versions for all of the images in your account.
     public var imageVersionArn: Swift.String?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6568,7 +6568,7 @@ public struct ListImagePackagesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the image build version whose packages you want to list. The value must be a full build version ARN.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6632,7 +6632,7 @@ public struct ListImagePipelineImagesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view.
     /// This member is required.
     public var imagePipelineArn: Swift.String?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6684,7 +6684,7 @@ public struct ListImagePipelinesInput: Swift.Sendable {
     ///
     /// * status
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6728,7 +6728,7 @@ public struct ListImageRecipesInput: Swift.Sendable {
     ///
     /// * platform
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -6823,7 +6823,7 @@ public struct ListImagesInput: Swift.Sendable {
     public var filters: [ImagebuilderClientTypes.Filter]?
     /// Specifies whether to include deprecated Amazon-managed images in the results. Deprecated images that you own are always returned. Defaults to false.
     public var includeDeprecated: Swift.Bool?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7095,7 +7095,7 @@ public struct ListImageScanFindingsInput: Swift.Sendable {
     ///
     /// If you don't request a filter, then all findings in your account are listed.
     public var filters: [ImagebuilderClientTypes.ImageScanFindingsFilter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7358,7 +7358,7 @@ public struct ListImageScanFindingsOutput: Swift.Sendable {
 public struct ListInfrastructureConfigurationsInput: Swift.Sendable {
     /// You can filter on name to streamline results.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7448,7 +7448,7 @@ public struct ListLifecycleExecutionResourcesInput: Swift.Sendable {
     /// The unique identifier for a runtime instance of the lifecycle policy.
     /// This member is required.
     public var lifecycleExecutionId: Swift.String?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7672,7 +7672,7 @@ public struct ListLifecycleExecutionResourcesOutput: Swift.Sendable {
 }
 
 public struct ListLifecycleExecutionsInput: Swift.Sendable {
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7709,7 +7709,7 @@ public struct ListLifecycleExecutionsOutput: Swift.Sendable {
 public struct ListLifecyclePoliciesInput: Swift.Sendable {
     /// Use the following filters to streamline results: name, resourceType, and status. Filter names are matched exactly as shown.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7838,7 +7838,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct ListWaitingWorkflowStepsInput: Swift.Sendable {
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7907,7 +7907,7 @@ public struct ListWaitingWorkflowStepsOutput: Swift.Sendable {
 }
 
 public struct ListWorkflowBuildVersionsInput: Swift.Sendable {
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -7995,7 +7995,7 @@ public struct ListWorkflowExecutionsInput: Swift.Sendable {
     /// List all workflow runtime instances for the specified image build version resource ARN.
     /// This member is required.
     public var imageBuildVersionArn: Swift.String?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -8106,7 +8106,7 @@ public struct ListWorkflowsInput: Swift.Sendable {
     public var byName: Swift.Bool?
     /// Filters to narrow the list of workflows. You can filter on name, version, description, and type.
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?
@@ -8183,7 +8183,7 @@ public struct ListWorkflowsOutput: Swift.Sendable {
 }
 
 public struct ListWorkflowStepExecutionsInput: Swift.Sendable {
-    /// The maximum number of items to return in a single request.
+    /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. Use the nextToken value from a previously truncated response.
     public var nextToken: Swift.String?

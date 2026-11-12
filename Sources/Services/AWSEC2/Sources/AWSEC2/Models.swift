@@ -21431,6 +21431,9 @@ extension EC2ClientTypes {
 extension EC2ClientTypes {
 
     public enum FlowLogsResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case corenetwork
+        case corenetworkattachment
+        case corenetworkedge
         case networkinterface
         case regionalnatgateway
         case subnet
@@ -21441,6 +21444,9 @@ extension EC2ClientTypes {
 
         public static var allCases: [FlowLogsResourceType] {
             return [
+                .corenetwork,
+                .corenetworkattachment,
+                .corenetworkedge,
                 .networkinterface,
                 .regionalnatgateway,
                 .subnet,
@@ -21457,6 +21463,9 @@ extension EC2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .corenetwork: return "CoreNetwork"
+            case .corenetworkattachment: return "CoreNetworkAttachment"
+            case .corenetworkedge: return "CoreNetworkEdge"
             case .networkinterface: return "NetworkInterface"
             case .regionalnatgateway: return "RegionalNatGateway"
             case .subnet: return "Subnet"
@@ -21573,11 +21582,11 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var logDestination: Swift.String?
     /// The type of destination for the flow log data. Default: cloud-watch-logs
     public var logDestinationType: EC2ClientTypes.LogDestinationType?
-    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide or [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
+    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide, [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide, or [Cloud WAN Flow Log records](https://docs.aws.amazon.com/network-manager/latest/cloudwan/cwan-flow-logs.html) in the Amazon Web Services Cloud WAN User Guide. Specify the fields using the ${field-id} format, separated by spaces.
     public var logFormat: Swift.String?
     /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
     public var logGroupName: Swift.String?
-    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
+    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway and Cloud WAN resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
     public var maxAggregationInterval: Swift.Int?
     /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 300 for the other resource types.
     /// This member is required.
@@ -21589,7 +21598,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]?
     /// The tags to apply to the flow logs.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
-    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
+    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway or Cloud WAN resource types. It is required for the other resource types.
     public var trafficType: EC2ClientTypes.TrafficType?
 
     public init(

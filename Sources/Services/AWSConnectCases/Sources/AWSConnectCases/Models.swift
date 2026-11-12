@@ -1036,6 +1036,32 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// Information about the merge that produced an audit event.
+    public struct AuditMergeMetadata: Swift.Sendable {
+        /// The unique identifier of the merge. All audit events produced by the same merge, on both cases, have the same value. Use it to group the changes that a merge made.
+        /// This member is required.
+        public var mergeEventId: Swift.String?
+        /// The unique identifier of the primary case of the merge.
+        /// This member is required.
+        public var primaryCaseId: Swift.String?
+        /// The unique identifier of the secondary case of the merge.
+        /// This member is required.
+        public var secondaryCaseId: Swift.String?
+
+        public init(
+            mergeEventId: Swift.String? = nil,
+            primaryCaseId: Swift.String? = nil,
+            secondaryCaseId: Swift.String? = nil
+        ) {
+            self.mergeEventId = mergeEventId
+            self.primaryCaseId = primaryCaseId
+            self.secondaryCaseId = secondaryCaseId
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// Information of the user which performed the audit.
     public struct AuditEventPerformedBy: Swift.Sendable {
         /// Unique identifier of an IAM role.
@@ -1099,6 +1125,7 @@ extension ConnectCasesClientTypes {
 
     public enum AuditEventType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case caseCreated
+        case caseMerged
         case caseUpdated
         case relatedItemCreated
         case relatedItemDeleted
@@ -1108,6 +1135,7 @@ extension ConnectCasesClientTypes {
         public static var allCases: [AuditEventType] {
             return [
                 .caseCreated,
+                .caseMerged,
                 .caseUpdated,
                 .relatedItemCreated,
                 .relatedItemDeleted,
@@ -1123,6 +1151,7 @@ extension ConnectCasesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .caseCreated: return "Case.Created"
+            case .caseMerged: return "Case.Merged"
             case .caseUpdated: return "Case.Updated"
             case .relatedItemCreated: return "RelatedItem.Created"
             case .relatedItemDeleted: return "RelatedItem.Deleted"
@@ -1143,6 +1172,8 @@ extension ConnectCasesClientTypes {
         /// A list of Case Audit History event fields.
         /// This member is required.
         public var fields: [ConnectCasesClientTypes.AuditEventField?]?
+        /// Information about the merge that produced this audit event. Present only on audit events produced by a merge. For more information, see [StartMergeCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_StartMergeCases.html).
+        public var mergeMetadata: ConnectCasesClientTypes.AuditMergeMetadata?
         /// Information of the user which performed the audit.
         public var performedBy: ConnectCasesClientTypes.AuditEventPerformedBy?
         /// Time at which an Audit History event took place.
@@ -1150,13 +1181,14 @@ extension ConnectCasesClientTypes {
         public var performedTime: Foundation.Date?
         /// The Type of the related item.
         public var relatedItemType: ConnectCasesClientTypes.RelatedItemType?
-        /// The type of audit history event. Valid Values: Case.Created | Case.Updated | RelatedItem.Created | RelatedItem.Updated | RelatedItem.Deleted
+        /// The type of audit history event. Valid Values: Case.Created | Case.Updated | RelatedItem.Created | RelatedItem.Updated | RelatedItem.Deleted | Case.MergedCase.Merged summarizes a merge on each of the two cases that took part in it.
         /// This member is required.
         public var type: ConnectCasesClientTypes.AuditEventType?
 
         public init(
             eventId: Swift.String? = nil,
             fields: [ConnectCasesClientTypes.AuditEventField?]? = nil,
+            mergeMetadata: ConnectCasesClientTypes.AuditMergeMetadata? = nil,
             performedBy: ConnectCasesClientTypes.AuditEventPerformedBy? = nil,
             performedTime: Foundation.Date? = nil,
             relatedItemType: ConnectCasesClientTypes.RelatedItemType? = nil,
@@ -1164,6 +1196,7 @@ extension ConnectCasesClientTypes {
         ) {
             self.eventId = eventId
             self.fields = fields
+            self.mergeMetadata = mergeMetadata
             self.performedBy = performedBy
             self.performedTime = performedTime
             self.relatedItemType = relatedItemType
@@ -1185,6 +1218,79 @@ public struct GetCaseAuditEventsOutput: Swift.Sendable {
     ) {
         self.auditEvents = auditEvents
         self.nextToken = nextToken
+    }
+}
+
+public struct GetMergeCasesStatusInput: Swift.Sendable {
+    /// The unique identifier of the case. This can be the primary case or the secondary case of a merge.
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+
+    public init(
+        caseId: Swift.String? = nil,
+        domainId: Swift.String? = nil
+    ) {
+        self.caseId = caseId
+        self.domainId = domainId
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// The merge status of a case.
+    ///
+    /// * IN_PROGRESS - The merge is running. You can't modify the secondary case or its related items. You can modify the primary case, but you can't delete it.
+    ///
+    /// * COMPLETED - The merge finished, and this case was the secondary case. The case was closed by the merge. You can reopen, update, and delete it, but you can't include it in another merge.
+    public enum MergeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The merge finished and this case was the secondary. The case is closed and permanently read-only, but can be deleted.
+        case completed
+        /// The merge is running. The primary and secondary cases can't be modified until it finishes.
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MergeStatus] {
+            return [
+                .completed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetMergeCasesStatusOutput: Swift.Sendable {
+    /// The unique identifier of the primary case of the merge.
+    public var primaryCaseId: Swift.String?
+    /// The unique identifiers of the secondary cases of the merge.
+    public var secondaryCaseIds: [Swift.String]?
+    /// The merge status of the case.
+    /// This member is required.
+    public var status: ConnectCasesClientTypes.MergeStatus?
+
+    public init(
+        primaryCaseId: Swift.String? = nil,
+        secondaryCaseIds: [Swift.String]? = nil,
+        status: ConnectCasesClientTypes.MergeStatus? = nil
+    ) {
+        self.primaryCaseId = primaryCaseId
+        self.secondaryCaseIds = secondaryCaseIds
+        self.status = status
     }
 }
 
@@ -1910,6 +2016,102 @@ public struct SearchCasesOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.totalCount = totalCount
     }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Specifies the fields whose values to take from the secondary case when you merge cases.
+    public struct FieldsConfiguration: Swift.Sendable {
+        /// The fields whose values to take from the source case. Each field must exist on the source case and must be a field that can be merged. Don't list the same field more than once.
+        /// This member is required.
+        public var fieldIds: [ConnectCasesClientTypes.FieldIdentifier]?
+        /// The unique identifier of the case to take the field values from. This must be the secondary case.
+        /// This member is required.
+        public var sourceCaseId: Swift.String?
+
+        public init(
+            fieldIds: [ConnectCasesClientTypes.FieldIdentifier]? = nil,
+            sourceCaseId: Swift.String? = nil
+        ) {
+            self.fieldIds = fieldIds
+            self.sourceCaseId = sourceCaseId
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Specifies which types of related items to move from the secondary case to the primary case when you merge cases. Moved related items keep their related item ID, creator, association time, and tags.
+    public struct RelatedItemsConfiguration: Swift.Sendable {
+        /// Whether to move Comment related items to the primary case.
+        public var comment: Swift.Bool?
+        /// Whether to move Case related items to the primary case. If the primary case already links to the same case, the secondary case's link is removed instead of moved.
+        public var connectCase: Swift.Bool?
+        /// Whether to move Contact related items to the primary case. If the same contact is related to both cases, the primary case keeps its related item and gets any tag keys that only the secondary case's related item has.
+        public var contact: Swift.Bool?
+        /// Whether to move Custom related items to the primary case.
+        public var custom: Swift.Bool?
+
+        public init(
+            comment: Swift.Bool? = nil,
+            connectCase: Swift.Bool? = nil,
+            contact: Swift.Bool? = nil,
+            custom: Swift.Bool? = nil
+        ) {
+            self.comment = comment
+            self.connectCase = connectCase
+            self.contact = contact
+            self.custom = custom
+        }
+    }
+}
+
+public struct StartMergeCasesInput: Swift.Sendable {
+    /// The unique identifier of the primary case. The primary case remains active and receives the merged field values and related items. The cases can use different templates, and the primary case keeps its template.
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The fields whose values to take from the secondary case. You can only merge custom fields and the following system fields: assigned_queue, assigned_user, summary, and case_reason. If you select any other system field, the request fails with a ValidationException. For each field that can be merged, the merge works as follows:
+    ///
+    /// * If you select the field, the primary case gets the secondary case's value. If the secondary case's value is empty, the primary case's value is cleared.
+    ///
+    /// * If you don't select the field and the primary case has a value for it, the primary case keeps its value.
+    ///
+    /// * If you don't select the field and the primary case doesn't have the field, or its value is empty, the primary case gets the secondary case's value. This applies even when the field isn't on the primary case's template.
+    ///
+    ///
+    /// Field values are read from both cases when the merge runs, so changes that you make to the primary case after you start the merge are taken into account. Specify at most one entry, and set its sourceCaseId to the secondary case ID.
+    public var fieldsConfiguration: [ConnectCasesClientTypes.FieldsConfiguration]?
+    /// The user who performed the merge. If you provide userArn, you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of that user.
+    public var performedBy: ConnectCasesClientTypes.UserUnion?
+    /// The types of related items to move from the secondary case to the primary case. Related items of a type that you don't select, or set to false, stay on the closed secondary case. If you omit this parameter, no related items are moved. File, SLA, and work plan related items are never moved. They stay on the secondary case.
+    public var relatedItemsConfiguration: ConnectCasesClientTypes.RelatedItemsConfiguration?
+    /// The unique identifier of the secondary case to merge into the primary case. The secondary case is closed when the merge finishes. Specify exactly one case ID.
+    /// This member is required.
+    public var secondaryCaseIds: [Swift.String]?
+
+    public init(
+        caseId: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        fieldsConfiguration: [ConnectCasesClientTypes.FieldsConfiguration]? = nil,
+        performedBy: ConnectCasesClientTypes.UserUnion? = nil,
+        relatedItemsConfiguration: ConnectCasesClientTypes.RelatedItemsConfiguration? = nil,
+        secondaryCaseIds: [Swift.String]? = nil
+    ) {
+        self.caseId = caseId
+        self.domainId = domainId
+        self.fieldsConfiguration = fieldsConfiguration
+        self.performedBy = performedBy
+        self.relatedItemsConfiguration = relatedItemsConfiguration
+        self.secondaryCaseIds = secondaryCaseIds
+    }
+}
+
+public struct StartMergeCasesOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct UpdateCaseInput: Swift.Sendable {
@@ -4613,6 +4815,19 @@ extension GetLayoutInput {
     }
 }
 
+extension GetMergeCasesStatusInput {
+
+    static func urlPathProvider(_ value: GetMergeCasesStatusInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/cases/\(caseId.urlPercentEncoding())/merge-status"
+    }
+}
+
 extension GetTemplateInput {
 
     static func urlPathProvider(_ value: GetTemplateInput) -> Swift.String? {
@@ -4854,6 +5069,19 @@ extension SearchRelatedItemsInput {
             return nil
         }
         return "/domains/\(domainId.urlPercentEncoding())/cases/\(caseId.urlPercentEncoding())/related-items-search"
+    }
+}
+
+extension StartMergeCasesInput {
+
+    static func urlPathProvider(_ value: StartMergeCasesInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/cases/\(caseId.urlPercentEncoding())/merge"
     }
 }
 
@@ -5166,6 +5394,17 @@ extension SearchRelatedItemsInput {
         try writer["filters"].writeList(value.filters, memberWritingClosure: ConnectCasesClientTypes.RelatedItemTypeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension StartMergeCasesInput {
+
+    static func write(value: StartMergeCasesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldsConfiguration"].writeList(value.fieldsConfiguration, memberWritingClosure: ConnectCasesClientTypes.FieldsConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["performedBy"].write(value.performedBy, with: ConnectCasesClientTypes.UserUnion.write(value:to:))
+        try writer["relatedItemsConfiguration"].write(value.relatedItemsConfiguration, with: ConnectCasesClientTypes.RelatedItemsConfiguration.write(value:to:))
+        try writer["secondaryCaseIds"].writeList(value.secondaryCaseIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -5520,6 +5759,20 @@ extension GetLayoutOutput {
     }
 }
 
+extension GetMergeCasesStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMergeCasesStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMergeCasesStatusOutput()
+        value.primaryCaseId = try reader["primaryCaseId"].readIfPresent()
+        value.secondaryCaseIds = try reader["secondaryCaseIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GetTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTemplateOutput {
@@ -5691,6 +5944,13 @@ extension SearchRelatedItemsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.relatedItems = try reader["relatedItems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: ConnectCasesClientTypes.SearchRelatedItemsResponseItem.read(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension StartMergeCasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMergeCasesOutput {
+        return StartMergeCasesOutput()
     }
 }
 
@@ -5963,6 +6223,7 @@ enum CreateRelatedItemOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -6002,6 +6263,7 @@ enum DeleteCaseOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6096,6 +6358,7 @@ enum DeleteRelatedItemOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6197,6 +6460,24 @@ enum GetDomainOutputError {
 }
 
 enum GetLayoutOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetMergeCasesStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6448,6 +6729,26 @@ enum SearchRelatedItemsOutputError {
     }
 }
 
+enum StartMergeCasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6493,6 +6794,7 @@ enum UpdateCaseOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6570,6 +6872,7 @@ enum UpdateRelatedItemOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -6708,6 +7011,7 @@ extension ConnectCasesClientTypes.AuditEvent {
         value.performedTime = try reader["performedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: ConnectCasesClientTypes.AuditEventField.read(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
         value.performedBy = try reader["performedBy"].readIfPresent(with: ConnectCasesClientTypes.AuditEventPerformedBy.read(from:))
+        value.mergeMetadata = try reader["mergeMetadata"].readIfPresent(with: ConnectCasesClientTypes.AuditMergeMetadata.read(from:))
         return value
     }
 }
@@ -6753,6 +7057,18 @@ extension ConnectCasesClientTypes.AuditEventPerformedBy {
         var value = ConnectCasesClientTypes.AuditEventPerformedBy()
         value.user = try reader["user"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
         value.iamPrincipalArn = try reader["iamPrincipalArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.AuditMergeMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.AuditMergeMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.AuditMergeMetadata()
+        value.mergeEventId = try reader["mergeEventId"].readIfPresent() ?? ""
+        value.primaryCaseId = try reader["primaryCaseId"].readIfPresent() ?? ""
+        value.secondaryCaseId = try reader["secondaryCaseId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7431,6 +7747,15 @@ extension ConnectCasesClientTypes.FieldOptionsCaseRule {
     }
 }
 
+extension ConnectCasesClientTypes.FieldsConfiguration {
+
+    static func write(value: ConnectCasesClientTypes.FieldsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldIds"].writeList(value.fieldIds, memberWritingClosure: ConnectCasesClientTypes.FieldIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceCaseId"].write(value.sourceCaseId)
+    }
+}
+
 extension ConnectCasesClientTypes.FieldSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldSummary {
@@ -7792,6 +8117,17 @@ extension ConnectCasesClientTypes.RelatedItemInputContent {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCasesClientTypes.RelatedItemsConfiguration {
+
+    static func write(value: ConnectCasesClientTypes.RelatedItemsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comment"].write(value.comment)
+        try writer["connectCase"].write(value.connectCase)
+        try writer["contact"].write(value.contact)
+        try writer["custom"].write(value.custom)
     }
 }
 
