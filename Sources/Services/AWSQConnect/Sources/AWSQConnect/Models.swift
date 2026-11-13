@@ -9892,6 +9892,98 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
+    /// Contains information about a catalog item, including its identifier, name, price, and other attributes that are used in recommendations.
+    public struct ProfileCatalogItem: Swift.Sendable {
+        /// Additional information about the catalog item.
+        public var additionalInformation: Swift.String?
+        /// The custom attributes of the catalog item.
+        public var attributes: [Swift.String: Swift.String]?
+        /// The category of the catalog item.
+        public var category: Swift.String?
+        /// The code of the catalog item.
+        public var code: Swift.String?
+        /// The timestamp when the catalog item was created.
+        public var createdAt: Swift.String?
+        /// The description of the catalog item.
+        public var description: Swift.String?
+        /// The unique identifier of the catalog item.
+        public var id: Swift.String?
+        /// The URL of the image of the catalog item.
+        public var imageLink: Swift.String?
+        /// The URL of the catalog item.
+        public var link: Swift.String?
+        /// The name of the catalog item.
+        public var name: Swift.String?
+        /// The price of the catalog item.
+        public var price: Swift.String?
+        /// The type of the catalog item.
+        public var type: Swift.String?
+        /// The timestamp when the catalog item was last updated.
+        public var updatedAt: Swift.String?
+
+        public init(
+            additionalInformation: Swift.String? = nil,
+            attributes: [Swift.String: Swift.String]? = nil,
+            category: Swift.String? = nil,
+            code: Swift.String? = nil,
+            createdAt: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            imageLink: Swift.String? = nil,
+            link: Swift.String? = nil,
+            name: Swift.String? = nil,
+            price: Swift.String? = nil,
+            type: Swift.String? = nil,
+            updatedAt: Swift.String? = nil
+        ) {
+            self.additionalInformation = additionalInformation
+            self.attributes = attributes
+            self.category = category
+            self.code = code
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.imageLink = imageLink
+            self.link = link
+            self.name = name
+            self.price = price
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension QConnectClientTypes.ProfileCatalogItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProfileCatalogItem(additionalInformation: \"CONTENT_REDACTED\", attributes: [keys: \(Swift.String(describing: attributes?.keys)), values: \"CONTENT_REDACTED\"], category: \"CONTENT_REDACTED\", code: \"CONTENT_REDACTED\", createdAt: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", id: \"CONTENT_REDACTED\", imageLink: \"CONTENT_REDACTED\", link: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", price: \"CONTENT_REDACTED\", type: \"CONTENT_REDACTED\", updatedAt: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
+    /// Contains information about a recommendation that is associated with a customer profile, including the relevance score and the associated catalog item.
+    public struct ProfileRecommendation: Swift.Sendable {
+        /// The catalog item that is associated with the recommendation.
+        public var catalogItem: QConnectClientTypes.ProfileCatalogItem?
+        /// The relevance score of the recommendation.
+        public var score: Swift.Double
+
+        public init(
+            catalogItem: QConnectClientTypes.ProfileCatalogItem? = nil,
+            score: Swift.Double = 0.0
+        ) {
+            self.catalogItem = catalogItem
+            self.score = score
+        }
+    }
+}
+
+extension QConnectClientTypes.ProfileRecommendation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProfileRecommendation(catalogItem: \(Swift.String(describing: catalogItem)), score: \"CONTENT_REDACTED\")"}
+}
+
+extension QConnectClientTypes {
+
     /// The customer profile attributes that are used with the message template.
     public struct CustomerProfileAttributes: Swift.Sendable {
         /// A unique account number that you have given to the customer.
@@ -9934,6 +10026,8 @@ extension QConnectClientTypes {
         public var businessName: Swift.String?
         /// The customer's business phone number.
         public var businessPhoneNumber: Swift.String?
+        /// The calculated attributes from the customer profile that are used with the message template.
+        public var calculatedAttributes: [Swift.String: Swift.String]?
         /// The city in which a customer lives.
         public var city: Swift.String?
         /// The country in which a customer lives.
@@ -9988,6 +10082,8 @@ extension QConnectClientTypes {
         public var profileId: Swift.String?
         /// The province in which a customer lives.
         public var province: Swift.String?
+        /// The recommendations that are associated with the customer profile.
+        public var recommendations: [QConnectClientTypes.ProfileRecommendation]?
         /// The first line of a customer’s shipping address.
         public var shippingAddress1: Swift.String?
         /// The second line of a customer’s shipping address.
@@ -10032,6 +10128,7 @@ extension QConnectClientTypes {
             businessEmailAddress: Swift.String? = nil,
             businessName: Swift.String? = nil,
             businessPhoneNumber: Swift.String? = nil,
+            calculatedAttributes: [Swift.String: Swift.String]? = nil,
             city: Swift.String? = nil,
             country: Swift.String? = nil,
             county: Swift.String? = nil,
@@ -10059,6 +10156,7 @@ extension QConnectClientTypes {
             profileARN: Swift.String? = nil,
             profileId: Swift.String? = nil,
             province: Swift.String? = nil,
+            recommendations: [QConnectClientTypes.ProfileRecommendation]? = nil,
             shippingAddress1: Swift.String? = nil,
             shippingAddress2: Swift.String? = nil,
             shippingAddress3: Swift.String? = nil,
@@ -10091,6 +10189,7 @@ extension QConnectClientTypes {
             self.businessEmailAddress = businessEmailAddress
             self.businessName = businessName
             self.businessPhoneNumber = businessPhoneNumber
+            self.calculatedAttributes = calculatedAttributes
             self.city = city
             self.country = country
             self.county = county
@@ -10118,6 +10217,7 @@ extension QConnectClientTypes {
             self.profileARN = profileARN
             self.profileId = profileId
             self.province = province
+            self.recommendations = recommendations
             self.shippingAddress1 = shippingAddress1
             self.shippingAddress2 = shippingAddress2
             self.shippingAddress3 = shippingAddress3
@@ -10135,7 +10235,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.CustomerProfileAttributes: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomerProfileAttributes(accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address1: \"CONTENT_REDACTED\", address2: \"CONTENT_REDACTED\", address3: \"CONTENT_REDACTED\", address4: \"CONTENT_REDACTED\", billingAddress1: \"CONTENT_REDACTED\", billingAddress2: \"CONTENT_REDACTED\", billingAddress3: \"CONTENT_REDACTED\", billingAddress4: \"CONTENT_REDACTED\", billingCity: \"CONTENT_REDACTED\", billingCountry: \"CONTENT_REDACTED\", billingCounty: \"CONTENT_REDACTED\", billingPostalCode: \"CONTENT_REDACTED\", billingProvince: \"CONTENT_REDACTED\", billingState: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", city: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", county: \"CONTENT_REDACTED\", custom: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress1: \"CONTENT_REDACTED\", mailingAddress2: \"CONTENT_REDACTED\", mailingAddress3: \"CONTENT_REDACTED\", mailingAddress4: \"CONTENT_REDACTED\", mailingCity: \"CONTENT_REDACTED\", mailingCountry: \"CONTENT_REDACTED\", mailingCounty: \"CONTENT_REDACTED\", mailingPostalCode: \"CONTENT_REDACTED\", mailingProvince: \"CONTENT_REDACTED\", mailingState: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", profileARN: \"CONTENT_REDACTED\", profileId: \"CONTENT_REDACTED\", province: \"CONTENT_REDACTED\", shippingAddress1: \"CONTENT_REDACTED\", shippingAddress2: \"CONTENT_REDACTED\", shippingAddress3: \"CONTENT_REDACTED\", shippingAddress4: \"CONTENT_REDACTED\", shippingCity: \"CONTENT_REDACTED\", shippingCountry: \"CONTENT_REDACTED\", shippingCounty: \"CONTENT_REDACTED\", shippingPostalCode: \"CONTENT_REDACTED\", shippingProvince: \"CONTENT_REDACTED\", shippingState: \"CONTENT_REDACTED\", state: \"CONTENT_REDACTED\")"}
+        "CustomerProfileAttributes(recommendations: \(Swift.String(describing: recommendations)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address1: \"CONTENT_REDACTED\", address2: \"CONTENT_REDACTED\", address3: \"CONTENT_REDACTED\", address4: \"CONTENT_REDACTED\", billingAddress1: \"CONTENT_REDACTED\", billingAddress2: \"CONTENT_REDACTED\", billingAddress3: \"CONTENT_REDACTED\", billingAddress4: \"CONTENT_REDACTED\", billingCity: \"CONTENT_REDACTED\", billingCountry: \"CONTENT_REDACTED\", billingCounty: \"CONTENT_REDACTED\", billingPostalCode: \"CONTENT_REDACTED\", billingProvince: \"CONTENT_REDACTED\", billingState: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", calculatedAttributes: \"CONTENT_REDACTED\", city: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", county: \"CONTENT_REDACTED\", custom: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress1: \"CONTENT_REDACTED\", mailingAddress2: \"CONTENT_REDACTED\", mailingAddress3: \"CONTENT_REDACTED\", mailingAddress4: \"CONTENT_REDACTED\", mailingCity: \"CONTENT_REDACTED\", mailingCountry: \"CONTENT_REDACTED\", mailingCounty: \"CONTENT_REDACTED\", mailingPostalCode: \"CONTENT_REDACTED\", mailingProvince: \"CONTENT_REDACTED\", mailingState: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", profileARN: \"CONTENT_REDACTED\", profileId: \"CONTENT_REDACTED\", province: \"CONTENT_REDACTED\", shippingAddress1: \"CONTENT_REDACTED\", shippingAddress2: \"CONTENT_REDACTED\", shippingAddress3: \"CONTENT_REDACTED\", shippingAddress4: \"CONTENT_REDACTED\", shippingCity: \"CONTENT_REDACTED\", shippingCountry: \"CONTENT_REDACTED\", shippingCounty: \"CONTENT_REDACTED\", shippingPostalCode: \"CONTENT_REDACTED\", shippingProvince: \"CONTENT_REDACTED\", shippingState: \"CONTENT_REDACTED\", state: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -10192,6 +10292,8 @@ extension QConnectClientTypes {
     public struct MessageTemplateAttributes: Swift.Sendable {
         /// The agent attributes that are used with the message template.
         public var agentAttributes: QConnectClientTypes.AgentAttributes?
+        /// The case attributes that are used with the message template.
+        public var caseAttributes: [Swift.String: Swift.String]?
         /// The custom attributes that are used with the message template.
         public var customAttributes: [Swift.String: Swift.String]?
         /// The customer profile attributes that are used with the message template.
@@ -10201,11 +10303,13 @@ extension QConnectClientTypes {
 
         public init(
             agentAttributes: QConnectClientTypes.AgentAttributes? = nil,
+            caseAttributes: [Swift.String: Swift.String]? = nil,
             customAttributes: [Swift.String: Swift.String]? = nil,
             customerProfileAttributes: QConnectClientTypes.CustomerProfileAttributes? = nil,
             systemAttributes: QConnectClientTypes.SystemAttributes? = nil
         ) {
             self.agentAttributes = agentAttributes
+            self.caseAttributes = caseAttributes
             self.customAttributes = customAttributes
             self.customerProfileAttributes = customerProfileAttributes
             self.systemAttributes = systemAttributes
@@ -10215,7 +10319,7 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes.MessageTemplateAttributes: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MessageTemplateAttributes(agentAttributes: \(Swift.String(describing: agentAttributes)), customerProfileAttributes: \(Swift.String(describing: customerProfileAttributes)), systemAttributes: \(Swift.String(describing: systemAttributes)), customAttributes: \"CONTENT_REDACTED\")"}
+        "MessageTemplateAttributes(agentAttributes: \(Swift.String(describing: agentAttributes)), customerProfileAttributes: \(Swift.String(describing: customerProfileAttributes)), systemAttributes: \(Swift.String(describing: systemAttributes)), caseAttributes: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -10338,6 +10442,7 @@ extension QConnectClientTypes {
 
     public enum MessageTemplateAttributeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agent
+        case `case`
         case custom
         case customerProfile
         case system
@@ -10346,6 +10451,7 @@ extension QConnectClientTypes {
         public static var allCases: [MessageTemplateAttributeType] {
             return [
                 .agent,
+                .case,
                 .custom,
                 .customerProfile,
                 .system
@@ -10360,6 +10466,7 @@ extension QConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .agent: return "AGENT"
+            case .case: return "CASE"
             case .custom: return "CUSTOM"
             case .customerProfile: return "CUSTOMER_PROFILE"
             case .system: return "SYSTEM"
@@ -20171,6 +20278,7 @@ extension QConnectClientTypes.CustomerProfileAttributes {
         try writer["businessEmailAddress"].write(value.businessEmailAddress)
         try writer["businessName"].write(value.businessName)
         try writer["businessPhoneNumber"].write(value.businessPhoneNumber)
+        try writer["calculatedAttributes"].writeMap(value.calculatedAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["city"].write(value.city)
         try writer["country"].write(value.country)
         try writer["county"].write(value.county)
@@ -20198,6 +20306,7 @@ extension QConnectClientTypes.CustomerProfileAttributes {
         try writer["profileARN"].write(value.profileARN)
         try writer["profileId"].write(value.profileId)
         try writer["province"].write(value.province)
+        try writer["recommendations"].writeList(value.recommendations, memberWritingClosure: QConnectClientTypes.ProfileRecommendation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["shippingAddress1"].write(value.shippingAddress1)
         try writer["shippingAddress2"].write(value.shippingAddress2)
         try writer["shippingAddress3"].write(value.shippingAddress3)
@@ -20272,6 +20381,8 @@ extension QConnectClientTypes.CustomerProfileAttributes {
         value.billingProvince = try reader["billingProvince"].readIfPresent()
         value.billingState = try reader["billingState"].readIfPresent()
         value.custom = try reader["custom"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recommendations = try reader["recommendations"].readListIfPresent(memberReadingClosure: QConnectClientTypes.ProfileRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.calculatedAttributes = try reader["calculatedAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -21184,6 +21295,7 @@ extension QConnectClientTypes.MessageTemplateAttributes {
     static func write(value: QConnectClientTypes.MessageTemplateAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentAttributes"].write(value.agentAttributes, with: QConnectClientTypes.AgentAttributes.write(value:to:))
+        try writer["caseAttributes"].writeMap(value.caseAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["customAttributes"].writeMap(value.customAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["customerProfileAttributes"].write(value.customerProfileAttributes, with: QConnectClientTypes.CustomerProfileAttributes.write(value:to:))
         try writer["systemAttributes"].write(value.systemAttributes, with: QConnectClientTypes.SystemAttributes.write(value:to:))
@@ -21196,6 +21308,7 @@ extension QConnectClientTypes.MessageTemplateAttributes {
         value.agentAttributes = try reader["agentAttributes"].readIfPresent(with: QConnectClientTypes.AgentAttributes.read(from:))
         value.customerProfileAttributes = try reader["customerProfileAttributes"].readIfPresent(with: QConnectClientTypes.CustomerProfileAttributes.read(from:))
         value.customAttributes = try reader["customAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.caseAttributes = try reader["caseAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -21661,6 +21774,62 @@ extension QConnectClientTypes.ProactiveRecommendationDataDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QConnectClientTypes.ProactiveRecommendationDataDetails()
         value.nextMessageToken = try reader["nextMessageToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QConnectClientTypes.ProfileCatalogItem {
+
+    static func write(value: QConnectClientTypes.ProfileCatalogItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalInformation"].write(value.additionalInformation)
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["category"].write(value.category)
+        try writer["code"].write(value.code)
+        try writer["createdAt"].write(value.createdAt)
+        try writer["description"].write(value.description)
+        try writer["id"].write(value.id)
+        try writer["imageLink"].write(value.imageLink)
+        try writer["link"].write(value.link)
+        try writer["name"].write(value.name)
+        try writer["price"].write(value.price)
+        try writer["type"].write(value.type)
+        try writer["updatedAt"].write(value.updatedAt)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ProfileCatalogItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ProfileCatalogItem()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.additionalInformation = try reader["additionalInformation"].readIfPresent()
+        value.imageLink = try reader["imageLink"].readIfPresent()
+        value.link = try reader["link"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readIfPresent()
+        value.price = try reader["price"].readIfPresent()
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension QConnectClientTypes.ProfileRecommendation {
+
+    static func write(value: QConnectClientTypes.ProfileRecommendation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["catalogItem"].write(value.catalogItem, with: QConnectClientTypes.ProfileCatalogItem.write(value:to:))
+        try writer["score"].write(value.score)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.ProfileRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QConnectClientTypes.ProfileRecommendation()
+        value.score = try reader["score"].readIfPresent() ?? 0
+        value.catalogItem = try reader["catalogItem"].readIfPresent(with: QConnectClientTypes.ProfileCatalogItem.read(from:))
         return value
     }
 }

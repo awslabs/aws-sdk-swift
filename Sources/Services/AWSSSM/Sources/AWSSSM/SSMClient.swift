@@ -11620,6 +11620,7 @@ extension SSMClient {
     /// - `ConflictException` : An error occurred because of a conflict with a concurrent request or the current state of the resource. Retry your request.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `ResourceNotFoundException` : The specified parameter to be shared could not be found.
+    /// - `ServiceQuotaExceededException` : The request exceeds the service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
     public func updateCloudConnector(input: UpdateCloudConnectorInput) async throws -> UpdateCloudConnectorOutput {
         var config = config
         let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]

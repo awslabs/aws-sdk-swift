@@ -631,7 +631,7 @@ extension SchedulerClient {
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createSchedule(input: CreateScheduleInput) async throws -> CreateScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -704,7 +704,7 @@ extension SchedulerClient {
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createScheduleGroup(input: CreateScheduleGroupInput) async throws -> CreateScheduleGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -776,8 +776,9 @@ extension SchedulerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSchedule(input: DeleteScheduleInput) async throws -> DeleteScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -848,7 +849,7 @@ extension SchedulerClient {
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteScheduleGroup(input: DeleteScheduleGroupInput) async throws -> DeleteScheduleGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -917,8 +918,9 @@ extension SchedulerClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getSchedule(input: GetScheduleInput) async throws -> GetScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -987,7 +989,7 @@ extension SchedulerClient {
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getScheduleGroup(input: GetScheduleGroupInput) async throws -> GetScheduleGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1054,7 +1056,7 @@ extension SchedulerClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listScheduleGroups(input: ListScheduleGroupsInput) async throws -> ListScheduleGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1123,7 +1125,7 @@ extension SchedulerClient {
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listSchedules(input: ListSchedulesInput) async throws -> ListSchedulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1192,7 +1194,7 @@ extension SchedulerClient {
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1261,7 +1263,7 @@ extension SchedulerClient {
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1333,7 +1335,7 @@ extension SchedulerClient {
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1402,8 +1404,9 @@ extension SchedulerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : Unexpected error encountered while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateSchedule(input: UpdateScheduleInput) async throws -> UpdateScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)

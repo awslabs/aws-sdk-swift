@@ -55,6 +55,7 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
+import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.IdempotencyTokenMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
@@ -628,7 +629,7 @@ extension LambdaCoreClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
     /// - `NetworkConnectorLimitExceededException` : The request would exceed a network connector limit. For CreateNetworkConnector, the account has reached the maximum number of network connectors allowed. For UpdateNetworkConnector, the connector has reached the maximum number of versions allowed.
-    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
     /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
     /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
     public func createNetworkConnector(input: CreateNetworkConnectorInput) async throws -> CreateNetworkConnectorOutput {
@@ -688,6 +689,224 @@ extension LambdaCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateRuntime` operation on the `LambdaCore` service.
+    ///
+    /// Creates a customer-managed runtime, a resource providing a centrally managed execution environment for your Lambda functions. The runtime resource is the parent of the runtime version and runtime alias child resources.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRuntimeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRuntimeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota for your account. Request a quota increase or reduce the number of resources in use, then retry the request.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func createRuntime(input: CreateRuntimeInput) async throws -> CreateRuntimeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRuntime")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRuntimeInput, CreateRuntimeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRuntimeInput, CreateRuntimeOutput>(CreateRuntimeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuntimeInput, CreateRuntimeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuntimeInput, CreateRuntimeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRuntimeInput, CreateRuntimeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuntimeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuntimeInput, CreateRuntimeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuntimeOutput>(CreateRuntimeOutput.httpOutput(from:), CreateRuntimeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuntimeInput, CreateRuntimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuntimeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuntimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuntimeInput, CreateRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRuntimeInput, CreateRuntimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRuntimeInput, CreateRuntimeOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRuntime")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRuntimeAlias` operation on the `LambdaCore` service.
+    ///
+    /// Creates a new customer-managed runtime alias. The alias is a named pointer to a runtime version. Functions consume the customer-managed runtime through the runtime alias.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRuntimeAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRuntimeAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota for your account. Request a quota increase or reduce the number of resources in use, then retry the request.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func createRuntimeAlias(input: CreateRuntimeAliasInput) async throws -> CreateRuntimeAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRuntimeAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRuntimeAliasInput, CreateRuntimeAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>(CreateRuntimeAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuntimeAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuntimeAliasOutput>(CreateRuntimeAliasOutput.httpOutput(from:), CreateRuntimeAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuntimeAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuntimeAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRuntimeAliasInput, CreateRuntimeAliasOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRuntimeAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateRuntimeVersion` operation on the `LambdaCore` service.
+    ///
+    /// Creates a new runtime version. A runtime version defines the function execution environment by referencing a container image. Runtime versions are immutable. To update the runtime, create a new runtime version and migrate functions by updating the runtime aliases to point to the new runtime version.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateRuntimeVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateRuntimeVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `ServiceQuotaExceededException` : The request would exceed a service quota for your account. Request a quota increase or reduce the number of resources in use, then retry the request.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func createRuntimeVersion(input: CreateRuntimeVersionInput) async throws -> CreateRuntimeVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRuntimeVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateRuntimeVersionInput, CreateRuntimeVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>(CreateRuntimeVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateRuntimeVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuntimeVersionOutput>(CreateRuntimeVersionOutput.httpOutput(from:), CreateRuntimeVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuntimeVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateRuntimeVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateRuntimeVersionInput, CreateRuntimeVersionOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateRuntimeVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteNetworkConnector` operation on the `LambdaCore` service.
     ///
     /// Initiates deletion of a network connector. The connector transitions to DELETING state while elastic network interfaces are cleaned up asynchronously. After deletion completes, subsequent calls to GetNetworkConnector return ResourceNotFoundException. This operation is idempotent — calling delete on a connector that is already deleting or has been deleted succeeds without error. You can delete connectors in ACTIVE or FAILED states. Before deleting a connector, ensure that no Lambda compute resources are using it, as they will lose VPC egress connectivity immediately. Deleting with an unqualified identifier removes the connector and all of its versions. To remove a single historical version, supply its version-qualified ARN; the connector and its remaining versions are unaffected. You can't delete the latest version on its own — delete the connector to remove it.
@@ -700,8 +919,8 @@ extension LambdaCoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
-    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
-    /// - `ResourceNotFoundException` : The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
     /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
     /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
     public func deleteNetworkConnector(input: DeleteNetworkConnectorInput) async throws -> DeleteNetworkConnectorOutput {
@@ -757,6 +976,216 @@ extension LambdaCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteRuntime` operation on the `LambdaCore` service.
+    ///
+    /// Schedules a customer-managed runtime to be deleted. Runtimes scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Runtime versions and aliases must be deleted or scheduled for deletion before deleting the runtime. Function invokes fail for functions using runtime versions or aliases that are deleted or pending deletion.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuntimeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRuntimeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func deleteRuntime(input: DeleteRuntimeInput) async throws -> DeleteRuntimeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRuntime")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRuntimeInput, DeleteRuntimeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRuntimeInput, DeleteRuntimeOutput>(DeleteRuntimeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuntimeInput, DeleteRuntimeOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<DeleteRuntimeInput, DeleteRuntimeOutput>(DeleteRuntimeInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuntimeOutput>(DeleteRuntimeOutput.httpOutput(from:), DeleteRuntimeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuntimeInput, DeleteRuntimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuntimeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuntimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuntimeInput, DeleteRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRuntimeInput, DeleteRuntimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRuntimeInput, DeleteRuntimeOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRuntime")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRuntimeAlias` operation on the `LambdaCore` service.
+    ///
+    /// Schedules a runtime alias to be deleted. Runtime aliases scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Function invokes fail for functions using runtime aliases that are deleted or pending deletion.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuntimeAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRuntimeAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func deleteRuntimeAlias(input: DeleteRuntimeAliasInput) async throws -> DeleteRuntimeAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRuntimeAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput>(DeleteRuntimeAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput>(DeleteRuntimeAliasInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuntimeAliasOutput>(DeleteRuntimeAliasOutput.httpOutput(from:), DeleteRuntimeAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuntimeAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuntimeAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRuntimeAliasInput, DeleteRuntimeAliasOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRuntimeAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteRuntimeVersion` operation on the `LambdaCore` service.
+    ///
+    /// Schedules a runtime version to be deleted. Runtime versions scheduled for deletion enter the PENDING_DELETION state and can be restored during the scheduled deletion window. Function invokes fail for functions using a runtime version that is deleted or pending deletion.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuntimeVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteRuntimeVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func deleteRuntimeVersion(input: DeleteRuntimeVersionInput) async throws -> DeleteRuntimeVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRuntimeVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput>(DeleteRuntimeVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput>(DeleteRuntimeVersionInput.headerProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuntimeVersionOutput>(DeleteRuntimeVersionOutput.httpOutput(from:), DeleteRuntimeVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuntimeVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteRuntimeVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteRuntimeVersionInput, DeleteRuntimeVersionOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteRuntimeVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetNetworkConnector` operation on the `LambdaCore` service.
     ///
     /// Retrieves the current configuration, state, and metadata of a network connector. The Identifier parameter accepts the connector ID, name, or full ARN. Use this operation to poll connector state after creation or update, or to inspect the current VPC configuration and any failure reasons. The response includes the full connector configuration, current state, and — if the connector has been updated — the LastUpdateStatus and LastUpdateStatusReasonCode fields that indicate whether the most recent update succeeded or failed.
@@ -769,7 +1198,7 @@ extension LambdaCoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
-    /// - `ResourceNotFoundException` : The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
     /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
     /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
     public func getNetworkConnector(input: GetNetworkConnectorInput) async throws -> GetNetworkConnectorOutput {
@@ -825,6 +1254,210 @@ extension LambdaCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetRuntime` operation on the `LambdaCore` service.
+    ///
+    /// Retrieves the configuration and metadata of a runtime.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRuntimeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRuntimeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func getRuntime(input: GetRuntimeInput) async throws -> GetRuntimeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRuntime")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRuntimeInput, GetRuntimeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRuntimeInput, GetRuntimeOutput>(GetRuntimeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuntimeInput, GetRuntimeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuntimeOutput>(GetRuntimeOutput.httpOutput(from:), GetRuntimeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuntimeInput, GetRuntimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRuntimeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRuntimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRuntimeInput, GetRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRuntimeInput, GetRuntimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRuntimeInput, GetRuntimeOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRuntime")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRuntimeAlias` operation on the `LambdaCore` service.
+    ///
+    /// Retrieves the configuration, state, and metadata of a runtime alias.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRuntimeAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRuntimeAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func getRuntimeAlias(input: GetRuntimeAliasInput) async throws -> GetRuntimeAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRuntimeAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRuntimeAliasInput, GetRuntimeAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRuntimeAliasInput, GetRuntimeAliasOutput>(GetRuntimeAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuntimeAliasInput, GetRuntimeAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuntimeAliasOutput>(GetRuntimeAliasOutput.httpOutput(from:), GetRuntimeAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuntimeAliasInput, GetRuntimeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRuntimeAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRuntimeAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRuntimeAliasInput, GetRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRuntimeAliasInput, GetRuntimeAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRuntimeAliasInput, GetRuntimeAliasOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRuntimeAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRuntimeVersion` operation on the `LambdaCore` service.
+    ///
+    /// Retrieves the configuration, state, and metadata of a runtime version.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRuntimeVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRuntimeVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func getRuntimeVersion(input: GetRuntimeVersionInput) async throws -> GetRuntimeVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRuntimeVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRuntimeVersionInput, GetRuntimeVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRuntimeVersionInput, GetRuntimeVersionOutput>(GetRuntimeVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuntimeVersionInput, GetRuntimeVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuntimeVersionOutput>(GetRuntimeVersionOutput.httpOutput(from:), GetRuntimeVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuntimeVersionInput, GetRuntimeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRuntimeVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRuntimeVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRuntimeVersionInput, GetRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRuntimeVersionInput, GetRuntimeVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRuntimeVersionInput, GetRuntimeVersionOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRuntimeVersion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListNetworkConnectorVersions` operation on the `LambdaCore` service.
     ///
     /// Returns a paginated list of the versions of a network connector. Each configuration update creates a new immutable version; this operation lists those versions for the connector you specify. You can optionally filter results by version state. Use the Marker parameter from a previous response to retrieve the next page of results. Each item in the response includes the version-qualified ARN, version number, current state, and last modified timestamp for that version. To retrieve the current (latest) configuration of the connector, use GetNetworkConnector; to inspect a specific version, call GetNetworkConnector with a version-qualified identifier.
@@ -837,7 +1470,7 @@ extension LambdaCoreClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
-    /// - `ResourceNotFoundException` : The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
     /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
     /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
     public func listNetworkConnectorVersions(input: ListNetworkConnectorVersionsInput) async throws -> ListNetworkConnectorVersionsOutput {
@@ -962,6 +1595,282 @@ extension LambdaCoreClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListRuntimeAliases` operation on the `LambdaCore` service.
+    ///
+    /// Returns a paginated list of aliases for the specified runtime.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRuntimeAliasesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRuntimeAliasesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func listRuntimeAliases(input: ListRuntimeAliasesInput) async throws -> ListRuntimeAliasesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRuntimeAliases")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRuntimeAliasesInput, ListRuntimeAliasesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRuntimeAliasesInput, ListRuntimeAliasesOutput>(ListRuntimeAliasesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuntimeAliasesInput, ListRuntimeAliasesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRuntimeAliasesInput, ListRuntimeAliasesOutput>(ListRuntimeAliasesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuntimeAliasesOutput>(ListRuntimeAliasesOutput.httpOutput(from:), ListRuntimeAliasesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuntimeAliasesInput, ListRuntimeAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRuntimeAliasesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuntimeAliasesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuntimeAliasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuntimeAliasesInput, ListRuntimeAliasesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuntimeAliasesInput, ListRuntimeAliasesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuntimeAliasesInput, ListRuntimeAliasesOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuntimeAliases")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRuntimeVersions` operation on the `LambdaCore` service.
+    ///
+    /// Returns a paginated list of versions for the specified runtime.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRuntimeVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRuntimeVersionsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func listRuntimeVersions(input: ListRuntimeVersionsInput) async throws -> ListRuntimeVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRuntimeVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRuntimeVersionsInput, ListRuntimeVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRuntimeVersionsInput, ListRuntimeVersionsOutput>(ListRuntimeVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuntimeVersionsInput, ListRuntimeVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRuntimeVersionsInput, ListRuntimeVersionsOutput>(ListRuntimeVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuntimeVersionsOutput>(ListRuntimeVersionsOutput.httpOutput(from:), ListRuntimeVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuntimeVersionsInput, ListRuntimeVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRuntimeVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuntimeVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuntimeVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuntimeVersionsInput, ListRuntimeVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuntimeVersionsInput, ListRuntimeVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuntimeVersionsInput, ListRuntimeVersionsOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuntimeVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListRuntimes` operation on the `LambdaCore` service.
+    ///
+    /// Returns a paginated list of runtimes in your account for the current Region.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListRuntimesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListRuntimesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func listRuntimes(input: ListRuntimesInput) async throws -> ListRuntimesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRuntimes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListRuntimesInput, ListRuntimesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListRuntimesInput, ListRuntimesOutput>(ListRuntimesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListRuntimesInput, ListRuntimesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListRuntimesInput, ListRuntimesOutput>(ListRuntimesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuntimesOutput>(ListRuntimesOutput.httpOutput(from:), ListRuntimesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuntimesInput, ListRuntimesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListRuntimesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListRuntimesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListRuntimesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListRuntimesInput, ListRuntimesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListRuntimesInput, ListRuntimesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListRuntimesInput, ListRuntimesOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListRuntimes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `RestoreRuntime` operation on the `LambdaCore` service.
+    ///
+    /// Cancels a pending scheduled deletion, returning the resource to the ACTIVE state. Scope is determined by the RuntimeName path parameter plus an optional, mutually exclusive RuntimeVersion or RuntimeAlias query parameter: with neither, the runtime itself is restored; with RuntimeVersion, the named runtime version; with RuntimeAlias, the named runtime alias. Restoring a resource that is already ACTIVE is a no-op success. Restore only works while the target is PENDING_DELETION; once the scheduled deletion has begun executing (DELETING) or has completed, the call fails.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `RestoreRuntimeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `RestoreRuntimeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func restoreRuntime(input: RestoreRuntimeInput) async throws -> RestoreRuntimeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "restoreRuntime")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<RestoreRuntimeInput, RestoreRuntimeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<RestoreRuntimeInput, RestoreRuntimeOutput>(RestoreRuntimeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreRuntimeInput, RestoreRuntimeOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<RestoreRuntimeInput, RestoreRuntimeOutput>(RestoreRuntimeInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreRuntimeOutput>(RestoreRuntimeOutput.httpOutput(from:), RestoreRuntimeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreRuntimeInput, RestoreRuntimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<RestoreRuntimeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<RestoreRuntimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<RestoreRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<RestoreRuntimeInput, RestoreRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<RestoreRuntimeInput, RestoreRuntimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<RestoreRuntimeInput, RestoreRuntimeOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "RestoreRuntime")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateNetworkConnector` operation on the `LambdaCore` service.
     ///
     /// Updates the VPC configuration or operator role of an existing network connector. You can modify the subnet IDs, security group IDs, network protocol, or operator role. The connector must be in ACTIVE state to accept updates. This operation is asynchronous. The connector remains in ACTIVE state during the update — existing workloads that reference this connector are not disrupted. Use GetNetworkConnector to monitor the LastUpdateStatus field, which transitions through InProgress to Successful or Failed. If the update fails, the LastUpdateStatusReasonCode field provides a specific error code for troubleshooting. This operation is idempotent when you provide a ClientToken. Each successful configuration change creates a new immutable version. A connector can have a limited number of versions; once that limit is reached, further updates fail with NetworkConnectorLimitExceededException until you delete older versions.
@@ -975,8 +1884,8 @@ extension LambdaCoreClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
     /// - `NetworkConnectorLimitExceededException` : The request would exceed a network connector limit. For CreateNetworkConnector, the account has reached the maximum number of network connectors allowed. For UpdateNetworkConnector, the connector has reached the maximum number of versions allowed.
-    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
-    /// - `ResourceNotFoundException` : The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
     /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
     /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
     public func updateNetworkConnector(input: UpdateNetworkConnectorInput) async throws -> UpdateNetworkConnectorOutput {
@@ -1024,6 +1933,222 @@ extension LambdaCoreClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateNetworkConnector")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRuntime` operation on the `LambdaCore` service.
+    ///
+    /// Updates the properties of an existing customer-managed runtime, such as its description, license information, or lifecycle information.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuntimeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRuntimeOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func updateRuntime(input: UpdateRuntimeInput) async throws -> UpdateRuntimeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRuntime")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuntimeInput, UpdateRuntimeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>(UpdateRuntimeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuntimeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuntimeOutput>(UpdateRuntimeOutput.httpOutput(from:), UpdateRuntimeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuntimeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuntimeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRuntimeInput, UpdateRuntimeOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRuntime")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRuntimeAlias` operation on the `LambdaCore` service.
+    ///
+    /// Updates an existing runtime alias to point to a different runtime version or to change its description or lifecycle information.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuntimeAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRuntimeAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func updateRuntimeAlias(input: UpdateRuntimeAliasInput) async throws -> UpdateRuntimeAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRuntimeAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>(UpdateRuntimeAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuntimeAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuntimeAliasOutput>(UpdateRuntimeAliasOutput.httpOutput(from:), UpdateRuntimeAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuntimeAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuntimeAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRuntimeAliasInput, UpdateRuntimeAliasOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRuntimeAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateRuntimeVersion` operation on the `LambdaCore` service.
+    ///
+    /// Updates the runtime version release notes. The runtime version must be in the ACTIVE state. The runtime version image is immutable. To change the runtime contents, create a new runtime version.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuntimeVersionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateRuntimeVersionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
+    /// - `ResourceConflictException` : The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
+    /// - `ResourceNotFoundException` : The specified resource does not exist. Verify the identifier and Region.
+    /// - `ServiceException` : An internal service error occurred. Retry the request with exponential backoff.
+    /// - `TooManyRequestsException` : The request was throttled due to exceeding the allowed request rate. Retry the request after a brief wait using exponential backoff.
+    public func updateRuntimeVersion(input: UpdateRuntimeVersionInput) async throws -> UpdateRuntimeVersionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRuntimeVersion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lambda")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>(UpdateRuntimeVersionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateRuntimeVersionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuntimeVersionOutput>(UpdateRuntimeVersionOutput.httpOutput(from:), UpdateRuntimeVersionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuntimeVersionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Lambda Core", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateRuntimeVersionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "Lambda Core"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateRuntimeVersionInput, UpdateRuntimeVersionOutput>(serviceID: serviceName, version: LambdaCoreClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LambdaCore")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateRuntimeVersion")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

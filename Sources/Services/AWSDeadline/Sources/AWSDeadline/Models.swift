@@ -62,6 +62,7 @@ extension DeadlineClientTypes {
         case a10g
         case l4
         case l40s
+        case rtxPro4500
         case rtxProServer6000
         case t4
         case sdkUnknown(Swift.String)
@@ -71,6 +72,7 @@ extension DeadlineClientTypes {
                 .a10g,
                 .l4,
                 .l40s,
+                .rtxPro4500,
                 .rtxProServer6000,
                 .t4
             ]
@@ -86,6 +88,7 @@ extension DeadlineClientTypes {
             case .a10g: return "a10g"
             case .l4: return "l4"
             case .l40s: return "l40s"
+            case .rtxPro4500: return "rtx-pro-4500"
             case .rtxProServer6000: return "rtx-pro-server-6000"
             case .t4: return "t4"
             case let .sdkUnknown(s): return s
@@ -109,16 +112,20 @@ extension DeadlineClientTypes {
         /// * l40s - NVIDIA L40S Tensor Core GPU (48 GiB memory)
         ///
         /// * rtx-pro-server-6000 - NVIDIA RTX PRO Server 6000 GPU (96 GiB memory)
+        ///
+        /// * rtx-pro-4500 - NVIDIA RTX PRO 4500 GPU (32 GiB memory)
         /// This member is required.
         public var name: DeadlineClientTypes.AcceleratorName?
         /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs in a fleet. You can choose from the following runtimes:
         ///
         /// * latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.
         ///
+        /// * grid:r595 - [NVIDIA vGPU software 20](https://docs.nvidia.com/vgpu/20.0/index.html)
+        ///
         /// * grid:r580 - [NVIDIA vGPU software 19](https://docs.nvidia.com/vgpu/19.0/index.html)
         ///
         ///
-        /// If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception. All accelerator types support grid:r580. All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet. When you specify latest, it resolves to grid:r580 for all currently supported accelerators.
+        /// If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception. All accelerator types support grid:r595 and grid:r580. All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet. When you specify latest, it resolves to grid:r595 for all currently supported accelerators.
         public var runtime: Swift.String?
 
         public init(
@@ -139,11 +146,13 @@ extension DeadlineClientTypes {
     ///
     /// * a10g: Uses G5 instance family
     ///
-    /// * l4: Uses G6 and Gr6 instance families
+    /// * l4: Uses G6, G6f, Gr6, and Gr6f instance families
     ///
     /// * l40s: Uses G6e instance family
     ///
     /// * rtx-pro-server-6000: Uses G7e instance family
+    ///
+    /// * rtx-pro-4500: Uses G7 instance family
     public struct AcceleratorCapabilities: Swift.Sendable {
         /// The number of GPU accelerators specified for worker hosts in this fleet. You must specify either acceleratorCapabilities.count.max or allowedInstanceTypes when using accelerator capabilities. If you don't specify a maximum count, Amazon Web Services Deadline Cloud uses the instance types you specify in allowedInstanceTypes to determine the maximum number of accelerators.
         public var count: DeadlineClientTypes.AcceleratorCountRange?
@@ -1790,7 +1799,7 @@ extension DeadlineClientTypes {
         public var createdBy: Swift.String?
         /// The description of the job.
         public var description: Swift.String?
-        /// The date and time the resource ended running.
+        /// The date and time the resource ended running. Returned only when the job has finished.
         public var endedAt: Foundation.Date?
         /// The farm ID of the job.
         /// This member is required.
@@ -1823,7 +1832,7 @@ extension DeadlineClientTypes {
         public var queueId: Swift.String?
         /// The job ID for the source job.
         public var sourceJobId: Swift.String?
-        /// The date and time the resource started running.
+        /// The date and time the resource started running. Requeuing the job doesn't change this value.
         public var startedAt: Foundation.Date?
         /// The storage profile ID associated with the job.
         public var storageProfileId: Swift.String?
@@ -1835,7 +1844,7 @@ extension DeadlineClientTypes {
         public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
         /// The number of tasks for each run status for the job.
         public var taskRunStatusCounts: [Swift.String: Swift.Int]?
-        /// The date and time the resource was updated.
+        /// The date and time the resource was updated. Task status changes don't update this value.
         public var updatedAt: Foundation.Date?
         /// The user or system that updated this resource.
         public var updatedBy: Swift.String?
@@ -5013,9 +5022,9 @@ public struct GetBudgetOutput: Swift.Sendable {
     public var schedule: DeadlineClientTypes.BudgetSchedule?
     /// The status of the budget.
     ///
-    /// * ACTIVE–Get a budget being evaluated.
+    /// * ACTIVE - Get a budget being evaluated.
     ///
-    /// * INACTIVE–Get an inactive budget. This can include expired, canceled, or deleted statuses.
+    /// * INACTIVE - Get an inactive budget. This can include expired, canceled, or deleted statuses.
     /// This member is required.
     public var status: DeadlineClientTypes.BudgetStatus?
     /// The date and time the resource was updated.
@@ -5115,9 +5124,9 @@ extension DeadlineClientTypes {
         public var displayName: Swift.String?
         /// The status of the budget.
         ///
-        /// * ACTIVE–The budget is being evaluated.
+        /// * ACTIVE - The budget is being evaluated.
         ///
-        /// * INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
+        /// * INACTIVE - The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
         /// This member is required.
         public var status: DeadlineClientTypes.BudgetStatus?
         /// The date and time the resource was updated.
@@ -5203,9 +5212,9 @@ public struct UpdateBudgetInput: Swift.Sendable {
     public var schedule: DeadlineClientTypes.BudgetSchedule?
     /// Updates the status of the budget.
     ///
-    /// * ACTIVE–The budget is being evaluated.
+    /// * ACTIVE - The budget is being evaluated.
     ///
-    /// * INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
+    /// * INACTIVE - The budget is inactive. This can include Expired, Canceled, or deleted Deleted statuses.
     public var status: DeadlineClientTypes.BudgetStatus?
 
     public init(
@@ -7025,7 +7034,7 @@ extension DeadlineClientTypes {
         /// The name of the date-time field to filter on.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of comparison to use to filter the results.
+        /// The type of comparison to use to filter the results. NOT_EQUAL, ANY_EQUALS, and ALL_NOT_EQUALS aren't supported.
         /// This member is required.
         public var `operator`: DeadlineClientTypes.ComparisonOperator?
 
@@ -7621,7 +7630,7 @@ public struct ListFleetsOutput: Swift.Sendable {
 public struct UpdateFleetInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
-    /// The fleet configuration to update.
+    /// The fleet configuration to update. The new configuration replaces the existing one, so include every setting you want to keep. Settings that you omit revert to their defaults.
     public var configuration: DeadlineClientTypes.FleetConfiguration?
     /// The description of the fleet to update. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
@@ -9238,11 +9247,11 @@ public struct GetQueueOutput: Swift.Sendable {
     public var schedulingConfiguration: DeadlineClientTypes.SchedulingConfiguration?
     /// The status of the queue.
     ///
-    /// * ACTIVE–The queue is active.
+    /// * ACTIVE - The queue is active.
     ///
-    /// * SCHEDULING–The queue is scheduling.
+    /// * SCHEDULING - The queue is scheduling.
     ///
-    /// * SCHEDULING_BLOCKED–The queue scheduling is blocked. See the provided reason.
+    /// * SCHEDULING_BLOCKED - The queue scheduling is blocked. See the provided reason.
     /// This member is required.
     public var status: DeadlineClientTypes.QueueStatus?
     /// The date and time the resource was updated.
@@ -9489,7 +9498,7 @@ public struct GetJobOutput: Swift.Sendable {
     public var createdBy: Swift.String?
     /// The description of the job. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     public var description: Swift.String?
-    /// The date and time the resource ended running.
+    /// The date and time the resource ended running. Returned only when the job has finished.
     public var endedAt: Foundation.Date?
     /// The job ID.
     /// This member is required.
@@ -9516,7 +9525,7 @@ public struct GetJobOutput: Swift.Sendable {
     public var priority: Swift.Int?
     /// The job ID for the source job.
     public var sourceJobId: Swift.String?
-    /// The date and time the resource started running.
+    /// The date and time the resource started running. Requeuing the job doesn't change this value.
     public var startedAt: Foundation.Date?
     /// The storage profile ID associated with the job.
     public var storageProfileId: Swift.String?
@@ -9528,7 +9537,7 @@ public struct GetJobOutput: Swift.Sendable {
     public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
     /// The number of tasks running on the job.
     public var taskRunStatusCounts: [Swift.String: Swift.Int]?
-    /// The date and time the resource was updated.
+    /// The date and time the resource was updated. Task status changes don't update this value.
     public var updatedAt: Foundation.Date?
     /// The user or system that updated this resource.
     public var updatedBy: Swift.String?
@@ -10192,25 +10201,25 @@ extension DeadlineClientTypes {
         public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
-        /// * PENDING–pending and waiting for resources.
+        /// * PENDING - pending and waiting for resources.
         ///
-        /// * READY–ready to be processed.
+        /// * READY - ready to be processed.
         ///
-        /// * ASSIGNED–assigned and will run next on a worker.
+        /// * ASSIGNED - assigned and will run next on a worker.
         ///
-        /// * SCHEDULED–scheduled to be run on a worker.
+        /// * SCHEDULED - scheduled to be run on a worker.
         ///
-        /// * INTERRUPTING–being interrupted.
+        /// * INTERRUPTING - being interrupted.
         ///
-        /// * RUNNING–running on a worker.
+        /// * RUNNING - running on a worker.
         ///
-        /// * SUSPENDED–the task is suspended.
+        /// * SUSPENDED - the task is suspended.
         ///
-        /// * CANCELED–the task has been canceled.
+        /// * CANCELED - the task has been canceled.
         ///
-        /// * FAILED–the task has failed.
+        /// * FAILED - the task has failed.
         ///
-        /// * SUCCEEDED–the task has succeeded.
+        /// * SUCCEEDED - the task has succeeded.
         public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
         /// The number of tasks running on the job.
         public var taskRunStatusCounts: [Swift.String: Swift.Int]?
@@ -10805,25 +10814,25 @@ extension DeadlineClientTypes {
         public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
-        /// * PENDING–pending and waiting for resources.
+        /// * PENDING - pending and waiting for resources.
         ///
-        /// * READY–ready to process.
+        /// * READY - ready to process.
         ///
-        /// * ASSIGNED–assigned and will run next on a worker.
+        /// * ASSIGNED - assigned and will run next on a worker.
         ///
-        /// * SCHEDULED–scheduled to run on a worker.
+        /// * SCHEDULED - scheduled to run on a worker.
         ///
-        /// * INTERRUPTING–being interrupted.
+        /// * INTERRUPTING - being interrupted.
         ///
-        /// * RUNNING–running on a worker.
+        /// * RUNNING - running on a worker.
         ///
-        /// * SUSPENDED–the task is suspended.
+        /// * SUSPENDED - the task is suspended.
         ///
-        /// * CANCELED–the task has been canceled.
+        /// * CANCELED - the task has been canceled.
         ///
-        /// * FAILED–the task has failed.
+        /// * FAILED - the task has failed.
         ///
-        /// * SUCCEEDED–the task has succeeded.
+        /// * SUCCEEDED - the task has succeeded.
         /// This member is required.
         public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
         /// The number of tasks running on the job.
@@ -11362,11 +11371,11 @@ public struct ListQueuesInput: Swift.Sendable {
     public var principalId: Swift.String?
     /// The status of the queues listed.
     ///
-    /// * ACTIVE–The queues are active.
+    /// * ACTIVE - The queues are active.
     ///
-    /// * SCHEDULING–The queues are scheduling.
+    /// * SCHEDULING - The queues are scheduling.
     ///
-    /// * SCHEDULING_BLOCKED–The queue scheduling is blocked for these queues.
+    /// * SCHEDULING_BLOCKED - The queue scheduling is blocked for these queues.
     public var status: DeadlineClientTypes.QueueStatus?
 
     public init(
@@ -12592,13 +12601,13 @@ extension DeadlineClientTypes {
         public var queueId: Swift.String?
         /// The status of task scheduling in the queue-fleet association.
         ///
-        /// * ACTIVE–Association is active.
+        /// * ACTIVE - Association is active.
         ///
-        /// * STOP_SCHEDULING_AND_COMPLETE_TASKS–Association has stopped scheduling new tasks and is completing current tasks.
+        /// * STOP_SCHEDULING_AND_COMPLETE_TASKS - Association has stopped scheduling new tasks and is completing current tasks.
         ///
-        /// * STOP_SCHEDULING_AND_CANCEL_TASKS–Association has stopped scheduling new tasks and is canceling current tasks.
+        /// * STOP_SCHEDULING_AND_CANCEL_TASKS - Association has stopped scheduling new tasks and is canceling current tasks.
         ///
-        /// * STOPPED–Association has been stopped.
+        /// * STOPPED - Association has been stopped.
         /// This member is required.
         public var status: DeadlineClientTypes.QueueFleetAssociationStatus?
         /// The date and time the resource was updated.
@@ -13114,7 +13123,7 @@ extension DeadlineClientTypes {
         /// The field name to search.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of comparison to use for this search.
+        /// The type of comparison to use for this search. Only EQUAL and NOT_EQUAL are supported.
         /// This member is required.
         public var `operator`: DeadlineClientTypes.ComparisonOperator?
         /// The string to search for.
@@ -13140,7 +13149,7 @@ extension DeadlineClientTypes {
         /// The field name to search.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of comparison to use for this search.
+        /// The type of comparison to use for this search. Only ANY_EQUALS and ALL_NOT_EQUALS are supported.
         /// This member is required.
         public var `operator`: DeadlineClientTypes.ComparisonOperator?
         /// The list of string values to search for.
@@ -13329,25 +13338,25 @@ extension DeadlineClientTypes {
         public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
-        /// * PENDING–pending and waiting for resources.
+        /// * PENDING - pending and waiting for resources.
         ///
-        /// * READY–ready to be processed.
+        /// * READY - ready to be processed.
         ///
-        /// * ASSIGNED–assigned and will run next on a worker.
+        /// * ASSIGNED - assigned and will run next on a worker.
         ///
-        /// * SCHEDULED–scheduled to be run on a worker.
+        /// * SCHEDULED - scheduled to be run on a worker.
         ///
-        /// * INTERRUPTING–being interrupted.
+        /// * INTERRUPTING - being interrupted.
         ///
-        /// * RUNNING–running on a worker.
+        /// * RUNNING - running on a worker.
         ///
-        /// * SUSPENDED–the task is suspended.
+        /// * SUSPENDED - the task is suspended.
         ///
-        /// * CANCELED–the task has been canceled.
+        /// * CANCELED - the task has been canceled.
         ///
-        /// * FAILED–the task has failed.
+        /// * FAILED - the task has failed.
         ///
-        /// * SUCCEEDED–the task has succeeded.
+        /// * SUCCEEDED - the task has succeeded.
         public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
         /// The number of tasks running on the job.
         public var taskRunStatusCounts: [Swift.String: Swift.Int]?
@@ -13462,25 +13471,25 @@ extension DeadlineClientTypes {
         public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
-        /// * PENDING–pending and waiting for resources.
+        /// * PENDING - pending and waiting for resources.
         ///
-        /// * READY–ready to be processed.
+        /// * READY - ready to be processed.
         ///
-        /// * ASSIGNED–assigned and will run next on a worker.
+        /// * ASSIGNED - assigned and will run next on a worker.
         ///
-        /// * SCHEDULED–scheduled to be run on a worker.
+        /// * SCHEDULED - scheduled to be run on a worker.
         ///
-        /// * INTERRUPTING–being interrupted.
+        /// * INTERRUPTING - being interrupted.
         ///
-        /// * RUNNING–running on a worker.
+        /// * RUNNING - running on a worker.
         ///
-        /// * SUSPENDED–the task is suspended.
+        /// * SUSPENDED - the task is suspended.
         ///
-        /// * CANCELED–the task has been canceled.
+        /// * CANCELED - the task has been canceled.
         ///
-        /// * FAILED–the task has failed.
+        /// * FAILED - the task has failed.
         ///
-        /// * SUCCEEDED–the task has succeeded.
+        /// * SUCCEEDED - the task has succeeded.
         public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
         /// The number of tasks running on the job.
         public var taskRunStatusCounts: [Swift.String: Swift.Int]?

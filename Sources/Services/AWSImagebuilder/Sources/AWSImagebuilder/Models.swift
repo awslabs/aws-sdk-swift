@@ -2420,11 +2420,11 @@ extension ImagebuilderClientTypes {
     public struct ImageScanningConfiguration: Swift.Sendable {
         /// Contains Amazon ECR settings for vulnerability scans.
         public var ecrConfiguration: ImagebuilderClientTypes.EcrConfiguration?
-        /// Specifies whether Amazon Inspector scans for vulnerabilities when you create a new image. You must also enable image tests. For AMI output, imageScanningTypes sets whether Amazon Inspector scans the test instance or the output AMI. For container output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR repository from your ecrConfiguration settings. To use container image scans, you must activate Amazon Inspector for Amazon ECR scanning in your account. The Image Builder ListImageScanFindings operation returns the findings of these scans.
+        /// Specifies whether Amazon Inspector scans for vulnerabilities when you create a new image. You must also enable image tests. For AMI output, imageScanningTypes sets whether Amazon Inspector scans the test instance or the output AMI. For container output, Amazon Inspector scans the container image that Image Builder pushes to the Amazon ECR repository from your ecrConfiguration settings. To use container image scans, you must activate Amazon Inspector for Amazon ECR scanning in the account and Amazon Web Services Region where the build runs. Amazon Inspector activation is Regional. The Image Builder ListImageScanFindings operation returns the findings of these scans.
         public var imageScanningEnabled: Swift.Bool?
         /// The type of vulnerability scan that Image Builder runs for AMI output when imageScanningEnabled is true. Specify a single value. If you omit imageScanningTypes, Image Builder uses TEST_INSTANCE_CVE. The scan types work as follows:
         ///
-        /// * With TEST_INSTANCE_CVE, Amazon Inspector scans the test instance during image tests. To use this scan, you must activate Amazon Inspector for Amazon EC2 scanning in your account. The Image Builder ListImageScanFindings operation returns the findings.
+        /// * With TEST_INSTANCE_CVE, Amazon Inspector scans the test instance during image tests. To use this scan, you must activate Amazon Inspector for Amazon EC2 scanning in the account and Amazon Web Services Region where the build runs. The Image Builder ListImageScanFindings operation returns the findings.
         ///
         /// * With ON_DEMAND_AMI_CVE, Amazon Inspector starts an on-demand scan of the output AMI during image tests. To use this scan, you must build from an image recipe, but you do not need to activate Amazon Inspector in your account. The Amazon EC2 [GetImageFindings](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageFindings.html) operation returns the findings.
         public var imageScanningTypes: [ImagebuilderClientTypes.ImageScanningType]?
@@ -2786,7 +2786,7 @@ public struct CreateImagePipelineInput: Swift.Sendable {
     public var status: ImagebuilderClientTypes.PipelineStatus?
     /// The tags of the image pipeline.
     public var tags: [Swift.String: Swift.String]?
-    /// The array of workflow configuration objects for builds that this pipeline starts. You must also specify executionRole when you provide workflows.
+    /// The array of workflow configuration objects for builds that this pipeline starts. If you specify workflows, they replace the default workflows that Image Builder otherwise runs for the pipeline's builds. For example, if your list doesn't include a test workflow, the pipeline's builds don't run one. You must also specify executionRole when you provide workflows.
     public var workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
 
     public init(
@@ -4257,7 +4257,7 @@ extension ImagebuilderClientTypes {
 
     /// A filter name and value pair that is used to return a more specific list of results from a list operation. Filters can be used to match a set of resources by specific criteria, such as tags, attributes, or IDs.
     public struct Filter: Swift.Sendable {
-        /// The name of the filter. Filter names are case-sensitive.
+        /// The name of the filter. Filter names are case-sensitive. The name filter matches the name that you gave the resource when you created it, exactly as you entered it. It doesn't match the name segment of the resource ARN, which Image Builder converts to lowercase with hyphens in place of spaces and underscores. For example, a resource named My Image has an ARN that contains my-image – filter on My Image to find it.
         public var name: Swift.String?
         /// The filter values. Filter values are case-sensitive. The name filter can use a wildcard: web* matches names that begin with web, and *web* matches names that contain web. The wildcard isn't supported in other positions or in other filters.
         public var values: [Swift.String]?
@@ -6204,7 +6204,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
 }
 
 public struct ListComponentBuildVersionsInput: Swift.Sendable {
-    /// The component version ARN whose build versions you want to list. The ARN must specify an exact version, without a build number suffix. If you don't specify an ARN, Image Builder returns build versions for the components that your account owns.
+    /// The component version ARN whose build versions you want to list. The ARN must specify an exact version, without a build number suffix. If you don't specify an ARN, Image Builder returns build versions for the components that your account owns. If the ARN that you specify doesn't exist, Image Builder returns an empty list rather than a ResourceNotFoundException error.
     public var componentVersionArn: Swift.String?
     /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
@@ -6442,7 +6442,7 @@ public struct ListImageBuildVersionsInput: Swift.Sendable {
     ///
     /// * version
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The Amazon Resource Name (ARN) of the image version whose build versions you want to retrieve. The ARN must specify an exact version (..) - wildcards aren't allowed. This parameter is optional. If you don't specify it, Image Builder returns build versions for all of the images in your account.
+    /// The Amazon Resource Name (ARN) of the image version whose build versions you want to retrieve. The ARN must specify an exact version (..) - wildcards aren't allowed. This parameter is optional. If you don't specify it, Image Builder returns build versions for all of the images in your account. If the ARN that you specify doesn't exist, Image Builder returns an empty list rather than a ResourceNotFoundException error.
     public var imageVersionArn: Swift.String?
     /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
     public var maxResults: Swift.Int?
@@ -6629,7 +6629,7 @@ public struct ListImagePipelineImagesInput: Swift.Sendable {
     ///
     /// * version
     public var filters: [ImagebuilderClientTypes.Filter]?
-    /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view.
+    /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view. If the ARN that you specify doesn't exist, Image Builder returns an empty list rather than a ResourceNotFoundException error.
     /// This member is required.
     public var imagePipelineArn: Swift.String?
     /// The maximum number of items to return in a single request. If you don't specify a value, Image Builder returns up to 25 items. The largest page size that you can request is 100 items. A page can contain fewer items than the maximum, with a nextToken to continue paging.
@@ -8866,7 +8866,7 @@ public struct UpdateImagePipelineInput: Swift.Sendable {
     public var schedule: ImagebuilderClientTypes.Schedule?
     /// The status of the image pipeline. Defaults to ENABLED when omitted. To keep a pipeline disabled, include this property set to DISABLED in your update request.
     public var status: ImagebuilderClientTypes.PipelineStatus?
-    /// The array of workflow configuration objects for builds that this pipeline starts. You must also specify executionRole when you provide workflows.
+    /// The array of workflow configuration objects for builds that this pipeline starts. If you specify workflows, they replace the default workflows that Image Builder otherwise runs for the pipeline's builds. For example, if your list doesn't include a test workflow, the pipeline's builds don't run one. You must also specify executionRole when you provide workflows.
     public var workflows: [ImagebuilderClientTypes.WorkflowConfiguration]?
 
     public init(
