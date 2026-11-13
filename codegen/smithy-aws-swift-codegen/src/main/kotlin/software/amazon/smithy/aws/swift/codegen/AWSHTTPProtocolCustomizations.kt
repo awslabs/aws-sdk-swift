@@ -63,7 +63,9 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         writer: SwiftWriter,
         op: OperationShape,
     ) {
-        if (op.isInputEventStream(ctx.model) && op.isOutputEventStream(ctx.model)) {
+        // Any operation that sends an event stream needs a message encoder & signer, whether or not the
+        // operation also receives an event stream.
+        if (op.isInputEventStream(ctx.model)) {
             writer.write("\$N(context: context)", AWSSDKEventStreamsAuthTypes.setupBidirectionalStreaming)
         }
     }
