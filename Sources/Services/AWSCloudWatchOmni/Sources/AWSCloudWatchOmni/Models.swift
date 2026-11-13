@@ -3712,6 +3712,70 @@ extension CloudWatchOmniClientTypes {
 
 extension CloudWatchOmniClientTypes {
 
+    /// Describes how an aggregating metric reports values over time. A delta value covers the preceding reporting interval. A cumulative value covers a fixed start time through the current reporting time, restarting when the stream resets.
+    public enum MetricAggregationTemporality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Each data point contains values accumulated since a fixed start time or stream reset.
+        case cumulative
+        /// Each data point contains values accumulated since the preceding reporting interval.
+        case delta
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricAggregationTemporality] {
+            return [
+                .cumulative,
+                .delta
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cumulative: return "cumulative"
+            case .delta: return "delta"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchOmniClientTypes {
+
+    /// Describes whether a Sum is a non-negative accumulation. For a monotonic Sum, delta values are non-negative and cumulative values do not decrease except when the stream resets. A non-monotonic Sum can report positive or negative changes.
+    public enum MetricMonotonicity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Delta values are non-negative; cumulative values do not decrease except at a stream reset.
+        case monotonic
+        /// Delta values can be negative; cumulative values can increase or decrease.
+        case nonMonotonic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricMonotonicity] {
+            return [
+                .monotonic,
+                .nonMonotonic
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .monotonic: return "monotonic"
+            case .nonMonotonic: return "non_monotonic"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchOmniClientTypes {
+
     /// The meaning and unit of a single metric.
     public struct MetricSemantics: Swift.Sendable {
         /// Human-readable description of what the metric measures.
@@ -3731,12 +3795,16 @@ extension CloudWatchOmniClientTypes {
 
 extension CloudWatchOmniClientTypes {
 
-    /// A single metric observed on a context graph node.
+    /// A single metric observed on a context graph node or edge.
     public struct MetricMetadata: Swift.Sendable {
-        /// Per-metric qualifying attributes used to query this metric's telemetry. Keys are the metric store's own label names, not bare OTel attribute names: service identity arrives as "@resource.service.name" and "@resource.service.namespace", and the instrumentation scope as "@instrumentation.@name", while span-derived metrics label the service as a bare "service.name". Cloud provider, account and region are not repeated per metric — read those from the node. Values are RAW, deliberately NOT the node's normalized or merged identity, so a selector built from them matches the emitted series. A merged node can carry different values per metric, which is why these live here rather than on the node.
+        /// Aggregation temporality for the selected metric stream represented by this metadata entry. Present when known, including cumulative for OTel Summary metrics. Absent for Gauge metrics or when the information is unavailable.
+        public var aggregationTemporality: CloudWatchOmniClientTypes.MetricAggregationTemporality?
+        /// Per-metric qualifying attributes used to query this metric's telemetry. Keys are the metric store's own label names, not bare OTel attribute names: service identity arrives as "@resource.service.name" and "@resource.service.namespace", and the instrumentation scope as "@instrumentation.@name". Span-derived metrics can additionally carry the service as a bare data point "service.name" label. Cloud provider, account and region are not repeated per metric — read those from the node. Values are RAW, deliberately NOT the node's merged identity, so a selector built from them matches the emitted series. A merged node can carry different values per metric, which is why these live here rather than on the node.
         public var attributes: [Swift.String: Swift.String]?
         /// OTel metric kind: "gauge", "sum", "histogram", "exponential_histogram", or "summary" (CloudWatch-vended metrics carry the same kinds). Absent when the producer did not report one.
         public var metricType: Swift.String?
+        /// Whether the selected Sum metric stream represented by this metadata entry is a non-negative accumulation. Absent for metrics other than Sum or when the information is unavailable.
+        public var monotonicity: CloudWatchOmniClientTypes.MetricMonotonicity?
         /// The metric name as emitted, such as "Duration".
         public var name: Swift.String?
         /// The statistic to chart or alarm on, such as "p99" or "Sum". Free-form and frequently absent.
@@ -3745,14 +3813,18 @@ extension CloudWatchOmniClientTypes {
         public var semantics: CloudWatchOmniClientTypes.MetricSemantics?
 
         public init(
+            aggregationTemporality: CloudWatchOmniClientTypes.MetricAggregationTemporality? = nil,
             attributes: [Swift.String: Swift.String]? = nil,
             metricType: Swift.String? = nil,
+            monotonicity: CloudWatchOmniClientTypes.MetricMonotonicity? = nil,
             name: Swift.String? = nil,
             preferredStat: Swift.String? = nil,
             semantics: CloudWatchOmniClientTypes.MetricSemantics? = nil
         ) {
+            self.aggregationTemporality = aggregationTemporality
             self.attributes = attributes
             self.metricType = metricType
+            self.monotonicity = monotonicity
             self.name = name
             self.preferredStat = preferredStat
             self.semantics = semantics

@@ -770,6 +770,85 @@ extension OdbClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateVirtualMachinesToCloudVmCluster` operation on the `Odb` service.
+    ///
+    /// Adds virtual machines to the specified VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateVirtualMachinesToCloudVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateVirtualMachinesToCloudVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func associateVirtualMachinesToCloudVmCluster(input: AssociateVirtualMachinesToCloudVmClusterInput) async throws -> AssociateVirtualMachinesToCloudVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.associateVirtualMachinesToCloudVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateVirtualMachinesToCloudVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVirtualMachinesToCloudVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateVirtualMachinesToCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.AssociateVirtualMachinesToCloudVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateVirtualMachinesToCloudVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateVirtualMachinesToCloudVmClusterInput, AssociateVirtualMachinesToCloudVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateVirtualMachinesToCloudVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateVirtualMachinesToExadbVmCluster` operation on the `Odb` service.
     ///
     /// Adds virtual machines to the specified Exascale VM cluster.
@@ -2429,6 +2508,85 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateIamRoleFromResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateVirtualMachinesFromCloudVmCluster` operation on the `Odb` service.
+    ///
+    /// Removes virtual machines from the specified VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateVirtualMachinesFromCloudVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateVirtualMachinesFromCloudVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func disassociateVirtualMachinesFromCloudVmCluster(input: DisassociateVirtualMachinesFromCloudVmClusterInput) async throws -> DisassociateVirtualMachinesFromCloudVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.disassociateVirtualMachinesFromCloudVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateVirtualMachinesFromCloudVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateVirtualMachinesFromCloudVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateVirtualMachinesFromCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.DisassociateVirtualMachinesFromCloudVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateVirtualMachinesFromCloudVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateVirtualMachinesFromCloudVmClusterInput, DisassociateVirtualMachinesFromCloudVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateVirtualMachinesFromCloudVmCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6485,6 +6643,85 @@ extension OdbClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateCloudAutonomousVmCluster` operation on the `Odb` service.
+    ///
+    /// Updates the properties of the specified Autonomous VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudAutonomousVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCloudAutonomousVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func updateCloudAutonomousVmCluster(input: UpdateCloudAutonomousVmClusterInput) async throws -> UpdateCloudAutonomousVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateCloudAutonomousVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCloudAutonomousVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudAutonomousVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCloudAutonomousVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.UpdateCloudAutonomousVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCloudAutonomousVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCloudAutonomousVmClusterInput, UpdateCloudAutonomousVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCloudAutonomousVmCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateCloudExadataInfrastructure` operation on the `Odb` service.
     ///
     /// Updates the properties of an Exadata infrastructure resource.
@@ -6552,6 +6789,164 @@ extension OdbClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCloudExadataInfrastructure")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCloudExadataInfrastructureStorageCapacity` operation on the `Odb` service.
+    ///
+    /// Adds storage capacity to the specified Exadata infrastructure.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudExadataInfrastructureStorageCapacityInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCloudExadataInfrastructureStorageCapacityOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func updateCloudExadataInfrastructureStorageCapacity(input: UpdateCloudExadataInfrastructureStorageCapacityInput) async throws -> UpdateCloudExadataInfrastructureStorageCapacityOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateCloudExadataInfrastructureStorageCapacityOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCloudExadataInfrastructureStorageCapacity")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudExadataInfrastructureStorageCapacityOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCloudExadataInfrastructureStorageCapacityOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>(overrides: ["X-Amz-Target": "Odb.UpdateCloudExadataInfrastructureStorageCapacity"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCloudExadataInfrastructureStorageCapacityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCloudExadataInfrastructureStorageCapacityInput, UpdateCloudExadataInfrastructureStorageCapacityOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCloudExadataInfrastructureStorageCapacity")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCloudVmCluster` operation on the `Odb` service.
+    ///
+    /// Updates the properties of the specified VM cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudVmClusterInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCloudVmClusterOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this action. Make sure you have the required permissions and try again.
+    /// - `ConflictException` : Occurs when a conflict with the current status of your resource. Fix any inconsistencies with your resource and try again.
+    /// - `InternalServerException` : Occurs when there is an internal failure in the Oracle Database@Amazon Web Services service. Wait and try again.
+    /// - `ResourceNotFoundException` : The operation tried to access a resource that doesn't exist. Make sure you provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request has failed validation because it is missing required fields or has invalid inputs.
+    public func updateCloudVmCluster(input: UpdateCloudVmClusterInput) async throws -> UpdateCloudVmClusterOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyAWSJSON.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = OdbClient.updateCloudVmClusterOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCloudVmCluster")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "odb")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyAWSJSON.HTTPClientProtocol(version: .v1_0)
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudVmClusterOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("odb", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCloudVmClusterOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>(overrides: ["X-Amz-Target": "Odb.UpdateCloudVmCluster"]))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>(contentType: "application/x-amz-json-1.0"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCloudVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "odb"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCloudVmClusterInput, UpdateCloudVmClusterOutput>(serviceID: serviceName, version: OdbClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Odb")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCloudVmCluster")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

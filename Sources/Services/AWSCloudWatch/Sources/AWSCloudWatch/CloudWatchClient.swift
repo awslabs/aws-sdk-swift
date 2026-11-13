@@ -1182,6 +1182,79 @@ extension CloudWatchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteMetricDataQueryDefinition` operation on the `CloudWatch` service.
+    ///
+    /// Deletes a metric data query definition. This operation is idempotent. If the definition doesn't exist, the operation succeeds without returning an error. Permissions To delete a definition, you need the cloudwatch:DeleteMetricDataQueryDefinition permission on the metric data query definition resource. You can use the aws:ResourceTag/${TagKey} condition key to control access based on the tags of the definition.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteMetricDataQueryDefinitionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteMetricDataQueryDefinitionOutput`)
+    public func deleteMetricDataQueryDefinition(input: DeleteMetricDataQueryDefinitionInput) async throws -> DeleteMetricDataQueryDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.deleteMetricDataQueryDefinitionOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteMetricDataQueryDefinition")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricDataQueryDefinitionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteMetricDataQueryDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteMetricDataQueryDefinitionInput, DeleteMetricDataQueryDefinitionOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteMetricDataQueryDefinition")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteMetricStream` operation on the `CloudWatch` service.
     ///
     /// Permanently deletes the metric stream that you specify.
@@ -2619,6 +2692,84 @@ extension CloudWatchClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetMetricDataQueryDefinition` operation on the `CloudWatch` service.
+    ///
+    /// Returns a metric data query definition, including its expression. Permissions To get a definition, you need the cloudwatch:GetMetricDataQueryDefinition permission on the metric data query definition resource. You can use the aws:ResourceTag/${TagKey} condition key to control access based on the tags of the definition.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetMetricDataQueryDefinitionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetMetricDataQueryDefinitionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func getMetricDataQueryDefinition(input: GetMetricDataQueryDefinitionInput) async throws -> GetMetricDataQueryDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.getMetricDataQueryDefinitionOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMetricDataQueryDefinition")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricDataQueryDefinitionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetMetricDataQueryDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetMetricDataQueryDefinitionInput, GetMetricDataQueryDefinitionOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetMetricDataQueryDefinition")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetMetricStatistics` operation on the `CloudWatch` service.
     ///
     /// Gets statistics for the specified metric. The maximum number of data points returned from a single call is 1,440. If you request more than 1,440 data points, CloudWatch returns an error. To reduce the number of data points, you can narrow the specified time range and make multiple requests across adjacent time ranges, or you can increase the specified period. Data points are not returned in chronological order. CloudWatch aggregates data points based on the length of the period that you specify. For example, if you request statistics with a one-hour period, CloudWatch aggregates all data points with time stamps that fall within each one-hour period. Therefore, the number of values aggregated by CloudWatch is larger than the number of data points returned. CloudWatch needs raw data points to calculate percentile statistics. If you publish data using a statistic set instead, you can only retrieve percentile statistics for this data if one of the following conditions is true:
@@ -3253,6 +3404,79 @@ extension CloudWatchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListManagedInsightRules")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListMetricDataQueryDefinitions` operation on the `CloudWatch` service.
+    ///
+    /// Lists the metric data query definitions in your account and Region. The results are summaries that don't include the expression. To get the full definition, call GetMetricDataQueryDefinition with its ID. This operation supports pagination. Use the MaxResults and NextToken parameters to retrieve results in multiple calls. Permissions To list definitions, you need the cloudwatch:ListMetricDataQueryDefinitions permission. This permission applies to all definitions in the account and Region. The results aren't filtered by tags.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListMetricDataQueryDefinitionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListMetricDataQueryDefinitionsOutput`)
+    public func listMetricDataQueryDefinitions(input: ListMetricDataQueryDefinitionsInput) async throws -> ListMetricDataQueryDefinitionsOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.listMetricDataQueryDefinitionsOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMetricDataQueryDefinitions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricDataQueryDefinitionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListMetricDataQueryDefinitionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListMetricDataQueryDefinitionsOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListMetricDataQueryDefinitionsInput, ListMetricDataQueryDefinitionsOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListMetricDataQueryDefinitions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4234,6 +4458,86 @@ extension CloudWatchClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutMetricData")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `PutMetricDataQueryDefinition` operation on the `CloudWatch` service.
+    ///
+    /// Creates or updates a metric data query definition. A metric data query definition saves a metric query so that you can reuse it later. It includes the query expression, the query language, and a path that names the definition and can organize it into folders. When you save a definition, CloudWatch doesn't validate or run its expression. To create a definition, omit Id. CloudWatch generates the ID and returns it. To update a definition, specify its Id. An update replaces the path, expression, and type, and keeps the creation time. The path must be unique in your account and Region. If another definition already uses the path, the request fails with a ConflictException. You can have up to 1,000 metric data query definitions in each Region of your account. A request that would create more fails with a LimitExceededException. Permissions To create or update a definition, you need the cloudwatch:PutMetricDataQueryDefinition permission on the metric data query definition resource. The resource ARN has the format arn:aws:cloudwatch:Region:account-id:metric-query-definition/Id. To add tags when you create a definition, you also need the cloudwatch:TagResource permission. You can use the aws:RequestTag/${TagKey} and aws:TagKeys condition keys to control which tags can be added.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutMetricDataQueryDefinitionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutMetricDataQueryDefinitionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : This operation attempted to create a resource that already exists.
+    /// - `LimitExceededException` : The operation exceeded one or more limits.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
+    public func putMetricDataQueryDefinition(input: PutMetricDataQueryDefinitionInput) async throws -> PutMetricDataQueryDefinitionOutput {
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = [SmithyRPCv2CBOR.Plugin(), AWSClientRuntime.UnknownAWSHTTPServiceErrorPlugin()]
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = CloudWatchClient.putMetricDataQueryDefinitionOperation
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putMetricDataQueryDefinition")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "monitoring")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
+                      .build()
+        let clientProtocol = SmithyRPCv2CBOR.HTTPClientProtocol()
+        let builder = ClientRuntime.OrchestratorBuilder(operation, clientProtocol)
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(ClientRuntime.DefaultClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricDataQueryDefinitionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CloudWatch", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutMetricDataQueryDefinitionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>(overrides: ["smithy-protocol": "rpc-v2-cbor", "Accept": "application/cbor"]))
+        builder.interceptors.add(ClientRuntime.CborValidateResponseHeaderMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>(contentType: "application/cbor"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>())
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(ClientRuntime.MutateHeadersMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>(additional: ["x-amzn-query-mode": "true"]))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "CloudWatch"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutMetricDataQueryDefinitionInput, PutMetricDataQueryDefinitionOutput>(serviceID: serviceName, version: CloudWatchClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CloudWatch")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutMetricDataQueryDefinition")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -39,6 +39,40 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+/// You cannot create a resource that already exists, or the resource is in a state that prevents the requested operation.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier of the resource.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
 /// An unexpected server-side error occurred during request processing.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -87,40 +121,6 @@ public struct OperationTimeoutException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-/// The specified resource was not found. You can only access or modify a resource that already exists.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unique identifier of the resource.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -248,6 +248,82 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
         self.properties.fieldList = fieldList
         self.properties.message = message
         self.properties.reason = reason
+    }
+}
+
+public struct CreateAirflowUiUrlInput: Swift.Sendable {
+    /// Specifies the number of seconds that the launch URL stays valid. This value limits only the time to open the URL, not the length of the UI session. The default is 300.
+    public var expiresInSeconds: Swift.Int?
+    /// Specifies the number of seconds that the UI session lasts, starting from when you call this operation. The default is 43200 (12 hours).
+    public var sessionDurationInSeconds: Swift.Int?
+
+    public init(
+        expiresInSeconds: Swift.Int? = nil,
+        sessionDurationInSeconds: Swift.Int? = nil
+    ) {
+        self.expiresInSeconds = expiresInSeconds
+        self.sessionDurationInSeconds = sessionDurationInSeconds
+    }
+}
+
+public struct CreateAirflowUiUrlOutput: Swift.Sendable {
+    /// The launch URL that opens the Airflow UI. Open it in a browser before UrlExpiresAt. The UI session uses the permissions of the identity that called this operation.
+    /// This member is required.
+    public var authorizedUrl: Swift.String?
+    /// The UI session ends at this time. The value is in ISO 8601 date-time format. After this time, create a new URL to open the UI again.
+    /// This member is required.
+    public var sessionExpiresAt: Foundation.Date?
+    /// The URL starts a UI session that has this identifier.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The launch URL stops being valid at this time. The value is in ISO 8601 date-time format.
+    /// This member is required.
+    public var urlExpiresAt: Foundation.Date?
+
+    public init(
+        authorizedUrl: Swift.String? = nil,
+        sessionExpiresAt: Foundation.Date? = nil,
+        sessionId: Swift.String? = nil,
+        urlExpiresAt: Foundation.Date? = nil
+    ) {
+        self.authorizedUrl = authorizedUrl
+        self.sessionExpiresAt = sessionExpiresAt
+        self.sessionId = sessionId
+        self.urlExpiresAt = urlExpiresAt
+    }
+}
+
+/// The specified resource was not found. You can only access or modify a resource that already exists.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The unique identifier of the resource.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the resource.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
     }
 }
 
@@ -586,40 +662,6 @@ extension MWAAServerlessClientTypes {
         /// The Amazon S3 location of the code artifacts that your workflow tasks use during execution.
         case s3location(MWAAServerlessClientTypes.S3Location)
         case sdkUnknown(Swift.String)
-    }
-}
-
-/// You cannot create a resource that already exists, or the resource is in a state that prevents the requested operation.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The unique identifier of the resource.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the resource.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
     }
 }
 
@@ -1001,9 +1043,20 @@ public struct GetWorkflowInput: Swift.Sendable {
 
 extension MWAAServerlessClientTypes {
 
-    /// The configuration to use to schedule automated workflow execution using cron expressions. Amazon Managed Workflows for Apache Airflow Serverless integrates with EventBridge Scheduler to provide cost-effective, timezone-aware scheduling capabilities. The service supports both time-based and event-based scheduling (event-based scheduling available post-GA). When a workflow definition includes scheduling information, Amazon Managed Workflows for Apache Airflow Serverless automatically configures the appropriate triggers and ensures only one version of a workflow has an active schedule at any time.
+    /// Contains the configuration used to schedule automated workflow execution. Only one version of a workflow can have an active schedule at any time.
     public struct ScheduleConfiguration: Swift.Sendable {
-        /// A cron expression that defines when the workflow is automatically executed. Uses standard cron syntax.
+        /// The schedule expression that determines when the workflow runs, as specified in the schedule parameter of the workflow's YAML definition. You can specify one of the following types of schedule expressions:
+        ///
+        /// * Apache Airflow cron expression – Five fields, such as 0 12 1 * *.
+        ///
+        /// * Apache Airflow schedule preset – @hourly, @daily, @weekly, @monthly, @yearly, or @annually.
+        ///
+        /// * EventBridge Scheduler rate expression – For example, rate(5 minutes). Supported units are minutes, hours, and days.
+        ///
+        /// * EventBridge Scheduler cron expression – Six fields, such as cron(0 12 * * ? *).
+        ///
+        ///
+        /// In a cron expression, specify either a day-of-month or a day-of-week, not both.
         public var cronExpression: Swift.String?
 
         public init(
@@ -1041,7 +1094,7 @@ public struct GetWorkflowOutput: Swift.Sendable {
     public var networkConfiguration: MWAAServerlessClientTypes.NetworkConfiguration?
     /// The Amazon Resource Name (ARN) of the IAM role used for workflow execution.
     public var roleArn: Swift.String?
-    /// The schedule configuration for the workflow, including cron expressions for automated execution. Amazon Managed Workflows for Apache Airflow Serverless uses EventBridge Scheduler for cost-effective, timezone-aware scheduling. When a workflow includes schedule information in its YAML definition, the service automatically configures the appropriate triggers for automated execution. Only one version of a workflow can have an active schedule at any given time.
+    /// The schedule configuration for the workflow. Only one version of a workflow can have an active schedule at any given time.
     public var scheduleConfiguration: MWAAServerlessClientTypes.ScheduleConfiguration?
     /// The trigger mode for the workflow execution.
     public var triggerMode: Swift.String?

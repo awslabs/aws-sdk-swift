@@ -226,7 +226,7 @@ extension GameLiftStreamsClientTypes {
 
 extension GameLiftStreamsClientTypes {
 
-    /// Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). To add a new location and specify its capacity, call [AddStreamGroupLocations](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html).
+    /// Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). To add a new location and specify its capacity, call [AddStreamGroupLocations](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html). When you modify capacity for an existing location, always specify AlwaysOnCapacity, MaximumCapacity, and TargetIdleCapacity in the same request. If you omit one or more of these values, the service applies internal defaults for the missing values. These defaults might not match what you intend.
     public struct LocationConfiguration: Swift.Sendable {
         /// This setting, if non-zero, indicates minimum streaming capacity which is allocated to you and is never released back to the service. You pay for this base level of capacity at all times, whether used or idle.
         public var alwaysOnCapacity: Swift.Int?
@@ -2572,6 +2572,8 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     public var additionalLaunchArgs: [Swift.String]?
     /// The application streaming in this session. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var applicationArn: Swift.String?
+    /// A timestamp that indicates when the application launched for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var applicationStartedAt: Foundation.Date?
     /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that's assigned to a stream session resource. When combined with the stream group resource ID, this value uniquely identifies the stream session across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[stream group resource ID]/[stream session resource ID].
     public var arn: Swift.String?
     /// The length of time that Amazon GameLift Streams should wait for a client to connect or reconnect to the stream session. This time span starts when the stream session reaches ACTIVE or PENDING_CLIENT_RECONNECTION state. If no client connects (or reconnects) before the timeout, Amazon GameLift Streams terminates the stream session.
@@ -2645,6 +2647,10 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
+    /// A timestamp that indicates when streaming ended for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var streamingEndedAt: Foundation.Date?
+    /// A timestamp that indicates when streaming started for this stream session, which is when a client connected to the stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var streamingStartedAt: Foundation.Date?
     /// An opaque, unique identifier for an end-user, defined by the developer.
     public var userId: Swift.String?
     /// The URL of an S3 bucket that stores Amazon GameLift Streams WebSDK files. The URL is used to establish connection with the client.
@@ -2654,6 +2660,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
         additionalEnvironmentVariables: [Swift.String: Swift.String]? = nil,
         additionalLaunchArgs: [Swift.String]? = nil,
         applicationArn: Swift.String? = nil,
+        applicationStartedAt: Foundation.Date? = nil,
         arn: Swift.String? = nil,
         connectionTimeoutSeconds: Swift.Int? = nil,
         createdAt: Foundation.Date? = nil,
@@ -2672,12 +2679,15 @@ public struct GetStreamSessionOutput: Swift.Sendable {
         status: GameLiftStreamsClientTypes.StreamSessionStatus? = nil,
         statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason? = nil,
         streamGroupId: Swift.String? = nil,
+        streamingEndedAt: Foundation.Date? = nil,
+        streamingStartedAt: Foundation.Date? = nil,
         userId: Swift.String? = nil,
         webSdkProtocolUrl: Swift.String? = nil
     ) {
         self.additionalEnvironmentVariables = additionalEnvironmentVariables
         self.additionalLaunchArgs = additionalLaunchArgs
         self.applicationArn = applicationArn
+        self.applicationStartedAt = applicationStartedAt
         self.arn = arn
         self.connectionTimeoutSeconds = connectionTimeoutSeconds
         self.createdAt = createdAt
@@ -2696,6 +2706,8 @@ public struct GetStreamSessionOutput: Swift.Sendable {
         self.status = status
         self.statusReason = statusReason
         self.streamGroupId = streamGroupId
+        self.streamingEndedAt = streamingEndedAt
+        self.streamingStartedAt = streamingStartedAt
         self.userId = userId
         self.webSdkProtocolUrl = webSdkProtocolUrl
     }
@@ -2703,7 +2715,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
 
 extension GetStreamSessionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
+        "GetStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), applicationStartedAt: \(Swift.String(describing: applicationStartedAt)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), streamingEndedAt: \(Swift.String(describing: streamingEndedAt)), streamingStartedAt: \(Swift.String(describing: streamingStartedAt)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStreamUrlInput: Swift.Sendable {
@@ -3436,6 +3448,8 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     public var additionalLaunchArgs: [Swift.String]?
     /// The application streaming in this session. This value is an [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
     public var applicationArn: Swift.String?
+    /// A timestamp that indicates when the application launched for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var applicationStartedAt: Foundation.Date?
     /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) that's assigned to a stream session resource. When combined with the stream group resource ID, this value uniquely identifies the stream session across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[stream group resource ID]/[stream session resource ID].
     public var arn: Swift.String?
     /// The length of time that Amazon GameLift Streams should wait for a client to connect or reconnect to the stream session. This time span starts when the stream session reaches ACTIVE or PENDING_CLIENT_RECONNECTION state. If no client connects (or reconnects) before the timeout, Amazon GameLift Streams terminates the stream session.
@@ -3509,6 +3523,10 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
+    /// A timestamp that indicates when streaming ended for this stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var streamingEndedAt: Foundation.Date?
+    /// A timestamp that indicates when streaming started for this stream session, which is when a client connected to the stream session. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+    public var streamingStartedAt: Foundation.Date?
     /// An opaque, unique identifier for an end-user, defined by the developer.
     public var userId: Swift.String?
     /// The URL of an S3 bucket that stores Amazon GameLift Streams WebSDK files. The URL is used to establish connection with the client.
@@ -3518,6 +3536,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
         additionalEnvironmentVariables: [Swift.String: Swift.String]? = nil,
         additionalLaunchArgs: [Swift.String]? = nil,
         applicationArn: Swift.String? = nil,
+        applicationStartedAt: Foundation.Date? = nil,
         arn: Swift.String? = nil,
         connectionTimeoutSeconds: Swift.Int? = nil,
         createdAt: Foundation.Date? = nil,
@@ -3536,12 +3555,15 @@ public struct StartStreamSessionOutput: Swift.Sendable {
         status: GameLiftStreamsClientTypes.StreamSessionStatus? = nil,
         statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason? = nil,
         streamGroupId: Swift.String? = nil,
+        streamingEndedAt: Foundation.Date? = nil,
+        streamingStartedAt: Foundation.Date? = nil,
         userId: Swift.String? = nil,
         webSdkProtocolUrl: Swift.String? = nil
     ) {
         self.additionalEnvironmentVariables = additionalEnvironmentVariables
         self.additionalLaunchArgs = additionalLaunchArgs
         self.applicationArn = applicationArn
+        self.applicationStartedAt = applicationStartedAt
         self.arn = arn
         self.connectionTimeoutSeconds = connectionTimeoutSeconds
         self.createdAt = createdAt
@@ -3560,6 +3582,8 @@ public struct StartStreamSessionOutput: Swift.Sendable {
         self.status = status
         self.statusReason = statusReason
         self.streamGroupId = streamGroupId
+        self.streamingEndedAt = streamingEndedAt
+        self.streamingStartedAt = streamingStartedAt
         self.userId = userId
         self.webSdkProtocolUrl = webSdkProtocolUrl
     }
@@ -3567,7 +3591,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
 
 extension StartStreamSessionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
+        "StartStreamSessionOutput(protocol: \(Swift.String(describing: `protocol`)), additionalEnvironmentVariables: \(Swift.String(describing: additionalEnvironmentVariables)), additionalLaunchArgs: \(Swift.String(describing: additionalLaunchArgs)), applicationArn: \(Swift.String(describing: applicationArn)), applicationStartedAt: \(Swift.String(describing: applicationStartedAt)), arn: \(Swift.String(describing: arn)), connectionTimeoutSeconds: \(Swift.String(describing: connectionTimeoutSeconds)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayConfiguration: \(Swift.String(describing: displayConfiguration)), exportFilesMetadata: \(Swift.String(describing: exportFilesMetadata)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), location: \(Swift.String(describing: location)), logFileLocationUri: \(Swift.String(describing: logFileLocationUri)), performanceStatsConfiguration: \(Swift.String(describing: performanceStatsConfiguration)), sessionLengthSeconds: \(Swift.String(describing: sessionLengthSeconds)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), streamGroupId: \(Swift.String(describing: streamGroupId)), streamingEndedAt: \(Swift.String(describing: streamingEndedAt)), streamingStartedAt: \(Swift.String(describing: streamingStartedAt)), userId: \(Swift.String(describing: userId)), webSdkProtocolUrl: \(Swift.String(describing: webSdkProtocolUrl)), roleArn: \"CONTENT_REDACTED\", signalRequest: \"CONTENT_REDACTED\", signalResponse: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStreamGroupInput: Swift.Sendable {
@@ -5383,6 +5407,7 @@ extension GetStreamSessionOutput {
         value.additionalEnvironmentVariables = try reader["AdditionalEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.additionalLaunchArgs = try reader["AdditionalLaunchArgs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.applicationStartedAt = try reader["ApplicationStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.arn = try reader["Arn"].readIfPresent()
         value.connectionTimeoutSeconds = try reader["ConnectionTimeoutSeconds"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5401,6 +5426,8 @@ extension GetStreamSessionOutput {
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.streamGroupId = try reader["StreamGroupId"].readIfPresent()
+        value.streamingEndedAt = try reader["StreamingEndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.streamingStartedAt = try reader["StreamingStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.userId = try reader["UserId"].readIfPresent()
         value.webSdkProtocolUrl = try reader["WebSdkProtocolUrl"].readIfPresent()
         return value
@@ -5551,6 +5578,7 @@ extension StartStreamSessionOutput {
         value.additionalEnvironmentVariables = try reader["AdditionalEnvironmentVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.additionalLaunchArgs = try reader["AdditionalLaunchArgs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.applicationStartedAt = try reader["ApplicationStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.arn = try reader["Arn"].readIfPresent()
         value.connectionTimeoutSeconds = try reader["ConnectionTimeoutSeconds"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -5569,6 +5597,8 @@ extension StartStreamSessionOutput {
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
         value.streamGroupId = try reader["StreamGroupId"].readIfPresent()
+        value.streamingEndedAt = try reader["StreamingEndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.streamingStartedAt = try reader["StreamingStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.userId = try reader["UserId"].readIfPresent()
         value.webSdkProtocolUrl = try reader["WebSdkProtocolUrl"].readIfPresent()
         return value

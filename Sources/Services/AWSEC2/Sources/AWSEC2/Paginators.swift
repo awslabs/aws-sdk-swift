@@ -2344,6 +2344,39 @@ extension PaginatorSequence where OperationStackInput == DescribeManagedPrefixLi
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeMetricCategoriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetricCategoriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetricCategoriesOutput`
+    public func describeMetricCategoriesPaginated(input: DescribeMetricCategoriesInput) -> ClientRuntime.PaginatorSequence<DescribeMetricCategoriesInput, DescribeMetricCategoriesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMetricCategoriesInput, DescribeMetricCategoriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMetricCategories(input:))
+    }
+}
+
+extension DescribeMetricCategoriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetricCategoriesInput {
+        return DescribeMetricCategoriesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            metricCategoryIds: self.metricCategoryIds,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeMetricCategoriesInput, OperationStackOutput == DescribeMetricCategoriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMetricCategoriesPaginated`
+    /// to access the nested member `[EC2ClientTypes.MetricCategory]`
+    /// - Returns: `[EC2ClientTypes.MetricCategory]`
+    public func metricCategories() async throws -> [EC2ClientTypes.MetricCategory] {
+        return try await self.asyncCompactMap { item in item.metricCategories }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeMovingAddressesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

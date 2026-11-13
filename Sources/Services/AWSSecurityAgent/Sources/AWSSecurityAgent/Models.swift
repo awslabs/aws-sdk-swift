@@ -6338,6 +6338,8 @@ public struct CreatePentestInput: Swift.Sendable {
     public var assets: SecurityAgentClientTypes.Assets?
     /// The CI/CD pentesting configuration to apply to the pentest.
     public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
+    /// The strategy for cleaning up resources after pentest job completion. Valid values are BEST_EFFORT_DELETE and RETAIN_ALL.
+    public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
     /// The code remediation strategy for the pentest. Valid values are AUTOMATIC and DISABLED.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
     /// A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -6368,6 +6370,7 @@ public struct CreatePentestInput: Swift.Sendable {
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
         cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
+        cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
@@ -6384,6 +6387,7 @@ public struct CreatePentestInput: Swift.Sendable {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
         self.cicdConfiguration = cicdConfiguration
+        self.cleanUpStrategy = cleanUpStrategy
         self.codeRemediationStrategy = codeRemediationStrategy
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
@@ -10736,6 +10740,8 @@ public struct UpdatePentestInput: Swift.Sendable {
     public var assets: SecurityAgentClientTypes.Assets?
     /// The updated CI/CD pentesting configuration to apply to the pentest.
     public var cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration?
+    /// The updated strategy for cleaning up resources after pentest job completion.
+    public var cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy?
     /// The updated code remediation strategy for the pentest.
     public var codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy?
     /// The updated list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
@@ -10768,6 +10774,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         agentSpaceId: Swift.String? = nil,
         assets: SecurityAgentClientTypes.Assets? = nil,
         cicdConfiguration: SecurityAgentClientTypes.CiCdConfiguration? = nil,
+        cleanUpStrategy: SecurityAgentClientTypes.CleanUpStrategy? = nil,
         codeRemediationStrategy: SecurityAgentClientTypes.CodeRemediationStrategy? = nil,
         disableManagedSkills: [SecurityAgentClientTypes.SkillType]? = nil,
         excludeRiskTypes: [SecurityAgentClientTypes.RiskType]? = nil,
@@ -10785,6 +10792,7 @@ public struct UpdatePentestInput: Swift.Sendable {
         self.agentSpaceId = agentSpaceId
         self.assets = assets
         self.cicdConfiguration = cicdConfiguration
+        self.cleanUpStrategy = cleanUpStrategy
         self.codeRemediationStrategy = codeRemediationStrategy
         self.disableManagedSkills = disableManagedSkills
         self.excludeRiskTypes = excludeRiskTypes
@@ -12169,6 +12177,7 @@ extension CreatePentestInput {
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
         try writer["cicdConfiguration"].write(value.cicdConfiguration, with: SecurityAgentClientTypes.CiCdConfiguration.write(value:to:))
+        try writer["cleanUpStrategy"].write(value.cleanUpStrategy)
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12799,6 +12808,7 @@ extension UpdatePentestInput {
         try writer["agentSpaceId"].write(value.agentSpaceId)
         try writer["assets"].write(value.assets, with: SecurityAgentClientTypes.Assets.write(value:to:))
         try writer["cicdConfiguration"].write(value.cicdConfiguration, with: SecurityAgentClientTypes.CiCdConfiguration.write(value:to:))
+        try writer["cleanUpStrategy"].write(value.cleanUpStrategy)
         try writer["codeRemediationStrategy"].write(value.codeRemediationStrategy)
         try writer["disableManagedSkills"].writeList(value.disableManagedSkills, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.SkillType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["excludeRiskTypes"].writeList(value.excludeRiskTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SecurityAgentClientTypes.RiskType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)

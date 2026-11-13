@@ -8484,7 +8484,7 @@ extension SageMakerClientTypes {
     public struct UserContext: Swift.Sendable {
         /// The domain associated with the user.
         public var domainId: Swift.String?
-        /// The IAM Identity details associated with the user. These details are associated with model package groups, model packages, and project entities only.
+        /// The IAM Identity details associated with the user. These details are associated with model package groups, model packages, project entities, hubs, and hub content only.
         public var iamIdentity: SageMakerClientTypes.IamIdentity?
         /// The Amazon Resource Name (ARN) of the user's profile.
         public var userProfileArn: Swift.String?
@@ -38870,6 +38870,8 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeHubOutput: Swift.Sendable {
+    /// Information about the user who created the hub.
+    public var createdBy: SageMakerClientTypes.UserContext?
     /// The date and time that the hub was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
@@ -38890,6 +38892,8 @@ public struct DescribeHubOutput: Swift.Sendable {
     /// The status of the hub.
     /// This member is required.
     public var hubStatus: SageMakerClientTypes.HubStatus?
+    /// Information about the user who last modified the hub.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The date and time that the hub was last modified.
     /// This member is required.
     public var lastModifiedTime: Foundation.Date?
@@ -38897,6 +38901,7 @@ public struct DescribeHubOutput: Swift.Sendable {
     public var s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig?
 
     public init(
+        createdBy: SageMakerClientTypes.UserContext? = nil,
         creationTime: Foundation.Date? = nil,
         failureReason: Swift.String? = nil,
         hubArn: Swift.String? = nil,
@@ -38905,9 +38910,11 @@ public struct DescribeHubOutput: Swift.Sendable {
         hubName: Swift.String? = nil,
         hubSearchKeywords: [Swift.String]? = nil,
         hubStatus: SageMakerClientTypes.HubStatus? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         s3StorageConfig: SageMakerClientTypes.HubS3StorageConfig? = nil
     ) {
+        self.createdBy = createdBy
         self.creationTime = creationTime
         self.failureReason = failureReason
         self.hubArn = hubArn
@@ -38916,6 +38923,7 @@ public struct DescribeHubOutput: Swift.Sendable {
         self.hubName = hubName
         self.hubSearchKeywords = hubSearchKeywords
         self.hubStatus = hubStatus
+        self.lastModifiedBy = lastModifiedBy
         self.lastModifiedTime = lastModifiedTime
         self.s3StorageConfig = s3StorageConfig
     }
@@ -39043,6 +39051,8 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeHubContentOutput: Swift.Sendable {
+    /// Information about the user who created the hub content.
+    public var createdBy: SageMakerClientTypes.UserContext?
     /// The date and time that hub content was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
@@ -39085,6 +39095,8 @@ public struct DescribeHubContentOutput: Swift.Sendable {
     /// The name of the hub that contains the content.
     /// This member is required.
     public var hubName: Swift.String?
+    /// Information about the user who last modified the hub content.
+    public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The last modified time of the hub content.
     public var lastModifiedTime: Foundation.Date?
     /// The minimum version of the hub content.
@@ -39095,6 +39107,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
     public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
 
     public init(
+        createdBy: SageMakerClientTypes.UserContext? = nil,
         creationTime: Foundation.Date? = nil,
         documentSchemaVersion: Swift.String? = nil,
         failureReason: Swift.String? = nil,
@@ -39111,11 +39124,13 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         referenceMinVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
     ) {
+        self.createdBy = createdBy
         self.creationTime = creationTime
         self.documentSchemaVersion = documentSchemaVersion
         self.failureReason = failureReason
@@ -39132,6 +39147,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.lastModifiedBy = lastModifiedBy
         self.lastModifiedTime = lastModifiedTime
         self.referenceMinVersion = referenceMinVersion
         self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
@@ -43757,7 +43773,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
     public var pipelineVersionAliases: [Swift.String]?
     /// The ID of the pipeline version.
     public var pipelineVersionId: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. SageMaker returns this value only for executions of pipelines that AWS manages.
+    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. SageMaker returns this value only for executions of pipelines that Amazon Web Services manages.
     public var roleArn: Swift.String?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
@@ -48731,6 +48747,8 @@ extension SageMakerClientTypes {
 
     /// Contains information about a hub content resource, including its name, version, type, associated documents, dependencies, and status, as returned by a search result.
     public struct HubContent: Swift.Sendable {
+        /// Information about the user who created the hub content.
+        public var createdBy: SageMakerClientTypes.UserContext?
         /// The date and time that hub content was created.
         /// This member is required.
         public var creationTime: Foundation.Date?
@@ -48772,6 +48790,8 @@ extension SageMakerClientTypes {
         /// The name of the hub that contains the content.
         /// This member is required.
         public var hubName: Swift.String?
+        /// Information about the user who last modified the hub content.
+        public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The last modified time of the hub content.
         public var lastModifiedTime: Foundation.Date?
         /// The minimum version of the hub content.
@@ -48784,6 +48804,7 @@ extension SageMakerClientTypes {
         public var tags: [SageMakerClientTypes.Tag]?
 
         public init(
+            createdBy: SageMakerClientTypes.UserContext? = nil,
             creationTime: Foundation.Date? = nil,
             documentSchemaVersion: Swift.String? = nil,
             failureReason: Swift.String? = nil,
@@ -48800,12 +48821,14 @@ extension SageMakerClientTypes {
             hubContentType: SageMakerClientTypes.HubContentType? = nil,
             hubContentVersion: Swift.String? = nil,
             hubName: Swift.String? = nil,
+            lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             referenceMinVersion: Swift.String? = nil,
             sageMakerPublicHubContentArn: Swift.String? = nil,
             supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil,
             tags: [SageMakerClientTypes.Tag]? = nil
         ) {
+            self.createdBy = createdBy
             self.creationTime = creationTime
             self.documentSchemaVersion = documentSchemaVersion
             self.failureReason = failureReason
@@ -48822,6 +48845,7 @@ extension SageMakerClientTypes {
             self.hubContentType = hubContentType
             self.hubContentVersion = hubContentVersion
             self.hubName = hubName
+            self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.referenceMinVersion = referenceMinVersion
             self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
@@ -56925,7 +56949,7 @@ public struct ListPipelinesInput: Swift.Sendable {
     public var createdAfter: Foundation.Date?
     /// A filter that returns the pipelines that were created before a specified time.
     public var createdBefore: Foundation.Date?
-    /// Filters the pipelines by who manages them. Specify AWS to return pipelines that AWS manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes both.
+    /// Filters the pipelines by who manages them. Specify AWS to return pipelines that Amazon Web Services manages, or CUSTOMER to return pipelines that you created. If you don't specify a value, the response includes both.
     public var managedBy: SageMakerClientTypes.PipelineManagedBy?
     /// The maximum number of pipelines to return in the response.
     public var maxResults: Swift.Int?
@@ -61720,7 +61744,7 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
     public var pipelineVersionAlias: Swift.String?
     /// The ID of the pipeline version to start execution from. You can't specify this with PipelineVersionAlias.
     public var pipelineVersionId: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. You must specify this parameter when you start an execution of a pipeline that AWS manages. You can't specify it for a pipeline that you create, because its executions use the pipeline's role.
+    /// The Amazon Resource Name (ARN) of the IAM role that the execution uses. You must specify this parameter when you start an execution of a pipeline that Amazon Web Services manages. You can't specify it for a pipeline that you create, because its executions use the pipeline's role.
     public var roleArn: Swift.String?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
