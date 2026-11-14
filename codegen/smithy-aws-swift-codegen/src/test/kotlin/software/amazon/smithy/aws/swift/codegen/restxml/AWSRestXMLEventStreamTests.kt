@@ -23,7 +23,7 @@ class AWSRestXMLEventStreamTests {
             )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, EventStreamTestClientTypes.TestEvents>(keyPath: \.eventStream, defaultBody: nil, marshalClosure: EventStreamTestClientTypes.TestEvents.marshal))
+        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, EventStreamTestClientTypes.TestEvents>(keyPath: \.eventStream, defaultBody: nil, marshalClosure: EventStreamTestClientTypes.TestEvents.marshal, errorMarshalClosure: EventStreamTestClientTypes.TestEvents.marshalError))
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
@@ -61,6 +61,24 @@ extension EventStreamTestClientTypes.TestEvents {
                 payload = try SmithyXML.Writer.write(value.audio, rootNodeInfo: "Audio", with: EventStreamTestClientTypes.Audio.write(value:to:))
             case .sdkUnknown(_):
                 throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
+            }
+            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
+        }
+    }
+
+    static var marshalError: (any Swift.Error) throws -> SmithyEventStreamsAPI.Message? {
+        { error in
+            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("exception"))]
+            var payload: Foundation.Data? = nil
+            switch error {
+            case let value as SomeError:
+                headers.append(.init(name: ":exception-type", value: .string("SomeError")))
+                headers.append(.init(name: ":content-type", value: .string("application/xml")))
+                let writer = SmithyXML.Writer(nodeInfo: "SomeError")
+                try writer["Message"].write(value.properties.message, with: SmithyReadWrite.WritingClosures.writeString(value:to:))
+                payload = try writer.data()
+            default:
+                return nil
             }
             return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
         }
