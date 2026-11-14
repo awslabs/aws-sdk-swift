@@ -1476,6 +1476,26 @@ extension DevOpsAgentClientTypes {
 
 extension DevOpsAgentClientTypes {
 
+    /// Configuration for bidirectional communication with a Microsoft Teams channel. When enabled, the agent receives and responds to mentions in the configured channel in addition to sending notifications.
+    public struct MSTeamsBidirectionalConfiguration: Swift.Sendable {
+        /// Specifies whether bidirectional communication is enabled for this association. If you set this value to true, you can mention the agent in the configured Microsoft Teams channel and it responds in that channel. If you omit this parameter or set it to false, the agent only sends one-way notifications.
+        public var enabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the IAM role that the agent assumes to exchange messages with the Microsoft Teams team for this association.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension DevOpsAgentClientTypes {
+
     /// Represents a channel in a Microsoft Teams team that the DevOps Agent service can send notifications to.
     public struct MSTeamsChannel: Swift.Sendable {
         /// The unique identifier of the Microsoft Teams channel, for example 19:abc123def456@thread.tacv2.
@@ -1518,6 +1538,8 @@ extension DevOpsAgentClientTypes {
 
     /// Configuration for connecting a Microsoft Teams team to the DevOps Agent service. Use this configuration to specify which team to connect and how to route agent notifications to channels within that team.
     public struct MSTeamsConfiguration: Swift.Sendable {
+        /// The bidirectional communication configuration for the Microsoft Teams integration. Provide this configuration with enabled set to true to allow users to interact with the agent directly from Microsoft Teams.
+        public var bidirectional: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration?
         /// The identifier of the Microsoft Teams team to connect to the DevOps Agent service.
         /// This member is required.
         public var teamId: Swift.String?
@@ -1529,10 +1551,12 @@ extension DevOpsAgentClientTypes {
         public var transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget?
 
         public init(
+            bidirectional: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration? = nil,
             teamId: Swift.String? = nil,
             teamName: Swift.String? = nil,
             transmissionTarget: DevOpsAgentClientTypes.MSTeamsTransmissionTarget? = nil
         ) {
+            self.bidirectional = bidirectional
             self.teamId = teamId
             self.teamName = teamName
             self.transmissionTarget = transmissionTarget
@@ -12779,6 +12803,23 @@ extension DevOpsAgentClientTypes.MonthlyRecurrence {
     }
 }
 
+extension DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration {
+
+    static func write(value: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
 extension DevOpsAgentClientTypes.MSTeamsChannel {
 
     static func write(value: DevOpsAgentClientTypes.MSTeamsChannel?, to writer: SmithyJSON.Writer) throws {
@@ -12800,6 +12841,7 @@ extension DevOpsAgentClientTypes.MSTeamsConfiguration {
 
     static func write(value: DevOpsAgentClientTypes.MSTeamsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["bidirectional"].write(value.bidirectional, with: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration.write(value:to:))
         try writer["teamId"].write(value.teamId)
         try writer["teamName"].write(value.teamName)
         try writer["transmissionTarget"].write(value.transmissionTarget, with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.write(value:to:))
@@ -12811,6 +12853,7 @@ extension DevOpsAgentClientTypes.MSTeamsConfiguration {
         value.teamId = try reader["teamId"].readIfPresent() ?? ""
         value.teamName = try reader["teamName"].readIfPresent() ?? ""
         value.transmissionTarget = try reader["transmissionTarget"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsTransmissionTarget.read(from:))
+        value.bidirectional = try reader["bidirectional"].readIfPresent(with: DevOpsAgentClientTypes.MSTeamsBidirectionalConfiguration.read(from:))
         return value
     }
 }

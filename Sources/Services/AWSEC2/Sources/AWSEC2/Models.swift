@@ -540,6 +540,7 @@ extension EC2ClientTypes {
         case elasticIp
         case exportImageTask
         case exportInstanceTask
+        case fcaPolicy
         case fleet
         case fpgaImage
         case hostReservation
@@ -657,6 +658,7 @@ extension EC2ClientTypes {
                 .elasticIp,
                 .exportImageTask,
                 .exportInstanceTask,
+                .fcaPolicy,
                 .fleet,
                 .fpgaImage,
                 .hostReservation,
@@ -780,6 +782,7 @@ extension EC2ClientTypes {
             case .elasticIp: return "elastic-ip"
             case .exportImageTask: return "export-image-task"
             case .exportInstanceTask: return "export-instance-task"
+            case .fcaPolicy: return "fca-policy"
             case .fleet: return "fleet"
             case .fpgaImage: return "fpga-image"
             case .hostReservation: return "host-reservation"
@@ -6390,6 +6393,221 @@ public struct AssociateNatGatewayAddressOutput: Swift.Sendable {
     }
 }
 
+extension EC2ClientTypes {
+
+    /// The type of scope used for a scope-based policy association. Valid values are account, vpc, and subnet.
+    public enum FlexCostAllocationNetworkResourceScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case subnet
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationNetworkResourceScopeType] {
+            return [
+                .account,
+                .subnet,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .subnet: return "subnet"
+            case .vpc: return "vpc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies a scope of network resources for a scope-based policy association.
+    public struct FlexCostAllocationNetworkResourceScope: Swift.Sendable {
+        /// The IDs of the resources owned by you that define the scope. You can specify from 1 to 20 IDs. This parameter is required.
+        /// This member is required.
+        public var resourceIds: [Swift.String]?
+        /// The type of scope. This parameter is required. Valid values are account, vpc, and subnet.
+        /// This member is required.
+        public var resourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceScopeType?
+
+        public init(
+            resourceIds: [Swift.String]? = nil,
+            resourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceScopeType? = nil
+        ) {
+            self.resourceIds = resourceIds
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct AssociateNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+    public var clientToken: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the flex cost allocation policy to associate. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyId: Swift.String?
+    /// The IDs of the network resources to associate with the policy. You can specify from 1 to 20 resource IDs. You must specify NetworkResourceIds, NetworkResourceScope, or both. A request can include at most 20 distinct resources in total.
+    public var networkResourceIds: [Swift.String]?
+    /// The scope of network resources to associate with the policy. Use a scope to associate the policy with the resources in an account, Amazon VPC, or subnet. You must specify NetworkResourceScope, NetworkResourceIds, or both.
+    public var networkResourceScope: EC2ClientTypes.FlexCostAllocationNetworkResourceScope?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyId: Swift.String? = nil,
+        networkResourceIds: [Swift.String]? = nil,
+        networkResourceScope: EC2ClientTypes.FlexCostAllocationNetworkResourceScope? = nil
+    ) {
+        self.clientToken = clientToken
+        self.dryRun = dryRun
+        self.fcaPolicyId = fcaPolicyId
+        self.networkResourceIds = networkResourceIds
+        self.networkResourceScope = networkResourceScope
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a policy, association, or network resource that a Networking Flexible Cost Allocation operation failed to process.
+    public struct FlexCostAllocationOperationFailure: Swift.Sendable {
+        /// The code that identifies the type of failure. Possible values are:
+        ///
+        /// * ResourceNotFound - (DeleteNetworkingFlexCostAllocationPolicies) The policy doesn't exist or isn't owned by your account.
+        ///
+        /// * InvalidResourceState - (DeleteNetworkingFlexCostAllocationPolicies) The policy has active associations.
+        ///
+        /// * InvalidResource - (AssociateNetworkingFlexCostAllocationPolicy) The resource ID is malformed, the resource type doesn't match the policy, or the scope is an account other than yours. (DisassociateNetworkingFlexCostAllocationPolicy) The association doesn't exist or was already removed.
+        ///
+        /// * ResourceAlreadyAssociated - (AssociateNetworkingFlexCostAllocationPolicy) The resource already has an active association.
+        ///
+        /// * InternalError - An internal error occurred. Retry the request.
+        public var failureCode: Swift.String?
+        /// The reason for the failure.
+        public var failureReason: Swift.String?
+        /// The ID of the resource that could not be processed.
+        public var resourceId: Swift.String?
+
+        public init(
+            failureCode: Swift.String? = nil,
+            failureReason: Swift.String? = nil,
+            resourceId: Swift.String? = nil
+        ) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.resourceId = resourceId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The mode of a policy association. Valid values:
+    ///
+    /// * direct - The policy is associated with specific resources by resource ID.
+    ///
+    /// * scope - The policy is associated with a scope of resources.
+    public enum FlexCostAllocationAssociationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case direct
+        case scope
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationAssociationMode] {
+            return [
+                .direct,
+                .scope
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .direct: return "direct"
+            case .scope: return "scope"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes an association between a flex cost allocation policy and a network resource.
+    public struct FlexCostAllocationPolicyAssociationDescription: Swift.Sendable {
+        /// The date and time when the association was created.
+        public var associatedAt: Foundation.Date?
+        /// The mode of the association. Valid values:
+        ///
+        /// * direct - The policy is associated with specific resources by resource ID.
+        ///
+        /// * scope - The policy is associated with a scope of resources in an account, Amazon VPC, or subnet.
+        public var associationMode: EC2ClientTypes.FlexCostAllocationAssociationMode?
+        /// The date and time when the association is expected to apply to network traffic.
+        public var expectedEffectiveAt: Foundation.Date?
+        /// The ID of the policy association.
+        public var fcaPolicyAssociationId: Swift.String?
+        /// The ID of the policy.
+        public var fcaPolicyId: Swift.String?
+        /// The entity that manages the association. Valid values are:
+        ///
+        /// * account - The account that owns the association created it.
+        ///
+        /// * declarative-policy - An Amazon Web Services Organizations declarative policy created the association. You can't remove the association.
+        public var managedBy: EC2ClientTypes.ManagedBy?
+        /// The ID of the associated network resource.
+        public var networkResourceId: Swift.String?
+        /// The ID of the account that owns the association.
+        public var ownerAccount: Swift.String?
+
+        public init(
+            associatedAt: Foundation.Date? = nil,
+            associationMode: EC2ClientTypes.FlexCostAllocationAssociationMode? = nil,
+            expectedEffectiveAt: Foundation.Date? = nil,
+            fcaPolicyAssociationId: Swift.String? = nil,
+            fcaPolicyId: Swift.String? = nil,
+            managedBy: EC2ClientTypes.ManagedBy? = nil,
+            networkResourceId: Swift.String? = nil,
+            ownerAccount: Swift.String? = nil
+        ) {
+            self.associatedAt = associatedAt
+            self.associationMode = associationMode
+            self.expectedEffectiveAt = expectedEffectiveAt
+            self.fcaPolicyAssociationId = fcaPolicyAssociationId
+            self.fcaPolicyId = fcaPolicyId
+            self.managedBy = managedBy
+            self.networkResourceId = networkResourceId
+            self.ownerAccount = ownerAccount
+        }
+    }
+}
+
+public struct AssociateNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// Information about the network resources that could not be associated with the policy.
+    public var fcaPolicyAssociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]?
+    /// Information about the policy associations that were created.
+    public var fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]?
+
+    public init(
+        fcaPolicyAssociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]? = nil,
+        fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]? = nil
+    ) {
+        self.fcaPolicyAssociationFailures = fcaPolicyAssociationFailures
+        self.fcaPolicyAssociations = fcaPolicyAssociations
+    }
+}
+
 public struct AssociateRouteServerInput: Swift.Sendable {
     /// A check for whether you have the required permissions for the action without actually making the request and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -9916,7 +10134,7 @@ public struct CopySnapshotInput: Swift.Sendable {
     public var destinationAvailabilityZone: Swift.String?
     /// The Amazon Resource Name (ARN) of the Outpost to which to copy the snapshot. Only supported when copying a snapshot to an Outpost. For more information, see [ Copy snapshots from an Amazon Web Services Region to an Outpost](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#copy-snapshots) in the Amazon EBS User Guide.
     public var destinationOutpostArn: Swift.String?
-    /// The destination Region to use in the PresignedUrl parameter of a snapshot copy operation. This parameter is only valid for specifying the destination Region in a PresignedUrl parameter, where it is required. The snapshot copy is sent to the regional endpoint that you sent the HTTP request to (for example, ec2.us-east-1.amazonaws.com). With the CLI, this is specified using the --region parameter or the default Region in your Amazon Web Services configuration file.
+    /// Deprecated.
     public var destinationRegion: Swift.String?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -9935,7 +10153,7 @@ public struct CopySnapshotInput: Swift.Sendable {
     ///
     /// Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an ID, alias, or ARN that is not valid, the action can appear to complete, but eventually fails.
     public var kmsKeyId: Swift.String?
-    /// When you copy an encrypted source snapshot using the Amazon EC2 Query API, you must supply a pre-signed URL. This parameter is optional for unencrypted snapshots. For more information, see [Query requests](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html). The PresignedUrl should use the snapshot source endpoint, the CopySnapshot action, and include the SourceRegion, SourceSnapshotId, and DestinationRegion parameters. The PresignedUrl must be signed using Amazon Web Services Signature Version 4. Because EBS snapshots are stored in Amazon S3, the signing algorithm for this parameter uses the same logic that is described in [ Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html) in the Amazon S3 API Reference. An invalid or improperly signed PresignedUrl will cause the copy operation to fail asynchronously, and the snapshot will move to an error state.
+    /// Deprecated.
     public var presignedUrl: Swift.String?
     /// The ID of the Region that contains the snapshot to be copied.
     /// This member is required.
@@ -21601,11 +21819,11 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var logDestination: Swift.String?
     /// The type of destination for the flow log data. Default: cloud-watch-logs
     public var logDestinationType: EC2ClientTypes.LogDestinationType?
-    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide or [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
+    /// The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see [Flow log records](https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html) in the Amazon VPC User Guide, [Transit Gateway Flow Log records](https://docs.aws.amazon.com/vpc/latest/tgw/tgw-flow-logs.html#flow-log-records) in the Amazon Web Services Transit Gateway Guide, or [Cloud WAN Flow Log records](https://docs.aws.amazon.com/network-manager/latest/cloudwan/cwan-flow-logs.html) in the Amazon Web Services Cloud WAN User Guide. Specify the fields using the ${field-id} format, separated by spaces.
     public var logFormat: Swift.String?
     /// The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
     public var logGroupName: Swift.String?
-    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
+    /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway and Cloud WAN resource types. When a network interface is attached to a [Nitro-based instance](https://docs.aws.amazon.com/ec2/latest/instancetypes/ec2-nitro-instances.html), the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
     public var maxAggregationInterval: Swift.Int?
     /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 300 for the other resource types.
     /// This member is required.
@@ -21617,7 +21835,7 @@ public struct CreateFlowLogsInput: Swift.Sendable {
     public var tagFieldSpecifications: [EC2ClientTypes.TagFieldSpecificationRequest]?
     /// The tags to apply to the flow logs.
     public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
-    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway resource types. It is required for the other resource types.
+    /// The type of traffic to monitor (accepted traffic, rejected traffic, or all traffic). This parameter is not supported for transit gateway or Cloud WAN resource types. It is required for the other resource types.
     public var trafficType: EC2ClientTypes.TrafficType?
 
     public init(
@@ -23319,7 +23537,7 @@ public struct CreateIpamInternetRegistryAssociationInput: Swift.Sendable {
     /// The organization handle at the internet registry (for example, a RIPE NCC organization ID or ARIN Org ID).
     /// This member is required.
     public var organizationHandle: Swift.String?
-    /// The Regional Internet Registry to associate with. Possible values:
+    /// The internet registry to associate with. Possible values:
     ///
     /// * ripe - RIPE NCC (Europe, the Middle East, and Central Asia).
     ///
@@ -23328,6 +23546,8 @@ public struct CreateIpamInternetRegistryAssociationInput: Swift.Sendable {
     /// * arin - ARIN (North America).
     ///
     /// * lacnic - LACNIC (Latin America and the Caribbean).
+    ///
+    /// * nicbr - NIC.br (Brazil).
     /// This member is required.
     public var rir: EC2ClientTypes.Rir?
     /// The tags to assign to the internet registry association.
@@ -23432,7 +23652,7 @@ extension EC2ClientTypes {
         public var organizationHandle: Swift.String?
         /// The ID of the Amazon Web Services account that owns the internet registry association.
         public var ownerId: Swift.String?
-        /// The Regional Internet Registry. Possible values:
+        /// The internet registry. Possible values:
         ///
         /// * ripe - RIPE NCC (Europe, the Middle East, and Central Asia).
         ///
@@ -23441,8 +23661,10 @@ extension EC2ClientTypes {
         /// * arin - ARIN (North America).
         ///
         /// * lacnic - LACNIC (Latin America and the Caribbean).
+        ///
+        /// * nicbr - NIC.br (Brazil).
         public var rir: EC2ClientTypes.Rir?
-        /// The state of the internet registry association. Valid values: pending-activation | pending-enable | create-in-progress | create-failed | enable-in-progress | enable-complete | enable-failed | delete-in-progress | delete-complete | delete-failed.
+        /// The state of the internet registry association. Valid values: pending-enable | create-in-progress | create-failed | enable-in-progress | enable-complete | enable-failed | disable-in-progress | disable-complete | disable-failed | delete-in-progress | delete-complete | delete-failed.
         public var state: EC2ClientTypes.IpamInternetRegistryAssociationState?
         /// A message describing the current state of the internet registry association, including additional details such as the reason for a failure.
         public var stateMessage: Swift.String?
@@ -29773,6 +29995,298 @@ public struct CreateNetworkAclEntryInput: Swift.Sendable {
         self.`protocol` = `protocol`
         self.ruleAction = ruleAction
         self.ruleNumber = ruleNumber
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Maps a CIDR range to a label for cost allocation reporting.
+    public struct FlexCostAllocationCidrMapping: Swift.Sendable {
+        /// The label to assign to the CIDR range. The label can be up to 64 characters long. It can contain letters, numbers, hyphens (-), and underscores (_), and must start with a letter or a number. This parameter is required.
+        /// This member is required.
+        public var cidrLabel: Swift.String?
+        /// The CIDR range. This parameter is required.
+        /// This member is required.
+        public var cidrRange: Swift.String?
+
+        public init(
+            cidrLabel: Swift.String? = nil,
+            cidrRange: Swift.String? = nil
+        ) {
+            self.cidrLabel = cidrLabel
+            self.cidrRange = cidrRange
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Specifies the CIDR ranges and labels to use for cost allocation when the reporting granularity is cidr.
+    public struct FlexCostAllocationCidrRangeSpecifications: Swift.Sendable {
+        /// The CIDR range to label mappings. You can specify from 1 to 100 mappings. This parameter is required.
+        /// This member is required.
+        public var prefixes: [EC2ClientTypes.FlexCostAllocationCidrMapping]?
+        /// The type of prefixes to use. This parameter is required. Valid values are source-prefixes and destination-prefixes.
+        /// This member is required.
+        public var prefixesType: Swift.String?
+
+        public init(
+            prefixes: [EC2ClientTypes.FlexCostAllocationCidrMapping]? = nil,
+            prefixesType: Swift.String? = nil
+        ) {
+            self.prefixes = prefixes
+            self.prefixesType = prefixesType
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// A cost dimension used for allocation. Valid values are data-transfer and data-processing. data-processing is valid only in a NatFcaPolicyDocument.
+    public enum FlexCostAllocationCostDimension: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dataProcessing
+        case dataTransfer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationCostDimension] {
+            return [
+                .dataProcessing,
+                .dataTransfer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dataProcessing: return "data-processing"
+            case .dataTransfer: return "data-transfer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The resource granularity level at which networking costs are allocated. Valid values are eni, ec2, subnet, vpc, account, peering-id, and cidr. Which values you can use depends on the policy document. peering-id is valid only in a PcxFcaPolicyDocument.
+    public enum FlexCostAllocationReportingGranularity: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case cidr
+        case ec2
+        case eni
+        case peeringId
+        case subnet
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationReportingGranularity] {
+            return [
+                .account,
+                .cidr,
+                .ec2,
+                .eni,
+                .peeringId,
+                .subnet,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "account"
+            case .cidr: return "cidr"
+            case .ec2: return "ec2"
+            case .eni: return "eni"
+            case .peeringId: return "peering-id"
+            case .subnet: return "subnet"
+            case .vpc: return "vpc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the cost allocation policy document for EC2 instances.
+    public struct InstanceFlexCostAllocationPolicyDocument: Swift.Sendable {
+        /// The CIDR range mappings to use for cost allocation. Specify this value when ReportingGranularity is cidr, and omit it otherwise.
+        public var cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?
+        /// The cost dimensions to report. This parameter is required. The only valid value is data-transfer.
+        /// This member is required.
+        public var dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]?
+        /// The resource granularity level at which networking costs are allocated. This parameter is required. Specify exactly one value. Valid values are eni, ec2, subnet, vpc, account, and cidr.
+        /// This member is required.
+        public var reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]?
+
+        public init(
+            cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications? = nil,
+            dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]? = nil,
+            reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]? = nil
+        ) {
+            self.cidrRangeSpecifications = cidrRangeSpecifications
+            self.dimensions = dimensions
+            self.reportingGranularity = reportingGranularity
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the cost allocation policy document for NAT gateways.
+    public struct NatFlexCostAllocationPolicyDocument: Swift.Sendable {
+        /// The CIDR range mappings to use for cost allocation. Specify this value when ReportingGranularity is cidr, and omit it otherwise.
+        public var cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?
+        /// The cost dimensions to report. This parameter is required. Valid values are data-transfer and data-processing.
+        /// This member is required.
+        public var dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]?
+        /// The resource granularity level at which networking costs are allocated. This parameter is required. Specify exactly one value. Valid values are eni, ec2, subnet, vpc, account, and cidr.
+        /// This member is required.
+        public var reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]?
+
+        public init(
+            cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications? = nil,
+            dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]? = nil,
+            reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]? = nil
+        ) {
+            self.cidrRangeSpecifications = cidrRangeSpecifications
+            self.dimensions = dimensions
+            self.reportingGranularity = reportingGranularity
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// The type of network resource that a flex cost allocation policy applies to. Valid values are natgw (NAT gateway), pcx (Amazon VPC peering connection), and ec2 (EC2 instance).
+    public enum FlexCostAllocationNetworkResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ec2
+        case natgw
+        case pcx
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlexCostAllocationNetworkResourceType] {
+            return [
+                .ec2,
+                .natgw,
+                .pcx
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ec2: return "ec2"
+            case .natgw: return "natgw"
+            case .pcx: return "pcx"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes the cost allocation policy document for Amazon VPC peering connections.
+    public struct PcxFlexCostAllocationPolicyDocument: Swift.Sendable {
+        /// The CIDR range mappings to use for cost allocation. Specify this value when ReportingGranularity is cidr, and omit it otherwise.
+        public var cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?
+        /// The cost dimensions to report. This parameter is required. The only valid value is data-transfer.
+        /// This member is required.
+        public var dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]?
+        /// The resource granularity level at which networking costs are allocated. This parameter is required. Specify exactly one value. Valid values are eni, ec2, subnet, vpc, account, peering-id, and cidr.
+        /// This member is required.
+        public var reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]?
+
+        public init(
+            cidrRangeSpecifications: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications? = nil,
+            dimensions: [EC2ClientTypes.FlexCostAllocationCostDimension]? = nil,
+            reportingGranularity: [EC2ClientTypes.FlexCostAllocationReportingGranularity]? = nil
+        ) {
+            self.cidrRangeSpecifications = cidrRangeSpecifications
+            self.dimensions = dimensions
+            self.reportingGranularity = reportingGranularity
+        }
+    }
+}
+
+public struct CreateNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+    public var clientToken: Swift.String?
+    /// A description for the policy. The description can be up to 1024 characters long.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The policy document that defines cost allocation for EC2 instances. Provide this document when NetworkResourceType is ec2.
+    public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+    /// The policy document that defines cost allocation for NAT gateways. Provide this document when NetworkResourceType is natgw.
+    public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+    /// The type of network resource that the policy applies to. This parameter is required. Valid values are natgw (NAT gateway), pcx (Amazon VPC peering connection), and ec2 (EC2 instance). Specify the policy document that matches the resource type: NatFcaPolicyDocument for natgw, InstanceFcaPolicyDocument for ec2, or PcxFcaPolicyDocument for pcx. Don't specify a policy document for a different resource type.
+    /// This member is required.
+    public var networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType?
+    /// The policy document that defines cost allocation for Amazon VPC peering connections. Provide this document when NetworkResourceType is pcx.
+    public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+    /// Specifies whether showback reporting is enabled for the policy. Default: true
+    public var showBackEnabled: Swift.Bool?
+    /// The tags to assign to the policy.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+        natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+        networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType? = nil,
+        pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+        showBackEnabled: Swift.Bool? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.dryRun = dryRun
+        self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+        self.natFcaPolicyDocument = natFcaPolicyDocument
+        self.networkResourceType = networkResourceType
+        self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+        self.showBackEnabled = showBackEnabled
+        self.tagSpecifications = tagSpecifications
+    }
+}
+
+public struct CreateNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// The date and time when the policy was created.
+    public var createdAt: Foundation.Date?
+    /// The date and time when the policy is expected to apply to network traffic.
+    public var expectedEffectiveAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the flex cost allocation policy.
+    public var fcaPolicyArn: Swift.String?
+    /// The ID of the flex cost allocation policy.
+    public var fcaPolicyId: Swift.String?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        expectedEffectiveAt: Foundation.Date? = nil,
+        fcaPolicyArn: Swift.String? = nil,
+        fcaPolicyId: Swift.String? = nil
+    ) {
+        self.createdAt = createdAt
+        self.expectedEffectiveAt = expectedEffectiveAt
+        self.fcaPolicyArn = fcaPolicyArn
+        self.fcaPolicyId = fcaPolicyId
     }
 }
 
@@ -42053,6 +42567,37 @@ public struct DeleteNetworkAclEntryInput: Swift.Sendable {
         self.egress = egress
         self.networkAclId = networkAclId
         self.ruleNumber = ruleNumber
+    }
+}
+
+public struct DeleteNetworkingFlexCostAllocationPoliciesInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the flex cost allocation policies to delete. You can specify up to 50 policy IDs. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyIds: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyIds: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyIds = fcaPolicyIds
+    }
+}
+
+public struct DeleteNetworkingFlexCostAllocationPoliciesOutput: Swift.Sendable {
+    /// Information about the policies that could not be deleted.
+    public var failed: [EC2ClientTypes.FlexCostAllocationOperationFailure]?
+    /// The IDs of the policies that were successfully deleted.
+    public var successful: [Swift.String]?
+
+    public init(
+        failed: [EC2ClientTypes.FlexCostAllocationOperationFailure]? = nil,
+        successful: [Swift.String]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
     }
 }
 
@@ -59622,6 +60167,179 @@ public struct DescribeNetworkAclsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeNetworkingFlexCostAllocationPoliciesInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the flex cost allocation policies to describe.
+    public var fcaPolicyIds: [Swift.String]?
+    /// The filters.
+    ///
+    /// * fca-policy-id - The ID of the policy.
+    ///
+    /// * managed-by - The entity that manages the policy (account | declarative-policy).
+    ///
+    /// * network-resource-type - The type of network resource that the policy applies to (natgw | ec2 | pcx).
+    ///
+    /// * showback-enabled - Indicates whether showback reporting is enabled for the policy (true | false).
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of results to return in a single call. The range is 5 to 1000. To retrieve the remaining results, make another call with the returned nextToken value. Default: 100
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyIds: [Swift.String]? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyIds = fcaPolicyIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a flex cost allocation policy.
+    public struct FlexCostAllocationPolicyDescription: Swift.Sendable {
+        /// The description of the policy.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the policy.
+        public var fcaPolicyArn: Swift.String?
+        /// The ID of the policy.
+        public var fcaPolicyId: Swift.String?
+        /// The policy document that defines cost allocation for EC2 instances.
+        public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+        /// The number of the latest version of the policy.
+        public var latestVersion: Swift.Int?
+        /// The entity that manages the policy. Valid values are:
+        ///
+        /// * account - The account that owns the policy created it.
+        ///
+        /// * declarative-policy - An Amazon Web Services Organizations declarative policy created the policy. You can't modify or delete the policy.
+        public var managedBy: EC2ClientTypes.ManagedBy?
+        /// The policy document that defines cost allocation for NAT gateways.
+        public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+        /// The type of network resource that the policy applies to.
+        public var networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType?
+        /// The ID of the account that owns the policy.
+        public var ownerAccount: Swift.String?
+        /// The policy document that defines cost allocation for Amazon VPC peering connections.
+        public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+        /// The date and time when the policy was created.
+        public var policyCreatedAt: Foundation.Date?
+        /// Indicates whether showback reporting is enabled for the policy.
+        public var showBackEnabled: Swift.Bool?
+        /// The tags assigned to the policy.
+        public var tags: [EC2ClientTypes.Tag]?
+        /// The date and time when the policy was last updated.
+        public var updatedAt: Foundation.Date?
+        /// The date and time when the latest version of the policy is expected to apply to network traffic. The policy configuration in this response is from the latest version.
+        public var versionExpectedEffectiveAt: Foundation.Date?
+
+        public init(
+            description: Swift.String? = nil,
+            fcaPolicyArn: Swift.String? = nil,
+            fcaPolicyId: Swift.String? = nil,
+            instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+            latestVersion: Swift.Int? = nil,
+            managedBy: EC2ClientTypes.ManagedBy? = nil,
+            natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+            networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType? = nil,
+            ownerAccount: Swift.String? = nil,
+            pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+            policyCreatedAt: Foundation.Date? = nil,
+            showBackEnabled: Swift.Bool? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            versionExpectedEffectiveAt: Foundation.Date? = nil
+        ) {
+            self.description = description
+            self.fcaPolicyArn = fcaPolicyArn
+            self.fcaPolicyId = fcaPolicyId
+            self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+            self.latestVersion = latestVersion
+            self.managedBy = managedBy
+            self.natFcaPolicyDocument = natFcaPolicyDocument
+            self.networkResourceType = networkResourceType
+            self.ownerAccount = ownerAccount
+            self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+            self.policyCreatedAt = policyCreatedAt
+            self.showBackEnabled = showBackEnabled
+            self.tags = tags
+            self.updatedAt = updatedAt
+            self.versionExpectedEffectiveAt = versionExpectedEffectiveAt
+        }
+    }
+}
+
+public struct DescribeNetworkingFlexCostAllocationPoliciesOutput: Swift.Sendable {
+    /// Information about the flex cost allocation policies.
+    public var flexCostAllocationPolicies: [EC2ClientTypes.FlexCostAllocationPolicyDescription]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        flexCostAllocationPolicies: [EC2ClientTypes.FlexCostAllocationPolicyDescription]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flexCostAllocationPolicies = flexCostAllocationPolicies
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeNetworkingFlexCostAllocationPolicyAssociationsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the policy associations to describe.
+    public var fcaPolicyAssociationIds: [Swift.String]?
+    /// The filters.
+    ///
+    /// * fca-policy-id - The ID of the policy.
+    ///
+    /// * managed-by - The entity that manages the association (account | declarative-policy).
+    ///
+    /// * resource-id - The ID of the associated network resource.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of results to return in a single call. The range is 5 to 1000. To retrieve the remaining results, make another call with the returned nextToken value. Default: 100
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyAssociationIds: [Swift.String]? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyAssociationIds = fcaPolicyAssociationIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput: Swift.Sendable {
+    /// Information about the policy associations.
+    public var fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        fcaPolicyAssociations: [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.fcaPolicyAssociations = fcaPolicyAssociations
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeNetworkInsightsAccessScopeAnalysesInput: Swift.Sendable {
     /// Filters the results based on the start time. The analysis must have started on or after this time.
     public var analysisStartTimeBegin: Foundation.Date?
@@ -66851,6 +67569,10 @@ public struct DescribeVolumeStatusInput: Swift.Sendable {
     ///
     /// * action.event-id - The event ID associated with the action.
     ///
+    /// * attachment-status.instance-id - The ID of the instance that the volume is attached to.
+    ///
+    /// * attachment-status.io-performance - The I/O performance status of the volume's attachment to the instance.
+    ///
     /// * availability-zone - The Availability Zone of the instance.
     ///
     /// * event.description - A description of the event.
@@ -70168,6 +70890,37 @@ public struct DisassociateNatGatewayAddressOutput: Swift.Sendable {
     ) {
         self.natGatewayAddresses = natGatewayAddresses
         self.natGatewayId = natGatewayId
+    }
+}
+
+public struct DisassociateNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the policy associations to remove. You can specify up to 100 association IDs. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyAssociationIds: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyAssociationIds: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyAssociationIds = fcaPolicyAssociationIds
+    }
+}
+
+public struct DisassociateNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// Information about the policy associations that could not be removed.
+    public var fcaPolicyDisassociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]?
+    /// The IDs of the policy associations that were removed.
+    public var fcaPolicyDisassociations: [Swift.String]?
+
+    public init(
+        fcaPolicyDisassociationFailures: [EC2ClientTypes.FlexCostAllocationOperationFailure]? = nil,
+        fcaPolicyDisassociations: [Swift.String]? = nil
+    ) {
+        self.fcaPolicyDisassociationFailures = fcaPolicyDisassociationFailures
+        self.fcaPolicyDisassociations = fcaPolicyDisassociations
     }
 }
 
@@ -77371,7 +78124,7 @@ extension EC2ClientTypes {
         public var maxLength: Swift.Int?
         /// Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false.
         public var permitMoreSpecificAnnouncements: Swift.Bool?
-        /// The state of the routing policy registration. Valid values: pending-activate | activate-failed | create-in-progress | create-complete | update-in-progress | update-complete | delete-in-progress | delete-complete.
+        /// The state of the routing policy registration. Valid values: pending-activate | activate-failed | create-in-progress | create-complete | update-in-progress | update-complete | delete-in-progress | delete-complete | disable-complete.
         public var state: EC2ClientTypes.IpamRoutingPolicyRegistrationState?
 
         public init(
@@ -77619,6 +78372,88 @@ public struct GetManagedResourceVisibilityOutput: Swift.Sendable {
         visibility: EC2ClientTypes.ManagedResourceVisibilitySettings? = nil
     ) {
         self.visibility = visibility
+    }
+}
+
+public struct GetNetworkingFlexCostAllocationPolicyVersionsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the flex cost allocation policy. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyId: Swift.String?
+    /// The policy versions to include in the results.
+    public var versionsToInclude: [Swift.Int]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyId: Swift.String? = nil,
+        versionsToInclude: [Swift.Int]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.fcaPolicyId = fcaPolicyId
+        self.versionsToInclude = versionsToInclude
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Describes a version of a flex cost allocation policy.
+    public struct FlexCostAllocationPolicyVersion: Swift.Sendable {
+        /// The date and time when this version of the policy was created.
+        public var createdAt: Foundation.Date?
+        /// The description of this version of the policy.
+        public var description: Swift.String?
+        /// The date and time when this version of the policy is expected to apply to network traffic.
+        public var expectedEffectiveAt: Foundation.Date?
+        /// The ID of the policy.
+        public var fcaPolicyId: Swift.String?
+        /// The policy document that defines cost allocation for EC2 instances.
+        public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+        /// The policy document that defines cost allocation for NAT gateways.
+        public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+        /// The type of network resource that the policy applies to.
+        public var networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType?
+        /// The policy document that defines cost allocation for Amazon VPC peering connections.
+        public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+        /// Indicates whether showback reporting is enabled for this version of the policy.
+        public var showBackEnabled: Swift.Bool?
+        /// The version number.
+        public var version: Swift.Int?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            expectedEffectiveAt: Foundation.Date? = nil,
+            fcaPolicyId: Swift.String? = nil,
+            instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+            natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+            networkResourceType: EC2ClientTypes.FlexCostAllocationNetworkResourceType? = nil,
+            pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+            showBackEnabled: Swift.Bool? = nil,
+            version: Swift.Int? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.expectedEffectiveAt = expectedEffectiveAt
+            self.fcaPolicyId = fcaPolicyId
+            self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+            self.natFcaPolicyDocument = natFcaPolicyDocument
+            self.networkResourceType = networkResourceType
+            self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+            self.showBackEnabled = showBackEnabled
+            self.version = version
+        }
+    }
+}
+
+public struct GetNetworkingFlexCostAllocationPolicyVersionsOutput: Swift.Sendable {
+    /// Information about the policy versions.
+    public var fcaPolicyVersions: [EC2ClientTypes.FlexCostAllocationPolicyVersion]?
+
+    public init(
+        fcaPolicyVersions: [EC2ClientTypes.FlexCostAllocationPolicyVersion]? = nil
+    ) {
+        self.fcaPolicyVersions = fcaPolicyVersions
     }
 }
 
@@ -83092,6 +83927,69 @@ public struct ModifyMetricCategoryOutput: Swift.Sendable {
         metricCategory: EC2ClientTypes.MetricCategory? = nil
     ) {
         self.metricCategory = metricCategory
+    }
+}
+
+public struct ModifyNetworkingFlexCostAllocationPolicyInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
+    public var clientToken: Swift.String?
+    /// A description for the policy. The description can be up to 1024 characters long.
+    public var description: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the flex cost allocation policy to modify. This parameter is required.
+    /// This member is required.
+    public var fcaPolicyId: Swift.String?
+    /// The updated policy document that defines cost allocation for EC2 instances.
+    public var instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?
+    /// The updated policy document that defines cost allocation for NAT gateways.
+    public var natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?
+    /// The updated policy document that defines cost allocation for Amazon VPC peering connections.
+    public var pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?
+    /// Specifies whether showback reporting is enabled for the policy. If you omit this parameter, the current setting is unchanged.
+    public var showBackEnabled: Swift.Bool?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        fcaPolicyId: Swift.String? = nil,
+        instanceFcaPolicyDocument: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument? = nil,
+        natFcaPolicyDocument: EC2ClientTypes.NatFlexCostAllocationPolicyDocument? = nil,
+        pcxFcaPolicyDocument: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument? = nil,
+        showBackEnabled: Swift.Bool? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.dryRun = dryRun
+        self.fcaPolicyId = fcaPolicyId
+        self.instanceFcaPolicyDocument = instanceFcaPolicyDocument
+        self.natFcaPolicyDocument = natFcaPolicyDocument
+        self.pcxFcaPolicyDocument = pcxFcaPolicyDocument
+        self.showBackEnabled = showBackEnabled
+    }
+}
+
+public struct ModifyNetworkingFlexCostAllocationPolicyOutput: Swift.Sendable {
+    /// The ID of the flex cost allocation policy.
+    public var fcaPolicyId: Swift.String?
+    /// The date and time when the policy was updated.
+    public var updatedAt: Foundation.Date?
+    /// The version number of the policy that this modification created.
+    public var version: Swift.Int?
+    /// The date and time when the new version of the policy is expected to apply to network traffic.
+    public var versionExpectedEffectiveAt: Foundation.Date?
+
+    public init(
+        fcaPolicyId: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.Int? = nil,
+        versionExpectedEffectiveAt: Foundation.Date? = nil
+    ) {
+        self.fcaPolicyId = fcaPolicyId
+        self.updatedAt = updatedAt
+        self.version = version
+        self.versionExpectedEffectiveAt = versionExpectedEffectiveAt
     }
 }
 
@@ -90928,6 +91826,13 @@ extension AssociateNatGatewayAddressInput {
     }
 }
 
+extension AssociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: AssociateNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AssociateRouteServerInput {
 
     static func urlPathProvider(_ value: AssociateRouteServerInput) -> Swift.String? {
@@ -91554,6 +92459,13 @@ extension CreateNetworkAclInput {
 extension CreateNetworkAclEntryInput {
 
     static func urlPathProvider(_ value: CreateNetworkAclEntryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: CreateNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -92254,6 +93166,13 @@ extension DeleteNetworkAclInput {
 extension DeleteNetworkAclEntryInput {
 
     static func urlPathProvider(_ value: DeleteNetworkAclEntryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteNetworkingFlexCostAllocationPoliciesInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkingFlexCostAllocationPoliciesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -93455,6 +94374,20 @@ extension DescribeNetworkAclsInput {
     }
 }
 
+extension DescribeNetworkingFlexCostAllocationPoliciesInput {
+
+    static func urlPathProvider(_ value: DescribeNetworkingFlexCostAllocationPoliciesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPolicyAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeNetworkingFlexCostAllocationPolicyAssociationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeNetworkInsightsAccessScopeAnalysesInput {
 
     static func urlPathProvider(_ value: DescribeNetworkInsightsAccessScopeAnalysesInput) -> Swift.String? {
@@ -94344,6 +95277,13 @@ extension DisassociateNatGatewayAddressInput {
     }
 }
 
+extension DisassociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: DisassociateNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisassociateRouteServerInput {
 
     static func urlPathProvider(_ value: DisassociateRouteServerInput) -> Swift.String? {
@@ -94988,6 +95928,13 @@ extension GetManagedResourceVisibilityInput {
     }
 }
 
+extension GetNetworkingFlexCostAllocationPolicyVersionsInput {
+
+    static func urlPathProvider(_ value: GetNetworkingFlexCostAllocationPolicyVersionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetNetworkInsightsAccessScopeAnalysisFindingsInput {
 
     static func urlPathProvider(_ value: GetNetworkInsightsAccessScopeAnalysisFindingsInput) -> Swift.String? {
@@ -95551,6 +96498,13 @@ extension ModifyManagedResourceVisibilityInput {
 extension ModifyMetricCategoryInput {
 
     static func urlPathProvider(_ value: ModifyMetricCategoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ModifyNetworkingFlexCostAllocationPolicyInput {
+
+    static func urlPathProvider(_ value: ModifyNetworkingFlexCostAllocationPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -96852,6 +97806,22 @@ extension AssociateNatGatewayAddressInput {
             try writer["PrivateIpAddress"].writeList(value.privateIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("AssociateNatGatewayAddress")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension AssociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: AssociateNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FcaPolicyId"].write(value.fcaPolicyId)
+        if !(value.networkResourceIds?.isEmpty ?? true) {
+            try writer["NetworkResourceIds"].writeList(value.networkResourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["NetworkResourceScope"].write(value.networkResourceScope, with: EC2ClientTypes.FlexCostAllocationNetworkResourceScope.write(value:to:))
+        try writer["Action"].write("AssociateNetworkingFlexCostAllocationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -98385,6 +99355,26 @@ extension CreateNetworkAclEntryInput {
         try writer["RuleAction"].write(value.ruleAction)
         try writer["RuleNumber"].write(value.ruleNumber)
         try writer["Action"].write("CreateNetworkAclEntry")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension CreateNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: CreateNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["InstanceFcaPolicyDocument"].write(value.instanceFcaPolicyDocument, with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["NatFcaPolicyDocument"].write(value.natFcaPolicyDocument, with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["NetworkResourceType"].write(value.networkResourceType)
+        try writer["PcxFcaPolicyDocument"].write(value.pcxFcaPolicyDocument, with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["ShowBackEnabled"].write(value.showBackEnabled)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecifications"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("CreateNetworkingFlexCostAllocationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -99946,6 +100936,19 @@ extension DeleteNetworkAclEntryInput {
         try writer["NetworkAclId"].write(value.networkAclId)
         try writer["RuleNumber"].write(value.ruleNumber)
         try writer["Action"].write("DeleteNetworkAclEntry")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteNetworkingFlexCostAllocationPoliciesInput {
+
+    static func write(value: DeleteNetworkingFlexCostAllocationPoliciesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyIds?.isEmpty ?? true) {
+            try writer["FcaPolicyIds"].writeList(value.fcaPolicyIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DeleteNetworkingFlexCostAllocationPolicies")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -102539,6 +103542,42 @@ extension DescribeNetworkAclsInput {
     }
 }
 
+extension DescribeNetworkingFlexCostAllocationPoliciesInput {
+
+    static func write(value: DescribeNetworkingFlexCostAllocationPoliciesInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyIds?.isEmpty ?? true) {
+            try writer["FcaPolicyIds"].writeList(value.fcaPolicyIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filters"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeNetworkingFlexCostAllocationPolicies")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPolicyAssociationsInput {
+
+    static func write(value: DescribeNetworkingFlexCostAllocationPolicyAssociationsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyAssociationIds?.isEmpty ?? true) {
+            try writer["FcaPolicyAssociationIds"].writeList(value.fcaPolicyAssociationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filters"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Action"].write("DescribeNetworkingFlexCostAllocationPolicyAssociations")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DescribeNetworkInsightsAccessScopeAnalysesInput {
 
     static func write(value: DescribeNetworkInsightsAccessScopeAnalysesInput?, to writer: SmithyFormURL.Writer) throws {
@@ -104545,6 +105584,19 @@ extension DisassociateNatGatewayAddressInput {
     }
 }
 
+extension DisassociateNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: DisassociateNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.fcaPolicyAssociationIds?.isEmpty ?? true) {
+            try writer["FcaPolicyAssociationIds"].writeList(value.fcaPolicyAssociationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DisassociateNetworkingFlexCostAllocationPolicy")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DisassociateRouteServerInput {
 
     static func write(value: DisassociateRouteServerInput?, to writer: SmithyFormURL.Writer) throws {
@@ -105780,6 +106832,20 @@ extension GetManagedResourceVisibilityInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["Action"].write("GetManagedResourceVisibility")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension GetNetworkingFlexCostAllocationPolicyVersionsInput {
+
+    static func write(value: GetNetworkingFlexCostAllocationPolicyVersionsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FcaPolicyId"].write(value.fcaPolicyId)
+        if !(value.versionsToInclude?.isEmpty ?? true) {
+            try writer["VersionsToInclude"].writeList(value.versionsToInclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("GetNetworkingFlexCostAllocationPolicyVersions")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -107066,6 +108132,23 @@ extension ModifyMetricCategoryInput {
             try writer["Metric"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("ModifyMetricCategory")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension ModifyNetworkingFlexCostAllocationPolicyInput {
+
+    static func write(value: ModifyNetworkingFlexCostAllocationPolicyInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["DryRun"].write(value.dryRun)
+        try writer["FcaPolicyId"].write(value.fcaPolicyId)
+        try writer["InstanceFcaPolicyDocument"].write(value.instanceFcaPolicyDocument, with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["NatFcaPolicyDocument"].write(value.natFcaPolicyDocument, with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["PcxFcaPolicyDocument"].write(value.pcxFcaPolicyDocument, with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.write(value:to:))
+        try writer["ShowBackEnabled"].write(value.showBackEnabled)
+        try writer["Action"].write("ModifyNetworkingFlexCostAllocationPolicy")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -109382,6 +110465,19 @@ extension AssociateNatGatewayAddressOutput {
     }
 }
 
+extension AssociateNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateNetworkingFlexCostAllocationPolicyOutput()
+        value.fcaPolicyAssociationFailures = try reader["fcaPolicyAssociationFailures"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationOperationFailure.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.fcaPolicyAssociations = try reader["fcaPolicyAssociations"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension AssociateRouteServerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateRouteServerOutput {
@@ -110494,6 +111590,21 @@ extension CreateNetworkAclEntryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNetworkAclEntryOutput {
         return CreateNetworkAclEntryOutput()
+    }
+}
+
+extension CreateNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateNetworkingFlexCostAllocationPolicyOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expectedEffectiveAt = try reader["expectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.fcaPolicyArn = try reader["fcaPolicyArn"].readIfPresent()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        return value
     }
 }
 
@@ -111720,6 +112831,19 @@ extension DeleteNetworkAclEntryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkAclEntryOutput {
         return DeleteNetworkAclEntryOutput()
+    }
+}
+
+extension DeleteNetworkingFlexCostAllocationPoliciesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkingFlexCostAllocationPoliciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteNetworkingFlexCostAllocationPoliciesOutput()
+        value.failed = try reader["failed"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationOperationFailure.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.successful = try reader["successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
     }
 }
 
@@ -113842,6 +114966,32 @@ extension DescribeNetworkAclsOutput {
     }
 }
 
+extension DescribeNetworkingFlexCostAllocationPoliciesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNetworkingFlexCostAllocationPoliciesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNetworkingFlexCostAllocationPoliciesOutput()
+        value.flexCostAllocationPolicies = try reader["flexCostAllocationPolicies"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyDescription.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput()
+        value.fcaPolicyAssociations = try reader["fcaPolicyAssociations"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeNetworkInsightsAccessScopeAnalysesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNetworkInsightsAccessScopeAnalysesOutput {
@@ -115455,6 +116605,19 @@ extension DisassociateNatGatewayAddressOutput {
     }
 }
 
+extension DisassociateNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateNetworkingFlexCostAllocationPolicyOutput()
+        value.fcaPolicyDisassociationFailures = try reader["fcaPolicyDisassociationFailures"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationOperationFailure.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.fcaPolicyDisassociations = try reader["fcaPolicyDisassociations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension DisassociateRouteServerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateRouteServerOutput {
@@ -116652,6 +117815,18 @@ extension GetManagedResourceVisibilityOutput {
     }
 }
 
+extension GetNetworkingFlexCostAllocationPolicyVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNetworkingFlexCostAllocationPolicyVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetNetworkingFlexCostAllocationPolicyVersionsOutput()
+        value.fcaPolicyVersions = try reader["fcaPolicyVersions"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationPolicyVersion.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension GetNetworkInsightsAccessScopeAnalysisFindingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetNetworkInsightsAccessScopeAnalysisFindingsOutput {
@@ -117684,6 +118859,21 @@ extension ModifyMetricCategoryOutput {
         let reader = responseReader
         var value = ModifyMetricCategoryOutput()
         value.metricCategory = try reader["metricCategory"].readIfPresent(with: EC2ClientTypes.MetricCategory.read(from:))
+        return value
+    }
+}
+
+extension ModifyNetworkingFlexCostAllocationPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyNetworkingFlexCostAllocationPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyNetworkingFlexCostAllocationPolicyOutput()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.version = try reader["version"].readIfPresent()
+        value.versionExpectedEffectiveAt = try reader["versionExpectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -119543,6 +120733,19 @@ enum AssociateNatGatewayAddressOutputError {
     }
 }
 
+enum AssociateNetworkingFlexCostAllocationPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AssociateRouteServerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -120701,6 +121904,19 @@ enum CreateNetworkAclOutputError {
 }
 
 enum CreateNetworkAclEntryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateNetworkingFlexCostAllocationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -122001,6 +123217,19 @@ enum DeleteNetworkAclOutputError {
 }
 
 enum DeleteNetworkAclEntryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteNetworkingFlexCostAllocationPoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -124236,6 +125465,32 @@ enum DescribeNetworkAclsOutputError {
     }
 }
 
+enum DescribeNetworkingFlexCostAllocationPoliciesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeNetworkingFlexCostAllocationPolicyAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeNetworkInsightsAccessScopeAnalysesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -125887,6 +127142,19 @@ enum DisassociateNatGatewayAddressOutputError {
     }
 }
 
+enum DisassociateNetworkingFlexCostAllocationPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateRouteServerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -127083,6 +128351,19 @@ enum GetManagedResourceVisibilityOutputError {
     }
 }
 
+enum GetNetworkingFlexCostAllocationPolicyVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetNetworkInsightsAccessScopeAnalysisFindingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -128124,6 +129405,19 @@ enum ModifyManagedResourceVisibilityOutputError {
 }
 
 enum ModifyMetricCategoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ModifyNetworkingFlexCostAllocationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -133617,6 +134911,125 @@ extension EC2ClientTypes.FleetSpotMaintenanceStrategiesRequest {
     }
 }
 
+extension EC2ClientTypes.FlexCostAllocationCidrMapping {
+
+    static func write(value: EC2ClientTypes.FlexCostAllocationCidrMapping?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrLabel"].write(value.cidrLabel)
+        try writer["CidrRange"].write(value.cidrRange)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationCidrMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationCidrMapping()
+        value.cidrRange = try reader["CidrRange"].readIfPresent() ?? ""
+        value.cidrLabel = try reader["CidrLabel"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications {
+
+    static func write(value: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.prefixes?.isEmpty ?? true) {
+            try writer["Prefixes"].writeList(value.prefixes, memberWritingClosure: EC2ClientTypes.FlexCostAllocationCidrMapping.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["PrefixesType"].write(value.prefixesType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications()
+        value.prefixesType = try reader["PrefixesType"].readIfPresent() ?? ""
+        value.prefixes = try reader["Prefixes"].readListIfPresent(memberReadingClosure: EC2ClientTypes.FlexCostAllocationCidrMapping.read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationNetworkResourceScope {
+
+    static func write(value: EC2ClientTypes.FlexCostAllocationNetworkResourceScope?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.resourceIds?.isEmpty ?? true) {
+            try writer["ResourceIds"].writeList(value.resourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationOperationFailure {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationOperationFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationOperationFailure()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.failureCode = try reader["failureCode"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription()
+        value.fcaPolicyAssociationId = try reader["fcaPolicyAssociationId"].readIfPresent()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.networkResourceId = try reader["networkResourceId"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.associatedAt = try reader["associatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expectedEffectiveAt = try reader["expectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.associationMode = try reader["associationMode"].readIfPresent()
+        value.managedBy = try reader["managedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationPolicyDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationPolicyDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationPolicyDescription()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.fcaPolicyArn = try reader["fcaPolicyArn"].readIfPresent()
+        value.networkResourceType = try reader["networkResourceType"].readIfPresent()
+        value.natFcaPolicyDocument = try reader["natFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.read(from:))
+        value.instanceFcaPolicyDocument = try reader["instanceFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.read(from:))
+        value.pcxFcaPolicyDocument = try reader["pcxFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.read(from:))
+        value.showBackEnabled = try reader["showBackEnabled"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.latestVersion = try reader["latestVersion"].readIfPresent()
+        value.versionExpectedEffectiveAt = try reader["versionExpectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.policyCreatedAt = try reader["policyCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.managedBy = try reader["managedBy"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
+extension EC2ClientTypes.FlexCostAllocationPolicyVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlexCostAllocationPolicyVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.FlexCostAllocationPolicyVersion()
+        value.fcaPolicyId = try reader["fcaPolicyId"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.networkResourceType = try reader["networkResourceType"].readIfPresent()
+        value.natFcaPolicyDocument = try reader["natFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.NatFlexCostAllocationPolicyDocument.read(from:))
+        value.instanceFcaPolicyDocument = try reader["instanceFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument.read(from:))
+        value.pcxFcaPolicyDocument = try reader["pcxFcaPolicyDocument"].readIfPresent(with: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument.read(from:))
+        value.showBackEnabled = try reader["showBackEnabled"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.expectedEffectiveAt = try reader["expectedEffectiveAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension EC2ClientTypes.FlowLog {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.FlowLog {
@@ -134854,6 +136267,29 @@ extension EC2ClientTypes.InstanceFamilyCreditSpecification {
         var value = EC2ClientTypes.InstanceFamilyCreditSpecification()
         value.instanceFamily = try reader["instanceFamily"].readIfPresent()
         value.cpuCredits = try reader["cpuCredits"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument {
+
+    static func write(value: EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrRangeSpecifications"].write(value.cidrRangeSpecifications, with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.write(value:to:))
+        if !(value.dimensions?.isEmpty ?? true) {
+            try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.reportingGranularity?.isEmpty ?? true) {
+            try writer["ReportingGranularity"].writeList(value.reportingGranularity, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.InstanceFlexCostAllocationPolicyDocument()
+        value.reportingGranularity = try reader["ReportingGranularity"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.cidrRangeSpecifications = try reader["CidrRangeSpecifications"].readIfPresent(with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.read(from:))
         return value
     }
 }
@@ -138040,6 +139476,29 @@ extension EC2ClientTypes.MovingAddressStatus {
     }
 }
 
+extension EC2ClientTypes.NatFlexCostAllocationPolicyDocument {
+
+    static func write(value: EC2ClientTypes.NatFlexCostAllocationPolicyDocument?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrRangeSpecifications"].write(value.cidrRangeSpecifications, with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.write(value:to:))
+        if !(value.dimensions?.isEmpty ?? true) {
+            try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.reportingGranularity?.isEmpty ?? true) {
+            try writer["ReportingGranularity"].writeList(value.reportingGranularity, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NatFlexCostAllocationPolicyDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.NatFlexCostAllocationPolicyDocument()
+        value.reportingGranularity = try reader["ReportingGranularity"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.cidrRangeSpecifications = try reader["CidrRangeSpecifications"].readIfPresent(with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.read(from:))
+        return value
+    }
+}
+
 extension EC2ClientTypes.NatGateway {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.NatGateway {
@@ -138794,6 +140253,29 @@ extension EC2ClientTypes.PciId {
         value.vendorId = try reader["VendorId"].readIfPresent()
         value.subsystemId = try reader["SubsystemId"].readIfPresent()
         value.subsystemVendorId = try reader["SubsystemVendorId"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.PcxFlexCostAllocationPolicyDocument {
+
+    static func write(value: EC2ClientTypes.PcxFlexCostAllocationPolicyDocument?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CidrRangeSpecifications"].write(value.cidrRangeSpecifications, with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.write(value:to:))
+        if !(value.dimensions?.isEmpty ?? true) {
+            try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.reportingGranularity?.isEmpty ?? true) {
+            try writer["ReportingGranularity"].writeList(value.reportingGranularity, memberWritingClosure: SmithyReadWrite.WritingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.PcxFlexCostAllocationPolicyDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.PcxFlexCostAllocationPolicyDocument()
+        value.reportingGranularity = try reader["ReportingGranularity"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationReportingGranularity>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EC2ClientTypes.FlexCostAllocationCostDimension>().read(from:), memberNodeInfo: "item", isFlattened: false) ?? []
+        value.cidrRangeSpecifications = try reader["CidrRangeSpecifications"].readIfPresent(with: EC2ClientTypes.FlexCostAllocationCidrRangeSpecifications.read(from:))
         return value
     }
 }

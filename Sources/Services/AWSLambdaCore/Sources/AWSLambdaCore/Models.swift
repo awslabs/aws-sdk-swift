@@ -25,6 +25,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct ClientRuntime.RestJSONError
 import struct Smithy.URIQueryItem
+import struct SmithyHTTPAPI.Header
+import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -60,10 +62,126 @@ extension LambdaCoreClientTypes {
     }
 }
 
+extension LambdaCoreClientTypes {
+
+    /// Supported CPU architecture for a runtime.
+    public enum RuntimeArchitecture: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// 64-bit ARM architecture.
+        case arm64
+        /// 64-bit x86 architecture.
+        case x8664
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeArchitecture] {
+            return [
+                .arm64,
+                .x8664
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .arm64: return "arm64"
+            case .x8664: return "x86_64"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// Supported integration model for a runtime.
+    public enum IntegrationModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// (Functions) / Standard Lambda Runtime API integration
+        case runtimeApi
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationModel] {
+            return [
+                .runtimeApi
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .runtimeApi: return "RuntimeAPI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// Indicates whether a runtime version supports a feature.
+    public enum CompatibilityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The feature is not supported by the runtime
+        case notSupported
+        /// The feature is supported by the runtime
+        case supported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CompatibilityPolicy] {
+            return [
+                .notSupported,
+                .supported
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notSupported: return "NotSupported"
+            case .supported: return "Supported"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// Defines the compatibility matrix for a runtime version, indicating supported integration models, architectures, and feature availability.
+    public struct Compatibility: Swift.Sendable {
+        /// Supported architectures for the runtime version.
+        public var architectures: [LambdaCoreClientTypes.RuntimeArchitecture]?
+        /// Supported integration models for the runtime version.
+        public var integrationModels: [LambdaCoreClientTypes.IntegrationModel]?
+        /// Whether the runtime version is compatible with managed instances.
+        public var managedInstances: LambdaCoreClientTypes.CompatibilityPolicy?
+
+        public init(
+            architectures: [LambdaCoreClientTypes.RuntimeArchitecture]? = nil,
+            integrationModels: [LambdaCoreClientTypes.IntegrationModel]? = nil,
+            managedInstances: LambdaCoreClientTypes.CompatibilityPolicy? = nil
+        ) {
+            self.architectures = architectures
+            self.integrationModels = integrationModels
+            self.managedInstances = managedInstances
+        }
+    }
+}
+
 /// One of the parameters in the request is not valid. Check the error message for details about which parameter failed validation.
 public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The error message that describes the exception.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
         public internal(set) var type: Swift.String? = nil
@@ -115,10 +233,11 @@ public struct NetworkConnectorLimitExceededException: ClientRuntime.ModeledError
     }
 }
 
-/// The request could not be completed due to a conflict with the current state of the resource. For example, attempting to update a connector that is not in ACTIVE state.
+/// The request could not be completed due to a conflict with the current state of the resource. For example, attempting to modify a resource that is not in a state that permits the operation.
 public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The error message that describes the exception.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
         public internal(set) var type: Swift.String? = nil
@@ -146,6 +265,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
 public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The error message that describes the exception.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
         public internal(set) var type: Swift.String? = nil
@@ -214,6 +334,7 @@ extension LambdaCoreClientTypes {
 public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The error message that describes the exception.
         public internal(set) var message: Swift.String? = nil
         /// The reason for the throttling.
         public internal(set) var reason: LambdaCoreClientTypes.ThrottleReason? = nil
@@ -433,10 +554,169 @@ public struct CreateNetworkConnectorOutput: Swift.Sendable {
     }
 }
 
-/// The specified network connector does not exist. Verify the identifier (ID, name, or ARN) and Region.
+/// The request would exceed a service quota for your account. Request a quota increase or reduce the number of resources in use, then retry the request.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message that describes the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The exception type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// The release state declared by a runtime publisher for a runtime or runtime alias.
+    public enum RuntimeReleaseState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The runtime is deprecated.
+        case deprecated
+        /// The runtime is generally available.
+        case ga
+        /// The runtime is in preview and not generally available.
+        case preview
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeReleaseState] {
+            return [
+                .deprecated,
+                .ga,
+                .preview
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deprecated: return "DEPRECATED"
+            case .ga: return "GA"
+            case .preview: return "PREVIEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// The runtime lifecycle for the runtime or alias. Optional. Used to schedule runtime deprecation. Omitting or providing an empty object removes the existing lifecycle.
+    public struct RuntimeReleaseLifecycle: Swift.Sendable {
+        /// The date (UTC) on which the runtime or alias becomes deprecated.
+        public var deprecationDate: Swift.String?
+        /// The date (UTC) on which creating new functions that use this runtime or alias is blocked.
+        public var functionCreateBlockDate: Swift.String?
+        /// The date (UTC) on which updating existing functions that use this runtime or alias is blocked.
+        public var functionUpdateBlockDate: Swift.String?
+        /// Optional, with no default applied. DEPRECATED requires a DeprecationDate on or before today (UTC); PREVIEW and GA require a later one, or none. Reads report DEPRECATED once DeprecationDate is reached.
+        public var releaseState: LambdaCoreClientTypes.RuntimeReleaseState?
+
+        public init(
+            deprecationDate: Swift.String? = nil,
+            functionCreateBlockDate: Swift.String? = nil,
+            functionUpdateBlockDate: Swift.String? = nil,
+            releaseState: LambdaCoreClientTypes.RuntimeReleaseState? = nil
+        ) {
+            self.deprecationDate = deprecationDate
+            self.functionCreateBlockDate = functionCreateBlockDate
+            self.functionUpdateBlockDate = functionUpdateBlockDate
+            self.releaseState = releaseState
+        }
+    }
+}
+
+public struct CreateRuntimeInput: Swift.Sendable {
+    /// A description of the runtime.
+    public var description: Swift.String?
+    /// The license information for the runtime.
+    public var licenseInfo: Swift.String?
+    /// The name of the runtime to create.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The runtime lifecycle for the runtime (optional). Use this to schedule runtime deprecation.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// A map of tag keys and values to associate with the runtime.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.description = description
+        self.licenseInfo = licenseInfo
+        self.name = name
+        self.releaseLifecycle = releaseLifecycle
+        self.tags = tags
+    }
+}
+
+public struct CreateRuntimeOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time when the runtime was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// The description of the runtime.
+    public var description: Swift.String?
+    /// The date and time when the runtime was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The license information for the runtime.
+    public var licenseInfo: Swift.String?
+    /// The name of the runtime.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+
+    public init(
+        arn: Swift.String? = nil,
+        created: Swift.String? = nil,
+        description: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil
+    ) {
+        self.arn = arn
+        self.created = created
+        self.description = description
+        self.lastModified = lastModified
+        self.licenseInfo = licenseInfo
+        self.name = name
+        self.releaseLifecycle = releaseLifecycle
+    }
+}
+
+/// The specified resource does not exist. Verify the identifier and Region.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// The error message that describes the exception.
         public internal(set) var message: Swift.String? = nil
         /// The exception type.
         public internal(set) var type: Swift.String? = nil
@@ -457,6 +737,279 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     ) {
         self.properties.message = message
         self.properties.type = type
+    }
+}
+
+public struct CreateRuntimeAliasInput: Swift.Sendable {
+    /// A description of the runtime alias.
+    public var description: Swift.String?
+    /// The name to assign to the new runtime alias.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// The name or ARN of the runtime to create an alias for.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+    /// The name of the runtime version the alias points to.
+    /// This member is required.
+    public var runtimeVersion: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        runtimeName: Swift.String? = nil,
+        runtimeVersion: Swift.String? = nil
+    ) {
+        self.description = description
+        self.name = name
+        self.releaseLifecycle = releaseLifecycle
+        self.runtimeName = runtimeName
+        self.runtimeVersion = runtimeVersion
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// The state of a runtime alias.
+    public enum RuntimeAliasState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The runtime alias is active and available for use.
+        case active
+        /// The runtime alias is being created and is not yet available for use.
+        case creating
+        /// The runtime alias is being deleted.
+        case deleting
+        /// The runtime alias is scheduled for deletion. It can be restored to ACTIVE state until the date and time specified in PendingDeletionAt. Function invokes fail for functions using the alias, and functions cannot be assigned to the alias.
+        case pendingDeletion
+        /// The runtime alias is being updated to point to a new runtime version.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeAliasState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .pendingDeletion,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRuntimeAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime alias.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time when the runtime alias was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// A description of the runtime alias.
+    public var description: Swift.String?
+    /// The date and time when the runtime alias was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The name of the runtime alias.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// The name of the runtime version the alias points to.
+    /// This member is required.
+    public var runtimeVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+    /// This member is required.
+    public var runtimeVersionArn: Swift.String?
+    /// The current state of the runtime alias.
+    /// This member is required.
+    public var state: LambdaCoreClientTypes.RuntimeAliasState?
+
+    public init(
+        arn: Swift.String? = nil,
+        created: Swift.String? = nil,
+        description: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        runtimeVersion: Swift.String? = nil,
+        runtimeVersionArn: Swift.String? = nil,
+        state: LambdaCoreClientTypes.RuntimeAliasState? = nil
+    ) {
+        self.arn = arn
+        self.created = created
+        self.description = description
+        self.lastModified = lastModified
+        self.name = name
+        self.releaseLifecycle = releaseLifecycle
+        self.runtimeVersion = runtimeVersion
+        self.runtimeVersionArn = runtimeVersionArn
+        self.state = state
+    }
+}
+
+public struct CreateRuntimeVersionInput: Swift.Sendable {
+    /// When set to true, the request is validated without creating a new runtime version. Use this to check that the request would succeed. No runtime version is created and no changes are made.
+    public var dryRun: Swift.Bool?
+    /// The URI of the container image used to define the function execution environment for this runtime version.
+    /// This member is required.
+    public var imageUri: Swift.String?
+    /// The name to assign to the new runtime version.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The release notes to associate with the runtime version.
+    public var releaseNotes: Swift.String?
+    /// The name or ARN of the runtime to create a version for.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        imageUri: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseNotes: Swift.String? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.imageUri = imageUri
+        self.name = name
+        self.releaseNotes = releaseNotes
+        self.runtimeName = runtimeName
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// Describes a single OCI platform (CPU architecture and operating system) available for a runtime version.
+    public struct Platform: Swift.Sendable {
+        /// The CPU architecture of the platform, for example x86_64 or arm64.
+        /// This member is required.
+        public var architecture: Swift.String?
+        /// The content digest of the platform-specific image.
+        /// This member is required.
+        public var digest: Swift.String?
+        /// The operating system of the platform.
+        /// This member is required.
+        public var os: Swift.String?
+
+        public init(
+            architecture: Swift.String? = nil,
+            digest: Swift.String? = nil,
+            os: Swift.String? = nil
+        ) {
+            self.architecture = architecture
+            self.digest = digest
+            self.os = os
+        }
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// The state of a runtime version.
+    public enum RuntimeVersionState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The runtime version is active and available for use.
+        case active
+        /// The runtime version is being created.
+        case creating
+        /// The runtime version is being deleted
+        case deleting
+        /// The runtime version creation failed.
+        case failed
+        /// The runtime version is scheduled for deletion. It can be restored to ACTIVE state until the date and time specified in PendingDeletionAt. Function invokes fail for functions using the runtime version, and functions cannot be assigned to the runtime version.
+        case pendingDeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeVersionState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .pendingDeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateRuntimeVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime version.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The compatibility matrix of the runtime version.
+    public var compatibility: LambdaCoreClientTypes.Compatibility?
+    /// The date and time when the runtime version was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// The date and time when the runtime version was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The name of the runtime version.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The platforms (architecture and OS combinations) available for the runtime version.
+    public var platforms: [LambdaCoreClientTypes.Platform]?
+    /// The release notes associated with the runtime version.
+    public var releaseNotes: Swift.String?
+    /// The resolved image URI of the runtime version.
+    /// This member is required.
+    public var resolvedUri: Swift.String?
+    /// The current state of the runtime version.
+    /// This member is required.
+    public var state: LambdaCoreClientTypes.RuntimeVersionState?
+
+    public init(
+        arn: Swift.String? = nil,
+        compatibility: LambdaCoreClientTypes.Compatibility? = nil,
+        created: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        name: Swift.String? = nil,
+        platforms: [LambdaCoreClientTypes.Platform]? = nil,
+        releaseNotes: Swift.String? = nil,
+        resolvedUri: Swift.String? = nil,
+        state: LambdaCoreClientTypes.RuntimeVersionState? = nil
+    ) {
+        self.arn = arn
+        self.compatibility = compatibility
+        self.created = created
+        self.lastModified = lastModified
+        self.name = name
+        self.platforms = platforms
+        self.releaseNotes = releaseNotes
+        self.resolvedUri = resolvedUri
+        self.state = state
     }
 }
 
@@ -512,6 +1065,79 @@ public struct DeleteNetworkConnectorOutput: Swift.Sendable {
         self.version = version
         self.versionArn = versionArn
     }
+}
+
+public struct DeleteRuntimeInput: Swift.Sendable {
+    /// Optional. The waiting period, in days (7-30), before the runtime is permanently deleted.
+    public var recoveryWindowInDays: Swift.Int?
+    /// The name or ARN of the runtime to delete.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        recoveryWindowInDays: Swift.Int? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.recoveryWindowInDays = recoveryWindowInDays
+        self.runtimeName = runtimeName
+    }
+}
+
+public struct DeleteRuntimeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteRuntimeAliasInput: Swift.Sendable {
+    /// The name of the runtime alias to delete.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Optional. The waiting period, in days (7-30), before the runtime alias is permanently deleted.
+    public var recoveryWindowInDays: Swift.Int?
+    /// The name or ARN of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        recoveryWindowInDays: Swift.Int? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.name = name
+        self.recoveryWindowInDays = recoveryWindowInDays
+        self.runtimeName = runtimeName
+    }
+}
+
+public struct DeleteRuntimeAliasOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteRuntimeVersionInput: Swift.Sendable {
+    /// The name of the runtime version to delete.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Optional. The waiting period, in days (7-30), before the runtime version is permanently deleted.
+    public var recoveryWindowInDays: Swift.Int?
+    /// The name or ARN of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        recoveryWindowInDays: Swift.Int? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.name = name
+        self.recoveryWindowInDays = recoveryWindowInDays
+        self.runtimeName = runtimeName
+    }
+}
+
+public struct DeleteRuntimeVersionOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct GetNetworkConnectorInput: Swift.Sendable {
@@ -726,6 +1352,801 @@ public struct GetNetworkConnectorOutput: Swift.Sendable {
         self.stateReasonCode = stateReasonCode
         self.version = version
         self.versionArn = versionArn
+    }
+}
+
+public struct GetRuntimeInput: Swift.Sendable {
+    /// The name or ARN of the runtime to retrieve.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        runtimeName: Swift.String? = nil
+    ) {
+        self.runtimeName = runtimeName
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// The state of the runtime. The state is automatically managed by the service and indicates the current status of the runtime.
+    public enum RuntimeState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The runtime is active and available for use.
+        case active
+        /// The runtime is being deleted and can no longer be restored.
+        case deleting
+        /// The runtime deletion failed to complete because the runtime's versions were not removed in time. The runtime is no longer scheduled for deletion.
+        case failed
+        /// The runtime is scheduled for deletion. It can be restored to ACTIVE state until the date and time specified in PendingDeletionAt.
+        case pendingDeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuntimeState] {
+            return [
+                .active,
+                .deleting,
+                .failed,
+                .pendingDeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .pendingDeletion: return "PENDING_DELETION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetRuntimeOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time when the runtime was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// The description of the runtime.
+    public var description: Swift.String?
+    /// The unique identifier of the runtime.
+    public var id: Swift.String?
+    /// The date and time when the runtime was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The license information for the runtime.
+    public var licenseInfo: Swift.String?
+    /// The name of the runtime.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Present only when State is PENDING_DELETION. The date and time at which the runtime will be permanently deleted.
+    public var pendingDeletionAt: Swift.String?
+    /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// The current state of the runtime.
+    public var state: LambdaCoreClientTypes.RuntimeState?
+
+    public init(
+        arn: Swift.String? = nil,
+        created: Swift.String? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pendingDeletionAt: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        state: LambdaCoreClientTypes.RuntimeState? = nil
+    ) {
+        self.arn = arn
+        self.created = created
+        self.description = description
+        self.id = id
+        self.lastModified = lastModified
+        self.licenseInfo = licenseInfo
+        self.name = name
+        self.pendingDeletionAt = pendingDeletionAt
+        self.releaseLifecycle = releaseLifecycle
+        self.state = state
+    }
+}
+
+public struct GetRuntimeAliasInput: Swift.Sendable {
+    /// The name of the runtime alias to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name or ARN of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.name = name
+        self.runtimeName = runtimeName
+    }
+}
+
+public struct GetRuntimeAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime alias.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The compatibility matrix of the runtime version the alias points to.
+    public var compatibility: LambdaCoreClientTypes.Compatibility?
+    /// The date and time when the runtime alias was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// A description of the runtime alias.
+    public var description: Swift.String?
+    /// The date and time when the runtime alias was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The name of the runtime alias.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Present only when State is PENDING_DELETION. The date and time at which the runtime alias will be permanently deleted.
+    public var pendingDeletionAt: Swift.String?
+    /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// The name of the runtime version the alias points to.
+    /// This member is required.
+    public var runtimeVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+    /// This member is required.
+    public var runtimeVersionArn: Swift.String?
+    /// The current state of the runtime alias.
+    /// This member is required.
+    public var state: LambdaCoreClientTypes.RuntimeAliasState?
+
+    public init(
+        arn: Swift.String? = nil,
+        compatibility: LambdaCoreClientTypes.Compatibility? = nil,
+        created: Swift.String? = nil,
+        description: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pendingDeletionAt: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        runtimeVersion: Swift.String? = nil,
+        runtimeVersionArn: Swift.String? = nil,
+        state: LambdaCoreClientTypes.RuntimeAliasState? = nil
+    ) {
+        self.arn = arn
+        self.compatibility = compatibility
+        self.created = created
+        self.description = description
+        self.lastModified = lastModified
+        self.name = name
+        self.pendingDeletionAt = pendingDeletionAt
+        self.releaseLifecycle = releaseLifecycle
+        self.runtimeVersion = runtimeVersion
+        self.runtimeVersionArn = runtimeVersionArn
+        self.state = state
+    }
+}
+
+public struct GetRuntimeVersionInput: Swift.Sendable {
+    /// The name of the runtime version to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name or ARN of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.name = name
+        self.runtimeName = runtimeName
+    }
+}
+
+public struct GetRuntimeVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime version.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The compatibility matrix of the runtime version.
+    public var compatibility: LambdaCoreClientTypes.Compatibility?
+    /// The date and time when the runtime version was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// The date and time when the runtime version was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The name of the runtime version.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Present only when State is PENDING_DELETION. The date and time at which the runtime version will be permanently deleted.
+    public var pendingDeletionAt: Swift.String?
+    /// The platforms (architecture and OS combinations) available for the runtime version.
+    public var platforms: [LambdaCoreClientTypes.Platform]?
+    /// The release notes associated with the runtime version.
+    public var releaseNotes: Swift.String?
+    /// The resolved image URI of the runtime version.
+    /// This member is required.
+    public var resolvedUri: Swift.String?
+    /// The current state of the runtime version.
+    /// This member is required.
+    public var state: LambdaCoreClientTypes.RuntimeVersionState?
+
+    public init(
+        arn: Swift.String? = nil,
+        compatibility: LambdaCoreClientTypes.Compatibility? = nil,
+        created: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pendingDeletionAt: Swift.String? = nil,
+        platforms: [LambdaCoreClientTypes.Platform]? = nil,
+        releaseNotes: Swift.String? = nil,
+        resolvedUri: Swift.String? = nil,
+        state: LambdaCoreClientTypes.RuntimeVersionState? = nil
+    ) {
+        self.arn = arn
+        self.compatibility = compatibility
+        self.created = created
+        self.lastModified = lastModified
+        self.name = name
+        self.pendingDeletionAt = pendingDeletionAt
+        self.platforms = platforms
+        self.releaseNotes = releaseNotes
+        self.resolvedUri = resolvedUri
+        self.state = state
+    }
+}
+
+public struct ListRuntimesInput: Swift.Sendable {
+    /// The maximum number of runtimes to return per page. Valid range: 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous response. Use it to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// Summary information about a runtime returned by ListRuntimes.
+    public struct RuntimeInfo: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the runtime.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time when the runtime was created.
+        /// This member is required.
+        public var created: Swift.String?
+        /// The description of the runtime.
+        public var description: Swift.String?
+        /// The date and time when the runtime was last modified.
+        /// This member is required.
+        public var lastModified: Swift.String?
+        /// The license information for the runtime.
+        public var licenseInfo: Swift.String?
+        /// The name of the runtime.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime will be permanently deleted.
+        public var pendingDeletionAt: Swift.String?
+        /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+        public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+        /// The current state of the runtime.
+        public var state: LambdaCoreClientTypes.RuntimeState?
+
+        public init(
+            arn: Swift.String? = nil,
+            created: Swift.String? = nil,
+            description: Swift.String? = nil,
+            lastModified: Swift.String? = nil,
+            licenseInfo: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pendingDeletionAt: Swift.String? = nil,
+            releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+            state: LambdaCoreClientTypes.RuntimeState? = nil
+        ) {
+            self.arn = arn
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.licenseInfo = licenseInfo
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseLifecycle = releaseLifecycle
+            self.state = state
+        }
+    }
+}
+
+public struct ListRuntimesOutput: Swift.Sendable {
+    /// The list of runtimes for the current page of results.
+    /// This member is required.
+    public var items: [LambdaCoreClientTypes.RuntimeInfo]?
+    /// The pagination token to include in a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [LambdaCoreClientTypes.RuntimeInfo]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct RestoreRuntimeInput: Swift.Sendable {
+    /// Optional. Restores the named RuntimeAlias under RuntimeName. Mutually exclusive with RuntimeVersion; supplying both is rejected with InvalidParameterValueException.
+    public var runtimeAlias: Swift.String?
+    /// The name or ARN of the runtime to restore. When RuntimeVersion or RuntimeAlias is specified, the runtime that owns the runtime version or runtime alias to restore.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+    /// Optional. Restores the named RuntimeVersion under RuntimeName. Mutually exclusive with RuntimeAlias; supplying both is rejected with InvalidParameterValueException.
+    public var runtimeVersion: Swift.String?
+
+    public init(
+        runtimeAlias: Swift.String? = nil,
+        runtimeName: Swift.String? = nil,
+        runtimeVersion: Swift.String? = nil
+    ) {
+        self.runtimeAlias = runtimeAlias
+        self.runtimeName = runtimeName
+        self.runtimeVersion = runtimeVersion
+    }
+}
+
+public struct RestoreRuntimeOutput: Swift.Sendable {
+    /// The fully qualified ARN of the resource that was restored (runtime, version, or alias).
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time when the restored resource was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// Echoed back only when the request supplied a RuntimeAlias qualifier.
+    public var runtimeAlias: Swift.String?
+    /// The name or ARN of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+    /// Echoed back only when the request supplied a RuntimeVersion qualifier.
+    public var runtimeVersion: Swift.String?
+    /// The state of the restored resource, ACTIVE on success.
+    /// This member is required.
+    public var state: LambdaCoreClientTypes.RuntimeState?
+
+    public init(
+        arn: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        runtimeAlias: Swift.String? = nil,
+        runtimeName: Swift.String? = nil,
+        runtimeVersion: Swift.String? = nil,
+        state: LambdaCoreClientTypes.RuntimeState? = nil
+    ) {
+        self.arn = arn
+        self.lastModified = lastModified
+        self.runtimeAlias = runtimeAlias
+        self.runtimeName = runtimeName
+        self.runtimeVersion = runtimeVersion
+        self.state = state
+    }
+}
+
+public struct ListRuntimeAliasesInput: Swift.Sendable {
+    /// The maximum number of runtime aliases to return per page. Valid range: 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous response. Use it to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The name or ARN of the runtime whose aliases to list.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.runtimeName = runtimeName
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// Summary information about a runtime alias returned by ListRuntimeAliases.
+    public struct RuntimeAliasInfo: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the runtime alias.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The compatibility matrix of the runtime version the alias points to.
+        public var compatibility: LambdaCoreClientTypes.Compatibility?
+        /// The date and time when the runtime alias was created.
+        /// This member is required.
+        public var created: Swift.String?
+        /// A description of the runtime alias.
+        public var description: Swift.String?
+        /// The date and time when the runtime alias was last modified.
+        /// This member is required.
+        public var lastModified: Swift.String?
+        /// The name of the runtime alias.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime alias will be permanently deleted.
+        public var pendingDeletionAt: Swift.String?
+        /// The lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+        public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+        /// The name of the runtime version the alias points to.
+        /// This member is required.
+        public var runtimeVersion: Swift.String?
+        /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+        /// This member is required.
+        public var runtimeVersionArn: Swift.String?
+        /// The current state of the runtime alias.
+        /// This member is required.
+        public var state: LambdaCoreClientTypes.RuntimeAliasState?
+
+        public init(
+            arn: Swift.String? = nil,
+            compatibility: LambdaCoreClientTypes.Compatibility? = nil,
+            created: Swift.String? = nil,
+            description: Swift.String? = nil,
+            lastModified: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pendingDeletionAt: Swift.String? = nil,
+            releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+            runtimeVersion: Swift.String? = nil,
+            runtimeVersionArn: Swift.String? = nil,
+            state: LambdaCoreClientTypes.RuntimeAliasState? = nil
+        ) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.description = description
+            self.lastModified = lastModified
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseLifecycle = releaseLifecycle
+            self.runtimeVersion = runtimeVersion
+            self.runtimeVersionArn = runtimeVersionArn
+            self.state = state
+        }
+    }
+}
+
+public struct ListRuntimeAliasesOutput: Swift.Sendable {
+    /// The list of runtime aliases for the current page of results.
+    /// This member is required.
+    public var items: [LambdaCoreClientTypes.RuntimeAliasInfo]?
+    /// The pagination token to include in a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [LambdaCoreClientTypes.RuntimeAliasInfo]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateRuntimeAliasInput: Swift.Sendable {
+    /// A description of the runtime alias.
+    public var description: Swift.String?
+    /// The name of the runtime alias to update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required. Omitting or providing an empty object removes the existing lifecycle override.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// The name or ARN of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+    /// The name of the runtime version the alias should point to.
+    /// This member is required.
+    public var runtimeVersion: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        runtimeName: Swift.String? = nil,
+        runtimeVersion: Swift.String? = nil
+    ) {
+        self.description = description
+        self.name = name
+        self.releaseLifecycle = releaseLifecycle
+        self.runtimeName = runtimeName
+        self.runtimeVersion = runtimeVersion
+    }
+}
+
+public struct UpdateRuntimeAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime alias.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The compatibility matrix of the runtime version the alias points to.
+    public var compatibility: LambdaCoreClientTypes.Compatibility?
+    /// The date and time when the runtime alias was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// A description of the runtime alias.
+    public var description: Swift.String?
+    /// The date and time when the runtime alias was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The name of the runtime alias.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The runtime lifecycle for the alias. By default, this is inherited from the runtime lifecycle. Optionally, you can override the lifecycle information at the alias level, if required.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// The name of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+    /// The name of the runtime version the alias points to.
+    /// This member is required.
+    public var runtimeVersion: Swift.String?
+    /// The Amazon Resource Name (ARN) of the runtime version the alias points to.
+    /// This member is required.
+    public var runtimeVersionArn: Swift.String?
+    /// The current state of the runtime alias.
+    /// This member is required.
+    public var state: LambdaCoreClientTypes.RuntimeAliasState?
+
+    public init(
+        arn: Swift.String? = nil,
+        compatibility: LambdaCoreClientTypes.Compatibility? = nil,
+        created: Swift.String? = nil,
+        description: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        runtimeName: Swift.String? = nil,
+        runtimeVersion: Swift.String? = nil,
+        runtimeVersionArn: Swift.String? = nil,
+        state: LambdaCoreClientTypes.RuntimeAliasState? = nil
+    ) {
+        self.arn = arn
+        self.compatibility = compatibility
+        self.created = created
+        self.description = description
+        self.lastModified = lastModified
+        self.name = name
+        self.releaseLifecycle = releaseLifecycle
+        self.runtimeName = runtimeName
+        self.runtimeVersion = runtimeVersion
+        self.runtimeVersionArn = runtimeVersionArn
+        self.state = state
+    }
+}
+
+public struct ListRuntimeVersionsInput: Swift.Sendable {
+    /// The maximum number of runtime versions to return per page. Valid range: 1 to 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token from a previous response. Use it to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The name or ARN of the runtime whose versions to list.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.runtimeName = runtimeName
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// Summary information about a runtime version returned by ListRuntimeVersions.
+    public struct RuntimeVersionInfo: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the runtime version.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The compatibility matrix of the runtime version.
+        public var compatibility: LambdaCoreClientTypes.Compatibility?
+        /// The date and time when the runtime version was created.
+        /// This member is required.
+        public var created: Swift.String?
+        /// The date and time when the runtime version was last modified.
+        /// This member is required.
+        public var lastModified: Swift.String?
+        /// The name of the runtime version.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Present only when State is PENDING_DELETION. The date and time at which the runtime version will be permanently deleted.
+        public var pendingDeletionAt: Swift.String?
+        /// The release notes associated with the runtime version.
+        public var releaseNotes: Swift.String?
+        /// The resolved image URI of the runtime version.
+        /// This member is required.
+        public var resolvedUri: Swift.String?
+        /// The current state of the runtime version.
+        /// This member is required.
+        public var state: LambdaCoreClientTypes.RuntimeVersionState?
+
+        public init(
+            arn: Swift.String? = nil,
+            compatibility: LambdaCoreClientTypes.Compatibility? = nil,
+            created: Swift.String? = nil,
+            lastModified: Swift.String? = nil,
+            name: Swift.String? = nil,
+            pendingDeletionAt: Swift.String? = nil,
+            releaseNotes: Swift.String? = nil,
+            resolvedUri: Swift.String? = nil,
+            state: LambdaCoreClientTypes.RuntimeVersionState? = nil
+        ) {
+            self.arn = arn
+            self.compatibility = compatibility
+            self.created = created
+            self.lastModified = lastModified
+            self.name = name
+            self.pendingDeletionAt = pendingDeletionAt
+            self.releaseNotes = releaseNotes
+            self.resolvedUri = resolvedUri
+            self.state = state
+        }
+    }
+}
+
+public struct ListRuntimeVersionsOutput: Swift.Sendable {
+    /// The list of runtime versions for the current page of results.
+    /// This member is required.
+    public var items: [LambdaCoreClientTypes.RuntimeVersionInfo]?
+    /// The pagination token to include in a subsequent request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [LambdaCoreClientTypes.RuntimeVersionInfo]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateRuntimeVersionInput: Swift.Sendable {
+    /// The name of the runtime version to update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The release notes to associate with the runtime version.
+    /// This member is required.
+    public var releaseNotes: Swift.String?
+    /// The name or ARN of the runtime.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        releaseNotes: Swift.String? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.name = name
+        self.releaseNotes = releaseNotes
+        self.runtimeName = runtimeName
+    }
+}
+
+public struct UpdateRuntimeVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime version.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The compatibility matrix of the runtime version.
+    public var compatibility: LambdaCoreClientTypes.Compatibility?
+    /// The date and time when the runtime version was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// The date and time when the runtime version was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The name of the runtime version.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The platforms (architecture and OS combinations) available for the runtime version.
+    public var platforms: [LambdaCoreClientTypes.Platform]?
+    /// The release notes associated with the runtime version.
+    public var releaseNotes: Swift.String?
+    /// The resolved image URI of the runtime version.
+    /// This member is required.
+    public var resolvedUri: Swift.String?
+    /// The current state of the runtime version.
+    /// This member is required.
+    public var state: LambdaCoreClientTypes.RuntimeVersionState?
+
+    public init(
+        arn: Swift.String? = nil,
+        compatibility: LambdaCoreClientTypes.Compatibility? = nil,
+        created: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        name: Swift.String? = nil,
+        platforms: [LambdaCoreClientTypes.Platform]? = nil,
+        releaseNotes: Swift.String? = nil,
+        resolvedUri: Swift.String? = nil,
+        state: LambdaCoreClientTypes.RuntimeVersionState? = nil
+    ) {
+        self.arn = arn
+        self.compatibility = compatibility
+        self.created = created
+        self.lastModified = lastModified
+        self.name = name
+        self.platforms = platforms
+        self.releaseNotes = releaseNotes
+        self.resolvedUri = resolvedUri
+        self.state = state
+    }
+}
+
+public struct UpdateRuntimeInput: Swift.Sendable {
+    /// The updated description of the runtime.
+    public var description: Swift.String?
+    /// The updated license information for the runtime.
+    public var licenseInfo: Swift.String?
+    /// The runtime lifecycle for the runtime. Optional. Used to schedule runtime deprecation. Omitting or providing an empty object removes the existing lifecycle.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+    /// The name or ARN of the runtime to update.
+    /// This member is required.
+    public var runtimeName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil,
+        runtimeName: Swift.String? = nil
+    ) {
+        self.description = description
+        self.licenseInfo = licenseInfo
+        self.releaseLifecycle = releaseLifecycle
+        self.runtimeName = runtimeName
+    }
+}
+
+public struct UpdateRuntimeOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the runtime.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time when the runtime was created.
+    /// This member is required.
+    public var created: Swift.String?
+    /// The description of the runtime.
+    public var description: Swift.String?
+    /// The date and time when the runtime was last modified.
+    /// This member is required.
+    public var lastModified: Swift.String?
+    /// The license information for the runtime.
+    public var licenseInfo: Swift.String?
+    /// The name of the runtime.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The runtime lifecycle for the runtime. Used to schedule runtime deprecation.
+    public var releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle?
+
+    public init(
+        arn: Swift.String? = nil,
+        created: Swift.String? = nil,
+        description: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        name: Swift.String? = nil,
+        releaseLifecycle: LambdaCoreClientTypes.RuntimeReleaseLifecycle? = nil
+    ) {
+        self.arn = arn
+        self.created = created
+        self.description = description
+        self.lastModified = lastModified
+        self.licenseInfo = licenseInfo
+        self.name = name
+        self.releaseLifecycle = releaseLifecycle
     }
 }
 
@@ -1017,6 +2438,33 @@ extension CreateNetworkConnectorInput {
     }
 }
 
+extension CreateRuntimeInput {
+
+    static func urlPathProvider(_ value: CreateRuntimeInput) -> Swift.String? {
+        return "/2026-10-01/runtimes"
+    }
+}
+
+extension CreateRuntimeAliasInput {
+
+    static func urlPathProvider(_ value: CreateRuntimeAliasInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/aliases"
+    }
+}
+
+extension CreateRuntimeVersionInput {
+
+    static func urlPathProvider(_ value: CreateRuntimeVersionInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/versions"
+    }
+}
+
 extension DeleteNetworkConnectorInput {
 
     static func urlPathProvider(_ value: DeleteNetworkConnectorInput) -> Swift.String? {
@@ -1027,6 +2475,75 @@ extension DeleteNetworkConnectorInput {
     }
 }
 
+extension DeleteRuntimeInput {
+
+    static func urlPathProvider(_ value: DeleteRuntimeInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRuntimeInput {
+
+    static func headerProvider(_ value: DeleteRuntimeInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let recoveryWindowInDays = value.recoveryWindowInDays {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-runtime-recovery-window-in-days", value: Swift.String(recoveryWindowInDays)))
+        }
+        return items
+    }
+}
+
+extension DeleteRuntimeAliasInput {
+
+    static func urlPathProvider(_ value: DeleteRuntimeAliasInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/aliases/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRuntimeAliasInput {
+
+    static func headerProvider(_ value: DeleteRuntimeAliasInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let recoveryWindowInDays = value.recoveryWindowInDays {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-runtime-recovery-window-in-days", value: Swift.String(recoveryWindowInDays)))
+        }
+        return items
+    }
+}
+
+extension DeleteRuntimeVersionInput {
+
+    static func urlPathProvider(_ value: DeleteRuntimeVersionInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/versions/\(name.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRuntimeVersionInput {
+
+    static func headerProvider(_ value: DeleteRuntimeVersionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let recoveryWindowInDays = value.recoveryWindowInDays {
+            items.add(SmithyHTTPAPI.Header(name: "x-amzn-runtime-recovery-window-in-days", value: Swift.String(recoveryWindowInDays)))
+        }
+        return items
+    }
+}
+
 extension GetNetworkConnectorInput {
 
     static func urlPathProvider(_ value: GetNetworkConnectorInput) -> Swift.String? {
@@ -1034,6 +2551,42 @@ extension GetNetworkConnectorInput {
             return nil
         }
         return "/2026-04-04/network-connectors/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetRuntimeInput {
+
+    static func urlPathProvider(_ value: GetRuntimeInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())"
+    }
+}
+
+extension GetRuntimeAliasInput {
+
+    static func urlPathProvider(_ value: GetRuntimeAliasInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/aliases/\(name.urlPercentEncoding())"
+    }
+}
+
+extension GetRuntimeVersionInput {
+
+    static func urlPathProvider(_ value: GetRuntimeVersionInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/versions/\(name.urlPercentEncoding())"
     }
 }
 
@@ -1094,6 +2647,107 @@ extension ListNetworkConnectorVersionsInput {
     }
 }
 
+extension ListRuntimeAliasesInput {
+
+    static func urlPathProvider(_ value: ListRuntimeAliasesInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/aliases"
+    }
+}
+
+extension ListRuntimeAliasesInput {
+
+    static func queryItemProvider(_ value: ListRuntimeAliasesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRuntimesInput {
+
+    static func urlPathProvider(_ value: ListRuntimesInput) -> Swift.String? {
+        return "/2026-10-01/runtimes"
+    }
+}
+
+extension ListRuntimesInput {
+
+    static func queryItemProvider(_ value: ListRuntimesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListRuntimeVersionsInput {
+
+    static func urlPathProvider(_ value: ListRuntimeVersionsInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListRuntimeVersionsInput {
+
+    static func queryItemProvider(_ value: ListRuntimeVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension RestoreRuntimeInput {
+
+    static func urlPathProvider(_ value: RestoreRuntimeInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/restore"
+    }
+}
+
+extension RestoreRuntimeInput {
+
+    static func queryItemProvider(_ value: RestoreRuntimeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let runtimeAlias = value.runtimeAlias {
+            let runtimeAliasQueryItem = Smithy.URIQueryItem(name: "RuntimeAlias".urlPercentEncoding(), value: Swift.String(runtimeAlias).urlPercentEncoding())
+            items.append(runtimeAliasQueryItem)
+        }
+        if let runtimeVersion = value.runtimeVersion {
+            let runtimeVersionQueryItem = Smithy.URIQueryItem(name: "RuntimeVersion".urlPercentEncoding(), value: Swift.String(runtimeVersion).urlPercentEncoding())
+            items.append(runtimeVersionQueryItem)
+        }
+        return items
+    }
+}
+
 extension UpdateNetworkConnectorInput {
 
     static func urlPathProvider(_ value: UpdateNetworkConnectorInput) -> Swift.String? {
@@ -1101,6 +2755,42 @@ extension UpdateNetworkConnectorInput {
             return nil
         }
         return "/2026-04-04/network-connectors/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateRuntimeInput {
+
+    static func urlPathProvider(_ value: UpdateRuntimeInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())"
+    }
+}
+
+extension UpdateRuntimeAliasInput {
+
+    static func urlPathProvider(_ value: UpdateRuntimeAliasInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/aliases/\(name.urlPercentEncoding())"
+    }
+}
+
+extension UpdateRuntimeVersionInput {
+
+    static func urlPathProvider(_ value: UpdateRuntimeVersionInput) -> Swift.String? {
+        guard let runtimeName = value.runtimeName else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/2026-10-01/runtimes/\(runtimeName.urlPercentEncoding())/versions/\(name.urlPercentEncoding())"
     }
 }
 
@@ -1116,6 +2806,40 @@ extension CreateNetworkConnectorInput {
     }
 }
 
+extension CreateRuntimeInput {
+
+    static func write(value: CreateRuntimeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["LicenseInfo"].write(value.licenseInfo)
+        try writer["Name"].write(value.name)
+        try writer["ReleaseLifecycle"].write(value.releaseLifecycle, with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateRuntimeAliasInput {
+
+    static func write(value: CreateRuntimeAliasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Name"].write(value.name)
+        try writer["ReleaseLifecycle"].write(value.releaseLifecycle, with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.write(value:to:))
+        try writer["RuntimeVersion"].write(value.runtimeVersion)
+    }
+}
+
+extension CreateRuntimeVersionInput {
+
+    static func write(value: CreateRuntimeVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ImageUri"].write(value.imageUri)
+        try writer["Name"].write(value.name)
+        try writer["ReleaseNotes"].write(value.releaseNotes)
+    }
+}
+
 extension UpdateNetworkConnectorInput {
 
     static func write(value: UpdateNetworkConnectorInput?, to writer: SmithyJSON.Writer) throws {
@@ -1123,6 +2847,34 @@ extension UpdateNetworkConnectorInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["Configuration"].write(value.configuration, with: LambdaCoreClientTypes.NetworkConnectorConfiguration.write(value:to:))
         try writer["OperatorRole"].write(value.operatorRole)
+    }
+}
+
+extension UpdateRuntimeInput {
+
+    static func write(value: UpdateRuntimeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["LicenseInfo"].write(value.licenseInfo)
+        try writer["ReleaseLifecycle"].write(value.releaseLifecycle, with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.write(value:to:))
+    }
+}
+
+extension UpdateRuntimeAliasInput {
+
+    static func write(value: UpdateRuntimeAliasInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["ReleaseLifecycle"].write(value.releaseLifecycle, with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.write(value:to:))
+        try writer["RuntimeVersion"].write(value.runtimeVersion)
+    }
+}
+
+extension UpdateRuntimeVersionInput {
+
+    static func write(value: UpdateRuntimeVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReleaseNotes"].write(value.releaseNotes)
     }
 }
 
@@ -1145,6 +2897,64 @@ extension CreateNetworkConnectorOutput {
     }
 }
 
+extension CreateRuntimeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRuntimeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRuntimeOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.licenseInfo = try reader["LicenseInfo"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        return value
+    }
+}
+
+extension CreateRuntimeAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRuntimeAliasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRuntimeAliasOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        value.runtimeVersion = try reader["RuntimeVersion"].readIfPresent() ?? ""
+        value.runtimeVersionArn = try reader["RuntimeVersionArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CreateRuntimeVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateRuntimeVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateRuntimeVersionOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.compatibility = try reader["Compatibility"].readIfPresent(with: LambdaCoreClientTypes.Compatibility.read(from:))
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.platforms = try reader["Platforms"].readListIfPresent(memberReadingClosure: LambdaCoreClientTypes.Platform.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.releaseNotes = try reader["ReleaseNotes"].readIfPresent()
+        value.resolvedUri = try reader["ResolvedUri"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteNetworkConnectorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkConnectorOutput {
@@ -1161,6 +2971,27 @@ extension DeleteNetworkConnectorOutput {
         value.version = try reader["Version"].readIfPresent()
         value.versionArn = try reader["VersionArn"].readIfPresent()
         return value
+    }
+}
+
+extension DeleteRuntimeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRuntimeOutput {
+        return DeleteRuntimeOutput()
+    }
+}
+
+extension DeleteRuntimeAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRuntimeAliasOutput {
+        return DeleteRuntimeAliasOutput()
+    }
+}
+
+extension DeleteRuntimeVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRuntimeVersionOutput {
+        return DeleteRuntimeVersionOutput()
     }
 }
 
@@ -1191,6 +3022,70 @@ extension GetNetworkConnectorOutput {
     }
 }
 
+extension GetRuntimeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRuntimeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRuntimeOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.licenseInfo = try reader["LicenseInfo"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.pendingDeletionAt = try reader["PendingDeletionAt"].readIfPresent()
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension GetRuntimeAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRuntimeAliasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRuntimeAliasOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.compatibility = try reader["Compatibility"].readIfPresent(with: LambdaCoreClientTypes.Compatibility.read(from:))
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.pendingDeletionAt = try reader["PendingDeletionAt"].readIfPresent()
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        value.runtimeVersion = try reader["RuntimeVersion"].readIfPresent() ?? ""
+        value.runtimeVersionArn = try reader["RuntimeVersionArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetRuntimeVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetRuntimeVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetRuntimeVersionOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.compatibility = try reader["Compatibility"].readIfPresent(with: LambdaCoreClientTypes.Compatibility.read(from:))
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.pendingDeletionAt = try reader["PendingDeletionAt"].readIfPresent()
+        value.platforms = try reader["Platforms"].readListIfPresent(memberReadingClosure: LambdaCoreClientTypes.Platform.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.releaseNotes = try reader["ReleaseNotes"].readIfPresent()
+        value.resolvedUri = try reader["ResolvedUri"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension ListNetworkConnectorsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListNetworkConnectorsOutput {
@@ -1217,6 +3112,62 @@ extension ListNetworkConnectorVersionsOutput {
     }
 }
 
+extension ListRuntimeAliasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRuntimeAliasesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRuntimeAliasesOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: LambdaCoreClientTypes.RuntimeAliasInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRuntimesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRuntimesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRuntimesOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: LambdaCoreClientTypes.RuntimeInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListRuntimeVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRuntimeVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRuntimeVersionsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: LambdaCoreClientTypes.RuntimeVersionInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension RestoreRuntimeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RestoreRuntimeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RestoreRuntimeOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.runtimeAlias = try reader["RuntimeAlias"].readIfPresent()
+        value.runtimeName = try reader["RuntimeName"].readIfPresent() ?? ""
+        value.runtimeVersion = try reader["RuntimeVersion"].readIfPresent()
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension UpdateNetworkConnectorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateNetworkConnectorOutput {
@@ -1239,6 +3190,66 @@ extension UpdateNetworkConnectorOutput {
     }
 }
 
+extension UpdateRuntimeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRuntimeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRuntimeOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.licenseInfo = try reader["LicenseInfo"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        return value
+    }
+}
+
+extension UpdateRuntimeAliasOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRuntimeAliasOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRuntimeAliasOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.compatibility = try reader["Compatibility"].readIfPresent(with: LambdaCoreClientTypes.Compatibility.read(from:))
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        value.runtimeName = try reader["RuntimeName"].readIfPresent() ?? ""
+        value.runtimeVersion = try reader["RuntimeVersion"].readIfPresent() ?? ""
+        value.runtimeVersionArn = try reader["RuntimeVersionArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension UpdateRuntimeVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRuntimeVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRuntimeVersionOutput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.compatibility = try reader["Compatibility"].readIfPresent(with: LambdaCoreClientTypes.Compatibility.read(from:))
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.platforms = try reader["Platforms"].readListIfPresent(memberReadingClosure: LambdaCoreClientTypes.Platform.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.releaseNotes = try reader["ReleaseNotes"].readIfPresent()
+        value.resolvedUri = try reader["ResolvedUri"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 enum CreateNetworkConnectorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1251,6 +3262,62 @@ enum CreateNetworkConnectorOutputError {
             case "NetworkConnectorLimitExceededException": return try NetworkConnectorLimitExceededException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRuntimeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRuntimeAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateRuntimeVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1275,7 +3342,112 @@ enum DeleteNetworkConnectorOutputError {
     }
 }
 
+enum DeleteRuntimeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRuntimeAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRuntimeVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetNetworkConnectorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRuntimeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRuntimeAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetRuntimeVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1325,6 +3497,74 @@ enum ListNetworkConnectorVersionsOutputError {
     }
 }
 
+enum ListRuntimeAliasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRuntimesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListRuntimeVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RestoreRuntimeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateNetworkConnectorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1335,6 +3575,60 @@ enum UpdateNetworkConnectorOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "NetworkConnectorLimitExceededException": return try NetworkConnectorLimitExceededException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRuntimeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRuntimeAliasOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateRuntimeVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -1419,6 +3713,20 @@ extension TooManyRequestsException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -1429,6 +3737,18 @@ extension ResourceNotFoundException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension LambdaCoreClientTypes.Compatibility {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaCoreClientTypes.Compatibility {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaCoreClientTypes.Compatibility()
+        value.integrationModels = try reader["IntegrationModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaCoreClientTypes.IntegrationModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaCoreClientTypes.RuntimeArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedInstances = try reader["ManagedInstances"].readIfPresent()
         return value
     }
 }
@@ -1509,6 +3829,95 @@ extension LambdaCoreClientTypes.NetworkConnectorVpcEgressConfiguration {
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.networkProtocol = try reader["NetworkProtocol"].readIfPresent()
         value.associatedComputeResourceTypes = try reader["AssociatedComputeResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaCoreClientTypes.ComputeResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaCoreClientTypes.Platform {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaCoreClientTypes.Platform {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaCoreClientTypes.Platform()
+        value.architecture = try reader["Architecture"].readIfPresent() ?? ""
+        value.os = try reader["Os"].readIfPresent() ?? ""
+        value.digest = try reader["Digest"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LambdaCoreClientTypes.RuntimeAliasInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaCoreClientTypes.RuntimeAliasInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaCoreClientTypes.RuntimeAliasInfo()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.runtimeVersion = try reader["RuntimeVersion"].readIfPresent() ?? ""
+        value.runtimeVersionArn = try reader["RuntimeVersionArn"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.pendingDeletionAt = try reader["PendingDeletionAt"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.compatibility = try reader["Compatibility"].readIfPresent(with: LambdaCoreClientTypes.Compatibility.read(from:))
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LambdaCoreClientTypes.RuntimeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaCoreClientTypes.RuntimeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaCoreClientTypes.RuntimeInfo()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.licenseInfo = try reader["LicenseInfo"].readIfPresent()
+        value.releaseLifecycle = try reader["ReleaseLifecycle"].readIfPresent(with: LambdaCoreClientTypes.RuntimeReleaseLifecycle.read(from:))
+        value.state = try reader["State"].readIfPresent()
+        value.pendingDeletionAt = try reader["PendingDeletionAt"].readIfPresent()
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LambdaCoreClientTypes.RuntimeReleaseLifecycle {
+
+    static func write(value: LambdaCoreClientTypes.RuntimeReleaseLifecycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeprecationDate"].write(value.deprecationDate)
+        try writer["FunctionCreateBlockDate"].write(value.functionCreateBlockDate)
+        try writer["FunctionUpdateBlockDate"].write(value.functionUpdateBlockDate)
+        try writer["ReleaseState"].write(value.releaseState)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaCoreClientTypes.RuntimeReleaseLifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaCoreClientTypes.RuntimeReleaseLifecycle()
+        value.releaseState = try reader["ReleaseState"].readIfPresent()
+        value.deprecationDate = try reader["DeprecationDate"].readIfPresent()
+        value.functionCreateBlockDate = try reader["FunctionCreateBlockDate"].readIfPresent()
+        value.functionUpdateBlockDate = try reader["FunctionUpdateBlockDate"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaCoreClientTypes.RuntimeVersionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaCoreClientTypes.RuntimeVersionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaCoreClientTypes.RuntimeVersionInfo()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.resolvedUri = try reader["ResolvedUri"].readIfPresent() ?? ""
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.pendingDeletionAt = try reader["PendingDeletionAt"].readIfPresent()
+        value.releaseNotes = try reader["ReleaseNotes"].readIfPresent()
+        value.compatibility = try reader["Compatibility"].readIfPresent(with: LambdaCoreClientTypes.Compatibility.read(from:))
+        value.created = try reader["Created"].readIfPresent() ?? ""
+        value.lastModified = try reader["LastModified"].readIfPresent() ?? ""
         return value
     }
 }

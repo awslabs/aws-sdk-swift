@@ -2405,6 +2405,76 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateNetworkingFlexCostAllocationPolicy` operation on the `EC2` service.
+    ///
+    /// Associates a flex cost allocation policy with one or more network resources. You can associate the policy directly with specific resources by resource ID, or you can associate it with a scope of resources in an account, Amazon VPC, or subnet. The following limits apply:
+    ///
+    /// * A request can associate up to 20 resources.
+    ///
+    /// * A policy can have up to 100 active associations.
+    ///
+    /// * A network resource can have only one active association, across all policies. If a resource is already associated, the response includes it in the failures with the code ResourceAlreadyAssociated.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateNetworkingFlexCostAllocationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateNetworkingFlexCostAllocationPolicyOutput`)
+    public func associateNetworkingFlexCostAllocationPolicy(input: AssociateNetworkingFlexCostAllocationPolicyInput) async throws -> AssociateNetworkingFlexCostAllocationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateNetworkingFlexCostAllocationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>(AssociateNetworkingFlexCostAllocationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateNetworkingFlexCostAllocationPolicyOutput>(AssociateNetworkingFlexCostAllocationPolicyOutput.httpOutput(from:), AssociateNetworkingFlexCostAllocationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateNetworkingFlexCostAllocationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateNetworkingFlexCostAllocationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateNetworkingFlexCostAllocationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateNetworkingFlexCostAllocationPolicyInput, AssociateNetworkingFlexCostAllocationPolicyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateNetworkingFlexCostAllocationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateRouteServer` operation on the `EC2` service.
     ///
     /// Associates a route server with a VPC to enable dynamic route updates. A route server association is the connection established between a route server and a VPC. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
@@ -8513,6 +8583,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkInterfacePermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateNetworkingFlexCostAllocationPolicy` operation on the `EC2` service.
+    ///
+    /// Creates a flex cost allocation policy for Networking Flexible Cost Allocation (FCA), a feature of Amazon Virtual Private Cloud (Amazon VPC). The policy allocates the charges of a shared networking resource at the reporting granularity that you specify. You can create a policy for one of the following resource types: NAT gateways, Amazon VPC peering connections, or EC2 instances. Policies can allocate data transfer charges for all three types, and data processing charges for NAT gateways. You can have up to 100 policies per account in each Amazon Web Services Region, plus one additional policy per network resource type created by a declarative policy, for a maximum of 103 policies in an Amazon Web Services Region.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkingFlexCostAllocationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateNetworkingFlexCostAllocationPolicyOutput`)
+    public func createNetworkingFlexCostAllocationPolicy(input: CreateNetworkingFlexCostAllocationPolicyInput) async throws -> CreateNetworkingFlexCostAllocationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createNetworkingFlexCostAllocationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>(CreateNetworkingFlexCostAllocationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkingFlexCostAllocationPolicyOutput>(CreateNetworkingFlexCostAllocationPolicyOutput.httpOutput(from:), CreateNetworkingFlexCostAllocationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkingFlexCostAllocationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateNetworkingFlexCostAllocationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateNetworkingFlexCostAllocationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateNetworkingFlexCostAllocationPolicyInput, CreateNetworkingFlexCostAllocationPolicyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateNetworkingFlexCostAllocationPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -15018,6 +15152,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkInterfacePermission")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteNetworkingFlexCostAllocationPolicies` operation on the `EC2` service.
+    ///
+    /// Deletes one or more flex cost allocation policies.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkingFlexCostAllocationPoliciesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkingFlexCostAllocationPoliciesOutput`)
+    public func deleteNetworkingFlexCostAllocationPolicies(input: DeleteNetworkingFlexCostAllocationPoliciesInput) async throws -> DeleteNetworkingFlexCostAllocationPoliciesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteNetworkingFlexCostAllocationPolicies")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>(DeleteNetworkingFlexCostAllocationPoliciesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkingFlexCostAllocationPoliciesOutput>(DeleteNetworkingFlexCostAllocationPoliciesOutput.httpOutput(from:), DeleteNetworkingFlexCostAllocationPoliciesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkingFlexCostAllocationPoliciesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteNetworkingFlexCostAllocationPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteNetworkingFlexCostAllocationPoliciesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteNetworkingFlexCostAllocationPoliciesInput, DeleteNetworkingFlexCostAllocationPoliciesOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteNetworkingFlexCostAllocationPolicies")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -25871,7 +26068,7 @@ extension EC2Client {
 
     /// Performs the `DescribeNetworkInterfaces` operation on the `EC2` service.
     ///
-    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: group-id, mac-address, private-dns-name, private-ip-address, subnet-id, or vpc-id. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
+    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless you use pagination or one of the following filters: attachment.instance-id, group-id, mac-address, private-dns-name, private-ip-address, subnet-id, or vpc-id. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     ///
     /// - Parameter input: Contains the parameters for DescribeNetworkInterfaces. (Type: `DescribeNetworkInterfacesInput`)
     ///
@@ -25920,6 +26117,132 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkInterfaces")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeNetworkingFlexCostAllocationPolicies` operation on the `EC2` service.
+    ///
+    /// Describes one or more of your flex cost allocation policies. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeNetworkingFlexCostAllocationPoliciesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkingFlexCostAllocationPoliciesOutput`)
+    public func describeNetworkingFlexCostAllocationPolicies(input: DescribeNetworkingFlexCostAllocationPoliciesInput) async throws -> DescribeNetworkingFlexCostAllocationPoliciesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeNetworkingFlexCostAllocationPolicies")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>(DescribeNetworkingFlexCostAllocationPoliciesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkingFlexCostAllocationPoliciesOutput>(DescribeNetworkingFlexCostAllocationPoliciesOutput.httpOutput(from:), DescribeNetworkingFlexCostAllocationPoliciesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkingFlexCostAllocationPoliciesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNetworkingFlexCostAllocationPoliciesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNetworkingFlexCostAllocationPoliciesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkingFlexCostAllocationPolicies")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeNetworkingFlexCostAllocationPolicyAssociations` operation on the `EC2` service.
+    ///
+    /// Describes the associations between your flex cost allocation policies and network resources. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeNetworkingFlexCostAllocationPolicyAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput`)
+    public func describeNetworkingFlexCostAllocationPolicyAssociations(input: DescribeNetworkingFlexCostAllocationPolicyAssociationsInput) async throws -> DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeNetworkingFlexCostAllocationPolicyAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>(DescribeNetworkingFlexCostAllocationPolicyAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>(DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput.httpOutput(from:), DescribeNetworkingFlexCostAllocationPolicyAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeNetworkingFlexCostAllocationPolicyAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeNetworkingFlexCostAllocationPolicyAssociations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -33552,6 +33875,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateNetworkingFlexCostAllocationPolicy` operation on the `EC2` service.
+    ///
+    /// Disassociates a flex cost allocation policy from one or more network resources.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateNetworkingFlexCostAllocationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateNetworkingFlexCostAllocationPolicyOutput`)
+    public func disassociateNetworkingFlexCostAllocationPolicy(input: DisassociateNetworkingFlexCostAllocationPolicyInput) async throws -> DisassociateNetworkingFlexCostAllocationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateNetworkingFlexCostAllocationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>(DisassociateNetworkingFlexCostAllocationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateNetworkingFlexCostAllocationPolicyOutput>(DisassociateNetworkingFlexCostAllocationPolicyOutput.httpOutput(from:), DisassociateNetworkingFlexCostAllocationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateNetworkingFlexCostAllocationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateNetworkingFlexCostAllocationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateNetworkingFlexCostAllocationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateNetworkingFlexCostAllocationPolicyInput, DisassociateNetworkingFlexCostAllocationPolicyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateNetworkingFlexCostAllocationPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateRouteServer` operation on the `EC2` service.
     ///
     /// Disassociates a route server from a VPC. A route server association is the connection established between a route server and a VPC. For more information see [Dynamic routing in your VPC with VPC Route Server](https://docs.aws.amazon.com/vpc/latest/userguide/dynamic-routing-route-server.html) in the Amazon VPC User Guide.
@@ -37300,7 +37686,7 @@ extension EC2Client {
     /// * Create a set of named queries in Athena that you can use to get started quickly
     ///
     ///
-    /// GetFlowLogsIntegrationTemplate does not support integration between Amazon Web Services Transit Gateway Flow Logs and Amazon Athena.
+    /// GetFlowLogsIntegrationTemplate does not support integration between Amazon Web Services Transit Gateway Flow Logs or Amazon Web Services Cloud WAN Flow Logs and Amazon Athena.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFlowLogsIntegrationTemplateInput`)
     ///
@@ -39503,6 +39889,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetNetworkInsightsAccessScopeContent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetNetworkingFlexCostAllocationPolicyVersions` operation on the `EC2` service.
+    ///
+    /// Retrieves the versions of a flex cost allocation policy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkingFlexCostAllocationPolicyVersionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetNetworkingFlexCostAllocationPolicyVersionsOutput`)
+    public func getNetworkingFlexCostAllocationPolicyVersions(input: GetNetworkingFlexCostAllocationPolicyVersionsInput) async throws -> GetNetworkingFlexCostAllocationPolicyVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getNetworkingFlexCostAllocationPolicyVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>(GetNetworkingFlexCostAllocationPolicyVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsOutput>(GetNetworkingFlexCostAllocationPolicyVersionsOutput.httpOutput(from:), GetNetworkingFlexCostAllocationPolicyVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetNetworkingFlexCostAllocationPolicyVersionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetNetworkingFlexCostAllocationPolicyVersionsInput, GetNetworkingFlexCostAllocationPolicyVersionsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetNetworkingFlexCostAllocationPolicyVersions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -44600,6 +45049,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyNetworkInterfaceAttribute")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyNetworkingFlexCostAllocationPolicy` operation on the `EC2` service.
+    ///
+    /// Modifies a flex cost allocation policy. Changing a policy document or ShowBackEnabled creates a new version of the policy. Changing only the description doesn't create a new version. A policy can have up to 100 versions. Versions are never removed, so after a policy reaches 100 versions, you can't change its policy document or ShowBackEnabled. Policies that are managed by a declarative policy aren't subject to this limit.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyNetworkingFlexCostAllocationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyNetworkingFlexCostAllocationPolicyOutput`)
+    public func modifyNetworkingFlexCostAllocationPolicy(input: ModifyNetworkingFlexCostAllocationPolicyInput) async throws -> ModifyNetworkingFlexCostAllocationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyNetworkingFlexCostAllocationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>(ModifyNetworkingFlexCostAllocationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyNetworkingFlexCostAllocationPolicyOutput>(ModifyNetworkingFlexCostAllocationPolicyOutput.httpOutput(from:), ModifyNetworkingFlexCostAllocationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyNetworkingFlexCostAllocationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyNetworkingFlexCostAllocationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyNetworkingFlexCostAllocationPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyNetworkingFlexCostAllocationPolicyInput, ModifyNetworkingFlexCostAllocationPolicyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyNetworkingFlexCostAllocationPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

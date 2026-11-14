@@ -2810,7 +2810,7 @@ public struct DeleteServiceLinkedRoleInput: Swift.Sendable {
 }
 
 public struct DeleteServiceLinkedRoleOutput: Swift.Sendable {
-    /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role///.
+    /// The deletion task identifier that you can use to check the status of the deletion. This identifier is returned in the format task/aws-service-role/<service-principal-name>/<role-name>/<task-uuid>.
     /// This member is required.
     public var deletionTaskId: Swift.String?
 
@@ -5692,7 +5692,7 @@ public struct GetServiceLastAccessedDetailsWithEntitiesOutput: Swift.Sendable {
 }
 
 public struct GetServiceLinkedRoleDeletionStatusInput: Swift.Sendable {
-    /// The deletion task identifier. This identifier is returned by the [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) operation in the format task/aws-service-role///.
+    /// The deletion task identifier. This identifier is returned by the [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) operation in the format task/aws-service-role/<service-principal-name>/<role-name>/<task-uuid>.
     /// This member is required.
     public var deletionTaskId: Swift.String?
 

@@ -2476,6 +2476,72 @@ extension PaginatorSequence where OperationStackInput == DescribeNetworkAclsInpu
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeNetworkingFlexCostAllocationPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNetworkingFlexCostAllocationPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkingFlexCostAllocationPoliciesOutput`
+    public func describeNetworkingFlexCostAllocationPoliciesPaginated(input: DescribeNetworkingFlexCostAllocationPoliciesInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeNetworkingFlexCostAllocationPoliciesInput, DescribeNetworkingFlexCostAllocationPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkingFlexCostAllocationPolicies(input:))
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeNetworkingFlexCostAllocationPoliciesInput {
+        return DescribeNetworkingFlexCostAllocationPoliciesInput(
+            dryRun: self.dryRun,
+            fcaPolicyIds: self.fcaPolicyIds,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeNetworkingFlexCostAllocationPoliciesInput, OperationStackOutput == DescribeNetworkingFlexCostAllocationPoliciesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNetworkingFlexCostAllocationPoliciesPaginated`
+    /// to access the nested member `[EC2ClientTypes.FlexCostAllocationPolicyDescription]`
+    /// - Returns: `[EC2ClientTypes.FlexCostAllocationPolicyDescription]`
+    public func flexCostAllocationPolicies() async throws -> [EC2ClientTypes.FlexCostAllocationPolicyDescription] {
+        return try await self.asyncCompactMap { item in item.flexCostAllocationPolicies }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNetworkingFlexCostAllocationPolicyAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput`
+    public func describeNetworkingFlexCostAllocationPolicyAssociationsPaginated(input: DescribeNetworkingFlexCostAllocationPolicyAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeNetworkingFlexCostAllocationPolicyAssociations(input:))
+    }
+}
+
+extension DescribeNetworkingFlexCostAllocationPolicyAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeNetworkingFlexCostAllocationPolicyAssociationsInput {
+        return DescribeNetworkingFlexCostAllocationPolicyAssociationsInput(
+            dryRun: self.dryRun,
+            fcaPolicyAssociationIds: self.fcaPolicyAssociationIds,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeNetworkingFlexCostAllocationPolicyAssociationsInput, OperationStackOutput == DescribeNetworkingFlexCostAllocationPolicyAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNetworkingFlexCostAllocationPolicyAssociationsPaginated`
+    /// to access the nested member `[EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]`
+    /// - Returns: `[EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription]`
+    public func fcaPolicyAssociations() async throws -> [EC2ClientTypes.FlexCostAllocationPolicyAssociationDescription] {
+        return try await self.asyncCompactMap { item in item.fcaPolicyAssociations }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeNetworkInsightsAccessScopeAnalysesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -4044,14 +4044,14 @@ extension LambdaClientTypes {
     public struct SelfManagedKafkaEventSourceConfig: Swift.Sendable {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka-process.html#services-smaa-topic-add).
         public var consumerGroupId: Swift.String?
-        /// The mode that Lambda uses to consume records from your self-managed Apache Kafka topic. The default is Stream.
+        /// The mode that Lambda uses to consume records from your self-managed Apache Kafka topic. Valid values are the following:
         ///
-        /// * Stream – Lambda consumes records using a Kafka consumer group and preserves the order of records within each partition. This is the default when you omit ConsumptionMode.
+        /// * Stream (default) – Lambda consumes records using a Kafka consumer group and preserves the order of records within each partition.
         ///
-        /// * Queue – Lambda consumes records using a Kafka share group. Multiple consumers can process records from the same partitions concurrently. Queue mode does not preserve per-partition order. Queue mode requires an Apache Kafka cluster running version 4.2 or later with share groups enabled.
+        /// * Queue – Lambda consumes records using a Kafka share group. Multiple consumers can process records from the same partition concurrently, so Lambda doesn't preserve per-partition order. To use Queue mode, your cluster must run Apache Kafka version 4.2 or later with share groups enabled.
         ///
         ///
-        /// You cannot change ConsumptionMode after you create the event source mapping. To use a different consumption mode, create a new event source mapping. When ConsumptionMode is Queue, the StartingPosition, StartingPositionTimestamp, and MaximumBatchingWindowInSeconds parameters are not supported.
+        /// If you omit this parameter, Lambda uses Stream. You cannot change ConsumptionMode after you create the event source mapping. To use a different consumption mode, create a new event source mapping. When ConsumptionMode is Queue, the StartingPosition, StartingPositionTimestamp, and MaximumBatchingWindowInSeconds parameters are not supported.
         public var consumptionMode: LambdaClientTypes.KafkaEventSourceMappingConsumptionMode?
         /// Specific configuration settings for a Kafka schema registry.
         public var schemaRegistryConfig: LambdaClientTypes.KafkaSchemaRegistryConfig?
@@ -4286,7 +4286,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka Stream consumption mode, the default is -1 (infinite retries; capped at 10 when an on-failure destination is configured). For Kafka Queue consumption mode, the default is 0, and if no on-failure destination is configured the Kafka broker performs retries.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka event source mappings with ConsumptionMode set to Queue, the value -1 (infinite retries) is not supported and the default is 0 (no retries). Lambda releases failed records back to the broker, which redelivers them up to the share group's group.share.delivery.count.limit.
     public var maximumRetryAttempts: Swift.Int?
     /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
@@ -5121,7 +5121,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka Stream consumption mode, the default is -1 (infinite retries; capped at 10 when an on-failure destination is configured). For Kafka Queue consumption mode, the default is 0, and if no on-failure destination is configured the Kafka broker performs retries.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires. For Kafka event source mappings with ConsumptionMode set to Queue, the value -1 (infinite retries) is not supported and the default is 0 (no retries). Lambda releases failed records back to the broker, which redelivers them up to the share group's group.share.delivery.count.limit.
     public var maximumRetryAttempts: Swift.Int?
     /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
     public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
@@ -5851,6 +5851,7 @@ extension LambdaClientTypes {
 extension LambdaClientTypes {
 
     public enum Runtime: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case custom
         case dotnet10
         case dotnet6
         case dotnet8
@@ -5906,6 +5907,7 @@ extension LambdaClientTypes {
 
         public static var allCases: [Runtime] {
             return [
+                .custom,
                 .dotnet10,
                 .dotnet6,
                 .dotnet8,
@@ -5967,6 +5969,7 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .custom: return "custom"
             case .dotnet10: return "dotnet10"
             case .dotnet6: return "dotnet6"
             case .dotnet8: return "dotnet8"
@@ -6020,6 +6023,27 @@ extension LambdaClientTypes {
             case .ruby40: return "ruby4.0"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public struct FunctionRuntimeConfig: Swift.Sendable {
+        /// The name of the customer-managed runtime alias that your function uses. A runtime alias is a name that points to a runtime version.
+        /// This member is required.
+        public var runtimeAlias: Swift.String?
+        /// The Amazon Resource Name (ARN) of the customer-managed runtime that your function uses.
+        /// This member is required.
+        public var runtimeArn: Swift.String?
+
+        public init(
+            runtimeAlias: Swift.String? = nil,
+            runtimeArn: Swift.String? = nil
+        ) {
+            self.runtimeAlias = runtimeAlias
+            self.runtimeArn = runtimeArn
         }
     }
 }
@@ -6245,6 +6269,8 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
     /// A list of [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to apply to the function.
@@ -6281,6 +6307,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         publishTo: LambdaClientTypes.FunctionVersionLatestPublished? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         tenancyConfig: LambdaClientTypes.TenancyConfig? = nil,
@@ -6310,6 +6337,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         self.publishTo = publishTo
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.snapStart = snapStart
         self.tags = tags
         self.tenancyConfig = tenancyConfig
@@ -6945,6 +6973,8 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -6999,6 +7029,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -7040,6 +7071,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -7463,6 +7495,8 @@ extension LambdaClientTypes {
         public var role: Swift.String?
         /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
         public var runtime: LambdaClientTypes.Runtime?
+        /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+        public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
         /// The ARN of the runtime and any errors that occured.
         public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
         /// The ARN of the signing job.
@@ -7517,6 +7551,7 @@ extension LambdaClientTypes {
             revisionId: Swift.String? = nil,
             role: Swift.String? = nil,
             runtime: LambdaClientTypes.Runtime? = nil,
+            runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
             runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
             signingJobArn: Swift.String? = nil,
             signingProfileVersionArn: Swift.String? = nil,
@@ -7558,6 +7593,7 @@ extension LambdaClientTypes {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.runtimeConfig = runtimeConfig
             self.runtimeVersionConfig = runtimeVersionConfig
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
@@ -7795,6 +7831,8 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -7849,6 +7887,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -7890,6 +7929,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -8801,6 +8841,60 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ResourceNotReadyException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The runtime alias for your function is no longer available. Update your function to use an available runtime alias.
+public struct RuntimeAliasDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Indicates the exception type for a deleted runtime alias.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RuntimeAliasDeletedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+/// The runtime version used by your function is no longer available. Update your function to use an available runtime version or runtime alias.
+public struct RuntimeVersionDeletedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Indicates the exception type for a deleted runtime version.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RuntimeVersionDeletedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -10214,6 +10308,8 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -10268,6 +10364,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -10309,6 +10406,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -10380,6 +10478,8 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
     /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds, and the maximum allowed value is 900 seconds. For functions using Lambda Managed Instances, asynchronous invocations and event source mapping invocations (except Amazon MQ and Amazon DocumentDB) support a maximum allowed value of 5,400 seconds (90 minutes). For more information, see [Lambda execution environment](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html).
@@ -10407,6 +10507,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
         timeout: Swift.Int? = nil,
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
@@ -10429,6 +10530,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.snapStart = snapStart
         self.timeout = timeout
         self.tracingConfig = tracingConfig
@@ -10505,6 +10607,8 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -10559,6 +10663,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -10600,6 +10705,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -11127,6 +11233,8 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var role: Swift.String?
     /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
     public var runtime: LambdaClientTypes.Runtime?
+    /// The customer-managed runtime configuration for your function. Specifies the customer-managed runtime and the runtime alias that your function uses.
+    public var runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig?
     /// The ARN of the runtime and any errors that occured.
     public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
@@ -11181,6 +11289,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeConfig: LambdaClientTypes.FunctionRuntimeConfig? = nil,
         runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
@@ -11222,6 +11331,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeConfig = runtimeConfig
         self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
@@ -14258,6 +14368,7 @@ extension CreateFunctionInput {
         try writer["PublishTo"].write(value.publishTo)
         try writer["Role"].write(value.role)
         try writer["Runtime"].write(value.runtime)
+        try writer["RuntimeConfig"].write(value.runtimeConfig, with: LambdaClientTypes.FunctionRuntimeConfig.write(value:to:))
         try writer["SnapStart"].write(value.snapStart, with: LambdaClientTypes.SnapStart.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TenancyConfig"].write(value.tenancyConfig, with: LambdaClientTypes.TenancyConfig.write(value:to:))
@@ -14522,6 +14633,7 @@ extension UpdateFunctionConfigurationInput {
         try writer["RevisionId"].write(value.revisionId)
         try writer["Role"].write(value.role)
         try writer["Runtime"].write(value.runtime)
+        try writer["RuntimeConfig"].write(value.runtimeConfig, with: LambdaClientTypes.FunctionRuntimeConfig.write(value:to:))
         try writer["SnapStart"].write(value.snapStart, with: LambdaClientTypes.SnapStart.write(value:to:))
         try writer["Timeout"].write(value.timeout)
         try writer["TracingConfig"].write(value.tracingConfig, with: LambdaClientTypes.TracingConfig.write(value:to:))
@@ -14707,6 +14819,7 @@ extension CreateFunctionOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -15092,6 +15205,7 @@ extension GetFunctionConfigurationOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -15586,6 +15700,7 @@ extension PublishVersionOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -15892,6 +16007,7 @@ extension UpdateFunctionCodeOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -15943,6 +16059,7 @@ extension UpdateFunctionConfigurationOutput {
         value.revisionId = try reader["RevisionId"].readIfPresent()
         value.role = try reader["Role"].readIfPresent()
         value.runtime = try reader["Runtime"].readIfPresent()
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         value.runtimeVersionConfig = try reader["RuntimeVersionConfig"].readIfPresent(with: LambdaClientTypes.RuntimeVersionConfig.read(from:))
         value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
@@ -16821,6 +16938,8 @@ enum InvokeOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "RuntimeAliasDeletedException": return try RuntimeAliasDeletedException.makeError(baseError: baseError)
+            case "RuntimeVersionDeletedException": return try RuntimeVersionDeletedException.makeError(baseError: baseError)
             case "S3FilesMountConnectivityException": return try S3FilesMountConnectivityException.makeError(baseError: baseError)
             case "S3FilesMountFailureException": return try S3FilesMountFailureException.makeError(baseError: baseError)
             case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
@@ -16916,6 +17035,8 @@ enum InvokeWithResponseStreamOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "RuntimeAliasDeletedException": return try RuntimeAliasDeletedException.makeError(baseError: baseError)
+            case "RuntimeVersionDeletedException": return try RuntimeVersionDeletedException.makeError(baseError: baseError)
             case "S3FilesMountConnectivityException": return try S3FilesMountConnectivityException.makeError(baseError: baseError)
             case "S3FilesMountFailureException": return try S3FilesMountFailureException.makeError(baseError: baseError)
             case "S3FilesMountTimeoutException": return try S3FilesMountTimeoutException.makeError(baseError: baseError)
@@ -17380,6 +17501,7 @@ enum RemoveLayerVersionPermissionOutputError {
         switch baseError.code {
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
             case "PreconditionFailedException": return try PreconditionFailedException.makeError(baseError: baseError)
+            case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -18292,6 +18414,34 @@ extension ResourceNotReadyException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ResourceNotReadyException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotReadyException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RuntimeAliasDeletedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RuntimeAliasDeletedException {
+        let reader = baseError.errorBodyReader
+        var value = RuntimeAliasDeletedException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RuntimeVersionDeletedException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> RuntimeVersionDeletedException {
+        let reader = baseError.errorBodyReader
+        var value = RuntimeVersionDeletedException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -19475,6 +19625,7 @@ extension LambdaClientTypes.FunctionConfiguration {
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
+        value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
         return value
     }
 }
@@ -19489,6 +19640,23 @@ extension LambdaClientTypes.FunctionEventInvokeConfig {
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
         value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
         value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.FunctionRuntimeConfig {
+
+    static func write(value: LambdaClientTypes.FunctionRuntimeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuntimeAlias"].write(value.runtimeAlias)
+        try writer["RuntimeArn"].write(value.runtimeArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionRuntimeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FunctionRuntimeConfig()
+        value.runtimeArn = try reader["RuntimeArn"].readIfPresent() ?? ""
+        value.runtimeAlias = try reader["RuntimeAlias"].readIfPresent() ?? ""
         return value
     }
 }

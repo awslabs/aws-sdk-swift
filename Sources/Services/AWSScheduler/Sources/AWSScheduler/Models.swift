@@ -159,7 +159,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// The input fails to satisfy the constraints specified by an AWS service.
+/// The input fails to satisfy the constraints specified by an Amazon Web Services service.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -496,7 +496,7 @@ extension SchedulerClientTypes {
 
     /// An object representing a constraint on task placement.
     public struct PlacementConstraint: Swift.Sendable {
-        /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see [Cluster query language](https://docs.aws.amazon.com/latest/developerguide/cluster-query-language.html) in the Amazon ECS Developer Guide.
+        /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see [Cluster query language](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-query-language.html) in the Amazon ECS Developer Guide.
         public var expression: Swift.String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
         public var type: SchedulerClientTypes.PlacementConstraintType?
@@ -600,7 +600,7 @@ extension SchedulerClientTypes {
         public var enableExecuteCommand: Swift.Bool?
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public var group: Swift.String?
-        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate with Amazon ECS is supported. For more information, see [AWS Fargate on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html) in the Amazon ECS Developer Guide.
+        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate with Amazon ECS is supported. For more information, see [Amazon Web Services Fargate on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html) in the Amazon ECS Developer Guide.
         public var launchType: SchedulerClientTypes.LaunchType?
         /// This structure specifies the network configuration for an ECS task.
         public var networkConfiguration: SchedulerClientTypes.NetworkConfiguration?
@@ -679,7 +679,43 @@ extension SchedulerClientTypes {
 
 extension SchedulerClientTypes {
 
-    /// The templated target type for the Amazon Kinesis [PutRecord] API operation.
+    /// The templated target type for the EventBridge event bus v2 [PutEvents](https://docs.aws.amazon.com/eventbridgev2/latest/APIReference/API_PutEvents.html) API operation.
+    public struct EventBridgePutEventsV2Parameters: Swift.Sendable {
+        /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
+        /// This member is required.
+        public var detailType: Swift.String?
+        /// The source of the event. The source can't start with the aws. prefix.
+        /// This member is required.
+        public var source: Swift.String?
+
+        public init(
+            detailType: Swift.String? = nil,
+            source: Swift.String? = nil
+        ) {
+            self.detailType = detailType
+            self.source = source
+        }
+    }
+}
+
+extension SchedulerClientTypes {
+
+    /// The templated target type for the EventBridge event bus v2 [PutRawEvents](https://docs.aws.amazon.com/eventbridgev2/latest/APIReference/API_PutRawEvents.html) API operation.
+    public struct EventBridgePutRawEventsParameters: Swift.Sendable {
+        /// Optional metadata key-value pairs you define. Keys must be 1-128 characters and must not contain "/".
+        public var metadata: [Swift.String: Swift.String]?
+
+        public init(
+            metadata: [Swift.String: Swift.String]? = nil
+        ) {
+            self.metadata = metadata
+        }
+    }
+}
+
+extension SchedulerClientTypes {
+
+    /// The templated target type for the Amazon Kinesis [PutRecord](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecord.html) API operation.
     public struct KinesisParameters: Swift.Sendable {
         /// Specifies the shard to which EventBridge Scheduler sends the event. For more information, see [Amazon Kinesis Data Streams terminology and concepts](https://docs.aws.amazon.com/streams/latest/dev/key-concepts.html) in the Amazon Kinesis Streams Developer Guide.
         /// This member is required.
@@ -776,9 +812,13 @@ extension SchedulerClientTypes {
         public var ecsParameters: SchedulerClientTypes.EcsParameters?
         /// The templated target type for the EventBridge [PutEvents](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutEvents.html) API operation.
         public var eventBridgeParameters: SchedulerClientTypes.EventBridgeParameters?
-        /// The text, or well-formed JSON, passed to the target. If you are configuring a templated Lambda, AWS Step Functions, or Amazon EventBridge target, the input must be a well-formed JSON. For all other target types, a JSON is not required. If you do not specify anything for this field, EventBridge Scheduler delivers a default notification to the target.
+        /// The templated target type for the EventBridge event bus v2 [PutEvents](https://docs.aws.amazon.com/eventbridgev2/latest/APIReference/API_PutEvents.html) API operation.
+        public var eventBridgePutEventsV2Parameters: SchedulerClientTypes.EventBridgePutEventsV2Parameters?
+        /// The templated target type for the EventBridge event bus v2 [PutRawEvents](https://docs.aws.amazon.com/eventbridgev2/latest/APIReference/API_PutRawEvents.html) API operation.
+        public var eventBridgePutRawEventsParameters: SchedulerClientTypes.EventBridgePutRawEventsParameters?
+        /// The text, or well-formed JSON, passed to the target. If you are configuring a templated Lambda, Amazon Web Services Step Functions, or Amazon EventBridge target, the input must be a well-formed JSON. For all other target types, a JSON is not required. If you do not specify anything for this field, EventBridge Scheduler delivers a default notification to the target. The maximum size of the Input field is 256 KB.
         public var input: Swift.String?
-        /// The templated target type for the Amazon Kinesis [PutRecord] API operation.
+        /// The templated target type for the Amazon Kinesis [PutRecord](https://docs.aws.amazon.com/kinesis/latest/APIReference/API_PutRecord.html) API operation.
         public var kinesisParameters: SchedulerClientTypes.KinesisParameters?
         /// A RetryPolicy object that includes information about the retry policy settings, including the maximum age of an event, and the maximum number of times EventBridge Scheduler will try to deliver the event to a target.
         public var retryPolicy: SchedulerClientTypes.RetryPolicy?
@@ -795,6 +835,8 @@ extension SchedulerClientTypes {
             deadLetterConfig: SchedulerClientTypes.DeadLetterConfig? = nil,
             ecsParameters: SchedulerClientTypes.EcsParameters? = nil,
             eventBridgeParameters: SchedulerClientTypes.EventBridgeParameters? = nil,
+            eventBridgePutEventsV2Parameters: SchedulerClientTypes.EventBridgePutEventsV2Parameters? = nil,
+            eventBridgePutRawEventsParameters: SchedulerClientTypes.EventBridgePutRawEventsParameters? = nil,
             input: Swift.String? = nil,
             kinesisParameters: SchedulerClientTypes.KinesisParameters? = nil,
             retryPolicy: SchedulerClientTypes.RetryPolicy? = nil,
@@ -806,6 +848,8 @@ extension SchedulerClientTypes {
             self.deadLetterConfig = deadLetterConfig
             self.ecsParameters = ecsParameters
             self.eventBridgeParameters = eventBridgeParameters
+            self.eventBridgePutEventsV2Parameters = eventBridgePutEventsV2Parameters
+            self.eventBridgePutRawEventsParameters = eventBridgePutRawEventsParameters
             self.input = input
             self.kinesisParameters = kinesisParameters
             self.retryPolicy = retryPolicy
@@ -1895,6 +1939,7 @@ enum DeleteScheduleOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1930,6 +1975,7 @@ enum GetScheduleOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2051,6 +2097,7 @@ enum UpdateScheduleOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2243,6 +2290,38 @@ extension SchedulerClientTypes.EventBridgeParameters {
         var value = SchedulerClientTypes.EventBridgeParameters()
         value.detailType = try reader["DetailType"].readIfPresent() ?? ""
         value.source = try reader["Source"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SchedulerClientTypes.EventBridgePutEventsV2Parameters {
+
+    static func write(value: SchedulerClientTypes.EventBridgePutEventsV2Parameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DetailType"].write(value.detailType)
+        try writer["Source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.EventBridgePutEventsV2Parameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.EventBridgePutEventsV2Parameters()
+        value.detailType = try reader["DetailType"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SchedulerClientTypes.EventBridgePutRawEventsParameters {
+
+    static func write(value: SchedulerClientTypes.EventBridgePutRawEventsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Metadata"].writeMap(value.metadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.EventBridgePutRawEventsParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.EventBridgePutRawEventsParameters()
+        value.metadata = try reader["Metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2447,6 +2526,8 @@ extension SchedulerClientTypes.Target {
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: SchedulerClientTypes.DeadLetterConfig.write(value:to:))
         try writer["EcsParameters"].write(value.ecsParameters, with: SchedulerClientTypes.EcsParameters.write(value:to:))
         try writer["EventBridgeParameters"].write(value.eventBridgeParameters, with: SchedulerClientTypes.EventBridgeParameters.write(value:to:))
+        try writer["EventBridgePutEventsV2Parameters"].write(value.eventBridgePutEventsV2Parameters, with: SchedulerClientTypes.EventBridgePutEventsV2Parameters.write(value:to:))
+        try writer["EventBridgePutRawEventsParameters"].write(value.eventBridgePutRawEventsParameters, with: SchedulerClientTypes.EventBridgePutRawEventsParameters.write(value:to:))
         try writer["Input"].write(value.input)
         try writer["KinesisParameters"].write(value.kinesisParameters, with: SchedulerClientTypes.KinesisParameters.write(value:to:))
         try writer["RetryPolicy"].write(value.retryPolicy, with: SchedulerClientTypes.RetryPolicy.write(value:to:))
@@ -2465,6 +2546,8 @@ extension SchedulerClientTypes.Target {
         value.input = try reader["Input"].readIfPresent()
         value.ecsParameters = try reader["EcsParameters"].readIfPresent(with: SchedulerClientTypes.EcsParameters.read(from:))
         value.eventBridgeParameters = try reader["EventBridgeParameters"].readIfPresent(with: SchedulerClientTypes.EventBridgeParameters.read(from:))
+        value.eventBridgePutEventsV2Parameters = try reader["EventBridgePutEventsV2Parameters"].readIfPresent(with: SchedulerClientTypes.EventBridgePutEventsV2Parameters.read(from:))
+        value.eventBridgePutRawEventsParameters = try reader["EventBridgePutRawEventsParameters"].readIfPresent(with: SchedulerClientTypes.EventBridgePutRawEventsParameters.read(from:))
         value.kinesisParameters = try reader["KinesisParameters"].readIfPresent(with: SchedulerClientTypes.KinesisParameters.read(from:))
         value.sageMakerPipelineParameters = try reader["SageMakerPipelineParameters"].readIfPresent(with: SchedulerClientTypes.SageMakerPipelineParameters.read(from:))
         value.sqsParameters = try reader["SqsParameters"].readIfPresent(with: SchedulerClientTypes.SqsParameters.read(from:))
