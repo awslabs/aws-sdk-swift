@@ -1199,6 +1199,15 @@ extension SSMClientTypes {
     ///
     ///
     ///
+    /// * Automation only, to target Microsoft Azure or Google Cloud Platform (GCP) resources:
+    ///
+    /// * Key=CloudConnector,Values=cloud-connector-id
+    ///
+    /// * Key=CloudConnector,Values={"CloudConnectorId":"cloud-connector-id","SsmManagedNodeFilter":"MANAGED","CloudProviderRegions":["eastus"]}
+    ///
+    ///
+    /// Supported JSON keys: CloudConnectorId (required), SsmManagedNodeFilter, CloudProviderRegions, and, for GCP, IncludesLabels, ExcludesLabels, OsPolicyComplianceFilter, and OsPolicyOrchestratorId.
+    ///
     ///
     /// For Run Command and Maintenance Windows:
     ///
@@ -1228,6 +1237,15 @@ extension SSMClientTypes {
     ///
     ///
     ///
+    ///
+    /// * For associations that run an Automation runbook, to target Microsoft Azure or Google Cloud Platform (GCP) resources:
+    ///
+    /// * Key=CloudConnector,Values=cloud-connector-id
+    ///
+    /// * Key=CloudConnector,Values={"CloudConnectorId":"cloud-connector-id","SsmManagedNodeFilter":"UNMANAGED"}
+    ///
+    ///
+    /// Supported JSON keys: CloudConnectorId (required), SsmManagedNodeFilter, and CloudProviderRegions.
     ///
     ///
     /// For more information about how to send commands that target managed nodes using Key,Value parameters, see [Targeting multiple managed nodes](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting) in the Amazon Web Services Systems Manager User Guide.
@@ -1941,17 +1959,77 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
+    /// Information about a GCP project targeted by the cloud connector.
+    public struct GcpProject: Swift.Sendable {
+        /// The display name of the GCP project.
+        public var projectDisplayName: Swift.String?
+        /// The ID of the GCP project.
+        /// This member is required.
+        public var projectId: Swift.String?
+
+        public init(
+            projectDisplayName: Swift.String? = nil,
+            projectId: Swift.String? = nil
+        ) {
+            self.projectDisplayName = projectDisplayName
+            self.projectId = projectId
+        }
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The target resources in the GCP environment.
+    public enum GcpConfigurationTargets: Swift.Sendable {
+        /// A list of GCP projects to target.
+        case projects([SSMClientTypes.GcpProject])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SSMClientTypes {
+
+    /// The access details and targets for connecting to a Google Cloud Platform (GCP) environment, including the workload identity pool provider and service account used for authentication and the projects to target.
+    public struct GcpConfiguration: Swift.Sendable {
+        /// The ID of the GCP organization.
+        public var organizationId: Swift.String?
+        /// The email address of the GCP service account used for authentication.
+        /// This member is required.
+        public var serviceAccountEmail: Swift.String?
+        /// The target GCP projects for the cloud connector.
+        public var targets: SSMClientTypes.GcpConfigurationTargets?
+        /// The full resource name of the GCP workload identity pool provider used for authentication.
+        /// This member is required.
+        public var workloadIdentityPoolProvider: Swift.String?
+
+        public init(
+            organizationId: Swift.String? = nil,
+            serviceAccountEmail: Swift.String? = nil,
+            targets: SSMClientTypes.GcpConfigurationTargets? = nil,
+            workloadIdentityPoolProvider: Swift.String? = nil
+        ) {
+            self.organizationId = organizationId
+            self.serviceAccountEmail = serviceAccountEmail
+            self.targets = targets
+            self.workloadIdentityPoolProvider = workloadIdentityPoolProvider
+        }
+    }
+}
+
+extension SSMClientTypes {
+
     /// The configuration that provides access details and targets for connecting to a third-party cloud environment.
     public enum CloudConnectorConfiguration: Swift.Sendable {
         /// The access details and targets for connecting to a Microsoft Azure environment.
         case azureconfiguration(SSMClientTypes.AzureConfiguration)
+        /// The access details and targets for connecting to a Google Cloud Platform (GCP) environment.
+        case gcpconfiguration(SSMClientTypes.GcpConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct CreateCloudConnectorInput: Swift.Sendable {
-    /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
-    /// This member is required.
+    /// The ARN of the Amazon Web Services Config connector to associate with this cloud connector. If you omit it, the cloud connector is created without Amazon Web Services Config integration.
     public var configConnectorArn: Swift.String?
     /// The configuration details for connecting to the third-party cloud environment.
     /// This member is required.
@@ -7005,7 +7083,7 @@ extension SSMClientTypes {
         ///
         /// * Valid values for the ResourceType filter key: EC2Instance | ManagedInstance
         ///
-        /// * Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines
+        /// * Valid values for the SourceType filter key: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines | compute.googleapis.com/Instance
         ///
         /// * Valid tag examples: Key=tag-key,Values=Purpose | Key=tag:Purpose,Values=Test.
         /// This member is required.
@@ -7202,6 +7280,7 @@ extension SSMClientTypes {
         case awsIotThing
         case awsSsmManagedinstance
         case azureInstance
+        case gcpInstance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SourceType] {
@@ -7209,7 +7288,8 @@ extension SSMClientTypes {
                 .awsEc2Instance,
                 .awsIotThing,
                 .awsSsmManagedinstance,
-                .azureInstance
+                .azureInstance,
+                .gcpInstance
             ]
         }
 
@@ -7224,6 +7304,7 @@ extension SSMClientTypes {
             case .awsIotThing: return "AWS::IoT::Thing"
             case .awsSsmManagedinstance: return "AWS::SSM::ManagedInstance"
             case .azureInstance: return "Microsoft.Compute/virtualMachines"
+            case .gcpInstance: return "compute.googleapis.com/Instance"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7276,7 +7357,7 @@ extension SSMClientTypes {
         public var sourceId: Swift.String?
         /// The location of the source resource in the third-party cloud environment.
         public var sourceLocation: Swift.String?
-        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines.
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines. For Google Cloud Platform (GCP) Compute Engine Virtual Machines, SourceType is compute.googleapis.com/Instance.
         public var sourceType: SSMClientTypes.SourceType?
 
         public init(
@@ -8073,7 +8154,7 @@ extension SSMClientTypes {
         public var sourceId: Swift.String?
         /// The location of the source resource in the third-party cloud environment.
         public var sourceLocation: Swift.String?
-        /// The type of the source resource. Valid values: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines.
+        /// The type of the source resource. Valid values: AWS::EC2::Instance | AWS::SSM::ManagedInstance | AWS::IoT::Thing | Microsoft.Compute/virtualMachines | compute.googleapis.com/Instance.
         public var sourceType: SSMClientTypes.SourceType?
 
         public init(
@@ -9820,7 +9901,7 @@ extension SSMClientTypes {
         public var allowedPattern: Swift.String?
         /// The Amazon Resource Name (ARN) of the parameter.
         public var arn: Swift.String?
-        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        /// The data type of the parameter, such as text, aws:ec2:image, or json. The default is text. For the list of data types, see the DataType parameter of PutParameter.
         public var dataType: Swift.String?
         /// Description of the parameter actions.
         public var description: Swift.String?
@@ -10689,6 +10770,37 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
+    /// The number of targets in a rate control execution, and the status of the child executions that it started for those targets.
+    public struct TargetsSummary: Swift.Sendable {
+        /// The number of child executions that finished, whether they succeeded or failed.
+        public var completedCount: Swift.Int
+        /// The number of child executions that failed, timed out, or were canceled.
+        public var failedCount: Swift.Int
+        /// The number of child executions that started.
+        public var startedCount: Swift.Int
+        /// The number of child executions that succeeded.
+        public var successfulCount: Swift.Int
+        /// The total number of targets in the rate control execution.
+        public var totalCount: Swift.Int
+
+        public init(
+            completedCount: Swift.Int = 0,
+            failedCount: Swift.Int = 0,
+            startedCount: Swift.Int = 0,
+            successfulCount: Swift.Int = 0,
+            totalCount: Swift.Int = 0
+        ) {
+            self.completedCount = completedCount
+            self.failedCount = failedCount
+            self.startedCount = startedCount
+            self.successfulCount = successfulCount
+            self.totalCount = totalCount
+        }
+    }
+}
+
+extension SSMClientTypes {
+
     /// Detailed information about the current state of an individual Automation execution.
     public struct AutomationExecution: Swift.Sendable {
         /// The details for the CloudWatch alarm applied to your automation.
@@ -10757,6 +10869,8 @@ extension SSMClientTypes {
         public var targetParameterName: Swift.String?
         /// The specified targets.
         public var targets: [SSMClientTypes.Target]?
+        /// A summary of the child executions that a rate control execution started for its targets. This field is returned only for rate control executions.
+        public var targetsSummary: SSMClientTypes.TargetsSummary?
         /// The CloudWatch alarm that was invoked by the automation.
         public var triggeredAlarms: [SSMClientTypes.AlarmStateInformation]?
         /// Variables defined for the automation.
@@ -10798,6 +10912,7 @@ extension SSMClientTypes {
             targetMaps: [[Swift.String: [Swift.String]]]? = nil,
             targetParameterName: Swift.String? = nil,
             targets: [SSMClientTypes.Target]? = nil,
+            targetsSummary: SSMClientTypes.TargetsSummary? = nil,
             triggeredAlarms: [SSMClientTypes.AlarmStateInformation]? = nil,
             variables: [Swift.String: [Swift.String]]? = nil,
             warningMessage: Swift.String? = nil
@@ -10835,6 +10950,7 @@ extension SSMClientTypes {
             self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
+            self.targetsSummary = targetsSummary
             self.triggeredAlarms = triggeredAlarms
             self.variables = variables
             self.warningMessage = warningMessage
@@ -10978,7 +11094,7 @@ public struct GetCloudConnectorInput: Swift.Sendable {
 public struct GetCloudConnectorOutput: Swift.Sendable {
     /// The ARN of the cloud connector.
     public var cloudConnectorArn: Swift.String?
-    /// The ARN of the Amazon Web Services Config connector associated with this cloud connector.
+    /// The ARN of the Amazon Web Services Config connector associated with this cloud connector. This value is returned only if the cloud connector was created with an Amazon Web Services Config connector.
     public var configConnectorArn: Swift.String?
     /// The configuration details for the third-party cloud environment connection.
     public var configuration: SSMClientTypes.CloudConnectorConfiguration?
@@ -13113,7 +13229,7 @@ extension SSMClientTypes {
     public struct Parameter: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the parameter.
         public var arn: Swift.String?
-        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        /// The data type of the parameter, such as text, aws:ec2:image, or json. The default is text. For the list of data types, see the DataType parameter of PutParameter.
         public var dataType: Swift.String?
         /// Date the parameter was last changed or updated and the parameter version was created.
         public var lastModifiedDate: Foundation.Date?
@@ -13195,7 +13311,7 @@ extension SSMClientTypes {
     public struct ParameterHistory: Swift.Sendable {
         /// Parameter names can include the following letters and symbols. a-zA-Z0-9_.-
         public var allowedPattern: Swift.String?
-        /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
+        /// The data type of the parameter, such as text, aws:ec2:image, or json. The default is text. For the list of data types, see the DataType parameter of PutParameter.
         public var dataType: Swift.String?
         /// Information about the parameter.
         public var description: Swift.String?
@@ -13990,12 +14106,16 @@ public struct ListAssociationVersionsOutput: Swift.Sendable {
 extension SSMClientTypes {
 
     public enum CloudConnectorFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organizationid
+        case projectid
         case subscriptionid
         case tenantid
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CloudConnectorFilterKey] {
             return [
+                .organizationid,
+                .projectid,
                 .subscriptionid,
                 .tenantid
             ]
@@ -14008,6 +14128,8 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .organizationid: return "OrganizationId"
+            case .projectid: return "ProjectId"
             case .subscriptionid: return "SubscriptionId"
             case .tenantid: return "TenantId"
             case let .sdkUnknown(s): return s
@@ -14022,7 +14144,7 @@ extension SSMClientTypes {
     public struct CloudConnectorFilter: Swift.Sendable {
         /// The name of the filter key.
         public var filterKey: SSMClientTypes.CloudConnectorFilterKey?
-        /// The filter values. Valid values for each filter key are as follows: SubscriptionId The Azure subscription ID to filter by. To return only tenant-level connectors, specify NONE. TenantId The Azure tenant ID to filter by. Filters the results to connectors that target the specified tenant.
+        /// The filter values. Valid values for each filter key are as follows: SubscriptionId The Azure subscription ID to filter by. To return only tenant-level connectors, specify NONE. TenantId The Azure tenant ID to filter by. Filters the results to connectors that target the specified tenant. ProjectId The Google Cloud Platform (GCP) project ID to filter by. Filters the results to connectors that target the specified project. OrganizationId The GCP organization ID to filter by. Filters the results to connectors that target the entire specified organization. You can't combine Azure filter keys (SubscriptionId and TenantId) with GCP filter keys (ProjectId and OrganizationId) in the same request.
         public var filterValues: [Swift.String]?
 
         public init(
@@ -14056,16 +14178,49 @@ public struct ListCloudConnectorsInput: Swift.Sendable {
 
 extension SSMClientTypes {
 
+    public enum Provider: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azure
+        case gcp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Provider] {
+            return [
+                .azure,
+                .gcp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .azure: return "Azure"
+            case .gcp: return "GCP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
     /// Summary information about a cloud connector.
     public struct CloudConnectorSummary: Swift.Sendable {
         /// The ID of the cloud connector.
         public var cloudConnectorId: Swift.String?
+        /// The ARN of the Amazon Web Services Config connector associated with this cloud connector. This value is returned only if the cloud connector was created with an Amazon Web Services Config connector.
+        public var configConnectorArn: Swift.String?
         /// The date and time the cloud connector was created.
         public var createdAt: Foundation.Date?
         /// The description of the cloud connector.
         public var description: Swift.String?
         /// The friendly name of the cloud connector.
         public var displayName: Swift.String?
+        /// The third-party cloud provider that the cloud connector connects to. Valid values: Azure | GCP.
+        public var provider: SSMClientTypes.Provider?
         /// The ARN of the IAM role used by the cloud connector.
         public var roleArn: Swift.String?
         /// The date and time the cloud connector was last updated.
@@ -14073,16 +14228,20 @@ extension SSMClientTypes {
 
         public init(
             cloudConnectorId: Swift.String? = nil,
+            configConnectorArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
+            provider: SSMClientTypes.Provider? = nil,
             roleArn: Swift.String? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.cloudConnectorId = cloudConnectorId
+            self.configConnectorArn = configConnectorArn
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
+            self.provider = provider
             self.roleArn = roleArn
             self.updatedAt = updatedAt
         }
@@ -15881,7 +16040,7 @@ extension SSMClientTypes {
         public var sourceId: Swift.String?
         /// The location of the source resource in the third-party cloud environment.
         public var sourceLocation: Swift.String?
-        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing.
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing. For Azure Virtual Machines, SourceType is Microsoft.Compute/virtualMachines. For Google Cloud Platform (GCP) Compute Engine Virtual Machines, SourceType is compute.googleapis.com/Instance.
         public var sourceType: SSMClientTypes.SourceType?
 
         public init(
@@ -17548,7 +17707,7 @@ public struct UnsupportedParameterType: ClientRuntime.ModeledError, AWSClientRun
 public struct PutParameterInput: Swift.Sendable {
     /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$
     public var allowedPattern: Swift.String?
-    /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs. The following data type values are supported.
+    /// The data type of the parameter value. Parameter Store validates the value against the data type when you create or update the parameter. The default is text, which performs no validation. The following data type values are supported.
     ///
     /// * text
     ///
@@ -17556,8 +17715,34 @@ public struct PutParameterInput: Swift.Sendable {
     ///
     /// * aws:ssm:integration
     ///
+    /// * aws:region
     ///
-    /// When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see [Setting up notifications or trigger actions based on Parameter Store events](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html). For more information about AMI format validation , see [Native parameter support for Amazon Machine Image IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html).
+    /// * aws:account:id
+    ///
+    /// * boolean
+    ///
+    /// * integer
+    ///
+    /// * float
+    ///
+    /// * binary
+    ///
+    /// * hostname
+    ///
+    /// * email
+    ///
+    /// * ipv4-address
+    ///
+    /// * ipv6-address
+    ///
+    /// * url
+    ///
+    /// * json
+    ///
+    /// * jsonc
+    ///
+    ///
+    /// For more information about the supported data types, see [Working with parameter data types in Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-data-types.html). Regardless of a parameter's data type, the Parameter Store API operations that retrieve parameters, such as GetParameter, GetParameters, and GetParametersByPath, return the parameter value as a string. For example, if a parameter has the data type integer and the value 443, GetParameter returns the value as the string "443". Convert the value to the type your application needs after you retrieve it. When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see [Setting up notifications or trigger actions based on Parameter Store events](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html). For more information about AMI format validation , see [Native parameter support for Amazon Machine Image IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html).
     public var dataType: Swift.String?
     /// Information about the parameter that you want to add to the system. Optional but recommended. Don't enter personally identifiable information in this field.
     public var description: Swift.String?
@@ -17610,6 +17795,8 @@ public struct PutParameterInput: Swift.Sendable {
     /// * The content size of the parameter is more than 4 KB.
     ///
     /// * The parameter uses a parameter policy.
+    ///
+    /// * The parameter uses the url, json, or jsonc data type.
     ///
     /// * More than 10,000 parameters already exist in your Amazon Web Services account in the current Amazon Web Services Region.
     ///
@@ -20252,7 +20439,9 @@ extension SSMClientTypes {
         case outboundWebIdentityFederationDisabled
         case providerCredentialCreationFailed
         case subscriptionAccessible
+        case targetApiDisabled
         case targetInaccessible
+        case targetMissingPermissions
         case targetStateWarning
         case targetUnusable
         case tenantSummary
@@ -20265,7 +20454,9 @@ extension SSMClientTypes {
                 .outboundWebIdentityFederationDisabled,
                 .providerCredentialCreationFailed,
                 .subscriptionAccessible,
+                .targetApiDisabled,
                 .targetInaccessible,
+                .targetMissingPermissions,
                 .targetStateWarning,
                 .targetUnusable,
                 .tenantSummary,
@@ -20284,7 +20475,9 @@ extension SSMClientTypes {
             case .outboundWebIdentityFederationDisabled: return "OutboundWebIdentityFederationDisabled"
             case .providerCredentialCreationFailed: return "ProviderCredentialCreationFailed"
             case .subscriptionAccessible: return "SubscriptionAccessible"
+            case .targetApiDisabled: return "TargetApiDisabled"
             case .targetInaccessible: return "TargetInaccessible"
+            case .targetMissingPermissions: return "TargetMissingPermissions"
             case .targetStateWarning: return "TargetStateWarning"
             case .targetUnusable: return "TargetUnusable"
             case .tenantSummary: return "TenantSummary"
@@ -20300,12 +20493,16 @@ extension SSMClientTypes {
     public enum ValidationFindingScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case azureSubscription
         case azureTenant
+        case gcpOrganization
+        case gcpProject
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationFindingScopeType] {
             return [
                 .azureSubscription,
-                .azureTenant
+                .azureTenant,
+                .gcpOrganization,
+                .gcpProject
             ]
         }
 
@@ -20318,6 +20515,8 @@ extension SSMClientTypes {
             switch self {
             case .azureSubscription: return "azure:subscription"
             case .azureTenant: return "azure:tenant"
+            case .gcpOrganization: return "gcp:organization"
+            case .gcpProject: return "gcp:project"
             case let .sdkUnknown(s): return s
             }
         }

@@ -3803,6 +3803,8 @@ extension LambdaClient {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
+    /// - `RuntimeAliasDeletedException` : The runtime alias for your function is no longer available. Update your function to use an available runtime alias.
+    /// - `RuntimeVersionDeletedException` : The runtime version used by your function is no longer available. Update your function to use an available runtime version or runtime alias.
     /// - `S3FilesMountConnectivityException` : The Lambda function couldn't make a network connection to the configured S3 Files access point.
     /// - `S3FilesMountFailureException` : The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
     /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
@@ -4009,6 +4011,8 @@ extension LambdaClient {
     /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ResourceNotReadyException` : The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
+    /// - `RuntimeAliasDeletedException` : The runtime alias for your function is no longer available. Update your function to use an available runtime alias.
+    /// - `RuntimeVersionDeletedException` : The runtime version used by your function is no longer available. Update your function to use an available runtime version or runtime alias.
     /// - `S3FilesMountConnectivityException` : The Lambda function couldn't make a network connection to the configured S3 Files access point.
     /// - `S3FilesMountFailureException` : The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
     /// - `S3FilesMountTimeoutException` : The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
@@ -5864,6 +5868,7 @@ extension LambdaClient {
     /// * For AddPermission and RemovePermission API operations: Call GetPolicy to retrieve the latest RevisionId for your resource.
     ///
     /// * For all other API operations: Call GetFunction or GetAlias to retrieve the latest RevisionId for your resource.
+    /// - `ResourceConflictException` : The resource already exists, or another operation is in progress.
     /// - `ResourceNotFoundException` : The resource specified in the request does not exist.
     /// - `ServiceException` : The Lambda service encountered an internal error.
     /// - `TooManyRequestsException` : The request throughput limit was exceeded. For more information, see [Lambda quotas](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html#api-requests).

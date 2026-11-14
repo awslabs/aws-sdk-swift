@@ -348,7 +348,11 @@ extension AppStreamClientTypes {
 
     /// The configuration for agent access on a stack. Agent access enables AI agents to interact with desktop applications during streaming sessions.
     public struct AgentAccessConfig: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.
+        /// The Amazon Resource Name (ARN) of the customer managed symmetric encryption KMS key that encrypts Replay Session artifacts while WorkSpaces Applications processes them. The key must be in the same Region as the stack, and ReplaySessionEnabled must be true.
+        public var kmsKeyArn: Swift.String?
+        /// Indicates whether Replay Session is enabled for agent sessions. WorkSpaces Applications delivers a video combining session screenshots, a transcript, and a report for each session. Requires the COMPUTER_VISION agent action.
+        public var replaySessionEnabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots and Replay Session artifacts are stored. Required when ScreenshotsUploadEnabled or ReplaySessionEnabled is true.
         public var s3BucketArn: Swift.String?
         /// The image format for agent screen captures.
         /// This member is required.
@@ -358,13 +362,15 @@ extension AppStreamClientTypes {
         public var screenResolution: AppStreamClientTypes.ScreenResolution?
         /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
         public var screenshotsUploadEnabled: Swift.Bool?
-        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting.
+        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting, and at least one agent action must be enabled.
         /// This member is required.
         public var settings: [AppStreamClientTypes.AgentAccessSetting]?
         /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
         public var userControlMode: AppStreamClientTypes.UserControlMode?
 
         public init(
+            kmsKeyArn: Swift.String? = nil,
+            replaySessionEnabled: Swift.Bool? = nil,
             s3BucketArn: Swift.String? = nil,
             screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
             screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
@@ -372,6 +378,8 @@ extension AppStreamClientTypes {
             settings: [AppStreamClientTypes.AgentAccessSetting]? = nil,
             userControlMode: AppStreamClientTypes.UserControlMode? = nil
         ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.replaySessionEnabled = replaySessionEnabled
             self.s3BucketArn = s3BucketArn
             self.screenImageFormat = screenImageFormat
             self.screenResolution = screenResolution
@@ -386,7 +394,11 @@ extension AppStreamClientTypes {
 
     /// The configuration for updating agent access on a stack. This type supports partial updates, so you only need to specify the fields you want to change.
     public struct AgentAccessConfigForUpdate: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored.
+        /// The Amazon Resource Name (ARN) of the customer managed symmetric encryption KMS key that encrypts Replay Session artifacts while WorkSpaces Applications processes them. To remove the key, use AttributesToDelete with the AGENT_ACCESS_CONFIG_KMS_KEY_ARN value.
+        public var kmsKeyArn: Swift.String?
+        /// Indicates whether Replay Session is enabled for agent sessions. Setting this attribute to false also removes the KmsKeyArn value from the stack.
+        public var replaySessionEnabled: Swift.Bool?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots and Replay Session artifacts are stored.
         public var s3BucketArn: Swift.String?
         /// The image format for agent screen captures.
         public var screenImageFormat: AppStreamClientTypes.ScreenImageFormat?
@@ -394,12 +406,14 @@ extension AppStreamClientTypes {
         public var screenResolution: AppStreamClientTypes.ScreenResolution?
         /// Indicates whether screenshot uploads to Amazon S3 are enabled for agent sessions.
         public var screenshotsUploadEnabled: Swift.Bool?
-        /// The list of agent access settings that define permissions for each agent action.
+        /// The list of agent access settings that define permissions for each agent action. The merged settings must have at least one agent action enabled.
         public var settings: [AppStreamClientTypes.AgentAccessSetting]?
         /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
         public var userControlMode: AppStreamClientTypes.UserControlMode?
 
         public init(
+            kmsKeyArn: Swift.String? = nil,
+            replaySessionEnabled: Swift.Bool? = nil,
             s3BucketArn: Swift.String? = nil,
             screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
             screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
@@ -407,6 +421,8 @@ extension AppStreamClientTypes {
             settings: [AppStreamClientTypes.AgentAccessSetting]? = nil,
             userControlMode: AppStreamClientTypes.UserControlMode? = nil
         ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.replaySessionEnabled = replaySessionEnabled
             self.s3BucketArn = s3BucketArn
             self.screenImageFormat = screenImageFormat
             self.screenResolution = screenResolution
@@ -3333,9 +3349,61 @@ public struct CreateFleetOutput: Swift.Sendable {
     }
 }
 
+extension AppStreamClientTypes {
+
+    /// The configuration for agent access on an image builder. Agent access enables AI agents to interact with desktop applications during streaming sessions to the image builder.
+    public struct ImageBuilderAgentAccessConfig: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. Required when ScreenshotsUploadEnabled is true.
+        public var s3BucketArn: Swift.String?
+        /// The image format for agent screen captures.
+        ///
+        /// * PNG - PNG format.
+        ///
+        /// * JPEG - JPEG format.
+        /// This member is required.
+        public var screenImageFormat: AppStreamClientTypes.ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.
+        ///
+        /// * W_1280xH_720 - 1280 x 720 pixels.
+        /// This member is required.
+        public var screenResolution: AppStreamClientTypes.ScreenResolution?
+        /// Specifies whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public var screenshotsUploadEnabled: Swift.Bool?
+        /// The list of agent access settings that define permissions for each agent action. You must specify at least one setting, and at least one agent action must be enabled.
+        /// This member is required.
+        public var settings: [AppStreamClientTypes.AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
+        ///
+        /// * VIEW_ONLY - Users can view and observe agent actions as they happen.
+        ///
+        /// * VIEW_STOP - Users can view agent actions and stop the agent if needed.
+        ///
+        /// * DISABLED - Users cannot view or stop the agent session.
+        public var userControlMode: AppStreamClientTypes.UserControlMode?
+
+        public init(
+            s3BucketArn: Swift.String? = nil,
+            screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
+            screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
+            screenshotsUploadEnabled: Swift.Bool? = nil,
+            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil,
+            userControlMode: AppStreamClientTypes.UserControlMode? = nil
+        ) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+            self.userControlMode = userControlMode
+        }
+    }
+}
+
 public struct CreateImageBuilderInput: Swift.Sendable {
     /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+    /// The configuration for agent access on the image builder. If specified, agent access is enabled for the image builder.
+    public var agentAccessConfig: AppStreamClientTypes.ImageBuilderAgentAccessConfig?
     /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
     public var appstreamAgentVersion: Swift.String?
     /// The description to display.
@@ -3561,6 +3629,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
 
     public init(
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+        agentAccessConfig: AppStreamClientTypes.ImageBuilderAgentAccessConfig? = nil,
         appstreamAgentVersion: Swift.String? = nil,
         description: Swift.String? = nil,
         disableIMDSV1: Swift.Bool? = nil,
@@ -3579,6 +3648,7 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
     ) {
         self.accessEndpoints = accessEndpoints
+        self.agentAccessConfig = agentAccessConfig
         self.appstreamAgentVersion = appstreamAgentVersion
         self.description = description
         self.disableIMDSV1 = disableIMDSV1
@@ -3769,6 +3839,8 @@ extension AppStreamClientTypes {
     public struct ImageBuilder: Swift.Sendable {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.
         public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
+        /// The agent access configuration of the image builder, if agent access is enabled.
+        public var agentAccessConfig: AppStreamClientTypes.ImageBuilderAgentAccessConfig?
         /// The version of the WorkSpaces Applications agent that is currently being used by the image builder.
         public var appstreamAgentVersion: Swift.String?
         /// The ARN for the image builder.
@@ -3905,6 +3977,7 @@ extension AppStreamClientTypes {
 
         public init(
             accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
+            agentAccessConfig: AppStreamClientTypes.ImageBuilderAgentAccessConfig? = nil,
             appstreamAgentVersion: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
@@ -3927,6 +4000,7 @@ extension AppStreamClientTypes {
             vpcConfig: AppStreamClientTypes.VpcConfig? = nil
         ) {
             self.accessEndpoints = accessEndpoints
+            self.agentAccessConfig = agentAccessConfig
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
             self.createdTime = createdTime
@@ -6956,6 +7030,82 @@ public struct GetExportImageTaskOutput: Swift.Sendable {
     }
 }
 
+extension AppStreamClientTypes {
+
+    /// The configuration for updating agent access on an image builder. This type supports partial updates, so you only need to specify the fields you want to change. Fields that you omit keep their stored values.
+    public struct ImageBuilderAgentAccessConfigForUpdate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where agent screenshots are stored. If ScreenshotsUploadEnabled is false after the merge, the stored bucket ARN is removed.
+        public var s3BucketArn: Swift.String?
+        /// The image format for agent screen captures.
+        ///
+        /// * PNG - PNG format.
+        ///
+        /// * JPEG - JPEG format.
+        public var screenImageFormat: AppStreamClientTypes.ScreenImageFormat?
+        /// The screen resolution for the agent streaming environment.
+        ///
+        /// * W_1280xH_720 - 1280 x 720 pixels.
+        public var screenResolution: AppStreamClientTypes.ScreenResolution?
+        /// Specifies whether screenshot uploads to Amazon S3 are enabled for agent sessions.
+        public var screenshotsUploadEnabled: Swift.Bool?
+        /// The list of agent access settings that define permissions for each agent action. These settings are merged with the stored settings by agent action. A setting that you specify replaces the stored setting for the same agent action. The merged settings must have at least one agent action enabled.
+        public var settings: [AppStreamClientTypes.AgentAccessSetting]?
+        /// The user control mode for agent sessions. This setting determines how users can interact with agent sessions.
+        ///
+        /// * VIEW_ONLY - Users can view and observe agent actions as they happen.
+        ///
+        /// * VIEW_STOP - Users can view agent actions and stop the agent if needed.
+        ///
+        /// * DISABLED - Users cannot view or stop the agent session.
+        public var userControlMode: AppStreamClientTypes.UserControlMode?
+
+        public init(
+            s3BucketArn: Swift.String? = nil,
+            screenImageFormat: AppStreamClientTypes.ScreenImageFormat? = nil,
+            screenResolution: AppStreamClientTypes.ScreenResolution? = nil,
+            screenshotsUploadEnabled: Swift.Bool? = nil,
+            settings: [AppStreamClientTypes.AgentAccessSetting]? = nil,
+            userControlMode: AppStreamClientTypes.UserControlMode? = nil
+        ) {
+            self.s3BucketArn = s3BucketArn
+            self.screenImageFormat = screenImageFormat
+            self.screenResolution = screenResolution
+            self.screenshotsUploadEnabled = screenshotsUploadEnabled
+            self.settings = settings
+            self.userControlMode = userControlMode
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// An image builder attribute that you can delete by using the AttributesToDelete parameter of UpdateImageBuilder.
+    ///
+    /// * AGENT_ACCESS_CONFIG - Removes the stored agent access configuration from the image builder.
+    public enum ImageBuilderAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentAccessConfig
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageBuilderAttribute] {
+            return [
+                .agentAccessConfig
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agentAccessConfig: return "AGENT_ACCESS_CONFIG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListAssociatedFleetsInput: Swift.Sendable {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
@@ -7737,6 +7887,45 @@ public struct UpdateFleetOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateImageBuilderInput: Swift.Sendable {
+    /// The configuration for agent access on the image builder. Specify this to update agent access settings. To remove agent access, use AttributesToDelete with the AGENT_ACCESS_CONFIG value.
+    public var agentAccessConfig: AppStreamClientTypes.ImageBuilderAgentAccessConfigForUpdate?
+    /// The image builder attributes to delete.
+    public var attributesToDelete: [AppStreamClientTypes.ImageBuilderAttribute]?
+    /// The description to display.
+    public var description: Swift.String?
+    /// The image builder name to display.
+    public var displayName: Swift.String?
+    /// The name of the image builder.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        agentAccessConfig: AppStreamClientTypes.ImageBuilderAgentAccessConfigForUpdate? = nil,
+        attributesToDelete: [AppStreamClientTypes.ImageBuilderAttribute]? = nil,
+        description: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.agentAccessConfig = agentAccessConfig
+        self.attributesToDelete = attributesToDelete
+        self.description = description
+        self.displayName = displayName
+        self.name = name
+    }
+}
+
+public struct UpdateImageBuilderOutput: Swift.Sendable {
+    /// Information about the image builder.
+    public var imageBuilder: AppStreamClientTypes.ImageBuilder?
+
+    public init(
+        imageBuilder: AppStreamClientTypes.ImageBuilder? = nil
+    ) {
+        self.imageBuilder = imageBuilder
+    }
+}
+
 public struct UpdateImagePermissionsInput: Swift.Sendable {
     /// The permissions for the image.
     /// This member is required.
@@ -7794,10 +7983,13 @@ extension AppStreamClientTypes {
     ///
     /// * AGENT_ACCESS_CONFIG
     ///
+    /// * AGENT_ACCESS_CONFIG_KMS_KEY_ARN
+    ///
     /// * STORAGE_CONNECTOR_AUTHENTICATION
     public enum StackAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessEndpoints
         case agentAccessConfig
+        case agentAccessConfigKmsKeyArn
         case contentRedirection
         case embedHostDomains
         case feedbackUrl
@@ -7817,6 +8009,7 @@ extension AppStreamClientTypes {
             return [
                 .accessEndpoints,
                 .agentAccessConfig,
+                .agentAccessConfigKmsKeyArn,
                 .contentRedirection,
                 .embedHostDomains,
                 .feedbackUrl,
@@ -7842,6 +8035,7 @@ extension AppStreamClientTypes {
             switch self {
             case .accessEndpoints: return "ACCESS_ENDPOINTS"
             case .agentAccessConfig: return "AGENT_ACCESS_CONFIG"
+            case .agentAccessConfigKmsKeyArn: return "AGENT_ACCESS_CONFIG_KMS_KEY_ARN"
             case .contentRedirection: return "CONTENT_REDIRECTION"
             case .embedHostDomains: return "EMBED_HOST_DOMAINS"
             case .feedbackUrl: return "FEEDBACK_URL"

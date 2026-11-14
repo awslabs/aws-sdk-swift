@@ -5070,10 +5070,38 @@ public struct CreateResourceServerInput: Swift.Sendable {
 
 extension CognitoIdentityProviderClientTypes {
 
+    public enum ResourceServerManagedByType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cognito
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceServerManagedByType] {
+            return [
+                .cognito
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cognito: return "COGNITO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     /// The details of a resource server configuration and associated custom scopes in a user pool.
     public struct ResourceServerType: Swift.Sendable {
         /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
         public var identifier: Swift.String?
+        /// This value is reserved for resource servers that Amazon Cognito manages. Resource servers that you create don't have this value.
+        public var managedBy: CognitoIdentityProviderClientTypes.ResourceServerManagedByType?
         /// The name of the resource server.
         public var name: Swift.String?
         /// A list of scopes that are defined for the resource server.
@@ -5083,11 +5111,13 @@ extension CognitoIdentityProviderClientTypes {
 
         public init(
             identifier: Swift.String? = nil,
+            managedBy: CognitoIdentityProviderClientTypes.ResourceServerManagedByType? = nil,
             name: Swift.String? = nil,
             scopes: [CognitoIdentityProviderClientTypes.ResourceServerScopeType]? = nil,
             userPoolId: Swift.String? = nil
         ) {
             self.identifier = identifier
+            self.managedBy = managedBy
             self.name = name
             self.scopes = scopes
             self.userPoolId = userPoolId
@@ -5532,6 +5562,98 @@ public struct UserPoolTaggingException: ClientRuntime.ModeledError, AWSClientRun
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum OAuthFlowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clientCredentials
+        case code
+        case implicit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OAuthFlowType] {
+            return [
+                .clientCredentials,
+                .code,
+                .implicit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clientCredentials: return "client_credentials"
+            case .code: return "code"
+            case .implicit: return "implicit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum StatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StatusType] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The dynamic client registration configuration for a user pool. Dynamic client registration lets applications register their own app clients at runtime through the registration endpoint of your user pool domain. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher. Applications register app clients at the /oauth2/register endpoint of your user pool domain. In authenticated registration, the application sends an access token from your user pool that has the aws.cognito/dcr/register scope. In open registration, the application doesn't send a token. When you include this configuration in an UpdateUserPool request, Amazon Cognito replaces the existing configuration with the one that you provide.
+    public struct DcrConfigurationType: Swift.Sendable {
+        /// The scopes that an app client created through dynamic client registration can request, in addition to the standard OpenID Connect (OIDC) scopes. You can include custom scopes from your resource servers and aws.cognito.signin.user.admin. Registered app clients can request the OIDC scopes openid, email, phone, and profile without listing them here. If you don't set this value, registered app clients can request only the OIDC scopes. A registered app client can't request the aws.cognito/dcr/register scope, even if you include it in this list.
+        public var allowedScopes: [Swift.String]?
+        /// The OAuth grant types that an app client created through authenticated registration can request. If you don't set this value, authenticated registration permits the code and client_credentials grant types. If you set an empty list, Amazon Cognito rejects authenticated registration requests. Dynamic client registration supports the following values. Amazon Cognito accepts implicit in this list but ignores it. code Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint. client_credentials Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client secret.
+        public var authenticatedGrantTypes: [CognitoIdentityProviderClientTypes.OAuthFlowType]?
+        /// Specifies whether dynamic client registration is turned on for the user pool. If you provide a dynamic client registration configuration without this value, Amazon Cognito turns dynamic client registration on.
+        public var enableStatus: CognitoIdentityProviderClientTypes.StatusType?
+        /// Specifies whether open registration is turned on. When open registration is on, applications can register app clients without an initial access token. The default value is false.
+        public var openDcrEnabled: Swift.Bool
+        /// The OAuth grant types that an app client created through open registration can request. If you don't set this value, open registration permits only the code grant type. If you set an empty list, Amazon Cognito rejects open registration requests. If you add client_credentials, anyone can register an app client that requests machine-to-machine (M2M) access tokens, and you pay for the M2M token requests that those app clients make. Dynamic client registration supports the following values. Amazon Cognito accepts implicit in this list but ignores it. code Use a code grant flow, which provides an authorization code as the response. This code can be exchanged for access tokens with the /oauth2/token endpoint. client_credentials Issue the access token from the /oauth2/token endpoint directly to a non-person user using a combination of the client ID and client secret.
+        public var openDcrGrantTypes: [CognitoIdentityProviderClientTypes.OAuthFlowType]?
+
+        public init(
+            allowedScopes: [Swift.String]? = nil,
+            authenticatedGrantTypes: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil,
+            enableStatus: CognitoIdentityProviderClientTypes.StatusType? = nil,
+            openDcrEnabled: Swift.Bool = false,
+            openDcrGrantTypes: [CognitoIdentityProviderClientTypes.OAuthFlowType]? = nil
+        ) {
+            self.allowedScopes = allowedScopes
+            self.authenticatedGrantTypes = authenticatedGrantTypes
+            self.enableStatus = enableStatus
+            self.openDcrEnabled = openDcrEnabled
+            self.openDcrGrantTypes = openDcrGrantTypes
+        }
     }
 }
 
@@ -6376,6 +6498,8 @@ public struct CreateUserPoolInput: Swift.Sendable {
     public var aliasAttributes: [CognitoIdentityProviderClientTypes.AliasAttributeType]?
     /// The attributes that you want your user pool to automatically verify. For more information, see [Verifying contact information at sign-up](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#allowing-users-to-sign-up-and-confirm-themselves).
     public var autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]?
+    /// The dynamic client registration configuration for the user pool. With dynamic client registration, applications can register their own app clients at runtime through the registration endpoint of your user pool domain. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+    public var dcrConfiguration: CognitoIdentityProviderClientTypes.DcrConfigurationType?
     /// When active, DeletionProtection prevents accidental deletion of your user pool. Before you can delete a user pool that you have protected against deletion, you must deactivate this feature. When you try to delete a protected user pool in a DeleteUserPool API request, Amazon Cognito returns an InvalidParameterException error. To delete a protected user pool, send a new DeleteUserPool request after you deactivate deletion protection in an UpdateUserPool API request.
     public var deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType?
     /// The device-remembering configuration for a user pool. Device remembering or device tracking is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). A null value indicates that you have deactivated device remembering in your user pool. When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature. For more information, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
@@ -6435,6 +6559,7 @@ public struct CreateUserPoolInput: Swift.Sendable {
         adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType? = nil,
         aliasAttributes: [CognitoIdentityProviderClientTypes.AliasAttributeType]? = nil,
         autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]? = nil,
+        dcrConfiguration: CognitoIdentityProviderClientTypes.DcrConfigurationType? = nil,
         deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType? = nil,
         deviceConfiguration: CognitoIdentityProviderClientTypes.DeviceConfigurationType? = nil,
         emailConfiguration: CognitoIdentityProviderClientTypes.EmailConfigurationType? = nil,
@@ -6463,6 +6588,7 @@ public struct CreateUserPoolInput: Swift.Sendable {
         self.adminCreateUserConfig = adminCreateUserConfig
         self.aliasAttributes = aliasAttributes
         self.autoVerifiedAttributes = autoVerifiedAttributes
+        self.dcrConfiguration = dcrConfiguration
         self.deletionProtection = deletionProtection
         self.deviceConfiguration = deviceConfiguration
         self.emailConfiguration = emailConfiguration
@@ -6490,35 +6616,6 @@ public struct CreateUserPoolInput: Swift.Sendable {
 
 extension CognitoIdentityProviderClientTypes {
 
-    public enum StatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case disabled
-        case enabled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [StatusType] {
-            return [
-                .disabled,
-                .enabled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .disabled: return "Disabled"
-            case .enabled: return "Enabled"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CognitoIdentityProviderClientTypes {
-
     /// The configuration of a user pool.
     public struct UserPoolType: Swift.Sendable {
         /// The available verified method a user can use to recover their password when they call ForgotPassword. You can use this setting to define a preferred method when a user has more than one method available. With this setting, SMS doesn't qualify for a valid password recovery mechanism if the user also has SMS multi-factor authentication (MFA) activated. In the absence of this setting, Amazon Cognito uses the legacy behavior to determine the recovery method where SMS is preferred through email.
@@ -6537,6 +6634,8 @@ extension CognitoIdentityProviderClientTypes {
         public var creationDate: Foundation.Date?
         /// A custom domain name that you provide to Amazon Cognito. This parameter applies only if you use a custom domain to host the sign-up and sign-in pages for your application. An example of a custom domain name might be auth.example.com. For more information about adding a custom domain to your user pool, see [Using Your Own Domain for the Hosted UI](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-add-custom-domain.html).
         public var customDomain: Swift.String?
+        /// The dynamic client registration configuration for the user pool. With dynamic client registration, applications can register their own app clients at runtime through the registration endpoint of your user pool domain. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher.
+        public var dcrConfiguration: CognitoIdentityProviderClientTypes.DcrConfigurationType?
         /// When active, DeletionProtection prevents accidental deletion of your user pool. Before you can delete a user pool that you have protected against deletion, you must deactivate this feature. When you try to delete a protected user pool in a DeleteUserPool API request, Amazon Cognito returns an InvalidParameterException error. To delete a protected user pool, send a new DeleteUserPool request after you deactivate deletion protection in an UpdateUserPool API request.
         public var deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType?
         /// The device-remembering configuration for a user pool. A null value indicates that you have deactivated device remembering in your user pool. When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature.
@@ -6612,6 +6711,7 @@ extension CognitoIdentityProviderClientTypes {
             autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]? = nil,
             creationDate: Foundation.Date? = nil,
             customDomain: Swift.String? = nil,
+            dcrConfiguration: CognitoIdentityProviderClientTypes.DcrConfigurationType? = nil,
             deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType? = nil,
             deviceConfiguration: CognitoIdentityProviderClientTypes.DeviceConfigurationType? = nil,
             domain: Swift.String? = nil,
@@ -6650,6 +6750,7 @@ extension CognitoIdentityProviderClientTypes {
             self.autoVerifiedAttributes = autoVerifiedAttributes
             self.creationDate = creationDate
             self.customDomain = customDomain
+            self.dcrConfiguration = dcrConfiguration
             self.deletionProtection = deletionProtection
             self.deviceConfiguration = deviceConfiguration
             self.domain = domain
@@ -6738,38 +6839,6 @@ public struct ScopeDoesNotExistException: ClientRuntime.ModeledError, AWSClientR
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-extension CognitoIdentityProviderClientTypes {
-
-    public enum OAuthFlowType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case clientCredentials
-        case code
-        case implicit
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [OAuthFlowType] {
-            return [
-                .clientCredentials,
-                .code,
-                .implicit
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .clientCredentials: return "client_credentials"
-            case .code: return "code"
-            case .implicit: return "implicit"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -7102,6 +7171,35 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
 
 extension CognitoIdentityProviderClientTypes {
 
+    public enum ClientTypeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dcr
+        case regular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClientTypeType] {
+            return [
+                .dcr,
+                .regular
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dcr: return "DCR"
+            case .regular: return "REGULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     /// The configuration of a user pool client.
     public struct UserPoolClientType: Swift.Sendable {
         /// The access token time limit. After this limit expires, your user can't use their access token. To specify the time unit for AccessTokenValidity as seconds, minutes, hours, or days, set a TokenValidityUnits value in your API request. For example, when you set AccessTokenValidity to 10 and TokenValidityUnits to hours, your user can authorize access with their access token for 10 hours. The default time unit for AccessTokenValidity in an API request is hours. Valid range is displayed below in seconds. If you don't specify otherwise in the configuration of your app client, your access tokens are valid for one hour.
@@ -7144,6 +7242,8 @@ extension CognitoIdentityProviderClientTypes {
         public var clientName: Swift.String?
         /// The app client secret.
         public var clientSecret: Swift.String?
+        /// How the app client was created. REGULAR The app client wasn't created through dynamic client registration. For example, you created it with CreateUserPoolClient. DCR An application registered the app client through dynamic client registration. These app clients don't support client secret operations such as AddUserPoolClientSecret, and they can't hold the aws.cognito/dcr/register scope.
+        public var clientType: CognitoIdentityProviderClientTypes.ClientTypeType?
         /// The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a human-readable format like ISO 8601 or a Java Date object.
         public var creationDate: Foundation.Date?
         /// The default redirect URI. Must be in the CallbackURLs list. A redirect URI must:
@@ -7212,6 +7312,7 @@ extension CognitoIdentityProviderClientTypes {
             clientId: Swift.String? = nil,
             clientName: Swift.String? = nil,
             clientSecret: Swift.String? = nil,
+            clientType: CognitoIdentityProviderClientTypes.ClientTypeType? = nil,
             creationDate: Foundation.Date? = nil,
             defaultRedirectURI: Swift.String? = nil,
             enablePropagateAdditionalUserContextData: Swift.Bool? = nil,
@@ -7239,6 +7340,7 @@ extension CognitoIdentityProviderClientTypes {
             self.clientId = clientId
             self.clientName = clientName
             self.clientSecret = clientSecret
+            self.clientType = clientType
             self.creationDate = creationDate
             self.defaultRedirectURI = defaultRedirectURI
             self.enablePropagateAdditionalUserContextData = enablePropagateAdditionalUserContextData
@@ -10006,6 +10108,8 @@ public struct ListUserImportJobsOutput: Swift.Sendable {
 
 /// Represents the request to list the user pool clients.
 public struct ListUserPoolClientsInput: Swift.Sendable {
+    /// Returns only app clients of this type. For dynamic client registration (DCR) and other app clients, the following values are valid. REGULAR An app client not created through dynamic client registration. DCR An app client created through dynamic client registration. If you omit ClientType, the response includes app clients of all types. When you set this filter, a page of results can contain fewer app clients than MaxResults, or none, while the response still includes a NextToken. Continue to request pages until the response has no NextToken. The app clients in the response don't include their type. To get the type of an app client, call DescribeUserPoolClient.
+    public var clientType: CognitoIdentityProviderClientTypes.ClientTypeType?
     /// The maximum number of app clients that you want Amazon Cognito to return in the response.
     public var maxResults: Swift.Int?
     /// This API operation returns a limited number of results. The pagination token is an identifier that you can present in an additional API request with the same parameters. When you include the pagination token, Amazon Cognito returns the next set of items after the current list. Subsequent requests return a new pagination token. By use of this token, you can paginate through the full list of items.
@@ -10015,10 +10119,12 @@ public struct ListUserPoolClientsInput: Swift.Sendable {
     public var userPoolId: Swift.String?
 
     public init(
+        clientType: CognitoIdentityProviderClientTypes.ClientTypeType? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userPoolId: Swift.String? = nil
     ) {
+        self.clientType = clientType
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.userPoolId = userPoolId
@@ -11639,6 +11745,8 @@ public struct UpdateUserPoolInput: Swift.Sendable {
     public var adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType?
     /// The attributes that you want your user pool to automatically verify. Possible values: email, phone_number. For more information see [Verifying contact information at sign-up](https://docs.aws.amazon.com/cognito/latest/developerguide/signing-up-users-in-your-app.html#allowing-users-to-sign-up-and-confirm-themselves).
     public var autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]?
+    /// The dynamic client registration configuration for the user pool. With dynamic client registration, applications can register their own app clients at runtime through the registration endpoint of your user pool domain. To activate this setting, your user pool must be in the [ Essentials tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-essentials.html) or higher. If you omit this parameter, Amazon Cognito keeps the existing configuration. If you include it, Amazon Cognito replaces the existing configuration with the one that you provide. Members that you omit revert to their default values, and an omitted EnableStatus turns dynamic client registration on. To change the feature plan of the user pool to Lite, you must also set EnableStatus to Disabled.
+    public var dcrConfiguration: CognitoIdentityProviderClientTypes.DcrConfigurationType?
     /// When active, DeletionProtection prevents accidental deletion of your user pool. Before you can delete a user pool that you have protected against deletion, you must deactivate this feature. When you try to delete a protected user pool in a DeleteUserPool API request, Amazon Cognito returns an InvalidParameterException error. To delete a protected user pool, send a new DeleteUserPool request after you deactivate deletion protection in an UpdateUserPool API request.
     public var deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType?
     /// The device-remembering configuration for a user pool. Device remembering or device tracking is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). A null value indicates that you have deactivated device remembering in your user pool. When you provide a value for any DeviceConfiguration field, you activate the Amazon Cognito device-remembering feature. For more information, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html).
@@ -11686,6 +11794,7 @@ public struct UpdateUserPoolInput: Swift.Sendable {
         acrConfiguration: [Swift.String: CognitoIdentityProviderClientTypes.AcrLevelConfigType]? = nil,
         adminCreateUserConfig: CognitoIdentityProviderClientTypes.AdminCreateUserConfigType? = nil,
         autoVerifiedAttributes: [CognitoIdentityProviderClientTypes.VerifiedAttributeType]? = nil,
+        dcrConfiguration: CognitoIdentityProviderClientTypes.DcrConfigurationType? = nil,
         deletionProtection: CognitoIdentityProviderClientTypes.DeletionProtectionType? = nil,
         deviceConfiguration: CognitoIdentityProviderClientTypes.DeviceConfigurationType? = nil,
         emailConfiguration: CognitoIdentityProviderClientTypes.EmailConfigurationType? = nil,
@@ -11711,6 +11820,7 @@ public struct UpdateUserPoolInput: Swift.Sendable {
         self.acrConfiguration = acrConfiguration
         self.adminCreateUserConfig = adminCreateUserConfig
         self.autoVerifiedAttributes = autoVerifiedAttributes
+        self.dcrConfiguration = dcrConfiguration
         self.deletionProtection = deletionProtection
         self.deviceConfiguration = deviceConfiguration
         self.emailConfiguration = emailConfiguration

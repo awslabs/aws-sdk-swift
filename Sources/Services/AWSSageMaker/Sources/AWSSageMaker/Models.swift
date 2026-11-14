@@ -13967,18 +13967,75 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The action to take if the pods on an instance don't drain within the configured timeout. Valid values are Skip and Force.
+    public enum ClusterOnDrainTimeout: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case force
+        case skip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOnDrainTimeout] {
+            return [
+                .force,
+                .skip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .force: return "Force"
+            case .skip: return "Skip"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies how pods are evicted from an instance before it is patched with the DrainFirst strategy. By default, evictions respect Kubernetes Pod Disruption Budgets.
+    public struct ClusterDrainPolicy: Swift.Sendable {
+        /// The maximum time, in seconds, to wait for the pods on an instance to drain. Valid values are from 0 to 5400 (90 minutes). The default is 3600 (1 hour).
+        public var drainTimeoutInSeconds: Swift.Int?
+        /// The action to take if the pods on an instance don't drain within DrainTimeoutInSeconds. The default is Skip.
+        ///
+        /// * Skip: Doesn't patch the instance. The instance is uncordoned and remains on the previous AMI version. This can leave the instance group partially patched. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
+        ///
+        /// * Force: Deletes the remaining pods without respecting Pod Disruption Budgets, and then patches the instance.
+        public var onDrainTimeout: SageMakerClientTypes.ClusterOnDrainTimeout?
+
+        public init(
+            drainTimeoutInSeconds: Swift.Int? = nil,
+            onDrainTimeout: SageMakerClientTypes.ClusterOnDrainTimeout? = nil
+        ) {
+            self.drainTimeoutInSeconds = drainTimeoutInSeconds
+            self.onDrainTimeout = onDrainTimeout
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The strategy for applying automatic patches to instances.
     ///
     /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
     ///
     /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+    ///
+    /// * DrainFirst: Designed for workloads that never become idle, such as inference. Cordons instances, evicts the running pods, and then patches each instance in batches. Each instance is uncordoned after patching. Use DrainPolicy to control how long to wait for pods to drain and what happens if the drain times out. Requires MaximumBatchSize in DeploymentConfig. Available only for clusters that use Amazon EKS as the orchestrator.
     public enum ClusterPatchingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drainFirst
         case whenAllIdle
         case whenIdle
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterPatchingStrategy] {
             return [
+                .drainFirst,
                 .whenAllIdle,
                 .whenIdle
             ]
@@ -13991,6 +14048,7 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .drainFirst: return "DrainFirst"
             case .whenAllIdle: return "WhenAllIdle"
             case .whenIdle: return "WhenIdle"
             case let .sdkUnknown(s): return s
@@ -14020,6 +14078,10 @@ extension SageMakerClientTypes {
     public struct ClusterAutoPatchConfig: Swift.Sendable {
         /// The deployment configuration for rolling patch updates, including rollback settings and batch sizes. Only applicable when using a rolling patching strategy.
         public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// The policy that controls how pods are evicted from an instance before it is patched. Valid only when PatchingStrategy is DrainFirst.
+        public var drainPolicy: SageMakerClientTypes.ClusterDrainPolicy?
+        /// The maximum time, in seconds, that automatic patching waits for instances to become idle after a scheduled patch starts. Automatic patching uncordons instances that don't become idle within this window, and they remain on the previous AMI version. Valid values are from 3600 (1 hour) to 2160000 (25 days). The default is 86400 (24 hours). This setting applies only to the WhenIdle and WhenAllIdle strategies.
+        public var idleWaitWindowInSeconds: Swift.Int?
         /// The schedule for automatic patching, including the next patch date.
         public var patchSchedule: SageMakerClientTypes.ClusterPatchSchedule?
         /// The strategy for applying patches to instances in the group.
@@ -14027,15 +14089,21 @@ extension SageMakerClientTypes {
         /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
         ///
         /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+        ///
+        /// * DrainFirst: Designed for workloads that never become idle, such as inference. Cordons instances, evicts the running pods, and then patches each instance in batches. Each instance is uncordoned after patching. Use DrainPolicy to control how long to wait for pods to drain and what happens if the drain times out. Requires MaximumBatchSize in DeploymentConfig. Available only for clusters that use Amazon EKS as the orchestrator.
         /// This member is required.
         public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
 
         public init(
             deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            drainPolicy: SageMakerClientTypes.ClusterDrainPolicy? = nil,
+            idleWaitWindowInSeconds: Swift.Int? = nil,
             patchSchedule: SageMakerClientTypes.ClusterPatchSchedule? = nil,
             patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
         ) {
             self.deploymentConfig = deploymentConfig
+            self.drainPolicy = drainPolicy
+            self.idleWaitWindowInSeconds = idleWaitWindowInSeconds
             self.patchSchedule = patchSchedule
             self.patchingStrategy = patchingStrategy
         }
@@ -14067,22 +14135,32 @@ extension SageMakerClientTypes {
         public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
         /// The requested patch schedule. Differs from CurrentPatchSchedule when a reschedule request is pending.
         public var desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails?
+        /// The policy that controls how pods are evicted from an instance before it is patched. Applies only when PatchingStrategy is DrainFirst.
+        public var drainPolicy: SageMakerClientTypes.ClusterDrainPolicy?
+        /// The maximum time, in seconds, that automatic patching waits for instances to become idle after a scheduled patch starts. Automatic patching uncordons instances that don't become idle within this window, and they remain on the previous AMI version. The default is 86400 (24 hours).
+        public var idleWaitWindowInSeconds: Swift.Int?
         /// The strategy used for applying patches to instances in the group.
         ///
         /// * WhenIdle: Cordons all instances and patches each instance as it becomes idle (no running jobs). Each instance is uncordoned immediately after patching and becomes available for new jobs. If instances do not become idle, they remain on the previous AMI version. You can then use UpdateClusterSoftware with the desired ImageReleaseVersion to manually update the remaining instances.
         ///
         /// * WhenAllIdle: Cordons all instances and waits for all to become idle before patching. All instances are uncordoned after patching completes. If not all instances become idle, no patching occurs and all instances remain on the previous AMI version.
+        ///
+        /// * DrainFirst: Designed for workloads that never become idle, such as inference. Cordons instances, evicts the running pods, and then patches each instance in batches. Each instance is uncordoned after patching. Use DrainPolicy to control how long to wait for pods to drain and what happens if the drain times out. Requires MaximumBatchSize in DeploymentConfig. Available only for clusters that use Amazon EKS as the orchestrator.
         public var patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy?
 
         public init(
             currentPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
             deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
             desiredPatchSchedule: SageMakerClientTypes.ClusterPatchScheduleDetails? = nil,
+            drainPolicy: SageMakerClientTypes.ClusterDrainPolicy? = nil,
+            idleWaitWindowInSeconds: Swift.Int? = nil,
             patchingStrategy: SageMakerClientTypes.ClusterPatchingStrategy? = nil
         ) {
             self.currentPatchSchedule = currentPatchSchedule
             self.deploymentConfig = deploymentConfig
             self.desiredPatchSchedule = desiredPatchSchedule
+            self.drainPolicy = drainPolicy
+            self.idleWaitWindowInSeconds = idleWaitWindowInSeconds
             self.patchingStrategy = patchingStrategy
         }
     }
@@ -14814,6 +14892,8 @@ extension SageMakerClientTypes {
         public var instanceGroupName: Swift.String?
         /// The EC2 instance ID associated with the event, if applicable.
         public var instanceId: Swift.String?
+        /// The unique identifier (UUID) of the cluster operation that the event is associated with, such as a scaling operation. This field is not returned when the event is not associated with an operation.
+        public var operationId: Swift.String?
         /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
         /// This member is required.
         public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
@@ -14828,6 +14908,7 @@ extension SageMakerClientTypes {
             eventTime: Foundation.Date? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
+            operationId: Swift.String? = nil,
             resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil
         ) {
             self.clusterArn = clusterArn
@@ -14839,6 +14920,7 @@ extension SageMakerClientTypes {
             self.eventTime = eventTime
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
+            self.operationId = operationId
             self.resourceType = resourceType
         }
     }
@@ -14868,6 +14950,8 @@ extension SageMakerClientTypes {
         public var instanceGroupName: Swift.String?
         /// The Amazon Elastic Compute Cloud (EC2) instance ID associated with the event, if applicable.
         public var instanceId: Swift.String?
+        /// The unique identifier (UUID) of the cluster operation that the event is associated with, such as a scaling operation. This field is not returned when the event is not associated with an operation.
+        public var operationId: Swift.String?
         /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
         /// This member is required.
         public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
@@ -14881,6 +14965,7 @@ extension SageMakerClientTypes {
             eventTime: Foundation.Date? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
+            operationId: Swift.String? = nil,
             resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil
         ) {
             self.clusterArn = clusterArn
@@ -14891,6 +14976,7 @@ extension SageMakerClientTypes {
             self.eventTime = eventTime
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
+            self.operationId = operationId
             self.resourceType = resourceType
         }
     }
@@ -16073,6 +16159,174 @@ extension SageMakerClientTypes {
             self.nodeLogicalId = nodeLogicalId
             self.privateDnsHostname = privateDnsHostname
             self.ultraServerInfo = ultraServerInfo
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A point-in-time snapshot of an instance group's scaling configuration. This structure represents both the original configuration before the operation and the desired configuration requested by the operation.
+    public struct ClusterOperationScalingConfiguration: Swift.Sendable {
+        /// The number of instances that were in the instance group at the time of the operation.
+        public var currentCount: Swift.Int?
+        /// The minimum number of instances that must be available in the instance group of a HyperPod cluster before it transitions to InService status.
+        public var minCount: Swift.Int?
+        /// The target number of instances for the instance group.
+        public var targetCount: Swift.Int?
+
+        public init(
+            currentCount: Swift.Int? = nil,
+            minCount: Swift.Int? = nil,
+            targetCount: Swift.Int? = nil
+        ) {
+            self.currentCount = currentCount
+            self.minCount = minCount
+            self.targetCount = targetCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case done
+        case inProgress
+        case superseded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOperationStatus] {
+            return [
+                .done,
+                .inProgress,
+                .superseded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .done: return "Done"
+            case .inProgress: return "InProgress"
+            case .superseded: return "Superseded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The scaling details for a single instance group that is affected by a cluster operation.
+    public struct ClusterOperationScalingDetails: Swift.Sendable {
+        /// The desired scaling configuration of the instance group for the scaling operation, including its target and minimum instance counts.
+        public var desired: SageMakerClientTypes.ClusterOperationScalingConfiguration?
+        /// The name of the instance group being scaled.
+        public var instanceGroupName: Swift.String?
+        /// The scaling configuration of the instance group before the scaling operation was applied, including its current, target, and minimum instance counts.
+        public var original: SageMakerClientTypes.ClusterOperationScalingConfiguration?
+        /// The status of the scaling operation for this instance group. Valid values are InProgress, Superseded, or Done.
+        public var status: SageMakerClientTypes.ClusterOperationStatus?
+
+        public init(
+            desired: SageMakerClientTypes.ClusterOperationScalingConfiguration? = nil,
+            instanceGroupName: Swift.String? = nil,
+            original: SageMakerClientTypes.ClusterOperationScalingConfiguration? = nil,
+            status: SageMakerClientTypes.ClusterOperationStatus? = nil
+        ) {
+            self.desired = desired
+            self.instanceGroupName = instanceGroupName
+            self.original = original
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterOperationSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOperationSortBy] {
+            return [
+                .creationTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dhc
+        case scaling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterOperationType] {
+            return [
+                .dhc,
+                .scaling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dhc: return "DeepHealthCheck"
+            case .scaling: return "Scaling"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of an operation performed on a HyperPod cluster.
+    public struct ClusterOperationSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the operation.
+        public var clusterArn: Swift.String?
+        /// The timestamp when the operation was created.
+        public var creationTime: Foundation.Date?
+        /// The unique identifier (UUID) of the operation.
+        public var operationId: Swift.String?
+        /// The current status of the operation. Valid values are InProgress, Superseded, or Done.
+        public var status: SageMakerClientTypes.ClusterOperationStatus?
+        /// The type of the operation. Valid values are Scaling or DeepHealthCheck.
+        public var type: SageMakerClientTypes.ClusterOperationType?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            operationId: Swift.String? = nil,
+            status: SageMakerClientTypes.ClusterOperationStatus? = nil,
+            type: SageMakerClientTypes.ClusterOperationType? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.creationTime = creationTime
+            self.operationId = operationId
+            self.status = status
+            self.type = type
         }
     }
 }
@@ -36561,9 +36815,98 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum ExtensionHealthIssueCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case configurationConflict
+        case dependencyUnreachable
+        case extensionUnhealthy
+        case internalFailure
+        case invalidConfiguration
+        case other
+        case resourceNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExtensionHealthIssueCode] {
+            return [
+                .accessDenied,
+                .configurationConflict,
+                .dependencyUnreachable,
+                .extensionUnhealthy,
+                .internalFailure,
+                .invalidConfiguration,
+                .other,
+                .resourceNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "AccessDenied"
+            case .configurationConflict: return "ConfigurationConflict"
+            case .dependencyUnreachable: return "DependencyUnreachable"
+            case .extensionUnhealthy: return "ExtensionUnhealthy"
+            case .internalFailure: return "InternalFailure"
+            case .invalidConfiguration: return "InvalidConfiguration"
+            case .other: return "Other"
+            case .resourceNotFound: return "ResourceNotFound"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Information about a problem that affects an extension on one or more nodes of a SageMaker HyperPod cluster, including the number of nodes that it affects.
+    public struct ExtensionHealthIssue: Swift.Sendable {
+        /// A code that describes the type of issue.
+        /// This member is required.
+        public var code: SageMakerClientTypes.ExtensionHealthIssueCode?
+        /// A description of the problem, for example the setting or component to check. Every node with the same problem has the same message.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The number of nodes that have this problem.
+        /// This member is required.
+        public var nodeCount: Swift.Int?
+
+        public init(
+            code: SageMakerClientTypes.ExtensionHealthIssueCode? = nil,
+            message: Swift.String? = nil,
+            nodeCount: Swift.Int? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.nodeCount = nodeCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains information about the problems that affect an extension on the nodes of a SageMaker HyperPod cluster, including how many nodes each problem affects. DescribeClusterExtension returns ExtensionHealth only when at least one node has a problem.
+    public struct ExtensionHealth: Swift.Sendable {
+        /// The problems that affect the extension, grouped by cause, from the problem that affects the most nodes to the one that affects the fewest. SageMaker HyperPod counts each node in at most one issue. The list contains at most 20 issues. If more than 20 different problems exist, the list shows the 19 that affect the most nodes, and the 20th issue has the code Other and counts the nodes that the remaining problems affect.
+        /// This member is required.
+        public var issues: [SageMakerClientTypes.ExtensionHealthIssue]?
+
+        public init(
+            issues: [SageMakerClientTypes.ExtensionHealthIssue]? = nil
+        ) {
+            self.issues = issues
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// A summary of an extension's installation across the nodes of a SageMaker HyperPod cluster.
     public struct ExtensionNodeSummary: Swift.Sendable {
-        /// The number of nodes that are running the extension's current version and configuration. While SageMaker HyperPod creates or updates the extension, ActiveCount is lower than TotalCount.
+        /// The number of nodes that are running the extension's current version and configuration. Nodes that report the extension as unhealthy aren't counted. While SageMaker HyperPod creates or updates the extension, ActiveCount is lower than TotalCount. To see why nodes aren't counted, see Health in DescribeClusterExtension.
         /// This member is required.
         public var activeCount: Swift.Int?
         /// The number of nodes in your cluster that the extension targets. SageMaker HyperPod targets every running node in your cluster, including nodes that you add after you create the extension.
@@ -36584,14 +36927,18 @@ public struct DescribeClusterExtensionOutput: Swift.Sendable {
     /// The details of the extension.
     /// This member is required.
     public var extensionDetails: SageMakerClientTypes.ExtensionDetails?
+    /// The problems that affect the extension on the cluster's nodes, grouped by cause, with the number of nodes that each problem affects. Use it to find out why ActiveCount is lower than TotalCount, or why the status is Degraded, CreateFailed, or UpdateFailed. SageMaker HyperPod omits Health when no node has a problem. Nodes where SageMaker HyperPod hasn't finished installing or updating the extension aren't counted in any issue, unless an earlier attempt failed on them.
+    public var health: SageMakerClientTypes.ExtensionHealth?
     /// A summary of how many nodes in your cluster the extension targets, and how many of them run the extension's current version and configuration.
     public var nodeSummary: SageMakerClientTypes.ExtensionNodeSummary?
 
     public init(
         extensionDetails: SageMakerClientTypes.ExtensionDetails? = nil,
+        health: SageMakerClientTypes.ExtensionHealth? = nil,
         nodeSummary: SageMakerClientTypes.ExtensionNodeSummary? = nil
     ) {
         self.extensionDetails = extensionDetails
+        self.health = health
         self.nodeSummary = nodeSummary
     }
 }
@@ -36625,6 +36972,58 @@ public struct DescribeClusterNodeOutput: Swift.Sendable {
         nodeDetails: SageMakerClientTypes.ClusterNodeDetails? = nil
     ) {
         self.nodeDetails = nodeDetails
+    }
+}
+
+public struct DescribeClusterOperationInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster associated with the operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The unique identifier (UUID) of the operation to describe. This ID can be obtained from the ListClusterOperations operation.
+    /// This member is required.
+    public var operationId: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        operationId: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+        self.operationId = operationId
+    }
+}
+
+public struct DescribeClusterOperationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the operation.
+    public var clusterArn: Swift.String?
+    /// The timestamp when the operation was created.
+    public var creationTime: Foundation.Date?
+    /// The deep health check details for the operation. This field is populated when the operation Type is DeepHealthCheck.
+    public var deepHealthCheckDetails: [SageMakerClientTypes.InstanceGroupHealthCheckConfiguration]?
+    /// The unique identifier (UUID) of the operation.
+    public var operationId: Swift.String?
+    /// The per-instance-group scaling details for the operation. This field is populated when the operation Type is Scaling.
+    public var scalingDetails: [SageMakerClientTypes.ClusterOperationScalingDetails]?
+    /// The current status of the operation. Valid values are InProgress, Superseded, or Done.
+    public var status: SageMakerClientTypes.ClusterOperationStatus?
+    /// The type of the operation. Valid values are Scaling or DeepHealthCheck.
+    public var type: SageMakerClientTypes.ClusterOperationType?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        creationTime: Foundation.Date? = nil,
+        deepHealthCheckDetails: [SageMakerClientTypes.InstanceGroupHealthCheckConfiguration]? = nil,
+        operationId: Swift.String? = nil,
+        scalingDetails: [SageMakerClientTypes.ClusterOperationScalingDetails]? = nil,
+        status: SageMakerClientTypes.ClusterOperationStatus? = nil,
+        type: SageMakerClientTypes.ClusterOperationType? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.creationTime = creationTime
+        self.deepHealthCheckDetails = deepHealthCheckDetails
+        self.operationId = operationId
+        self.scalingDetails = scalingDetails
+        self.status = status
+        self.type = type
     }
 }
 
@@ -47841,6 +48240,22 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// A version of an extension that you can install on a SageMaker HyperPod cluster.
+    public struct ExtensionVersionSummary: Swift.Sendable {
+        /// The version of the extension, in MAJOR.MINOR.PATCH format, for example 1.0.0.
+        /// This member is required.
+        public var extensionVersion: Swift.String?
+
+        public init(
+            extensionVersion: Swift.String? = nil
+        ) {
+            self.extensionVersion = extensionVersion
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The container for the metadata for Fail step.
     public struct FailStepMetadata: Swift.Sendable {
         /// A message that you define and then is processed and rendered by the Fail step when the error occurs.
@@ -51192,6 +51607,8 @@ public struct ListClusterEventsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The EC2 instance ID to filter events. If specified, only events related to this instance are returned.
     public var nodeId: Swift.String?
+    /// The unique identifier (UUID) of a cluster operation for which to filter events. If specified, only events associated with this operation are returned. This ID can be obtained from the ListClusterOperations operation.
+    public var operationId: Swift.String?
     /// The type of resource for which to filter events. Valid values are Cluster, InstanceGroup, or Instance.
     public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
     /// The field to use for sorting the event list. Currently, the only supported value is EventTime.
@@ -51207,6 +51624,7 @@ public struct ListClusterEventsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         nodeId: Swift.String? = nil,
+        operationId: Swift.String? = nil,
         resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil,
         sortBy: SageMakerClientTypes.EventSortBy? = nil,
         sortOrder: SageMakerClientTypes.SortOrder? = nil
@@ -51218,6 +51636,7 @@ public struct ListClusterEventsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.nodeId = nodeId
+        self.operationId = operationId
         self.resourceType = resourceType
         self.sortBy = sortBy
         self.sortOrder = sortOrder
@@ -51279,6 +51698,42 @@ public struct ListClusterExtensionsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.extensions = extensions
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionVersionsInput: Swift.Sendable {
+    /// The name of the extension whose versions you want to list, for example sagemaker-observability.
+    /// This member is required.
+    public var extensionName: Swift.String?
+    /// The maximum number of versions to return in the response. If you don't specify a value, SageMaker HyperPod returns up to 100 versions.
+    public var maxResults: Swift.Int?
+    /// If the result of the previous ListClusterExtensionVersions request was truncated, the response includes a NextToken. To retrieve the next set of versions, use the token in the next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        extensionName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.extensionName = extensionName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterExtensionVersionsOutput: Swift.Sendable {
+    /// The versions of the extension that you can install, from the highest version to the lowest.
+    /// This member is required.
+    public var extensionVersions: [SageMakerClientTypes.ExtensionVersionSummary]?
+    /// If the response is truncated, a token that you can use in the next request to retrieve the next set of versions.
+    public var nextToken: Swift.String?
+
+    public init(
+        extensionVersions: [SageMakerClientTypes.ExtensionVersionSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.extensionVersions = extensionVersions
         self.nextToken = nextToken
     }
 }
@@ -51350,6 +51805,65 @@ public struct ListClusterNodesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.clusterNodeSummaries = clusterNodeSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListClusterOperationsInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list operations.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The start of the time range for filtering operations. Only operations created after this time are included in the results.
+    public var creationTimeAfter: Foundation.Date?
+    /// The end of the time range for filtering operations. Only operations created before this time are included in the results.
+    public var creationTimeBefore: Foundation.Date?
+    /// The maximum number of operations to return in the response. Valid range is 1 to 100.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next set of results. This token is obtained from the output of a previous ListClusterOperations call.
+    public var nextToken: Swift.String?
+    /// The field to use for sorting the operation list. Currently, the only supported value is CreationTime.
+    public var sortBy: SageMakerClientTypes.ClusterOperationSortBy?
+    /// The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending).
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+    /// The operation status to filter by. If specified, only operations with this status are returned. Valid values are InProgress, Superseded, or Done.
+    public var status: SageMakerClientTypes.ClusterOperationStatus?
+    /// The operation type to filter by. If specified, only operations of this type are returned. Valid values are Scaling or DeepHealthCheck.
+    public var type: SageMakerClientTypes.ClusterOperationType?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        creationTimeAfter: Foundation.Date? = nil,
+        creationTimeBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: SageMakerClientTypes.ClusterOperationSortBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil,
+        status: SageMakerClientTypes.ClusterOperationStatus? = nil,
+        type: SageMakerClientTypes.ClusterOperationType? = nil
+    ) {
+        self.clusterName = clusterName
+        self.creationTimeAfter = creationTimeAfter
+        self.creationTimeBefore = creationTimeBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.status = status
+        self.type = type
+    }
+}
+
+public struct ListClusterOperationsOutput: Swift.Sendable {
+    /// A list of operation summaries matching the specified criteria.
+    public var clusterOperationSummaries: [SageMakerClientTypes.ClusterOperationSummary]?
+    /// A token to retrieve the next set of results. Include this token in subsequent ListClusterOperations calls to fetch more operations.
+    public var nextToken: Swift.String?
+
+    public init(
+        clusterOperationSummaries: [SageMakerClientTypes.ClusterOperationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.clusterOperationSummaries = clusterOperationSummaries
         self.nextToken = nextToken
     }
 }

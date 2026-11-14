@@ -1401,6 +1401,7 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes {
 
     public enum ConfigurationPolicyAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
         case failed
         case pending
         case success
@@ -1408,6 +1409,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [ConfigurationPolicyAssociationStatus] {
             return [
+                .disabled,
                 .failed,
                 .pending,
                 .success
@@ -1421,6 +1423,7 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .disabled: return "DISABLED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
             case .success: return "SUCCESS"
@@ -1463,7 +1466,7 @@ extension SecurityHubClientTypes {
 
     /// Options for filtering the ListConfigurationPolicyAssociations response. You can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a configuration policy, AssociationType, or AssociationStatus.
     public struct AssociationFilters: Swift.Sendable {
-        /// The current status of the association between a target and a configuration policy.
+        /// The current status of the association between a target and a configuration policy. Possible values are PENDING, SUCCESS, FAILED, and DISABLED. The value is DISABLED when central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
         /// Indicates whether the association between a target and a configuration was directly applied by the Security Hub CSPM delegated administrator or inherited from a parent.
         public var associationType: SecurityHubClientTypes.AssociationType?
@@ -22216,7 +22219,15 @@ extension SecurityHubClientTypes {
 
     /// An object that contains the details of a configuration policy association that’s returned in a ListConfigurationPolicyAssociations request.
     public struct ConfigurationPolicyAssociationSummary: Swift.Sendable {
-        /// The current status of the association between the specified target and the configuration.
+        /// The current status of the association between the specified target and the configuration. Possible values are:
+        ///
+        /// * PENDING - The association is in progress.
+        ///
+        /// * SUCCESS - The association succeeded.
+        ///
+        /// * FAILED - The association failed. For details, see AssociationStatusMessage.
+        ///
+        /// * DISABLED - Central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
         public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
         /// The explanation for a FAILED value for AssociationStatus.
         public var associationStatusMessage: Swift.String?
@@ -26260,6 +26271,7 @@ extension SecurityHubClientTypes {
 extension SecurityHubClientTypes {
 
     public enum OrganizationConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
         case enabled
         case failed
         case pending
@@ -26267,6 +26279,7 @@ extension SecurityHubClientTypes {
 
         public static var allCases: [OrganizationConfigurationStatus] {
             return [
+                .disabled,
                 .enabled,
                 .failed,
                 .pending
@@ -26280,6 +26293,7 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .disabled: return "DISABLED"
             case .enabled: return "ENABLED"
             case .failed: return "FAILED"
             case .pending: return "PENDING"
@@ -26295,7 +26309,7 @@ extension SecurityHubClientTypes {
     public struct OrganizationConfiguration: Swift.Sendable {
         /// Indicates whether the organization uses local or central configuration. If you use local configuration, the Security Hub CSPM delegated administrator can set AutoEnable to true and AutoEnableStandards to DEFAULT. This automatically enables Security Hub CSPM and default security standards in new organization accounts. These new account settings must be set separately in each Amazon Web Services Region, and settings may be different in each Region. If you use central configuration, the delegated administrator can create configuration policies. Configuration policies can be used to configure Security Hub CSPM, security standards, and security controls in multiple accounts and Regions. If you want new organization accounts to use a specific configuration, you can create a configuration policy and associate it with the root or specific organizational units (OUs). New accounts will inherit the policy from the root or their assigned OU.
         public var configurationType: SecurityHubClientTypes.OrganizationConfigurationConfigurationType?
-        /// Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED.
+        /// Describes whether central configuration could be enabled as the ConfigurationType for the organization. If your ConfigurationType is local configuration, then the value of Status is always ENABLED. If the value of Status is DISABLED, central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
         public var status: SecurityHubClientTypes.OrganizationConfigurationStatus?
         /// Provides an explanation if the value of Status is equal to FAILED when ConfigurationType is equal to CENTRAL.
         public var statusMessage: Swift.String?
@@ -28248,7 +28262,15 @@ public struct GetConfigurationPolicyAssociationInput: Swift.Sendable {
 }
 
 public struct GetConfigurationPolicyAssociationOutput: Swift.Sendable {
-    /// The current status of the association between the specified target and the configuration.
+    /// The current status of the association between the specified target and the configuration. Possible values are:
+    ///
+    /// * PENDING - The association is in progress.
+    ///
+    /// * SUCCESS - The association succeeded.
+    ///
+    /// * FAILED - The association failed. For details, see AssociationStatusMessage.
+    ///
+    /// * DISABLED - Central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// The explanation for a FAILED value for AssociationStatus.
     public var associationStatusMessage: Swift.String?
@@ -32068,7 +32090,15 @@ public struct StartConfigurationPolicyAssociationInput: Swift.Sendable {
 }
 
 public struct StartConfigurationPolicyAssociationOutput: Swift.Sendable {
-    /// The current status of the association between the specified target and the configuration.
+    /// The current status of the association between the specified target and the configuration. Possible values are:
+    ///
+    /// * PENDING - The association is in progress.
+    ///
+    /// * SUCCESS - The association succeeded.
+    ///
+    /// * FAILED - The association failed. For details, see AssociationStatusMessage.
+    ///
+    /// * DISABLED - Central configuration is disabled because the organization is managed by Security Hub CSPM policies in Organizations.
     public var associationStatus: SecurityHubClientTypes.ConfigurationPolicyAssociationStatus?
     /// An explanation for a FAILED value for AssociationStatus.
     public var associationStatusMessage: Swift.String?

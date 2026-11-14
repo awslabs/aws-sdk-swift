@@ -1835,6 +1835,8 @@ extension ConnectCampaignsV2ClientTypes {
         /// Identifier representing a Campaign
         /// This member is required.
         public var id: Swift.String?
+        /// The timestamp of the most recent modification to the campaign or its configuration. Null for campaigns created before this field was introduced.
+        public var lastModifiedTime: Foundation.Date?
         /// The name of an Amazon Connect Campaign name.
         /// This member is required.
         public var name: Swift.String?
@@ -1856,6 +1858,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectInstanceId: Swift.String? = nil,
             entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
             id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
             source: ConnectCampaignsV2ClientTypes.Source? = nil,
@@ -1870,6 +1873,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.connectInstanceId = connectInstanceId
             self.entryLimitsConfig = entryLimitsConfig
             self.id = id
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.schedule = schedule
             self.source = source
@@ -2386,6 +2390,8 @@ extension ConnectCampaignsV2ClientTypes {
         /// Identifier representing a Campaign
         /// This member is required.
         public var id: Swift.String?
+        /// The timestamp of the most recent modification to the campaign or its configuration. Null for campaigns created before this field was introduced.
+        public var lastModifiedTime: Foundation.Date?
         /// The name of an Amazon Connect Campaign name.
         /// This member is required.
         public var name: Swift.String?
@@ -2401,6 +2407,7 @@ extension ConnectCampaignsV2ClientTypes {
             connectInstanceId: Swift.String? = nil,
             entryLimitsConfig: ConnectCampaignsV2ClientTypes.EntryLimitsConfig? = nil,
             id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             schedule: ConnectCampaignsV2ClientTypes.Schedule? = nil,
             type: ConnectCampaignsV2ClientTypes.ExternalCampaignType? = nil
@@ -2411,6 +2418,7 @@ extension ConnectCampaignsV2ClientTypes {
             self.connectInstanceId = connectInstanceId
             self.entryLimitsConfig = entryLimitsConfig
             self.id = id
+            self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.schedule = schedule
             self.type = type
@@ -5310,6 +5318,7 @@ extension ConnectCampaignsV2ClientTypes.Campaign {
         value.entryLimitsConfig = try reader["entryLimitsConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.read(from:))
         value.communicationTimeConfig = try reader["communicationTimeConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationTimeConfig.read(from:))
         value.communicationLimitsOverride = try reader["communicationLimitsOverride"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig.read(from:))
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -5337,6 +5346,7 @@ extension ConnectCampaignsV2ClientTypes.CampaignSummary {
         value.schedule = try reader["schedule"].readIfPresent(with: ConnectCampaignsV2ClientTypes.Schedule.read(from:))
         value.entryLimitsConfig = try reader["entryLimitsConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.EntryLimitsConfig.read(from:))
         value.connectCampaignFlowArn = try reader["connectCampaignFlowArn"].readIfPresent()
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
