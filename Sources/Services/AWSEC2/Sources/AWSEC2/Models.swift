@@ -1833,17 +1833,21 @@ public struct AcceptVpcEndpointConnectionsInput: Swift.Sendable {
     /// The ID of the VPC endpoint service.
     /// This member is required.
     public var serviceId: Swift.String?
-    /// The IDs of the interface VPC endpoints.
+    /// The IDs of the transit gateway attachments to accept. This parameter is supported only for Gateway Load Balancer endpoint services. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
+    public var transitGatewayAttachmentIds: [Swift.String]?
+    /// The IDs of the interface VPC endpoints. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
     /// This member is required.
     public var vpcEndpointIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
         serviceId: Swift.String? = nil,
+        transitGatewayAttachmentIds: [Swift.String]? = nil,
         vpcEndpointIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.serviceId = serviceId
+        self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
         self.vpcEndpointIds = vpcEndpointIds
     }
 }
@@ -3733,6 +3737,35 @@ extension EC2ClientTypes {
 
 extension EC2ClientTypes {
 
+    public enum PermissionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case transitgatewayattachment
+        case vpcendpoint
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PermissionType] {
+            return [
+                .transitgatewayattachment,
+                .vpcendpoint
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .transitgatewayattachment: return "transit-gateway-attachment"
+            case .vpcendpoint: return "vpc-endpoint"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum PrincipalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case account
         case all
@@ -3776,6 +3809,8 @@ extension EC2ClientTypes {
 
     /// Describes a principal.
     public struct AddedPrincipal: Swift.Sendable {
+        /// The type of permission granted to the principal.
+        public var permissionType: EC2ClientTypes.PermissionType?
         /// The Amazon Resource Name (ARN) of the principal.
         public var principal: Swift.String?
         /// The type of principal.
@@ -3786,11 +3821,13 @@ extension EC2ClientTypes {
         public var servicePermissionId: Swift.String?
 
         public init(
+            permissionType: EC2ClientTypes.PermissionType? = nil,
             principal: Swift.String? = nil,
             principalType: EC2ClientTypes.PrincipalType? = nil,
             serviceId: Swift.String? = nil,
             servicePermissionId: Swift.String? = nil
         ) {
+            self.permissionType = permissionType
             self.principal = principal
             self.principalType = principalType
             self.serviceId = serviceId
@@ -5035,6 +5072,8 @@ extension EC2ClientTypes {
 
     /// Describes a principal.
     public struct AllowedPrincipal: Swift.Sendable {
+        /// The type of permission granted to the principal.
+        public var permissionType: EC2ClientTypes.PermissionType?
         /// The Amazon Resource Name (ARN) of the principal.
         public var principal: Swift.String?
         /// The type of principal.
@@ -5047,12 +5086,14 @@ extension EC2ClientTypes {
         public var tags: [EC2ClientTypes.Tag]?
 
         public init(
+            permissionType: EC2ClientTypes.PermissionType? = nil,
             principal: Swift.String? = nil,
             principalType: EC2ClientTypes.PrincipalType? = nil,
             serviceId: Swift.String? = nil,
             servicePermissionId: Swift.String? = nil,
             tags: [EC2ClientTypes.Tag]? = nil
         ) {
+            self.permissionType = permissionType
             self.principal = principal
             self.principalType = principalType
             self.serviceId = serviceId
@@ -6342,6 +6383,37 @@ public struct AssociateIpamResourceDiscoveryOutput: Swift.Sendable {
         ipamResourceDiscoveryAssociation: EC2ClientTypes.IpamResourceDiscoveryAssociation? = nil
     ) {
         self.ipamResourceDiscoveryAssociation = ipamResourceDiscoveryAssociation
+    }
+}
+
+public struct AssociateKmsKeyIdInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID, alias, or ARN of the KMS key to associate with the snapshot. You can specify a key ID, key alias, key ARN, or alias ARN.
+    /// This member is required.
+    public var kmsKeyId: Swift.String?
+    /// The ID of the Amazon EBS snapshot.
+    public var snapshotId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        kmsKeyId: Swift.String? = nil,
+        snapshotId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.kmsKeyId = kmsKeyId
+        self.snapshotId = snapshotId
+    }
+}
+
+public struct AssociateKmsKeyIdOutput: Swift.Sendable {
+    /// Returns true if the request succeeds; otherwise, it returns an error.
+    public var `return`: Swift.Bool?
+
+    public init(
+        `return`: Swift.Bool? = nil
+    ) {
+        self.`return` = `return`
     }
 }
 
@@ -33507,6 +33579,21 @@ public struct CreateSnapshotInput: Swift.Sendable {
 
 extension EC2ClientTypes {
 
+    /// Describes an KMS key that is associated with an Amazon EBS snapshot, in addition to the key the snapshot is encrypted under. An associated key provides a second way to access the snapshot's data for cross-account sharing and copying.
+    public struct AssociatedKmsKey: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the associated KMS key.
+        public var kmsKeyId: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil
+        ) {
+            self.kmsKeyId = kmsKeyId
+        }
+    }
+}
+
+extension EC2ClientTypes {
+
     public enum SnapshotState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case error
@@ -33603,6 +33690,8 @@ extension EC2ClientTypes {
 
 /// Describes a snapshot.
 public struct CreateSnapshotOutput: Swift.Sendable {
+    /// The additional KMS keys that are associated with the snapshot.
+    public var associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]?
     /// The Availability Zone or Local Zone of the snapshot. For example, us-west-1a (Availability Zone) or us-west-2-lax-1a (Local Zone).
     public var availabilityZone: Swift.String?
     /// Only for snapshot copies created with time-based snapshot copy operations. The completion duration requested for the time-based snapshot copy operation.
@@ -33655,6 +33744,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
     public var volumeSize: Swift.Int?
 
     public init(
+        associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]? = nil,
         availabilityZone: Swift.String? = nil,
         completionDurationMinutes: Swift.Int? = nil,
         completionTime: Foundation.Date? = nil,
@@ -33679,6 +33769,7 @@ public struct CreateSnapshotOutput: Swift.Sendable {
         volumeId: Swift.String? = nil,
         volumeSize: Swift.Int? = nil
     ) {
+        self.associatedKmsKeys = associatedKmsKeys
         self.availabilityZone = availabilityZone
         self.completionDurationMinutes = completionDurationMinutes
         self.completionTime = completionTime
@@ -36175,6 +36266,101 @@ public struct CreateTransitGatewayMulticastDomainOutput: Swift.Sendable {
         transitGatewayMulticastDomain: EC2ClientTypes.TransitGatewayMulticastDomain? = nil
     ) {
         self.transitGatewayMulticastDomain = transitGatewayMulticastDomain
+    }
+}
+
+public struct CreateTransitGatewayNetworkFunctionAttachmentInput: Swift.Sendable {
+    /// The IDs of the Availability Zones for the attachment. You must specify at least one Availability Zone, using this parameter, AvailabilityZones, or both. Each Availability Zone must be supported by both the transit gateway and the endpoint service.
+    public var availabilityZoneIds: [Swift.String]?
+    /// The names of the Availability Zones for the attachment. You must specify at least one Availability Zone, using this parameter, AvailabilityZoneIds, or both. Each Availability Zone must be supported by both the transit gateway and the endpoint service.
+    public var availabilityZones: [Swift.String]?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The name of the Gateway Load Balancer endpoint service.
+    /// This member is required.
+    public var serviceName: Swift.String?
+    /// The tags to apply to the network function attachment.
+    public var tagSpecifications: [EC2ClientTypes.TagSpecification]?
+    /// The ID of the transit gateway. The transit gateway must be in the available state.
+    /// This member is required.
+    public var transitGatewayId: Swift.String?
+
+    public init(
+        availabilityZoneIds: [Swift.String]? = nil,
+        availabilityZones: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        serviceName: Swift.String? = nil,
+        tagSpecifications: [EC2ClientTypes.TagSpecification]? = nil,
+        transitGatewayId: Swift.String? = nil
+    ) {
+        self.availabilityZoneIds = availabilityZoneIds
+        self.availabilityZones = availabilityZones
+        self.dryRun = dryRun
+        self.serviceName = serviceName
+        self.tagSpecifications = tagSpecifications
+        self.transitGatewayId = transitGatewayId
+    }
+}
+
+extension EC2ClientTypes {
+
+    /// Contains information about a transit gateway network function attachment, including the attachment ID, the transit gateway, the endpoint service, the Availability Zones, and the state of the attachment.
+    public struct TransitGatewayNetworkFunctionAttachment: Swift.Sendable {
+        /// The IDs of the Availability Zones for the attachment.
+        public var availabilityZoneIds: [Swift.String]?
+        /// The names of the Availability Zones for the attachment.
+        public var availabilityZones: [Swift.String]?
+        /// The date and time the attachment was created.
+        public var creationTime: Foundation.Date?
+        /// The name of the Gateway Load Balancer endpoint service.
+        public var resourceId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the attachment.
+        public var resourceOwnerId: Swift.String?
+        /// The state of the attachment.
+        public var state: EC2ClientTypes.TransitGatewayAttachmentState?
+        /// The tags for the attachment.
+        public var tags: [EC2ClientTypes.Tag]?
+        /// The ID of the attachment.
+        public var transitGatewayAttachmentId: Swift.String?
+        /// The ID of the transit gateway.
+        public var transitGatewayId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the transit gateway.
+        public var transitGatewayOwnerId: Swift.String?
+
+        public init(
+            availabilityZoneIds: [Swift.String]? = nil,
+            availabilityZones: [Swift.String]? = nil,
+            creationTime: Foundation.Date? = nil,
+            resourceId: Swift.String? = nil,
+            resourceOwnerId: Swift.String? = nil,
+            state: EC2ClientTypes.TransitGatewayAttachmentState? = nil,
+            tags: [EC2ClientTypes.Tag]? = nil,
+            transitGatewayAttachmentId: Swift.String? = nil,
+            transitGatewayId: Swift.String? = nil,
+            transitGatewayOwnerId: Swift.String? = nil
+        ) {
+            self.availabilityZoneIds = availabilityZoneIds
+            self.availabilityZones = availabilityZones
+            self.creationTime = creationTime
+            self.resourceId = resourceId
+            self.resourceOwnerId = resourceOwnerId
+            self.state = state
+            self.tags = tags
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayOwnerId = transitGatewayOwnerId
+        }
+    }
+}
+
+public struct CreateTransitGatewayNetworkFunctionAttachmentOutput: Swift.Sendable {
+    /// Information about the network function attachment.
+    public var transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment?
+
+    public init(
+        transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment? = nil
+    ) {
+        self.transitGatewayNetworkFunctionAttachment = transitGatewayNetworkFunctionAttachment
     }
 }
 
@@ -43541,6 +43727,33 @@ public struct DeleteTransitGatewayMulticastDomainOutput: Swift.Sendable {
         transitGatewayMulticastDomain: EC2ClientTypes.TransitGatewayMulticastDomain? = nil
     ) {
         self.transitGatewayMulticastDomain = transitGatewayMulticastDomain
+    }
+}
+
+public struct DeleteTransitGatewayNetworkFunctionAttachmentInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID of the network function attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct DeleteTransitGatewayNetworkFunctionAttachmentOutput: Swift.Sendable {
+    /// Information about the deleted network function attachment.
+    public var transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment?
+
+    public init(
+        transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment? = nil
+    ) {
+        self.transitGatewayNetworkFunctionAttachment = transitGatewayNetworkFunctionAttachment
     }
 }
 
@@ -63853,6 +64066,8 @@ extension EC2ClientTypes {
 
     /// Describes a snapshot.
     public struct Snapshot: Swift.Sendable {
+        /// The additional KMS keys that are associated with the snapshot.
+        public var associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]?
         /// The Availability Zone or Local Zone of the snapshot. For example, us-west-1a (Availability Zone) or us-west-2-lax-1a (Local Zone).
         public var availabilityZone: Swift.String?
         /// Only for snapshot copies created with time-based snapshot copy operations. The completion duration requested for the time-based snapshot copy operation.
@@ -63905,6 +64120,7 @@ extension EC2ClientTypes {
         public var volumeSize: Swift.Int?
 
         public init(
+            associatedKmsKeys: [EC2ClientTypes.AssociatedKmsKey]? = nil,
             availabilityZone: Swift.String? = nil,
             completionDurationMinutes: Swift.Int? = nil,
             completionTime: Foundation.Date? = nil,
@@ -63929,6 +64145,7 @@ extension EC2ClientTypes {
             volumeId: Swift.String? = nil,
             volumeSize: Swift.Int? = nil
         ) {
+            self.associatedKmsKeys = associatedKmsKeys
             self.availabilityZone = availabilityZone
             self.completionDurationMinutes = completionDurationMinutes
             self.completionTime = completionTime
@@ -66470,6 +66687,56 @@ public struct DescribeTransitGatewayMulticastDomainsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTransitGatewayNetworkFunctionAttachmentsInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// One or more filters. The possible values are:
+    ///
+    /// * service-name - The name of the Gateway Load Balancer endpoint service.
+    ///
+    /// * state - The state of the attachment. Valid values are available | deleted | deleting | failed | failing | modifying | pendingAcceptance | pending | rollingBack | rejected | rejecting.
+    ///
+    /// * transit-gateway-attachment-id - The ID of the attachment.
+    ///
+    /// * transit-gateway-id - The ID of the transit gateway.
+    public var filters: [EC2ClientTypes.Filter]?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The IDs of the network function attachments.
+    public var transitGatewayAttachmentIds: [Swift.String]?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        filters: [EC2ClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        transitGatewayAttachmentIds: [Swift.String]? = nil
+    ) {
+        self.dryRun = dryRun
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
+    }
+}
+
+public struct DescribeTransitGatewayNetworkFunctionAttachmentsOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// Information about the network function attachments.
+    public var transitGatewayNetworkFunctionAttachments: [EC2ClientTypes.TransitGatewayNetworkFunctionAttachment]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        transitGatewayNetworkFunctionAttachments: [EC2ClientTypes.TransitGatewayNetworkFunctionAttachment]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.transitGatewayNetworkFunctionAttachments = transitGatewayNetworkFunctionAttachments
+    }
+}
+
 public struct DescribeTransitGatewayPeeringAttachmentsInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -68568,6 +68835,8 @@ public struct DescribeVpcEndpointConnectionsInput: Swift.Sendable {
     ///
     /// * service-id - The ID of the service.
     ///
+    /// * transit-gateway-attachment-id - The ID of the transit gateway attachment.
+    ///
     /// * vpc-endpoint-owner - The ID of the Amazon Web Services account ID that owns the endpoint.
     ///
     /// * vpc-endpoint-region - The Region of the endpoint or cross-region to find endpoints for other Regions.
@@ -68614,6 +68883,10 @@ extension EC2ClientTypes {
         public var serviceId: Swift.String?
         /// The tags.
         public var tags: [EC2ClientTypes.Tag]?
+        /// The ID of the transit gateway attachment, if the connection is for a transit gateway attachment.
+        public var transitGatewayAttachmentId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the transit gateway attachment, if the connection is for a transit gateway attachment.
+        public var transitGatewayAttachmentOwner: Swift.String?
         /// The ID of the VPC endpoint connection.
         public var vpcEndpointConnectionId: Swift.String?
         /// The ID of the VPC endpoint.
@@ -68634,6 +68907,8 @@ extension EC2ClientTypes {
             payerResponsibilities: [EC2ClientTypes.PayerResponsibilityEntry]? = nil,
             serviceId: Swift.String? = nil,
             tags: [EC2ClientTypes.Tag]? = nil,
+            transitGatewayAttachmentId: Swift.String? = nil,
+            transitGatewayAttachmentOwner: Swift.String? = nil,
             vpcEndpointConnectionId: Swift.String? = nil,
             vpcEndpointId: Swift.String? = nil,
             vpcEndpointOwner: Swift.String? = nil,
@@ -68648,6 +68923,8 @@ extension EC2ClientTypes {
             self.payerResponsibilities = payerResponsibilities
             self.serviceId = serviceId
             self.tags = tags
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayAttachmentOwner = transitGatewayAttachmentOwner
             self.vpcEndpointConnectionId = vpcEndpointConnectionId
             self.vpcEndpointId = vpcEndpointId
             self.vpcEndpointOwner = vpcEndpointOwner
@@ -68790,6 +69067,8 @@ public struct DescribeVpcEndpointServicePermissionsInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
     /// The filters.
+    ///
+    /// * permission-type - The permission type (vpc-endpoint | transit-gateway-attachment).
     ///
     /// * principal - The ARN of the principal.
     ///
@@ -70850,6 +71129,37 @@ public struct DisassociateIpamResourceDiscoveryOutput: Swift.Sendable {
         ipamResourceDiscoveryAssociation: EC2ClientTypes.IpamResourceDiscoveryAssociation? = nil
     ) {
         self.ipamResourceDiscoveryAssociation = ipamResourceDiscoveryAssociation
+    }
+}
+
+public struct DisassociateKmsKeyIdInput: Swift.Sendable {
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The ID, alias, or ARN of the associated KMS key to remove from the snapshot.
+    /// This member is required.
+    public var kmsKeyId: Swift.String?
+    /// The ID of the Amazon EBS snapshot.
+    public var snapshotId: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        kmsKeyId: Swift.String? = nil,
+        snapshotId: Swift.String? = nil
+    ) {
+        self.dryRun = dryRun
+        self.kmsKeyId = kmsKeyId
+        self.snapshotId = snapshotId
+    }
+}
+
+public struct DisassociateKmsKeyIdOutput: Swift.Sendable {
+    /// Returns true if the request succeeds; otherwise, it returns an error.
+    public var `return`: Swift.Bool?
+
+    public init(
+        `return`: Swift.Bool? = nil
+    ) {
+        self.`return` = `return`
     }
 }
 
@@ -85084,6 +85394,49 @@ public struct ModifyTransitGatewayMeteringPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct ModifyTransitGatewayNetworkFunctionAttachmentInput: Swift.Sendable {
+    /// The IDs of the Availability Zones to add to the attachment. You can't add and remove the same Availability Zone in a single request.
+    public var addAvailabilityZoneIds: [Swift.String]?
+    /// The names of the Availability Zones to add to the attachment. You can't add and remove the same Availability Zone in a single request.
+    public var addAvailabilityZones: [Swift.String]?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// The IDs of the Availability Zones to remove from the attachment. Each Availability Zone must be currently in the attachment.
+    public var removeAvailabilityZoneIds: [Swift.String]?
+    /// The names of the Availability Zones to remove from the attachment. Each Availability Zone must be currently in the attachment.
+    public var removeAvailabilityZones: [Swift.String]?
+    /// The ID of the network function attachment.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        addAvailabilityZoneIds: [Swift.String]? = nil,
+        addAvailabilityZones: [Swift.String]? = nil,
+        dryRun: Swift.Bool? = nil,
+        removeAvailabilityZoneIds: [Swift.String]? = nil,
+        removeAvailabilityZones: [Swift.String]? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.addAvailabilityZoneIds = addAvailabilityZoneIds
+        self.addAvailabilityZones = addAvailabilityZones
+        self.dryRun = dryRun
+        self.removeAvailabilityZoneIds = removeAvailabilityZoneIds
+        self.removeAvailabilityZones = removeAvailabilityZones
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct ModifyTransitGatewayNetworkFunctionAttachmentOutput: Swift.Sendable {
+    /// Information about the network function attachment.
+    public var transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment?
+
+    public init(
+        transitGatewayNetworkFunctionAttachment: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment? = nil
+    ) {
+        self.transitGatewayNetworkFunctionAttachment = transitGatewayNetworkFunctionAttachment
+    }
+}
+
 public struct ModifyTransitGatewayPolicyTableEntryInput: Swift.Sendable {
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
@@ -86383,6 +86736,15 @@ public struct ModifyVpcEndpointServicePermissionsInput: Swift.Sendable {
     public var addAllowedPrincipals: [Swift.String]?
     /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     public var dryRun: Swift.Bool?
+    /// The type of permission to add or remove. The permission type applies to all principals in AddAllowedPrincipals and RemoveAllowedPrincipals.
+    ///
+    /// * vpc-endpoint - Principals can create VPC endpoints that connect to the endpoint service.
+    ///
+    /// * transit-gateway-attachment - Principals can create transit gateway attachments that connect to the endpoint service. This permission type is supported only for Gateway Load Balancer endpoint services. You can grant it only to Amazon Web Services accounts (arn:aws:iam::account-id:root). You can't grant it to users, IAM roles, organizations, organizational units, or all principals (*).
+    ///
+    ///
+    /// Default: vpc-endpoint
+    public var permissionType: EC2ClientTypes.PermissionType?
     /// The Amazon Resource Names (ARN) of the principals. Permissions are revoked for principals in this list.
     public var removeAllowedPrincipals: [Swift.String]?
     /// The ID of the service.
@@ -86392,11 +86754,13 @@ public struct ModifyVpcEndpointServicePermissionsInput: Swift.Sendable {
     public init(
         addAllowedPrincipals: [Swift.String]? = nil,
         dryRun: Swift.Bool? = nil,
+        permissionType: EC2ClientTypes.PermissionType? = nil,
         removeAllowedPrincipals: [Swift.String]? = nil,
         serviceId: Swift.String? = nil
     ) {
         self.addAllowedPrincipals = addAllowedPrincipals
         self.dryRun = dryRun
+        self.permissionType = permissionType
         self.removeAllowedPrincipals = removeAllowedPrincipals
         self.serviceId = serviceId
     }
@@ -87994,17 +88358,21 @@ public struct RejectVpcEndpointConnectionsInput: Swift.Sendable {
     /// The ID of the service.
     /// This member is required.
     public var serviceId: Swift.String?
-    /// The IDs of the VPC endpoints.
+    /// The IDs of the transit gateway attachments to reject. This parameter is supported only for Gateway Load Balancer endpoint services. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
+    public var transitGatewayAttachmentIds: [Swift.String]?
+    /// The IDs of the VPC endpoints. You must specify either VpcEndpointIds or TransitGatewayAttachmentIds, but not both.
     /// This member is required.
     public var vpcEndpointIds: [Swift.String]?
 
     public init(
         dryRun: Swift.Bool? = nil,
         serviceId: Swift.String? = nil,
+        transitGatewayAttachmentIds: [Swift.String]? = nil,
         vpcEndpointIds: [Swift.String]? = nil
     ) {
         self.dryRun = dryRun
         self.serviceId = serviceId
+        self.transitGatewayAttachmentIds = transitGatewayAttachmentIds
         self.vpcEndpointIds = vpcEndpointIds
     }
 }
@@ -91819,6 +92187,13 @@ extension AssociateIpamResourceDiscoveryInput {
     }
 }
 
+extension AssociateKmsKeyIdInput {
+
+    static func urlPathProvider(_ value: AssociateKmsKeyIdInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AssociateNatGatewayAddressInput {
 
     static func urlPathProvider(_ value: AssociateNatGatewayAddressInput) -> Swift.String? {
@@ -92708,6 +93083,13 @@ extension CreateTransitGatewayMulticastDomainInput {
     }
 }
 
+extension CreateTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func urlPathProvider(_ value: CreateTransitGatewayNetworkFunctionAttachmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateTransitGatewayPeeringAttachmentInput {
 
     static func urlPathProvider(_ value: CreateTransitGatewayPeeringAttachmentInput) -> Swift.String? {
@@ -93404,6 +93786,13 @@ extension DeleteTransitGatewayMeteringPolicyEntryInput {
 extension DeleteTransitGatewayMulticastDomainInput {
 
     static func urlPathProvider(_ value: DeleteTransitGatewayMulticastDomainInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func urlPathProvider(_ value: DeleteTransitGatewayNetworkFunctionAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -94766,6 +95155,13 @@ extension DescribeTransitGatewayMulticastDomainsInput {
     }
 }
 
+extension DescribeTransitGatewayNetworkFunctionAttachmentsInput {
+
+    static func urlPathProvider(_ value: DescribeTransitGatewayNetworkFunctionAttachmentsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeTransitGatewayPeeringAttachmentsInput {
 
     static func urlPathProvider(_ value: DescribeTransitGatewayPeeringAttachmentsInput) -> Swift.String? {
@@ -95266,6 +95662,13 @@ extension DisassociateIpamByoasnInput {
 extension DisassociateIpamResourceDiscoveryInput {
 
     static func urlPathProvider(_ value: DisassociateIpamResourceDiscoveryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisassociateKmsKeyIdInput {
+
+    static func urlPathProvider(_ value: DisassociateKmsKeyIdInput) -> Swift.String? {
         return "/"
     }
 }
@@ -96621,6 +97024,13 @@ extension ModifyTransitGatewayMeteringPolicyInput {
     }
 }
 
+extension ModifyTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func urlPathProvider(_ value: ModifyTransitGatewayNetworkFunctionAttachmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ModifyTransitGatewayPolicyTableEntryInput {
 
     static func urlPathProvider(_ value: ModifyTransitGatewayPolicyTableEntryInput) -> Swift.String? {
@@ -97486,6 +97896,9 @@ extension AcceptVpcEndpointConnectionsInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["ServiceId"].write(value.serviceId)
+        if !(value.transitGatewayAttachmentIds?.isEmpty ?? true) {
+            try writer["TransitGatewayAttachmentId"].writeList(value.transitGatewayAttachmentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.vpcEndpointIds?.isEmpty ?? true) {
             try writer["VpcEndpointId"].writeList(value.vpcEndpointIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -97787,6 +98200,18 @@ extension AssociateIpamResourceDiscoveryInput {
             try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["Action"].write("AssociateIpamResourceDiscovery")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension AssociateKmsKeyIdInput {
+
+    static func write(value: AssociateKmsKeyIdInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["SnapshotId"].write(value.snapshotId)
+        try writer["Action"].write("AssociateKmsKeyId")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -100002,6 +100427,27 @@ extension CreateTransitGatewayMulticastDomainInput {
     }
 }
 
+extension CreateTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func write(value: CreateTransitGatewayNetworkFunctionAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.availabilityZoneIds?.isEmpty ?? true) {
+            try writer["AvailabilityZoneId"].writeList(value.availabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.availabilityZones?.isEmpty ?? true) {
+            try writer["AvailabilityZone"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["ServiceName"].write(value.serviceName)
+        if !(value.tagSpecifications?.isEmpty ?? true) {
+            try writer["TagSpecification"].writeList(value.tagSpecifications, memberWritingClosure: EC2ClientTypes.TagSpecification.write(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["TransitGatewayId"].write(value.transitGatewayId)
+        try writer["Action"].write("CreateTransitGatewayNetworkFunctionAttachment")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension CreateTransitGatewayPeeringAttachmentInput {
 
     static func write(value: CreateTransitGatewayPeeringAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
@@ -101327,6 +101773,17 @@ extension DeleteTransitGatewayMulticastDomainInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["TransitGatewayMulticastDomainId"].write(value.transitGatewayMulticastDomainId)
         try writer["Action"].write("DeleteTransitGatewayMulticastDomain")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DeleteTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func write(value: DeleteTransitGatewayNetworkFunctionAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("DeleteTransitGatewayNetworkFunctionAttachment")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -104526,6 +104983,24 @@ extension DescribeTransitGatewayMulticastDomainsInput {
     }
 }
 
+extension DescribeTransitGatewayNetworkFunctionAttachmentsInput {
+
+    static func write(value: DescribeTransitGatewayNetworkFunctionAttachmentsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.filters?.isEmpty ?? true) {
+            try writer["Filter"].writeList(value.filters, memberWritingClosure: EC2ClientTypes.Filter.write(value:to:), memberNodeInfo: "Filter", isFlattened: true)
+        }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        if !(value.transitGatewayAttachmentIds?.isEmpty ?? true) {
+            try writer["TransitGatewayAttachmentId"].writeList(value.transitGatewayAttachmentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["Action"].write("DescribeTransitGatewayNetworkFunctionAttachments")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension DescribeTransitGatewayPeeringAttachmentsInput {
 
     static func write(value: DescribeTransitGatewayPeeringAttachmentsInput?, to writer: SmithyFormURL.Writer) throws {
@@ -105565,6 +106040,18 @@ extension DisassociateIpamResourceDiscoveryInput {
         try writer["DryRun"].write(value.dryRun)
         try writer["IpamResourceDiscoveryAssociationId"].write(value.ipamResourceDiscoveryAssociationId)
         try writer["Action"].write("DisassociateIpamResourceDiscovery")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
+extension DisassociateKmsKeyIdInput {
+
+    static func write(value: DisassociateKmsKeyIdInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DryRun"].write(value.dryRun)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["SnapshotId"].write(value.snapshotId)
+        try writer["Action"].write("DisassociateKmsKeyId")
         try writer["Version"].write("2016-11-15")
     }
 }
@@ -108423,6 +108910,29 @@ extension ModifyTransitGatewayMeteringPolicyInput {
     }
 }
 
+extension ModifyTransitGatewayNetworkFunctionAttachmentInput {
+
+    static func write(value: ModifyTransitGatewayNetworkFunctionAttachmentInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        if !(value.addAvailabilityZoneIds?.isEmpty ?? true) {
+            try writer["AddAvailabilityZoneId"].writeList(value.addAvailabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.addAvailabilityZones?.isEmpty ?? true) {
+            try writer["AddAvailabilityZone"].writeList(value.addAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["DryRun"].write(value.dryRun)
+        if !(value.removeAvailabilityZoneIds?.isEmpty ?? true) {
+            try writer["RemoveAvailabilityZoneId"].writeList(value.removeAvailabilityZoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        if !(value.removeAvailabilityZones?.isEmpty ?? true) {
+            try writer["RemoveAvailabilityZone"].writeList(value.removeAvailabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+        try writer["Action"].write("ModifyTransitGatewayNetworkFunctionAttachment")
+        try writer["Version"].write("2016-11-15")
+    }
+}
+
 extension ModifyTransitGatewayPolicyTableEntryInput {
 
     static func write(value: ModifyTransitGatewayPolicyTableEntryInput?, to writer: SmithyFormURL.Writer) throws {
@@ -108785,6 +109295,7 @@ extension ModifyVpcEndpointServicePermissionsInput {
             try writer["AddAllowedPrincipals"].writeList(value.addAllowedPrincipals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
         try writer["DryRun"].write(value.dryRun)
+        try writer["PermissionType"].write(value.permissionType)
         if !(value.removeAllowedPrincipals?.isEmpty ?? true) {
             try writer["RemoveAllowedPrincipals"].writeList(value.removeAllowedPrincipals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -109219,6 +109730,9 @@ extension RejectVpcEndpointConnectionsInput {
         guard let value else { return }
         try writer["DryRun"].write(value.dryRun)
         try writer["ServiceId"].write(value.serviceId)
+        if !(value.transitGatewayAttachmentIds?.isEmpty ?? true) {
+            try writer["TransitGatewayAttachmentId"].writeList(value.transitGatewayAttachmentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
+        }
         if !(value.vpcEndpointIds?.isEmpty ?? true) {
             try writer["VpcEndpointId"].writeList(value.vpcEndpointIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Item", isFlattened: true)
         }
@@ -110448,6 +110962,18 @@ extension AssociateIpamResourceDiscoveryOutput {
         let reader = responseReader
         var value = AssociateIpamResourceDiscoveryOutput()
         value.ipamResourceDiscoveryAssociation = try reader["ipamResourceDiscoveryAssociation"].readIfPresent(with: EC2ClientTypes.IpamResourceDiscoveryAssociation.read(from:))
+        return value
+    }
+}
+
+extension AssociateKmsKeyIdOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateKmsKeyIdOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateKmsKeyIdOutput()
+        value.`return` = try reader["return"].readIfPresent()
         return value
     }
 }
@@ -111826,6 +112352,7 @@ extension CreateSnapshotOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = CreateSnapshotOutput()
+        value.associatedKmsKeys = try reader["associatedKmsKeySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AssociatedKmsKey.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
         value.completionDurationMinutes = try reader["completionDurationMinutes"].readIfPresent()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -112040,6 +112567,18 @@ extension CreateTransitGatewayMulticastDomainOutput {
         let reader = responseReader
         var value = CreateTransitGatewayMulticastDomainOutput()
         value.transitGatewayMulticastDomain = try reader["transitGatewayMulticastDomain"].readIfPresent(with: EC2ClientTypes.TransitGatewayMulticastDomain.read(from:))
+        return value
+    }
+}
+
+extension CreateTransitGatewayNetworkFunctionAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTransitGatewayNetworkFunctionAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTransitGatewayNetworkFunctionAttachmentOutput()
+        value.transitGatewayNetworkFunctionAttachment = try reader["transitGatewayNetworkFunctionAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:))
         return value
     }
 }
@@ -113203,6 +113742,18 @@ extension DeleteTransitGatewayMulticastDomainOutput {
         let reader = responseReader
         var value = DeleteTransitGatewayMulticastDomainOutput()
         value.transitGatewayMulticastDomain = try reader["transitGatewayMulticastDomain"].readIfPresent(with: EC2ClientTypes.TransitGatewayMulticastDomain.read(from:))
+        return value
+    }
+}
+
+extension DeleteTransitGatewayNetworkFunctionAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTransitGatewayNetworkFunctionAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTransitGatewayNetworkFunctionAttachmentOutput()
+        value.transitGatewayNetworkFunctionAttachment = try reader["transitGatewayNetworkFunctionAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:))
         return value
     }
 }
@@ -115697,6 +116248,19 @@ extension DescribeTransitGatewayMulticastDomainsOutput {
     }
 }
 
+extension DescribeTransitGatewayNetworkFunctionAttachmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTransitGatewayNetworkFunctionAttachmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTransitGatewayNetworkFunctionAttachmentsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.transitGatewayNetworkFunctionAttachments = try reader["transitGatewayNetworkFunctionAttachmentSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeTransitGatewayPeeringAttachmentsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTransitGatewayPeeringAttachmentsOutput {
@@ -116588,6 +117152,18 @@ extension DisassociateIpamResourceDiscoveryOutput {
         let reader = responseReader
         var value = DisassociateIpamResourceDiscoveryOutput()
         value.ipamResourceDiscoveryAssociation = try reader["ipamResourceDiscoveryAssociation"].readIfPresent(with: EC2ClientTypes.IpamResourceDiscoveryAssociation.read(from:))
+        return value
+    }
+}
+
+extension DisassociateKmsKeyIdOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateKmsKeyIdOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateKmsKeyIdOutput()
+        value.`return` = try reader["return"].readIfPresent()
         return value
     }
 }
@@ -119059,6 +119635,18 @@ extension ModifyTransitGatewayMeteringPolicyOutput {
     }
 }
 
+extension ModifyTransitGatewayNetworkFunctionAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayNetworkFunctionAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyTransitGatewayNetworkFunctionAttachmentOutput()
+        value.transitGatewayNetworkFunctionAttachment = try reader["transitGatewayNetworkFunctionAttachment"].readIfPresent(with: EC2ClientTypes.TransitGatewayNetworkFunctionAttachment.read(from:))
+        return value
+    }
+}
+
 extension ModifyTransitGatewayPolicyTableEntryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyTransitGatewayPolicyTableEntryOutput {
@@ -120708,6 +121296,19 @@ enum AssociateIpamByoasnOutputError {
 }
 
 enum AssociateIpamResourceDiscoveryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateKmsKeyIdOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -122371,6 +122972,19 @@ enum CreateTransitGatewayMulticastDomainOutputError {
     }
 }
 
+enum CreateTransitGatewayNetworkFunctionAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateTransitGatewayPeeringAttachmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -123659,6 +124273,19 @@ enum DeleteTransitGatewayMeteringPolicyEntryOutputError {
 }
 
 enum DeleteTransitGatewayMulticastDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTransitGatewayNetworkFunctionAttachmentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -126193,6 +126820,19 @@ enum DescribeTransitGatewayMulticastDomainsOutputError {
     }
 }
 
+enum DescribeTransitGatewayNetworkFunctionAttachmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeTransitGatewayPeeringAttachmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -127117,6 +127757,19 @@ enum DisassociateIpamByoasnOutputError {
 }
 
 enum DisassociateIpamResourceDiscoveryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateKmsKeyIdOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -129638,6 +130291,19 @@ enum ModifyTransitGatewayMeteringPolicyOutputError {
     }
 }
 
+enum ModifyTransitGatewayNetworkFunctionAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try ClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ModifyTransitGatewayPolicyTableEntryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -131267,6 +131933,7 @@ extension EC2ClientTypes.AddedPrincipal {
         value.principal = try reader["principal"].readIfPresent()
         value.servicePermissionId = try reader["servicePermissionId"].readIfPresent()
         value.serviceId = try reader["serviceId"].readIfPresent()
+        value.permissionType = try reader["permissionType"].readIfPresent()
         return value
     }
 }
@@ -131376,6 +132043,7 @@ extension EC2ClientTypes.AllowedPrincipal {
         value.servicePermissionId = try reader["servicePermissionId"].readIfPresent()
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.serviceId = try reader["serviceId"].readIfPresent()
+        value.permissionType = try reader["permissionType"].readIfPresent()
         return value
     }
 }
@@ -131645,6 +132313,16 @@ extension EC2ClientTypes.AssignedPrivateIpAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EC2ClientTypes.AssignedPrivateIpAddress()
         value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension EC2ClientTypes.AssociatedKmsKey {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.AssociatedKmsKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.AssociatedKmsKey()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }
@@ -142396,6 +143074,7 @@ extension EC2ClientTypes.Snapshot {
         value.completionDurationMinutes = try reader["completionDurationMinutes"].readIfPresent()
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.fullSnapshotSizeInBytes = try reader["fullSnapshotSizeInBytes"].readIfPresent()
+        value.associatedKmsKeys = try reader["associatedKmsKeySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.AssociatedKmsKey.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.snapshotId = try reader["snapshotId"].readIfPresent()
         value.volumeId = try reader["volumeId"].readIfPresent()
         value.state = try reader["status"].readIfPresent()
@@ -143866,6 +144545,25 @@ extension EC2ClientTypes.TransitGatewayNatRuleRequest {
     }
 }
 
+extension EC2ClientTypes.TransitGatewayNetworkFunctionAttachment {
+
+    static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TransitGatewayNetworkFunctionAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EC2ClientTypes.TransitGatewayNetworkFunctionAttachment()
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
+        value.transitGatewayId = try reader["transitGatewayId"].readIfPresent()
+        value.transitGatewayOwnerId = try reader["transitGatewayOwnerId"].readIfPresent()
+        value.resourceOwnerId = try reader["resourceOwnerId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.availabilityZones = try reader["availabilityZoneSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.availabilityZoneIds = try reader["availabilityZoneIdSet"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "item", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
+        return value
+    }
+}
+
 extension EC2ClientTypes.TransitGatewayOptions {
 
     static func read(from reader: SmithyXML.Reader) throws -> EC2ClientTypes.TransitGatewayOptions {
@@ -145275,6 +145973,8 @@ extension EC2ClientTypes.VpcEndpointConnection {
         value.tags = try reader["tagSet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.Tag.read(from:), memberNodeInfo: "item", isFlattened: false)
         value.vpcEndpointRegion = try reader["vpcEndpointRegion"].readIfPresent()
         value.payerResponsibilities = try reader["payerResponsibilitySet"].readListIfPresent(memberReadingClosure: EC2ClientTypes.PayerResponsibilityEntry.read(from:), memberNodeInfo: "item", isFlattened: false)
+        value.transitGatewayAttachmentId = try reader["transitGatewayAttachmentId"].readIfPresent()
+        value.transitGatewayAttachmentOwner = try reader["transitGatewayAttachmentOwner"].readIfPresent()
         return value
     }
 }

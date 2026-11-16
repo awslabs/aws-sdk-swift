@@ -1229,6 +1229,205 @@ extension NetworkFirewallClientTypes {
     }
 }
 
+extension NetworkFirewallClientTypes {
+
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case securityGroup
+        case subnet
+        case tgwAttachment
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .securityGroup,
+                .subnet,
+                .tgwAttachment,
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .securityGroup: return "SecurityGroup"
+            case .subnet: return "Subnet"
+            case .tgwAttachment: return "TGWAttachment"
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Filters for ListResourcesInContextStore. Both filters are optional. If you specify both, Network Firewall returns only the resources that match both.
+    public struct ContextFilters: Swift.Sendable {
+        /// The Amazon Web Services Region of the resources to return, for example us-east-1.
+        public var region: Swift.String?
+        /// The type of resource to return. Each resource type corresponds to the ContextType that Network Firewall reports for the resource:
+        ///
+        /// * SecurityGroup - Security groups. Reported with the SegmentId context type.
+        ///
+        /// * VPC - VPCs. Reported with the ResourceId context type.
+        ///
+        /// * Subnet - Subnets. Reported with the Subnet context type.
+        ///
+        /// * TGWAttachment - Transit gateway attachments. Reported with the Attachment context type.
+        public var resourceType: NetworkFirewallClientTypes.ResourceType?
+
+        public init(
+            region: Swift.String? = nil,
+            resourceType: NetworkFirewallClientTypes.ResourceType? = nil
+        ) {
+            self.region = region
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A list of resource identifiers from the context store that is associated with the firewall. Use a context set to write stateful rules against Amazon Web Services resources instead of IP addresses. This is part of a [RuleVariables].
+    public struct ContextSet: Swift.Sendable {
+        /// The list of resource identifiers. Each entry is the ID of a resource that the context store records, for example vpc-1234567890abcdef0, subnet-1234567890abcdef0, sg-1234567890abcdef0, or tgw-attach-1234567890abcdef0. You can specify 1-1,000 entries.
+        /// This member is required.
+        public var definition: [Swift.String]?
+
+        public init(
+            definition: [Swift.String]? = nil
+        ) {
+            self.definition = definition
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Contains details about a context store, including its unique identifier and the account that owns it.
+    public struct ContextStore: Swift.Sendable {
+        /// The unique identifier of the context store. Use this value in ListResourcesInContextStore to list the resources that the context store records.
+        /// This member is required.
+        public var contextStoreId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the context store.
+        /// This member is required.
+        public var contextStoreOwnerAccountId: Swift.String?
+
+        public init(
+            contextStoreId: Swift.String? = nil,
+            contextStoreOwnerAccountId: Swift.String? = nil
+        ) {
+            self.contextStoreId = contextStoreId
+            self.contextStoreOwnerAccountId = contextStoreOwnerAccountId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ContextStoreSyncStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullyResolved
+        case partiallyResolved
+        case syncing
+        case syncFailed
+        case unresolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextStoreSyncStatus] {
+            return [
+                .fullyResolved,
+                .partiallyResolved,
+                .syncing,
+                .syncFailed,
+                .unresolved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullyResolved: return "FULLY_RESOLVED"
+            case .partiallyResolved: return "PARTIALLY_RESOLVED"
+            case .syncing: return "SYNCING"
+            case .syncFailed: return "SYNC_FAILED"
+            case .unresolved: return "UNRESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The synchronization state of a firewall's context sets with its context store. This indicates whether the resource identifiers in the firewall's context sets resolve to resources that the context store records.
+    public struct ContextStoreSyncState: Swift.Sendable {
+        /// A message that provides additional information about the synchronization status, particularly when the status is not FULLY_RESOLVED.
+        public var statusMessage: Swift.String?
+        /// The synchronization status of the firewall's context sets. Valid values:
+        ///
+        /// * SYNCING - The firewall is applying the latest context store data.
+        ///
+        /// * FULLY_RESOLVED - All resource identifiers in the firewall's context sets resolve to resources in the context store.
+        ///
+        /// * PARTIALLY_RESOLVED - Some resource identifiers in the firewall's context sets don't resolve to resources in the context store.
+        ///
+        /// * SYNC_FAILED - The firewall couldn't sync with the context store. For details, see StatusMessage.
+        public var syncStatus: NetworkFirewallClientTypes.ContextStoreSyncStatus?
+
+        public init(
+            statusMessage: Swift.String? = nil,
+            syncStatus: NetworkFirewallClientTypes.ContextStoreSyncStatus? = nil
+        ) {
+            self.statusMessage = statusMessage
+            self.syncStatus = syncStatus
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum ContextType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachment
+        case resourceId
+        case segmentId
+        case subnet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextType] {
+            return [
+                .attachment,
+                .resourceId,
+                .segmentId,
+                .subnet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "Attachment"
+            case .resourceId: return "ResourceId"
+            case .segmentId: return "SegmentId"
+            case .subnet: return "Subnet"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 /// Unable to perform the operation because doing so would violate a limit setting.
 public struct LimitExceededException: ClientRuntime.ModeledError, ClientRuntime.ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1617,6 +1816,10 @@ extension NetworkFirewallClientTypes {
         public var availabilityZoneChangeProtection: Swift.Bool
         /// The Availability Zones where the firewall endpoints are created for a transit gateway-attached firewall. Each mapping specifies an Availability Zone where the firewall processes traffic.
         public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
+        /// The unique identifier of the context store that the firewall uses to resolve context sets in its rule groups. Network Firewall discovers the context store from the transit gateway association in Network Manager. This field is only present for transit gateway-attached firewalls whose transit gateway is associated with a context store.
+        public var contextStoreId: Swift.String?
+        /// The Amazon Web Services account ID that owns the context store. This may be different from the firewall owner's account ID.
+        public var contextStoreOwnerAccountId: Swift.String?
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public var deleteProtection: Swift.Bool
         /// A description of the firewall.
@@ -1665,6 +1868,8 @@ extension NetworkFirewallClientTypes {
         public init(
             availabilityZoneChangeProtection: Swift.Bool = false,
             availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
+            contextStoreId: Swift.String? = nil,
+            contextStoreOwnerAccountId: Swift.String? = nil,
             deleteProtection: Swift.Bool = false,
             description: Swift.String? = nil,
             enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
@@ -1688,6 +1893,8 @@ extension NetworkFirewallClientTypes {
         ) {
             self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
             self.availabilityZoneMappings = availabilityZoneMappings
+            self.contextStoreId = contextStoreId
+            self.contextStoreOwnerAccountId = contextStoreOwnerAccountId
             self.deleteProtection = deleteProtection
             self.description = description
             self.enabledAnalysisTypes = enabledAnalysisTypes
@@ -1972,6 +2179,8 @@ extension NetworkFirewallClientTypes {
         /// The configuration sync state for the firewall. This summarizes the Config settings in the SyncStates for this firewall status object. When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all Availability Zones that have subnets defined for the firewall. This summary indicates whether the configuration changes have been applied everywhere. This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness. It's based on this setting and the readiness of the firewall endpoints to take traffic.
         /// This member is required.
         public var configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState?
+        /// The synchronization state of the context sets in the firewall's rule groups with the firewall's context store. This field is only present when the firewall has a context store and its rule groups reference context sets.
+        public var contextStoreSyncState: NetworkFirewallClientTypes.ContextStoreSyncState?
         /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
         /// This member is required.
         public var status: NetworkFirewallClientTypes.FirewallStatusValue?
@@ -1983,12 +2192,14 @@ extension NetworkFirewallClientTypes {
         public init(
             capacityUsageSummary: NetworkFirewallClientTypes.CapacityUsageSummary? = nil,
             configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState? = nil,
+            contextStoreSyncState: NetworkFirewallClientTypes.ContextStoreSyncState? = nil,
             status: NetworkFirewallClientTypes.FirewallStatusValue? = nil,
             syncStates: [Swift.String: NetworkFirewallClientTypes.SyncState]? = nil,
             transitGatewayAttachmentSyncState: NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState? = nil
         ) {
             self.capacityUsageSummary = capacityUsageSummary
             self.configurationSyncStateSummary = configurationSyncStateSummary
+            self.contextStoreSyncState = contextStoreSyncState
             self.status = status
             self.syncStates = syncStates
             self.transitGatewayAttachmentSyncState = transitGatewayAttachmentSyncState
@@ -3805,15 +4016,19 @@ extension NetworkFirewallClientTypes {
 
     /// Settings that are available for use in the rules in the [RuleGroup] where this is defined. See [CreateRuleGroup] or [UpdateRuleGroup] for usage.
     public struct RuleVariables: Swift.Sendable {
+        /// A list of context sets. Each context set lists resources from the context store that is associated with the firewall.
+        public var contextSets: [Swift.String: NetworkFirewallClientTypes.ContextSet]?
         /// A list of IP addresses and address ranges, in CIDR notation.
         public var ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]?
         /// A list of port ranges.
         public var portSets: [Swift.String: NetworkFirewallClientTypes.PortSet]?
 
         public init(
+            contextSets: [Swift.String: NetworkFirewallClientTypes.ContextSet]? = nil,
             ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]? = nil,
             portSets: [Swift.String: NetworkFirewallClientTypes.PortSet]? = nil
         ) {
+            self.contextSets = contextSets
             self.ipSets = ipSets
             self.portSets = portSets
         }
@@ -7335,6 +7550,37 @@ public struct ListContainerAssociationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListContextStoresInput: Swift.Sendable {
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContextStoresOutput: Swift.Sendable {
+    /// The context stores that are associated with your firewalls.
+    /// This member is required.
+    public var contextStores: [NetworkFirewallClientTypes.ContextStore]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStores: [NetworkFirewallClientTypes.ContextStore]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStores = contextStores
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListFirewallPoliciesInput: Swift.Sendable {
     /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
     public var maxResults: Swift.Int?
@@ -7574,6 +7820,86 @@ public struct ListFlowOperationsOutput: Swift.Sendable {
     ) {
         self.flowOperations = flowOperations
         self.nextToken = nextToken
+    }
+}
+
+public struct ListResourcesInContextStoreInput: Swift.Sendable {
+    /// The unique identifier of the context store. To get the identifiers of the context stores that are associated with your firewalls, call ListContextStores.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// Optional filters that limit the results to resources in a specific Region, of a specific resource type, or both. If you specify both filters, Network Firewall returns only the resources that match both.
+    public var filters: NetworkFirewallClientTypes.ContextFilters?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request. A token is valid only for the same ContextStoreId and filters as the request that returned it.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        filters: NetworkFirewallClientTypes.ContextFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A resource that a context store records, which ListResourcesInContextStore returns.
+    public struct ResourceContext: Swift.Sendable {
+        /// The type of the transit gateway attachment. Present for attachments.
+        public var attachmentType: Swift.String?
+        /// The Availability Zone of the resource. Present for subnets.
+        public var availabilityZone: Swift.String?
+        /// The kind of context that the context store records for the resource. Valid values:
+        ///
+        /// * ResourceId - A VPC.
+        ///
+        /// * SegmentId - A security group.
+        ///
+        /// * Subnet - A subnet.
+        ///
+        /// * Attachment - A transit gateway attachment.
+        public var contextType: NetworkFirewallClientTypes.ContextType?
+        /// The identifier of the resource, for example vpc-1234567890abcdef0, subnet-1234567890abcdef0, sg-1234567890abcdef0, or tgw-attach-1234567890abcdef0.
+        /// This member is required.
+        public var publicId: Swift.String?
+        /// The Amazon Web Services Region of the resource.
+        public var region: Swift.String?
+
+        public init(
+            attachmentType: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            contextType: NetworkFirewallClientTypes.ContextType? = nil,
+            publicId: Swift.String? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.attachmentType = attachmentType
+            self.availabilityZone = availabilityZone
+            self.contextType = contextType
+            self.publicId = publicId
+            self.region = region
+        }
+    }
+}
+
+public struct ListResourcesInContextStoreOutput: Swift.Sendable {
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The resources that the context store records and that match your filters.
+    /// This member is required.
+    public var resourceContexts: [NetworkFirewallClientTypes.ResourceContext]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceContexts: [NetworkFirewallClientTypes.ResourceContext]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceContexts = resourceContexts
     }
 }
 

@@ -3460,6 +3460,22 @@ public struct DescribeRegistryInput: Swift.Sendable {
 
 extension ECRClientTypes {
 
+    /// The delete replication configuration for a replication rule. When delete replication is enabled, the service replicates image deletions and image tag removals in the source registry to the replication destinations.
+    public struct DeleteReplication: Swift.Sendable {
+        /// Specifies whether delete replication is enabled. If set to true, the service replicates image deletions and image tag removals from the source registry to each replication destination. If set to false, the service does not replicate image deletions or image tag removals.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension ECRClientTypes {
+
     /// An array of objects representing the destination for a replication rule.
     public struct ReplicationDestination: Swift.Sendable {
         /// The Region to replicate to.
@@ -3530,6 +3546,8 @@ extension ECRClientTypes {
 
     /// An array of objects representing the replication destinations and repository filters for a replication configuration.
     public struct ReplicationRule: Swift.Sendable {
+        /// The delete replication settings for the replication rule. When delete replication is enabled, the service replicates image deletions and image tag removals from the source registry to the replication destinations. If you do not specify this parameter, the service does not replicate image deletions or image tag removals for the replication rule.
+        public var deleteReplication: ECRClientTypes.DeleteReplication?
         /// An array of objects representing the destination for a replication rule.
         /// This member is required.
         public var destinations: [ECRClientTypes.ReplicationDestination]?
@@ -3537,9 +3555,11 @@ extension ECRClientTypes {
         public var repositoryFilters: [ECRClientTypes.RepositoryFilter]?
 
         public init(
+            deleteReplication: ECRClientTypes.DeleteReplication? = nil,
             destinations: [ECRClientTypes.ReplicationDestination]? = nil,
             repositoryFilters: [ECRClientTypes.RepositoryFilter]? = nil
         ) {
+            self.deleteReplication = deleteReplication
             self.destinations = destinations
             self.repositoryFilters = repositoryFilters
         }

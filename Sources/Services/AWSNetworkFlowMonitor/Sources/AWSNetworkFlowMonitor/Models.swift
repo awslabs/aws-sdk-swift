@@ -18,6 +18,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.timestampReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -49,6 +50,131 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    public enum OrgMembershipStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inOrg
+        case notInOrg
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrgMembershipStatus] {
+            return [
+                .inOrg,
+                .notInOrg,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inOrg: return "IN_ORG"
+            case .notInOrg: return "NOT_IN_ORG"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// An account that you can add to the monitoring scope for a monitor, so that Network Flow Monitor can resolve the network paths for traffic to and from resources in the account.
+    public struct AccountToAdd: Swift.Sendable {
+        /// The ID of the account that you can add to the monitoring scope.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// Whether the account is a member of the same organization as the account that owns the monitor. The membership status can be one of the following
+        ///
+        /// * IN_ORG: The account is a member of the same organization.
+        ///
+        /// * NOT_IN_ORG: The account isn't a member of the same organization.
+        ///
+        /// * UNKNOWN: Network Flow Monitor can't determine the organization membership of the account.
+        /// This member is required.
+        public var membership: NetworkFlowMonitorClientTypes.OrgMembershipStatus?
+        /// The Amazon Web Services Region of the traffic that Network Flow Monitor identified for the account.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            membership: NetworkFlowMonitorClientTypes.OrgMembershipStatus? = nil,
+            region: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.membership = membership
+            self.region = region
+        }
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// The geographic location of the client for a network flow.
+    public struct ClientLocation: Swift.Sendable {
+        /// The city where the client is located.
+        public var city: Swift.String?
+        /// The country where the client is located.
+        public var country: Swift.String?
+        /// The subdivision, such as a state or province, where the client is located.
+        public var subdivision: Swift.String?
+
+        public init(
+            city: Swift.String? = nil,
+            country: Swift.String? = nil,
+            subdivision: Swift.String? = nil
+        ) {
+            self.city = city
+            self.country = country
+            self.subdivision = subdivision
+        }
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// The network that an address in a network flow belongs to.
+    public struct Network: Swift.Sendable {
+        /// The name of the autonomous system that the network belongs to.
+        public var asName: Swift.String?
+        /// The autonomous system number (ASN) of the autonomous system that the network belongs to.
+        public var asNumber: Swift.Int?
+
+        public init(
+            asName: Swift.String? = nil,
+            asNumber: Swift.Int? = nil
+        ) {
+            self.asName = asName
+            self.asNumber = asNumber
+        }
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// Additional information about a network flow, such as the network that the remote address belongs to and the location of the client.
+    public struct AdditionalFlowInfo: Swift.Sendable {
+        /// The location of the client for the network flow.
+        public var clientLocation: NetworkFlowMonitorClientTypes.ClientLocation?
+        /// The network that the remote address of the network flow belongs to.
+        public var network: NetworkFlowMonitorClientTypes.Network?
+
+        public init(
+            clientLocation: NetworkFlowMonitorClientTypes.ClientLocation? = nil,
+            network: NetworkFlowMonitorClientTypes.Network? = nil
+        ) {
+            self.clientLocation = clientLocation
+            self.network = network
+        }
     }
 }
 
@@ -440,6 +566,164 @@ public struct CreateMonitorOutput: Swift.Sendable {
 
 extension NetworkFlowMonitorClientTypes {
 
+    public enum PerformanceMonitorTargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsVpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceMonitorTargetType] {
+            return [
+                .awsVpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsVpc: return "AWS::EC2::VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// A resource that a performance monitor tracks network performance for.
+    public struct PerformanceMonitorTarget: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource that you want Network Flow Monitor to track network performance for.
+        /// This member is required.
+        public var identifier: Swift.String?
+        /// The type of the resource that you want Network Flow Monitor to track network performance for. Specify AWS::EC2::VPC.
+        /// This member is required.
+        public var type: NetworkFlowMonitorClientTypes.PerformanceMonitorTargetType?
+
+        public init(
+            identifier: Swift.String? = nil,
+            type: NetworkFlowMonitorClientTypes.PerformanceMonitorTargetType? = nil
+        ) {
+            self.identifier = identifier
+            self.type = type
+        }
+    }
+}
+
+public struct CreatePerformanceMonitorInput: Swift.Sendable {
+    /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. If the token matches a previous request, the service ignores the request without returning an error. Don't reuse the same client token for other API requests.
+    public var clientToken: Swift.String?
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the scope for the performance monitor.
+    public var scopeArn: Swift.String?
+    /// The tags for a performance monitor. You can add a maximum of 200 tags.
+    public var tags: [Swift.String: Swift.String]?
+    /// The resources to monitor. Each target identifies a resource, currently a VPC, for which you can track network performance. For a VPC, specify the VPC ARN.
+    /// This member is required.
+    public var targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        monitorName: Swift.String? = nil,
+        scopeArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.monitorName = monitorName
+        self.scopeArn = scopeArn
+        self.tags = tags
+        self.targets = targets
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    public enum PerformanceMonitorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case vpc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceMonitorType] {
+            return [
+                .vpc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .vpc: return "VPC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreatePerformanceMonitorOutput: Swift.Sendable {
+    /// The date and time when the performance monitor was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The date and time when the performance monitor was last modified.
+    /// This member is required.
+    public var modifiedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the performance monitor.
+    /// This member is required.
+    public var monitorArn: Swift.String?
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The status of a performance monitor. The status can be one of the following
+    ///
+    /// * PENDING: The performance monitor is in the process of being created.
+    ///
+    /// * ACTIVE: The performance monitor is active.
+    ///
+    /// * INACTIVE: The performance monitor is inactive.
+    ///
+    /// * ERROR: The performance monitor can't be created or updated.
+    ///
+    /// * DELETING: The performance monitor is in the process of being deleted.
+    /// This member is required.
+    public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
+    /// The type of resource that you monitor determines the type of the performance monitor.
+    /// This member is required.
+    public var monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType?
+    /// The tags for a performance monitor.
+    public var tags: [Swift.String: Swift.String]?
+    /// The resources that the performance monitor tracks network performance for.
+    /// This member is required.
+    public var targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        monitorArn: Swift.String? = nil,
+        monitorName: Swift.String? = nil,
+        monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
+        monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.modifiedAt = modifiedAt
+        self.monitorArn = monitorArn
+        self.monitorName = monitorName
+        self.monitorStatus = monitorStatus
+        self.monitorType = monitorType
+        self.tags = tags
+        self.targets = targets
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
     /// A target ID is an internally-generated identifier for a target. A target allows you to identify all the resources in a Network Flow Monitor scope. Currently, a target is always an Amazon Web Services account.
     public enum TargetId: Swift.Sendable {
         /// The identifier for the account for a target.
@@ -640,6 +924,23 @@ public struct DeleteMonitorOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeletePerformanceMonitorInput: Swift.Sendable {
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+
+    public init(
+        monitorName: Swift.String? = nil
+    ) {
+        self.monitorName = monitorName
+    }
+}
+
+public struct DeletePerformanceMonitorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteScopeInput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
@@ -662,10 +963,14 @@ extension NetworkFlowMonitorClientTypes {
     public enum DestinationCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonDynamodb
         case amazonS3
+        case awsService
+        case internet
         case interAz
         case interRegion
         case interVpc
         case intraAz
+        case localZone
+        case transitGateway
         case unclassified
         case sdkUnknown(Swift.String)
 
@@ -673,10 +978,14 @@ extension NetworkFlowMonitorClientTypes {
             return [
                 .amazonDynamodb,
                 .amazonS3,
+                .awsService,
+                .internet,
                 .interAz,
                 .interRegion,
                 .interVpc,
                 .intraAz,
+                .localZone,
+                .transitGateway,
                 .unclassified
             ]
         }
@@ -690,13 +999,86 @@ extension NetworkFlowMonitorClientTypes {
             switch self {
             case .amazonDynamodb: return "AMAZON_DYNAMODB"
             case .amazonS3: return "AMAZON_S3"
+            case .awsService: return "AWS_SERVICE"
+            case .internet: return "INTERNET"
             case .interAz: return "INTER_AZ"
             case .interRegion: return "INTER_REGION"
             case .interVpc: return "INTER_VPC"
             case .intraAz: return "INTRA_AZ"
+            case .localZone: return "LOCAL_ZONE"
+            case .transitGateway: return "TRANSIT_GATEWAY"
             case .unclassified: return "UNCLASSIFIED"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    public enum FilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case equals
+        case `in`
+        case notEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterOperator] {
+            return [
+                .contains,
+                .equals,
+                .in,
+                .notEquals
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .equals: return "EQUALS"
+            case .in: return "IN"
+            case .notEquals: return "NOT_EQUALS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// A filter for a query, to return a subset of the results.
+    public struct FilterParameter: Swift.Sendable {
+        /// The name of the field that you want to filter on. The fields that you can specify depend on the type of query.
+        /// This member is required.
+        public var field: Swift.String?
+        /// The operator to use to compare the field with the values that you specify. The operator can be one of the following
+        ///
+        /// * EQUALS: The field matches a single value.
+        ///
+        /// * NOT_EQUALS: The field doesn't match a single value.
+        ///
+        /// * IN: The field matches any one of several values.
+        ///
+        /// * CONTAINS: The field contains a value.
+        /// This member is required.
+        public var `operator`: NetworkFlowMonitorClientTypes.FilterOperator?
+        /// The values to compare the field with.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            field: Swift.String? = nil,
+            `operator`: NetworkFlowMonitorClientTypes.FilterOperator? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.field = field
+            self.`operator` = `operator`
+            self.values = values
         }
     }
 }
@@ -766,6 +1148,162 @@ public struct GetMonitorOutput: Swift.Sendable {
         self.monitorStatus = monitorStatus
         self.remoteResources = remoteResources
         self.tags = tags
+    }
+}
+
+public struct GetMonitorScopeSuggestionsInput: Swift.Sendable {
+    /// The number of query results that you want to return with this call.
+    public var maxResults: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the monitor that you want to return scope suggestions for.
+    /// This member is required.
+    public var monitorArn: Swift.String?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        monitorArn: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.monitorArn = monitorArn
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    public enum ScopeCoverageStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complete
+        case incomplete
+        case pending
+        case stale
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopeCoverageStatus] {
+            return [
+                .complete,
+                .incomplete,
+                .pending,
+                .stale
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .incomplete: return "INCOMPLETE"
+            case .pending: return "PENDING"
+            case .stale: return "STALE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetMonitorScopeSuggestionsOutput: Swift.Sendable {
+    /// The accounts that you can add to the monitoring scope, so that Network Flow Monitor can resolve the network paths for traffic to and from resources in those accounts.
+    /// This member is required.
+    public var accountsToAdd: [NetworkFlowMonitorClientTypes.AccountToAdd]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The coverage status of the monitoring scope for the monitor. The status can be one of the following
+    ///
+    /// * COMPLETE: The scope includes every account that sends traffic to, or receives traffic from, resources in the monitor.
+    ///
+    /// * INCOMPLETE: There are accounts that you can add to the scope.
+    ///
+    /// * PENDING: Network Flow Monitor is determining the coverage of the scope.
+    ///
+    /// * STALE: The coverage of the scope was last determined too long ago to be current.
+    /// This member is required.
+    public var status: NetworkFlowMonitorClientTypes.ScopeCoverageStatus?
+    /// The date and time when Network Flow Monitor last determined the coverage of the monitoring scope.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        accountsToAdd: [NetworkFlowMonitorClientTypes.AccountToAdd]? = nil,
+        nextToken: Swift.String? = nil,
+        status: NetworkFlowMonitorClientTypes.ScopeCoverageStatus? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.accountsToAdd = accountsToAdd
+        self.nextToken = nextToken
+        self.status = status
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetPerformanceMonitorInput: Swift.Sendable {
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+
+    public init(
+        monitorName: Swift.String? = nil
+    ) {
+        self.monitorName = monitorName
+    }
+}
+
+public struct GetPerformanceMonitorOutput: Swift.Sendable {
+    /// The date and time when the performance monitor was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The date and time when the performance monitor was last modified.
+    /// This member is required.
+    public var modifiedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the performance monitor.
+    /// This member is required.
+    public var monitorArn: Swift.String?
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The status of a performance monitor. The status can be one of the following
+    ///
+    /// * PENDING: The performance monitor is in the process of being created.
+    ///
+    /// * ACTIVE: The performance monitor is active.
+    ///
+    /// * INACTIVE: The performance monitor is inactive.
+    ///
+    /// * ERROR: The performance monitor can't be created or updated.
+    ///
+    /// * DELETING: The performance monitor is in the process of being deleted.
+    /// This member is required.
+    public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
+    /// The type of resource that you monitor determines the type of the performance monitor.
+    /// This member is required.
+    public var monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType?
+    /// The tags for a performance monitor.
+    public var tags: [Swift.String: Swift.String]?
+    /// The resources that the performance monitor tracks network performance for.
+    /// This member is required.
+    public var targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        monitorArn: Swift.String? = nil,
+        monitorName: Swift.String? = nil,
+        monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
+        monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.modifiedAt = modifiedAt
+        self.monitorArn = monitorArn
+        self.monitorName = monitorName
+        self.monitorStatus = monitorStatus
+        self.monitorType = monitorType
+        self.tags = tags
+        self.targets = targets
     }
 }
 
@@ -860,6 +1398,8 @@ extension NetworkFlowMonitorClientTypes {
 
     /// A set of information for a top contributor network flow in a monitor. In a monitor, Network Flow Monitor returns information about the network flows for top contributors for each metric. Top contributors are network flows with the top values for each metric type.
     public struct MonitorTopContributorsRow: Swift.Sendable {
+        /// Additional information about the network flow, such as the network that the remote address belongs to and the location of the client.
+        public var additionalFlowInfo: NetworkFlowMonitorClientTypes.AdditionalFlowInfo?
         /// The destination category for a top contributors row. Destination categories can be one of the following:
         ///
         /// * INTRA_AZ: Top contributor network flows within a single Availability Zone
@@ -924,6 +1464,7 @@ extension NetworkFlowMonitorClientTypes {
         public var value: Swift.Int?
 
         public init(
+            additionalFlowInfo: NetworkFlowMonitorClientTypes.AdditionalFlowInfo? = nil,
             destinationCategory: NetworkFlowMonitorClientTypes.DestinationCategory? = nil,
             dnatIp: Swift.String? = nil,
             kubernetesMetadata: NetworkFlowMonitorClientTypes.KubernetesMetadata? = nil,
@@ -950,6 +1491,7 @@ extension NetworkFlowMonitorClientTypes {
             traversedConstructs: [NetworkFlowMonitorClientTypes.TraversedComponent]? = nil,
             value: Swift.Int? = nil
         ) {
+            self.additionalFlowInfo = additionalFlowInfo
             self.destinationCategory = destinationCategory
             self.dnatIp = dnatIp
             self.kubernetesMetadata = kubernetesMetadata
@@ -1099,6 +1641,73 @@ public struct GetQueryResultsMonitorTopContributorsOutput: Swift.Sendable {
         self.nextToken = nextToken
         self.topContributors = topContributors
         self.unit = unit
+    }
+}
+
+public struct GetQueryResultsPerformanceMonitorInput: Swift.Sendable {
+    /// The number of query results that you want to return with this call.
+    public var maxResults: Swift.Int?
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        monitorName: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.monitorName = monitorName
+        self.nextToken = nextToken
+        self.queryId = queryId
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// A column that a query returns, with its name and data type.
+    public struct QueryField: Swift.Sendable {
+        /// The name of the column.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The data type of the values in the column.
+        /// This member is required.
+        public var type: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+public struct GetQueryResultsPerformanceMonitorOutput: Swift.Sendable {
+    /// The results of the query. Each row contains the values for the columns that fields describes, in the same order.
+    /// This member is required.
+    public var data: [[Swift.String?]]?
+    /// The columns that the query returns, in the order that the values for each row appear in data.
+    /// This member is required.
+    public var fields: [NetworkFlowMonitorClientTypes.QueryField]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        data: [[Swift.String?]]? = nil,
+        fields: [NetworkFlowMonitorClientTypes.QueryField]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.data = data
+        self.fields = fields
+        self.nextToken = nextToken
     }
 }
 
@@ -1338,6 +1947,45 @@ public struct GetQueryStatusMonitorTopContributorsOutput: Swift.Sendable {
     }
 }
 
+public struct GetQueryStatusPerformanceMonitorInput: Swift.Sendable {
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        monitorName: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    ) {
+        self.monitorName = monitorName
+        self.queryId = queryId
+    }
+}
+
+public struct GetQueryStatusPerformanceMonitorOutput: Swift.Sendable {
+    /// When you run a query, use this call to check the status of the query to make sure that the query has SUCCEEDED before you review the results.
+    ///
+    /// * QUEUED: The query is scheduled to run.
+    ///
+    /// * RUNNING: The query is in progress but not complete.
+    ///
+    /// * SUCCEEDED: The query completed successfully.
+    ///
+    /// * FAILED: The query failed due to an error.
+    ///
+    /// * CANCELED: The query was canceled.
+    /// This member is required.
+    public var status: NetworkFlowMonitorClientTypes.QueryStatus?
+
+    public init(
+        status: NetworkFlowMonitorClientTypes.QueryStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct GetQueryStatusWorkloadInsightsTopContributorsInput: Swift.Sendable {
     /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
     /// This member is required.
@@ -1533,6 +2181,90 @@ public struct ListMonitorsOutput: Swift.Sendable {
 
     public init(
         monitors: [NetworkFlowMonitorClientTypes.MonitorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.monitors = monitors
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListPerformanceMonitorsInput: Swift.Sendable {
+    /// The number of performance monitors that you want to return with this call. If you don't specify a value, the default is 25.
+    public var maxResults: Swift.Int?
+    /// The status of the performance monitors that you want to return. If you don't specify a status, Network Flow Monitor returns performance monitors with any status.
+    public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
+    /// The type of the performance monitors that you want to return. If you don't specify a type, Network Flow Monitor returns performance monitors of any type.
+    public var monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
+        monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.monitorStatus = monitorStatus
+        self.monitorType = monitorType
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
+    /// A summary of information about a performance monitor, including the ARN, the name, the status, and the resources that it tracks network performance for.
+    public struct PerformanceMonitorSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the performance monitor.
+        /// This member is required.
+        public var monitorArn: Swift.String?
+        /// The name of the performance monitor.
+        /// This member is required.
+        public var monitorName: Swift.String?
+        /// The status of a performance monitor. The status can be one of the following
+        ///
+        /// * PENDING: The performance monitor is in the process of being created.
+        ///
+        /// * ACTIVE: The performance monitor is active.
+        ///
+        /// * INACTIVE: The performance monitor is inactive.
+        ///
+        /// * ERROR: The performance monitor can't be created or updated.
+        ///
+        /// * DELETING: The performance monitor is in the process of being deleted.
+        /// This member is required.
+        public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
+        /// The type of resource that you monitor determines the type of the performance monitor.
+        /// This member is required.
+        public var monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType?
+        /// The resources that the performance monitor tracks network performance for.
+        public var targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]?
+
+        public init(
+            monitorArn: Swift.String? = nil,
+            monitorName: Swift.String? = nil,
+            monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
+            monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType? = nil,
+            targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]? = nil
+        ) {
+            self.monitorArn = monitorArn
+            self.monitorName = monitorName
+            self.monitorStatus = monitorStatus
+            self.monitorType = monitorType
+            self.targets = targets
+        }
+    }
+}
+
+public struct ListPerformanceMonitorsOutput: Swift.Sendable {
+    /// The performance monitors in the account.
+    /// This member is required.
+    public var monitors: [NetworkFlowMonitorClientTypes.PerformanceMonitorSummary]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        monitors: [NetworkFlowMonitorClientTypes.PerformanceMonitorSummary]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.monitors = monitors
@@ -1829,6 +2561,190 @@ public struct UpdateMonitorOutput: Swift.Sendable {
 
 extension NetworkFlowMonitorClientTypes {
 
+    public enum PerformanceMonitorQueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case topPaths
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceMonitorQueryType] {
+            return [
+                .topPaths
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .topPaths: return "TOP_PATHS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartQueryPerformanceMonitorInput: Swift.Sendable {
+    /// The timestamp that is the date and time end of the period that you want to retrieve results for with your query.
+    /// This member is required.
+    public var endTime: Foundation.Date?
+    /// The filters for the query, to return a subset of the top paths. For a TOP_PATHS query, you can filter on the following fields:
+    ///
+    /// * local_az_id: The Availability Zone ID of the local end of a path
+    ///
+    /// * remote_az_id: The Availability Zone ID of the remote end of a path
+    ///
+    /// * impact_level: The impact level of a path
+    ///
+    ///
+    /// When you filter on impact_level, Network Flow Monitor compares the filter with the most severe impact level for the path over the time period of the query, and the traffic and round-trip time that Network Flow Monitor returns for each path still cover the full time period. Paths that have no impact data don't match an impact_level filter, including a NOT_EQUALS filter. Network Flow Monitor doesn't filter the subnet pairs within a path by impact level.
+    public var filterParameters: [NetworkFlowMonitorClientTypes.FilterParameter]?
+    /// The maximum number of top paths that you want the query to return.
+    public var limit: Swift.Int?
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The type of query that you want to create. Specify TOP_PATHS to return the top paths for the performance monitor.
+    /// This member is required.
+    public var queryType: NetworkFlowMonitorClientTypes.PerformanceMonitorQueryType?
+    /// The timestamp that is the date and time that is the beginning of the period that you want to retrieve results for with your query.
+    /// This member is required.
+    public var startTime: Foundation.Date?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        filterParameters: [NetworkFlowMonitorClientTypes.FilterParameter]? = nil,
+        limit: Swift.Int? = nil,
+        monitorName: Swift.String? = nil,
+        queryType: NetworkFlowMonitorClientTypes.PerformanceMonitorQueryType? = nil,
+        startTime: Foundation.Date? = nil
+    ) {
+        self.endTime = endTime
+        self.filterParameters = filterParameters
+        self.limit = limit
+        self.monitorName = monitorName
+        self.queryType = queryType
+        self.startTime = startTime
+    }
+}
+
+public struct StartQueryPerformanceMonitorOutput: Swift.Sendable {
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        queryId: Swift.String? = nil
+    ) {
+        self.queryId = queryId
+    }
+}
+
+public struct StopQueryPerformanceMonitorInput: Swift.Sendable {
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        monitorName: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    ) {
+        self.monitorName = monitorName
+        self.queryId = queryId
+    }
+}
+
+public struct StopQueryPerformanceMonitorOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdatePerformanceMonitorInput: Swift.Sendable {
+    /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. If the token matches a previous request, the service ignores the request without returning an error. Don't reuse the same client token for other API requests.
+    public var clientToken: Swift.String?
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The resources to add to the performance monitor.
+    public var targetsToAdd: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]?
+    /// The resources to remove from the performance monitor.
+    public var targetsToRemove: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        monitorName: Swift.String? = nil,
+        targetsToAdd: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]? = nil,
+        targetsToRemove: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.monitorName = monitorName
+        self.targetsToAdd = targetsToAdd
+        self.targetsToRemove = targetsToRemove
+    }
+}
+
+public struct UpdatePerformanceMonitorOutput: Swift.Sendable {
+    /// The date and time when the performance monitor was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The date and time when the performance monitor was last modified.
+    /// This member is required.
+    public var modifiedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the performance monitor.
+    /// This member is required.
+    public var monitorArn: Swift.String?
+    /// The name of the performance monitor.
+    /// This member is required.
+    public var monitorName: Swift.String?
+    /// The status of a performance monitor. The status can be one of the following
+    ///
+    /// * PENDING: The performance monitor is in the process of being created.
+    ///
+    /// * ACTIVE: The performance monitor is active.
+    ///
+    /// * INACTIVE: The performance monitor is inactive.
+    ///
+    /// * ERROR: The performance monitor can't be created or updated.
+    ///
+    /// * DELETING: The performance monitor is in the process of being deleted.
+    /// This member is required.
+    public var monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus?
+    /// The type of resource that you monitor determines the type of the performance monitor.
+    /// This member is required.
+    public var monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType?
+    /// The tags for a performance monitor.
+    public var tags: [Swift.String: Swift.String]?
+    /// The resources that the performance monitor tracks network performance for.
+    /// This member is required.
+    public var targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        modifiedAt: Foundation.Date? = nil,
+        monitorArn: Swift.String? = nil,
+        monitorName: Swift.String? = nil,
+        monitorStatus: NetworkFlowMonitorClientTypes.MonitorStatus? = nil,
+        monitorType: NetworkFlowMonitorClientTypes.PerformanceMonitorType? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        targets: [NetworkFlowMonitorClientTypes.PerformanceMonitorTarget]? = nil
+    ) {
+        self.createdAt = createdAt
+        self.modifiedAt = modifiedAt
+        self.monitorArn = monitorArn
+        self.monitorName = monitorName
+        self.monitorStatus = monitorStatus
+        self.monitorType = monitorType
+        self.tags = tags
+        self.targets = targets
+    }
+}
+
+extension NetworkFlowMonitorClientTypes {
+
     public enum WorkloadInsightsMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dataTransferred
         case retransmissions
@@ -2116,6 +3032,13 @@ extension CreateMonitorInput {
     }
 }
 
+extension CreatePerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: CreatePerformanceMonitorInput) -> Swift.String? {
+        return "/performance-monitors"
+    }
+}
+
 extension CreateScopeInput {
 
     static func urlPathProvider(_ value: CreateScopeInput) -> Swift.String? {
@@ -2130,6 +3053,16 @@ extension DeleteMonitorInput {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())"
+    }
+}
+
+extension DeletePerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: DeletePerformanceMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
+            return nil
+        }
+        return "/performance-monitors/\(monitorName.urlPercentEncoding())"
     }
 }
 
@@ -2153,6 +3086,45 @@ extension GetMonitorInput {
     }
 }
 
+extension GetMonitorScopeSuggestionsInput {
+
+    static func urlPathProvider(_ value: GetMonitorScopeSuggestionsInput) -> Swift.String? {
+        return "/monitor-scope-suggestions"
+    }
+}
+
+extension GetMonitorScopeSuggestionsInput {
+
+    static func queryItemProvider(_ value: GetMonitorScopeSuggestionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let monitorArn = value.monitorArn else {
+            let message = "Creating a URL Query Item failed. monitorArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let monitorArnQueryItem = Smithy.URIQueryItem(name: "monitorArn".urlPercentEncoding(), value: Swift.String(monitorArn).urlPercentEncoding())
+        items.append(monitorArnQueryItem)
+        return items
+    }
+}
+
+extension GetPerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: GetPerformanceMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
+            return nil
+        }
+        return "/performance-monitors/\(monitorName.urlPercentEncoding())"
+    }
+}
+
 extension GetQueryResultsMonitorTopContributorsInput {
 
     static func urlPathProvider(_ value: GetQueryResultsMonitorTopContributorsInput) -> Swift.String? {
@@ -2169,6 +3141,35 @@ extension GetQueryResultsMonitorTopContributorsInput {
 extension GetQueryResultsMonitorTopContributorsInput {
 
     static func queryItemProvider(_ value: GetQueryResultsMonitorTopContributorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetQueryResultsPerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: GetQueryResultsPerformanceMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
+            return nil
+        }
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/performance-monitors/\(monitorName.urlPercentEncoding())/queries/\(queryId.urlPercentEncoding())/results"
+    }
+}
+
+extension GetQueryResultsPerformanceMonitorInput {
+
+    static func queryItemProvider(_ value: GetQueryResultsPerformanceMonitorInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -2253,6 +3254,19 @@ extension GetQueryStatusMonitorTopContributorsInput {
     }
 }
 
+extension GetQueryStatusPerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: GetQueryStatusPerformanceMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
+            return nil
+        }
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/performance-monitors/\(monitorName.urlPercentEncoding())/queries/\(queryId.urlPercentEncoding())/status"
+    }
+}
+
 extension GetQueryStatusWorkloadInsightsTopContributorsInput {
 
     static func urlPathProvider(_ value: GetQueryStatusWorkloadInsightsTopContributorsInput) -> Swift.String? {
@@ -2316,6 +3330,37 @@ extension ListMonitorsInput {
     }
 }
 
+extension ListPerformanceMonitorsInput {
+
+    static func urlPathProvider(_ value: ListPerformanceMonitorsInput) -> Swift.String? {
+        return "/performance-monitors"
+    }
+}
+
+extension ListPerformanceMonitorsInput {
+
+    static func queryItemProvider(_ value: ListPerformanceMonitorsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let monitorType = value.monitorType {
+            let monitorTypeQueryItem = Smithy.URIQueryItem(name: "monitorType".urlPercentEncoding(), value: Swift.String(monitorType.rawValue).urlPercentEncoding())
+            items.append(monitorTypeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let monitorStatus = value.monitorStatus {
+            let monitorStatusQueryItem = Smithy.URIQueryItem(name: "monitorStatus".urlPercentEncoding(), value: Swift.String(monitorStatus.rawValue).urlPercentEncoding())
+            items.append(monitorStatusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListScopesInput {
 
     static func urlPathProvider(_ value: ListScopesInput) -> Swift.String? {
@@ -2359,6 +3404,16 @@ extension StartQueryMonitorTopContributorsInput {
     }
 }
 
+extension StartQueryPerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: StartQueryPerformanceMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
+            return nil
+        }
+        return "/performance-monitors/\(monitorName.urlPercentEncoding())/queries"
+    }
+}
+
 extension StartQueryWorkloadInsightsTopContributorsInput {
 
     static func urlPathProvider(_ value: StartQueryWorkloadInsightsTopContributorsInput) -> Swift.String? {
@@ -2389,6 +3444,19 @@ extension StopQueryMonitorTopContributorsInput {
             return nil
         }
         return "/monitors/\(monitorName.urlPercentEncoding())/topContributorsQueries/\(queryId.urlPercentEncoding())"
+    }
+}
+
+extension StopQueryPerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: StopQueryPerformanceMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
+            return nil
+        }
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/performance-monitors/\(monitorName.urlPercentEncoding())/queries/\(queryId.urlPercentEncoding())"
     }
 }
 
@@ -2464,6 +3532,16 @@ extension UpdateMonitorInput {
     }
 }
 
+extension UpdatePerformanceMonitorInput {
+
+    static func urlPathProvider(_ value: UpdatePerformanceMonitorInput) -> Swift.String? {
+        guard let monitorName = value.monitorName else {
+            return nil
+        }
+        return "/performance-monitors/\(monitorName.urlPercentEncoding())"
+    }
+}
+
 extension UpdateScopeInput {
 
     static func urlPathProvider(_ value: UpdateScopeInput) -> Swift.String? {
@@ -2487,6 +3565,18 @@ extension CreateMonitorInput {
     }
 }
 
+extension CreatePerformanceMonitorInput {
+
+    static func write(value: CreatePerformanceMonitorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["monitorName"].write(value.monitorName)
+        try writer["scopeArn"].write(value.scopeArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["targets"].writeList(value.targets, memberWritingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateScopeInput {
 
     static func write(value: CreateScopeInput?, to writer: SmithyJSON.Writer) throws {
@@ -2505,6 +3595,18 @@ extension StartQueryMonitorTopContributorsInput {
         try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["limit"].write(value.limit)
         try writer["metricName"].write(value.metricName)
+        try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension StartQueryPerformanceMonitorInput {
+
+    static func write(value: StartQueryPerformanceMonitorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["filterParameters"].writeList(value.filterParameters, memberWritingClosure: NetworkFlowMonitorClientTypes.FilterParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["limit"].write(value.limit)
+        try writer["queryType"].write(value.queryType)
         try writer["startTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
@@ -2552,6 +3654,16 @@ extension UpdateMonitorInput {
     }
 }
 
+extension UpdatePerformanceMonitorInput {
+
+    static func write(value: UpdatePerformanceMonitorInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["targetsToAdd"].writeList(value.targetsToAdd, memberWritingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetsToRemove"].writeList(value.targetsToRemove, memberWritingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateScopeInput {
 
     static func write(value: UpdateScopeInput?, to writer: SmithyJSON.Writer) throws {
@@ -2580,6 +3692,25 @@ extension CreateMonitorOutput {
     }
 }
 
+extension CreatePerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreatePerformanceMonitorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreatePerformanceMonitorOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.monitorStatus = try reader["monitorStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.monitorType = try reader["monitorType"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targets = try reader["targets"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension CreateScopeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateScopeOutput {
@@ -2599,6 +3730,13 @@ extension DeleteMonitorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteMonitorOutput {
         return DeleteMonitorOutput()
+    }
+}
+
+extension DeletePerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeletePerformanceMonitorOutput {
+        return DeletePerformanceMonitorOutput()
     }
 }
 
@@ -2628,6 +3766,40 @@ extension GetMonitorOutput {
     }
 }
 
+extension GetMonitorScopeSuggestionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMonitorScopeSuggestionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMonitorScopeSuggestionsOutput()
+        value.accountsToAdd = try reader["accountsToAdd"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.AccountToAdd.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GetPerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetPerformanceMonitorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetPerformanceMonitorOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.monitorStatus = try reader["monitorStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.monitorType = try reader["monitorType"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targets = try reader["targets"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension GetQueryResultsMonitorTopContributorsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQueryResultsMonitorTopContributorsOutput {
@@ -2638,6 +3810,20 @@ extension GetQueryResultsMonitorTopContributorsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.topContributors = try reader["topContributors"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.MonitorTopContributorsRow.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension GetQueryResultsPerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQueryResultsPerformanceMonitorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQueryResultsPerformanceMonitorOutput()
+        value.data = try reader["data"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.QueryField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -2676,6 +3862,18 @@ extension GetQueryStatusMonitorTopContributorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetQueryStatusMonitorTopContributorsOutput()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetQueryStatusPerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetQueryStatusPerformanceMonitorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetQueryStatusPerformanceMonitorOutput()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -2734,6 +3932,19 @@ extension ListMonitorsOutput {
     }
 }
 
+extension ListPerformanceMonitorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPerformanceMonitorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPerformanceMonitorsOutput()
+        value.monitors = try reader["monitors"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListScopesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListScopesOutput {
@@ -2771,6 +3982,18 @@ extension StartQueryMonitorTopContributorsOutput {
     }
 }
 
+extension StartQueryPerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartQueryPerformanceMonitorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartQueryPerformanceMonitorOutput()
+        value.queryId = try reader["queryId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension StartQueryWorkloadInsightsTopContributorsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartQueryWorkloadInsightsTopContributorsOutput {
@@ -2799,6 +4022,13 @@ extension StopQueryMonitorTopContributorsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopQueryMonitorTopContributorsOutput {
         return StopQueryMonitorTopContributorsOutput()
+    }
+}
+
+extension StopQueryPerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopQueryPerformanceMonitorOutput {
+        return StopQueryPerformanceMonitorOutput()
     }
 }
 
@@ -2849,6 +4079,25 @@ extension UpdateMonitorOutput {
     }
 }
 
+extension UpdatePerformanceMonitorOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePerformanceMonitorOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePerformanceMonitorOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.monitorStatus = try reader["monitorStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.monitorType = try reader["monitorType"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.targets = try reader["targets"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension UpdateScopeOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateScopeOutput {
@@ -2865,6 +4114,25 @@ extension UpdateScopeOutput {
 }
 
 enum CreateMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreatePerformanceMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2921,6 +4189,25 @@ enum DeleteMonitorOutputError {
     }
 }
 
+enum DeletePerformanceMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteScopeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2959,7 +4246,62 @@ enum GetMonitorOutputError {
     }
 }
 
+enum GetMonitorScopeSuggestionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetPerformanceMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetQueryResultsMonitorTopContributorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQueryResultsPerformanceMonitorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3026,6 +4368,25 @@ enum GetQueryStatusMonitorTopContributorsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetQueryStatusPerformanceMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3106,6 +4467,23 @@ enum ListMonitorsOutputError {
     }
 }
 
+enum ListPerformanceMonitorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListScopesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3161,6 +4539,25 @@ enum StartQueryMonitorTopContributorsOutputError {
     }
 }
 
+enum StartQueryPerformanceMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartQueryWorkloadInsightsTopContributorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3207,6 +4604,25 @@ enum StopQueryMonitorTopContributorsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopQueryPerformanceMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3300,6 +4716,26 @@ enum UpdateMonitorOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePerformanceMonitorOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -3418,6 +4854,51 @@ extension ResourceNotFoundException {
     }
 }
 
+extension NetworkFlowMonitorClientTypes.AccountToAdd {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.AccountToAdd {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.AccountToAdd()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.membership = try reader["membership"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.AdditionalFlowInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.AdditionalFlowInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.AdditionalFlowInfo()
+        value.network = try reader["network"].readIfPresent(with: NetworkFlowMonitorClientTypes.Network.read(from:))
+        value.clientLocation = try reader["clientLocation"].readIfPresent(with: NetworkFlowMonitorClientTypes.ClientLocation.read(from:))
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.ClientLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.ClientLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.ClientLocation()
+        value.city = try reader["city"].readIfPresent()
+        value.subdivision = try reader["subdivision"].readIfPresent()
+        value.country = try reader["country"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.FilterParameter {
+
+    static func write(value: NetworkFlowMonitorClientTypes.FilterParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field"].write(value.field)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension NetworkFlowMonitorClientTypes.KubernetesMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.KubernetesMetadata {
@@ -3509,6 +4990,60 @@ extension NetworkFlowMonitorClientTypes.MonitorTopContributorsRow {
         value.remoteInstanceArn = try reader["remoteInstanceArn"].readIfPresent()
         value.remoteSubnetArn = try reader["remoteSubnetArn"].readIfPresent()
         value.remoteVpcArn = try reader["remoteVpcArn"].readIfPresent()
+        value.additionalFlowInfo = try reader["additionalFlowInfo"].readIfPresent(with: NetworkFlowMonitorClientTypes.AdditionalFlowInfo.read(from:))
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.Network {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.Network {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.Network()
+        value.asName = try reader["asName"].readIfPresent()
+        value.asNumber = try reader["asNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.PerformanceMonitorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.PerformanceMonitorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.PerformanceMonitorSummary()
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.monitorStatus = try reader["monitorStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.monitorType = try reader["monitorType"].readIfPresent() ?? .sdkUnknown("")
+        value.targets = try reader["targets"].readListIfPresent(memberReadingClosure: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.PerformanceMonitorTarget {
+
+    static func write(value: NetworkFlowMonitorClientTypes.PerformanceMonitorTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["identifier"].write(value.identifier)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.PerformanceMonitorTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.PerformanceMonitorTarget()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.QueryField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.QueryField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.QueryField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }

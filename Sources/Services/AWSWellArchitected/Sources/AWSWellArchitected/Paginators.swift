@@ -96,6 +96,37 @@ extension PaginatorSequence where OperationStackInput == ListAgentGoalsInput, Op
     }
 }
 extension WellArchitectedClient {
+    /// Paginate over `[ListAgentOrganizationalReportsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgentOrganizationalReportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgentOrganizationalReportsOutput`
+    public func listAgentOrganizationalReportsPaginated(input: ListAgentOrganizationalReportsInput) -> ClientRuntime.PaginatorSequence<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAgentOrganizationalReportsInput, ListAgentOrganizationalReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAgentOrganizationalReports(input:))
+    }
+}
+
+extension ListAgentOrganizationalReportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAgentOrganizationalReportsInput {
+        return ListAgentOrganizationalReportsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            state: self.state
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAgentOrganizationalReportsInput, OperationStackOutput == ListAgentOrganizationalReportsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgentOrganizationalReportsPaginated`
+    /// to access the nested member `[WellArchitectedClientTypes.OrganizationalReportSummary]`
+    /// - Returns: `[WellArchitectedClientTypes.OrganizationalReportSummary]`
+    public func items() async throws -> [WellArchitectedClientTypes.OrganizationalReportSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension WellArchitectedClient {
     /// Paginate over `[ListAgentProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

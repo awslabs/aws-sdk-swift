@@ -2342,6 +2342,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `AssociateKmsKeyId` operation on the `EC2` service.
+    ///
+    /// Associates an additional KMS key with an encrypted Amazon EBS snapshot. With the associated key, you have a second, independent way to access the snapshot's data, in addition to the key the snapshot is already encrypted under. Associating a key doesn't re-encrypt the snapshot or grant access to its original key. For more information, see [Associated KMS keys](https://docs.aws.amazon.com/ebs/latest/userguide/associated-kms-keys.html) in the Amazon EBS User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateKmsKeyIdInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateKmsKeyIdOutput`)
+    public func associateKmsKeyId(input: AssociateKmsKeyIdInput) async throws -> AssociateKmsKeyIdOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateKmsKeyId")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>(AssociateKmsKeyIdInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateKmsKeyIdOutput>(AssociateKmsKeyIdOutput.httpOutput(from:), AssociateKmsKeyIdOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateKmsKeyIdOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateKmsKeyIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateKmsKeyIdInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateKmsKeyIdOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateKmsKeyIdInput, AssociateKmsKeyIdOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateKmsKeyId")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `AssociateNatGatewayAddress` operation on the `EC2` service.
     ///
     /// Associates Elastic IP addresses (EIPs) and private IPv4 addresses with a public NAT gateway. For more information, see [Work with NAT gateways](https://docs.aws.amazon.com/vpc/latest/userguide/nat-gateway-working-with.html) in the Amazon VPC User Guide. By default, you can associate up to 2 Elastic IP addresses per public NAT gateway. You can increase the limit by requesting a quota adjustment. For more information, see [Elastic IP address quotas](https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-eips) in the Amazon VPC User Guide. When you associate an EIP or secondary EIPs with a public NAT gateway, the network border group of the EIPs must match the network border group of the Availability Zone (AZ) that the public NAT gateway is in. If it's not the same, the EIP will fail to associate. You can see the network border group for the subnet's AZ by viewing the details of the subnet. Similarly, you can view the network border group of an EIP by viewing the details of the EIP address. For more information about network border groups and EIPs, see [Allocate an Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/WorkWithEIPs.html) in the Amazon VPC User Guide.
@@ -10599,6 +10662,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateTransitGatewayNetworkFunctionAttachment` operation on the `EC2` service.
+    ///
+    /// Creates a network function attachment that connects the specified transit gateway to a Gateway Load Balancer endpoint service. Traffic that you route to the attachment is sent to the network function appliances behind the endpoint service. To use this operation, you must be the owner of the transit gateway. You can create one network function attachment for each combination of transit gateway and endpoint service. The attachment remains in the pendingAcceptance state until the endpoint service owner accepts the endpoint connection.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayNetworkFunctionAttachmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayNetworkFunctionAttachmentOutput`)
+    public func createTransitGatewayNetworkFunctionAttachment(input: CreateTransitGatewayNetworkFunctionAttachmentInput) async throws -> CreateTransitGatewayNetworkFunctionAttachmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createTransitGatewayNetworkFunctionAttachment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>(CreateTransitGatewayNetworkFunctionAttachmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayNetworkFunctionAttachmentOutput>(CreateTransitGatewayNetworkFunctionAttachmentOutput.httpOutput(from:), CreateTransitGatewayNetworkFunctionAttachmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayNetworkFunctionAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTransitGatewayNetworkFunctionAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTransitGatewayNetworkFunctionAttachmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTransitGatewayNetworkFunctionAttachmentInput, CreateTransitGatewayNetworkFunctionAttachmentOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTransitGatewayNetworkFunctionAttachment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateTransitGatewayPeeringAttachment` operation on the `EC2` service.
     ///
     /// Requests a transit gateway peering attachment between the specified transit gateway (requester) and a peer transit gateway (accepter). The peer transit gateway can be in your account or a different Amazon Web Services account. After you create the peering attachment, the owner of the accepter transit gateway must accept the attachment request.
@@ -16933,6 +17059,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayMulticastDomain")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteTransitGatewayNetworkFunctionAttachment` operation on the `EC2` service.
+    ///
+    /// Deletes the specified network function attachment. The attachment must be in the available or pendingAcceptance state.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTransitGatewayNetworkFunctionAttachmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTransitGatewayNetworkFunctionAttachmentOutput`)
+    public func deleteTransitGatewayNetworkFunctionAttachment(input: DeleteTransitGatewayNetworkFunctionAttachmentInput) async throws -> DeleteTransitGatewayNetworkFunctionAttachmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTransitGatewayNetworkFunctionAttachment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>(DeleteTransitGatewayNetworkFunctionAttachmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentOutput>(DeleteTransitGatewayNetworkFunctionAttachmentOutput.httpOutput(from:), DeleteTransitGatewayNetworkFunctionAttachmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTransitGatewayNetworkFunctionAttachmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTransitGatewayNetworkFunctionAttachmentInput, DeleteTransitGatewayNetworkFunctionAttachmentOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTransitGatewayNetworkFunctionAttachment")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -29243,6 +29432,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeTransitGatewayNetworkFunctionAttachments` operation on the `EC2` service.
+    ///
+    /// Describes one or more network function attachments. You can describe attachments that you own or that are attached to a transit gateway that you own.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeTransitGatewayNetworkFunctionAttachmentsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeTransitGatewayNetworkFunctionAttachmentsOutput`)
+    public func describeTransitGatewayNetworkFunctionAttachments(input: DescribeTransitGatewayNetworkFunctionAttachmentsInput) async throws -> DescribeTransitGatewayNetworkFunctionAttachmentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeTransitGatewayNetworkFunctionAttachments")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>(DescribeTransitGatewayNetworkFunctionAttachmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsOutput>(DescribeTransitGatewayNetworkFunctionAttachmentsOutput.httpOutput(from:), DescribeTransitGatewayNetworkFunctionAttachmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeTransitGatewayNetworkFunctionAttachmentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeTransitGatewayNetworkFunctionAttachmentsInput, DescribeTransitGatewayNetworkFunctionAttachmentsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeTransitGatewayNetworkFunctionAttachments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeTransitGatewayPeeringAttachments` operation on the `EC2` service.
     ///
     /// Describes your transit gateway peering attachments.
@@ -33800,6 +34052,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateIpamResourceDiscovery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DisassociateKmsKeyId` operation on the `EC2` service.
+    ///
+    /// Removes an associated KMS key from an Amazon EBS snapshot. After you disassociate the key, it can no longer be used to access the snapshot's data. The snapshot's original encryption key is unaffected.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateKmsKeyIdInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateKmsKeyIdOutput`)
+    public func disassociateKmsKeyId(input: DisassociateKmsKeyIdInput) async throws -> DisassociateKmsKeyIdOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateKmsKeyId")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>(DisassociateKmsKeyIdInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateKmsKeyIdOutput>(DisassociateKmsKeyIdOutput.httpOutput(from:), DisassociateKmsKeyIdOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateKmsKeyIdOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateKmsKeyIdOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateKmsKeyIdInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateKmsKeyIdOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateKmsKeyIdInput, DisassociateKmsKeyIdOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateKmsKeyId")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -46099,6 +46414,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ModifyTransitGatewayNetworkFunctionAttachment` operation on the `EC2` service.
+    ///
+    /// Adds Availability Zones to or removes Availability Zones from the specified network function attachment. The attachment must be in the available state. You must specify at least one Availability Zone to add or remove, and the attachment must keep at least one Availability Zone. Adding an Availability Zone provisions a new Gateway Load Balancer endpoint in that Availability Zone. If the endpoint service doesn't automatically accept connection requests, the endpoint service owner must accept the endpoint connection for each Availability Zone that you add.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ModifyTransitGatewayNetworkFunctionAttachmentInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ModifyTransitGatewayNetworkFunctionAttachmentOutput`)
+    public func modifyTransitGatewayNetworkFunctionAttachment(input: ModifyTransitGatewayNetworkFunctionAttachmentInput) async throws -> ModifyTransitGatewayNetworkFunctionAttachmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyTransitGatewayNetworkFunctionAttachment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>(ModifyTransitGatewayNetworkFunctionAttachmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentOutput>(ModifyTransitGatewayNetworkFunctionAttachmentOutput.httpOutput(from:), ModifyTransitGatewayNetworkFunctionAttachmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyTransitGatewayNetworkFunctionAttachmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "EC2"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyTransitGatewayNetworkFunctionAttachmentInput, ModifyTransitGatewayNetworkFunctionAttachmentOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyTransitGatewayNetworkFunctionAttachment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ModifyTransitGatewayPolicyTableEntry` operation on the `EC2` service.
     ///
     /// Modifies the specified transit gateway policy table entry.
@@ -47431,7 +47809,7 @@ extension EC2Client {
 
     /// Performs the `ModifyVpcEndpointServicePermissions` operation on the `EC2` service.
     ///
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved.
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved. By default, principals that you grant permissions to can create VPC endpoints that connect to your endpoint service. For Gateway Load Balancer endpoint services, you can instead grant permissions so that principals can create transit gateway attachments that connect to your endpoint service. To do so, specify transit-gateway-attachment for PermissionType. The two permission types are independent. A principal can have either or both.
     ///
     /// - Parameter input: [no documentation found] (Type: `ModifyVpcEndpointServicePermissionsInput`)
     ///

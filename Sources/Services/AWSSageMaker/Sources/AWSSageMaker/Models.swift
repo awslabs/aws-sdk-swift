@@ -130,6 +130,11 @@ public struct DeleteInferenceComponentOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteInferenceRouterOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteModelBiasJobDefinitionOutput: Swift.Sendable {
 
     public init() { }
@@ -22713,6 +22718,27 @@ public struct CreateEndpointOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// The cross-Region traffic cap for an endpoint. The cap limits the requests per second that the endpoint accepts from inference routers in other Amazon Web Services Regions. The cap is MaxCrossRegionPercentPerEndpoint percent of MaxInvocationsPerSecondPerInstance multiplied by the number of InService instances, rounded up. All production variants and inference components of the endpoint share it. Requests that you send to the endpoint directly aren't counted. A request over the cap fails with a ThrottlingException.
+    public struct CrossRegionTrafficConfig: Swift.Sendable {
+        /// The percentage of the endpoint's capacity that requests from inference routers in other Amazon Web Services Regions can use.
+        /// This member is required.
+        public var maxCrossRegionPercentPerEndpoint: Swift.Int?
+        /// The number of invocations per second that you expect one InService instance to serve. One value applies to every production variant, whatever its instance type.
+        /// This member is required.
+        public var maxInvocationsPerSecondPerInstance: Swift.Int?
+
+        public init(
+            maxCrossRegionPercentPerEndpoint: Swift.Int? = nil,
+            maxInvocationsPerSecondPerInstance: Swift.Int? = nil
+        ) {
+            self.maxCrossRegionPercentPerEndpoint = maxCrossRegionPercentPerEndpoint
+            self.maxInvocationsPerSecondPerInstance = maxInvocationsPerSecondPerInstance
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Configuration to control how SageMaker AI captures inference data.
     public struct DataCaptureConfig: Swift.Sendable {
         /// Configuration specifying how to treat different headers. If no headers are specified SageMaker AI will by default base64 encode when capturing the data.
@@ -23098,6 +23124,7 @@ extension SageMakerClientTypes {
 extension SageMakerClientTypes {
 
     public enum RoutingStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kvAware
         case leastOutstandingRequests
         case prefixAware
         case random
@@ -23105,6 +23132,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [RoutingStrategy] {
             return [
+                .kvAware,
                 .leastOutstandingRequests,
                 .prefixAware,
                 .random
@@ -23118,6 +23146,7 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .kvAware: return "KV_AWARE"
             case .leastOutstandingRequests: return "LEAST_OUTSTANDING_REQUESTS"
             case .prefixAware: return "PREFIX_AWARE"
             case .random: return "RANDOM"
@@ -23140,6 +23169,8 @@ extension SageMakerClientTypes {
         /// * RANDOM: The endpoint routes each request to a randomly chosen instance.
         ///
         /// * PREFIX_AWARE: The endpoint routes requests that share the same prompt prefix to the same instance and, when that instance hosts more than one copy of the invoked inference component, to the same copy. When the number of in-flight requests on the selected instance or copy reaches the ConcurrencyThreshold value, the endpoint routes the request to another copy on that instance or to another instance. The endpoint applies prefix-aware routing only when two or more instances can serve the request.
+        ///
+        /// * KV_AWARE: The endpoint routes each request to an instance that already holds the start of the request's prompt in its key-value (KV) cache, and weighs the length of that match against how busy each instance is. On an endpoint with inference components, the endpoint chooses among the copies of the invoked inference component in the same way. When the endpoint can't find an instance or copy that holds the start of the prompt and isn't too busy, it chooses an instance as it does with LEAST_OUTSTANDING_REQUESTS. KV_AWARE works only with supported containers, such as the SageMaker AI vLLM Deep Learning Container.
         /// This member is required.
         public var routingStrategy: SageMakerClientTypes.RoutingStrategy?
 
@@ -23315,6 +23346,8 @@ extension SageMakerClientTypes {
 public struct CreateEndpointConfigInput: Swift.Sendable {
     /// Specifies configuration for how an endpoint performs asynchronous inference. This is a required field in order for your Endpoint to be invoked using [InvokeEndpointAsync](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpointAsync.html).
     public var asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig?
+    /// The cross-Region traffic cap for the endpoint. The cap limits the requests per second that the endpoint accepts from inference routers in other Amazon Web Services Regions. If you don't specify it, these requests aren't limited. You can't specify it with serverless variants or with AsyncInferenceConfig. For information about the cross-Region traffic cap, see [Limit requests from other Regions](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router.html#inference-router-cross-region-limit).
+    public var crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig?
     /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Sets whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
@@ -23353,6 +23386,7 @@ public struct CreateEndpointConfigInput: Swift.Sendable {
 
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
+        crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig? = nil,
         enableNetworkIsolation: Swift.Bool? = nil,
         endpointConfigName: Swift.String? = nil,
@@ -23366,6 +23400,7 @@ public struct CreateEndpointConfigInput: Swift.Sendable {
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
         self.asyncInferenceConfig = asyncInferenceConfig
+        self.crossRegionTrafficConfig = crossRegionTrafficConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.enableNetworkIsolation = enableNetworkIsolation
         self.endpointConfigName = endpointConfigName
@@ -26725,17 +26760,283 @@ public struct CreateInferenceRecommendationsJobOutput: Swift.Sendable {
     }
 }
 
+/// The resource that you are trying to create already exists. Use a different resource name, or delete the existing resource before retrying.
+public struct ResourceAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceAlreadyExists" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// How the inference router submits asynchronous requests to the destinations of a routing target.
+    public struct RoutingTargetAsyncInferenceClientConfig: Swift.Sendable {
+        /// The maximum time, in seconds, that a request can wait at a destination before the inference router moves it to another destination. The default is 900 seconds.
+        public var maxTimeInBacklogSeconds: Swift.Int?
+
+        public init(
+            maxTimeInBacklogSeconds: Swift.Int? = nil
+        ) {
+            self.maxTimeInBacklogSeconds = maxTimeInBacklogSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The Amazon SNS topics that the inference router publishes to. The router publishes one notification for each request. The notification contains the location of the result, not the result itself. The destination endpoints also send their own notifications, if they're configured to.
+    public struct RoutingTargetAsyncInferenceNotificationConfig: Swift.Sendable {
+        /// The ARN of the Amazon SNS topic to publish to when a request fails, or when the router can't place it on any destination. The topic must be a standard topic, and can be in any Amazon Web Services Region.
+        public var errorTopic: Swift.String?
+        /// The ARN of the Amazon SNS topic to publish to when a request completes. The topic must be a standard topic, and can be in any Amazon Web Services Region.
+        public var successTopic: Swift.String?
+
+        public init(
+            errorTopic: Swift.String? = nil,
+            successTopic: Swift.String? = nil
+        ) {
+            self.errorTopic = errorTopic
+            self.successTopic = successTopic
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The output settings for the asynchronous requests of a routing target. Every destination writes to the same locations. CreateInferenceRouter and UpdateInferenceRouter don't check who owns the buckets. If another account owns the output bucket, requests fail.
+    public struct RoutingTargetAsyncInferenceOutputConfig: Swift.Sendable {
+        /// The KMS key that encrypts the results in Amazon S3. You can specify a key ID, key ARN, alias name, or alias ARN. If any destination is in a different account or Amazon Web Services Region from the inference router, specify a key ARN or an alias ARN.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon SNS topics that the inference router publishes to when a request completes or fails.
+        public var notificationConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceNotificationConfig?
+        /// The Amazon S3 location for the failure details of failed requests. The bucket must be in the inference router's Amazon Web Services Region and owned by the router's account.
+        /// This member is required.
+        public var s3FailurePath: Swift.String?
+        /// The Amazon S3 location for the results of successful requests. The bucket must be in the inference router's Amazon Web Services Region and owned by the router's account.
+        /// This member is required.
+        public var s3OutputPath: Swift.String?
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            notificationConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceNotificationConfig? = nil,
+            s3FailurePath: Swift.String? = nil,
+            s3OutputPath: Swift.String? = nil
+        ) {
+            self.kmsKeyId = kmsKeyId
+            self.notificationConfig = notificationConfig
+            self.s3FailurePath = s3FailurePath
+            self.s3OutputPath = s3OutputPath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The asynchronous inference settings of a routing target.
+    public struct RoutingTargetAsyncInferenceConfig: Swift.Sendable {
+        /// How the inference router submits requests to destinations.
+        public var clientConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceClientConfig?
+        /// The Amazon S3 locations for the results of asynchronous requests, and the notification settings.
+        /// This member is required.
+        public var outputConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceOutputConfig?
+
+        public init(
+            clientConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceClientConfig? = nil,
+            outputConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceOutputConfig? = nil
+        ) {
+            self.clientConfig = clientConfig
+            self.outputConfig = outputConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Whether an inference router can send requests to a destination.
+    public enum RoutingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The destination is serving, and the inference router can send it requests.
+        case routable
+        /// SageMaker AI couldn't check the destination. The destination might be serving.
+        case unknown
+        /// The destination can't serve requests now, or it doesn't exist in your account.
+        case unroutable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RoutingStatus] {
+            return [
+                .routable,
+                .unknown,
+                .unroutable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .routable: return "Routable"
+            case .unknown: return "Unknown"
+            case .unroutable: return "Unroutable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// An endpoint or inference component that serves a routing target.
+    public struct Destination: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the endpoint or inference component. The destination can be in any account, and in any Amazon Web Services Region in the same partition as the inference router. To use a destination in another account, its owner must allow your account to invoke it through your router, in an endpoint policy.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+        /// Whether the inference router can send requests to the destination, as checked when you called DescribeInferenceRouter. This value isn't the destination's own status. SageMaker AI ignores this field in CreateInferenceRouter and UpdateInferenceRouter requests. Routable The destination is serving and the router can send it requests. A routable destination can still be overloaded. Unroutable The destination can't serve requests. For example, it's being created or has failed, or it has no capacity and no way to get any. A destination in your account that doesn't exist is also Unroutable. Unknown SageMaker AI couldn't check the destination, for example because you aren't allowed to describe it or the check timed out. The destination might still be serving.
+        public var routingStatus: SageMakerClientTypes.RoutingStatus?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            routingStatus: SageMakerClientTypes.RoutingStatus? = nil
+        ) {
+            self.resourceArn = resourceArn
+            self.routingStatus = routingStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// How an inference router chooses among the destinations of a routing target.
+    public enum InferenceRouterRoutingPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Prefer destinations by instance type first and by Region second. Supported only for asynchronous routing targets.
+        case instancePoolOrder
+        /// Use destinations in the inference router's own Region first. When the request leaves the Region, the router spreads it across healthy destinations in other Regions.
+        case localRegionFirst
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceRouterRoutingPreference] {
+            return [
+                .instancePoolOrder,
+                .localRegionFirst
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instancePoolOrder: return "InstancePoolOrder"
+            case .localRegionFirst: return "LocalRegionFirst"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A model that an inference router serves, and the destinations that can serve it. When you invoke the router, you name the routing target, and the router sends the request to one of its destinations. Every destination in a routing target must serve the same model, with the same request and response format.
+    public struct RoutingTarget: Swift.Sendable {
+        /// The asynchronous inference settings of the routing target. Specify this setting to make the routing target asynchronous. If you omit it, the routing target serves real-time requests. Asynchronous routing targets aren't available in all Amazon Web Services Regions. For information about asynchronous routing targets and Region availability, see [Send asynchronous requests through an inference router](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router-async.html). Because UpdateInferenceRouter replaces all routing targets, include this setting in every update of an asynchronous routing target. For information about asynchronous routing targets, see [Send asynchronous requests through an inference router](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router-async.html).
+        public var asyncInferenceConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceConfig?
+        /// The endpoints and inference components that serve the routing target. Each destination can appear only once in a routing target. In an asynchronous routing target, every destination must be an asynchronous inference endpoint. In a real-time routing target, no destination can be one. SageMaker AI checks an endpoint in another account with your credentials, so both your IAM policy and the endpoint policy must allow sagemaker:DescribeEndpoint. If an endpoint can't be checked, for example because it isn't found or can't be read in time, it's accepted, and requests to it fail if it's the wrong mode.
+        /// This member is required.
+        public var destinations: [SageMakerClientTypes.Destination]?
+        /// The name of the routing target. Callers specify this name in the RoutingTargetName parameter when they invoke the inference router. The name must be unique within the router.
+        /// This member is required.
+        public var name: Swift.String?
+        /// How the inference router chooses among the routing target's destinations. The default is LocalRegionFirst. LocalRegionFirst The router uses destinations in its own Region first. When the request leaves the Region, the router spreads it across healthy destinations in other Regions. InstancePoolOrder The router prefers destinations by instance type first and by Region second. Every destination must be an endpoint that lists the same two or more instance types, each with a different priority, in the same priority order. This value is supported only for asynchronous routing targets. With either value, the router uses destinations whose health or capacity is reduced after the others, but doesn't exclude them.
+        public var routingPreference: SageMakerClientTypes.InferenceRouterRoutingPreference?
+
+        public init(
+            asyncInferenceConfig: SageMakerClientTypes.RoutingTargetAsyncInferenceConfig? = nil,
+            destinations: [SageMakerClientTypes.Destination]? = nil,
+            name: Swift.String? = nil,
+            routingPreference: SageMakerClientTypes.InferenceRouterRoutingPreference? = nil
+        ) {
+            self.asyncInferenceConfig = asyncInferenceConfig
+            self.destinations = destinations
+            self.name = name
+            self.routingPreference = routingPreference
+        }
+    }
+}
+
+public struct CreateInferenceRouterInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you reuse a client token, use the same request parameters. Otherwise, the request fails.
+    public var clientToken: Swift.String?
+    /// The name of the inference router. The name must be unique within your account in the current Amazon Web Services Region. The name is case sensitive.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+    /// The routing targets of the inference router. Each routing target is a model that callers name when they invoke the router, and the destinations that serve it.
+    /// This member is required.
+    public var routingTargets: [SageMakerClientTypes.RoutingTarget]?
+    /// A list of key-value pairs to apply to the inference router. For information about tagging, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    public var tags: [SageMakerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        inferenceRouterName: Swift.String? = nil,
+        routingTargets: [SageMakerClientTypes.RoutingTarget]? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.inferenceRouterName = inferenceRouterName
+        self.routingTargets = routingTargets
+        self.tags = tags
+    }
+}
+
+public struct CreateInferenceRouterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the inference router.
+    /// This member is required.
+    public var inferenceRouterArn: Swift.String?
+
+    public init(
+        inferenceRouterArn: Swift.String? = nil
+    ) {
+        self.inferenceRouterArn = inferenceRouterArn
+    }
+}
+
 extension SageMakerClientTypes {
 
     public enum JobCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case agentRft
         case agentRftEvaluation
+        case dataQualityEvaluation
+        case dataTransformation
+        case syntheticDataGeneration
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobCategory] {
             return [
                 .agentRft,
-                .agentRftEvaluation
+                .agentRftEvaluation,
+                .dataQualityEvaluation,
+                .dataTransformation,
+                .syntheticDataGeneration
             ]
         }
 
@@ -26748,6 +27049,9 @@ extension SageMakerClientTypes {
             switch self {
             case .agentRft: return "AgentRFT"
             case .agentRftEvaluation: return "AgentRFTEvaluation"
+            case .dataQualityEvaluation: return "DataQualityEvaluation"
+            case .dataTransformation: return "DataTransformation"
+            case .syntheticDataGeneration: return "SyntheticDataGeneration"
             case let .sdkUnknown(s): return s
             }
         }
@@ -34803,6 +35107,23 @@ public struct DeleteEndpointConfigInput: Swift.Sendable {
     }
 }
 
+public struct DeleteEndpointPolicyInput: Swift.Sendable {
+    /// The name of the endpoint. The endpoint must be in your account and in the current Amazon Web Services Region.
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    ) {
+        self.endpointName = endpointName
+    }
+}
+
+public struct DeleteEndpointPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteExperimentInput: Swift.Sendable {
     /// The name of the experiment to delete.
     /// This member is required.
@@ -35020,6 +35341,18 @@ public struct DeleteInferenceExperimentOutput: Swift.Sendable {
         inferenceExperimentArn: Swift.String? = nil
     ) {
         self.inferenceExperimentArn = inferenceExperimentArn
+    }
+}
+
+public struct DeleteInferenceRouterInput: Swift.Sendable {
+    /// The name of the inference router to delete.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+
+    public init(
+        inferenceRouterName: Swift.String? = nil
+    ) {
+        self.inferenceRouterName = inferenceRouterName
     }
 }
 
@@ -38515,6 +38848,8 @@ public struct DescribeEndpointOutput: Swift.Sendable {
     /// A timestamp that shows when the endpoint was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The cross-Region traffic cap, if the endpoint configuration sets one.
+    public var crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig?
     /// The currently active data capture configuration used by your Endpoint.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary?
     /// The Amazon Resource Name (ARN) of the endpoint.
@@ -38567,6 +38902,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
         creationTime: Foundation.Date? = nil,
+        crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfigSummary? = nil,
         endpointArn: Swift.String? = nil,
         endpointConfigName: Swift.String? = nil,
@@ -38583,6 +38919,7 @@ public struct DescribeEndpointOutput: Swift.Sendable {
     ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
+        self.crossRegionTrafficConfig = crossRegionTrafficConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.endpointArn = endpointArn
         self.endpointConfigName = endpointConfigName
@@ -38617,6 +38954,8 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     /// A timestamp that shows when the endpoint configuration was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
+    /// The cross-Region traffic cap, if the endpoint configuration sets one.
+    public var crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig?
     /// Configuration to control how SageMaker AI captures inference data.
     public var dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig?
     /// Indicates whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
@@ -38646,6 +38985,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     public init(
         asyncInferenceConfig: SageMakerClientTypes.AsyncInferenceConfig? = nil,
         creationTime: Foundation.Date? = nil,
+        crossRegionTrafficConfig: SageMakerClientTypes.CrossRegionTrafficConfig? = nil,
         dataCaptureConfig: SageMakerClientTypes.DataCaptureConfig? = nil,
         enableNetworkIsolation: Swift.Bool? = nil,
         endpointConfigArn: Swift.String? = nil,
@@ -38660,6 +39000,7 @@ public struct DescribeEndpointConfigOutput: Swift.Sendable {
     ) {
         self.asyncInferenceConfig = asyncInferenceConfig
         self.creationTime = creationTime
+        self.crossRegionTrafficConfig = crossRegionTrafficConfig
         self.dataCaptureConfig = dataCaptureConfig
         self.enableNetworkIsolation = enableNetworkIsolation
         self.endpointConfigArn = endpointConfigArn
@@ -41203,6 +41544,103 @@ public struct DescribeInferenceRecommendationsJobOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeInferenceRouterInput: Swift.Sendable {
+    /// The name of the inference router to describe.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+
+    public init(
+        inferenceRouterName: Swift.String? = nil
+    ) {
+        self.inferenceRouterName = inferenceRouterName
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The status of an inference router.
+    public enum InferenceRouterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The inference router is being created.
+        case creating
+        /// The inference router is being deleted.
+        case deleting
+        /// The inference router's latest change couldn't be applied. For the reason, see StatusReason.
+        case failed
+        /// The inference router's latest change has been applied, and the router is ready.
+        case inService
+        /// An update to the inference router is being applied.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceRouterStatus] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .inService,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "Creating"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inService: return "InService"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeInferenceRouterOutput: Swift.Sendable {
+    /// The date and time that the inference router was created.
+    /// This member is required.
+    public var creationTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the inference router.
+    /// This member is required.
+    public var inferenceRouterArn: Swift.String?
+    /// The name of the inference router.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+    /// The date and time that the inference router was last updated.
+    /// This member is required.
+    public var lastModifiedTime: Foundation.Date?
+    /// The routing targets of the inference router. Each destination includes its RoutingStatus. You can send these routing targets back in an UpdateInferenceRouter request without changes.
+    /// This member is required.
+    public var routingTargets: [SageMakerClientTypes.RoutingTarget]?
+    /// The status of the inference router.
+    /// This member is required.
+    public var status: SageMakerClientTypes.InferenceRouterStatus?
+    /// If the status is Failed, the reason that the inference router failed.
+    public var statusReason: Swift.String?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        inferenceRouterArn: Swift.String? = nil,
+        inferenceRouterName: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        routingTargets: [SageMakerClientTypes.RoutingTarget]? = nil,
+        status: SageMakerClientTypes.InferenceRouterStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.creationTime = creationTime
+        self.inferenceRouterArn = inferenceRouterArn
+        self.inferenceRouterName = inferenceRouterName
+        self.lastModifiedTime = lastModifiedTime
+        self.routingTargets = routingTargets
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
 public struct DescribeJobInput: Swift.Sendable {
     /// The category of the job.
     /// This member is required.
@@ -41272,16 +41710,24 @@ extension SageMakerClientTypes {
         case deleting
         case downloading
         case evaluating
+        case executing
         case failed
+        case finalizing
+        case generating
         case interrupted
         case maxRuntimeExceeded
+        case partialGeneration
         case pending
+        case preparing
+        case publishing
         case restarting
         case starting
         case stopped
         case stopping
         case training
+        case transforming
         case uploading
+        case validating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobSecondaryStatus] {
@@ -41291,16 +41737,24 @@ extension SageMakerClientTypes {
                 .deleting,
                 .downloading,
                 .evaluating,
+                .executing,
                 .failed,
+                .finalizing,
+                .generating,
                 .interrupted,
                 .maxRuntimeExceeded,
+                .partialGeneration,
                 .pending,
+                .preparing,
+                .publishing,
                 .restarting,
                 .starting,
                 .stopped,
                 .stopping,
                 .training,
-                .uploading
+                .transforming,
+                .uploading,
+                .validating
             ]
         }
 
@@ -41316,16 +41770,24 @@ extension SageMakerClientTypes {
             case .deleting: return "Deleting"
             case .downloading: return "Downloading"
             case .evaluating: return "Evaluating"
+            case .executing: return "Executing"
             case .failed: return "Failed"
+            case .finalizing: return "Finalizing"
+            case .generating: return "Generating"
             case .interrupted: return "Interrupted"
             case .maxRuntimeExceeded: return "MaxRuntimeExceeded"
+            case .partialGeneration: return "PartialGeneration"
             case .pending: return "Pending"
+            case .preparing: return "Preparing"
+            case .publishing: return "Publishing"
             case .restarting: return "Restarting"
             case .starting: return "Starting"
             case .stopped: return "Stopped"
             case .stopping: return "Stopping"
             case .training: return "Training"
+            case .transforming: return "Transforming"
             case .uploading: return "Uploading"
+            case .validating: return "Validating"
             case let .sdkUnknown(s): return s
             }
         }
@@ -48790,6 +49252,37 @@ public struct GetDeviceFleetReportOutput: Swift.Sendable {
     }
 }
 
+public struct GetEndpointPolicyInput: Swift.Sendable {
+    /// The name of the endpoint. The endpoint must be in your account and in the current Amazon Web Services Region.
+    /// This member is required.
+    public var endpointName: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil
+    ) {
+        self.endpointName = endpointName
+    }
+}
+
+public struct GetEndpointPolicyOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the endpoint.
+    public var endpointArn: Swift.String?
+    /// The name of the endpoint.
+    public var endpointName: Swift.String?
+    /// The endpoint policy, as a JSON policy document.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        endpointArn: Swift.String? = nil,
+        endpointName: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    ) {
+        self.endpointArn = endpointArn
+        self.endpointName = endpointName
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
 public struct GetLineageGroupPolicyInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the lineage group.
     /// This member is required.
@@ -50310,6 +50803,37 @@ extension SageMakerClientTypes {
             self.jobName = jobName
             self.status = status
             self.stepType = stepType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of an inference router.
+    public struct InferenceRouterSummary: Swift.Sendable {
+        /// The date and time that the inference router was created.
+        /// This member is required.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the inference router.
+        /// This member is required.
+        public var inferenceRouterArn: Swift.String?
+        /// The name of the inference router.
+        /// This member is required.
+        public var inferenceRouterName: Swift.String?
+        /// The date and time that the inference router was last updated.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            inferenceRouterArn: Swift.String? = nil,
+            inferenceRouterName: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil
+        ) {
+            self.creationTime = creationTime
+            self.inferenceRouterArn = inferenceRouterArn
+            self.inferenceRouterName = inferenceRouterName
+            self.lastModifiedTime = lastModifiedTime
         }
     }
 }
@@ -53895,6 +54419,37 @@ public struct ListInferenceRecommendationsJobStepsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.steps = steps
+    }
+}
+
+public struct ListInferenceRoutersInput: Swift.Sendable {
+    /// The maximum number of inference routers to return in the response.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, you receive this token. To get the next set of inference routers, use it in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListInferenceRoutersOutput: Swift.Sendable {
+    /// A list of summaries of the inference routers.
+    /// This member is required.
+    public var inferenceRouters: [SageMakerClientTypes.InferenceRouterSummary]?
+    /// If the response is truncated, SageMaker AI returns this token. To get the next set of inference routers, use it in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        inferenceRouters: [SageMakerClientTypes.InferenceRouterSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.inferenceRouters = inferenceRouters
+        self.nextToken = nextToken
     }
 }
 
@@ -60861,6 +61416,34 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct PutEndpointPolicyInput: Swift.Sendable {
+    /// The name of the endpoint. The endpoint must be in your account and in the current Amazon Web Services Region.
+    /// This member is required.
+    public var endpointName: Swift.String?
+    /// The endpoint policy, as a JSON policy document. The policy can contain only ASCII characters. For information about the policy rules, see [Use destinations in other accounts](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-router-cross-account.html).
+    /// This member is required.
+    public var resourcePolicy: Swift.String?
+
+    public init(
+        endpointName: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    ) {
+        self.endpointName = endpointName
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+public struct PutEndpointPolicyOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the endpoint.
+    public var endpointArn: Swift.String?
+
+    public init(
+        endpointArn: Swift.String? = nil
+    ) {
+        self.endpointArn = endpointArn
+    }
+}
+
 public struct PutModelPackageGroupPolicyInput: Swift.Sendable {
     /// The name of the model group to add a resource policy to.
     /// This member is required.
@@ -63861,6 +64444,35 @@ public struct UpdateInferenceExperimentOutput: Swift.Sendable {
         inferenceExperimentArn: Swift.String? = nil
     ) {
         self.inferenceExperimentArn = inferenceExperimentArn
+    }
+}
+
+public struct UpdateInferenceRouterInput: Swift.Sendable {
+    /// The name of the inference router to update.
+    /// This member is required.
+    public var inferenceRouterName: Swift.String?
+    /// The complete list of routing targets for the inference router. To remove the last routing target, delete the router.
+    /// This member is required.
+    public var routingTargets: [SageMakerClientTypes.RoutingTarget]?
+
+    public init(
+        inferenceRouterName: Swift.String? = nil,
+        routingTargets: [SageMakerClientTypes.RoutingTarget]? = nil
+    ) {
+        self.inferenceRouterName = inferenceRouterName
+        self.routingTargets = routingTargets
+    }
+}
+
+public struct UpdateInferenceRouterOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the inference router.
+    /// This member is required.
+    public var inferenceRouterArn: Swift.String?
+
+    public init(
+        inferenceRouterArn: Swift.String? = nil
+    ) {
+        self.inferenceRouterArn = inferenceRouterArn
     }
 }
 

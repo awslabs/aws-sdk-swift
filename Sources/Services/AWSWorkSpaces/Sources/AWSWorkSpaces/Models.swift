@@ -5881,6 +5881,41 @@ extension WorkSpacesClientTypes {
 
 extension WorkSpacesClientTypes {
 
+    public enum WorkspaceOSUserMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domainJoin
+        case entraJoin
+        case localUser
+        case selfManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspaceOSUserMode] {
+            return [
+                .domainJoin,
+                .entraJoin,
+                .localUser,
+                .selfManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domainJoin: return "DOMAIN_JOIN"
+            case .entraJoin: return "ENTRA_JOIN"
+            case .localUser: return "LOCAL_USER"
+            case .selfManaged: return "SELF_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum WorkspaceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case personal
         case pools
@@ -5966,6 +6001,8 @@ extension WorkSpacesClientTypes {
         public var workspaceDirectoryDescription: Swift.String?
         /// The name fo the WorkSpace directory.
         public var workspaceDirectoryName: Swift.String?
+        /// Indicates how users are set up on the WorkSpace operating system.
+        public var workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode?
         /// The identifier of the security group that is assigned to new WorkSpaces.
         public var workspaceSecurityGroupId: Swift.String?
         /// Indicates whether the directory's WorkSpace type is personal or pools.
@@ -5999,6 +6036,7 @@ extension WorkSpacesClientTypes {
             workspaceCreationProperties: WorkSpacesClientTypes.DefaultWorkspaceCreationProperties? = nil,
             workspaceDirectoryDescription: Swift.String? = nil,
             workspaceDirectoryName: Swift.String? = nil,
+            workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode? = nil,
             workspaceSecurityGroupId: Swift.String? = nil,
             workspaceType: WorkSpacesClientTypes.WorkspaceType? = nil
         ) {
@@ -6029,6 +6067,7 @@ extension WorkSpacesClientTypes {
             self.workspaceCreationProperties = workspaceCreationProperties
             self.workspaceDirectoryDescription = workspaceDirectoryDescription
             self.workspaceDirectoryName = workspaceDirectoryName
+            self.workspaceOsUserMode = workspaceOsUserMode
             self.workspaceSecurityGroupId = workspaceSecurityGroupId
             self.workspaceType = workspaceType
         }
@@ -8006,6 +8045,8 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
     public var workspaceDirectoryDescription: Swift.String?
     /// The name of the directory to register.
     public var workspaceDirectoryName: Swift.String?
+    /// Indicates how users are set up on the WorkSpace operating system. To use local users with an AWS IAM Identity Center directory, specify LOCAL_USER.
+    public var workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode?
     /// Indicates whether the directory's WorkSpace type is personal or pools.
     public var workspaceType: WorkSpacesClientTypes.WorkspaceType?
 
@@ -8021,6 +8062,7 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         userIdentityType: WorkSpacesClientTypes.UserIdentityType? = nil,
         workspaceDirectoryDescription: Swift.String? = nil,
         workspaceDirectoryName: Swift.String? = nil,
+        workspaceOsUserMode: WorkSpacesClientTypes.WorkspaceOSUserMode? = nil,
         workspaceType: WorkSpacesClientTypes.WorkspaceType? = nil
     ) {
         self.activeDirectoryConfig = activeDirectoryConfig
@@ -8034,6 +8076,7 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Sendable {
         self.userIdentityType = userIdentityType
         self.workspaceDirectoryDescription = workspaceDirectoryDescription
         self.workspaceDirectoryName = workspaceDirectoryName
+        self.workspaceOsUserMode = workspaceOsUserMode
         self.workspaceType = workspaceType
     }
 }

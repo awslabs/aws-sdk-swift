@@ -611,7 +611,7 @@ extension IAMToolboxClient {
 extension IAMToolboxClient {
     /// Performs the `GetRequestAuthorizationDetails` operation on the `IAMToolbox` service.
     ///
-    /// Retrieves the authorization details for a specific access denied request. The details include the request context, the evaluations performed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error message. Pass that ID to this operation to retrieve the details. Authorization details are available for at least 24 hours after the denial. To use this operation, you must have the iam:GetRequestAuthorizationDetails permission.
+    /// Retrieves the authorization details for a specific access denied request. The details include the request context, the evaluations performed, and the policies that were evaluated. Use this operation to understand why a request was denied. Supported services include an authorization ID in the access denied error message. Pass that ID to this operation to retrieve the details. To retrieve the content for a policy in the policies list, call GetRequestAuthorizationPolicy. Authorization details are available for at least 24 hours after the denial. To use this operation, you must have the iam:GetRequestAuthorizationDetails permission.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRequestAuthorizationDetailsInput`)
     ///
@@ -622,7 +622,7 @@ extension IAMToolboxClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The caller does not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing the request. Try again.
-    /// - `ResourceNotFoundException` : The requested authorization details do not exist in this region or have expired. Verify that the authorization ID from the access denied error message is correct and the call is made in the region where the denial occurred. Ensure that the calling principal belongs to the same account or organization as the original denied request.
+    /// - `ResourceNotFoundException` : The requested policy or authorization details do not exist in this region or have expired. Verify that the authorization ID from the access denied error message is correct and the call is made in the region where the denial occurred. Ensure that the calling principal belongs to the same account or organization as the original denied request. If you specified a policy URI, verify that it is from the policies list that GetRequestAuthorizationDetails returns for the same authorization ID.
     /// - `ValidationException` : The request is malformed or is missing one or more required parameters. Check the request parameters and try again.
     public func getRequestAuthorizationDetails(input: GetRequestAuthorizationDetailsInput) async throws -> GetRequestAuthorizationDetailsOutput {
         let context = Smithy.ContextBuilder()
@@ -666,6 +666,75 @@ extension IAMToolboxClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAMToolbox")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRequestAuthorizationDetails")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetRequestAuthorizationPolicy` operation on the `IAMToolbox` service.
+    ///
+    /// Retrieves a policy that was evaluated for a specific access denied request. The operation returns the structured JSON document of the policy that was captured with the original authorization request. It doesn't retrieve the current version of the policy. For some AWS services and policy types, the returned policy document includes all actions relevant to the service that processed the denied request, but might omit actions for other services. Specify the authorization ID from the access denied error message and the policy URI returned by GetRequestAuthorizationDetails for the same authorization ID. Access depends on the account and organization recorded for the principal that made the denied request. If an organization was recorded, the calling principal must belong to that organization. Otherwise, the calling principal must belong to the recorded account. To use this operation, you must have the iam:GetRequestAuthorizationPolicy permission.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetRequestAuthorizationPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetRequestAuthorizationPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred while processing the request. Try again.
+    /// - `ResourceNotFoundException` : The requested policy or authorization details do not exist in this region or have expired. Verify that the authorization ID from the access denied error message is correct and the call is made in the region where the denial occurred. Ensure that the calling principal belongs to the same account or organization as the original denied request. If you specified a policy URI, verify that it is from the policies list that GetRequestAuthorizationDetails returns for the same authorization ID.
+    /// - `ValidationException` : The request is malformed or is missing one or more required parameters. Check the request parameters and try again.
+    public func getRequestAuthorizationPolicy(input: GetRequestAuthorizationPolicyInput) async throws -> GetRequestAuthorizationPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getRequestAuthorizationPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput>(GetRequestAuthorizationPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput>(GetRequestAuthorizationPolicyInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRequestAuthorizationPolicyOutput>(GetRequestAuthorizationPolicyOutput.httpOutput(from:), GetRequestAuthorizationPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetRequestAuthorizationPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM Toolbox", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRequestAuthorizationPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRequestAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "IAM Toolbox"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRequestAuthorizationPolicyInput, GetRequestAuthorizationPolicyOutput>(serviceID: serviceName, version: IAMToolboxClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAMToolbox")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRequestAuthorizationPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -1775,7 +1775,7 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify DPU values for PC queries the WG containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
         public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
-        /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        /// The engine version that all queries running on the workgroup use.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and IAM Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and IAM Identity Center enabled workgroups. The property is required for IAM Identity Center enabled workgroups.
         public var executionRole: Swift.String?
@@ -3715,7 +3715,36 @@ public struct ListCapacityReservationsOutput: Swift.Sendable {
     }
 }
 
+extension AthenaClientTypes {
+
+    /// A database property that can be requested in the AttributesToGet parameter of ListDatabases.
+    public enum DatabaseAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatabaseAttributes] {
+            return [
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListDatabasesInput: Swift.Sendable {
+    /// Specifies the database properties returned by the ListDatabases call. The only valid value is NAME, which returns only the name of each database and omits the remaining properties. If you omit this parameter or specify an empty list, all database properties are returned. Requesting only names can reduce response time for catalogs that contain many databases, especially resource links to databases shared from other accounts. This parameter applies only to the Glue Data Catalog. For other data catalog types, it is ignored.
+    public var attributesToGet: [AthenaClientTypes.DatabaseAttributes]?
     /// The name of the data catalog that contains the databases to return.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -3727,11 +3756,13 @@ public struct ListDatabasesInput: Swift.Sendable {
     public var workGroup: Swift.String?
 
     public init(
+        attributesToGet: [AthenaClientTypes.DatabaseAttributes]? = nil,
         catalogName: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
     ) {
+        self.attributesToGet = attributesToGet
         self.catalogName = catalogName
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4362,7 +4393,39 @@ public struct ListSystemTableStatusesOutput: Swift.Sendable {
     }
 }
 
+extension AthenaClientTypes {
+
+    /// A table property that can be requested in the AttributesToGet parameter of ListTableMetadata.
+    public enum TableAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case tableType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableAttributes] {
+            return [
+                .name,
+                .tableType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case .tableType: return "TABLE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListTableMetadataInput: Swift.Sendable {
+    /// Specifies the table properties returned by the ListTableMetadata call. This parameter doesn't accept an empty list, and the request must include NAME. The valid combinations of values are NAME, which returns the name of each table, and NAME and TABLE_TYPE, which return the name and table type of each table. The remaining properties are omitted. If you omit this parameter, all table properties are returned. Requesting only the properties you need can reduce response time for databases that contain many tables. This parameter applies only to the Glue Data Catalog. For other data catalog types, it is ignored.
+    public var attributesToGet: [AthenaClientTypes.TableAttributes]?
     /// The name of the data catalog for which table metadata should be returned.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -4379,6 +4442,7 @@ public struct ListTableMetadataInput: Swift.Sendable {
     public var workGroup: Swift.String?
 
     public init(
+        attributesToGet: [AthenaClientTypes.TableAttributes]? = nil,
         catalogName: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         expression: Swift.String? = nil,
@@ -4386,6 +4450,7 @@ public struct ListTableMetadataInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         workGroup: Swift.String? = nil
     ) {
+        self.attributesToGet = attributesToGet
         self.catalogName = catalogName
         self.databaseName = databaseName
         self.expression = expression
@@ -4468,7 +4533,7 @@ extension AthenaClientTypes {
         public var creationTime: Foundation.Date?
         /// The workgroup description.
         public var description: Swift.String?
-        /// The engine version setting for all queries on the workgroup. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        /// The engine version setting for all queries on the workgroup.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the IAM Identity Center enabled application associated with the workgroup.
         public var identityCenterApplicationArn: Swift.String?
@@ -5140,7 +5205,7 @@ extension AthenaClientTypes {
         public var enforceWorkGroupConfiguration: Swift.Bool?
         /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify DPU values for PC queries the WG containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
         public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
-        /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
+        /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public var executionRole: Swift.String?
