@@ -13120,6 +13120,60 @@ public struct DeactivateEvaluationFormOutput: Swift.Sendable {
     }
 }
 
+extension ConnectClientTypes {
+
+    /// Specifies the type of entity whose sessions you delete when you call DeleteAllEntitySessions. The only valid value is USER, which targets a user in your Connect Customer instance.
+    public enum SessionEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionEntityType] {
+            return [
+                .user
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DeleteAllEntitySessionsInput: Swift.Sendable {
+    /// The identifier of the entity whose sessions you want to delete. For USER, use the user ID or the user ARN.
+    /// This member is required.
+    public var entityId: Swift.String?
+    /// The type of entity whose sessions you want to delete. The only valid value is USER, which signs out a user in your Connect Customer instance.
+    /// This member is required.
+    public var entityType: ConnectClientTypes.SessionEntityType?
+    /// The identifier of the Connect Customer instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        entityId: Swift.String? = nil,
+        entityType: ConnectClientTypes.SessionEntityType? = nil,
+        instanceId: Swift.String? = nil
+    ) {
+        self.entityId = entityId
+        self.entityType = entityType
+        self.instanceId = instanceId
+    }
+}
+
+public struct DeleteAllEntitySessionsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Request to DeleteAttachedFile API
 public struct DeleteAttachedFileInput: Swift.Sendable {
     /// The resource to which the attached file is (being) uploaded to. The supported resources are [Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html), [Email](https://docs.aws.amazon.com/connect/latest/adminguide/setup-email-channel.html), and [Task](https://docs.aws.amazon.com/connect/latest/adminguide/concepts-getting-started-tasks.html). This value must be a valid ARN.
@@ -42324,6 +42378,13 @@ extension DeactivateEvaluationFormInput {
     }
 }
 
+extension DeleteAllEntitySessionsInput {
+
+    static func urlPathProvider(_ value: DeleteAllEntitySessionsInput) -> Swift.String? {
+        return "/auth/sessions/delete-all-entity-sessions"
+    }
+}
+
 extension DeleteAttachedFileInput {
 
     static func urlPathProvider(_ value: DeleteAttachedFileInput) -> Swift.String? {
@@ -48555,6 +48616,16 @@ extension DeactivateEvaluationFormInput {
     }
 }
 
+extension DeleteAllEntitySessionsInput {
+
+    static func write(value: DeleteAllEntitySessionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId)
+        try writer["EntityType"].write(value.entityType)
+        try writer["InstanceId"].write(value.instanceId)
+    }
+}
+
 extension DeleteContactDataInput {
 
     static func write(value: DeleteContactDataInput?, to writer: SmithyJSON.Writer) throws {
@@ -51175,6 +51246,13 @@ extension DeactivateEvaluationFormOutput {
         value.evaluationFormId = try reader["EvaluationFormId"].readIfPresent() ?? ""
         value.evaluationFormVersion = try reader["EvaluationFormVersion"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension DeleteAllEntitySessionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAllEntitySessionsOutput {
+        return DeleteAllEntitySessionsOutput()
     }
 }
 
@@ -56196,6 +56274,25 @@ enum DeactivateEvaluationFormOutputError {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAllEntitySessionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

@@ -11874,6 +11874,21 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The amount of time to allow in-flight requests to complete before a deregistering target is removed.
+    public struct GatewayConnectorDeregistrationDelay: Swift.Sendable {
+        /// The amount of time, in seconds, to wait before a deregistering target is removed. A value of 0 removes the target immediately. The valid range is 0-3600 seconds. The default value is 300 seconds.
+        public var timeoutSeconds: Swift.Int?
+
+        public init(
+            timeoutSeconds: Swift.Int? = nil
+        ) {
+            self.timeoutSeconds = timeoutSeconds
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The filters that determine which gateway ingress paths a connector applies to.
     public struct GatewayConnectorFilters: Swift.Sendable {
         /// The access types of the gateway ingress paths that the connector applies to. The access type can be one of the following values:
@@ -11993,6 +12008,8 @@ extension ECSClientTypes {
 
     /// A gateway connector that attaches an Amazon ECS service to a gateway ingress path. The connector specifies the service port that receives gateway-managed ingress traffic, along with the health check and traffic filters that the gateway applies. A service can have at most one gateway connector.
     public struct GatewayConnector: Swift.Sendable {
+        /// The deregistration delay settings for the targets of this connector.
+        public var deregistrationDelay: ECSClientTypes.GatewayConnectorDeregistrationDelay?
         /// The filters that control which gateway ingress paths the connector applies to.
         public var filters: ECSClientTypes.GatewayConnectorFilters?
         /// The health check that the gateway uses to determine whether the targets for this connector are healthy.
@@ -12002,10 +12019,12 @@ extension ECSClientTypes {
         public var portName: Swift.String?
 
         public init(
+            deregistrationDelay: ECSClientTypes.GatewayConnectorDeregistrationDelay? = nil,
             filters: ECSClientTypes.GatewayConnectorFilters? = nil,
             healthCheck: ECSClientTypes.GatewayConnectorHealthCheck? = nil,
             portName: Swift.String? = nil
         ) {
+            self.deregistrationDelay = deregistrationDelay
             self.filters = filters
             self.healthCheck = healthCheck
             self.portName = portName

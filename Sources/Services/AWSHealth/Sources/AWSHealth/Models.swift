@@ -20,12 +20,52 @@ public struct DescribeHealthServiceStatusForOrganizationInput: Swift.Sendable {
     public init() { }
 }
 
+public struct DescribeTagKeysForOrganizationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DescribeTagKeysInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DescribeTagsOnboardingStatusForOrganizationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DescribeTagsOnboardingStatusInput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DisableHealthServiceAccessForOrganizationInput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct DisableHealthServiceAccessForOrganizationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableTagsForOrganizationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableTagsForOrganizationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableTagsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableTagsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -38,6 +78,45 @@ public struct EnableHealthServiceAccessForOrganizationInput: Swift.Sendable {
 public struct EnableHealthServiceAccessForOrganizationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct EnableTagsForOrganizationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableTagsForOrganizationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableTagsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct EnableTagsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension HealthClientTypes {
+
+    /// An entity representing an affected account, including its account ID and associated tags.
+    public struct AccountEntity: Swift.Sendable {
+        /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
+        public var accountId: Swift.String?
+        /// A map of tag key-value pairs attached to the affected account.
+        public var accountTags: [Swift.String: Swift.String]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            accountTags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.accountId = accountId
+            self.accountTags = accountTags
+        }
+    }
 }
 
 extension HealthClientTypes {
@@ -103,8 +182,78 @@ extension HealthClientTypes {
 
 extension HealthClientTypes {
 
+    public enum AccountTagType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountResourceTag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountTagType] {
+            return [
+                .accountResourceTag
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountResourceTag: return "ACCOUNT_RESOURCE_TAG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A tag key-value pair associated with a resource in an account.
+    public struct AccountTag: Swift.Sendable {
+        /// The tag key.
+        public var key: Swift.String?
+        /// The type of tag (resource tag or account tag).
+        public var type: HealthClientTypes.AccountTagType?
+        /// The tag value.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            type: HealthClientTypes.AccountTagType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A filter for narrowing down affected accounts in an organization event.
+    public struct AffectedAccountFilter: Swift.Sendable {
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        public var eventArn: Swift.String?
+        /// A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches. An account is returned when its own tags, or the tags of one of its affected resources, match.
+        public var tags: [Swift.String: [Swift.String]]?
+
+        public init(
+            eventArn: Swift.String? = nil,
+            tags: [Swift.String: [Swift.String]]? = nil
+        ) {
+            self.eventArn = eventArn
+            self.tags = tags
+        }
+    }
+}
+
+extension HealthClientTypes {
+
     /// Information about an entity that is affected by a Health event.
     public struct AffectedEntity: Swift.Sendable {
+        /// A map of account tag key-value pairs attached to the affected entity.
+        public var accountTags: [Swift.String: Swift.String]?
         /// The 12-digit Amazon Web Services account number that contains the affected entity.
         public var awsAccountId: Swift.String?
         /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K
@@ -119,12 +268,15 @@ extension HealthClientTypes {
         public var eventArn: Swift.String?
         /// The most recent time that the entity was updated.
         public var lastUpdatedTime: Foundation.Date?
+        /// A map of resource tag key-value pairs attached to the affected entity.
+        public var resourceTags: [Swift.String: Swift.String]?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, UNKNOWN, PENDING, and RESOLVED.
         public var statusCode: HealthClientTypes.EntityStatusCode?
-        /// A map of entity tags attached to the affected entity. Currently, the tags property isn't supported.
+        /// A map of resource tag key-value pairs attached to the affected entity. Currently, the tags property isn't supported.
         public var tags: [Swift.String: Swift.String]?
 
         public init(
+            accountTags: [Swift.String: Swift.String]? = nil,
             awsAccountId: Swift.String? = nil,
             entityArn: Swift.String? = nil,
             entityMetadata: [Swift.String: Swift.String]? = nil,
@@ -132,9 +284,11 @@ extension HealthClientTypes {
             entityValue: Swift.String? = nil,
             eventArn: Swift.String? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
+            resourceTags: [Swift.String: Swift.String]? = nil,
             statusCode: HealthClientTypes.EntityStatusCode? = nil,
             tags: [Swift.String: Swift.String]? = nil
         ) {
+            self.accountTags = accountTags
             self.awsAccountId = awsAccountId
             self.entityArn = entityArn
             self.entityMetadata = entityMetadata
@@ -142,9 +296,127 @@ extension HealthClientTypes {
             self.entityValue = entityValue
             self.eventArn = eventArn
             self.lastUpdatedTime = lastUpdatedTime
+            self.resourceTags = resourceTags
             self.statusCode = statusCode
             self.tags = tags
         }
+    }
+}
+
+extension HealthClientTypes {
+
+    public enum TagKeyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagKeyStatus] {
+            return [
+                .active,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A resource tag key configured for Health event tracking.
+    public struct ResourceTagKey: Swift.Sendable {
+        /// Whether this tag key is enabled for EventBridge notifications.
+        public var enabledForEventBridge: Swift.Bool
+        /// The tag key name.
+        public var key: Swift.String?
+        /// The current status of the tag key configuration.
+        public var status: HealthClientTypes.TagKeyStatus?
+
+        public init(
+            enabledForEventBridge: Swift.Bool = false,
+            key: Swift.String? = nil,
+            status: HealthClientTypes.TagKeyStatus? = nil
+        ) {
+            self.enabledForEventBridge = enabledForEventBridge
+            self.key = key
+            self.status = status
+        }
+    }
+}
+
+public struct ConfigureTagsInput: Swift.Sendable {
+    /// The list of resource tag keys to configure for Health event tracking.
+    /// This member is required.
+    public var tagKeys: [HealthClientTypes.ResourceTagKey]?
+
+    public init(
+        tagKeys: [HealthClientTypes.ResourceTagKey]? = nil
+    ) {
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct ConfigureTagsOutput: Swift.Sendable {
+    /// The list of resource tag keys that were successfully configured.
+    public var configuredTagKeys: [HealthClientTypes.ResourceTagKey]?
+
+    public init(
+        configuredTagKeys: [HealthClientTypes.ResourceTagKey]? = nil
+    ) {
+        self.configuredTagKeys = configuredTagKeys
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A tag key configured for an organization.
+    public struct TagKeyForOrganization: Swift.Sendable {
+        /// Whether this tag key is enabled for EventBridge notifications.
+        public var enabledForEventBridge: Swift.Bool
+        /// The tag key name.
+        public var key: Swift.String?
+
+        public init(
+            enabledForEventBridge: Swift.Bool = false,
+            key: Swift.String? = nil
+        ) {
+            self.enabledForEventBridge = enabledForEventBridge
+            self.key = key
+        }
+    }
+}
+
+public struct ConfigureTagsForOrganizationInput: Swift.Sendable {
+    /// The list of tag keys to configure for Health event tracking across the organization.
+    /// This member is required.
+    public var tagKeys: [HealthClientTypes.TagKeyForOrganization]?
+
+    public init(
+        tagKeys: [HealthClientTypes.TagKeyForOrganization]? = nil
+    ) {
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct ConfigureTagsForOrganizationOutput: Swift.Sendable {
+    /// The list of tag keys that were successfully configured for the organization.
+    public var configuredTagKeys: [HealthClientTypes.TagKeyForOrganization]?
+
+    public init(
+        configuredTagKeys: [HealthClientTypes.TagKeyForOrganization]? = nil
+    ) {
+        self.configuredTagKeys = configuredTagKeys
     }
 }
 
@@ -175,6 +447,8 @@ public struct DescribeAffectedAccountsForOrganizationInput: Swift.Sendable {
     /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
     /// This member is required.
     public var eventArn: Swift.String?
+    /// Values to narrow the results returned.
+    public var filter: HealthClientTypes.AffectedAccountFilter?
     /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -182,10 +456,12 @@ public struct DescribeAffectedAccountsForOrganizationInput: Swift.Sendable {
 
     public init(
         eventArn: Swift.String? = nil,
+        filter: HealthClientTypes.AffectedAccountFilter? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.eventArn = eventArn
+        self.filter = filter
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -224,6 +500,8 @@ extension HealthClientTypes {
 }
 
 public struct DescribeAffectedAccountsForOrganizationOutput: Swift.Sendable {
+    /// The list of affected account entities, including account IDs and their associated tags.
+    public var affectedAccountEntities: [HealthClientTypes.AccountEntity]?
     /// A JSON set of elements of the affected accounts.
     public var affectedAccounts: [Swift.String]?
     /// This parameter specifies if the Health event is a public Amazon Web Services service event or an account-specific event.
@@ -238,10 +516,12 @@ public struct DescribeAffectedAccountsForOrganizationOutput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
+        affectedAccountEntities: [HealthClientTypes.AccountEntity]? = nil,
         affectedAccounts: [Swift.String]? = nil,
         eventScopeCode: HealthClientTypes.EventScopeCode? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.affectedAccountEntities = affectedAccountEntities
         self.affectedAccounts = affectedAccounts
         self.eventScopeCode = eventScopeCode
         self.nextToken = nextToken
@@ -305,8 +585,8 @@ extension HealthClientTypes {
         public var lastUpdatedTimes: [HealthClientTypes.DateTimeRange]?
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
         public var statusCodes: [HealthClientTypes.EntityStatusCode]?
-        /// A map of entity tags attached to the affected entity. Currently, the tags property isn't supported.
-        public var tags: [[Swift.String: Swift.String]]?
+        /// A map of resource tag key-value pairs to filter affected entities. Currently, the tags property isn't supported.
+        public var tags: [Swift.String: [Swift.String]]?
 
         public init(
             entityArns: [Swift.String]? = nil,
@@ -314,7 +594,7 @@ extension HealthClientTypes {
             eventArns: [Swift.String]? = nil,
             lastUpdatedTimes: [HealthClientTypes.DateTimeRange]? = nil,
             statusCodes: [HealthClientTypes.EntityStatusCode]? = nil,
-            tags: [[Swift.String: Swift.String]]? = nil
+            tags: [Swift.String: [Swift.String]]? = nil
         ) {
             self.entityArns = entityArns
             self.entityValues = entityValues
@@ -376,15 +656,19 @@ extension HealthClientTypes {
         public var eventArn: Swift.String?
         /// A list of entity status codes.
         public var statusCodes: [HealthClientTypes.EntityStatusCode]?
+        /// A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches. An entity is returned when the tags of the resource, or of the account it belongs to, match. When you specify several filters in organizationEntityAccountFilters, the tags must be identical in every filter.
+        public var tags: [Swift.String: [Swift.String]]?
 
         public init(
             awsAccountId: Swift.String? = nil,
             eventArn: Swift.String? = nil,
-            statusCodes: [HealthClientTypes.EntityStatusCode]? = nil
+            statusCodes: [HealthClientTypes.EntityStatusCode]? = nil,
+            tags: [Swift.String: [Swift.String]]? = nil
         ) {
             self.awsAccountId = awsAccountId
             self.eventArn = eventArn
             self.statusCodes = statusCodes
+            self.tags = tags
         }
     }
 }
@@ -483,14 +767,33 @@ public struct DescribeAffectedEntitiesForOrganizationOutput: Swift.Sendable {
     }
 }
 
+extension HealthClientTypes {
+
+    /// A filter for narrowing down the entity aggregates returned by DescribeEntityAggregates.
+    public struct EntityAggregateFilter: Swift.Sendable {
+        /// A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches. Only entities whose tags match are included in the aggregates.
+        public var tags: [Swift.String: [Swift.String]]?
+
+        public init(
+            tags: [Swift.String: [Swift.String]]? = nil
+        ) {
+            self.tags = tags
+        }
+    }
+}
+
 public struct DescribeEntityAggregatesInput: Swift.Sendable {
     /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
     public var eventArns: [Swift.String]?
+    /// Values to narrow the results returned.
+    public var filter: HealthClientTypes.EntityAggregateFilter?
 
     public init(
-        eventArns: [Swift.String]? = nil
+        eventArns: [Swift.String]? = nil,
+        filter: HealthClientTypes.EntityAggregateFilter? = nil
     ) {
         self.eventArns = eventArns
+        self.filter = filter
     }
 }
 
@@ -528,19 +831,38 @@ public struct DescribeEntityAggregatesOutput: Swift.Sendable {
     }
 }
 
+extension HealthClientTypes {
+
+    /// A filter for narrowing down the entity aggregates returned by DescribeEntityAggregatesForOrganization.
+    public struct OrganizationEntityAggregateFilter: Swift.Sendable {
+        /// A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches. Only entities whose tags match are included in the aggregates.
+        public var tags: [Swift.String: [Swift.String]]?
+
+        public init(
+            tags: [Swift.String: [Swift.String]]? = nil
+        ) {
+            self.tags = tags
+        }
+    }
+}
+
 public struct DescribeEntityAggregatesForOrganizationInput: Swift.Sendable {
     /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities.
     public var awsAccountIds: [Swift.String]?
     /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
     /// This member is required.
     public var eventArns: [Swift.String]?
+    /// Values to narrow the results returned.
+    public var filter: HealthClientTypes.OrganizationEntityAggregateFilter?
 
     public init(
         awsAccountIds: [Swift.String]? = nil,
-        eventArns: [Swift.String]? = nil
+        eventArns: [Swift.String]? = nil,
+        filter: HealthClientTypes.OrganizationEntityAggregateFilter? = nil
     ) {
         self.awsAccountIds = awsAccountIds
         self.eventArns = eventArns
+        self.filter = filter
     }
 }
 
@@ -771,8 +1093,8 @@ extension HealthClientTypes {
         public var services: [Swift.String]?
         /// A list of dates and times that the event began.
         public var startTimes: [HealthClientTypes.DateTimeRange]?
-        /// A map of entity tags attached to the affected entity. Currently, the tags property isn't supported.
-        public var tags: [[Swift.String: Swift.String]]?
+        /// A map of resource tag key-value pairs to filter affected entities. Currently, the tags property isn't supported.
+        public var tags: [Swift.String: [Swift.String]]?
 
         public init(
             actionabilities: [HealthClientTypes.EventActionability]? = nil,
@@ -789,7 +1111,7 @@ extension HealthClientTypes {
             regions: [Swift.String]? = nil,
             services: [Swift.String]? = nil,
             startTimes: [HealthClientTypes.DateTimeRange]? = nil,
-            tags: [[Swift.String: Swift.String]]? = nil
+            tags: [Swift.String: [Swift.String]]? = nil
         ) {
             self.actionabilities = actionabilities
             self.availabilityZones = availabilityZones
@@ -1064,7 +1386,7 @@ extension HealthClientTypes {
         ///
         /// * We couldn't find an account specific event for the specified Amazon Web Services account. To find an event that is public, you must enter a null value for the Amazon Web Services account ID in the request.
         ///
-        /// * Your Amazon Web Services account doesn't include the Amazon Web Services Support plan required to use the Health API. You must have either a Business, Enterprise On-Ramp, or Enterprise Support plan.
+        /// * Your Amazon Web Services account doesn't include the Amazon Web Services Support plan required to use the Health API. You must have either a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan.
         public var errorMessage: Swift.String?
         /// The name of the error.
         public var errorName: Swift.String?
@@ -1202,6 +1524,8 @@ extension HealthClientTypes {
         public var services: [Swift.String]?
         /// A range of dates and times that is used by the [EventFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EventFilter.html) and [EntityFilter](https://docs.aws.amazon.com/health/latest/APIReference/API_EntityFilter.html) objects. If from is set and to is set: match items where the timestamp (startTime, endTime, or lastUpdatedTime) is between from and to inclusive. If from is set and to is not set: match items where the timestamp value is equal to or after from. If from is not set and to is set: match items where the timestamp value is equal to or before to.
         public var startTime: HealthClientTypes.DateTimeRange?
+        /// A map of tag keys to lists of tag values. A tag matches when its key is in the map and its value is one of the values listed for that key. Matching is case sensitive, and the filter matches when at least one key in the map matches. An event is returned when one of its affected accounts, or one of the entities of those accounts, has tags that match.
+        public var tags: [Swift.String: [Swift.String]]?
 
         public init(
             actionabilities: [HealthClientTypes.EventActionability]? = nil,
@@ -1216,7 +1540,8 @@ extension HealthClientTypes {
             personas: [HealthClientTypes.EventPersona]? = nil,
             regions: [Swift.String]? = nil,
             services: [Swift.String]? = nil,
-            startTime: HealthClientTypes.DateTimeRange? = nil
+            startTime: HealthClientTypes.DateTimeRange? = nil,
+            tags: [Swift.String: [Swift.String]]? = nil
         ) {
             self.actionabilities = actionabilities
             self.awsAccountIds = awsAccountIds
@@ -1231,6 +1556,7 @@ extension HealthClientTypes {
             self.regions = regions
             self.services = services
             self.startTime = startTime
+            self.tags = tags
         }
     }
 }
@@ -1531,7 +1857,7 @@ extension HealthClientTypes {
 public struct DescribeServiceLifecycleInput: Swift.Sendable {
     /// Values to narrow the results returned.
     public var filter: HealthClientTypes.ServiceLifecycleFilter?
-    /// The maximum number of items to return in one batch, between 1 and 20, inclusive.
+    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
@@ -1621,6 +1947,262 @@ public struct DescribeServiceLifecycleOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.serviceLifecycles = serviceLifecycles
+    }
+}
+
+public struct DescribeTagKeysOutput: Swift.Sendable {
+    /// The list of configured resource tag keys and their status.
+    public var keys: [HealthClientTypes.ResourceTagKey]?
+
+    public init(
+        keys: [HealthClientTypes.ResourceTagKey]? = nil
+    ) {
+        self.keys = keys
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A tag key configured for Health event tracking across an organization.
+    public struct OrganizationTagKey: Swift.Sendable {
+        /// Whether this tag key is enabled for EventBridge notifications.
+        public var enabledForEventBridge: Swift.Bool
+        /// The tag key name.
+        public var key: Swift.String?
+        /// The current status of the tag key configuration.
+        public var status: HealthClientTypes.TagKeyStatus?
+
+        public init(
+            enabledForEventBridge: Swift.Bool = false,
+            key: Swift.String? = nil,
+            status: HealthClientTypes.TagKeyStatus? = nil
+        ) {
+            self.enabledForEventBridge = enabledForEventBridge
+            self.key = key
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeTagKeysForOrganizationOutput: Swift.Sendable {
+    /// The list of configured tag keys for the organization and their status.
+    public var keys: [HealthClientTypes.OrganizationTagKey]?
+
+    public init(
+        keys: [HealthClientTypes.OrganizationTagKey]? = nil
+    ) {
+        self.keys = keys
+    }
+}
+
+public struct DescribeTagsInput: Swift.Sendable {
+    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    public var maxResults: Swift.Int?
+    /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeTagsOutput: Swift.Sendable {
+    /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    public var nextToken: Swift.String?
+    /// The list of resource tags associated with Health events.
+    public var tags: [HealthClientTypes.AccountTag]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        tags: [HealthClientTypes.AccountTag]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.tags = tags
+    }
+}
+
+extension HealthClientTypes {
+
+    public enum OrganizationTagType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case organizationAccountTag
+        case organizationResourceTag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OrganizationTagType] {
+            return [
+                .organizationAccountTag,
+                .organizationResourceTag
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .organizationAccountTag: return "ORGANIZATION_ACCOUNT_TAG"
+            case .organizationResourceTag: return "ORGANIZATION_RESOURCE_TAG"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A filter for narrowing down the tags returned by DescribeTagsForOrganization.
+    public struct DescribeTagsForOrganizationFilter: Swift.Sendable {
+        /// The types of tags to include in the results.
+        public var tagTypes: [HealthClientTypes.OrganizationTagType]?
+
+        public init(
+            tagTypes: [HealthClientTypes.OrganizationTagType]? = nil
+        ) {
+            self.tagTypes = tagTypes
+        }
+    }
+}
+
+public struct DescribeTagsForOrganizationInput: Swift.Sendable {
+    /// Values to narrow the results returned.
+    public var filter: HealthClientTypes.DescribeTagsForOrganizationFilter?
+    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    public var maxResults: Swift.Int?
+    /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: HealthClientTypes.DescribeTagsForOrganizationFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension HealthClientTypes {
+
+    /// A tag key-value pair associated with a resource across an organization.
+    public struct OrganizationTag: Swift.Sendable {
+        /// The tag key.
+        public var key: Swift.String?
+        /// The type of organization tag.
+        public var type: HealthClientTypes.OrganizationTagType?
+        /// The tag value.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            type: HealthClientTypes.OrganizationTagType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+public struct DescribeTagsForOrganizationOutput: Swift.Sendable {
+    /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
+    public var nextToken: Swift.String?
+    /// The list of tags associated with Health events across the organization.
+    public var tags: [HealthClientTypes.OrganizationTag]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        tags: [HealthClientTypes.OrganizationTag]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.tags = tags
+    }
+}
+
+extension HealthClientTypes {
+
+    public enum TagsOnboardingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagsOnboardingStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeTagsOnboardingStatusOutput: Swift.Sendable {
+    /// The current onboarding status of the tags feature for the account.
+    public var status: HealthClientTypes.TagsOnboardingStatus?
+
+    public init(
+        status: HealthClientTypes.TagsOnboardingStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+extension HealthClientTypes {
+
+    public enum TagsOnboardingStatusForOrganization: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagsOnboardingStatusForOrganization] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeTagsOnboardingStatusForOrganizationOutput: Swift.Sendable {
+    /// The current onboarding status of the tags feature for the organization.
+    public var status: HealthClientTypes.TagsOnboardingStatusForOrganization?
+
+    public init(
+        status: HealthClientTypes.TagsOnboardingStatusForOrganization? = nil
+    ) {
+        self.status = status
     }
 }
 

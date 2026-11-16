@@ -3986,7 +3986,7 @@ public struct GetKeyLastUsageOutput: Swift.Sendable {
 }
 
 public struct GetKeyPolicyInput: Swift.Sendable {
-    /// Gets the key policy for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:
+    /// Identifies the KMS key whose key policy you want to get. Specify the key ID or key ARN of the KMS key. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -3996,7 +3996,7 @@ public struct GetKeyPolicyInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Specifies the name of the key policy. If no policy name is specified, the default value is default. The only valid name is default. To get the names of key policies, use [ListKeyPolicies].
+    /// Specifies the name of the key policy. If no policy name is specified, the default value is default. Valid values are default and AWS_RAM. Use AWS_RAM to get the key policy that RAM manages for a KMS key that you share through RAM. If the KMS key doesn't have an AWS_RAM key policy, the request fails with a NotFoundException. To get the names of key policies, use [ListKeyPolicies].
     public var policyName: Swift.String?
 
     public init(
@@ -4011,7 +4011,7 @@ public struct GetKeyPolicyInput: Swift.Sendable {
 public struct GetKeyPolicyOutput: Swift.Sendable {
     /// A key policy document in JSON format.
     public var policy: Swift.String?
-    /// The name of the key policy. The only valid value is default.
+    /// The name of the key policy. Valid values are: default The key policy that you manage. AWS_RAM The key policy that RAM manages for KMS keys that you share through RAM.
     public var policyName: Swift.String?
 
     public init(
@@ -4735,7 +4735,7 @@ public struct ListKeyPoliciesInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Use this parameter to specify the maximum number of items to return. When this value is present, KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. Only one policy can be attached to a key.
+    /// Use this parameter to specify the maximum number of items to return. When this value is present, KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100. A KMS key can have at most two key policies, default and AWS_RAM.
     public var limit: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
     public var marker: Swift.String?
@@ -4754,7 +4754,7 @@ public struct ListKeyPoliciesInput: Swift.Sendable {
 public struct ListKeyPoliciesOutput: Swift.Sendable {
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
-    /// A list of key policy names. The only valid value is default.
+    /// A list of key policy names. Valid values are: default The key policy that you manage. AWS_RAM The key policy that RAM manages for KMS keys that you share through RAM.
     public var policyNames: [Swift.String]?
     /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
@@ -4896,23 +4896,57 @@ public struct ListKeyRotationsOutput: Swift.Sendable {
     }
 }
 
+extension KMSClientTypes {
+
+    /// Identifies whose KMS keys [ListKeys] lists. SELF identifies the KMS keys in your Amazon Web Services account. OTHER_ACCOUNTS_VIA_RAM identifies the KMS keys that other Amazon Web Services accounts shared with your Amazon Web Services account through Resource Access Manager (RAM).
+    public enum ResourceOwnerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case otherAccountsViaRam
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceOwnerType] {
+            return [
+                .otherAccountsViaRam,
+                .self
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .otherAccountsViaRam: return "OTHER_ACCOUNTS_VIA_RAM"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct ListKeysInput: Swift.Sendable {
     /// Use this parameter to specify the maximum number of items to return. When this value is present, KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
     public var limit: Swift.Int?
     /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
     public var marker: Swift.String?
+    /// Specifies whose KMS keys to list. Use this parameter to list KMS keys that other Amazon Web Services accounts shared with your Amazon Web Services account through Resource Access Manager (RAM). Specify one or two values. Valid values are: SELF Lists the KMS keys in your Amazon Web Services account and Region. OTHER_ACCOUNTS_VIA_RAM Lists the KMS keys in the Region that other Amazon Web Services accounts currently share with your Amazon Web Services account through RAM. This list doesn't include KMS keys that your Amazon Web Services account owns. For each of these KMS keys, the key ARN in the response contains the account ID of the Amazon Web Services account that owns the KMS key. If you omit this parameter, ListKeys lists only the KMS keys in your Amazon Web Services account. If you specify both values, in either order, ListKeys returns the KMS keys in your Amazon Web Services account first, and then the KMS keys that other Amazon Web Services accounts shared with you. A single response doesn't contain both kinds of KMS keys. When ResourceOwners includes OTHER_ACCOUNTS_VIA_RAM, a response can contain fewer KMS keys than the Limit value, or none, even when Truncated is true. To get all of the KMS keys, continue calling ListKeys with the NextMarker value from each response until Truncated is false. Use a NextMarker value only in a request that has the same ResourceOwners value as the request that returned it. Otherwise, the request can fail with an InvalidMarkerException. KMS keys that other Amazon Web Services accounts share with you can take some time to appear in or disappear from the results after changes to resource shares.
+    public var resourceOwners: [KMSClientTypes.ResourceOwnerType]?
 
     public init(
         limit: Swift.Int? = nil,
-        marker: Swift.String? = nil
+        marker: Swift.String? = nil,
+        resourceOwners: [KMSClientTypes.ResourceOwnerType]? = nil
     ) {
         self.limit = limit
         self.marker = marker
+        self.resourceOwners = resourceOwners
     }
 }
 
 public struct ListKeysOutput: Swift.Sendable {
-    /// A list of KMS keys.
+    /// A list of KMS keys. For a KMS key that another Amazon Web Services account shared with you through RAM, the key ARN contains the account ID of the Amazon Web Services account that owns the KMS key.
     public var keys: [KMSClientTypes.KeyListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
@@ -5051,7 +5085,7 @@ extension KMSClientTypes {
 }
 
 public struct PutKeyPolicyInput: Swift.Sendable {
-    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key.
+    /// Skips ("bypasses") the key policy lockout safety check. The default value is false. Setting this value to true increases the risk that the KMS key becomes unmanageable. Do not set this value to true indiscriminately. For more information, see [Default key policy](https://docs.aws.amazon.com/kms/latest/developerguide/key-policy-default.html#prevent-unmanageable-key) in the Key Management Service Developer Guide. Use this parameter only when you intend to prevent the principal that is making the request from making a subsequent [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) request on the KMS key. The key policy lockout safety check and the BypassPolicyLockoutSafetyCheck parameter apply only to the default key policy. The check evaluates only the new default key policy, with kms:PolicyName set to default. It doesn't consider permissions in the AWS_RAM key policy.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// Sets the key policy on the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:
     ///
@@ -5082,7 +5116,7 @@ public struct PutKeyPolicyInput: Swift.Sendable {
     /// If the key policy exceeds the length constraint, KMS returns a LimitExceededException. For information about key policies, see [Key policies in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide.For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
     /// This member is required.
     public var policy: Swift.String?
-    /// The name of the key policy. If no policy name is specified, the default value is default. The only valid value is default.
+    /// The name of the key policy. If no policy name is specified, the default value is default. Valid values are default and AWS_RAM, but you can set only the default key policy. RAM manages the AWS_RAM key policy for KMS keys that you share through RAM. If you specify AWS_RAM, the request fails with a ValidationException, or with an AccessDeniedException if you don't have permission to call PutKeyPolicy with that policy name.
     public var policyName: Swift.String?
 
     public init(

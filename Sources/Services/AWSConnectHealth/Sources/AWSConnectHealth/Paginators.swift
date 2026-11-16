@@ -11,6 +11,38 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension ConnectHealthClient {
+    /// Paginate over `[ListDatasetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutput`
+    public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDatasets(input:))
+    }
+}
+
+extension ListDatasetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDatasetsInput {
+        return ListDatasetsInput(
+            domainId: self.domainId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDatasetsInput, OperationStackOutput == ListDatasetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetsPaginated`
+    /// to access the nested member `[ConnectHealthClientTypes.DatasetSummary]`
+    /// - Returns: `[ConnectHealthClientTypes.DatasetSummary]`
+    public func items() async throws -> [ConnectHealthClientTypes.DatasetSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension ConnectHealthClient {
     /// Paginate over `[ListDomainsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -289,6 +289,50 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension DSQLClientTypes {
 
+    /// The name of an advanced monitoring metric group. Advanced monitoring collects detailed, query-level database metrics to help you analyze and resolve performance issues. You choose which metric groups to collect for each cluster. The following metric groups are available: STATEMENT_STATISTICS Shows which SQL statements run most often or take the most time. Collects execution count, execution time, and rows for each statement.
+    public enum MetricGroup: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Shows which SQL statements run most often or take the most time. Collects execution count, execution time, and rows for each statement.
+        case statementStatistics
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricGroup] {
+            return [
+                .statementStatistics
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .statementStatistics: return "STATEMENT_STATISTICS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
+    /// A metric group to enable for advanced monitoring.
+    public struct MetricGroupRequest: Swift.Sendable {
+        /// The name of the metric group to enable.
+        /// This member is required.
+        public var metricGroup: DSQLClientTypes.MetricGroup?
+
+        public init(
+            metricGroup: DSQLClientTypes.MetricGroup? = nil
+        ) {
+            self.metricGroup = metricGroup
+        }
+    }
+}
+
+extension DSQLClientTypes {
+
     /// Defines the structure for multi-Region cluster configurations, containing the witness region and linked cluster settings.
     public struct MultiRegionProperties: Swift.Sendable {
         /// The set of peered clusters that form the multi-Region cluster configuration. Each peered cluster represents a database instance in a different Region.
@@ -315,6 +359,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var deletionProtectionEnabled: Swift.Bool?
     /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
     public var kmsEncryptionKey: Swift.String?
+    /// The metric groups to enable for advanced monitoring on the cluster. Advanced monitoring collects detailed, query-level database metrics to help you analyze and resolve performance issues. If you omit this parameter, no metric groups are enabled.
+    public var metricGroups: [DSQLClientTypes.MetricGroupRequest]?
     /// The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
     /// An optional resource-based policy document in JSON format that defines access permissions for the cluster.
@@ -327,6 +373,7 @@ public struct CreateClusterInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         kmsEncryptionKey: Swift.String? = nil,
+        metricGroups: [DSQLClientTypes.MetricGroupRequest]? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         policy: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -335,6 +382,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.kmsEncryptionKey = kmsEncryptionKey
+        self.metricGroups = metricGroups
         self.multiRegionProperties = multiRegionProperties
         self.policy = policy
         self.tags = tags
@@ -430,6 +478,22 @@ extension DSQLClientTypes {
     }
 }
 
+extension DSQLClientTypes {
+
+    /// A metric group that you enabled for advanced monitoring on a cluster.
+    public struct MetricGroupResponse: Swift.Sendable {
+        /// The name of the metric group that you enabled.
+        /// This member is required.
+        public var metricGroup: DSQLClientTypes.MetricGroup?
+
+        public init(
+            metricGroup: DSQLClientTypes.MetricGroup? = nil
+        ) {
+            self.metricGroup = metricGroup
+        }
+    }
+}
+
 /// The output of a created cluster.
 public struct CreateClusterOutput: Swift.Sendable {
     /// The ARN of the created cluster.
@@ -448,6 +512,8 @@ public struct CreateClusterOutput: Swift.Sendable {
     /// The ID of the created cluster.
     /// This member is required.
     public var identifier: Swift.String?
+    /// The metric groups that you enabled for advanced monitoring on the created cluster.
+    public var metricGroups: [DSQLClientTypes.MetricGroupResponse]?
     /// The multi-Region cluster configuration details that were set during cluster creation
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
     /// The status of the created cluster.
@@ -461,6 +527,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         encryptionDetails: DSQLClientTypes.EncryptionDetails? = nil,
         endpoint: Swift.String? = nil,
         identifier: Swift.String? = nil,
+        metricGroups: [DSQLClientTypes.MetricGroupResponse]? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil
     ) {
@@ -470,6 +537,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         self.encryptionDetails = encryptionDetails
         self.endpoint = endpoint
         self.identifier = identifier
+        self.metricGroups = metricGroups
         self.multiRegionProperties = multiRegionProperties
         self.status = status
     }
@@ -615,6 +683,8 @@ public struct GetClusterOutput: Swift.Sendable {
     /// The ID of the retrieved cluster.
     /// This member is required.
     public var identifier: Swift.String?
+    /// The metric groups that you enabled for advanced monitoring on the cluster. If you haven't enabled any metric groups, the list is empty.
+    public var metricGroups: [DSQLClientTypes.MetricGroupResponse]?
     /// Returns the current multi-Region cluster configuration, including witness region and linked cluster information.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
     /// The status of the retrieved cluster.
@@ -630,6 +700,7 @@ public struct GetClusterOutput: Swift.Sendable {
         encryptionDetails: DSQLClientTypes.EncryptionDetails? = nil,
         endpoint: Swift.String? = nil,
         identifier: Swift.String? = nil,
+        metricGroups: [DSQLClientTypes.MetricGroupResponse]? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
@@ -640,6 +711,7 @@ public struct GetClusterOutput: Swift.Sendable {
         self.encryptionDetails = encryptionDetails
         self.endpoint = endpoint
         self.identifier = identifier
+        self.metricGroups = metricGroups
         self.multiRegionProperties = multiRegionProperties
         self.status = status
         self.tags = tags
@@ -871,6 +943,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var identifier: Swift.String?
     /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you. To switch to the key owned by Amazon Web Services, specify the reserved value AWS_OWNED_KMS_KEY.
     public var kmsEncryptionKey: Swift.String?
+    /// The complete set of metric groups to enable for advanced monitoring on the cluster. This list replaces the current set, so any metric group that you don't include is disabled. To disable all metric groups, specify an empty list ([]). If you omit this parameter, the current setting doesn't change. To view the metric groups enabled on a cluster, use GetCluster.
+    public var metricGroups: [DSQLClientTypes.MetricGroupRequest]?
     /// The new multi-Region cluster configuration settings to be applied during an update operation.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
 
@@ -879,12 +953,14 @@ public struct UpdateClusterInput: Swift.Sendable {
         deletionProtectionEnabled: Swift.Bool? = nil,
         identifier: Swift.String? = nil,
         kmsEncryptionKey: Swift.String? = nil,
+        metricGroups: [DSQLClientTypes.MetricGroupRequest]? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil
     ) {
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.identifier = identifier
         self.kmsEncryptionKey = kmsEncryptionKey
+        self.metricGroups = metricGroups
         self.multiRegionProperties = multiRegionProperties
     }
 }
@@ -1702,6 +1778,7 @@ extension CreateClusterInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["kmsEncryptionKey"].write(value.kmsEncryptionKey)
+        try writer["metricGroups"].writeList(value.metricGroups, memberWritingClosure: DSQLClientTypes.MetricGroupRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["multiRegionProperties"].write(value.multiRegionProperties, with: DSQLClientTypes.MultiRegionProperties.write(value:to:))
         try writer["policy"].write(value.policy)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -1746,6 +1823,7 @@ extension UpdateClusterInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["kmsEncryptionKey"].write(value.kmsEncryptionKey)
+        try writer["metricGroups"].writeList(value.metricGroups, memberWritingClosure: DSQLClientTypes.MetricGroupRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["multiRegionProperties"].write(value.multiRegionProperties, with: DSQLClientTypes.MultiRegionProperties.write(value:to:))
     }
 }
@@ -1763,6 +1841,7 @@ extension CreateClusterOutput {
         value.encryptionDetails = try reader["encryptionDetails"].readIfPresent(with: DSQLClientTypes.EncryptionDetails.read(from:))
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.metricGroups = try reader["metricGroups"].readListIfPresent(memberReadingClosure: DSQLClientTypes.MetricGroupResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
@@ -1843,6 +1922,7 @@ extension GetClusterOutput {
         value.encryptionDetails = try reader["encryptionDetails"].readIfPresent(with: DSQLClientTypes.EncryptionDetails.read(from:))
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        value.metricGroups = try reader["metricGroups"].readListIfPresent(memberReadingClosure: DSQLClientTypes.MetricGroupResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -2391,6 +2471,24 @@ extension DSQLClientTypes.KinesisTargetDefinition {
         var value = DSQLClientTypes.KinesisTargetDefinition()
         value.streamArn = try reader["streamArn"].readIfPresent() ?? ""
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DSQLClientTypes.MetricGroupRequest {
+
+    static func write(value: DSQLClientTypes.MetricGroupRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metricGroup"].write(value.metricGroup)
+    }
+}
+
+extension DSQLClientTypes.MetricGroupResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DSQLClientTypes.MetricGroupResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DSQLClientTypes.MetricGroupResponse()
+        value.metricGroup = try reader["metricGroup"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

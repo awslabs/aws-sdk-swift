@@ -715,6 +715,131 @@ extension PaginatorSequence where OperationStackInput == ListConnectPeersInput, 
     }
 }
 extension NetworkManagerClient {
+    /// Paginate over `[ListContextChangesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContextChangesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContextChangesOutput`
+    public func listContextChangesPaginated(input: ListContextChangesInput) -> ClientRuntime.PaginatorSequence<ListContextChangesInput, ListContextChangesOutput> {
+        return ClientRuntime.PaginatorSequence<ListContextChangesInput, ListContextChangesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContextChanges(input:))
+    }
+}
+
+extension ListContextChangesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContextChangesInput {
+        return ListContextChangesInput(
+            contextStoreId: self.contextStoreId,
+            fromVersionId: self.fromVersionId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContextChangesInput, OperationStackOutput == ListContextChangesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContextChangesPaginated`
+    /// to access the nested member `[NetworkManagerClientTypes.ContextChange]`
+    /// - Returns: `[NetworkManagerClientTypes.ContextChange]`
+    public func contextChanges() async throws -> [NetworkManagerClientTypes.ContextChange] {
+        return try await self.asyncCompactMap { item in item.contextChanges }
+    }
+}
+extension NetworkManagerClient {
+    /// Paginate over `[ListContextsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContextsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContextsOutput`
+    public func listContextsPaginated(input: ListContextsInput) -> ClientRuntime.PaginatorSequence<ListContextsInput, ListContextsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContextsInput, ListContextsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContexts(input:))
+    }
+}
+
+extension ListContextsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContextsInput {
+        return ListContextsInput(
+            contextStoreId: self.contextStoreId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContextsInput, OperationStackOutput == ListContextsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContextsPaginated`
+    /// to access the nested member `[NetworkManagerClientTypes.ContextEntry]`
+    /// - Returns: `[NetworkManagerClientTypes.ContextEntry]`
+    public func contexts() async throws -> [NetworkManagerClientTypes.ContextEntry] {
+        return try await self.asyncCompactMap { item in item.contexts }
+    }
+}
+extension NetworkManagerClient {
+    /// Paginate over `[ListContextStoreAssociationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContextStoreAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContextStoreAssociationsOutput`
+    public func listContextStoreAssociationsPaginated(input: ListContextStoreAssociationsInput) -> ClientRuntime.PaginatorSequence<ListContextStoreAssociationsInput, ListContextStoreAssociationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListContextStoreAssociationsInput, ListContextStoreAssociationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContextStoreAssociations(input:))
+    }
+}
+
+extension ListContextStoreAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContextStoreAssociationsInput {
+        return ListContextStoreAssociationsInput(
+            contextStoreId: self.contextStoreId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContextStoreAssociationsInput, OperationStackOutput == ListContextStoreAssociationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContextStoreAssociationsPaginated`
+    /// to access the nested member `[NetworkManagerClientTypes.ContextStoreAssociation]`
+    /// - Returns: `[NetworkManagerClientTypes.ContextStoreAssociation]`
+    public func contextStoreAssociations() async throws -> [NetworkManagerClientTypes.ContextStoreAssociation] {
+        return try await self.asyncCompactMap { item in item.contextStoreAssociations }
+    }
+}
+extension NetworkManagerClient {
+    /// Paginate over `[ListContextStoresOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContextStoresInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContextStoresOutput`
+    public func listContextStoresPaginated(input: ListContextStoresInput) -> ClientRuntime.PaginatorSequence<ListContextStoresInput, ListContextStoresOutput> {
+        return ClientRuntime.PaginatorSequence<ListContextStoresInput, ListContextStoresOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listContextStores(input:))
+    }
+}
+
+extension ListContextStoresInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListContextStoresInput {
+        return ListContextStoresInput(
+            globalNetworkId: self.globalNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListContextStoresInput, OperationStackOutput == ListContextStoresOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listContextStoresPaginated`
+    /// to access the nested member `[NetworkManagerClientTypes.ContextStore]`
+    /// - Returns: `[NetworkManagerClientTypes.ContextStore]`
+    public func contextStores() async throws -> [NetworkManagerClientTypes.ContextStore] {
+        return try await self.asyncCompactMap { item in item.contextStores }
+    }
+}
+extension NetworkManagerClient {
     /// Paginate over `[ListCoreNetworkPolicyVersionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

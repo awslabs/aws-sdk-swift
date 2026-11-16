@@ -6849,6 +6849,8 @@ extension CognitoIdentityProviderClientTypes {
         case allowAdminUserPasswordAuth
         case allowCustomAuth
         case allowRefreshTokenAuth
+        case allowTokenExchangeDelegation
+        case allowTokenExchangeImpersonation
         case allowUserAuth
         case allowUserPasswordAuth
         case allowUserSrpAuth
@@ -6862,6 +6864,8 @@ extension CognitoIdentityProviderClientTypes {
                 .allowAdminUserPasswordAuth,
                 .allowCustomAuth,
                 .allowRefreshTokenAuth,
+                .allowTokenExchangeDelegation,
+                .allowTokenExchangeImpersonation,
                 .allowUserAuth,
                 .allowUserPasswordAuth,
                 .allowUserSrpAuth,
@@ -6881,6 +6885,8 @@ extension CognitoIdentityProviderClientTypes {
             case .allowAdminUserPasswordAuth: return "ALLOW_ADMIN_USER_PASSWORD_AUTH"
             case .allowCustomAuth: return "ALLOW_CUSTOM_AUTH"
             case .allowRefreshTokenAuth: return "ALLOW_REFRESH_TOKEN_AUTH"
+            case .allowTokenExchangeDelegation: return "ALLOW_TOKEN_EXCHANGE_DELEGATION"
+            case .allowTokenExchangeImpersonation: return "ALLOW_TOKEN_EXCHANGE_IMPERSONATION"
             case .allowUserAuth: return "ALLOW_USER_AUTH"
             case .allowUserPasswordAuth: return "ALLOW_USER_PASSWORD_AUTH"
             case .allowUserSrpAuth: return "ALLOW_USER_SRP_AUTH"
@@ -7089,6 +7095,10 @@ public struct CreateUserPoolClientInput: Swift.Sendable {
     ///
     /// * ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
     ///
+    /// * ALLOW_TOKEN_EXCHANGE_IMPERSONATION – Use this flow to request GetDerivedToken token exchanges without an ActorToken. The issued token represents the subject user directly.
+    ///
+    /// * ALLOW_TOKEN_EXCHANGE_DELEGATION – Use this flow to request GetDerivedToken token exchanges that include an ActorToken. The issued token carries an act claim that identifies the intermediary acting on the behalf of the subject.
+    ///
     ///
     /// In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH. You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_, like ALLOW_USER_SRP_AUTH.
     public var explicitAuthFlows: [CognitoIdentityProviderClientTypes.ExplicitAuthFlowsType]?
@@ -7274,6 +7284,10 @@ extension CognitoIdentityProviderClientTypes {
         /// * ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.
         ///
         /// * ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
+        ///
+        /// * ALLOW_TOKEN_EXCHANGE_IMPERSONATION – Use this flow to request GetDerivedToken token exchanges without an ActorToken. The issued token represents the subject user directly.
+        ///
+        /// * ALLOW_TOKEN_EXCHANGE_DELEGATION – Use this flow to request GetDerivedToken token exchanges that include an ActorToken. The issued token carries an act claim that identifies the intermediary acting on the behalf of the subject.
         ///
         ///
         /// In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH. You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_, like ALLOW_USER_SRP_AUTH.
@@ -8657,6 +8671,209 @@ public struct GetCSVHeaderOutput: Swift.Sendable {
     ) {
         self.csvHeader = csvHeader
         self.userPoolId = userPoolId
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum TokenTypeIdentifierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessToken
+        case idToken
+        case saml2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TokenTypeIdentifierType] {
+            return [
+                .accessToken,
+                .idToken,
+                .saml2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessToken: return "ACCESS_TOKEN"
+            case .idToken: return "ID_TOKEN"
+            case .saml2: return "SAML2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum IssuedTokenTypeIdentifierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessToken
+        case idToken
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IssuedTokenTypeIdentifierType] {
+            return [
+                .accessToken,
+                .idToken
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessToken: return "ACCESS_TOKEN"
+            case .idToken: return "ID_TOKEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Represents the request to exchange a subject token for a new token.
+public struct GetDerivedTokenInput: Swift.Sendable {
+    /// A token that identifies the intermediary service that is exchanging the token on behalf of the user. When you provide an ActorToken, the token that Amazon Cognito issues carries an act claim that identifies the intermediary, so that downstream services can distinguish a user acting directly from an intermediary acting on the user's behalf.
+    public var actorToken: Swift.String?
+    /// The name of the third-party identity provider that issued the ActorToken, if the actor token isn't a Amazon Cognito token.
+    public var actorTokenProviderName: Swift.String?
+    /// The type of the ActorToken that you provide. Required when you provide an ActorToken. Valid values:
+    ///
+    /// * ACCESS_TOKEN – The actor token is an access token.
+    ///
+    /// * ID_TOKEN – The actor token is an ID token.
+    ///
+    /// * SAML2 – The actor token is a SAML 2.0 assertion.
+    public var actorTokenType: CognitoIdentityProviderClientTypes.TokenTypeIdentifierType?
+    /// The logical name of the target service where you intend to use the issued token. You can't request both Audiences and Resources in the same request.
+    public var audiences: [Swift.String]?
+    /// The ID of the app client that requests the token exchange.
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// The client secret of the requested app client, if the client has a secret.
+    public var clientSecret: Swift.String?
+    /// The type of token that you want Amazon Cognito to issue. Valid values:
+    ///
+    /// * ACCESS_TOKEN – Issues an access token.
+    ///
+    /// * ID_TOKEN – Issues an ID token.
+    ///
+    ///
+    /// Amazon Cognito can't issue a SAML assertion, so SAML2 isn't a valid value for this parameter.
+    public var requestedTokenType: CognitoIdentityProviderClientTypes.IssuedTokenTypeIdentifierType?
+    /// The identifier of a resource server in your user pool where you intend to use the issued token. You can't request both Resources and Audiences in the same request.
+    public var resources: [Swift.String]?
+    /// The scopes that you want the new token to have. Amazon Cognito issues a token with the intersection of these requested scopes, the scopes of your SubjectToken, and the scopes that are allowed for the requesting app client. If you don't specify any scopes, Amazon Cognito issues a token with the same scopes as your SubjectToken.
+    public var scopes: [Swift.String]?
+    /// The token that you want to exchange for a new token. This is the credential that represents the identity of the party on behalf of whom the request is being made.
+    /// This member is required.
+    public var subjectToken: Swift.String?
+    /// The name of the third-party identity provider that issued the SubjectToken, if the subject token isn't a Amazon Cognito token. Provide this value when your SubjectToken came from a SAML or OIDC provider that you registered with your user pool, so that Amazon Cognito can validate it against that provider's configuration. Omit this parameter for a Amazon Cognito ID or access token.
+    public var subjectTokenProviderName: Swift.String?
+    /// The type of the SubjectToken that you want to exchange. Valid values:
+    ///
+    /// * ACCESS_TOKEN – The subject token is an access token.
+    ///
+    /// * ID_TOKEN – The subject token is an ID token.
+    ///
+    /// * SAML2 – The subject token is a SAML 2.0 assertion.
+    /// This member is required.
+    public var subjectTokenType: CognitoIdentityProviderClientTypes.TokenTypeIdentifierType?
+
+    public init(
+        actorToken: Swift.String? = nil,
+        actorTokenProviderName: Swift.String? = nil,
+        actorTokenType: CognitoIdentityProviderClientTypes.TokenTypeIdentifierType? = nil,
+        audiences: [Swift.String]? = nil,
+        clientId: Swift.String? = nil,
+        clientSecret: Swift.String? = nil,
+        requestedTokenType: CognitoIdentityProviderClientTypes.IssuedTokenTypeIdentifierType? = nil,
+        resources: [Swift.String]? = nil,
+        scopes: [Swift.String]? = nil,
+        subjectToken: Swift.String? = nil,
+        subjectTokenProviderName: Swift.String? = nil,
+        subjectTokenType: CognitoIdentityProviderClientTypes.TokenTypeIdentifierType? = nil
+    ) {
+        self.actorToken = actorToken
+        self.actorTokenProviderName = actorTokenProviderName
+        self.actorTokenType = actorTokenType
+        self.audiences = audiences
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+        self.requestedTokenType = requestedTokenType
+        self.resources = resources
+        self.scopes = scopes
+        self.subjectToken = subjectToken
+        self.subjectTokenProviderName = subjectTokenProviderName
+        self.subjectTokenType = subjectTokenType
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    public enum OAuthTokenTypeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bearer
+        case notApplicable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OAuthTokenTypeType] {
+            return [
+                .bearer,
+                .notApplicable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bearer: return "Bearer"
+            case .notApplicable: return "N_A"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Represents the response to a token exchange request.
+public struct GetDerivedTokenOutput: Swift.Sendable {
+    /// The number of seconds until the issued token expires.
+    public var expiresIn: Swift.Int
+    /// The token that Amazon Cognito issued in response to the token exchange request.
+    /// This member is required.
+    public var issuedToken: Swift.String?
+    /// The type of the token in the IssuedToken parameter. Valid values:
+    ///
+    /// * ACCESS_TOKEN – The issued token is an access token.
+    ///
+    /// * ID_TOKEN – The issued token is an ID token.
+    /// This member is required.
+    public var issuedTokenType: CognitoIdentityProviderClientTypes.IssuedTokenTypeIdentifierType?
+    /// The scopes that Amazon Cognito granted in the issued token.
+    public var scopes: [Swift.String]?
+    /// The type of the issued token. For example, Bearer.
+    /// This member is required.
+    public var tokenType: CognitoIdentityProviderClientTypes.OAuthTokenTypeType?
+
+    public init(
+        expiresIn: Swift.Int = 0,
+        issuedToken: Swift.String? = nil,
+        issuedTokenType: CognitoIdentityProviderClientTypes.IssuedTokenTypeIdentifierType? = nil,
+        scopes: [Swift.String]? = nil,
+        tokenType: CognitoIdentityProviderClientTypes.OAuthTokenTypeType? = nil
+    ) {
+        self.expiresIn = expiresIn
+        self.issuedToken = issuedToken
+        self.issuedTokenType = issuedTokenType
+        self.scopes = scopes
+        self.tokenType = tokenType
     }
 }
 
@@ -11910,6 +12127,10 @@ public struct UpdateUserPoolClientInput: Swift.Sendable {
     /// * ALLOW_USER_SRP_AUTH: Enable SRP-based authentication.
     ///
     /// * ALLOW_REFRESH_TOKEN_AUTH: Enable authflow to refresh tokens.
+    ///
+    /// * ALLOW_TOKEN_EXCHANGE_IMPERSONATION – Use this flow to request GetDerivedToken token exchanges without an ActorToken. The issued token represents the subject user directly.
+    ///
+    /// * ALLOW_TOKEN_EXCHANGE_DELEGATION – Use this flow to request GetDerivedToken token exchanges that include an ActorToken. The issued token carries an act claim that identifies the intermediary acting on the behalf of the subject.
     ///
     ///
     /// In some environments, you will see the values ADMIN_NO_SRP_AUTH, CUSTOM_AUTH_FLOW_ONLY, or USER_PASSWORD_AUTH. You can't assign these legacy ExplicitAuthFlows values to user pool clients at the same time as values that begin with ALLOW_, like ALLOW_USER_SRP_AUTH.

@@ -847,6 +847,103 @@ public struct AssociateConnectPeerOutput: Swift.Sendable {
     }
 }
 
+public struct AssociateContextStoreInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the transit gateway to associate with the context store.
+    public var transitGatewayArn: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        transitGatewayArn: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.transitGatewayArn = transitGatewayArn
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum ContextStoreAssociationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case associating
+        case disassociating
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextStoreAssociationState] {
+            return [
+                .associated,
+                .associating,
+                .disassociating,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .associating: return "ASSOCIATING"
+            case .disassociating: return "DISASSOCIATING"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Describes the association between a context store and a transit gateway.
+    public struct ContextStoreAssociation: Swift.Sendable {
+        /// The ID of the context store.
+        public var contextStoreId: Swift.String?
+        /// The date and time that the association was created.
+        public var createdAt: Foundation.Date?
+        /// The state of the association. The possible values are the following:
+        ///
+        /// * ASSOCIATING: The transit gateway is being associated with the context store.
+        ///
+        /// * ASSOCIATED: The transit gateway is associated with the context store.
+        ///
+        /// * DISASSOCIATING: The transit gateway is being disassociated from the context store.
+        ///
+        /// * FAILED: The association failed. To remove it, disassociate the transit gateway.
+        public var state: NetworkManagerClientTypes.ContextStoreAssociationState?
+        /// The Amazon Resource Name (ARN) of the transit gateway.
+        public var transitGatewayArn: Swift.String?
+
+        public init(
+            contextStoreId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            state: NetworkManagerClientTypes.ContextStoreAssociationState? = nil,
+            transitGatewayArn: Swift.String? = nil
+        ) {
+            self.contextStoreId = contextStoreId
+            self.createdAt = createdAt
+            self.state = state
+            self.transitGatewayArn = transitGatewayArn
+        }
+    }
+}
+
+public struct AssociateContextStoreOutput: Swift.Sendable {
+    /// Information about the context store association.
+    public var contextStoreAssociation: NetworkManagerClientTypes.ContextStoreAssociation?
+
+    public init(
+        contextStoreAssociation: NetworkManagerClientTypes.ContextStoreAssociation? = nil
+    ) {
+        self.contextStoreAssociation = contextStoreAssociation
+    }
+}
+
 public struct AssociateCustomerGatewayInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the customer gateway.
     /// This member is required.
@@ -2024,6 +2121,184 @@ extension NetworkManagerClientTypes {
 
 extension NetworkManagerClientTypes {
 
+    public enum ContextChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case added
+        case removed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextChangeType] {
+            return [
+                .added,
+                .removed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .added: return "ADDED"
+            case .removed: return "REMOVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Describes a context entry in a context store. A context entry describes a resource, such as a security group, subnet, or attachment.
+    public struct ContextEntry: Swift.Sendable {
+        /// The type of the attachment, for example VPC. Network Manager returns this value only when the context type is Attachment.
+        public var attachmentType: Swift.String?
+        /// The ID of the Availability Zone of the resource, for example use1-az2. Network Manager returns this value only when the context type is Subnet.
+        public var availabilityZone: Swift.String?
+        /// The ID of the context entry.
+        public var contextId: Swift.String?
+        /// The type of the context entry, for example SegmentId, Subnet, or Attachment.
+        public var contextType: Swift.String?
+        /// The ID of the resource, for example a security group ID, subnet ID, or transit gateway attachment ID.
+        public var publicId: Swift.String?
+        /// The Amazon Web Services Region of the resource.
+        public var region: Swift.String?
+        /// The type of the segment, for example SecurityGroup. Network Manager returns this value only when the context type is SegmentId.
+        public var segmentType: Swift.String?
+
+        public init(
+            attachmentType: Swift.String? = nil,
+            availabilityZone: Swift.String? = nil,
+            contextId: Swift.String? = nil,
+            contextType: Swift.String? = nil,
+            publicId: Swift.String? = nil,
+            region: Swift.String? = nil,
+            segmentType: Swift.String? = nil
+        ) {
+            self.attachmentType = attachmentType
+            self.availabilityZone = availabilityZone
+            self.contextId = contextId
+            self.contextType = contextType
+            self.publicId = publicId
+            self.region = region
+            self.segmentType = segmentType
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Describes a context entry that was added to or removed from a context store.
+    public struct ContextChange: Swift.Sendable {
+        /// The type of change. The possible values are the following:
+        ///
+        /// * ADDED: The context entry was added to the context store.
+        ///
+        /// * REMOVED: The context entry was removed from the context store.
+        public var changeType: NetworkManagerClientTypes.ContextChangeType?
+        /// The context entry that was added or removed.
+        public var context: NetworkManagerClientTypes.ContextEntry?
+
+        public init(
+            changeType: NetworkManagerClientTypes.ContextChangeType? = nil,
+            context: NetworkManagerClientTypes.ContextEntry? = nil
+        ) {
+            self.changeType = changeType
+            self.context = context
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    public enum ContextStoreState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case deleted
+        case deleting
+        case pending
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextStoreState] {
+            return [
+                .available,
+                .deleted,
+                .deleting,
+                .pending,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .pending: return "PENDING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
+    /// Describes a context store.
+    public struct ContextStore: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the context store.
+        public var contextStoreArn: Swift.String?
+        /// The ID of the context store.
+        public var contextStoreId: Swift.String?
+        /// The date and time that the context store was created.
+        public var createdAt: Foundation.Date?
+        /// The description of the context store.
+        public var description: Swift.String?
+        /// The ID of the global network that the context store belongs to.
+        public var globalNetworkId: Swift.String?
+        /// The state of the context store. The possible values are the following:
+        ///
+        /// * PENDING: The context store is being created.
+        ///
+        /// * AVAILABLE: The context store is ready to use.
+        ///
+        /// * UPDATING: The context store is being updated.
+        ///
+        /// * DELETING: The context store is being deleted.
+        ///
+        /// * DELETED: The context store is deleted.
+        public var state: NetworkManagerClientTypes.ContextStoreState?
+        /// The tags associated with the context store.
+        public var tags: [NetworkManagerClientTypes.Tag]?
+
+        public init(
+            contextStoreArn: Swift.String? = nil,
+            contextStoreId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            globalNetworkId: Swift.String? = nil,
+            state: NetworkManagerClientTypes.ContextStoreState? = nil,
+            tags: [NetworkManagerClientTypes.Tag]? = nil
+        ) {
+            self.contextStoreArn = contextStoreArn
+            self.contextStoreId = contextStoreId
+            self.createdAt = createdAt
+            self.description = description
+            self.globalNetworkId = globalNetworkId
+            self.state = state
+            self.tags = tags
+        }
+    }
+}
+
+extension NetworkManagerClientTypes {
+
     /// Describes a core network edge.
     public struct CoreNetworkEdge: Swift.Sendable {
         /// The ASN of a core network edge.
@@ -3115,6 +3390,41 @@ public struct CreateConnectPeerOutput: Swift.Sendable {
         connectPeer: NetworkManagerClientTypes.ConnectPeer? = nil
     ) {
         self.connectPeer = connectPeer
+    }
+}
+
+public struct CreateContextStoreInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A description of the context store. Constraints: Maximum length of 256 characters. Only printable ASCII characters are allowed.
+    public var description: Swift.String?
+    /// The ID of the global network to create the context store in.
+    /// This member is required.
+    public var globalNetworkId: Swift.String?
+    /// The tags to apply to the context store during creation.
+    public var tags: [NetworkManagerClientTypes.Tag]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        globalNetworkId: Swift.String? = nil,
+        tags: [NetworkManagerClientTypes.Tag]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.globalNetworkId = globalNetworkId
+        self.tags = tags
+    }
+}
+
+public struct CreateContextStoreOutput: Swift.Sendable {
+    /// Information about the context store.
+    public var contextStore: NetworkManagerClientTypes.ContextStore?
+
+    public init(
+        contextStore: NetworkManagerClientTypes.ContextStore? = nil
+    ) {
+        self.contextStore = contextStore
     }
 }
 
@@ -4428,6 +4738,29 @@ public struct DeleteConnectPeerOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteContextStoreInput: Swift.Sendable {
+    /// The ID of the context store to delete.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+    }
+}
+
+public struct DeleteContextStoreOutput: Swift.Sendable {
+    /// Information about the context store.
+    public var contextStore: NetworkManagerClientTypes.ContextStore?
+
+    public init(
+        contextStore: NetworkManagerClientTypes.ContextStore? = nil
+    ) {
+        self.contextStore = contextStore
+    }
+}
+
 public struct DeleteCoreNetworkInput: Swift.Sendable {
     /// The network ID of the deleted core network.
     /// This member is required.
@@ -4828,6 +5161,34 @@ public struct DisassociateConnectPeerOutput: Swift.Sendable {
     }
 }
 
+public struct DisassociateContextStoreInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the transit gateway to disassociate from the context store.
+    /// This member is required.
+    public var transitGatewayArn: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        transitGatewayArn: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.transitGatewayArn = transitGatewayArn
+    }
+}
+
+public struct DisassociateContextStoreOutput: Swift.Sendable {
+    /// Information about the context store association.
+    public var contextStoreAssociation: NetworkManagerClientTypes.ContextStoreAssociation?
+
+    public init(
+        contextStoreAssociation: NetworkManagerClientTypes.ContextStoreAssociation? = nil
+    ) {
+        self.contextStoreAssociation = contextStoreAssociation
+    }
+}
+
 public struct DisassociateCustomerGatewayInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the customer gateway.
     /// This member is required.
@@ -5064,6 +5425,80 @@ public struct GetConnectPeerAssociationsOutput: Swift.Sendable {
     ) {
         self.connectPeerAssociations = connectPeerAssociations
         self.nextToken = nextToken
+    }
+}
+
+public struct GetContextStoreInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+    }
+}
+
+public struct GetContextStoreOutput: Swift.Sendable {
+    /// Information about the context store.
+    public var contextStore: NetworkManagerClientTypes.ContextStore?
+
+    public init(
+        contextStore: NetworkManagerClientTypes.ContextStore? = nil
+    ) {
+        self.contextStore = contextStore
+    }
+}
+
+public struct GetContextStoreAssociationInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the transit gateway.
+    /// This member is required.
+    public var transitGatewayArn: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        transitGatewayArn: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.transitGatewayArn = transitGatewayArn
+    }
+}
+
+public struct GetContextStoreAssociationOutput: Swift.Sendable {
+    /// Information about the context store association.
+    public var contextStoreAssociation: NetworkManagerClientTypes.ContextStoreAssociation?
+
+    public init(
+        contextStoreAssociation: NetworkManagerClientTypes.ContextStoreAssociation? = nil
+    ) {
+        self.contextStoreAssociation = contextStoreAssociation
+    }
+}
+
+public struct GetContextVersionInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+    }
+}
+
+public struct GetContextVersionOutput: Swift.Sendable {
+    /// The current version of the context entries.
+    public var versionId: Swift.String?
+
+    public init(
+        versionId: Swift.String? = nil
+    ) {
+        self.versionId = versionId
     }
 }
 
@@ -6951,6 +7386,162 @@ public struct ListConnectPeersOutput: Swift.Sendable {
     }
 }
 
+public struct ListContextChangesInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// The version to return changes from. Specify a version returned by ListContexts, GetContextVersion, or the ToVersionId of a previous ListContextChanges request. If the version is no longer available, the request fails, and you must call ListContexts to get the current context entries.
+    /// This member is required.
+    public var fromVersionId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        fromVersionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.fromVersionId = fromVersionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContextChangesOutput: Swift.Sendable {
+    /// The context entries that were added or removed.
+    public var contextChanges: [NetworkManagerClientTypes.ContextChange]?
+    /// The version that the changes start from.
+    public var fromVersionId: Swift.String?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The version that the changes bring the context entries up to. To get later changes, specify this value as FromVersionId in your next request. All pages of the same request return the same version.
+    public var toVersionId: Swift.String?
+
+    public init(
+        contextChanges: [NetworkManagerClientTypes.ContextChange]? = nil,
+        fromVersionId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        toVersionId: Swift.String? = nil
+    ) {
+        self.contextChanges = contextChanges
+        self.fromVersionId = fromVersionId
+        self.nextToken = nextToken
+        self.toVersionId = toVersionId
+    }
+}
+
+public struct ListContextsInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContextsOutput: Swift.Sendable {
+    /// The context entries.
+    public var contexts: [NetworkManagerClientTypes.ContextEntry]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+    /// The version of the returned context entries. All pages of the same request return the same version.
+    public var versionId: Swift.String?
+
+    public init(
+        contexts: [NetworkManagerClientTypes.ContextEntry]? = nil,
+        nextToken: Swift.String? = nil,
+        versionId: Swift.String? = nil
+    ) {
+        self.contexts = contexts
+        self.nextToken = nextToken
+        self.versionId = versionId
+    }
+}
+
+public struct ListContextStoreAssociationsInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContextStoreAssociationsOutput: Swift.Sendable {
+    /// The context store associations.
+    public var contextStoreAssociations: [NetworkManagerClientTypes.ContextStoreAssociation]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStoreAssociations: [NetworkManagerClientTypes.ContextStoreAssociation]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStoreAssociations = contextStoreAssociations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContextStoresInput: Swift.Sendable {
+    /// The ID of a global network. If you specify this parameter, only the context stores in the global network are returned.
+    public var globalNetworkId: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        globalNetworkId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.globalNetworkId = globalNetworkId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListContextStoresOutput: Swift.Sendable {
+    /// The context stores.
+    public var contextStores: [NetworkManagerClientTypes.ContextStore]?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        contextStores: [NetworkManagerClientTypes.ContextStore]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.contextStores = contextStores
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListCoreNetworkPolicyVersionsInput: Swift.Sendable {
     /// The ID of a core network.
     /// This member is required.
@@ -7740,6 +8331,33 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateContextStoreInput: Swift.Sendable {
+    /// The ID of the context store.
+    /// This member is required.
+    public var contextStoreId: Swift.String?
+    /// The new description of the context store. Constraints: Maximum length of 256 characters. Only printable ASCII characters are allowed.
+    public var description: Swift.String?
+
+    public init(
+        contextStoreId: Swift.String? = nil,
+        description: Swift.String? = nil
+    ) {
+        self.contextStoreId = contextStoreId
+        self.description = description
+    }
+}
+
+public struct UpdateContextStoreOutput: Swift.Sendable {
+    /// Information about the context store.
+    public var contextStore: NetworkManagerClientTypes.ContextStore?
+
+    public init(
+        contextStore: NetworkManagerClientTypes.ContextStore? = nil
+    ) {
+        self.contextStore = contextStore
+    }
+}
+
 public struct UpdateCoreNetworkInput: Swift.Sendable {
     /// The ID of a core network.
     /// This member is required.
@@ -8069,6 +8687,16 @@ extension AssociateConnectPeerInput {
     }
 }
 
+extension AssociateContextStoreInput {
+
+    static func urlPathProvider(_ value: AssociateContextStoreInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())/associations"
+    }
+}
+
 extension AssociateCustomerGatewayInput {
 
     static func urlPathProvider(_ value: AssociateCustomerGatewayInput) -> Swift.String? {
@@ -8120,6 +8748,16 @@ extension CreateConnectPeerInput {
 
     static func urlPathProvider(_ value: CreateConnectPeerInput) -> Swift.String? {
         return "/connect-peers"
+    }
+}
+
+extension CreateContextStoreInput {
+
+    static func urlPathProvider(_ value: CreateContextStoreInput) -> Swift.String? {
+        guard let globalNetworkId = value.globalNetworkId else {
+            return nil
+        }
+        return "/global-networks/\(globalNetworkId.urlPercentEncoding())/context-stores"
     }
 }
 
@@ -8239,6 +8877,16 @@ extension DeleteConnectPeerInput {
             return nil
         }
         return "/connect-peers/\(connectPeerId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteContextStoreInput {
+
+    static func urlPathProvider(_ value: DeleteContextStoreInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())"
     }
 }
 
@@ -8402,6 +9050,19 @@ extension DisassociateConnectPeerInput {
     }
 }
 
+extension DisassociateContextStoreInput {
+
+    static func urlPathProvider(_ value: DisassociateContextStoreInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        guard let transitGatewayArn = value.transitGatewayArn else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())/associations/\(transitGatewayArn.urlPercentEncoding())"
+    }
+}
+
 extension DisassociateCustomerGatewayInput {
 
     static func urlPathProvider(_ value: DisassociateCustomerGatewayInput) -> Swift.String? {
@@ -8556,6 +9217,39 @@ extension GetConnectPeerAssociationsInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension GetContextStoreInput {
+
+    static func urlPathProvider(_ value: GetContextStoreInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())"
+    }
+}
+
+extension GetContextStoreAssociationInput {
+
+    static func urlPathProvider(_ value: GetContextStoreAssociationInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        guard let transitGatewayArn = value.transitGatewayArn else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())/associations/\(transitGatewayArn.urlPercentEncoding())"
+    }
+}
+
+extension GetContextVersionInput {
+
+    static func urlPathProvider(_ value: GetContextVersionInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())/context-version"
     }
 }
 
@@ -9265,6 +9959,117 @@ extension ListConnectPeersInput {
     }
 }
 
+extension ListContextChangesInput {
+
+    static func urlPathProvider(_ value: ListContextChangesInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())/context-changes"
+    }
+}
+
+extension ListContextChangesInput {
+
+    static func queryItemProvider(_ value: ListContextChangesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let fromVersionId = value.fromVersionId else {
+            let message = "Creating a URL Query Item failed. fromVersionId is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let fromVersionIdQueryItem = Smithy.URIQueryItem(name: "fromVersionId".urlPercentEncoding(), value: Swift.String(fromVersionId).urlPercentEncoding())
+        items.append(fromVersionIdQueryItem)
+        return items
+    }
+}
+
+extension ListContextsInput {
+
+    static func urlPathProvider(_ value: ListContextsInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())/contexts"
+    }
+}
+
+extension ListContextsInput {
+
+    static func queryItemProvider(_ value: ListContextsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListContextStoreAssociationsInput {
+
+    static func urlPathProvider(_ value: ListContextStoreAssociationsInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())/associations"
+    }
+}
+
+extension ListContextStoreAssociationsInput {
+
+    static func queryItemProvider(_ value: ListContextStoreAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListContextStoresInput {
+
+    static func urlPathProvider(_ value: ListContextStoresInput) -> Swift.String? {
+        return "/context-stores"
+    }
+}
+
+extension ListContextStoresInput {
+
+    static func queryItemProvider(_ value: ListContextStoresInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let globalNetworkId = value.globalNetworkId {
+            let globalNetworkIdQueryItem = Smithy.URIQueryItem(name: "globalNetworkId".urlPercentEncoding(), value: Swift.String(globalNetworkId).urlPercentEncoding())
+            items.append(globalNetworkIdQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListCoreNetworkPolicyVersionsInput {
 
     static func urlPathProvider(_ value: ListCoreNetworkPolicyVersionsInput) -> Swift.String? {
@@ -9591,6 +10396,16 @@ extension UpdateConnectionInput {
     }
 }
 
+extension UpdateContextStoreInput {
+
+    static func urlPathProvider(_ value: UpdateContextStoreInput) -> Swift.String? {
+        guard let contextStoreId = value.contextStoreId else {
+            return nil
+        }
+        return "/context-stores/\(contextStoreId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateCoreNetworkInput {
 
     static func urlPathProvider(_ value: UpdateCoreNetworkInput) -> Swift.String? {
@@ -9693,6 +10508,14 @@ extension AssociateConnectPeerInput {
     }
 }
 
+extension AssociateContextStoreInput {
+
+    static func write(value: AssociateContextStoreInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TransitGatewayArn"].write(value.transitGatewayArn)
+    }
+}
+
 extension AssociateCustomerGatewayInput {
 
     static func write(value: AssociateCustomerGatewayInput?, to writer: SmithyJSON.Writer) throws {
@@ -9762,6 +10585,16 @@ extension CreateConnectPeerInput {
         try writer["InsideCidrBlocks"].writeList(value.insideCidrBlocks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PeerAddress"].write(value.peerAddress)
         try writer["SubnetArn"].write(value.subnetArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateContextStoreInput {
+
+    static func write(value: CreateContextStoreInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkManagerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -10041,6 +10874,14 @@ extension UpdateConnectionInput {
     }
 }
 
+extension UpdateContextStoreInput {
+
+    static func write(value: UpdateContextStoreInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+    }
+}
+
 extension UpdateCoreNetworkInput {
 
     static func write(value: UpdateCoreNetworkInput?, to writer: SmithyJSON.Writer) throws {
@@ -10142,6 +10983,18 @@ extension AssociateConnectPeerOutput {
     }
 }
 
+extension AssociateContextStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateContextStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateContextStoreOutput()
+        value.contextStoreAssociation = try reader["ContextStoreAssociation"].readIfPresent(with: NetworkManagerClientTypes.ContextStoreAssociation.read(from:))
+        return value
+    }
+}
+
 extension AssociateCustomerGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateCustomerGatewayOutput {
@@ -10210,6 +11063,18 @@ extension CreateConnectPeerOutput {
         let reader = responseReader
         var value = CreateConnectPeerOutput()
         value.connectPeer = try reader["ConnectPeer"].readIfPresent(with: NetworkManagerClientTypes.ConnectPeer.read(from:))
+        return value
+    }
+}
+
+extension CreateContextStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContextStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateContextStoreOutput()
+        value.contextStore = try reader["ContextStore"].readIfPresent(with: NetworkManagerClientTypes.ContextStore.read(from:))
         return value
     }
 }
@@ -10384,6 +11249,18 @@ extension DeleteConnectPeerOutput {
     }
 }
 
+extension DeleteContextStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContextStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteContextStoreOutput()
+        value.contextStore = try reader["ContextStore"].readIfPresent(with: NetworkManagerClientTypes.ContextStore.read(from:))
+        return value
+    }
+}
+
 extension DeleteCoreNetworkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCoreNetworkOutput {
@@ -10525,6 +11402,18 @@ extension DisassociateConnectPeerOutput {
     }
 }
 
+extension DisassociateContextStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateContextStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateContextStoreOutput()
+        value.contextStoreAssociation = try reader["ContextStoreAssociation"].readIfPresent(with: NetworkManagerClientTypes.ContextStoreAssociation.read(from:))
+        return value
+    }
+}
+
 extension DisassociateCustomerGatewayOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateCustomerGatewayOutput {
@@ -10614,6 +11503,42 @@ extension GetConnectPeerAssociationsOutput {
         var value = GetConnectPeerAssociationsOutput()
         value.connectPeerAssociations = try reader["ConnectPeerAssociations"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ConnectPeerAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetContextStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetContextStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetContextStoreOutput()
+        value.contextStore = try reader["ContextStore"].readIfPresent(with: NetworkManagerClientTypes.ContextStore.read(from:))
+        return value
+    }
+}
+
+extension GetContextStoreAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetContextStoreAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetContextStoreAssociationOutput()
+        value.contextStoreAssociation = try reader["ContextStoreAssociation"].readIfPresent(with: NetworkManagerClientTypes.ContextStoreAssociation.read(from:))
+        return value
+    }
+}
+
+extension GetContextVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetContextVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetContextVersionOutput()
+        value.versionId = try reader["VersionId"].readIfPresent()
         return value
     }
 }
@@ -10965,6 +11890,61 @@ extension ListConnectPeersOutput {
     }
 }
 
+extension ListContextChangesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContextChangesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContextChangesOutput()
+        value.contextChanges = try reader["ContextChanges"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ContextChange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fromVersionId = try reader["FromVersionId"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.toVersionId = try reader["ToVersionId"].readIfPresent()
+        return value
+    }
+}
+
+extension ListContextsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContextsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContextsOutput()
+        value.contexts = try reader["Contexts"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ContextEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        return value
+    }
+}
+
+extension ListContextStoreAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContextStoreAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContextStoreAssociationsOutput()
+        value.contextStoreAssociations = try reader["ContextStoreAssociations"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ContextStoreAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListContextStoresOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContextStoresOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListContextStoresOutput()
+        value.contextStores = try reader["ContextStores"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.ContextStore.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCoreNetworkPolicyVersionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCoreNetworkPolicyVersionsOutput {
@@ -11203,6 +12183,18 @@ extension UpdateConnectionOutput {
     }
 }
 
+extension UpdateContextStoreOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContextStoreOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateContextStoreOutput()
+        value.contextStore = try reader["ContextStore"].readIfPresent(with: NetworkManagerClientTypes.ContextStore.read(from:))
+        return value
+    }
+}
+
 extension UpdateCoreNetworkOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCoreNetworkOutput {
@@ -11339,6 +12331,25 @@ enum AssociateConnectPeerOutputError {
     }
 }
 
+enum AssociateContextStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AssociateCustomerGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11449,6 +12460,26 @@ enum CreateConnectPeerOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateContextStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11727,6 +12758,25 @@ enum DeleteConnectPeerOutputError {
     }
 }
 
+enum DeleteContextStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteCoreNetworkOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11954,6 +13004,25 @@ enum DisassociateConnectPeerOutputError {
     }
 }
 
+enum DisassociateContextStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateCustomerGatewayOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12094,6 +13163,60 @@ enum GetConnectPeerAssociationsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetContextStoreOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetContextStoreAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetContextVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -12587,6 +13710,78 @@ enum ListConnectPeersOutputError {
     }
 }
 
+enum ListContextChangesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListContextsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListContextStoreAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListContextStoresOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCoreNetworkPolicyVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12940,6 +14135,25 @@ enum UpdateAttachmentNatConfigurationOutputError {
 }
 
 enum UpdateConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateContextStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13501,6 +14715,62 @@ extension NetworkManagerClientTypes.ConnectPeerSummary {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.subnetArn = try reader["SubnetArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ContextChange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ContextChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ContextChange()
+        value.changeType = try reader["ChangeType"].readIfPresent()
+        value.context = try reader["Context"].readIfPresent(with: NetworkManagerClientTypes.ContextEntry.read(from:))
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ContextEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ContextEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ContextEntry()
+        value.contextId = try reader["ContextId"].readIfPresent()
+        value.contextType = try reader["ContextType"].readIfPresent()
+        value.segmentType = try reader["SegmentType"].readIfPresent()
+        value.publicId = try reader["PublicId"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.attachmentType = try reader["AttachmentType"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ContextStore {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ContextStore {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ContextStore()
+        value.globalNetworkId = try reader["GlobalNetworkId"].readIfPresent()
+        value.contextStoreId = try reader["ContextStoreId"].readIfPresent()
+        value.contextStoreArn = try reader["ContextStoreArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkManagerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkManagerClientTypes.ContextStoreAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkManagerClientTypes.ContextStoreAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkManagerClientTypes.ContextStoreAssociation()
+        value.contextStoreId = try reader["ContextStoreId"].readIfPresent()
+        value.transitGatewayArn = try reader["TransitGatewayArn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }

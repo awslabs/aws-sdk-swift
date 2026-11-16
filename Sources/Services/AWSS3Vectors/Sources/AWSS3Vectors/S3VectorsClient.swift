@@ -1912,11 +1912,11 @@ extension S3VectorsClient {
 
     /// Performs the `QueryVectors` operation on the `S3Vectors` service.
     ///
-    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response) and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
+    /// Returns matching vector keys from a vector index ranked by vector similarity, full-text relevance, or both. Specify queryVector to perform a vector search, specify queryTexts to perform a full-text search, or specify both to perform a hybrid search. Full-text search ranks results using BM25. Hybrid search combines the vector and full-text rankings using Reciprocal Rank Fusion (RRF). Amazon S3 Vectors ranks results by distance for a vector-only search, by BM25 score for a full-text-only search, and by RRF score for a hybrid search. You can optionally include computed distances, relevance scores, and vector metadata in the response. Full-text and hybrid searches require a vector index in ENHANCED mode. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN). Permissions You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:
     ///
-    /// * With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request metadata (by keeping the returnMetadata parameter set to false or not specified).
+    /// * With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set queryTexts, don't set any metadata filters, and don't request metadata (by keeping the returnMetadata parameter set to false or not specified).
     ///
-    /// * If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering or metadata without the s3vectors:GetVectors permission.
+    /// * To use queryTexts, a metadata filter, or returnMetadata set to true with this operation, you must have both the s3vectors:QueryVectors and s3vectors:GetVectors permissions. If you use any of these options without the s3vectors:GetVectors permission, Amazon S3 Vectors returns an AccessDeniedException.
     ///
     /// - Parameter input: [no documentation found] (Type: `QueryVectorsInput`)
     ///
@@ -2209,6 +2209,81 @@ extension S3VectorsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateIndexMode")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateMetadataConfiguration` operation on the `S3Vectors` service.
+    ///
+    /// Adds or deletes text search configurations on a vector index. Specify either add or delete, but not both. The vector index must be in ENHANCED mode. Permissions You must have the s3vectors:UpdateMetadataConfiguration permission to use this operation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateMetadataConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateMetadataConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access denied.
+    /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
+    /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
+    /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
+    /// - `TooManyRequestsException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The requested action isn't valid.
+    public func updateMetadataConfiguration(input: UpdateMetadataConfigurationInput) async throws -> UpdateMetadataConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMetadataConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3vectors")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>(UpdateMetadataConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateMetadataConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMetadataConfigurationOutput>(UpdateMetadataConfigurationOutput.httpOutput(from:), UpdateMetadataConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMetadataConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3Vectors", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateMetadataConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateMetadataConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.retryStrategy(self.retryStrategy)
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfoProvider(sdkID: "S3Vectors"))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateMetadataConfigurationInput, UpdateMetadataConfigurationOutput>(serviceID: serviceName, version: S3VectorsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3Vectors")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateMetadataConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

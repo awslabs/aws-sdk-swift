@@ -101,6 +101,66 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public enum AcceleratorMemoryGB: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+    /// Allocates at least 12 GB of accelerator memory to each execution environment.
+    case memory12
+    /// Allocates at least 16 GB of accelerator memory to each execution environment.
+    case memory16
+    /// Allocates at least 24 GB of accelerator memory to each execution environment.
+    case memory24
+    /// Allocates at least 3 GB of accelerator memory to each execution environment.
+    case memory3
+    /// Allocates at least 48 GB of accelerator memory to each execution environment.
+    case memory48
+    /// Allocates at least 6 GB of accelerator memory to each execution environment.
+    case memory6
+    case sdkUnknown(Swift.Int)
+
+    public static var allCases: [AcceleratorMemoryGB] {
+        return [
+            .memory12,
+            .memory16,
+            .memory24,
+            .memory3,
+            .memory48,
+            .memory6
+        ]
+    }
+
+    public init(rawValue: Swift.Int) {
+        let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+        self = value ?? Self.sdkUnknown(rawValue)
+    }
+
+    public var rawValue: Swift.Int {
+        switch self {
+        case .memory12: return 12
+        case .memory16: return 16
+        case .memory24: return 24
+        case .memory3: return 3
+        case .memory48: return 48
+        case .memory6: return 6
+        case let .sdkUnknown(s): return s
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// The accelerator resource settings for a Lambda execution environment, including the amount of accelerator memory to allocate.
+    public struct AcceleratorConfig: Swift.Sendable {
+        /// The minimum amount of memory (in GB) of each accelerator device exposed to the execution environment. Lambda might allocate more, depending on the accelerator instance types available.
+        /// This member is required.
+        public var acceleratorMemorySize: AcceleratorMemoryGB?
+
+        public init(
+            acceleratorMemorySize: AcceleratorMemoryGB? = nil
+        ) {
+            self.acceleratorMemorySize = acceleratorMemorySize
+        }
+    }
+}
+
 extension LambdaClientTypes {
 
     /// Limits that are related to concurrency and storage. All file and storage sizes are in bytes.
@@ -995,11 +1055,13 @@ extension LambdaClientTypes {
 
     public enum CapacityProviderPredefinedMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lambdacapacityprovideraveragecpuutilization
+        case lambdacapacityprovideraveragegpuutilization
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CapacityProviderPredefinedMetricType] {
             return [
-                .lambdacapacityprovideraveragecpuutilization
+                .lambdacapacityprovideraveragecpuutilization,
+                .lambdacapacityprovideraveragegpuutilization
             ]
         }
 
@@ -1011,6 +1073,7 @@ extension LambdaClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .lambdacapacityprovideraveragecpuutilization: return "LambdaCapacityProviderAverageCPUUtilization"
+            case .lambdacapacityprovideraveragegpuutilization: return "LambdaCapacityProviderAverageGPUUtilization"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5619,7 +5682,7 @@ extension LambdaClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension LambdaClientTypes {
 
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public struct EphemeralStorage: Swift.Sendable {
         /// The size of the function's /tmp directory.
         /// This member is required.
@@ -6202,6 +6265,8 @@ extension LambdaClientTypes {
 }
 
 public struct CreateFunctionInput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -6219,7 +6284,7 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -6285,6 +6350,7 @@ public struct CreateFunctionInput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfig?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         code: LambdaClientTypes.FunctionCode? = nil,
@@ -6315,6 +6381,7 @@ public struct CreateFunctionInput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.code = code
@@ -6494,6 +6561,7 @@ extension LambdaClientTypes {
         case functionerrortoomanyextensions
         case imageaccessdenied
         case imagedeleted
+        case incompatibleacceleratorinstancetypes
         case insufficientcapacity
         case insufficientrolepermissions
         case internalerror
@@ -6534,6 +6602,7 @@ extension LambdaClientTypes {
                 .functionerrortoomanyextensions,
                 .imageaccessdenied,
                 .imagedeleted,
+                .incompatibleacceleratorinstancetypes,
                 .insufficientcapacity,
                 .insufficientrolepermissions,
                 .internalerror,
@@ -6580,6 +6649,7 @@ extension LambdaClientTypes {
             case .functionerrortoomanyextensions: return "FunctionError.TooManyExtensions"
             case .imageaccessdenied: return "ImageAccessDenied"
             case .imagedeleted: return "ImageDeleted"
+            case .incompatibleacceleratorinstancetypes: return "IncompatibleAcceleratorInstanceTypes"
             case .insufficientcapacity: return "InsufficientCapacity"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
@@ -6746,6 +6816,7 @@ extension LambdaClientTypes {
         case idle
         case imageaccessdenied
         case imagedeleted
+        case incompatibleacceleratorinstancetypes
         case insufficientcapacity
         case insufficientrolepermissions
         case internalerror
@@ -6790,6 +6861,7 @@ extension LambdaClientTypes {
                 .idle,
                 .imageaccessdenied,
                 .imagedeleted,
+                .incompatibleacceleratorinstancetypes,
                 .insufficientcapacity,
                 .insufficientrolepermissions,
                 .internalerror,
@@ -6840,6 +6912,7 @@ extension LambdaClientTypes {
             case .idle: return "Idle"
             case .imageaccessdenied: return "ImageAccessDenied"
             case .imagedeleted: return "ImageDeleted"
+            case .incompatibleacceleratorinstancetypes: return "IncompatibleAcceleratorInstanceTypes"
             case .insufficientcapacity: return "InsufficientCapacity"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
@@ -6906,6 +6979,8 @@ extension LambdaClientTypes {
 
 /// Details about a function's configuration.
 public struct CreateFunctionOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -6924,7 +6999,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -7001,6 +7076,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -7043,6 +7119,7 @@ public struct CreateFunctionOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -7428,6 +7505,8 @@ extension LambdaClientTypes {
 
     /// Details about a function's configuration.
     public struct FunctionConfiguration: Swift.Sendable {
+        /// The accelerator resource settings for a Lambda execution environment.
+        public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
         /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public var architectures: [LambdaClientTypes.Architecture]?
         /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -7446,7 +7525,7 @@ extension LambdaClientTypes {
         public var durableConfig: LambdaClientTypes.DurableConfig?
         /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
         public var environment: LambdaClientTypes.EnvironmentResponse?
-        /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+        /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
         public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
         /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
         public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -7523,6 +7602,7 @@ extension LambdaClientTypes {
         public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
         public init(
+            acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
             architectures: [LambdaClientTypes.Architecture]? = nil,
             capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
             codeSha256: Swift.String? = nil,
@@ -7565,6 +7645,7 @@ extension LambdaClientTypes {
             version: Swift.String? = nil,
             vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
         ) {
+            self.acceleratorConfig = acceleratorConfig
             self.architectures = architectures
             self.capacityProviderConfig = capacityProviderConfig
             self.codeSha256 = codeSha256
@@ -7764,6 +7845,8 @@ public struct GetFunctionConfigurationInput: Swift.Sendable {
 
 /// Details about a function's configuration.
 public struct GetFunctionConfigurationOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -7782,7 +7865,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -7859,6 +7942,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -7901,6 +7985,7 @@ public struct GetFunctionConfigurationOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -10241,6 +10326,8 @@ extension UpdateFunctionCodeInput: Swift.CustomDebugStringConvertible {
 
 /// Details about a function's configuration.
 public struct UpdateFunctionCodeOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -10259,7 +10346,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -10336,6 +10423,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -10378,6 +10466,7 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -10423,6 +10512,8 @@ public struct UpdateFunctionCodeOutput: Swift.Sendable {
 }
 
 public struct UpdateFunctionConfigurationInput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
     public var capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig?
     /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see [Dead-letter queues](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq).
@@ -10433,7 +10524,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -10490,6 +10581,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfig?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
@@ -10513,6 +10605,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
         tracingConfig: LambdaClientTypes.TracingConfig? = nil,
         vpcConfig: LambdaClientTypes.VpcConfig? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.capacityProviderConfig = capacityProviderConfig
         self.deadLetterConfig = deadLetterConfig
         self.description = description
@@ -10540,6 +10633,8 @@ public struct UpdateFunctionConfigurationInput: Swift.Sendable {
 
 /// Details about a function's configuration.
 public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -10558,7 +10653,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -10635,6 +10730,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -10677,6 +10773,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -11166,6 +11263,8 @@ public struct PublishVersionInput: Swift.Sendable {
 
 /// Details about a function's configuration.
 public struct PublishVersionOutput: Swift.Sendable {
+    /// The accelerator resource settings for a Lambda execution environment.
+    public var acceleratorConfig: LambdaClientTypes.AcceleratorConfig?
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Configuration for the capacity provider that manages compute resources for Lambda functions.
@@ -11184,7 +11283,7 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var durableConfig: LambdaClientTypes.DurableConfig?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For functions that use AcceleratorConfig, the maximum is 32,768 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html) or an [Amazon S3 file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -11261,6 +11360,7 @@ public struct PublishVersionOutput: Swift.Sendable {
     public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
 
     public init(
+        acceleratorConfig: LambdaClientTypes.AcceleratorConfig? = nil,
         architectures: [LambdaClientTypes.Architecture]? = nil,
         capacityProviderConfig: LambdaClientTypes.CapacityProviderConfig? = nil,
         codeSha256: Swift.String? = nil,
@@ -11303,6 +11403,7 @@ public struct PublishVersionOutput: Swift.Sendable {
         version: Swift.String? = nil,
         vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
     ) {
+        self.acceleratorConfig = acceleratorConfig
         self.architectures = architectures
         self.capacityProviderConfig = capacityProviderConfig
         self.codeSha256 = codeSha256
@@ -14346,6 +14447,7 @@ extension CreateFunctionInput {
 
     static func write(value: CreateFunctionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AcceleratorConfig"].write(value.acceleratorConfig, with: LambdaClientTypes.AcceleratorConfig.write(value:to:))
         try writer["Architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.Architecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CapacityProviderConfig"].write(value.capacityProviderConfig, with: LambdaClientTypes.CapacityProviderConfig.write(value:to:))
         try writer["Code"].write(value.code, with: LambdaClientTypes.FunctionCode.write(value:to:))
@@ -14617,6 +14719,7 @@ extension UpdateFunctionConfigurationInput {
 
     static func write(value: UpdateFunctionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AcceleratorConfig"].write(value.acceleratorConfig, with: LambdaClientTypes.AcceleratorConfig.write(value:to:))
         try writer["CapacityProviderConfig"].write(value.capacityProviderConfig, with: LambdaClientTypes.CapacityProviderConfig.write(value:to:))
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: LambdaClientTypes.DeadLetterConfig.write(value:to:))
         try writer["Description"].write(value.description)
@@ -14791,6 +14894,7 @@ extension CreateFunctionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateFunctionOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -15177,6 +15281,7 @@ extension GetFunctionConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetFunctionConfigurationOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -15672,6 +15777,7 @@ extension PublishVersionOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = PublishVersionOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -15979,6 +16085,7 @@ extension UpdateFunctionCodeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFunctionCodeOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -16031,6 +16138,7 @@ extension UpdateFunctionConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateFunctionConfigurationOutput()
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.capacityProviderConfig = try reader["CapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderConfig.read(from:))
         value.codeSha256 = try reader["CodeSha256"].readIfPresent()
@@ -18655,6 +18763,21 @@ extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent {
     }
 }
 
+extension LambdaClientTypes.AcceleratorConfig {
+
+    static func write(value: LambdaClientTypes.AcceleratorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AcceleratorMemorySize"].write(value.acceleratorMemorySize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AcceleratorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.AcceleratorConfig()
+        value.acceleratorMemorySize = try reader["AcceleratorMemorySize"].readIfPresent() ?? .sdkUnknown(0)
+        return value
+    }
+}
+
 extension LambdaClientTypes.AccountLimit {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AccountLimit {
@@ -19626,6 +19749,7 @@ extension LambdaClientTypes.FunctionConfiguration {
         value.configSha256 = try reader["ConfigSha256"].readIfPresent()
         value.durableConfig = try reader["DurableConfig"].readIfPresent(with: LambdaClientTypes.DurableConfig.read(from:))
         value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: LambdaClientTypes.FunctionRuntimeConfig.read(from:))
+        value.acceleratorConfig = try reader["AcceleratorConfig"].readIfPresent(with: LambdaClientTypes.AcceleratorConfig.read(from:))
         return value
     }
 }

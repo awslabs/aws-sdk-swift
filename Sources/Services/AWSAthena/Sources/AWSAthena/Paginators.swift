@@ -115,6 +115,7 @@ extension AthenaClient {
 extension ListDatabasesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListDatabasesInput {
         return ListDatabasesInput(
+            attributesToGet: self.attributesToGet,
             catalogName: self.catalogName,
             maxResults: self.maxResults,
             nextToken: token,
@@ -341,6 +342,7 @@ extension AthenaClient {
 extension ListTableMetadataInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListTableMetadataInput {
         return ListTableMetadataInput(
+            attributesToGet: self.attributesToGet,
             catalogName: self.catalogName,
             databaseName: self.databaseName,
             expression: self.expression,

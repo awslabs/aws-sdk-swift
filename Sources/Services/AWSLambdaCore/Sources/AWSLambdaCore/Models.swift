@@ -368,6 +368,54 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
 
 extension LambdaCoreClientTypes {
 
+    /// The Elastic IP type for a network connector's ENIs.
+    public enum ElasticIpType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// No Elastic IP address is assigned to the connector's network interfaces.
+        case `none`
+        /// A service-managed Elastic IP address is allocated for each network interface and associated with it.
+        case servicemanaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ElasticIpType] {
+            return [
+                .none,
+                .servicemanaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "None"
+            case .servicemanaged: return "ServiceManaged"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaCoreClientTypes {
+
+    /// How the connector's network interfaces get an Elastic IP address.
+    public struct ElasticIpConfiguration: Swift.Sendable {
+        /// The Elastic IP type for the connector's network interfaces.
+        /// This member is required.
+        public var type: LambdaCoreClientTypes.ElasticIpType?
+
+        public init(
+            type: LambdaCoreClientTypes.ElasticIpType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension LambdaCoreClientTypes {
+
     /// The network protocol for a connector. IPv4 enables IPv4-only networking; DualStack enables both IPv4 and IPv6.
     public enum NetworkProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// DualStack
@@ -404,6 +452,8 @@ extension LambdaCoreClientTypes {
     public struct NetworkConnectorVpcEgressConfiguration: Swift.Sendable {
         /// The types of Lambda compute resources that can use this connector. Valid values are MicroVm and WebFunction. Specify exactly one value.
         public var associatedComputeResourceTypes: [LambdaCoreClientTypes.ComputeResourceType]?
+        /// The Elastic IP configuration for the connector's ENIs. Specify ServiceManaged to have Lambda assign a service-managed Elastic IP address to each ENI. The operator role must allow ec2:AllocateAddress and ec2:AssociateAddress.
+        public var elasticIpConfiguration: LambdaCoreClientTypes.ElasticIpConfiguration?
         /// The network protocol for the connector. Specify IPv4 for IPv4-only networking, or DualStack for both IPv4 and IPv6.
         public var networkProtocol: LambdaCoreClientTypes.NetworkProtocol?
         /// The IDs of the VPC security groups to attach to the ENIs. All security groups must be in the same VPC as the subnets.
@@ -413,11 +463,13 @@ extension LambdaCoreClientTypes {
 
         public init(
             associatedComputeResourceTypes: [LambdaCoreClientTypes.ComputeResourceType]? = nil,
+            elasticIpConfiguration: LambdaCoreClientTypes.ElasticIpConfiguration? = nil,
             networkProtocol: LambdaCoreClientTypes.NetworkProtocol? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
             self.associatedComputeResourceTypes = associatedComputeResourceTypes
+            self.elasticIpConfiguration = elasticIpConfiguration
             self.networkProtocol = networkProtocol
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
@@ -1193,6 +1245,7 @@ extension LambdaCoreClientTypes {
         case ec2requestlimitexceeded
         case insufficientrolepermissions
         case internalerror
+        case internetgatewaynotattached
         case invalidsecuritygroup
         case invalidsubnet
         case securitygroupsperinterfacelimitexceeded
@@ -1205,6 +1258,7 @@ extension LambdaCoreClientTypes {
                 .ec2requestlimitexceeded,
                 .insufficientrolepermissions,
                 .internalerror,
+                .internetgatewaynotattached,
                 .invalidsecuritygroup,
                 .invalidsubnet,
                 .securitygroupsperinterfacelimitexceeded,
@@ -1223,6 +1277,7 @@ extension LambdaCoreClientTypes {
             case .ec2requestlimitexceeded: return "Ec2RequestLimitExceeded"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
+            case .internetgatewaynotattached: return "InternetGatewayNotAttached"
             case .invalidsecuritygroup: return "InvalidSecurityGroup"
             case .invalidsubnet: return "InvalidSubnet"
             case .securitygroupsperinterfacelimitexceeded: return "SecurityGroupsPerInterfaceLimitExceeded"
@@ -1241,6 +1296,7 @@ extension LambdaCoreClientTypes {
         case ec2requestlimitexceeded
         case insufficientrolepermissions
         case internalerror
+        case internetgatewaynotattached
         case invalidsecuritygroup
         case invalidsubnet
         case securitygroupsperinterfacelimitexceeded
@@ -1253,6 +1309,7 @@ extension LambdaCoreClientTypes {
                 .ec2requestlimitexceeded,
                 .insufficientrolepermissions,
                 .internalerror,
+                .internetgatewaynotattached,
                 .invalidsecuritygroup,
                 .invalidsubnet,
                 .securitygroupsperinterfacelimitexceeded,
@@ -1271,6 +1328,7 @@ extension LambdaCoreClientTypes {
             case .ec2requestlimitexceeded: return "Ec2RequestLimitExceeded"
             case .insufficientrolepermissions: return "InsufficientRolePermissions"
             case .internalerror: return "InternalError"
+            case .internetgatewaynotattached: return "InternetGatewayNotAttached"
             case .invalidsecuritygroup: return "InvalidSecurityGroup"
             case .invalidsubnet: return "InvalidSubnet"
             case .securitygroupsperinterfacelimitexceeded: return "SecurityGroupsPerInterfaceLimitExceeded"
@@ -3753,6 +3811,21 @@ extension LambdaCoreClientTypes.Compatibility {
     }
 }
 
+extension LambdaCoreClientTypes.ElasticIpConfiguration {
+
+    static func write(value: LambdaCoreClientTypes.ElasticIpConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaCoreClientTypes.ElasticIpConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaCoreClientTypes.ElasticIpConfiguration()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension LambdaCoreClientTypes.NetworkConnectorConfiguration {
 
     static func write(value: LambdaCoreClientTypes.NetworkConnectorConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -3817,6 +3890,7 @@ extension LambdaCoreClientTypes.NetworkConnectorVpcEgressConfiguration {
     static func write(value: LambdaCoreClientTypes.NetworkConnectorVpcEgressConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AssociatedComputeResourceTypes"].writeList(value.associatedComputeResourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaCoreClientTypes.ComputeResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ElasticIpConfiguration"].write(value.elasticIpConfiguration, with: LambdaCoreClientTypes.ElasticIpConfiguration.write(value:to:))
         try writer["NetworkProtocol"].write(value.networkProtocol)
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3829,6 +3903,7 @@ extension LambdaCoreClientTypes.NetworkConnectorVpcEgressConfiguration {
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.networkProtocol = try reader["NetworkProtocol"].readIfPresent()
         value.associatedComputeResourceTypes = try reader["AssociatedComputeResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaCoreClientTypes.ComputeResourceType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.elasticIpConfiguration = try reader["ElasticIpConfiguration"].readIfPresent(with: LambdaCoreClientTypes.ElasticIpConfiguration.read(from:))
         return value
     }
 }

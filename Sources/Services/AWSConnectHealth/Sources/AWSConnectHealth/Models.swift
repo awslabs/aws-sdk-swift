@@ -34,6 +34,7 @@ import struct SmithyEventStreamsAPI.Header
 import struct SmithyEventStreamsAPI.Message
 import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 import typealias SmithyEventStreamsAPI.MarshalClosure
@@ -257,13 +258,17 @@ extension ConnectHealthClientTypes {
         case completed
         case failed
         case inProgress
+        case pending
+        case skipped
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PostStreamArtifactGenerationStatus] {
             return [
                 .completed,
                 .failed,
-                .inProgress
+                .inProgress,
+                .pending,
+                .skipped
             ]
         }
 
@@ -277,6 +282,8 @@ extension ConnectHealthClientTypes {
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case .skipped: return "SKIPPED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -302,6 +309,94 @@ extension ConnectHealthClientTypes {
             self.failureReason = failureReason
             self.outputLocation = outputLocation
             self.status = status
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    public enum ChecklistItemStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case discussed
+        case notDiscussed
+        case partiallyDiscussed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChecklistItemStatus] {
+            return [
+                .discussed,
+                .notDiscussed,
+                .partiallyDiscussed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .discussed: return "DISCUSSED"
+            case .notDiscussed: return "NOT_DISCUSSED"
+            case .partiallyDiscussed: return "PARTIALLY_DISCUSSED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Contains a checklist item and its discussion status.
+    public struct ChecklistItem: Swift.Sendable {
+        /// The key that uniquely identifies the item within the checklist. For a managed note template, this value is a service-defined section key, such as CHIEF_COMPLAINT. For a custom note template, this value is the sectionHeader of the section that you defined.
+        /// This member is required.
+        public var itemKey: Swift.String?
+        /// The discussion status of the checklist item. The following values are valid:
+        ///
+        /// * DISCUSSED: The conversation has covered the item.
+        ///
+        /// * PARTIALLY_DISCUSSED: The conversation has covered part of the item.
+        ///
+        /// * NOT_DISCUSSED: The conversation has not covered the item.
+        ///
+        ///
+        /// The status usually progresses toward DISCUSSED, but it can return to NOT_DISCUSSED if a speaker retracts a statement.
+        /// This member is required.
+        public var status: ConnectHealthClientTypes.ChecklistItemStatus?
+
+        public init(
+            itemKey: Swift.String? = nil,
+            status: ConnectHealthClientTypes.ChecklistItemStatus? = nil
+        ) {
+            self.itemKey = itemKey
+            self.status = status
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.ChecklistItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ChecklistItem(status: \(Swift.String(describing: status)), itemKey: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Contains the sections of a note template checklist and the discussion status of each section.
+    public struct Checklist: Swift.Sendable {
+        /// The identifier of the checklist. For a managed note template, this value is the template type, such as HISTORY_AND_PHYSICAL. For a custom note template, this value is CUSTOM_ followed by the template base, such as CUSTOM_GIRPP.
+        /// This member is required.
+        public var checklistId: Swift.String?
+        /// The checklist items in template order. The list contains one item for each checklist section, including sections that have not been discussed.
+        /// This member is required.
+        public var items: [ConnectHealthClientTypes.ChecklistItem]?
+
+        public init(
+            checklistId: Swift.String? = nil,
+            items: [ConnectHealthClientTypes.ChecklistItem]? = nil
+        ) {
+            self.checklistId = checklistId
+            self.items = items
         }
     }
 }
@@ -608,6 +703,194 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+/// This error is thrown when the client exceeds the allowed request rate.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { true }
+    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public var message: Swift.String?
+    public var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The configuration of a medical coding dataset. Amazon Connect Health uses the coded examples that are in the input location when you create the dataset, and writes evaluation scores to the output location, with your permissions. Later changes to the input location don't change the dataset.
+    public struct MedicalCodingDatasetConfig: Swift.Sendable {
+        /// The Amazon S3 location of your coded examples. You need s3:GetObject and s3:ListBucket permissions for it, and kms:Decrypt if you encrypt it with an AWS KMS key.
+        /// This member is required.
+        public var s3InputPath: Swift.String?
+        /// The Amazon S3 location where Amazon Connect Health writes the evaluation scores for the dataset. You need s3:PutObject permission for it, and kms:GenerateDataKey if you encrypt it with an AWS KMS key.
+        /// This member is required.
+        public var s3OutputPath: Swift.String?
+
+        public init(
+            s3InputPath: Swift.String? = nil,
+            s3OutputPath: Swift.String? = nil
+        ) {
+            self.s3InputPath = s3InputPath
+            self.s3OutputPath = s3OutputPath
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The configuration of a Dataset. Set one member, which determines the dataset type.
+    public enum DatasetConfig: Swift.Sendable {
+        /// The configuration of a medical coding dataset, which tailors medical coding jobs to your coded examples.
+        case medicalcoding(ConnectHealthClientTypes.MedicalCodingDatasetConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateDatasetInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation returns the dataset that the first request created. If you reuse a clientToken with different parameters, the request fails with ConflictException. Use a new clientToken for a request with different parameters.
+    public var clientToken: Swift.String?
+    /// The configuration of the dataset. The member that you set determines the dataset type. You can't change the configuration after you create the dataset.
+    /// This member is required.
+    public var config: ConnectHealthClientTypes.DatasetConfig?
+    /// The unique identifier of the parent Domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// A name for the dataset.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        config: ConnectHealthClientTypes.DatasetConfig? = nil,
+        domainId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.config = config
+        self.domainId = domainId
+        self.name = name
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Lifecycle status of a Dataset. CREATING -> ACTIVE | CREATE_FAILED; ACTIVE | CREATE_FAILED | DELETE_FAILED -> DELETING -> DELETED | DELETE_FAILED.
+    public enum DatasetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// The dataset is ready and can be referenced by feature requests.
+        case active
+        /// Building the dataset failed. Nothing usable was built; delete the dataset to free its quota slot. See statusDetails.
+        case createFailed
+        /// The dataset is being built.
+        case creating
+        /// The dataset and its provisioned resources have been deleted. Not returned by GetDataset or ListDatasets.
+        case deleted
+        /// Deleting the dataset failed partway, so some provisioned resources may remain. Call DeleteDataset again to finish. See statusDetails.
+        case deleteFailed
+        /// The dataset and its provisioned resources are being deleted.
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetStatus] {
+            return [
+                .active,
+                .createFailed,
+                .creating,
+                .deleted,
+                .deleteFailed,
+                .deleting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The Amazon Connect Health feature a Dataset is for. Set by the service from the DatasetConfig member supplied at create: medicalCoding -> MEDICAL_CODING.
+    public enum DatasetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Coded examples used to tailor medical coding.
+        case medicalCoding
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DatasetType] {
+            return [
+                .medicalCoding
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .medicalCoding: return "MEDICAL_CODING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDatasetOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The date and time that the dataset was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The status of the dataset. A new dataset has the status CREATING.
+    /// This member is required.
+    public var status: ConnectHealthClientTypes.DatasetStatus?
+    /// The type of the dataset, determined by the configuration that you provided.
+    /// This member is required.
+    public var type: ConnectHealthClientTypes.DatasetType?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        datasetId: Swift.String? = nil,
+        status: ConnectHealthClientTypes.DatasetStatus? = nil,
+        type: ConnectHealthClientTypes.DatasetType? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.datasetId = datasetId
+        self.status = status
+        self.type = type
+    }
+}
+
 extension ConnectHealthClientTypes {
 
     /// Input configuration for creating a web application. Used only in CreateDomain operation input.
@@ -898,6 +1181,45 @@ public struct DeactivateSubscriptionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDatasetInput: Swift.Sendable {
+    /// The unique identifier of the dataset to delete.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The unique identifier of the parent Domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        domainId: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.domainId = domainId
+    }
+}
+
+public struct DeleteDatasetOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The status of the dataset. After Amazon Connect Health accepts the request, the status is DELETING.
+    /// This member is required.
+    public var status: ConnectHealthClientTypes.DatasetStatus?
+
+    public init(
+        arn: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        status: ConnectHealthClientTypes.DatasetStatus? = nil
+    ) {
+        self.arn = arn
+        self.datasetId = datasetId
+        self.status = status
+    }
+}
+
 public struct DeleteDomainInput: Swift.Sendable {
     /// The id of the Domain to delete
     /// This member is required.
@@ -929,6 +1251,103 @@ public struct DeleteDomainOutput: Swift.Sendable {
         self.arn = arn
         self.domainId = domainId
         self.status = status
+    }
+}
+
+public struct GetDatasetInput: Swift.Sendable {
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The unique identifier of the parent Domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+
+    public init(
+        datasetId: Swift.String? = nil,
+        domainId: Swift.String? = nil
+    ) {
+        self.datasetId = datasetId
+        self.domainId = domainId
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The results of building a medical coding dataset.
+    public struct MedicalCodingDatasetArtifacts: Swift.Sendable {
+        /// The Amazon S3 location, under the s3OutputPath of the dataset, of the evaluation scores for the dataset.
+        public var evaluationS3Uri: Swift.String?
+
+        public init(
+            evaluationS3Uri: Swift.String? = nil
+        ) {
+            self.evaluationS3Uri = evaluationS3Uri
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The results of building a Dataset, by dataset type.
+    public enum DatasetArtifacts: Swift.Sendable {
+        /// The results of building a medical coding dataset.
+        case medicalcoding(ConnectHealthClientTypes.MedicalCodingDatasetArtifacts)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetDatasetOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the dataset.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The results of building the dataset, such as medical coding evaluation scores. Available after Amazon Connect Health builds the dataset.
+    public var artifacts: ConnectHealthClientTypes.DatasetArtifacts?
+    /// The configuration that you provided when you created the dataset.
+    /// This member is required.
+    public var config: ConnectHealthClientTypes.DatasetConfig?
+    /// The date and time that the dataset was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The unique identifier of the dataset.
+    /// This member is required.
+    public var datasetId: Swift.String?
+    /// The name of the dataset.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the dataset.
+    /// This member is required.
+    public var status: ConnectHealthClientTypes.DatasetStatus?
+    /// Details about the status of the dataset, such as the reason that it failed to build or delete.
+    public var statusDetails: Swift.String?
+    /// The type of the dataset.
+    /// This member is required.
+    public var type: ConnectHealthClientTypes.DatasetType?
+    /// The date and time that the dataset was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        arn: Swift.String? = nil,
+        artifacts: ConnectHealthClientTypes.DatasetArtifacts? = nil,
+        config: ConnectHealthClientTypes.DatasetConfig? = nil,
+        createdAt: Foundation.Date? = nil,
+        datasetId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ConnectHealthClientTypes.DatasetStatus? = nil,
+        statusDetails: Swift.String? = nil,
+        type: ConnectHealthClientTypes.DatasetType? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.arn = arn
+        self.artifacts = artifacts
+        self.config = config
+        self.createdAt = createdAt
+        self.datasetId = datasetId
+        self.name = name
+        self.status = status
+        self.statusDetails = statusDetails
+        self.type = type
+        self.updatedAt = updatedAt
     }
 }
 
@@ -996,27 +1415,314 @@ public struct GetDomainOutput: Swift.Sendable {
     }
 }
 
-/// This error is thrown when the client exceeds the allowed request rate.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { true }
-    public static var isThrottling: Swift.Bool { true }
-    public var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public var message: Swift.String?
-    public var requestID: Swift.String?
+public struct GetMedicalCodingJobInput: Swift.Sendable {
+    /// The unique identifier of the parent Domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The unique identifier of the medical coding job.
+    /// This member is required.
+    public var jobId: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        domainId: Swift.String? = nil,
+        jobId: Swift.String? = nil
     ) {
-        self.properties.message = message
+        self.domainId = domainId
+        self.jobId = jobId
     }
+}
+
+extension ConnectHealthClientTypes {
+
+    public enum EncounterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inPerson
+        case telehealth
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncounterType] {
+            return [
+                .inPerson,
+                .telehealth
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inPerson: return "IN_PERSON"
+            case .telehealth: return "TELEHEALTH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Encounter context for a medical coding job. All fields are optional.
+    public struct MedicalCodesEncounterContext: Swift.Sendable {
+        /// Specifies whether the encounter took place outside regular business hours.
+        public var afterHours: Swift.Bool?
+        /// The date of the encounter, in YYYY-MM-DD format. The date can't be more than one day after the current date in UTC.
+        public var encounterDate: Swift.String?
+        /// The duration of the encounter, in minutes, from 1 to 1440.
+        public var encounterDurationMinutes: Swift.Int?
+        /// The reason for the encounter. The reason can contain letters, numbers, spaces, periods, commas, and hyphens, and can't contain only spaces.
+        public var encounterReason: Swift.String?
+        /// The type of the encounter, either in person or telehealth.
+        public var encounterType: ConnectHealthClientTypes.EncounterType?
+
+        public init(
+            afterHours: Swift.Bool? = nil,
+            encounterDate: Swift.String? = nil,
+            encounterDurationMinutes: Swift.Int? = nil,
+            encounterReason: Swift.String? = nil,
+            encounterType: ConnectHealthClientTypes.EncounterType? = nil
+        ) {
+            self.afterHours = afterHours
+            self.encounterDate = encounterDate
+            self.encounterDurationMinutes = encounterDurationMinutes
+            self.encounterReason = encounterReason
+            self.encounterType = encounterType
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodesEncounterContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalCodesEncounterContext(afterHours: \(Swift.String(describing: afterHours)), encounterType: \(Swift.String(describing: encounterType)), encounterDate: \"CONTENT_REDACTED\", encounterDurationMinutes: \"CONTENT_REDACTED\", encounterReason: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectHealthClientTypes {
+
+    public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case submitted
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .submitted,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .submitted: return "SUBMITTED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The location of the results of a medical coding job.
+    public struct MedicalCodingOutput: Swift.Sendable {
+        /// The Amazon S3 location of the medical codes that the job generated.
+        /// This member is required.
+        public var uri: Swift.String?
+
+        public init(
+            uri: Swift.String? = nil
+        ) {
+            self.uri = uri
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The output configuration for a medical coding job.
+    public struct MedicalCodingOutputDataConfig: Swift.Sendable {
+        /// The Amazon S3 location where Amazon Connect Health writes the results of the job.
+        /// This member is required.
+        public var s3OutputPath: Swift.String?
+
+        public init(
+            s3OutputPath: Swift.String? = nil
+        ) {
+            self.s3OutputPath = s3OutputPath
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    public enum Sex: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case female
+        case male
+        case nonBinary
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Sex] {
+            return [
+                .female,
+                .male,
+                .nonBinary,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .female: return "FEMALE"
+            case .male: return "MALE"
+            case .nonBinary: return "NON_BINARY"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    public enum PatientStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case established
+        case new
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PatientStatus] {
+            return [
+                .established,
+                .new
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .established: return "ESTABLISHED"
+            case .new: return "NEW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Patient context for a medical coding job. All fields are optional.
+    public struct MedicalCodesPatientContext: Swift.Sendable {
+        /// The date of birth of the patient, in YYYY-MM-DD format. The date can't be after the current date in UTC.
+        public var dateOfBirth: Swift.String?
+        /// The insurance of the patient.
+        public var insurance: Swift.String?
+        /// The sex of the patient.
+        public var sex: ConnectHealthClientTypes.Sex?
+        /// The status of the patient, either new or established.
+        public var status: ConnectHealthClientTypes.PatientStatus?
+
+        public init(
+            dateOfBirth: Swift.String? = nil,
+            insurance: Swift.String? = nil,
+            sex: ConnectHealthClientTypes.Sex? = nil,
+            status: ConnectHealthClientTypes.PatientStatus? = nil
+        ) {
+            self.dateOfBirth = dateOfBirth
+            self.insurance = insurance
+            self.sex = sex
+            self.status = status
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodesPatientContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalCodesPatientContext(dateOfBirth: \"CONTENT_REDACTED\", insurance: \"CONTENT_REDACTED\", sex: \"CONTENT_REDACTED\", status: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetMedicalCodingJobOutput: Swift.Sendable {
+    /// The date and time that the medical coding job was created.
+    public var creationTime: Foundation.Date?
+    /// The unique identifier of the dataset that the job codes against. Not returned if the job uses the general medical coding knowledge base.
+    public var datasetId: Swift.String?
+    /// The encounter context that you provided for the job.
+    public var encounterContext: ConnectHealthClientTypes.MedicalCodesEncounterContext?
+    /// The Amazon Resource Name (ARN) of the medical coding job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// The unique identifier of the medical coding job.
+    /// This member is required.
+    public var jobId: Swift.String?
+    /// The status of the medical coding job.
+    /// This member is required.
+    public var jobStatus: ConnectHealthClientTypes.JobStatus?
+    /// The location of the job results. Returned when the job succeeds.
+    public var medicalCodingOutput: ConnectHealthClientTypes.MedicalCodingOutput?
+    /// The output configuration that you provided for the job.
+    /// This member is required.
+    public var outputDataConfig: ConnectHealthClientTypes.MedicalCodingOutputDataConfig?
+    /// The patient context that you provided for the job.
+    public var patientContext: ConnectHealthClientTypes.MedicalCodesPatientContext?
+    /// Details about the status of the job, such as the reason that it failed.
+    public var statusDetails: Swift.String?
+    /// The clinical text that the medical coding job codes.
+    /// This member is required.
+    public var text: Swift.String?
+    /// The date and time that the medical coding job was last updated.
+    public var updatedTime: Foundation.Date?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        datasetId: Swift.String? = nil,
+        encounterContext: ConnectHealthClientTypes.MedicalCodesEncounterContext? = nil,
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil,
+        jobStatus: ConnectHealthClientTypes.JobStatus? = nil,
+        medicalCodingOutput: ConnectHealthClientTypes.MedicalCodingOutput? = nil,
+        outputDataConfig: ConnectHealthClientTypes.MedicalCodingOutputDataConfig? = nil,
+        patientContext: ConnectHealthClientTypes.MedicalCodesPatientContext? = nil,
+        statusDetails: Swift.String? = nil,
+        text: Swift.String? = nil,
+        updatedTime: Foundation.Date? = nil
+    ) {
+        self.creationTime = creationTime
+        self.datasetId = datasetId
+        self.encounterContext = encounterContext
+        self.jobArn = jobArn
+        self.jobId = jobId
+        self.jobStatus = jobStatus
+        self.medicalCodingOutput = medicalCodingOutput
+        self.outputDataConfig = outputDataConfig
+        self.patientContext = patientContext
+        self.statusDetails = statusDetails
+        self.text = text
+        self.updatedTime = updatedTime
+    }
+}
+
+extension GetMedicalCodingJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMedicalCodingJobOutput(creationTime: \(Swift.String(describing: creationTime)), datasetId: \(Swift.String(describing: datasetId)), encounterContext: \(Swift.String(describing: encounterContext)), jobArn: \(Swift.String(describing: jobArn)), jobId: \(Swift.String(describing: jobId)), jobStatus: \(Swift.String(describing: jobStatus)), medicalCodingOutput: \(Swift.String(describing: medicalCodingOutput)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), patientContext: \(Swift.String(describing: patientContext)), statusDetails: \(Swift.String(describing: statusDetails)), updatedTime: \(Swift.String(describing: updatedTime)), text: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetMedicalScribeListeningSessionInput: Swift.Sendable {
@@ -1151,15 +1857,53 @@ extension ConnectHealthClientTypes {
 
 extension ConnectHealthClientTypes {
 
+    /// Results of medical code generation, including the medical codes and the medical coding job.
+    public struct MedicalCodeGenerationResult: Swift.Sendable {
+        /// The identifier of the medical coding job that generated the medical codes. To submit feedback on the medical codes, use this value as the artifactSourceId, with the artifactType MEDICAL_CODES, in SubmitFeedback.
+        public var jobId: Swift.String?
+        /// Details about the generated medical codes. If the status is SKIPPED, medical codes weren't generated, for example because the clinical note wasn't generated or had no content.
+        public var medicalCodesResult: ConnectHealthClientTypes.ArtifactDetails?
+
+        public init(
+            jobId: Swift.String? = nil,
+            medicalCodesResult: ConnectHealthClientTypes.ArtifactDetails? = nil
+        ) {
+            self.jobId = jobId
+            self.medicalCodesResult = medicalCodesResult
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
     /// Results of post-stream actions performed after the audio stream ended
     public struct MedicalScribePostStreamActionsResult: Swift.Sendable {
         /// Results of clinical note generation
         public var clinicalNoteGenerationResult: ConnectHealthClientTypes.ClinicalNoteGenerationResult?
+        /// Results of medical code generation. Returned if medical code generation runs for the session. Not returned if you set enabled to false in medicalCodeGenerationSettings.
+        public var medicalCodeGenerationResult: ConnectHealthClientTypes.MedicalCodeGenerationResult?
 
         public init(
-            clinicalNoteGenerationResult: ConnectHealthClientTypes.ClinicalNoteGenerationResult? = nil
+            clinicalNoteGenerationResult: ConnectHealthClientTypes.ClinicalNoteGenerationResult? = nil,
+            medicalCodeGenerationResult: ConnectHealthClientTypes.MedicalCodeGenerationResult? = nil
         ) {
             self.clinicalNoteGenerationResult = clinicalNoteGenerationResult
+            self.medicalCodeGenerationResult = medicalCodeGenerationResult
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Response containing settings for medical code generation.
+    public struct MedicalCodeGenerationSettingsResponse: Swift.Sendable {
+        /// Indicates whether medical code generation was requested for the session.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
         }
     }
 }
@@ -1171,15 +1915,19 @@ extension ConnectHealthClientTypes {
         /// Settings for clinical note generation
         /// This member is required.
         public var clinicalNoteGenerationSettings: ConnectHealthClientTypes.ClinicalNoteGenerationSettingsResponse?
+        /// Settings for medical code generation. Returned only if you specified medicalCodeGenerationSettings when you started the session.
+        public var medicalCodeGenerationSettings: ConnectHealthClientTypes.MedicalCodeGenerationSettingsResponse?
         ///
         /// This member is required.
         public var outputS3Uri: Swift.String?
 
         public init(
             clinicalNoteGenerationSettings: ConnectHealthClientTypes.ClinicalNoteGenerationSettingsResponse? = nil,
+            medicalCodeGenerationSettings: ConnectHealthClientTypes.MedicalCodeGenerationSettingsResponse? = nil,
             outputS3Uri: Swift.String? = nil
         ) {
             self.clinicalNoteGenerationSettings = clinicalNoteGenerationSettings
+            self.medicalCodeGenerationSettings = medicalCodeGenerationSettings
             self.outputS3Uri = outputS3Uri
         }
     }
@@ -1236,6 +1984,8 @@ extension ConnectHealthClientTypes {
         public var mediaEncoding: ConnectHealthClientTypes.MedicalScribeMediaEncoding?
         /// The sample rate of the input audio
         public var mediaSampleRateHertz: Swift.Int?
+        /// Indicates whether medical coding context was provided.
+        public var medicalCodingContextProvided: Swift.Bool?
         /// Results of post-stream actions
         public var postStreamActionResult: ConnectHealthClientTypes.MedicalScribePostStreamActionsResult?
         /// Settings for post-stream actions
@@ -1258,6 +2008,7 @@ extension ConnectHealthClientTypes {
             languageCode: ConnectHealthClientTypes.MedicalScribeLanguageCode? = nil,
             mediaEncoding: ConnectHealthClientTypes.MedicalScribeMediaEncoding? = nil,
             mediaSampleRateHertz: Swift.Int? = nil,
+            medicalCodingContextProvided: Swift.Bool? = nil,
             postStreamActionResult: ConnectHealthClientTypes.MedicalScribePostStreamActionsResult? = nil,
             postStreamActionSettings: ConnectHealthClientTypes.MedicalScribePostStreamActionSettingsResponse? = nil,
             sessionId: Swift.String? = nil,
@@ -1272,6 +2023,7 @@ extension ConnectHealthClientTypes {
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.medicalCodingContextProvided = medicalCodingContextProvided
             self.postStreamActionResult = postStreamActionResult
             self.postStreamActionSettings = postStreamActionSettings
             self.sessionId = sessionId
@@ -1446,41 +2198,6 @@ extension ConnectHealthClientTypes {
             uri: Swift.String? = nil
         ) {
             self.uri = uri
-        }
-    }
-}
-
-extension ConnectHealthClientTypes {
-
-    public enum JobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case inProgress
-        case submitted
-        case succeeded
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [JobStatus] {
-            return [
-                .failed,
-                .inProgress,
-                .submitted,
-                .succeeded
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .inProgress: return "IN_PROGRESS"
-            case .submitted: return "SUBMITTED"
-            case .succeeded: return "SUCCEEDED"
-            case let .sdkUnknown(s): return s
-            }
         }
     }
 }
@@ -1740,6 +2457,96 @@ public struct GetSubscriptionOutput: Swift.Sendable {
     }
 }
 
+public struct ListDatasetsInput: Swift.Sendable {
+    /// The unique identifier of the parent Domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The maximum number of datasets to return in one page. The default is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results, from a previous ListDatasets response. If you don't specify a value, the operation returns the first page of results.
+    public var nextToken: Swift.String?
+    /// Returns only datasets of this type.
+    public var type: ConnectHealthClientTypes.DatasetType?
+
+    public init(
+        domainId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        type: ConnectHealthClientTypes.DatasetType? = nil
+    ) {
+        self.domainId = domainId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Summary information about a Dataset.
+    public struct DatasetSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the dataset.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time that the dataset was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The unique identifier of the dataset.
+        /// This member is required.
+        public var datasetId: Swift.String?
+        /// The name of the dataset.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the dataset.
+        /// This member is required.
+        public var status: ConnectHealthClientTypes.DatasetStatus?
+        /// Details about the status of the dataset, such as the reason that it failed to build or delete.
+        public var statusDetails: Swift.String?
+        /// The type of the dataset.
+        /// This member is required.
+        public var type: ConnectHealthClientTypes.DatasetType?
+        /// The date and time that the dataset was last updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            datasetId: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: ConnectHealthClientTypes.DatasetStatus? = nil,
+            statusDetails: Swift.String? = nil,
+            type: ConnectHealthClientTypes.DatasetType? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.datasetId = datasetId
+            self.name = name
+            self.status = status
+            self.statusDetails = statusDetails
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+public struct ListDatasetsOutput: Swift.Sendable {
+    /// A list of dataset summaries.
+    /// This member is required.
+    public var items: [ConnectHealthClientTypes.DatasetSummary]?
+    /// The token for the next page of results. Not returned if there are no more results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [ConnectHealthClientTypes.DatasetSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListDomainsInput: Swift.Sendable {
     /// Maximum number of results to return.
     public var maxResults: Swift.Int?
@@ -1870,6 +2677,70 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct StartMedicalCodingJobInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The unique identifier of an ACTIVE medical coding dataset in the Domain to code against. If you don't specify a dataset, the job uses the general medical coding knowledge base.
+    public var datasetId: Swift.String?
+    /// The unique identifier of the parent Domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// Encounter context for the job. Providing this information can improve the accuracy of the medical codes.
+    public var encounterContext: ConnectHealthClientTypes.MedicalCodesEncounterContext?
+    /// The output configuration for the job.
+    /// This member is required.
+    public var outputDataConfig: ConnectHealthClientTypes.MedicalCodingOutputDataConfig?
+    /// Patient context for the job. Providing this information can improve the accuracy of the medical codes.
+    public var patientContext: ConnectHealthClientTypes.MedicalCodesPatientContext?
+    /// The clinical text to generate medical codes for, such as a clinical note.
+    /// This member is required.
+    public var text: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        datasetId: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        encounterContext: ConnectHealthClientTypes.MedicalCodesEncounterContext? = nil,
+        outputDataConfig: ConnectHealthClientTypes.MedicalCodingOutputDataConfig? = nil,
+        patientContext: ConnectHealthClientTypes.MedicalCodesPatientContext? = nil,
+        text: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.datasetId = datasetId
+        self.domainId = domainId
+        self.encounterContext = encounterContext
+        self.outputDataConfig = outputDataConfig
+        self.patientContext = patientContext
+        self.text = text
+    }
+}
+
+extension StartMedicalCodingJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartMedicalCodingJobInput(clientToken: \(Swift.String(describing: clientToken)), datasetId: \(Swift.String(describing: datasetId)), domainId: \(Swift.String(describing: domainId)), encounterContext: \(Swift.String(describing: encounterContext)), outputDataConfig: \(Swift.String(describing: outputDataConfig)), patientContext: \(Swift.String(describing: patientContext)), text: \"CONTENT_REDACTED\")"}
+}
+
+public struct StartMedicalCodingJobOutput: Swift.Sendable {
+    /// The date and time that the medical coding job was created.
+    public var creationTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the medical coding job.
+    /// This member is required.
+    public var jobArn: Swift.String?
+    /// The unique identifier of the medical coding job.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        jobArn: Swift.String? = nil,
+        jobId: Swift.String? = nil
+    ) {
+        self.creationTime = creationTime
+        self.jobArn = jobArn
+        self.jobId = jobId
+    }
+}
+
 extension ConnectHealthClientTypes {
 
     /// An event containing audio data for the Medical Scribe stream
@@ -1904,14 +2775,62 @@ extension ConnectHealthClientTypes {
 
 extension ConnectHealthClientTypes {
 
+    /// Patient and encounter context for medical code generation. Providing this information can improve the accuracy of the medical codes. To provide it, you must also set enabled to true in medicalCodeGenerationSettings. All fields are optional. The service generates medical codes without any field that you leave out.
+    public struct MedicalCodingContext: Swift.Sendable {
+        /// Specifies whether the encounter took place outside regular business hours.
+        public var afterHours: Swift.Bool?
+        /// The date of birth of the patient, in YYYY-MM-DD format. The date can't be after the current date in UTC.
+        public var dateOfBirth: Swift.String?
+        /// The date of the encounter, in YYYY-MM-DD format. The date can't be more than one day after the current date in UTC.
+        public var encounterDate: Swift.String?
+        /// The reason for the encounter. The reason can contain letters, numbers, spaces, periods, commas, and hyphens, and can't contain only spaces.
+        public var encounterReason: Swift.String?
+        /// The type of the encounter, either in person or telehealth.
+        public var encounterType: ConnectHealthClientTypes.EncounterType?
+        /// The sex of the patient.
+        public var sex: ConnectHealthClientTypes.Sex?
+        /// The status of the patient, either new or established.
+        public var status: ConnectHealthClientTypes.PatientStatus?
+
+        public init(
+            afterHours: Swift.Bool? = nil,
+            dateOfBirth: Swift.String? = nil,
+            encounterDate: Swift.String? = nil,
+            encounterReason: Swift.String? = nil,
+            encounterType: ConnectHealthClientTypes.EncounterType? = nil,
+            sex: ConnectHealthClientTypes.Sex? = nil,
+            status: ConnectHealthClientTypes.PatientStatus? = nil
+        ) {
+            self.afterHours = afterHours
+            self.dateOfBirth = dateOfBirth
+            self.encounterDate = encounterDate
+            self.encounterReason = encounterReason
+            self.encounterType = encounterType
+            self.sex = sex
+            self.status = status
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodingContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalCodingContext(afterHours: \(Swift.String(describing: afterHours)), encounterType: \(Swift.String(describing: encounterType)), dateOfBirth: \"CONTENT_REDACTED\", encounterDate: \"CONTENT_REDACTED\", encounterReason: \"CONTENT_REDACTED\", sex: \"CONTENT_REDACTED\", status: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectHealthClientTypes {
+
     /// Context information about the clinical encounter
     public struct EncounterContext: Swift.Sendable {
+        /// Structured patient and encounter context for medical code generation.
+        public var medicalCodingContext: ConnectHealthClientTypes.MedicalCodingContext?
         /// Unstructured context information in markdown format
         public var unstructuredContext: Swift.String?
 
         public init(
+            medicalCodingContext: ConnectHealthClientTypes.MedicalCodingContext? = nil,
             unstructuredContext: Swift.String? = nil
         ) {
+            self.medicalCodingContext = medicalCodingContext
             self.unstructuredContext = unstructuredContext
         }
     }
@@ -1919,7 +2838,23 @@ extension ConnectHealthClientTypes {
 
 extension ConnectHealthClientTypes.EncounterContext: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EncounterContext(unstructuredContext: \"CONTENT_REDACTED\")"}
+        "EncounterContext(medicalCodingContext: \(Swift.String(describing: medicalCodingContext)), unstructuredContext: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Settings for generating medical codes from the clinical note after the session ends. Medical code generation is in preview release and is subject to change. Medical code generation is available in the US East (N. Virginia) and US West (Oregon) AWS Regions.
+    public struct MedicalCodeGenerationSettings: Swift.Sendable {
+        /// Specifies whether to generate medical codes for the session. If you set this to true, the service generates medical codes from the clinical note after the session ends, using your permissions for medical coding, the output Amazon S3 location, and the AWS KMS key. You can set this to true only in a Region where medical code generation is available. To provide a medicalCodingContext, you must set this to true.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
 }
 
 extension ConnectHealthClientTypes {
@@ -1929,15 +2864,19 @@ extension ConnectHealthClientTypes {
         /// Settings for clinical note generation
         /// This member is required.
         public var clinicalNoteGenerationSettings: ConnectHealthClientTypes.ClinicalNoteGenerationSettings?
+        /// Settings for medical code generation. Medical code generation is in preview release and is subject to change.
+        public var medicalCodeGenerationSettings: ConnectHealthClientTypes.MedicalCodeGenerationSettings?
         ///
         /// This member is required.
         public var outputS3Uri: Swift.String?
 
         public init(
             clinicalNoteGenerationSettings: ConnectHealthClientTypes.ClinicalNoteGenerationSettings? = nil,
+            medicalCodeGenerationSettings: ConnectHealthClientTypes.MedicalCodeGenerationSettings? = nil,
             outputS3Uri: Swift.String? = nil
         ) {
             self.clinicalNoteGenerationSettings = clinicalNoteGenerationSettings
+            self.medicalCodeGenerationSettings = medicalCodeGenerationSettings
             self.outputS3Uri = outputS3Uri
         }
     }
@@ -2067,6 +3006,280 @@ public struct StartMedicalScribeListeningSessionInput: Swift.Sendable {
 
 extension ConnectHealthClientTypes {
 
+    /// Real-time extraction is in preview release for Amazon Connect Health and is subject to change. To request access to this feature, contact your AWS account team. The session's checklist as of this point in the session. Each event carries every item with its current status, not only the items that changed.
+    public struct MedicalScribeChecklistEvent: Swift.Sendable {
+        /// The checklists for the session. The list is empty when no checklist is active.
+        /// This member is required.
+        public var checklists: [ConnectHealthClientTypes.Checklist]?
+        /// The version of this snapshot. Versions increase within a session and can skip values. Keep the snapshot with the highest version and ignore any event whose version is not higher, including after you reconnect to the session. Versions of checklist events and periodontal chart events are independent.
+        /// This member is required.
+        public var snapshotVersion: Swift.Int?
+
+        public init(
+            checklists: [ConnectHealthClientTypes.Checklist]? = nil,
+            snapshotVersion: Swift.Int? = nil
+        ) {
+            self.checklists = checklists
+            self.snapshotVersion = snapshotVersion
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    public enum PeriodontalReviewReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lineUnclear
+        case measurementNotCharted
+        case missingToothConflict
+        case readingCountMismatch
+        case sessionIssue
+        case siteNotCharted
+        case toothUnclear
+        case valueNotCharted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeriodontalReviewReason] {
+            return [
+                .lineUnclear,
+                .measurementNotCharted,
+                .missingToothConflict,
+                .readingCountMismatch,
+                .sessionIssue,
+                .siteNotCharted,
+                .toothUnclear,
+                .valueNotCharted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lineUnclear: return "LINE_UNCLEAR"
+            case .measurementNotCharted: return "MEASUREMENT_NOT_CHARTED"
+            case .missingToothConflict: return "MISSING_TOOTH_CONFLICT"
+            case .readingCountMismatch: return "READING_COUNT_MISMATCH"
+            case .sessionIssue: return "SESSION_ISSUE"
+            case .siteNotCharted: return "SITE_NOT_CHARTED"
+            case .toothUnclear: return "TOOTH_UNCLEAR"
+            case .valueNotCharted: return "VALUE_NOT_CHARTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    public enum PeriodontalSiteName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buccal
+        case distobuccal
+        case distolingual
+        case lingual
+        case mesiobuccal
+        case mesiolingual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeriodontalSiteName] {
+            return [
+                .buccal,
+                .distobuccal,
+                .distolingual,
+                .lingual,
+                .mesiobuccal,
+                .mesiolingual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buccal: return "B"
+            case .distobuccal: return "DB"
+            case .distolingual: return "DL"
+            case .lingual: return "L"
+            case .mesiobuccal: return "MB"
+            case .mesiolingual: return "ML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// An item of the periodontal chart that needs the clinician's confirmation.
+    public struct PeriodontalReview: Swift.Sendable {
+        /// The reason for review. The following values are valid:
+        ///
+        /// * SITE_NOT_CHARTED: One or more sites have no reading.
+        ///
+        /// * VALUE_NOT_CHARTED: A dictated value or charting instruction was not charted, for example because the value was out of range or not valid at its position.
+        ///
+        /// * READING_COUNT_MISMATCH: The number of dictated values did not match the number of open sites. The values were charted as dictated.
+        ///
+        /// * LINE_UNCLEAR: A line of dictation could not be interpreted and was not charted.
+        ///
+        /// * TOOTH_UNCLEAR: A line of dictation did not identify the tooth and was not charted.
+        ///
+        /// * MISSING_TOOTH_CONFLICT: The dictation conflicts with a tooth marked as missing.
+        ///
+        /// * MEASUREMENT_NOT_CHARTED: The dictation included a measurement that the chart does not record, such as plaque, calculus, or the mucogingival junction.
+        ///
+        /// * SESSION_ISSUE: The exam setup could not be used and all teeth were assumed to be present, or the earlier chart could not be restored and charting restarted.
+        /// This member is required.
+        public var reason: ConnectHealthClientTypes.PeriodontalReviewReason?
+        /// The probing sites of that tooth that the item refers to.
+        public var sites: [ConnectHealthClientTypes.PeriodontalSiteName]?
+        /// The tooth that the item refers to.
+        public var toothNumber: Swift.Int?
+
+        public init(
+            reason: ConnectHealthClientTypes.PeriodontalReviewReason? = nil,
+            sites: [ConnectHealthClientTypes.PeriodontalSiteName]? = nil,
+            toothNumber: Swift.Int? = nil
+        ) {
+            self.reason = reason
+            self.sites = sites
+            self.toothNumber = toothNumber
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.PeriodontalReview: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The measurements at one probing site of a tooth.
+    public struct PeriodontalSite: Swift.Sendable {
+        /// Specifies whether the site bled during probing.
+        public var bleeding: Swift.Bool?
+        /// The probing depth, in millimeters. The value ranges from 0 to 15.
+        public var probingDepth: Swift.Int?
+        /// The gingival recession, in millimeters. The value ranges from -5 to 15. For example, -1 represents "plus one."
+        public var recession: Swift.Int?
+        /// The probing site. The following values are valid:
+        ///
+        /// * DB: Distobuccal.
+        ///
+        /// * B: Buccal.
+        ///
+        /// * MB: Mesiobuccal.
+        ///
+        /// * DL: Distolingual.
+        ///
+        /// * L: Lingual.
+        ///
+        /// * ML: Mesiolingual.
+        /// This member is required.
+        public var site: ConnectHealthClientTypes.PeriodontalSiteName?
+        /// Specifies whether suppuration was present at the site.
+        public var suppuration: Swift.Bool?
+
+        public init(
+            bleeding: Swift.Bool? = nil,
+            probingDepth: Swift.Int? = nil,
+            recession: Swift.Int? = nil,
+            site: ConnectHealthClientTypes.PeriodontalSiteName? = nil,
+            suppuration: Swift.Bool? = nil
+        ) {
+            self.bleeding = bleeding
+            self.probingDepth = probingDepth
+            self.recession = recession
+            self.site = site
+            self.suppuration = suppuration
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.PeriodontalSite: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// The chart for one tooth.
+    public struct PeriodontalTooth: Swift.Sendable {
+        /// The furcation involvement class. The value ranges from 0 to 3.
+        public var furcation: Swift.Int?
+        /// Specifies whether the tooth is missing.
+        /// This member is required.
+        public var missing: Swift.Bool?
+        /// The tooth mobility grade. The value ranges from 0 to 3.
+        public var mobility: Swift.Int?
+        /// The probing sites that have a recorded measurement, in the order MB, B, DB, ML, L, DL.
+        public var sites: [ConnectHealthClientTypes.PeriodontalSite]?
+        /// The tooth number in the Universal Numbering System. The value ranges from 1 to 32.
+        /// This member is required.
+        public var toothNumber: Swift.Int?
+
+        public init(
+            furcation: Swift.Int? = nil,
+            missing: Swift.Bool? = nil,
+            mobility: Swift.Int? = nil,
+            sites: [ConnectHealthClientTypes.PeriodontalSite]? = nil,
+            toothNumber: Swift.Int? = nil
+        ) {
+            self.furcation = furcation
+            self.missing = missing
+            self.mobility = mobility
+            self.sites = sites
+            self.toothNumber = toothNumber
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.PeriodontalTooth: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension ConnectHealthClientTypes {
+
+    /// Real-time extraction is in preview release for Amazon Connect Health and is subject to change. To request access to this feature, contact your AWS account team. The periodontal chart as of this point in the session. Each event carries every tooth charted so far, not only the teeth that changed.
+    public struct MedicalScribePeriodontalChartEvent: Swift.Sendable {
+        /// Items that need the clinician's confirmation.
+        public var reviewItems: [ConnectHealthClientTypes.PeriodontalReview]?
+        /// The version of this snapshot. Versions increase within a session and can skip values. Keep the snapshot with the highest version and ignore any event whose version is not higher, including after you reconnect to the session. Versions of checklist events and periodontal chart events are independent.
+        /// This member is required.
+        public var snapshotVersion: Swift.Int?
+        /// The teeth that have a recorded value or are marked missing, in ascending toothNumber order.
+        /// This member is required.
+        public var teeth: [ConnectHealthClientTypes.PeriodontalTooth]?
+
+        public init(
+            reviewItems: [ConnectHealthClientTypes.PeriodontalReview]? = nil,
+            snapshotVersion: Swift.Int? = nil,
+            teeth: [ConnectHealthClientTypes.PeriodontalTooth]? = nil
+        ) {
+            self.reviewItems = reviewItems
+            self.snapshotVersion = snapshotVersion
+            self.teeth = teeth
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalScribePeriodontalChartEvent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalScribePeriodontalChartEvent(snapshotVersion: \(Swift.String(describing: snapshotVersion)), reviewItems: \"CONTENT_REDACTED\", teeth: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectHealthClientTypes {
+
     /// A segment of transcript text with timing and channel information
     public struct MedicalScribeTranscriptSegment: Swift.Sendable {
         /// The offset from audio start when the audio for this segment begins
@@ -2117,10 +3330,14 @@ extension ConnectHealthClientTypes {
 
 extension ConnectHealthClientTypes {
 
-    /// Output stream from Medical Scribe containing transcript events and errors
+    /// The output stream of a listening session. It carries transcript events, periodontal chart events, checklist events, and errors.
     public enum MedicalScribeOutputStream: Swift.Sendable {
         ///
         case transcriptevent(ConnectHealthClientTypes.MedicalScribeTranscriptEvent)
+        /// Real-time extraction is in preview release for Amazon Connect Health and is subject to change. To request access to this feature, contact your AWS account team. A snapshot of the periodontal chart. Amazon Connect Health sends this event only when real-time extraction is enabled for the account and periodontal charting is dictated during the session.
+        case periodontalchartevent(ConnectHealthClientTypes.MedicalScribePeriodontalChartEvent)
+        /// Real-time extraction is in preview release for Amazon Connect Health and is subject to change. To request access to this feature, contact your AWS account team. A snapshot of the session's checklist. Amazon Connect Health sends this event only when real-time extraction is enabled for the account and the session uses a supported note template.
+        case checklistevent(ConnectHealthClientTypes.MedicalScribeChecklistEvent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2136,7 +3353,7 @@ public struct StartMedicalScribeListeningSessionOutput: Swift.Sendable {
     public var mediaSampleRateHertz: Swift.Int?
     /// The Request identifier
     public var requestId: Swift.String?
-    /// The output stream containing transcript events
+    /// The output stream that contains transcript events, periodontal chart events, checklist events, and errors.
     public var responseStream: AsyncThrowingStream<ConnectHealthClientTypes.MedicalScribeOutputStream, Swift.Error>?
     /// The Session identifier
     public var sessionId: Swift.String?
@@ -2231,6 +3448,92 @@ public struct StartPatientInsightsJobOutput: Swift.Sendable {
     }
 }
 
+extension ConnectHealthClientTypes {
+
+    public enum FeedbackArtifactType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case clinicalDoc
+        case medicalCodes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FeedbackArtifactType] {
+            return [
+                .clinicalDoc,
+                .medicalCodes
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .clinicalDoc: return "CLINICAL_DOC"
+            case .medicalCodes: return "MEDICAL_CODES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct SubmitFeedbackInput: Swift.Sendable {
+    /// The identifier of the artifact source. For a clinical document, this is the session ID. For a set of medical codes, this is the medical coding job ID.
+    /// This member is required.
+    public var artifactSourceId: Swift.String?
+    /// The type of artifact that you submit feedback for. The following values are valid:
+    ///
+    /// * CLINICAL_DOC is the clinical document generated for an ambient documentation session.
+    ///
+    /// * MEDICAL_CODES is the set of medical codes generated by a medical coding job.
+    /// This member is required.
+    public var artifactType: ConnectHealthClientTypes.FeedbackArtifactType?
+    /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// Optional comments about the feedback.
+    public var comments: Swift.String?
+    /// The unique identifier of the parent Domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The Amazon S3 URI of the clinical document or set of medical codes that Amazon Connect Health generated.
+    public var generatedArtifactS3Uri: Swift.String?
+    /// The Amazon Simple Storage Service (Amazon S3) URI of the final artifact that the clinician signed.
+    /// This member is required.
+    public var signedArtifactS3Uri: Swift.String?
+    /// The unique identifier of the Subscription.
+    public var subscriptionId: Swift.String?
+
+    public init(
+        artifactSourceId: Swift.String? = nil,
+        artifactType: ConnectHealthClientTypes.FeedbackArtifactType? = nil,
+        clientToken: Swift.String? = nil,
+        comments: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        generatedArtifactS3Uri: Swift.String? = nil,
+        signedArtifactS3Uri: Swift.String? = nil,
+        subscriptionId: Swift.String? = nil
+    ) {
+        self.artifactSourceId = artifactSourceId
+        self.artifactType = artifactType
+        self.clientToken = clientToken
+        self.comments = comments
+        self.domainId = domainId
+        self.generatedArtifactS3Uri = generatedArtifactS3Uri
+        self.signedArtifactS3Uri = signedArtifactS3Uri
+        self.subscriptionId = subscriptionId
+    }
+}
+
+extension SubmitFeedbackInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SubmitFeedbackInput(artifactSourceId: \(Swift.String(describing: artifactSourceId)), artifactType: \(Swift.String(describing: artifactType)), clientToken: \(Swift.String(describing: clientToken)), domainId: \(Swift.String(describing: domainId)), generatedArtifactS3Uri: \(Swift.String(describing: generatedArtifactS3Uri)), signedArtifactS3Uri: \(Swift.String(describing: signedArtifactS3Uri)), subscriptionId: \(Swift.String(describing: subscriptionId)), comments: \"CONTENT_REDACTED\")"}
+}
+
+public struct SubmitFeedbackOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the resource to tag
     /// This member is required.
@@ -2278,6 +3581,16 @@ extension ActivateSubscriptionInput {
     }
 }
 
+extension CreateDatasetInput {
+
+    static func urlPathProvider(_ value: CreateDatasetInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/datasets"
+    }
+}
+
 extension CreateDomainInput {
 
     static func urlPathProvider(_ value: CreateDomainInput) -> Swift.String? {
@@ -2308,6 +3621,19 @@ extension DeactivateSubscriptionInput {
     }
 }
 
+extension DeleteDatasetInput {
+
+    static func urlPathProvider(_ value: DeleteDatasetInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/datasets/\(datasetId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteDomainInput {
 
     static func urlPathProvider(_ value: DeleteDomainInput) -> Swift.String? {
@@ -2318,6 +3644,19 @@ extension DeleteDomainInput {
     }
 }
 
+extension GetDatasetInput {
+
+    static func urlPathProvider(_ value: GetDatasetInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let datasetId = value.datasetId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/datasets/\(datasetId.urlPercentEncoding())"
+    }
+}
+
 extension GetDomainInput {
 
     static func urlPathProvider(_ value: GetDomainInput) -> Swift.String? {
@@ -2325,6 +3664,19 @@ extension GetDomainInput {
             return nil
         }
         return "/domain/\(domainId.urlPercentEncoding())"
+    }
+}
+
+extension GetMedicalCodingJobInput {
+
+    static func urlPathProvider(_ value: GetMedicalCodingJobInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/domain/\(domainId.urlPercentEncoding())/medical-coding-job/\(jobId.urlPercentEncoding())"
     }
 }
 
@@ -2367,6 +3719,36 @@ extension GetSubscriptionInput {
             return nil
         }
         return "/domains/\(domainId.urlPercentEncoding())/subscriptions/\(subscriptionId.urlPercentEncoding())"
+    }
+}
+
+extension ListDatasetsInput {
+
+    static func urlPathProvider(_ value: ListDatasetsInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/datasets"
+    }
+}
+
+extension ListDatasetsInput {
+
+    static func queryItemProvider(_ value: ListDatasetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        return items
     }
 }
 
@@ -2433,6 +3815,16 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension StartMedicalCodingJobInput {
+
+    static func urlPathProvider(_ value: StartMedicalCodingJobInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domain/\(domainId.urlPercentEncoding())/medical-coding-job"
+    }
+}
+
 extension StartMedicalScribeListeningSessionInput {
 
     static func urlPathProvider(_ value: StartMedicalScribeListeningSessionInput) -> Swift.String? {
@@ -2476,6 +3868,16 @@ extension StartPatientInsightsJobInput {
     }
 }
 
+extension SubmitFeedbackInput {
+
+    static func urlPathProvider(_ value: SubmitFeedbackInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domain/\(domainId.urlPercentEncoding())/feedback"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -2512,6 +3914,16 @@ extension UntagResourceInput {
     }
 }
 
+extension CreateDatasetInput {
+
+    static func write(value: CreateDatasetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["config"].write(value.config, with: ConnectHealthClientTypes.DatasetConfig.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
 extension CreateDomainInput {
 
     static func write(value: CreateDomainInput?, to writer: SmithyJSON.Writer) throws {
@@ -2520,6 +3932,19 @@ extension CreateDomainInput {
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["webAppSetupConfiguration"].write(value.webAppSetupConfiguration, with: ConnectHealthClientTypes.CreateWebAppConfiguration.write(value:to:))
+    }
+}
+
+extension StartMedicalCodingJobInput {
+
+    static func write(value: StartMedicalCodingJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["datasetId"].write(value.datasetId)
+        try writer["encounterContext"].write(value.encounterContext, with: ConnectHealthClientTypes.MedicalCodesEncounterContext.write(value:to:))
+        try writer["outputDataConfig"].write(value.outputDataConfig, with: ConnectHealthClientTypes.MedicalCodingOutputDataConfig.write(value:to:))
+        try writer["patientContext"].write(value.patientContext, with: ConnectHealthClientTypes.MedicalCodesPatientContext.write(value:to:))
+        try writer["text"].write(value.text)
     }
 }
 
@@ -2534,6 +3959,20 @@ extension StartPatientInsightsJobInput {
         try writer["outputDataConfig"].write(value.outputDataConfig, with: ConnectHealthClientTypes.OutputDataConfig.write(value:to:))
         try writer["patientContext"].write(value.patientContext, with: ConnectHealthClientTypes.PatientInsightsPatientContext.write(value:to:))
         try writer["userContext"].write(value.userContext, with: ConnectHealthClientTypes.UserContext.write(value:to:))
+    }
+}
+
+extension SubmitFeedbackInput {
+
+    static func write(value: SubmitFeedbackInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["artifactSourceId"].write(value.artifactSourceId)
+        try writer["artifactType"].write(value.artifactType)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["comments"].write(value.comments)
+        try writer["generatedArtifactS3Uri"].write(value.generatedArtifactS3Uri)
+        try writer["signedArtifactS3Uri"].write(value.signedArtifactS3Uri)
+        try writer["subscriptionId"].write(value.subscriptionId)
     }
 }
 
@@ -2553,6 +3992,22 @@ extension ActivateSubscriptionOutput {
         let reader = responseReader
         var value = ActivateSubscriptionOutput()
         value.subscription = try reader["subscription"].readIfPresent(with: ConnectHealthClientTypes.SubscriptionDescription.read(from:))
+        return value
+    }
+}
+
+extension CreateDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDatasetOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -2608,6 +4063,20 @@ extension DeactivateSubscriptionOutput {
     }
 }
 
+extension DeleteDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDatasetOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DeleteDomainOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDomainOutput {
@@ -2618,6 +4087,27 @@ extension DeleteDomainOutput {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.domainId = try reader["domainId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetDatasetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDatasetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDatasetOutput()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.artifacts = try reader["artifacts"].readIfPresent(with: ConnectHealthClientTypes.DatasetArtifacts.read(from:))
+        value.config = try reader["config"].readIfPresent(with: ConnectHealthClientTypes.DatasetConfig.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusDetails = try reader["statusDetails"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -2639,6 +4129,29 @@ extension GetDomainOutput {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.webAppConfiguration = try reader["webAppConfiguration"].readIfPresent(with: ConnectHealthClientTypes.WebAppConfiguration.read(from:))
         value.webAppUrl = try reader["webAppUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension GetMedicalCodingJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetMedicalCodingJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetMedicalCodingJobOutput()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.datasetId = try reader["datasetId"].readIfPresent()
+        value.encounterContext = try reader["encounterContext"].readIfPresent(with: ConnectHealthClientTypes.MedicalCodesEncounterContext.read(from:))
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.jobStatus = try reader["jobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.medicalCodingOutput = try reader["medicalCodingOutput"].readIfPresent(with: ConnectHealthClientTypes.MedicalCodingOutput.read(from:))
+        value.outputDataConfig = try reader["outputDataConfig"].readIfPresent(with: ConnectHealthClientTypes.MedicalCodingOutputDataConfig.read(from:))
+        value.patientContext = try reader["patientContext"].readIfPresent(with: ConnectHealthClientTypes.MedicalCodesPatientContext.read(from:))
+        value.statusDetails = try reader["statusDetails"].readIfPresent()
+        value.text = try reader["text"].readIfPresent() ?? ""
+        value.updatedTime = try reader["updatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -2691,6 +4204,19 @@ extension GetSubscriptionOutput {
     }
 }
 
+extension ListDatasetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDatasetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDatasetsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: ConnectHealthClientTypes.DatasetSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDomainsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDomainsOutput {
@@ -2725,6 +4251,20 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension StartMedicalCodingJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMedicalCodingJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartMedicalCodingJobOutput()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.jobArn = try reader["jobArn"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2777,6 +4317,13 @@ extension StartPatientInsightsJobOutput {
     }
 }
 
+extension SubmitFeedbackOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SubmitFeedbackOutput {
+        return SubmitFeedbackOutput()
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -2802,6 +4349,26 @@ enum ActivateSubscriptionOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2857,6 +4424,25 @@ enum DeactivateSubscriptionOutputError {
     }
 }
 
+enum DeleteDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2871,6 +4457,24 @@ enum DeleteDomainOutputError {
     }
 }
 
+enum GetDatasetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDomainOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2880,6 +4484,24 @@ enum GetDomainOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetMedicalCodingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -2938,6 +4560,24 @@ enum GetSubscriptionOutputError {
     }
 }
 
+enum ListDatasetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDomainsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2981,6 +4621,25 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum StartMedicalCodingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartMedicalScribeListeningSessionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3010,6 +4669,24 @@ enum StartPatientInsightsJobOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SubmitFeedbackOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try ClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -3097,6 +4774,19 @@ extension ValidationException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
@@ -3115,19 +4805,6 @@ extension ThrottlingException {
     static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: ClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3183,6 +4860,12 @@ extension ConnectHealthClientTypes.MedicalScribeOutputStream {
                 case "transcriptEvent":
                     let value = try SmithyJSON.Reader.readFrom(message.payload, with: ConnectHealthClientTypes.MedicalScribeTranscriptEvent.read(from:))
                     return .transcriptevent(value)
+                case "periodontalChartEvent":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: ConnectHealthClientTypes.MedicalScribePeriodontalChartEvent.read(from:))
+                    return .periodontalchartevent(value)
+                case "checklistEvent":
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: ConnectHealthClientTypes.MedicalScribeChecklistEvent.read(from:))
+                    return .checklistevent(value)
                 default:
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
                 }
@@ -3220,6 +4903,28 @@ extension ConnectHealthClientTypes.ArtifactDetails {
         value.outputLocation = try reader["outputLocation"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.Checklist {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.Checklist {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.Checklist()
+        value.checklistId = try reader["checklistId"].readIfPresent() ?? ""
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: ConnectHealthClientTypes.ChecklistItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.ChecklistItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.ChecklistItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.ChecklistItem()
+        value.itemKey = try reader["itemKey"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3283,6 +4988,61 @@ extension ConnectHealthClientTypes.CustomTemplateResponse {
     }
 }
 
+extension ConnectHealthClientTypes.DatasetArtifacts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.DatasetArtifacts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "medicalCoding":
+                return .medicalcoding(try reader["medicalCoding"].read(with: ConnectHealthClientTypes.MedicalCodingDatasetArtifacts.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.DatasetConfig {
+
+    static func write(value: ConnectHealthClientTypes.DatasetConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .medicalcoding(medicalcoding):
+                try writer["medicalCoding"].write(medicalcoding, with: ConnectHealthClientTypes.MedicalCodingDatasetConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.DatasetConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "medicalCoding":
+                return .medicalcoding(try reader["medicalCoding"].read(with: ConnectHealthClientTypes.MedicalCodingDatasetConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectHealthClientTypes.DatasetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.DatasetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.DatasetSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.datasetId = try reader["datasetId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusDetails = try reader["statusDetails"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension ConnectHealthClientTypes.DomainSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.DomainSummary {
@@ -3301,6 +5061,7 @@ extension ConnectHealthClientTypes.EncounterContext {
 
     static func write(value: ConnectHealthClientTypes.EncounterContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["medicalCodingContext"].write(value.medicalCodingContext, with: ConnectHealthClientTypes.MedicalCodingContext.write(value:to:))
         try writer["unstructuredContext"].write(value.unstructuredContext)
     }
 }
@@ -3403,6 +5164,145 @@ extension ConnectHealthClientTypes.ManagedTemplateResponse {
     }
 }
 
+extension ConnectHealthClientTypes.MedicalCodeGenerationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodeGenerationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodeGenerationResult()
+        value.medicalCodesResult = try reader["medicalCodesResult"].readIfPresent(with: ConnectHealthClientTypes.ArtifactDetails.read(from:))
+        value.jobId = try reader["jobId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodeGenerationSettings {
+
+    static func write(value: ConnectHealthClientTypes.MedicalCodeGenerationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodeGenerationSettingsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodeGenerationSettingsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodeGenerationSettingsResponse()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodesEncounterContext {
+
+    static func write(value: ConnectHealthClientTypes.MedicalCodesEncounterContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["afterHours"].write(value.afterHours)
+        try writer["encounterDate"].write(value.encounterDate)
+        try writer["encounterDurationMinutes"].write(value.encounterDurationMinutes)
+        try writer["encounterReason"].write(value.encounterReason)
+        try writer["encounterType"].write(value.encounterType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodesEncounterContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodesEncounterContext()
+        value.encounterType = try reader["encounterType"].readIfPresent()
+        value.encounterReason = try reader["encounterReason"].readIfPresent()
+        value.afterHours = try reader["afterHours"].readIfPresent()
+        value.encounterDate = try reader["encounterDate"].readIfPresent()
+        value.encounterDurationMinutes = try reader["encounterDurationMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodesPatientContext {
+
+    static func write(value: ConnectHealthClientTypes.MedicalCodesPatientContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dateOfBirth"].write(value.dateOfBirth)
+        try writer["insurance"].write(value.insurance)
+        try writer["sex"].write(value.sex)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodesPatientContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodesPatientContext()
+        value.sex = try reader["sex"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.dateOfBirth = try reader["dateOfBirth"].readIfPresent()
+        value.insurance = try reader["insurance"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodingContext {
+
+    static func write(value: ConnectHealthClientTypes.MedicalCodingContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["afterHours"].write(value.afterHours)
+        try writer["dateOfBirth"].write(value.dateOfBirth)
+        try writer["encounterDate"].write(value.encounterDate)
+        try writer["encounterReason"].write(value.encounterReason)
+        try writer["encounterType"].write(value.encounterType)
+        try writer["sex"].write(value.sex)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodingDatasetArtifacts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodingDatasetArtifacts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodingDatasetArtifacts()
+        value.evaluationS3Uri = try reader["evaluationS3Uri"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodingDatasetConfig {
+
+    static func write(value: ConnectHealthClientTypes.MedicalCodingDatasetConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3InputPath"].write(value.s3InputPath)
+        try writer["s3OutputPath"].write(value.s3OutputPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodingDatasetConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodingDatasetConfig()
+        value.s3InputPath = try reader["s3InputPath"].readIfPresent() ?? ""
+        value.s3OutputPath = try reader["s3OutputPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodingOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodingOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodingOutput()
+        value.uri = try reader["uri"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalCodingOutputDataConfig {
+
+    static func write(value: ConnectHealthClientTypes.MedicalCodingOutputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3OutputPath"].write(value.s3OutputPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalCodingOutputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalCodingOutputDataConfig()
+        value.s3OutputPath = try reader["s3OutputPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ConnectHealthClientTypes.MedicalScribeAudioEvent {
 
     static func write(value: ConnectHealthClientTypes.MedicalScribeAudioEvent?, to writer: SmithyJSON.Writer) throws {
@@ -3436,6 +5336,17 @@ extension ConnectHealthClientTypes.MedicalScribeChannelDefinition {
     }
 }
 
+extension ConnectHealthClientTypes.MedicalScribeChecklistEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalScribeChecklistEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalScribeChecklistEvent()
+        value.snapshotVersion = try reader["snapshotVersion"].readIfPresent() ?? 0
+        value.checklists = try reader["checklists"].readListIfPresent(memberReadingClosure: ConnectHealthClientTypes.Checklist.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ConnectHealthClientTypes.MedicalScribeConfigurationEvent {
 
     static func write(value: ConnectHealthClientTypes.MedicalScribeConfigurationEvent?, to writer: SmithyJSON.Writer) throws {
@@ -3461,9 +5372,22 @@ extension ConnectHealthClientTypes.MedicalScribeListeningSessionDetails {
         value.postStreamActionSettings = try reader["postStreamActionSettings"].readIfPresent(with: ConnectHealthClientTypes.MedicalScribePostStreamActionSettingsResponse.read(from:))
         value.postStreamActionResult = try reader["postStreamActionResult"].readIfPresent(with: ConnectHealthClientTypes.MedicalScribePostStreamActionsResult.read(from:))
         value.encounterContextProvided = try reader["encounterContextProvided"].readIfPresent()
+        value.medicalCodingContextProvided = try reader["medicalCodingContextProvided"].readIfPresent()
         value.streamStatus = try reader["streamStatus"].readIfPresent()
         value.streamCreationTime = try reader["streamCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.streamEndTime = try reader["streamEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.MedicalScribePeriodontalChartEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.MedicalScribePeriodontalChartEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.MedicalScribePeriodontalChartEvent()
+        value.snapshotVersion = try reader["snapshotVersion"].readIfPresent() ?? 0
+        value.teeth = try reader["teeth"].readListIfPresent(memberReadingClosure: ConnectHealthClientTypes.PeriodontalTooth.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.reviewItems = try reader["reviewItems"].readListIfPresent(memberReadingClosure: ConnectHealthClientTypes.PeriodontalReview.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3473,6 +5397,7 @@ extension ConnectHealthClientTypes.MedicalScribePostStreamActionSettings {
     static func write(value: ConnectHealthClientTypes.MedicalScribePostStreamActionSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clinicalNoteGenerationSettings"].write(value.clinicalNoteGenerationSettings, with: ConnectHealthClientTypes.ClinicalNoteGenerationSettings.write(value:to:))
+        try writer["medicalCodeGenerationSettings"].write(value.medicalCodeGenerationSettings, with: ConnectHealthClientTypes.MedicalCodeGenerationSettings.write(value:to:))
         try writer["outputS3Uri"].write(value.outputS3Uri)
     }
 }
@@ -3484,6 +5409,7 @@ extension ConnectHealthClientTypes.MedicalScribePostStreamActionSettingsResponse
         var value = ConnectHealthClientTypes.MedicalScribePostStreamActionSettingsResponse()
         value.outputS3Uri = try reader["outputS3Uri"].readIfPresent() ?? ""
         value.clinicalNoteGenerationSettings = try reader["clinicalNoteGenerationSettings"].readIfPresent(with: ConnectHealthClientTypes.ClinicalNoteGenerationSettingsResponse.read(from:))
+        value.medicalCodeGenerationSettings = try reader["medicalCodeGenerationSettings"].readIfPresent(with: ConnectHealthClientTypes.MedicalCodeGenerationSettingsResponse.read(from:))
         return value
     }
 }
@@ -3494,6 +5420,7 @@ extension ConnectHealthClientTypes.MedicalScribePostStreamActionsResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectHealthClientTypes.MedicalScribePostStreamActionsResult()
         value.clinicalNoteGenerationResult = try reader["clinicalNoteGenerationResult"].readIfPresent(with: ConnectHealthClientTypes.ClinicalNoteGenerationResult.read(from:))
+        value.medicalCodeGenerationResult = try reader["medicalCodeGenerationResult"].readIfPresent(with: ConnectHealthClientTypes.MedicalCodeGenerationResult.read(from:))
         return value
     }
 }
@@ -3607,6 +5534,46 @@ extension ConnectHealthClientTypes.PatientInsightsPatientContext {
         value.patientId = try reader["patientId"].readIfPresent() ?? ""
         value.dateOfBirth = try reader["dateOfBirth"].readIfPresent()
         value.pronouns = try reader["pronouns"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.PeriodontalReview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.PeriodontalReview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.PeriodontalReview()
+        value.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.toothNumber = try reader["toothNumber"].readIfPresent()
+        value.sites = try reader["sites"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectHealthClientTypes.PeriodontalSiteName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.PeriodontalSite {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.PeriodontalSite {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.PeriodontalSite()
+        value.site = try reader["site"].readIfPresent() ?? .sdkUnknown("")
+        value.probingDepth = try reader["probingDepth"].readIfPresent()
+        value.recession = try reader["recession"].readIfPresent()
+        value.bleeding = try reader["bleeding"].readIfPresent()
+        value.suppuration = try reader["suppuration"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectHealthClientTypes.PeriodontalTooth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectHealthClientTypes.PeriodontalTooth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectHealthClientTypes.PeriodontalTooth()
+        value.toothNumber = try reader["toothNumber"].readIfPresent() ?? 0
+        value.missing = try reader["missing"].readIfPresent() ?? false
+        value.mobility = try reader["mobility"].readIfPresent()
+        value.furcation = try reader["furcation"].readIfPresent()
+        value.sites = try reader["sites"].readListIfPresent(memberReadingClosure: ConnectHealthClientTypes.PeriodontalSite.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
